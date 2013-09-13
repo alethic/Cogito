@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel.Composition.Hosting;
-using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Threading;
 
@@ -64,8 +62,6 @@ namespace Cogito.Composition.Hosting
 
         public bool Remove(ExportProvider item)
         {
-            Contract.Requires<ArgumentNullException>(item != null);
-
             var b = providers.Remove(item);
             if (b)
                 OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, item));

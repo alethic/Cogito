@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.Contracts;
 
 namespace Cogito.Composition
 {
@@ -10,6 +11,7 @@ namespace Cogito.Composition
 
         public DelegateDisposable(Action action)
         {
+            Contract.Requires<ArgumentNullException>(action != null);
             this.action = action;
         }
 

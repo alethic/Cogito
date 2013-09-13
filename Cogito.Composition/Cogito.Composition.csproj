@@ -81,6 +81,8 @@
     <Compile Include="DelegateDisposable.cs" />
     <Compile Include="Hosting\AggregateExportProvider.cs" />
     <Compile Include="Hosting\ExportProviderCollection.cs" />
+    <Compile Include="Hosting\PassThruExportProvider.cs" />
+    <Compile Include="Hosting\FirstOrDefaultExportProvider.cs" />
     <Compile Include="ICompositionContext.cs" />
     <Compile Include="Metadata\IMetadata.cs" />
     <Compile Include="Metadata\Metadata.cs" />

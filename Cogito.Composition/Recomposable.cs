@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.ComponentModel.Composition;
+using System.Diagnostics.Contracts;
 
 namespace Cogito.Composition
 {
@@ -20,6 +21,8 @@ namespace Cogito.Composition
         /// <returns></returns>
         public static implicit operator T(Composable<T> value)
         {
+            Contract.Requires<ArgumentNullException>(value != null);
+
             return value.Value;
         }
 
@@ -59,6 +62,9 @@ namespace Cogito.Composition
         /// <param name="oldValue"></param>
         protected void OnChanged(Lazy<T> newValue, Lazy<T> oldValue)
         {
+            Contract.Requires<ArgumentNullException>(newValue != null);
+            Contract.Requires<ArgumentNullException>(oldValue != null);
+
             RaiseComposed(newValue, oldValue);
             RaisePropertiesChanged();
         }
@@ -70,6 +76,9 @@ namespace Cogito.Composition
         /// <param name="oldValue"></param>
         protected virtual void RaiseComposed(Lazy<T> newValue, Lazy<T> oldValue)
         {
+            Contract.Requires<ArgumentNullException>(newValue != null);
+            Contract.Requires<ArgumentNullException>(oldValue != null);
+
             OnComposed(new RecomposedEventArgs<T>(newValue, oldValue));
         }
 
@@ -84,6 +93,8 @@ namespace Cogito.Composition
         /// <param name="args"></param>
         protected virtual void OnComposed(RecomposedEventArgs<T> args)
         {
+            Contract.Requires<ArgumentNullException>(args != null);
+
             if (Composed != null)
                 Composed(this, args);
         }
@@ -98,6 +109,8 @@ namespace Cogito.Composition
         /// </summary>
         protected void OnPropertyChanged(PropertyChangedEventArgs args)
         {
+            Contract.Requires<ArgumentNullException>(args != null);
+
             if (PropertyChanged != null)
                 PropertyChanged(this, args);
         }
@@ -191,6 +204,8 @@ namespace Cogito.Composition
         /// <param name="args"></param>
         void OnComposed(RecomposedEventArgs<T, TMetadata> args)
         {
+            Contract.Requires<ArgumentNullException>(args != null);
+
             if (Composed != null)
                 Composed(this, args);
         }

@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.Composition.Hosting;
+﻿using System;
+using System.ComponentModel.Composition.Hosting;
+using System.Diagnostics.Contracts;
 
 namespace Cogito.Composition
 {
@@ -16,7 +18,7 @@ namespace Cogito.Composition
         public CompositionScope(CompositionContainer parent)
             : base(parent)
         {
-
+            Contract.Requires<ArgumentNullException>(parent != null);
         }
 
     }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 
 namespace Cogito.Composition
 {
@@ -18,6 +19,10 @@ namespace Cogito.Composition
         /// <param name="oldExports"></param>
         internal ManyRecomposedEventArgs(IEnumerable<Lazy<T>> newExports, IEnumerable<Lazy<T>> oldExports)
         {
+            Contract.Requires<ArgumentNullException>(newExports != null);
+            Contract.Requires<ArgumentNullException>(oldExports != null);
+            Contract.Ensures(newExports != null);
+            Contract.Ensures(oldExports != null);
             NewExports = newExports;
             OldExports = oldExports;
         }
@@ -50,7 +55,10 @@ namespace Cogito.Composition
         internal ManyRecomposedEventArgs(IEnumerable<Lazy<T, TMetadata>> newExports, IEnumerable<Lazy<T, TMetadata>> oldExports)
             : base(newExports, oldExports)
         {
-
+            Contract.Requires<ArgumentNullException>(newExports != null);
+            Contract.Requires<ArgumentNullException>(oldExports != null);
+            Contract.Ensures(newExports != null);
+            Contract.Ensures(oldExports != null);
         }
 
         /// <summary>

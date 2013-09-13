@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel.Composition;
+using System.Diagnostics.Contracts;
 using System.Linq;
 
 namespace Cogito.Composition
@@ -54,11 +55,14 @@ namespace Cogito.Composition
         /// <summary>
         /// Raises the Composed event.
         /// </summary>
-        /// <param name="added"></param>
-        /// <param name="removed"></param>
-        protected virtual void RaiseComposed(IEnumerable<Lazy<T>> added, IEnumerable<Lazy<T>> removed)
+        /// <param name="newItems"></param>
+        /// <param name="oldItems"></param>
+        protected virtual void RaiseComposed(IEnumerable<Lazy<T>> newItems, IEnumerable<Lazy<T>> oldItems)
         {
-            OnComposed(new ManyRecomposedEventArgs<T>(added, removed));
+            Contract.Requires<ArgumentNullException>(newItems != null);
+            Contract.Requires<ArgumentNullException>(oldItems != null);
+
+            OnComposed(new ManyRecomposedEventArgs<T>(newItems, oldItems));
         }
 
         /// <summary>
@@ -66,6 +70,8 @@ namespace Cogito.Composition
         /// </summary>
         protected void OnComposed(ManyRecomposedEventArgs<T> args)
         {
+            Contract.Requires<ArgumentNullException>(args != null);
+
             if (Composed != null)
                 Composed(this, args);
         }
@@ -80,6 +86,8 @@ namespace Cogito.Composition
         /// </summary>
         void OnCollectionChanged(NotifyCollectionChangedEventArgs args)
         {
+            Contract.Requires<ArgumentNullException>(args != null);
+
             if (CollectionChanged != null)
                 CollectionChanged(this, args);
         }
@@ -182,6 +190,8 @@ namespace Cogito.Composition
         /// <param name="args"></param>
         void OnComposed(ManyRecomposedEventArgs<T, TMetadata> args)
         {
+            Contract.Requires<ArgumentNullException>(args != null);
+
             if (Composed != null)
                 Composed(this, args);
         }
