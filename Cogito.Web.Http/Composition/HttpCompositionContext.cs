@@ -12,7 +12,7 @@ namespace Cogito.Web.Http.Composition
     /// Provides a <see cref="CompositionContext"/> implementation for an ASP.Net application. Injects itself into the
     /// given  <see cref="HttpConfiguration"/> object.
     /// </summary>
-    class HttpCompositionService : CompositionContext
+    class HttpCompositionContext : CompositionContext
     {
 
         HttpConfiguration configuration;
@@ -21,7 +21,7 @@ namespace Cogito.Web.Http.Composition
         /// Initializes a new instance.
         /// </summary>
         /// <param name="configuration"></param>
-        internal HttpCompositionService(HttpConfiguration configuration)
+        internal HttpCompositionContext(HttpConfiguration configuration)
         {
             Contract.Requires<ArgumentNullException>(configuration != null);
 

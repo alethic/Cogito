@@ -26,7 +26,7 @@ namespace Cogito.Web.Http.Composition
             // get or create composition service
             return (ICompositionContext)configuration.Properties
                 .GetOrAdd(typeof(ICompositionContext), _ =>
-                    new HttpCompositionService(configuration));
+                    new HttpCompositionContext(configuration));
         }
 
     }

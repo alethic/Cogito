@@ -83,7 +83,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Composition\HttpCompositionService.cs" />
+    <Compile Include="Composition\HttpCompositionContext.cs" />
     <Compile Include="Composition\HttpConfigurationExtensions.cs" />
     <Compile Include="Dependencies\DependencyResolver.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
