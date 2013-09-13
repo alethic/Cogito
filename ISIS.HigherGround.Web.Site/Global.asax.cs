@@ -1,11 +1,8 @@
-﻿using System.ComponentModel.Composition.Hosting;
-using System.ComponentModel.Composition.Primitives;
-using System.Web;
-using System.Web.Http;
-
+﻿using System.Web;
 using Cogito.Application;
 using Cogito.Composition;
-using Cogito.Web.Http.Composition;
+using Cogito.Web;
+using Cogito.Web.Mvc;
 
 namespace ISIS.HigherGround.Web.Site
 {
@@ -13,38 +10,7 @@ namespace ISIS.HigherGround.Web.Site
     public class Global : HttpApplication
     {
 
-        /// <summary>
-        /// Site-specific composition context.
-        /// </summary>
-        class CompositionContext : HttpCompositionContext
-        {
-
-            /// <summary>
-            /// Initializes a new instance.
-            /// </summary>
-            public CompositionContext(HttpConfiguration configuration)
-                : base(configuration)
-            {
-
-            }
-
-            protected override ComposablePartCatalog CreateCatalog()
-            {
-                return new AggregateCatalog(new ApplicationCatalog());
-            }
-
-        }
-
-        /// <summary>
-        /// Gets a reference to the composition context, or creates it.
-        /// </summary>
-        /// <returns></returns>
-        public static ICompositionContext GetCompositionContext()
-        {
-            return GlobalConfiguration.Configuration
-                .RequireComposition<CompositionContext>(
-                    _ => new CompositionContext(_));
-        }
+        public static readonly ICompositionContext CompositionContext = new ApplicationCompositionContext();
 
         /// <summary>
         /// Initializes a new instance.
@@ -52,13 +18,14 @@ namespace ISIS.HigherGround.Web.Site
         public Global()
             : base()
         {
-
+            // configure MVC with container
+            this.WithComposition(CompositionContext);
+            this.WithMvcComposition(CompositionContext);
         }
 
         public void Application_Start()
         {
-            GetCompositionContext()
-                .GetExportedValue<IApplicationLifecycleManager>()
+            CompositionContext.GetExportedValue<IApplicationLifecycleManager>()
                 .Start();
         }
 
