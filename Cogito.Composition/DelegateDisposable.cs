@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ISIS.Web.Mvc
+namespace Cogito.Composition
 {
 
     class DelegateDisposable : IDisposable

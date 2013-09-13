@@ -5,7 +5,7 @@ using System.Collections.Specialized;
 using System.ComponentModel.Composition;
 using System.Linq;
 
-namespace ISIS.Web.Mvc
+namespace Cogito.Composition
 {
 
     /// <summary>
@@ -49,7 +49,7 @@ namespace ISIS.Web.Mvc
         /// <summary>
         /// Raised when the import is composed.
         /// </summary>
-        public event EventHandler<RecomposedManyEventArgs<T>> Composed;
+        public event EventHandler<ManyRecomposedEventArgs<T>> Composed;
 
         /// <summary>
         /// Raises the Composed event.
@@ -58,13 +58,13 @@ namespace ISIS.Web.Mvc
         /// <param name="removed"></param>
         protected virtual void RaiseComposed(IEnumerable<Lazy<T>> added, IEnumerable<Lazy<T>> removed)
         {
-            OnComposed(new RecomposedManyEventArgs<T>(added, removed));
+            OnComposed(new ManyRecomposedEventArgs<T>(added, removed));
         }
 
         /// <summary>
         /// Raises the Composed event.
         /// </summary>
-        protected void OnComposed(RecomposedManyEventArgs<T> args)
+        protected void OnComposed(ManyRecomposedEventArgs<T> args)
         {
             if (Composed != null)
                 Composed(this, args);
@@ -102,7 +102,7 @@ namespace ISIS.Web.Mvc
         {
             Disposed += (s, a) =>
                 observer.OnCompleted();
-            EventHandler<RecomposedManyEventArgs<T>> h = (s, a) =>
+            EventHandler<ManyRecomposedEventArgs<T>> h = (s, a) =>
             {
                 foreach (var i in a.NewExports)
                     observer.OnNext(i);
@@ -116,7 +116,7 @@ namespace ISIS.Web.Mvc
         {
             Disposed += (s, a) =>
                 observer.OnCompleted();
-            EventHandler<RecomposedManyEventArgs<T>> h = (s, a) =>
+            EventHandler<ManyRecomposedEventArgs<T>> h = (s, a) =>
             {
                 foreach (var i in a.NewExports)
                     observer.OnNext(i.Value);
@@ -162,7 +162,7 @@ namespace ISIS.Web.Mvc
         /// <summary>
         /// Raised when the import is composed.
         /// </summary>
-        public new event EventHandler<RecomposedManyEventArgs<T, TMetadata>> Composed;
+        public new event EventHandler<ManyRecomposedEventArgs<T, TMetadata>> Composed;
 
         /// <summary>
         /// Raises the Composed event.
@@ -171,7 +171,7 @@ namespace ISIS.Web.Mvc
         /// <param name="removed"></param>
         protected override void RaiseComposed(IEnumerable<Lazy<T>> added, IEnumerable<Lazy<T>> removed)
         {
-            var args = new RecomposedManyEventArgs<T, TMetadata>((IEnumerable<Lazy<T, TMetadata>>)added, (IEnumerable<Lazy<T, TMetadata>>)removed);
+            var args = new ManyRecomposedEventArgs<T, TMetadata>((IEnumerable<Lazy<T, TMetadata>>)added, (IEnumerable<Lazy<T, TMetadata>>)removed);
             base.OnComposed(args);
             OnComposed(args);
         }
@@ -180,7 +180,7 @@ namespace ISIS.Web.Mvc
         /// Raises the Composed event.
         /// </summary>
         /// <param name="args"></param>
-        void OnComposed(RecomposedManyEventArgs<T, TMetadata> args)
+        void OnComposed(ManyRecomposedEventArgs<T, TMetadata> args)
         {
             if (Composed != null)
                 Composed(this, args);
@@ -200,7 +200,7 @@ namespace ISIS.Web.Mvc
         {
             Disposed += (s, a) =>
                 observer.OnCompleted();
-            EventHandler<RecomposedManyEventArgs<T, TMetadata>> h = (s, a) =>
+            EventHandler<ManyRecomposedEventArgs<T, TMetadata>> h = (s, a) =>
             {
                 foreach (var i in a.NewExports)
                     observer.OnNext(i);

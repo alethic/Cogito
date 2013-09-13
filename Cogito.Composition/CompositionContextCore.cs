@@ -4,13 +4,13 @@ using System.ComponentModel.Composition.Hosting;
 using System.ComponentModel.Composition.Primitives;
 using System.Linq;
 
-namespace ISIS.Web.Mvc
+namespace Cogito.Composition
 {
 
     /// <summary>
-    /// Implements the basics of a composition service.
+    /// Provides the base of an abstract around a MEF <see cref="CompositionContainer"/>.
     /// </summary>
-    public abstract class CompositionService : ICompositionService
+    public abstract class CompositionContextCore : ICompositionContext
     {
 
         CompositionContainer parent;
@@ -20,7 +20,7 @@ namespace ISIS.Web.Mvc
         /// <summary>
         /// Initializes a new instance.
         /// </summary>
-        public CompositionService()
+        protected CompositionContextCore()
             : this(null)
         {
 
@@ -30,11 +30,11 @@ namespace ISIS.Web.Mvc
         /// Initializes a new instance.
         /// </summary>
         /// <param name="parent"></param>
-        public CompositionService(CompositionContainer parent)
+        protected CompositionContextCore(CompositionContainer parent)
         {
             this.parent = parent;
             this.container = CreateContainer();
-            this.container.ComposeExportedValue<ICompositionService>(this);
+            this.container.ComposeExportedValue<ICompositionContext>(this);
         }
 
         /// <summary>
@@ -59,21 +59,38 @@ namespace ISIS.Web.Mvc
             return parent != null ? parent.Catalog : null;
         }
 
-        public virtual ICompositionService CreateScope()
+        /// <summary>
+        /// Implements ICompositionService.BeginScope.
+        /// </summary>
+        /// <returns></returns>
+        public virtual ICompositionContext BeginScope()
         {
-            return new CompositionServiceScope(container);
+            return new CompositionScope(container);
         }
 
+        /// <summary>
+        /// Implements ICompositionService.Compose.
+        /// </summary>
+        /// <param name="batch"></param>
         public void Compose(CompositionBatch batch)
         {
             container.Compose(batch);
         }
 
+        /// <summary>
+        /// Implements ICompositionService.GetExports.
+        /// </summary>
+        /// <param name="definition"></param>
+        /// <returns></returns>
         public IEnumerable<Export> GetExports(ImportDefinition definition)
         {
             return container.GetExports(definition);
         }
 
+        /// <summary>
+        /// Implements ICompositionService.Register.
+        /// </summary>
+        /// <param name="catalog"></param>
         public void Register(ComposablePartCatalog catalog)
         {
             this.catalog.Catalogs.Add(catalog);

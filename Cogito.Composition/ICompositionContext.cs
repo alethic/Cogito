@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition.Hosting;
 using System.ComponentModel.Composition.Primitives;
 
-namespace ISIS.Web.Mvc
+namespace Cogito.Composition
 {
 
     /// <summary>
-    /// Provides methods for interacting with the composition framework.
+    /// Provides an abstraction around the MEF composition container, exposing convenience methods to parts. 
     /// </summary>
-    public interface ICompositionService : System.ComponentModel.Composition.ICompositionService, IDisposable
+    public interface ICompositionContext : System.ComponentModel.Composition.ICompositionService, IDisposable
     {
 
         /// <summary>
@@ -19,7 +19,7 @@ namespace ISIS.Web.Mvc
         void Compose(CompositionBatch batch);
 
         /// <summary>
-        /// Queries the <see cref="ICompositionService"/> for exports which match the specified <see cref="ImportDefinition"/>.
+        /// Queries the <see cref="ICompositionContext"/> for exports which match the specified <see cref="ImportDefinition"/>.
         /// </summary>
         /// <param name="definition"></param>
         /// <returns></returns>
@@ -29,7 +29,7 @@ namespace ISIS.Web.Mvc
         /// Creates a new composition scope.
         /// </summary>
         /// <returns></returns>
-        ICompositionService CreateScope();
+        ICompositionContext BeginScope();
 
         /// <summary>
         /// Registers the given <see cref="ComposablePartCatalog"/> with the service.

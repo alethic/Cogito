@@ -5,7 +5,9 @@ using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Web.Http.Dependencies;
 
-namespace ISIS.Web.Mvc
+using Cogito.Composition;
+
+namespace Cogito.Web.Http.Dependencies
 {
 
     [Export(typeof(IDependencyResolver))]
@@ -16,7 +18,7 @@ namespace ISIS.Web.Mvc
         /// <summary>
         /// Gets the <see cref="ICompositionService"/> which serves the scope.
         /// </summary>
-        ICompositionService composition;
+        Cogito.Composition.ICompositionContext composition;
 
         /// <summary>
         /// Initializes a new instance.
@@ -24,7 +26,7 @@ namespace ISIS.Web.Mvc
         /// <param name="composition"></param>
         [ImportingConstructor]
         public DependencyResolver(
-            ICompositionService composition)
+            Cogito.Composition.ICompositionContext composition)
         {
             Contract.Requires<ArgumentNullException>(composition != null);
 
@@ -33,7 +35,7 @@ namespace ISIS.Web.Mvc
 
         public IDependencyScope BeginScope()
         {
-            return new DependencyResolver(composition.CreateScope());
+            return new DependencyResolver(composition.BeginScope());
         }
 
         public object GetService(Type serviceType)

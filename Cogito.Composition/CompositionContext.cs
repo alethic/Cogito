@@ -1,19 +1,19 @@
 ﻿using System.ComponentModel.Composition.Hosting;
 using System.ComponentModel.Composition.Primitives;
 
-namespace ISIS.Web.Mvc
+namespace Cogito.Composition
 {
 
     /// <summary>
-    /// Implements <see cref="ICompositionService"/> for the root of the application.
+    /// Implements <see cref="ICompositionContext"/> for the root of the application.
     /// </summary>
-    class CompositionServiceRoot : CompositionService
+    public class CompositionContext : CompositionContextCore
     {
 
         /// <summary>
         /// Initializes a new instance.
         /// </summary>
-        public CompositionServiceRoot()
+        public CompositionContext()
             : base()
         {
             
@@ -21,7 +21,7 @@ namespace ISIS.Web.Mvc
 
         protected override ComposablePartCatalog CreateCatalog()
         {
-            return new AssemblyCatalog(typeof(CompositionServiceRoot).Assembly);
+            return new AssemblyCatalog(typeof(CompositionContext).Assembly);
         }
 
     }

@@ -3,7 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.20827.3
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ISIS.Web.Mvc", "Cogito.Composition\ISIS.Web.Mvc.csproj", "{BC6A1EED-336E-478D-B605-5B07A6FFB8C5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cogito.Composition", "Cogito.Composition\Cogito.Composition.csproj", "{BC6A1EED-336E-478D-B605-5B07A6FFB8C5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cogito.Web.Http", "Cogito.Web.Http\Cogito.Web.Http.csproj", "{D07FE037-FAF0-4B59-9B55-C00C68AD1C9D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cogito.Application", "Cogito.Application\Cogito.Application.csproj", "{D3391C9B-9587-4CED-9A66-EB88B189E169}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cogito.Web.Mvc", "Cogito.Web.Mvc\Cogito.Web.Mvc.csproj", "{AC2E8895-1E42-4CC5-A996-BE6FA4C8D7EA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +21,18 @@ Global
 		{BC6A1EED-336E-478D-B605-5B07A6FFB8C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BC6A1EED-336E-478D-B605-5B07A6FFB8C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BC6A1EED-336E-478D-B605-5B07A6FFB8C5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D07FE037-FAF0-4B59-9B55-C00C68AD1C9D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D07FE037-FAF0-4B59-9B55-C00C68AD1C9D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D07FE037-FAF0-4B59-9B55-C00C68AD1C9D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D07FE037-FAF0-4B59-9B55-C00C68AD1C9D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D3391C9B-9587-4CED-9A66-EB88B189E169}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D3391C9B-9587-4CED-9A66-EB88B189E169}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D3391C9B-9587-4CED-9A66-EB88B189E169}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D3391C9B-9587-4CED-9A66-EB88B189E169}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AC2E8895-1E42-4CC5-A996-BE6FA4C8D7EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AC2E8895-1E42-4CC5-A996-BE6FA4C8D7EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AC2E8895-1E42-4CC5-A996-BE6FA4C8D7EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AC2E8895-1E42-4CC5-A996-BE6FA4C8D7EA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

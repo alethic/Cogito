@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.ComponentModel.Composition;
 
-namespace ISIS.Web.Mvc
+namespace Cogito.Composition
 {
 
     /// <summary>

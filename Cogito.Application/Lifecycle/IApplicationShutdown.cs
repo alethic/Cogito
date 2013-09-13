@@ -1,4 +1,4 @@
-﻿namespace ISIS.Web.Mvc
+﻿namespace Cogito.Application
 {
 
     /// <summary>

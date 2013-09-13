@@ -1,13 +1,13 @@
-﻿namespace ISIS.Web.Mvc
+﻿namespace Cogito.Application
 {
 
     /// <summary>
     /// To be invoked just after the application starts.
     /// </summary>
-    public interface IApplicationPostStart
+    public interface IApplicationAfterStart
     {
 
-        void OnPostStart();
+        void OnAfterStart();
 
     }
 

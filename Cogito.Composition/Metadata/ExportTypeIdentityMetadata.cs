@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 
-namespace ISIS.Web.Mvc
+namespace Cogito.Composition.Metadata
 {
 
     /// <summary>

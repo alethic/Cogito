@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.Composition;
+using Cogito.Composition;
 
-namespace ISIS.Web.Mvc
+namespace Cogito.Application
 {
 
     /// <summary>
@@ -10,38 +11,41 @@ namespace ISIS.Web.Mvc
     public class ApplicationLifecycleService : IApplicationLifecycleManager
     {
 
-        ComposableCollection<IApplicationPreStart> preStart;
+        ComposableCollection<IApplicationBeforeStart> beforeStart;
         ComposableCollection<IApplicationStart> start;
-        ComposableCollection<IApplicationPostStart> postStart;
+        ComposableCollection<IApplicationAfterStart> afterStart;
+        ComposableCollection<IApplicationBeforeShutdown> beforeShutdown;
         ComposableCollection<IApplicationShutdown> shutdown;
 
         /// <summary>
         /// Initializes a new instance.
         /// </summary>
-        /// <param name="preStart"></param>
+        /// <param name="beforeStart"></param>
         /// <param name="start"></param>
-        /// <param name="postStart"></param>
+        /// <param name="afterStart"></param>
         /// <param name="shutdown"></param>
         [ImportingConstructor]
         public ApplicationLifecycleService(
-            ComposableCollection<IApplicationPreStart> preStart,
+            ComposableCollection<IApplicationBeforeStart> beforeStart,
             ComposableCollection<IApplicationStart> start,
-            ComposableCollection<IApplicationPostStart> postStart,
+            ComposableCollection<IApplicationAfterStart> afterStart,
+            ComposableCollection<IApplicationBeforeShutdown> beforeShutdown,
             ComposableCollection<IApplicationShutdown> shutdown)
         {
-            this.preStart = preStart;
+            this.beforeStart = beforeStart;
             this.start = start;
-            this.postStart = postStart;
+            this.afterStart = afterStart;
+            this.beforeShutdown = beforeShutdown;
             this.shutdown = shutdown;
         }
 
         /// <summary>
-        /// Runs the application PreStart events.
+        /// Runs the application BeforeStart events.
         /// </summary>
-        public void PreStart()
+        public void BeforeStart()
         {
-            foreach (var i in preStart)
-                i.Value.OnPreStart();
+            foreach (var i in beforeStart)
+                i.Value.OnBeforeStart();
         }
 
         /// <summary>
@@ -54,12 +58,21 @@ namespace ISIS.Web.Mvc
         }
 
         /// <summary>
-        /// Runs the application PostStart events.
+        /// Runs the application AfterStart events.
         /// </summary>
-        public void PostStart()
+        public void AfterStart()
         {
-            foreach (var i in postStart)
-                i.Value.OnPostStart();
+            foreach (var i in afterStart)
+                i.Value.OnAfterStart();
+        }
+
+        /// <summary>
+        /// Runs the application BeforeShutdown events.
+        /// </summary>
+        public void BeforeShutdown()
+        {
+            foreach (var i in beforeShutdown)
+                i.Value.OnBeforeShutdown();
         }
 
         /// <summary>

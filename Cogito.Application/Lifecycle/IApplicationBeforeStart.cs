@@ -1,13 +1,13 @@
-﻿namespace ISIS.Web.Mvc
+﻿namespace Cogito.Application
 {
 
     /// <summary>
     /// To be invoked before the application starts.
     /// </summary>
-    public interface IApplicationPreStart
+    public interface IApplicationBeforeStart
     {
 
-        void OnPreStart();
+        void OnBeforeStart();
 
     }
 

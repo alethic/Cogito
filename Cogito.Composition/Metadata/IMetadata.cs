@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace ISIS.Web.Mvc
+namespace Cogito.Composition.Metadata
 {
 
     /// <summary>
-    /// Interface for a dynamic set of metadata.
+    /// Interface for a dynamic queryable metadata.
     /// </summary>
     public interface IMetadata : IQueryable<IMetadataItem>, IDictionary<string, object>
     {

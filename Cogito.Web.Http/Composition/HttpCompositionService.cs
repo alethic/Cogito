@@ -3,13 +3,16 @@ using System.Diagnostics.Contracts;
 using System.Web.Http;
 using System.Web.Http.Dependencies;
 
-namespace ISIS.Web.Mvc
+using Cogito.Composition;
+
+namespace Cogito.Web.Http.Composition
 {
 
     /// <summary>
-    /// Represents a root composition service.
+    /// Provides a <see cref="CompositionContext"/> implementation for an ASP.Net application. Injects itself into the
+    /// given  <see cref="HttpConfiguration"/> object.
     /// </summary>
-    class CompositionManager : CompositionServiceRoot
+    class HttpCompositionService : CompositionContext
     {
 
         HttpConfiguration configuration;
@@ -18,7 +21,7 @@ namespace ISIS.Web.Mvc
         /// Initializes a new instance.
         /// </summary>
         /// <param name="configuration"></param>
-        public CompositionManager(HttpConfiguration configuration)
+        internal HttpCompositionService(HttpConfiguration configuration)
         {
             Contract.Requires<ArgumentNullException>(configuration != null);
 

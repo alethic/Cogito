@@ -2,9 +2,12 @@
 using System.ComponentModel.Composition;
 using System.ComponentModel.Composition.Hosting;
 
-namespace ISIS.Web.Mvc
+namespace Cogito.Composition.Metadata
 {
 
+    /// <summary>
+    /// Provides the ExportTypeIdentity metadata item for a type.
+    /// </summary>
     class ExportTypeIdentityMetadataItem : IMetadataItem
     {
 
