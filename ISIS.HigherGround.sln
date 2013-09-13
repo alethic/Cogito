@@ -22,8 +22,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{563320
 		Cogito\.nuget\NuGet.targets = Cogito\.nuget\NuGet.targets
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cogito.Web", "Cogito.Web\Cogito.Web.csproj", "{8C490862-8A00-4F54-9BAF-3FB1C6C1D66D}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -50,10 +48,6 @@ Global
 		{AC2E8895-1E42-4CC5-A996-BE6FA4C8D7EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AC2E8895-1E42-4CC5-A996-BE6FA4C8D7EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AC2E8895-1E42-4CC5-A996-BE6FA4C8D7EA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8C490862-8A00-4F54-9BAF-3FB1C6C1D66D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8C490862-8A00-4F54-9BAF-3FB1C6C1D66D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8C490862-8A00-4F54-9BAF-3FB1C6C1D66D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8C490862-8A00-4F54-9BAF-3FB1C6C1D66D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -64,6 +58,5 @@ Global
 		{D3391C9B-9587-4CED-9A66-EB88B189E169} = {DBE9038C-4AD6-4D01-B066-11FD6C89FD99}
 		{AC2E8895-1E42-4CC5-A996-BE6FA4C8D7EA} = {DBE9038C-4AD6-4D01-B066-11FD6C89FD99}
 		{563320EC-686F-4375-8E2D-79E69928FF68} = {DBE9038C-4AD6-4D01-B066-11FD6C89FD99}
-		{8C490862-8A00-4F54-9BAF-3FB1C6C1D66D} = {DBE9038C-4AD6-4D01-B066-11FD6C89FD99}
 	EndGlobalSection
 EndGlobal
