@@ -6,9 +6,11 @@ namespace ISIS.Web.Mvc
 {
 
     /// <summary>
-    /// Base <see cref="Recomposable"/> implementation.
+    /// Base <see cref="Composable"/> implementation.
     /// </summary>
-    public class Recomposable<T> : INotifyPropertyChanged, IObservable<Lazy<T>>, IObservable<T>, IDisposable
+    [Export(typeof(Composable<>))]
+    [PartCreationPolicy(CreationPolicy.NonShared)]
+    public class Composable<T> : INotifyPropertyChanged, IObservable<Lazy<T>>, IObservable<T>, IDisposable
     {
 
         /// <summary>
@@ -16,17 +18,9 @@ namespace ISIS.Web.Mvc
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        public static implicit operator T(Recomposable<T> value)
+        public static implicit operator T(Composable<T> value)
         {
             return value.Value;
-        }
-
-        /// <summary>
-        /// Initializes a new instance.
-        /// </summary>
-        internal Recomposable()
-        {
-
         }
 
         Lazy<T> import;
@@ -157,18 +151,10 @@ namespace ISIS.Web.Mvc
     /// Provides a wrapper that can be used for accepting recomposition through a constructor argument.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    [Export]
-    public sealed class Recomposable<T, TMetadata> : Recomposable<T>, IObservable<Lazy<T, TMetadata>>
+    [Export(typeof(Composable<,>))]
+    [PartCreationPolicy(CreationPolicy.NonShared)]
+    public sealed class Composable<T, TMetadata> : Composable<T>, IObservable<Lazy<T, TMetadata>>
     {
-
-        /// <summary>
-        /// Initializes a new instance.
-        /// </summary>
-        internal Recomposable()
-            : base()
-        {
-
-        }
 
         [Import(AllowRecomposition = true, AllowDefault = true)]
         internal new Lazy<T, TMetadata> Import

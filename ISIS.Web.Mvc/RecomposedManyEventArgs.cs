@@ -14,23 +14,23 @@ namespace ISIS.Web.Mvc
         /// <summary>
         /// Initializes a new instance.
         /// </summary>
-        /// <param name="added"></param>
-        /// <param name="removed"></param>
-        internal RecomposedManyEventArgs(IEnumerable<Lazy<T>> added, IEnumerable<Lazy<T>> removed)
+        /// <param name="newExports"></param>
+        /// <param name="oldExports"></param>
+        internal RecomposedManyEventArgs(IEnumerable<Lazy<T>> newExports, IEnumerable<Lazy<T>> oldExports)
         {
-            Added = added;
-            Removed = removed;
+            NewExports = newExports;
+            OldExports = oldExports;
         }
 
         /// <summary>
         /// Exports which were added.
         /// </summary>
-        public IEnumerable<Lazy<T>> Added { get; private set; }
+        public IEnumerable<Lazy<T>> NewExports { get; private set; }
 
         /// <summary>
         /// Exports which were removed.
         /// </summary>
-        public IEnumerable<Lazy<T>> Removed { get; private set; }
+        public IEnumerable<Lazy<T>> OldExports { get; private set; }
 
     }
 
@@ -45,10 +45,10 @@ namespace ISIS.Web.Mvc
         /// <summary>
         /// Initializes a new instance.
         /// </summary>
-        /// <param name="added"></param>
-        /// <param name="removed"></param>
-        internal RecomposedManyEventArgs(IEnumerable<Lazy<T, TMetadata>> added, IEnumerable<Lazy<T, TMetadata>> removed)
-            : base(added, removed)
+        /// <param name="newExports"></param>
+        /// <param name="oldExports"></param>
+        internal RecomposedManyEventArgs(IEnumerable<Lazy<T, TMetadata>> newExports, IEnumerable<Lazy<T, TMetadata>> oldExports)
+            : base(newExports, oldExports)
         {
 
         }
@@ -56,17 +56,17 @@ namespace ISIS.Web.Mvc
         /// <summary>
         /// Exports which were added.
         /// </summary>
-        public new IEnumerable<Lazy<T, TMetadata>> Added
+        public new IEnumerable<Lazy<T, TMetadata>> NewExports
         {
-            get { return (IEnumerable<Lazy<T, TMetadata>>)base.Added; }
+            get { return (IEnumerable<Lazy<T, TMetadata>>)base.NewExports; }
         }
 
         /// <summary>
         /// Exports which were removed.
         /// </summary>
-        public new IEnumerable<Lazy<T, TMetadata>> Removed
+        public new IEnumerable<Lazy<T, TMetadata>> OldExports
         {
-            get { return (IEnumerable<Lazy<T, TMetadata>>)base.Removed; }
+            get { return (IEnumerable<Lazy<T, TMetadata>>)base.OldExports; }
         }
 
     }

@@ -12,21 +12,21 @@ namespace ISIS.Web.Mvc
         /// <summary>
         /// Initializes a new instance.
         /// </summary>
-        internal RecomposedEventArgs(Lazy<T> current, Lazy<T> previous)
+        internal RecomposedEventArgs(Lazy<T> newExport, Lazy<T> oldExport)
         {
-            Current = current;
-            Previous = previous;
+            NewExport = newExport;
+            OldExport = oldExport;
         }
 
         /// <summary>
         /// Current.
         /// </summary>
-        public Lazy<T> Current { get; private set; }
+        public Lazy<T> NewExport { get; private set; }
 
         /// <summary>
         /// Previous.
         /// </summary>
-        public Lazy<T> Previous { get; private set; }
+        public Lazy<T> OldExport { get; private set; }
 
     }
 
@@ -40,10 +40,10 @@ namespace ISIS.Web.Mvc
         /// <summary>
         /// Initializes a new instance.
         /// </summary>
-        /// <param name="current"></param>
-        /// <param name="previous"></param>
-        internal RecomposedEventArgs(Lazy<T, TMetadata> current, Lazy<T, TMetadata> previous)
-            : base(current, previous)
+        /// <param name="newExport"></param>
+        /// <param name="oldExport"></param>
+        internal RecomposedEventArgs(Lazy<T, TMetadata> newExport, Lazy<T, TMetadata> oldExport)
+            : base(newExport, oldExport)
         {
 
         }
@@ -51,17 +51,17 @@ namespace ISIS.Web.Mvc
         /// <summary>
         /// Current metadata.
         /// </summary>
-        public new Lazy<T, TMetadata> Current
+        public new Lazy<T, TMetadata> NewExport
         {
-            get { return (Lazy<T, TMetadata>)base.Current; }
+            get { return (Lazy<T, TMetadata>)base.NewExport; }
         }
 
         /// <summary>
         /// Previous metadata.
         /// </summary>
-        public new Lazy<T, TMetadata> Previous
+        public new Lazy<T, TMetadata> OldExport
         {
-            get { return (Lazy<T, TMetadata>)base.Previous; }
+            get { return (Lazy<T, TMetadata>)base.OldExport; }
         }
 
     }

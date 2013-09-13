@@ -144,8 +144,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ExportTypeIdentityMetadata.cs" />
     <Compile Include="ExportTypeIdentityMetadataItem.cs" />
-    <Compile Include="Recomposable.cs" />
-    <Compile Include="RecomposableMany.cs" />
+    <Compile Include="Composable.cs" />
+    <Compile Include="ComposableCollection.cs" />
     <Compile Include="RecomposedEventArgs.cs" />
     <Compile Include="RecomposedManyEventArgs.cs" />
   </ItemGroup>

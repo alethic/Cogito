@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.ComponentModel;
 using System.ComponentModel.Composition;
 using System.Linq;
 
@@ -13,8 +12,9 @@ namespace ISIS.Web.Mvc
     /// Provides a wrapper that can be used for accepting recomposition of a collection through a constructor argument.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    [Export]
-    public class RecomposableMany<T> : IEnumerable<Lazy<T>>, INotifyCollectionChanged, IObservable<Lazy<T>>, IObservable<T>, IDisposable
+    [Export(typeof(ComposableCollection<>))]
+    [PartCreationPolicy(CreationPolicy.NonShared)]
+    public class ComposableCollection<T> : IEnumerable<Lazy<T>>, INotifyCollectionChanged, IObservable<Lazy<T>>, IObservable<T>, IDisposable
     {
 
         IEnumerable<Lazy<T>> imports;
@@ -104,7 +104,7 @@ namespace ISIS.Web.Mvc
                 observer.OnCompleted();
             EventHandler<RecomposedManyEventArgs<T>> h = (s, a) =>
             {
-                foreach (var i in a.Added)
+                foreach (var i in a.NewExports)
                     observer.OnNext(i);
             };
 
@@ -118,7 +118,7 @@ namespace ISIS.Web.Mvc
                 observer.OnCompleted();
             EventHandler<RecomposedManyEventArgs<T>> h = (s, a) =>
             {
-                foreach (var i in a.Added)
+                foreach (var i in a.NewExports)
                     observer.OnNext(i.Value);
             };
 
@@ -144,18 +144,10 @@ namespace ISIS.Web.Mvc
     /// Provides a wrapper that can be used for accepting recomposition of a collection with metadata through a constructor argument.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    [Export]
-    public sealed class RecomposableMany<T, TMetadata> : RecomposableMany<T>, IEnumerable<Lazy<T, TMetadata>>, IObservable<Lazy<T, TMetadata>>
+    [Export(typeof(ComposableCollection<,>))]
+    [PartCreationPolicy(CreationPolicy.NonShared)]
+    public sealed class ComposableCollection<T, TMetadata> : ComposableCollection<T>, IEnumerable<Lazy<T, TMetadata>>, IObservable<Lazy<T, TMetadata>>
     {
-
-        /// <summary>
-        /// Initializes a new instance.
-        /// </summary>
-        internal RecomposableMany()
-            : base()
-        {
-
-        }
 
         /// <summary>
         /// Current exports.
@@ -210,7 +202,7 @@ namespace ISIS.Web.Mvc
                 observer.OnCompleted();
             EventHandler<RecomposedManyEventArgs<T, TMetadata>> h = (s, a) =>
             {
-                foreach (var i in a.Added)
+                foreach (var i in a.NewExports)
                     observer.OnNext(i);
             };
 

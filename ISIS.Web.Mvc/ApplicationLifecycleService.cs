@@ -10,10 +10,10 @@ namespace ISIS.Web.Mvc
     public class ApplicationLifecycleService : IApplicationLifecycleManager
     {
 
-        RecomposableMany<IApplicationPreStart> preStart;
-        RecomposableMany<IApplicationStart> start;
-        RecomposableMany<IApplicationPostStart> postStart;
-        RecomposableMany<IApplicationShutdown> shutdown;
+        ComposableCollection<IApplicationPreStart> preStart;
+        ComposableCollection<IApplicationStart> start;
+        ComposableCollection<IApplicationPostStart> postStart;
+        ComposableCollection<IApplicationShutdown> shutdown;
 
         /// <summary>
         /// Initializes a new instance.
@@ -24,10 +24,10 @@ namespace ISIS.Web.Mvc
         /// <param name="shutdown"></param>
         [ImportingConstructor]
         public ApplicationLifecycleService(
-            RecomposableMany<IApplicationPreStart> preStart,
-            RecomposableMany<IApplicationStart> start,
-            RecomposableMany<IApplicationPostStart> postStart,
-            RecomposableMany<IApplicationShutdown> shutdown)
+            ComposableCollection<IApplicationPreStart> preStart,
+            ComposableCollection<IApplicationStart> start,
+            ComposableCollection<IApplicationPostStart> postStart,
+            ComposableCollection<IApplicationShutdown> shutdown)
         {
             this.preStart = preStart;
             this.start = start;
