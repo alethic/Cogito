@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{BC6A1EED-336E-478D-B605-5B07A6FFB8C5}</ProjectGuid>
+    <ProjectGuid>{7BC455C8-108C-4B5A-BF25-F20EEE0A8140}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Cogito.Composition</RootNamespace>

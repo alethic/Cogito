@@ -140,10 +140,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Cogito.Composition\Cogito.Composition.csproj">
-      <Project>{bc6a1eed-336e-478d-b605-5b07a6ffb8c5}</Project>
-      <Name>Cogito.Composition</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Cogito.Web.Http\Cogito.Web.Http.csproj">
       <Project>{d07fe037-faf0-4b59-9b55-c00c68ad1c9d}</Project>
       <Name>Cogito.Web.Http</Name>

@@ -18,7 +18,7 @@ namespace Cogito.Web.Http.Dependencies
         /// <summary>
         /// Gets the <see cref="ICompositionService"/> which serves the scope.
         /// </summary>
-        Cogito.Composition.ICompositionContext composition;
+        ICompositionContext composition;
 
         /// <summary>
         /// Initializes a new instance.
@@ -26,7 +26,7 @@ namespace Cogito.Web.Http.Dependencies
         /// <param name="composition"></param>
         [ImportingConstructor]
         public DependencyResolver(
-            Cogito.Composition.ICompositionContext composition)
+            ICompositionContext composition)
         {
             Contract.Requires<ArgumentNullException>(composition != null);
 

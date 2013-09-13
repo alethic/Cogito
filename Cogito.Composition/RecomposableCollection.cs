@@ -13,9 +13,9 @@ namespace Cogito.Composition
     /// Provides a wrapper that can be used for accepting recomposition of a collection through a constructor argument.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    [Export(typeof(ComposableCollection<>))]
+    [Export(typeof(RecomposableCollection<>))]
     [PartCreationPolicy(CreationPolicy.NonShared)]
-    public class ComposableCollection<T> : IEnumerable<Lazy<T>>, INotifyCollectionChanged, IObservable<Lazy<T>>, IObservable<T>, IDisposable
+    public class RecomposableCollection<T> : IEnumerable<Lazy<T>>, INotifyCollectionChanged, IObservable<Lazy<T>>, IObservable<T>, IDisposable
     {
 
         IEnumerable<Lazy<T>> imports;
@@ -152,9 +152,9 @@ namespace Cogito.Composition
     /// Provides a wrapper that can be used for accepting recomposition of a collection with metadata through a constructor argument.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    [Export(typeof(ComposableCollection<,>))]
+    [Export(typeof(RecomposableCollection<,>))]
     [PartCreationPolicy(CreationPolicy.NonShared)]
-    public sealed class ComposableCollection<T, TMetadata> : ComposableCollection<T>, IEnumerable<Lazy<T, TMetadata>>, IObservable<Lazy<T, TMetadata>>
+    public sealed class RecomposableCollection<T, TMetadata> : RecomposableCollection<T>, IEnumerable<Lazy<T, TMetadata>>, IObservable<Lazy<T, TMetadata>>
     {
 
         /// <summary>

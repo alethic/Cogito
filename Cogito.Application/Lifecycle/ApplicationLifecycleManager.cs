@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.Composition;
+
 using Cogito.Composition;
 
 namespace Cogito.Application
@@ -11,11 +12,11 @@ namespace Cogito.Application
     public class ApplicationLifecycleService : IApplicationLifecycleManager
     {
 
-        ComposableCollection<IApplicationBeforeStart> beforeStart;
-        ComposableCollection<IApplicationStart> start;
-        ComposableCollection<IApplicationAfterStart> afterStart;
-        ComposableCollection<IApplicationBeforeShutdown> beforeShutdown;
-        ComposableCollection<IApplicationShutdown> shutdown;
+        RecomposableCollection<IApplicationBeforeStart> beforeStart;
+        RecomposableCollection<IApplicationStart> start;
+        RecomposableCollection<IApplicationAfterStart> afterStart;
+        RecomposableCollection<IApplicationBeforeShutdown> beforeShutdown;
+        RecomposableCollection<IApplicationShutdown> shutdown;
 
         /// <summary>
         /// Initializes a new instance.
@@ -26,11 +27,11 @@ namespace Cogito.Application
         /// <param name="shutdown"></param>
         [ImportingConstructor]
         public ApplicationLifecycleService(
-            ComposableCollection<IApplicationBeforeStart> beforeStart,
-            ComposableCollection<IApplicationStart> start,
-            ComposableCollection<IApplicationAfterStart> afterStart,
-            ComposableCollection<IApplicationBeforeShutdown> beforeShutdown,
-            ComposableCollection<IApplicationShutdown> shutdown)
+            RecomposableCollection<IApplicationBeforeStart> beforeStart,
+            RecomposableCollection<IApplicationStart> start,
+            RecomposableCollection<IApplicationAfterStart> afterStart,
+            RecomposableCollection<IApplicationBeforeShutdown> beforeShutdown,
+            RecomposableCollection<IApplicationShutdown> shutdown)
         {
             this.beforeStart = beforeStart;
             this.start = start;

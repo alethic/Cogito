@@ -116,7 +116,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Cogito.Composition\Cogito.Composition.csproj">
-      <Project>{bc6a1eed-336e-478d-b605-5b07a6ffb8c5}</Project>
+      <Project>{7bc455c8-108c-4b5a-bf25-f20eee0a8140}</Project>
       <Name>Cogito.Composition</Name>
     </ProjectReference>
   </ItemGroup>

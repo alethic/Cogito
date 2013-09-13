@@ -7,11 +7,11 @@ namespace Cogito.Composition
 {
 
     /// <summary>
-    /// Base <see cref="Composable"/> implementation.
+    /// Base <see cref="Recomposable"/> implementation.
     /// </summary>
-    [Export(typeof(Composable<>))]
+    [Export(typeof(Recomposable<>))]
     [PartCreationPolicy(CreationPolicy.NonShared)]
-    public class Composable<T> : INotifyPropertyChanged, IObservable<Lazy<T>>, IObservable<T>, IDisposable
+    public class Recomposable<T> : INotifyPropertyChanged, IObservable<Lazy<T>>, IObservable<T>, IDisposable
     {
 
         /// <summary>
@@ -19,7 +19,7 @@ namespace Cogito.Composition
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        public static implicit operator T(Composable<T> value)
+        public static implicit operator T(Recomposable<T> value)
         {
             Contract.Requires<ArgumentNullException>(value != null);
 
@@ -164,9 +164,9 @@ namespace Cogito.Composition
     /// Provides a wrapper that can be used for accepting recomposition through a constructor argument.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    [Export(typeof(Composable<,>))]
+    [Export(typeof(Recomposable<,>))]
     [PartCreationPolicy(CreationPolicy.NonShared)]
-    public sealed class Composable<T, TMetadata> : Composable<T>, IObservable<Lazy<T, TMetadata>>
+    public sealed class Recomposable<T, TMetadata> : Recomposable<T>, IObservable<Lazy<T, TMetadata>>
     {
 
         [Import(AllowRecomposition = true, AllowDefault = true)]
