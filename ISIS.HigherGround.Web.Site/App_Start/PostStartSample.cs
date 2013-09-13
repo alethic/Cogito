@@ -1,13 +1,13 @@
 ﻿using System.ComponentModel.Composition;
 using System.Diagnostics;
 
-using ISIS.Web.Mvc;
+using Cogito.Application;
 
 namespace ISIS.HigherGround.Web.Site.App_Start
 {
 
-    [Export(typeof(IApplicationPostStart))]
-    public class PostStartSample : IApplicationPostStart
+    [Export(typeof(IApplicationAfterStart))]
+    public class PostStartSample : IApplicationAfterStart
     {
 
         public PostStartSample()
@@ -16,7 +16,7 @@ namespace ISIS.HigherGround.Web.Site.App_Start
         }
 
 
-        public void OnPostStart()
+        public void OnAfterStart()
         {
             Trace.WriteLine("Hi!");
         }

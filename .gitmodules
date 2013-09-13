@@ -1,0 +1,3 @@
+[submodule "Cogito"]
+	path = Cogito
+	url = https://github.com/wasabii/Cogito.git

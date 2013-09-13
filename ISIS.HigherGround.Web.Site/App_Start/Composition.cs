@@ -1,10 +1,12 @@
 ﻿using System.ComponentModel.Composition.Hosting;
-using System.Web.Http;
-using ISIS.HigherGround.Web.Site.App_Start;
-using ISIS.Web.Mvc;
 
-[assembly: WebActivatorEx.PreApplicationStartMethod(typeof(Composition), "PreStart")]
-[assembly: WebActivatorEx.PostApplicationStartMethod(typeof(Composition), "PostStart")]
+using Cogito.Application;
+using Cogito.Composition;
+
+using ISIS.HigherGround.Web.Site.App_Start;
+
+[assembly: WebActivatorEx.PreApplicationStartMethod(typeof(Composition), "BeforeStart")]
+[assembly: WebActivatorEx.PostApplicationStartMethod(typeof(Composition), "AfterStart")]
 [assembly: WebActivatorEx.ApplicationShutdownMethod(typeof(Composition), "Shutdown")]
 namespace ISIS.HigherGround.Web.Site.App_Start
 {
@@ -12,26 +14,26 @@ namespace ISIS.HigherGround.Web.Site.App_Start
     public static class Composition
     {
 
-        public static void PreStart()
+        public static void BeforeStart()
         {
-            GlobalConfiguration.Configuration.RequireComposition()
+            Global.GetCompositionContext()
                 .Register(new AssemblyCatalog(typeof(Composition).Assembly));
 
-            GlobalConfiguration.Configuration.RequireComposition()
+            Global.GetCompositionContext()
                 .GetExportedValue<IApplicationLifecycleManager>()
-                .PreStart();
+                .BeforeStart();
         }
 
-        public static void PostStart()
+        public static void AfterStart()
         {
-            GlobalConfiguration.Configuration.RequireComposition()
+            Global.GetCompositionContext()
                 .GetExportedValue<IApplicationLifecycleManager>()
-                .PostStart();
+                .AfterStart();
         }
 
         public static void Shutdown()
         {
-            GlobalConfiguration.Configuration.RequireComposition()
+            Global.GetCompositionContext()
                 .GetExportedValue<IApplicationLifecycleManager>()
                 .Shutdown();
         }
