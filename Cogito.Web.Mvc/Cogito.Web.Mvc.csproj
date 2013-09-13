@@ -137,9 +137,22 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ControllerAttribute.cs" />
+    <Compile Include="HttpApplicationExtensions.cs" />
+    <Compile Include="IMvcConfiguration.cs" />
+    <Compile Include="MvcConfiguration.cs" />
+    <Compile Include="MvcLifecycleComponent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Cogito.Application\Cogito.Application.csproj">
+      <Project>{d3391c9b-9587-4ced-9a66-eb88b189e169}</Project>
+      <Name>Cogito.Application</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Cogito.Composition\Cogito.Composition.csproj">
+      <Project>{7bc455c8-108c-4b5a-bf25-f20eee0a8140}</Project>
+      <Name>Cogito.Composition</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Cogito.Web.Http\Cogito.Web.Http.csproj">
       <Project>{d07fe037-faf0-4b59-9b55-c00c68ad1c9d}</Project>
       <Name>Cogito.Web.Http</Name>

@@ -108,6 +108,7 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApplicationCompositionContext.cs" />
     <Compile Include="CompositionContextCore.cs" />
     <Compile Include="CompositionContextExtensions.cs" />
     <Compile Include="CompositionContext.cs" />

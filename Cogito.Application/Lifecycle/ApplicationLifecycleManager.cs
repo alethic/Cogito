@@ -9,9 +9,22 @@ namespace Cogito.Application
     /// Provides for execution of the application lifecycle events.
     /// </summary>
     [Export(typeof(IApplicationLifecycleManager))]
-    public class ApplicationLifecycleService : IApplicationLifecycleManager
+    public class ApplicationLifecycleManager : IApplicationLifecycleManager
     {
 
+        enum State
+        {
+
+            None,
+            BeforeStart,
+            Start,
+            AfterStart,
+            BeforeShutdown,
+            Shutdown,
+
+        }
+
+        State state = State.None;
         RecomposableCollection<IApplicationBeforeStart> beforeStart;
         RecomposableCollection<IApplicationStart> start;
         RecomposableCollection<IApplicationAfterStart> afterStart;
@@ -26,7 +39,7 @@ namespace Cogito.Application
         /// <param name="afterStart"></param>
         /// <param name="shutdown"></param>
         [ImportingConstructor]
-        public ApplicationLifecycleService(
+        public ApplicationLifecycleManager(
             RecomposableCollection<IApplicationBeforeStart> beforeStart,
             RecomposableCollection<IApplicationStart> start,
             RecomposableCollection<IApplicationAfterStart> afterStart,
@@ -45,8 +58,11 @@ namespace Cogito.Application
         /// </summary>
         public void BeforeStart()
         {
-            foreach (var i in beforeStart)
-                i.Value.OnBeforeStart();
+            if (state < State.BeforeStart)
+                foreach (var i in beforeStart)
+                    i.Value.OnBeforeStart();
+
+            state = State.BeforeStart;
         }
 
         /// <summary>
@@ -54,8 +70,14 @@ namespace Cogito.Application
         /// </summary>
         public void Start()
         {
-            foreach (var i in start)
-                i.Value.OnStart();
+            if (state < State.BeforeStart)
+                BeforeStart();
+
+            if (state < State.Start)
+                foreach (var i in start)
+                    i.Value.OnStart();
+
+            state = State.Start;
         }
 
         /// <summary>
@@ -63,8 +85,14 @@ namespace Cogito.Application
         /// </summary>
         public void AfterStart()
         {
-            foreach (var i in afterStart)
-                i.Value.OnAfterStart();
+            if (state < State.Start)
+                Start();
+
+            if (state < State.AfterStart)
+                foreach (var i in afterStart)
+                    i.Value.OnAfterStart();
+
+            state = State.AfterStart;
         }
 
         /// <summary>
@@ -72,8 +100,14 @@ namespace Cogito.Application
         /// </summary>
         public void BeforeShutdown()
         {
-            foreach (var i in beforeShutdown)
-                i.Value.OnBeforeShutdown();
+            if (state < State.AfterStart)
+                AfterStart();
+
+            if (state < State.BeforeShutdown)
+                foreach (var i in beforeShutdown)
+                    i.Value.OnBeforeShutdown();
+
+            state = State.BeforeShutdown;
         }
 
         /// <summary>
@@ -81,8 +115,14 @@ namespace Cogito.Application
         /// </summary>
         public void Shutdown()
         {
+            if (state < State.BeforeShutdown)
+                BeforeShutdown();
+
+            if (state < State.Shutdown)
             foreach (var i in shutdown)
                 i.Value.OnShutdown();
+
+            state = State.Shutdown;
         }
 
     }

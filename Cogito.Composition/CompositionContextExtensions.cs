@@ -17,7 +17,7 @@ namespace Cogito.Composition
     public static class CompositionContextExtensions
     {
 
-        public static void AddExportedValue<T>(this ICompositionContext service, T exportedValue)
+        public static ICompositionContext AddExportedValue<T>(this ICompositionContext service, T exportedValue)
         {
             Contract.Requires<ArgumentNullException>(service != null);
             Contract.Requires<ArgumentNullException>(exportedValue != null);
@@ -25,9 +25,11 @@ namespace Cogito.Composition
             var b = new CompositionBatch();
             b.AddExportedValue<T>(exportedValue);
             service.Compose(b);
+
+            return service;
         }
 
-        public static void AddExportedValue<T>(this ICompositionContext service, string contractName, T exportedValue)
+        public static ICompositionContext AddExportedValue<T>(this ICompositionContext service, string contractName, T exportedValue)
         {
             Contract.Requires<ArgumentNullException>(service != null);
             Contract.Requires<ArgumentNullException>(!string.IsNullOrEmpty(contractName));
@@ -36,9 +38,11 @@ namespace Cogito.Composition
             var b = new CompositionBatch();
             b.AddExportedValue(contractName, exportedValue);
             service.Compose(b);
+
+            return service;
         }
 
-        public static void AddExportedValue(this ICompositionContext service, Type contractType, object exportedValue)
+        public static ICompositionContext AddExportedValue(this ICompositionContext service, Type contractType, object exportedValue)
         {
             Contract.Requires<ArgumentNullException>(service != null);
             Contract.Requires<ArgumentNullException>(contractType != null);
@@ -47,9 +51,11 @@ namespace Cogito.Composition
             var b = new CompositionBatch();
             b.AddExport(new Export(ExportMetadataServices.CreateExportDefinition(contractType), () => exportedValue));
             service.Compose(b);
+
+            return service;
         }
 
-        public static void AddExportedValue(this ICompositionContext service, string contractName, Type identityType, object exportedValue)
+        public static ICompositionContext AddExportedValue(this ICompositionContext service, string contractName, Type identityType, object exportedValue)
         {
             Contract.Requires<ArgumentNullException>(service != null);
             Contract.Requires<ArgumentNullException>(!string.IsNullOrEmpty(contractName));
@@ -59,9 +65,11 @@ namespace Cogito.Composition
             var b = new CompositionBatch();
             b.AddExport(new Export(ExportMetadataServices.CreateExportDefinition(contractName, identityType), () => exportedValue));
             service.Compose(b);
+
+            return service;
         }
 
-        public static void ComposeExportedValue<T>(this ICompositionContext service, T exportedValue)
+        public static ICompositionContext ComposeExportedValue<T>(this ICompositionContext service, T exportedValue)
         {
             Contract.Requires<ArgumentNullException>(service != null);
             Contract.Requires<ArgumentNullException>(exportedValue != null);
@@ -69,9 +77,11 @@ namespace Cogito.Composition
             var b = new CompositionBatch();
             b.AddPart(exportedValue);
             service.Compose(b);
+
+            return service;
         }
 
-        public static void ComposeExportedValue<T>(this ICompositionContext service, string contractName, T exportedValue)
+        public static ICompositionContext ComposeExportedValue<T>(this ICompositionContext service, string contractName, T exportedValue)
         {
             Contract.Requires<ArgumentNullException>(service != null);
             Contract.Requires<ArgumentNullException>(!string.IsNullOrEmpty(contractName));
@@ -80,7 +90,7 @@ namespace Cogito.Composition
             throw new NotImplementedException();
         }
 
-        public static void ComposeExportedValue(this ICompositionContext service, Type contractType, object exportedValue)
+        public static ICompositionContext ComposeExportedValue(this ICompositionContext service, Type contractType, object exportedValue)
         {
             Contract.Requires<ArgumentNullException>(service != null);
             Contract.Requires<ArgumentNullException>(contractType != null);
@@ -89,7 +99,7 @@ namespace Cogito.Composition
             throw new NotImplementedException();
         }
 
-        public static void ComposeExportedValue(this ICompositionContext service, Type type, string contractName, object exportedValue)
+        public static ICompositionContext ComposeExportedValue(this ICompositionContext service, Type type, string contractName, object exportedValue)
         {
             Contract.Requires<ArgumentNullException>(service != null);
             Contract.Requires<ArgumentNullException>(type != null);
