@@ -157,7 +157,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Cogito.Linq\Cogito.Linq.csproj">
+    <ProjectReference Include="..\Cogito.Linq\Cogito.Linq.csproj">
       <Project>{d40a5830-1d87-4e4a-b152-fb874d2aad50}</Project>
       <Name>Cogito.Linq</Name>
     </ProjectReference>
