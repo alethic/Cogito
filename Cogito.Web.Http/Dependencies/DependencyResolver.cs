@@ -40,15 +40,11 @@ namespace Cogito.Web.Http.Dependencies
 
         public object GetService(Type serviceType)
         {
-            Contract.Requires<ArgumentNullException>(serviceType != null);
-
             return GetServices(serviceType).SingleOrDefault();
         }
 
         public IEnumerable<object> GetServices(Type serviceType)
         {
-            Contract.Requires<ArgumentNullException>(serviceType != null);
-
             return composition.GetExportedValues(serviceType);
         }
 

@@ -6,7 +6,7 @@ namespace Cogito.Web.Http
     public interface IApiConfiguration
     {
 
-        bool Configured { get; set; }
+        bool Available { get; set; }
 
         HttpConfiguration Configuration { get; set; }
 

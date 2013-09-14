@@ -15,7 +15,7 @@ namespace Cogito.Web.Http
         /// <param name="configuration"></param>
         public ApiLifecycleComponent(
             IApiConfiguration configuration)
-            : base(() => configuration.Configured)
+            : base(() => configuration.Available)
         {
 
         }

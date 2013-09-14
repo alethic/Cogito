@@ -31,12 +31,6 @@ namespace Cogito.Composition
         /// <returns></returns>
         ICompositionContext BeginScope();
 
-        /// <summary>
-        /// Registers the given <see cref="ComposablePartCatalog"/> with the service.
-        /// </summary>
-        /// <param name="catalog"></param>
-        void Register(ComposablePartCatalog catalog);
-
     }
 
 }

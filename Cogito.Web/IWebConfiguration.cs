@@ -1,12 +1,13 @@
-﻿using System.Web.Routing;
-
-namespace Cogito.Web
+﻿namespace Cogito.Web
 {
 
     public interface IWebConfiguration
     {
 
-        bool Configured { get; set; }
+        /// <summary>
+        /// Indicates that ASP.NET is availble.
+        /// </summary>
+        bool Available { get; set; }
 
     }
 

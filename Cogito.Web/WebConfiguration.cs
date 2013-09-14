@@ -7,7 +7,7 @@ namespace Cogito.Web
     public class WebConfiguration : IWebConfiguration
     {
 
-        public bool Configured { get; set; }
+        public bool Available { get; set; }
 
     }
 
