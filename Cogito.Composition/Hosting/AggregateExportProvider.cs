@@ -8,6 +8,8 @@ using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Threading;
 
+using Cogito.Linq;
+
 namespace Cogito.Composition.Hosting
 {
 
@@ -18,19 +20,15 @@ namespace Cogito.Composition.Hosting
     public class AggregateExportProvider : ExportProvider, IDisposable
     {
 
-        int _disposed;
-        ExportProviderCollection _providers;
+        int disposed;
+        ExportProviderCollection providers;
 
         /// <summary>
         /// Collection of aggregated providers.
         /// </summary>
         public ExportProviderCollection Providers
         {
-            get
-            {
-                ThrowIfDisposed();
-                return _providers;
-            }
+            get { return providers; }
         }
 
         /// <summary>
@@ -38,8 +36,8 @@ namespace Cogito.Composition.Hosting
         /// </summary>
         public AggregateExportProvider()
         {
-            _providers = new ExportProviderCollection();
-            _providers.CollectionChanged += providers_CollectionChanged;
+            providers = new ExportProviderCollection();
+            providers.CollectionChanged += providers_CollectionChanged;
         }
 
         /// <summary>
@@ -49,8 +47,9 @@ namespace Cogito.Composition.Hosting
         public AggregateExportProvider(IEnumerable<ExportProvider> providers)
             : this()
         {
-            if (providers != null)
-                _providers.AddRange(providers);
+            Contract.Requires<ArgumentNullException>(providers != null);
+
+            this.providers.AddRange(providers);
         }
 
         /// <summary>
@@ -63,21 +62,25 @@ namespace Cogito.Composition.Hosting
             Contract.Requires<ArgumentNullException>(providers != null);
         }
 
+        /// <summary>
+        /// Invoked when an item is added or removed from the providers collection.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
         void providers_CollectionChanged(object sender, NotifyCollectionChangedEventArgs args)
         {
             Contract.Requires<ArgumentNullException>(sender != null);
             Contract.Requires<ArgumentNullException>(args != null);
 
-            var oldItems = args.OldItems != null ? args.OldItems.Cast<ExportProvider>() : new ExportProvider[0];
-            var newItems = args.NewItems != null ? args.NewItems.Cast<ExportProvider>() : new ExportProvider[0];
-
-            foreach (var provider in oldItems)
+            // unsubscribe from old items
+            foreach (var provider in args.OldItems.EmptyIfNull().Cast<ExportProvider>())
             {
                 provider.ExportsChanging -= provider_ExportsChanging;
                 provider.ExportsChanged -= provider_ExportsChanged;
             }
 
-            foreach (var provider in newItems)
+            // subscribe to new items
+            foreach (var provider in args.NewItems.EmptyIfNull().Cast<ExportProvider>())
             {
                 provider.ExportsChanging += provider_ExportsChanging;
                 provider.ExportsChanged += provider_ExportsChanged;
@@ -98,19 +101,24 @@ namespace Cogito.Composition.Hosting
             OnExportsChanged(args);
         }
 
-        protected override IEnumerable<Export> GetExportsCore(ImportDefinition definition, AtomicComposition atomicComposition)
+        IEnumerable<Export> GetExportsCoreInternal(ImportDefinition definition, AtomicComposition atomicComposition)
         {
-            ThrowIfDisposed();
+            Contract.Requires<ArgumentNullException>(definition != null);
 
-            foreach (var provider in _providers)
+            foreach (var provider in providers)
                 foreach (var export in provider.GetExports(definition, atomicComposition))
                     yield return export;
+        }
+
+        protected override IEnumerable<Export> GetExportsCore(ImportDefinition definition, AtomicComposition atomicComposition)
+        {
+            return GetExportsCoreInternal(definition, atomicComposition);
         }
 
         [DebuggerStepThrough]
         void ThrowIfDisposed()
         {
-            if (_disposed == 1)
+            if (disposed == 1)
                 throw new ObjectDisposedException(GetType().FullName);
         }
 
@@ -120,8 +128,8 @@ namespace Cogito.Composition.Hosting
         /// <param name="disposing"></param>
         protected virtual void Dispose(bool disposing)
         {
-            if (disposing && Interlocked.CompareExchange(ref _disposed, 1, 0) == 0)
-                foreach (var provider in _providers)
+            if (disposing && Interlocked.CompareExchange(ref disposed, 1, 0) == 0)
+                foreach (var provider in providers)
                 {
                     provider.ExportsChanging -= provider_ExportsChanging;
                     provider.ExportsChanged -= provider_ExportsChanged;

@@ -8,7 +8,10 @@ namespace Cogito.Web.Http
     public class ApiConfiguration : IApiConfiguration
     {
 
-        public bool Configured { get; set; }
+        /// <summary>
+        /// Gets whether or not WebApi is available.
+        /// </summary>
+        public bool Available { get; set; }
 
         [Export]
         public HttpConfiguration Configuration { get; set; }

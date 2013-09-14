@@ -25,7 +25,7 @@ namespace Cogito.Web.Mvc
             Contract.Requires<ArgumentNullException>(composition != null);
 
             // mark MVC as enabled
-            composition.GetExportedValue<IMvcConfiguration>().Configured = true;
+            composition.GetExportedValue<IMvcConfiguration>().Available = true;
 
             return application;
         }
