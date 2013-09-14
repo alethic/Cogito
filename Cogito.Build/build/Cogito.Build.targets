@@ -1,57 +1,134 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="4.0"
+         xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
     <PropertyGroup>
         <AssemblyVersionPath>$([System.IO.Path]::Combine($(ProjectDir), "Properties\AssemblyVersion.cs"))</AssemblyVersionPath>
+        <NuspecPath>$([System.IO.Path]::Combine($(ProjectDir), "Properties\$(ProjectName).nuspec"))</NuspecPath>
 
         <!-- Make the build depend on restore packages -->
         <BuildDependsOn>
-            _GenerateAssemblyVersion;
+            _UpdateAssemblyVersion;
+            _UpdateNuspecVersion;
             $(BuildDependsOn);
         </BuildDependsOn>
     </PropertyGroup>
 
-    <Target Name="_GenerateAssemblyVersion">
-        <GenerateAssemblyVersion OutputFilename="$(AssemblyVersionPath)" />
+    <Target Name="_UpdateAssemblyVersion" Condition="Exists('$(AssemblyVersionPath)')">
+        <UpdateAssemblyVersion OutputFilename="$(AssemblyVersionPath)" />
     </Target>
-  
-    <UsingTask TaskName="GenerateAssemblyVersion" TaskFactory="CodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.v4.0.dll">
+
+    <Target Name="_UpdateNuspecVersion" Condition="Exists('$(NuspecPath)')">
+        <UpdateNuspecVersion OutputFilename="$(NuspecPath)" />
+    </Target>
+
+    <UsingTask
+        TaskName="UpdateAssemblyVersion"
+        TaskFactory="CodeTaskFactory"
+        AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.v4.0.dll">
         <ParameterGroup>
-            <OutputFilename ParameterType="System.String" Required="true" />
+            <OutputFilename
+                ParameterType="System.String"
+                Required="true" />
         </ParameterGroup>
         <Task>
             <Reference Include="System.Core" />
             <Using Namespace="System" />
             <Using Namespace="System.IO" />
-            <Using Namespace="System.Net" />
             <Using Namespace="Microsoft.Build.Framework" />
             <Using Namespace="Microsoft.Build.Utilities" />
-            <Code Type="Fragment" Language="cs">
+            <Code Type="Fragment"
+                  Language="cs">
                 <![CDATA[
-                try {
-                    OutputFilename = Path.GetFullPath(OutputFilename);
 
-                    var version = string.Format(@"{0}.{1}.{2}.{3}",
-			DateTime.Today.Year,
-			DateTime.Today.Month,
-			DateTime.Today.Day,
-			0);
-
-                    File.WriteAllText(OutputFilename, string.Format(@"
+                var version = string.Format(@"{0}.{1}.{2}.{3}",
+                    DateTime.UtcNow.Year,
+                    DateTime.UtcNow.Month,
+                    DateTime.UtcNow.Day,
+                    DateTime.UtcNow.Hour * 100 + DateTime.UtcNow.Minute);
+            
+                try
+                {
+                    File.WriteAllText(Path.GetFullPath(OutputFilename), string.Format(@"
 using System.Reflection;
 
 [assembly: AssemblyVersion(""{0}"")]
 [assembly: AssemblyFileVersion(""{0}"")]
+[assembly: AssemblyInformationalVersion(""{0}"")]
 
 ", version).Trim());
-                    return true;
                 }
-                catch (Exception ex) {
+                catch (Exception ex) 
+                {
                     Log.LogErrorFromException(ex);
                     return false;
                 }
+                
+                return true;
             ]]>
             </Code>
         </Task>
     </UsingTask>
+
+    <UsingTask
+        TaskName="UpdateNuspecVersion"
+        TaskFactory="CodeTaskFactory"
+        AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.v4.0.dll">
+        <ParameterGroup>
+            <OutputFilename
+                ParameterType="System.String"
+                Required="true" />
+        </ParameterGroup>
+        <Task>
+            <Reference
+                Include="System.Core" />
+            <Reference
+                Include="System.Xml" />
+            <Reference
+                Include="System.Xml.Linq" />
+            <Using
+                Namespace="System" />
+            <Using
+                Namespace="System.IO" />
+            <Using
+                Namespace="System.Xml.Linq" />
+            <Using
+                Namespace="Microsoft.Build.Framework" />
+            <Using
+                Namespace="Microsoft.Build.Utilities" />
+            <Code
+                Type="Fragment"
+                Language="cs">
+                <![CDATA[
+
+                var version = string.Format(@"{0}.{1}.{2}.{3}",
+                    DateTime.UtcNow.Year,
+                    DateTime.UtcNow.Month,
+                    DateTime.UtcNow.Day,
+                    DateTime.UtcNow.Hour * 100 + DateTime.UtcNow.Minute);
+                    
+                var ns = (XNamespace)@"http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd";
+            
+                try
+                {
+                    var xml = XDocument.Load(Path.GetFullPath(OutputFilename), LoadOptions.PreserveWhitespace | LoadOptions.SetLineInfo);
+                    xml
+                        .Element("package")
+                        .Element(ns + "metadata")
+                        .Element(ns + "version")
+                        .Value = version;
+                    xml.Save(Path.GetFullPath(OutputFilename), SaveOptions.DisableFormatting);
+                }
+                catch (Exception ex) 
+                {
+                    Log.LogErrorFromException(ex);
+                    return false;
+                }
+                
+                return true;
+            ]]>
+            </Code>
+        </Task>
+    </UsingTask>
+
 </Project>

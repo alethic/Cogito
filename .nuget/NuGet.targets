@@ -18,6 +18,7 @@
     
     <ItemGroup Condition=" '$(PackageSources)' == '' ">
         <PackageSource Include="$(TargetDir.Trim('\\'))" />
+        <PackageSource Include="https://www.nuget.org/api/v2/" />
     </ItemGroup>
 
     <PropertyGroup Condition=" '$(OS)' == 'Windows_NT'">
