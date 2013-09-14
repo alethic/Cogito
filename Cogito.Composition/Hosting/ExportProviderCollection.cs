@@ -1,7 +1,9 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel.Composition.Hosting;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Threading;
 
@@ -23,6 +25,8 @@ namespace Cogito.Composition.Hosting
 
         public void AddRange(IEnumerable<ExportProvider> items)
         {
+            Contract.Requires<ArgumentNullException>(items != null);
+
             var all = items.ToList();
 
             providers.AddRange(all);

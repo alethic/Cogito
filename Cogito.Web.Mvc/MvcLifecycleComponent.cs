@@ -15,7 +15,7 @@ namespace Cogito.Web.Mvc
         /// <param name="configuration"></param>
         public MvcLifecycleComponent(
             IMvcConfiguration configuration)
-            : base(() => configuration.Configured)
+            : base(() => configuration.Available)
         {
 
         }

@@ -206,7 +206,7 @@ namespace Cogito.Composition
                 .Select(i => (T)i.Value);
         }
 
-        public static Lazy<T, TMetadataView> GetExport<T, TMetadataView>(this ICompositionContext service)
+        public static System.Lazy<T, TMetadataView> GetExport<T, TMetadataView>(this ICompositionContext service)
         {
             Contract.Requires<ArgumentNullException>(service != null);
 
@@ -218,11 +218,11 @@ namespace Cogito.Composition
                     false,
                     true,
                     CreationPolicy.Any))
-                .Select(i => new Lazy<T, TMetadataView>(() => (T)i.Value, AttributedModelServices.GetMetadataView<TMetadataView>(i.Metadata)))
+                .Select(i => new System.Lazy<T, TMetadataView>(() => (T)i.Value, AttributedModelServices.GetMetadataView<TMetadataView>(i.Metadata)))
                 .FirstOrDefault();
         }
 
-        public static Lazy<T, TMetadataView> GetExport<T, TMetadataView>(this ICompositionContext service, string contractName)
+        public static System.Lazy<T, TMetadataView> GetExport<T, TMetadataView>(this ICompositionContext service, string contractName)
         {
             Contract.Requires<ArgumentNullException>(service != null);
             Contract.Requires<ArgumentNullException>(!string.IsNullOrEmpty(contractName));
@@ -235,11 +235,11 @@ namespace Cogito.Composition
                     false,
                     true,
                     CreationPolicy.Any))
-                .Select(i => new Lazy<T, TMetadataView>(() => (T)i.Value, AttributedModelServices.GetMetadataView<TMetadataView>(i.Metadata)))
+                .Select(i => new System.Lazy<T, TMetadataView>(() => (T)i.Value, AttributedModelServices.GetMetadataView<TMetadataView>(i.Metadata)))
                 .FirstOrDefault();
         }
 
-        public static IEnumerable<Lazy<T>> GetExports<T>(this ICompositionContext service)
+        public static IEnumerable<System.Lazy<T>> GetExports<T>(this ICompositionContext service)
         {
             Contract.Requires<ArgumentNullException>(service != null);
 
@@ -251,10 +251,10 @@ namespace Cogito.Composition
                     false,
                     true,
                     CreationPolicy.Any))
-                .Select(i => new Lazy<T>(() => (T)i.Value));
+                .Select(i => new System.Lazy<T>(() => (T)i.Value));
         }
 
-        public static IEnumerable<Lazy<T>> GetExports<T>(this ICompositionContext service, string contractName)
+        public static IEnumerable<System.Lazy<T>> GetExports<T>(this ICompositionContext service, string contractName)
         {
             Contract.Requires<ArgumentNullException>(service != null);
             Contract.Requires<ArgumentNullException>(!string.IsNullOrEmpty(contractName));
@@ -267,7 +267,7 @@ namespace Cogito.Composition
                     false,
                     true,
                     CreationPolicy.Any))
-                .Select(i => new Lazy<T>(() => (T)i.Value));
+                .Select(i => new System.Lazy<T>(() => (T)i.Value));
         }
 
         public static object GetExportedValue(this ICompositionContext service, Type contractType)
@@ -372,7 +372,7 @@ namespace Cogito.Composition
                 .Select(i => i.Value);
         }
 
-        public static Lazy<object, IDictionary<string, object>> GetExport(this ICompositionContext service, Type contractType)
+        public static System.Lazy<object, IDictionary<string, object>> GetExport(this ICompositionContext service, Type contractType)
         {
             Contract.Requires<ArgumentNullException>(service != null);
             Contract.Requires<ArgumentNullException>(contractType != null);
@@ -385,11 +385,11 @@ namespace Cogito.Composition
                     false,
                     true,
                     CreationPolicy.Any))
-                .Select(i => new Lazy<object, IDictionary<string, object>>(() => i.Value, i.Metadata))
+                .Select(i => new System.Lazy<object, IDictionary<string, object>>(() => i.Value, i.Metadata))
                 .FirstOrDefault();
         }
 
-        public static Lazy<object, IDictionary<string, object>> GetExport(this ICompositionContext service, Type type, string contractName)
+        public static System.Lazy<object, IDictionary<string, object>> GetExport(this ICompositionContext service, Type type, string contractName)
         {
             Contract.Requires<ArgumentNullException>(service != null);
             Contract.Requires<ArgumentNullException>(type != null);
@@ -403,11 +403,11 @@ namespace Cogito.Composition
                     false,
                     true,
                     CreationPolicy.Any))
-                .Select(i => new Lazy<object, IDictionary<string, object>>(() => i.Value, i.Metadata))
+                .Select(i => new System.Lazy<object, IDictionary<string, object>>(() => i.Value, i.Metadata))
                 .FirstOrDefault();
         }
 
-        public static IEnumerable<Lazy<object, IDictionary<string, object>>> GetExports(this ICompositionContext service, Type contractType)
+        public static IEnumerable<System.Lazy<object, IDictionary<string, object>>> GetExports(this ICompositionContext service, Type contractType)
         {
             Contract.Requires<ArgumentNullException>(service != null);
             Contract.Requires<ArgumentNullException>(contractType != null);
@@ -420,10 +420,10 @@ namespace Cogito.Composition
                     false,
                     true,
                     CreationPolicy.Any))
-                .Select(i => new Lazy<object, IDictionary<string, object>>(() => i.Value, i.Metadata));
+                .Select(i => new System.Lazy<object, IDictionary<string, object>>(() => i.Value, i.Metadata));
         }
 
-        public static IEnumerable<Lazy<object, IDictionary<string, object>>> GetExports(this ICompositionContext service, Type type, string contractName)
+        public static IEnumerable<System.Lazy<object, IDictionary<string, object>>> GetExports(this ICompositionContext service, Type type, string contractName)
         {
             Contract.Requires<ArgumentNullException>(service != null);
             Contract.Requires<ArgumentNullException>(type != null);
@@ -437,7 +437,7 @@ namespace Cogito.Composition
                     false,
                     true,
                     CreationPolicy.Any))
-                .Select(i => new Lazy<object, IDictionary<string, object>>(() => i.Value, i.Metadata));
+                .Select(i => new System.Lazy<object, IDictionary<string, object>>(() => i.Value, i.Metadata));
         }
 
     }

@@ -8,7 +8,7 @@ namespace Cogito.Web.Mvc
     public class MvcConfiguration : IMvcConfiguration
     {
 
-        public bool Configured { get; set; }
+        public bool Available { get; set; }
         
         [Export]
         public RouteCollection Routes { get; set; }
