@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.Composition;
+﻿using System.Collections.Generic;
+using System.ComponentModel.Composition;
 
 using Cogito.Composition;
 
@@ -25,11 +26,11 @@ namespace Cogito.Application
         }
 
         State state = State.None;
-        RecomposableCollection<IApplicationBeforeStart> beforeStart;
-        RecomposableCollection<IApplicationStart> start;
-        RecomposableCollection<IApplicationAfterStart> afterStart;
-        RecomposableCollection<IApplicationBeforeShutdown> beforeShutdown;
-        RecomposableCollection<IApplicationShutdown> shutdown;
+        IEnumerable<IApplicationBeforeStart> beforeStart;
+        IEnumerable<IApplicationStart> start;
+        IEnumerable<IApplicationAfterStart> afterStart;
+        IEnumerable<IApplicationBeforeShutdown> beforeShutdown;
+        IEnumerable<IApplicationShutdown> shutdown;
 
         /// <summary>
         /// Initializes a new instance.
@@ -40,11 +41,11 @@ namespace Cogito.Application
         /// <param name="shutdown"></param>
         [ImportingConstructor]
         public ApplicationLifecycleManager(
-            RecomposableCollection<IApplicationBeforeStart> beforeStart,
-            RecomposableCollection<IApplicationStart> start,
-            RecomposableCollection<IApplicationAfterStart> afterStart,
-            RecomposableCollection<IApplicationBeforeShutdown> beforeShutdown,
-            RecomposableCollection<IApplicationShutdown> shutdown)
+            [Import(typeof(IImportCollection<IApplicationBeforeStart>))] IEnumerable<IApplicationBeforeStart> beforeStart,
+            [Import(typeof(IImportCollection<IApplicationStart>))] IEnumerable<IApplicationStart> start,
+            [Import(typeof(IImportCollection<IApplicationAfterStart>))] IEnumerable<IApplicationAfterStart> afterStart,
+            [Import(typeof(IImportCollection<IApplicationBeforeShutdown>))] IEnumerable<IApplicationBeforeShutdown> beforeShutdown,
+            [Import(typeof(IImportCollection<IApplicationShutdown>))] IEnumerable<IApplicationShutdown> shutdown)
         {
             this.beforeStart = beforeStart;
             this.start = start;
@@ -60,7 +61,7 @@ namespace Cogito.Application
         {
             if (state < State.BeforeStart)
                 foreach (var i in beforeStart)
-                    i.Value.OnBeforeStart();
+                    i.OnBeforeStart();
 
             state = State.BeforeStart;
         }
@@ -75,7 +76,7 @@ namespace Cogito.Application
 
             if (state < State.Start)
                 foreach (var i in start)
-                    i.Value.OnStart();
+                    i.OnStart();
 
             state = State.Start;
         }
@@ -90,7 +91,7 @@ namespace Cogito.Application
 
             if (state < State.AfterStart)
                 foreach (var i in afterStart)
-                    i.Value.OnAfterStart();
+                    i.OnAfterStart();
 
             state = State.AfterStart;
         }
@@ -105,7 +106,7 @@ namespace Cogito.Application
 
             if (state < State.BeforeShutdown)
                 foreach (var i in beforeShutdown)
-                    i.Value.OnBeforeShutdown();
+                    i.OnBeforeShutdown();
 
             state = State.BeforeShutdown;
         }
@@ -119,8 +120,8 @@ namespace Cogito.Application
                 BeforeShutdown();
 
             if (state < State.Shutdown)
-            foreach (var i in shutdown)
-                i.Value.OnShutdown();
+                foreach (var i in shutdown)
+                    i.OnShutdown();
 
             state = State.Shutdown;
         }

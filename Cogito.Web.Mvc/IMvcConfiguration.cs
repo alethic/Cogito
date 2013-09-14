@@ -6,7 +6,10 @@ namespace Cogito.Web.Mvc
     public interface IMvcConfiguration
     {
 
-        bool Configured { get; set; }
+        /// <summary>
+        /// Gets whether or not MVC is available.
+        /// </summary>
+        bool Available { get; set; }
 
         RouteCollection Routes { get; }
 
