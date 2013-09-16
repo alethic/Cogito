@@ -2,7 +2,7 @@
 using System.ComponentModel.Composition;
 using System.Web.Mvc;
 
-namespace Cogito.Web.Mvc.Composition
+namespace Cogito.Web.Mvc
 {
 
     [AttributeUsage(AttributeTargets.Class)]

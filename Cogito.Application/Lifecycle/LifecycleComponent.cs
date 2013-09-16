@@ -7,12 +7,14 @@ namespace Cogito.Application.Lifecycle
     /// Base lifecycle component implementation that is invoked on all lifecycle events and determines their
     /// applicability through a boolean.
     /// </summary>
-    public abstract class LifecycleComponent :
-        IApplicationBeforeStart,
-        IApplicationStart,
-        IApplicationAfterStart,
-        IApplicationBeforeShutdown,
-        IApplicationShutdown
+    public abstract class LifecycleComponent<T> :
+        IOnInit<T>,
+        IOnBeforeStart<T>,
+        IOnStart<T>,
+        IOnAfterStart<T>,
+        IOnBeforeShutdown<T>,
+        IOnShutdown<T>
+        where T : IApplication
     {
 
         Func<bool> enabled;
@@ -21,9 +23,15 @@ namespace Cogito.Application.Lifecycle
         /// Initializes a new instance.
         /// </summary>
         /// <param name="enabled"></param>
-        public LifecycleComponent(Func<bool> enabled)
+        public LifecycleComponent(
+            Func<bool> enabled)
         {
             this.enabled = enabled;
+        }
+
+        public virtual void OnInit()
+        {
+
         }
 
         public virtual void OnBeforeStart()
@@ -51,31 +59,31 @@ namespace Cogito.Application.Lifecycle
 
         }
 
-        void IApplicationBeforeStart.OnBeforeStart()
+        void IOnBeforeStart<T>.OnBeforeStart()
         {
             if (enabled())
                 OnBeforeStart();
         }
 
-        void IApplicationStart.OnStart()
+        void IOnStart<T>.OnStart()
         {
             if (enabled())
                 OnStart();
         }
 
-        void IApplicationAfterStart.OnAfterStart()
+        void IOnAfterStart<T>.OnAfterStart()
         {
             if (enabled())
                 OnAfterStart();
         }
 
-        void IApplicationBeforeShutdown.OnBeforeShutdown()
+        void IOnBeforeShutdown<T>.OnBeforeShutdown()
         {
             if (enabled())
                 OnBeforeShutdown();
         }
 
-        void IApplicationShutdown.OnShutdown()
+        void IOnShutdown<T>.OnShutdown()
         {
             if (enabled())
                 OnShutdown();

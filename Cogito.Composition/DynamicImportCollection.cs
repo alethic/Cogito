@@ -27,6 +27,12 @@ namespace Cogito.Composition
         event ImportCollectionChangedEventHandler<T, TMetadata> importsChanged;
         event ImportCollectionChangedEventHandler<T> importsChanged2;
 
+        [ImportingConstructor]
+        public DynamicImportCollection()
+        {
+
+        }
+
         /// <summary>
         /// Property into which the container injects values.
         /// </summary>
@@ -214,12 +220,21 @@ namespace Cogito.Composition
     /// Provides a collection of exports with various notifications to signal recomposition.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    [Export(typeof(DynamicExportCollection<>))]
+    [Export(typeof(DynamicImportCollection<>))]
     [Export(typeof(IImportCollection<>))]
-    public class DynamicExportCollection<T> :
+    [Export("ImportCollection", typeof(IImportCollection<>))]
+    [PartCreationPolicy(CreationPolicy.NonShared)]
+    public class DynamicImportCollection<T> :
         DynamicImportCollection<T, IDictionary<string, object>>
     {
 
+
+        [ImportingConstructor]
+        public DynamicImportCollection()
+            :base()
+        {
+
+        }
 
 
     }

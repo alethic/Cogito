@@ -5,14 +5,14 @@ namespace Cogito.Application.Lifecycle
 {
 
     [AttributeUsage(AttributeTargets.Class)]
-    public class OnStartAttribute : ExportAttribute
+    public class OnInitAttribute : ExportAttribute
     {
 
         /// <summary>
         /// Initializes a new instance.
         /// </summary>
-        public OnStartAttribute(Type applicationType)
-            : base(typeof(IOnStart<>).MakeGenericType(applicationType))
+        public OnInitAttribute(Type applicationType)
+            : base(typeof(IOnInit<>).MakeGenericType(applicationType))
         {
 
         }

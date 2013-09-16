@@ -16,6 +16,7 @@ namespace Cogito.Composition
     [Export(typeof(IImportValue<,>))]
     [PartCreationPolicy(CreationPolicy.NonShared)]
     public class DynamicImport<T, TMetadata> : IImportValue<T, TMetadata>
+        where T : class
     {
 
         /// <summary>
@@ -42,7 +43,15 @@ namespace Cogito.Composition
         public Lazy<T, TMetadata> Import
         {
             get { return import; }
-            set { Contract.Requires(value != null); var t = import; import = value; OnChanged(import, t); }
+            set { var t = import; import = value; OnChanged(import, t); }
+        }
+
+        /// <summary>
+        /// Gets whether or not the import is available.
+        /// </summary>
+        public bool IsImportAvailable
+        {
+            get { return import != null; }
         }
 
         /// <summary>
@@ -50,7 +59,7 @@ namespace Cogito.Composition
         /// </summary>
         public T Value
         {
-            get { return import.Value; }
+            get { return import != null ? import.Value : null; }
         }
 
         /// <summary>
@@ -58,7 +67,7 @@ namespace Cogito.Composition
         /// </summary>
         public bool IsValueCreated
         {
-            get { return import.IsValueCreated; }
+            get { return import == null ? false : import.IsValueCreated; }
         }
 
         /// <summary>
@@ -76,8 +85,8 @@ namespace Cogito.Composition
         /// <param name="oldValue"></param>
         protected void OnChanged(Lazy<T, TMetadata> newValue, Lazy<T, TMetadata> oldValue)
         {
-            Contract.Requires<ArgumentNullException>(newValue != null);
-            Contract.Requires<ArgumentNullException>(oldValue != null);
+            if (newValue == oldValue)
+                return;
 
             RaiseImportChanged(newValue, oldValue);
             RaisePropertiesChanged();
@@ -231,6 +240,7 @@ namespace Cogito.Composition
     [PartCreationPolicy(CreationPolicy.NonShared)]
     public sealed class DynamicImport<T> :
         DynamicImport<T, IDictionary<string, object>>
+        where T : class
     {
 
 

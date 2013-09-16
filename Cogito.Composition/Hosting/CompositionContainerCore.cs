@@ -176,16 +176,7 @@ namespace Cogito.Composition.Hosting
         [EditorBrowsable(EditorBrowsableState.Never)]
         protected override IEnumerable<Export> GetExportsCore(ImportDefinition definition, AtomicComposition atomicComposition)
         {
-            return base.GetExportsCore(definition, atomicComposition);
-        }
-
-        /// <summary>
-        /// Implements ICompositionService.SatisfyImportsOnce.
-        /// </summary>
-        /// <param name="part"></param>
-        void ICompositionService.SatisfyImportsOnce(ComposablePart part)
-        {
-            SatisfyImportsOnce(part);
+            return base.GetExportsCore(definition, atomicComposition).ToList();
         }
 
     }

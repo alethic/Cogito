@@ -26,9 +26,8 @@ namespace Cogito.Web.Http
             Contract.Requires<ArgumentNullException>(configuration != null);
             Contract.Requires<ArgumentNullException>(composition != null);
 
-            // mark MVC as enabled
-            composition.GetExportedValue<IApiConfiguration>().Available = true;
-            composition.GetExportedValue<IApiConfiguration>().Configuration = configuration;
+            // activate WebApi framework
+            composition.GetExportedValue<IApiApplication>().Activate(configuration);
 
             return configuration;
         }

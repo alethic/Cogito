@@ -1,18 +1,18 @@
 ﻿using System;
 using System.ComponentModel.Composition;
 using System.Diagnostics.Contracts;
-using System.Web.Http.Dependencies;
+using System.Web.Mvc;
 
 using Cogito.Application.Lifecycle;
+using Cogito.Web.Mvc;
 
 namespace Cogito.Web.Http.Configuration
 {
 
-    [OnStart(typeof(IApiApplication))]
-    public class DependencyResolverConfiguration : ApiLifecycleComponent
+    [OnBeforeStart(typeof(IMvcApplication))]
+    public class DependencyResolverConfiguration : MvcLifecycleComponent
     {
 
-        IApiApplication app;
         IDependencyResolver dependencyResolver;
 
         /// <summary>
@@ -22,20 +22,19 @@ namespace Cogito.Web.Http.Configuration
         /// <param name="dependencyResolver"></param>
         [ImportingConstructor]
         public DependencyResolverConfiguration(
-            IApiApplication app,
+            IMvcApplication app,
             IDependencyResolver dependencyResolver)
             : base(app)
         {
             Contract.Requires<ArgumentNullException>(app != null);
             Contract.Requires<ArgumentNullException>(dependencyResolver != null);
 
-            this.app = app;
             this.dependencyResolver = dependencyResolver;
         }
 
-        public override void OnStart()
+        public override void OnBeforeStart()
         {
-            app.Http.DependencyResolver = dependencyResolver;
+            System.Web.Mvc.DependencyResolver.SetResolver(dependencyResolver);
         }
 
     }

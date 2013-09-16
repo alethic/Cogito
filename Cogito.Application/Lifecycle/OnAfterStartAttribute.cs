@@ -11,8 +11,8 @@ namespace Cogito.Application.Lifecycle
         /// <summary>
         /// Initializes a new instance.
         /// </summary>
-        public OnAfterStartAttribute()
-            : base(typeof(IApplicationAfterStart))
+        public OnAfterStartAttribute(Type applicationType)
+            : base(typeof(IOnAfterStart<>).MakeGenericType(applicationType))
         {
 
         }

@@ -4,7 +4,8 @@
     /// <summary>
     /// To be invoked when the application shuts down.
     /// </summary>
-    public interface IApplicationShutdown
+    public interface IOnShutdown<T>
+        where T : IApplication
     {
 
         void OnShutdown();

@@ -109,19 +109,17 @@
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
     <Reference Include="System.Web" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
     <Reference Include="WebActivatorEx">
       <HintPath>..\..\packages\WebActivatorEx.2.0.3\lib\net40\WebActivatorEx.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Internal\ActivationDispatcher.cs" />
+    <Compile Include="Internal\ActivationEvents.cs" />
     <Compile Include="HttpApplicationExtensions.cs" />
-    <Compile Include="IWebConfiguration.cs" />
-    <Compile Include="WebConfiguration.cs" />
+    <Compile Include="IWebApplication.cs" />
+    <Compile Include="Internal\WebApplication.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

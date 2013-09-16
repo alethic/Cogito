@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics.Contracts;
 using System.Web;
+
 using Cogito.Composition;
 
 namespace Cogito.Web
@@ -23,8 +24,8 @@ namespace Cogito.Web
             Contract.Requires<ArgumentNullException>(application != null);
             Contract.Requires<ArgumentNullException>(composition != null);
 
-            // mark MVC as enabled
-            composition.GetExportedValue<IWebConfiguration>().Available = true;
+            // activate
+            composition.GetExportedValue<IWebApplication>().Activate(application);
 
             return application;
         }

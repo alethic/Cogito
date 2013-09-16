@@ -45,7 +45,7 @@ namespace Cogito.Composition
     /// Describes a collection of import values.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public interface IImportValueCollection<out T> :
+    public interface IImportValueCollection<T> :
         IEnumerable<T>,
         IObservable<T>,
         INotifyCollectionChanged,

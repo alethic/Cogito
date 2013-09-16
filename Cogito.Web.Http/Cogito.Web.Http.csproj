@@ -131,8 +131,8 @@
     <Compile Include="HttpConfigurationExtensions.cs" />
     <Compile Include="Dependencies\DependencyResolver.cs" />
     <Compile Include="ApiLifecycleComponent.cs" />
-    <Compile Include="IApiConfiguration.cs" />
-    <Compile Include="ApiConfiguration.cs" />
+    <Compile Include="IApiApplication.cs" />
+    <Compile Include="Internal\ApiApplication.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

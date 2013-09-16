@@ -6,16 +6,17 @@ namespace Cogito.Web.Mvc
     /// <summary>
     /// Base MVC lifecycle component that only fires events if MVC is enabled.
     /// </summary>
-    public abstract class MvcLifecycleComponent : LifecycleComponent
+    public abstract class MvcLifecycleComponent :
+        LifecycleComponent<IMvcApplication>
     {
 
         /// <summary>
         /// Initializes a new instance.
         /// </summary>
-        /// <param name="configuration"></param>
+        /// <param name="app"></param>
         public MvcLifecycleComponent(
-            IMvcConfiguration configuration)
-            : base(() => configuration.Available)
+            IMvcApplication app)
+            : base(() => app.Activated)
         {
 
         }

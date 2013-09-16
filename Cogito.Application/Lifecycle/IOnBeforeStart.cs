@@ -4,7 +4,8 @@
     /// <summary>
     /// To be invoked before the application starts.
     /// </summary>
-    public interface IApplicationBeforeStart
+    public interface IOnBeforeStart<T>
+        where T : IApplication
     {
 
         void OnBeforeStart();
