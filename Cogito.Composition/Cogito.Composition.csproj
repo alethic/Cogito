@@ -101,23 +101,31 @@
     <CodeContractsAnalysisWarningLevel>0</CodeContractsAnalysisWarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Irony">
+      <HintPath>..\..\packages\Irony.0.0.0.0-pre1\lib\net45\Irony.dll</HintPath>
+    </Reference>
+    <Reference Include="Irony.Interpreter">
+      <HintPath>..\..\packages\Irony.0.0.0.0-pre1\lib\net45\Irony.Interpreter.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.ComponentModel.Composition.Registration" />
     <Reference Include="System.Core" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Reactive.Core">
-      <HintPath>..\packages\Rx-Core.2.1.30214.0\lib\Net45\System.Reactive.Core.dll</HintPath>
+      <HintPath>..\..\packages\Rx-Core.2.1.30214.0\lib\Net45\System.Reactive.Core.dll</HintPath>
     </Reference>
     <Reference Include="System.Reactive.Interfaces">
-      <HintPath>..\packages\Rx-Interfaces.2.1.30214.0\lib\Net45\System.Reactive.Interfaces.dll</HintPath>
+      <HintPath>..\..\packages\Rx-Interfaces.2.1.30214.0\lib\Net45\System.Reactive.Interfaces.dll</HintPath>
     </Reference>
     <Reference Include="System.Reactive.Linq">
-      <HintPath>..\packages\Rx-Linq.2.1.30214.0\lib\Net45\System.Reactive.Linq.dll</HintPath>
+      <HintPath>..\..\packages\Rx-Linq.2.1.30214.0\lib\Net45\System.Reactive.Linq.dll</HintPath>
     </Reference>
+    <Reference Include="System.Reflection.Context" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CompositionContainerExtensions.cs" />
+    <Compile Include="Hosting\ConcreteTypeExportProvider.cs" />
     <Compile Include="ImportCollectionChangedEventHandler.cs" />
     <Compile Include="ImportChangedEventHandler.cs" />
     <Compile Include="Hosting\ContainerInitInvoker.cs" />
@@ -135,11 +143,15 @@
     <Compile Include="Hosting\FirstOrDefaultExportProvider.cs" />
     <Compile Include="Hosting\Util.cs" />
     <Compile Include="ILazy.cs" />
+    <Compile Include="Internal\ContractTypeNameGrammar.cs" />
+    <Compile Include="Internal\ContractTypeNameResolver.cs" />
     <Compile Include="Internal\Lazy.cs" />
     <Compile Include="IImportValue.cs" />
     <Compile Include="IImportCollection.cs" />
     <Compile Include="ICompositionContext.cs" />
     <Compile Include="Hosting\IContainerInit.cs" />
+    <Compile Include="Metadata\ContractTypeServices.cs" />
+    <Compile Include="Reflection\ConcreteTypeReflectionContext.cs" />
     <Compile Include="Metadata\IMetadata.cs" />
     <Compile Include="Metadata\Metadata.cs" />
     <Compile Include="Metadata\ExportMetadataServices.cs" />

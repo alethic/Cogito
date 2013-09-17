@@ -29,7 +29,7 @@ namespace Cogito.Web.Mvc
 
             // mark MVC as enabled
             composition.GetExportedValue<IMvcApplication>().Activate(http, routes);
-
+            
             return http;
         }
 

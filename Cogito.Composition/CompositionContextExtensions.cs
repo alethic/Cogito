@@ -203,7 +203,7 @@ namespace Cogito.Composition
                 p1);
 
             return cache.GetOrAdd(
-                    lm.ToString(), 
+                    string.Format("GetExportedValue({0})", AttributedModelServices.GetContractName(contractType)), 
                     _ => lm.Compile())
                 .DynamicInvoke(service);
         }
@@ -225,7 +225,7 @@ namespace Cogito.Composition
                 p1, p2);
 
             return cache.GetOrAdd(
-                    lm.ToString(),
+                    string.Format("GetExportedValue({0},{1})", contractName, AttributedModelServices.GetContractName(type)), 
                     _ => lm.Compile())
                 .DynamicInvoke(service);
         }
@@ -245,7 +245,7 @@ namespace Cogito.Composition
                 p1);
 
             return cache.GetOrAdd(
-                    lm.ToString(),
+                    string.Format("GetExportedValueOrDefault({0})", AttributedModelServices.GetContractName(contractType)), 
                     _ => lm.Compile())
                 .DynamicInvoke(service);
         }
@@ -267,7 +267,7 @@ namespace Cogito.Composition
                 p1, p2);
 
             return cache.GetOrAdd(
-                    lm.ToString(),
+                    string.Format("GetExportedValueOrDefault({0},{1})", contractName, AttributedModelServices.GetContractName(type)), 
                     _ => lm.Compile())
                 .DynamicInvoke(service);
         }
@@ -287,7 +287,7 @@ namespace Cogito.Composition
                 p1);
 
             return (IEnumerable<object>)cache.GetOrAdd(
-                    lm.ToString(),
+                    string.Format("GetExportedValues({0})", AttributedModelServices.GetContractName(contractType)), 
                     _ => lm.Compile())
                 .DynamicInvoke(service);
         }
@@ -308,7 +308,7 @@ namespace Cogito.Composition
                 p1, p2);
 
             return (IEnumerable<object>)cache.GetOrAdd(
-                    lm.ToString(),
+                    string.Format("GetExportedValues({0},{1})", contractName, type), 
                     _ => lm.Compile())
                 .DynamicInvoke(service);
         }
