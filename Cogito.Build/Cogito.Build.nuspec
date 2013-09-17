@@ -5,7 +5,7 @@
     <metadata
         xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
         <id>Cogito.Build</id>
-        <version>2013.9.13.1</version>
+        <version>2013.9.16.6</version>
         <authors>Jerome Haltom</authors>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <description>Improved build infrastructure.</description>
@@ -15,6 +15,7 @@
         <licenseUrl>https://raw.github.com/wasabii/Cogito/master/LICENSE</licenseUrl>
         <projectUrl>https://github.com/wasabii/Cogito</projectUrl>
         <tags></tags>
+        <references />
     </metadata>
     <files>
         <file
@@ -22,6 +23,12 @@
             target="content" />
         <file
             src="build\**\*.*"
+            target="build" />
+        <file
+            src="bin\Release\Cogito.Build.dll"
+            target="build" />
+        <file
+            src="bin\Release\Cogito.Build.pdb"
             target="build" />
     </files>
 </package>

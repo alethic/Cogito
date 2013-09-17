@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0"
-         xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+    <PropertyGroup>
+        <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">$(MSBuildProjectDirectory)\..\</SolutionDir>
+    </PropertyGroup>
+
+    <PropertyGroup Condition=" '$(OS)' == 'Windows_NT'">
+        <!-- Windows specific commands -->
+        <PackagesDir>$([System.IO.Path]::Combine($(SolutionDir), "packages"))</PackagesDir>
+    </PropertyGroup>
 
     <PropertyGroup>
         <AssemblyVersionPath>$([System.IO.Path]::Combine($(ProjectDir), "Properties\AssemblyVersion.cs"))</AssemblyVersionPath>
@@ -8,11 +17,16 @@
 
         <!-- Make the build depend on restore packages -->
         <BuildDependsOn>
+            _UpdateProjectFilePaths;
             _UpdateAssemblyVersion;
             _UpdateNuspecVersion;
             $(BuildDependsOn);
         </BuildDependsOn>
     </PropertyGroup>
+
+    <Target Name="_UpdateProjectFilePaths" Condition="Exists('$(MSBuildProjectFile)')">
+        <UpdatePackagesDirPaths MSBuildProjectFile="$(MSBuildProjectFile)" />
+    </Target>
 
     <Target Name="_UpdateAssemblyVersion" Condition="Exists('$(AssemblyVersionPath)')">
         <UpdateAssemblyVersion OutputFilename="$(AssemblyVersionPath)" />
@@ -21,6 +35,10 @@
     <Target Name="_UpdateNuspecVersion" Condition="Exists('$(NuspecPath)')">
         <UpdateNuspecVersion OutputFilename="$(NuspecPath)" />
     </Target>
+
+    <UsingTask
+        TaskName="Cogito.Build.UpdatePackagesDirPaths"
+        AssemblyFile="Cogito.Build.dll" />
 
     <UsingTask
         TaskName="UpdateAssemblyVersion"
