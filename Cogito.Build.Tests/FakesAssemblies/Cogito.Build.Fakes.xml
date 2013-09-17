@@ -1,0 +1,140 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Cogito.Build.Fakes</name>
+    </assembly>
+    <members>
+        <member name="T:Cogito.Build.Fakes.ShimUpdatePackagesDirPaths">
+            <summary>Shim type of Cogito.Build.UpdatePackagesDirPaths</summary>
+        </member>
+        <member name="M:Cogito.Build.Fakes.ShimUpdatePackagesDirPaths.#ctor">
+            <summary>Initializes a new shim instance</summary>
+        </member>
+        <member name="M:Cogito.Build.Fakes.ShimUpdatePackagesDirPaths.#ctor(Cogito.Build.UpdatePackagesDirPaths)">
+            <summary>Initializes a new shim for the given instance</summary>
+        </member>
+        <member name="M:Cogito.Build.Fakes.ShimUpdatePackagesDirPaths.BehaveAsCurrent">
+            <summary>Assigns the &apos;Current&apos; behavior for all methods of the shimmed type</summary>
+        </member>
+        <member name="M:Cogito.Build.Fakes.ShimUpdatePackagesDirPaths.BehaveAsNotImplemented">
+            <summary>Assigns the &apos;NotImplemented&apos; behavior for all methods of the shimmed type</summary>
+        </member>
+        <member name="M:Cogito.Build.Fakes.ShimUpdatePackagesDirPaths.Bind(Microsoft.Build.Framework.ITask)">
+            <summary>Binds the members of the interface to the shim.</summary>
+        </member>
+        <member name="P:Cogito.Build.Fakes.ShimUpdatePackagesDirPaths.Behavior">
+            <summary>Assigns the behavior for all methods of the shimmed type</summary>
+        </member>
+        <member name="P:Cogito.Build.Fakes.ShimUpdatePackagesDirPaths.Constructor">
+            <summary>Sets the shim of UpdatePackagesDirPaths.UpdatePackagesDirPaths()</summary>
+        </member>
+        <member name="P:Cogito.Build.Fakes.ShimUpdatePackagesDirPaths.Execute">
+            <summary>Sets the shim of UpdatePackagesDirPaths.Execute()</summary>
+        </member>
+        <member name="P:Cogito.Build.Fakes.ShimUpdatePackagesDirPaths.ExecuteITaskItem">
+            <summary>Sets the shim of UpdatePackagesDirPaths.Execute(ITaskItem file)</summary>
+        </member>
+        <member name="P:Cogito.Build.Fakes.ShimUpdatePackagesDirPaths.ExecuteString">
+            <summary>Sets the shim of UpdatePackagesDirPaths.Execute(String file)</summary>
+        </member>
+        <member name="P:Cogito.Build.Fakes.ShimUpdatePackagesDirPaths.FixPathString">
+            <summary>Sets the shim of UpdatePackagesDirPaths.FixPath(String path)</summary>
+        </member>
+        <member name="P:Cogito.Build.Fakes.ShimUpdatePackagesDirPaths.FixUpBuildImportPropsStringXDocument">
+            <summary>Sets the shim of UpdatePackagesDirPaths.FixUpBuildImportProps(String file, XDocument xml)</summary>
+        </member>
+        <member name="P:Cogito.Build.Fakes.ShimUpdatePackagesDirPaths.FixUpBuildImportTargetsStringXDocument">
+            <summary>Sets the shim of UpdatePackagesDirPaths.FixUpBuildImportTargets(String file, XDocument xml)</summary>
+        </member>
+        <member name="P:Cogito.Build.Fakes.ShimUpdatePackagesDirPaths.FixUpXAttribute">
+            <summary>Sets the shim of UpdatePackagesDirPaths.FixUp(XAttribute attribute)</summary>
+        </member>
+        <member name="P:Cogito.Build.Fakes.ShimUpdatePackagesDirPaths.FixUpXElement">
+            <summary>Sets the shim of UpdatePackagesDirPaths.FixUp(XElement element)</summary>
+        </member>
+        <member name="P:Cogito.Build.Fakes.ShimUpdatePackagesDirPaths.GetPathAttributeString">
+            <summary>Sets the shim of UpdatePackagesDirPaths.GetPathAttribute(String path)</summary>
+        </member>
+        <member name="P:Cogito.Build.Fakes.ShimUpdatePackagesDirPaths.GetPropsFile">
+            <summary>Sets the shim of UpdatePackagesDirPaths.GetPropsFile()</summary>
+        </member>
+        <member name="P:Cogito.Build.Fakes.ShimUpdatePackagesDirPaths.GetRelativePathStringString">
+            <summary>Sets the shim of UpdatePackagesDirPaths.GetRelativePath(String fromPath, String toPath)</summary>
+        </member>
+        <member name="P:Cogito.Build.Fakes.ShimUpdatePackagesDirPaths.GetTargetFile">
+            <summary>Sets the shim of UpdatePackagesDirPaths.GetTargetFile()</summary>
+        </member>
+        <member name="P:Cogito.Build.Fakes.ShimUpdatePackagesDirPaths.MSBuildProjectFileGet">
+            <summary>Sets the shim of UpdatePackagesDirPaths.get_MSBuildProjectFile()</summary>
+        </member>
+        <member name="P:Cogito.Build.Fakes.ShimUpdatePackagesDirPaths.MSBuildProjectFileSetITaskItemArray">
+            <summary>Sets the shim of UpdatePackagesDirPaths.set_MSBuildProjectFile(ITaskItem[] value)</summary>
+        </member>
+        <member name="P:Cogito.Build.Fakes.ShimUpdatePackagesDirPaths.StaticConstructor">
+            <summary>Sets the shim of UpdatePackagesDirPaths.UpdatePackagesDirPaths()</summary>
+        </member>
+        <member name="T:Cogito.Build.Fakes.ShimUpdatePackagesDirPaths.AllInstances">
+            <summary>Define shims for all instances members</summary>
+        </member>
+        <member name="P:Cogito.Build.Fakes.ShimUpdatePackagesDirPaths.AllInstances.Execute">
+            <summary>Sets the shim of UpdatePackagesDirPaths.Execute()</summary>
+        </member>
+        <member name="P:Cogito.Build.Fakes.ShimUpdatePackagesDirPaths.AllInstances.ExecuteITaskItem">
+            <summary>Sets the shim of UpdatePackagesDirPaths.Execute(ITaskItem file)</summary>
+        </member>
+        <member name="P:Cogito.Build.Fakes.ShimUpdatePackagesDirPaths.AllInstances.ExecuteString">
+            <summary>Sets the shim of UpdatePackagesDirPaths.Execute(String file)</summary>
+        </member>
+        <member name="P:Cogito.Build.Fakes.ShimUpdatePackagesDirPaths.AllInstances.FixPathString">
+            <summary>Sets the shim of UpdatePackagesDirPaths.FixPath(String path)</summary>
+        </member>
+        <member name="P:Cogito.Build.Fakes.ShimUpdatePackagesDirPaths.AllInstances.FixUpBuildImportPropsStringXDocument">
+            <summary>Sets the shim of UpdatePackagesDirPaths.FixUpBuildImportProps(String file, XDocument xml)</summary>
+        </member>
+        <member name="P:Cogito.Build.Fakes.ShimUpdatePackagesDirPaths.AllInstances.FixUpBuildImportTargetsStringXDocument">
+            <summary>Sets the shim of UpdatePackagesDirPaths.FixUpBuildImportTargets(String file, XDocument xml)</summary>
+        </member>
+        <member name="P:Cogito.Build.Fakes.ShimUpdatePackagesDirPaths.AllInstances.FixUpXAttribute">
+            <summary>Sets the shim of UpdatePackagesDirPaths.FixUp(XAttribute attribute)</summary>
+        </member>
+        <member name="P:Cogito.Build.Fakes.ShimUpdatePackagesDirPaths.AllInstances.FixUpXElement">
+            <summary>Sets the shim of UpdatePackagesDirPaths.FixUp(XElement element)</summary>
+        </member>
+        <member name="P:Cogito.Build.Fakes.ShimUpdatePackagesDirPaths.AllInstances.GetPropsFile">
+            <summary>Sets the shim of UpdatePackagesDirPaths.GetPropsFile()</summary>
+        </member>
+        <member name="P:Cogito.Build.Fakes.ShimUpdatePackagesDirPaths.AllInstances.GetTargetFile">
+            <summary>Sets the shim of UpdatePackagesDirPaths.GetTargetFile()</summary>
+        </member>
+        <member name="P:Cogito.Build.Fakes.ShimUpdatePackagesDirPaths.AllInstances.MSBuildProjectFileGet">
+            <summary>Sets the shim of UpdatePackagesDirPaths.get_MSBuildProjectFile()</summary>
+        </member>
+        <member name="P:Cogito.Build.Fakes.ShimUpdatePackagesDirPaths.AllInstances.MSBuildProjectFileSetITaskItemArray">
+            <summary>Sets the shim of UpdatePackagesDirPaths.set_MSBuildProjectFile(ITaskItem[] value)</summary>
+        </member>
+        <member name="T:Cogito.Build.Fakes.StubUpdatePackagesDirPaths">
+            <summary>Stub type of Cogito.Build.UpdatePackagesDirPaths</summary>
+        </member>
+        <member name="M:Cogito.Build.Fakes.StubUpdatePackagesDirPaths.#ctor">
+            <summary>Initializes a new instance</summary>
+        </member>
+        <member name="M:Cogito.Build.Fakes.StubUpdatePackagesDirPaths.Execute">
+            <summary>Sets the stub of UpdatePackagesDirPaths.Execute()</summary>
+        </member>
+        <member name="F:Cogito.Build.Fakes.StubUpdatePackagesDirPaths.Execute01">
+            <summary>Sets the stub of UpdatePackagesDirPaths.Execute()</summary>
+        </member>
+        <member name="M:Cogito.Build.Fakes.StubUpdatePackagesDirPaths.InitializeStub">
+            <summary>Initializes a new instance of type StubUpdatePackagesDirPaths</summary>
+        </member>
+        <member name="P:Cogito.Build.Fakes.StubUpdatePackagesDirPaths.CallBase">
+            <summary>Gets or sets a value that indicates if the base method should be called instead of the fallback behavior</summary>
+        </member>
+        <member name="P:Cogito.Build.Fakes.StubUpdatePackagesDirPaths.InstanceBehavior">
+            <summary>Gets or sets the instance behavior.</summary>
+        </member>
+        <member name="P:Cogito.Build.Fakes.StubUpdatePackagesDirPaths.InstanceObserver">
+            <summary>Gets or sets the instance observer.</summary>
+        </member>
+    </members>
+</doc>
