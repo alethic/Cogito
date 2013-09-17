@@ -17,15 +17,20 @@
 
         <!-- Make the build depend on restore packages -->
         <BuildDependsOn>
-            _UpdateProjectFilePaths;
+            _FixUpNuGetProps;
+            _FixUpProjectFile;
             _UpdateAssemblyVersion;
             _UpdateNuspecVersion;
             $(BuildDependsOn);
         </BuildDependsOn>
     </PropertyGroup>
 
-    <Target Name="_UpdateProjectFilePaths" Condition="Exists('$(MSBuildProjectFile)')">
-        <UpdatePackagesDirPaths MSBuildProjectFile="$(MSBuildProjectFile)" />
+    <Target Name="_FixUpNuGetProps" Condition="Exists('$(MSBuildProjectFile)')">
+        <FixUpNuGetProps SolutionDir="$(SolutionDir)" MSBuildProjectFile="$(MSBuildProjectFile)" />
+    </Target>
+
+    <Target Name="_FixUpProjectFile" Condition="Exists('$(MSBuildProjectFile)')">
+        <FixUpProjectFile MSBuildProjectFile="$(MSBuildProjectFile)" />
     </Target>
 
     <Target Name="_UpdateAssemblyVersion" Condition="Exists('$(AssemblyVersionPath)')">
@@ -37,7 +42,11 @@
     </Target>
 
     <UsingTask
-        TaskName="Cogito.Build.UpdatePackagesDirPaths"
+        TaskName="Cogito.Build.Tasks.FixUpNuGetProps"
+        AssemblyFile="Cogito.Build.dll" />
+
+    <UsingTask
+        TaskName="Cogito.Build.Tasks.FixUpProjectFile"
         AssemblyFile="Cogito.Build.dll" />
 
     <UsingTask
