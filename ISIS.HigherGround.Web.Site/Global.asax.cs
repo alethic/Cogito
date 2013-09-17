@@ -1,7 +1,9 @@
 ﻿using System.Web;
-using Cogito.Application;
+using System.Web.Routing;
+
+using Cogito.Application.Lifecycle;
 using Cogito.Composition;
-using Cogito.Web;
+using Cogito.Composition.Hosting;
 using Cogito.Web.Mvc;
 
 namespace ISIS.HigherGround.Web.Site
@@ -10,7 +12,11 @@ namespace ISIS.HigherGround.Web.Site
     public class Global : HttpApplication
     {
 
-        public static readonly ICompositionContext CompositionContext = new ApplicationCompositionContext();
+        public static readonly ICompositionContext CompositionContext = 
+            new DefaultCompositionContainer();
+
+        public static readonly ILifecycleManager<IMvcApplication> MvcLifecycle =
+            CompositionContext.GetExportedValue<ILifecycleManager<IMvcApplication>>();
 
         /// <summary>
         /// Initializes a new instance.
@@ -18,15 +24,12 @@ namespace ISIS.HigherGround.Web.Site
         public Global()
             : base()
         {
-            // configure MVC with container
-            this.WithComposition(CompositionContext);
-            this.WithMvcComposition(CompositionContext);
+            this.WithMvcComposition(CompositionContext, RouteTable.Routes);
         }
 
         public void Application_Start()
         {
-            CompositionContext.GetExportedValue<IApplicationLifecycleManager>()
-                .Start();
+            MvcLifecycle.Start();
         }
 
     }

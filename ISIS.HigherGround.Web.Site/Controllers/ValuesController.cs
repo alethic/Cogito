@@ -1,10 +1,11 @@
-﻿using System.ComponentModel.Composition;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
+
+using Cogito.Web.Mvc;
 
 namespace ISIS.HigherGround.Web.Site.Controllers
 {
 
-    [Export(typeof(IController))]
+    [Controller]
     [RoutePrefix("test")]
     public class ValuesController : Controller
     {
