@@ -1,8 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-    <Import Project="$(SolutionDir)\.nuget\NuGet.props"
-            Condition="Exists('$(SolutionDir)\.nuget\NuGet.props')" />
-    <Import Project="$(PackagesDir)\Cogito.Build.2013.9.16.6\build\Cogito.Build.props" Condition="Exists('$(PackagesDir)\Cogito.Build.2013.9.16.6\build\Cogito.Build.props')" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.props" Condition="Exists('$(SolutionDir)\.nuget\NuGet.props')" />
+  <Import Project="$(PackagesDir)\Cogito.Build.2013.9.16.6\build\Cogito.Build.props" Condition="Exists('$(PackagesDir)\Cogito.Build.2013.9.16.6\build\Cogito.Build.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -154,6 +153,7 @@
     <Compile Include="ICompositionContext.cs" />
     <Compile Include="Hosting\IContainerInit.cs" />
     <Compile Include="Metadata\ContractTypeServices.cs" />
+    <Compile Include="Properties\AssemblyVersion.cs" />
     <Compile Include="Reflection\ConcreteTypeReflectionContext.cs" />
     <Compile Include="Metadata\IMetadata.cs" />
     <Compile Include="Metadata\Metadata.cs" />
@@ -170,6 +170,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="Properties\Cogito.Composition.nuspec" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Cogito.Linq\Cogito.Linq.csproj">
@@ -179,7 +180,6 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
-  
   <Import Project="$(PackagesDir)\Cogito.Build.2013.9.16.6\build\Cogito.Build.targets" Condition="Exists('$(PackagesDir)\Cogito.Build.2013.9.16.6\build\Cogito.Build.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
