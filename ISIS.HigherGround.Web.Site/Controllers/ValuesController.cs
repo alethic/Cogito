@@ -1,5 +1,6 @@
-﻿using System.ComponentModel.Composition;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
+
+using Cogito.Web.Mvc;
 
 using Cogito.Web.Mvc;
 
