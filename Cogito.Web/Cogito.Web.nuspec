@@ -1,8 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
+
 <package xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
     <metadata xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
         <id>Cogito.Web</id>
-        <version>2013.9.18.405</version>
+        <version>$version$-pre</version>
         <authors>Jerome Haltom</authors>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <description>Set of libraries for ASP.Net MVC hosting.</description>
@@ -22,9 +23,9 @@
         <tags>mef</tags>
     </metadata>
     <files>
-        <file src="bin\Release\Cogito.Web.dll" target="lib\net45" />
-        <file src="bin\Release\Cogito.Web.pdb" target="lib\net45" />
-        <file src="bin\Release\CodeContracts\Cogito.Web.Contracts.dll" target="lib\net45" />
-        <file src="bin\Release\CodeContracts\Cogito.Web.Contracts.pdb" target="lib\net45" />
+        <file src="bin\$configuration$\Cogito.Web.dll" target="lib\net45" />
+        <file src="bin\$configuration$\Cogito.Web.pdb" target="lib\net45" />
+        <file src="bin\$configuration$\CodeContracts\Cogito.Web.Contracts.dll" target="lib\net45" />
+        <file src="bin\$configuration$\CodeContracts\Cogito.Web.Contracts.pdb" target="lib\net45" />
     </files>
 </package>
