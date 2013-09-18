@@ -2,8 +2,6 @@
 
 using Cogito.Web.Mvc;
 
-using Cogito.Web.Mvc;
-
 namespace ISIS.HigherGround.Web.Site.Controllers
 {
 
