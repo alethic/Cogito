@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.IO;
 using System.Linq;
 using System.Xml.Linq;
-
 using Microsoft.Build.Framework;
 
 namespace Cogito.Build.Tasks
@@ -81,6 +81,8 @@ namespace Cogito.Build.Tasks
         /// <param name="element"></param>
         void Process(XElement element)
         {
+            Contract.Requires<ArgumentNullException>(element != null);
+
             // process attributes
             foreach (var attribute in element.Attributes())
                 Process(attribute);

@@ -76,10 +76,6 @@
       <HintPath>FakesAssemblies\Cogito.Build.Fakes.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Build.Framework" />
-    <Reference Include="Microsoft.Build.Framework.4.0.0.0.Fakes">
-      <HintPath>FakesAssemblies\Microsoft.Build.Framework.4.0.0.0.Fakes.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Build.Tasks.v4.0" />
     <Reference Include="Microsoft.Build.Utilities.v4.0" />
     <Reference Include="Microsoft.QualityTools.Testing.Fakes, Version=11.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="System" />
@@ -108,9 +104,6 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Fakes Include="Fakes\Microsoft.Build.Framework.fakes" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\Cogito.Build\Cogito.Build.csproj">
       <Project>{943e311a-79ae-47ea-b5b3-ee0afd4c4e3b}</Project>
       <Name>Cogito.Build</Name>
@@ -118,6 +111,9 @@
   </ItemGroup>
   <ItemGroup>
     <Fakes Include="Fakes\Cogito.Build.fakes" />
+  </ItemGroup>
+  <ItemGroup>
+    <Fakes Include="Fakes\Microsoft.Build.Framework.fakes" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

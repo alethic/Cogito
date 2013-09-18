@@ -1,7 +1,8 @@
-﻿using System.IO;
+﻿using System;
+using System.Diagnostics.Contracts;
+using System.IO;
 using System.Linq;
 using System.Xml.Linq;
-
 using Microsoft.Build.Framework;
 
 namespace Cogito.Build.Tasks
@@ -96,6 +97,8 @@ namespace Cogito.Build.Tasks
         /// <returns></returns>
         void FixUpBuildImportProps(string file, XDocument xml)
         {
+            Contract.Requires<ArgumentNullException>(xml != null);
+
             // path to props file from SolutionDir
             var path = GetRelativePath(PackagesDir, Path.GetFullPath(GetPropsFile()));
             path = Path.Combine(@"$(PackagesDir)", path);
@@ -145,6 +148,8 @@ namespace Cogito.Build.Tasks
 
         void FixUpBuildImportTargets(string file, XDocument xml)
         {
+            Contract.Requires<ArgumentNullException>(xml != null);
+
             // path to props file from SolutionDir
             var path = GetRelativePath(PackagesDir, Path.GetFullPath(GetTargetFile()));
             path = Path.Combine(@"$(PackagesDir)", path);

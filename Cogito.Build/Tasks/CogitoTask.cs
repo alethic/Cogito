@@ -84,6 +84,8 @@ namespace Cogito.Build.Tasks
         /// <param name="value"></param>
         protected static void SetElementValue(XElement element, string value)
         {
+            Contract.Requires<ArgumentNullException>(element != null);
+
             if (element.Value != value)
                 element.Value = value;
         }
@@ -95,6 +97,8 @@ namespace Cogito.Build.Tasks
         /// <param name="value"></param>
         protected static void SetAttributeValue(XAttribute attribute, string value)
         {
+            Contract.Requires<ArgumentNullException>(attribute != null);
+
             if (attribute.Value != value)
                 attribute.Value = value;
         }

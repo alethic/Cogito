@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using Cogito.Build.Tasks;
 using Cogito.Build.Tasks.Fakes;
-using Microsoft.Build.Framework.Fakes;
+
 using Microsoft.QualityTools.Testing.Fakes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -42,7 +42,7 @@ namespace Cogito.Build.Tests
 
                 t.ProjectFileGet = () => "Test.csproj";
                 t.VariablesGet = () => new[] { 
-                    new StubITaskItem2() { ItemSpecGet = () => "PackagesDir", GetMetadataString = i => packagesDir } };
+                    new StubITaskItem() { ItemSpecGet = () => "PackagesDir", GetMetadataString = i => packagesDir } };
 
                 t.Instance.Execute();
             }
