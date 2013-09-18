@@ -4,319 +4,394 @@
         <name>Cogito.Build.Fakes</name>
     </assembly>
     <members>
-        <member name="T:Cogito.Build.Tasks.Fakes.ShimFixUpNuGetProps">
-            <summary>Shim type of Cogito.Build.Tasks.FixUpNuGetProps</summary>
+        <member name="T:Cogito.Build.Tasks.Fakes.ShimCogitoTask">
+            <summary>Shim type of Cogito.Build.Tasks.CogitoTask</summary>
         </member>
-        <member name="M:Cogito.Build.Tasks.Fakes.ShimFixUpNuGetProps.#ctor">
-            <summary>Initializes a new shim instance</summary>
-        </member>
-        <member name="M:Cogito.Build.Tasks.Fakes.ShimFixUpNuGetProps.#ctor(Cogito.Build.Tasks.FixUpNuGetProps)">
+        <member name="M:Cogito.Build.Tasks.Fakes.ShimCogitoTask.#ctor(Cogito.Build.Tasks.CogitoTask)">
             <summary>Initializes a new shim for the given instance</summary>
         </member>
-        <member name="M:Cogito.Build.Tasks.Fakes.ShimFixUpNuGetProps.BehaveAsCurrent">
+        <member name="M:Cogito.Build.Tasks.Fakes.ShimCogitoTask.BehaveAsCurrent">
             <summary>Assigns the &apos;Current&apos; behavior for all methods of the shimmed type</summary>
         </member>
-        <member name="M:Cogito.Build.Tasks.Fakes.ShimFixUpNuGetProps.BehaveAsNotImplemented">
+        <member name="M:Cogito.Build.Tasks.Fakes.ShimCogitoTask.BehaveAsNotImplemented">
             <summary>Assigns the &apos;NotImplemented&apos; behavior for all methods of the shimmed type</summary>
         </member>
-        <member name="M:Cogito.Build.Tasks.Fakes.ShimFixUpNuGetProps.Bind(Microsoft.Build.Framework.ITask)">
+        <member name="M:Cogito.Build.Tasks.Fakes.ShimCogitoTask.Bind(Microsoft.Build.Framework.ITask)">
             <summary>Binds the members of the interface to the shim.</summary>
         </member>
-        <member name="P:Cogito.Build.Tasks.Fakes.ShimFixUpNuGetProps.Behavior">
+        <member name="P:Cogito.Build.Tasks.Fakes.ShimCogitoTask.Behavior">
             <summary>Assigns the behavior for all methods of the shimmed type</summary>
         </member>
-        <member name="P:Cogito.Build.Tasks.Fakes.ShimFixUpNuGetProps.Constructor">
-            <summary>Sets the shim of FixUpNuGetProps.FixUpNuGetProps()</summary>
+        <member name="P:Cogito.Build.Tasks.Fakes.ShimCogitoTask.Constructor">
+            <summary>Sets the shim of CogitoTask.CogitoTask()</summary>
         </member>
-        <member name="P:Cogito.Build.Tasks.Fakes.ShimFixUpNuGetProps.EnsureNuGetPropsFile">
-            <summary>Sets the shim of FixUpNuGetProps.EnsureNuGetPropsFile()</summary>
+        <member name="P:Cogito.Build.Tasks.Fakes.ShimCogitoTask.GetPathAttributeString">
+            <summary>Sets the shim of CogitoTask.GetPathAttribute(String path)</summary>
         </member>
-        <member name="P:Cogito.Build.Tasks.Fakes.ShimFixUpNuGetProps.Execute">
-            <summary>Sets the shim of FixUpNuGetProps.Execute()</summary>
+        <member name="P:Cogito.Build.Tasks.Fakes.ShimCogitoTask.GetRelativePathStringString">
+            <summary>Sets the shim of CogitoTask.GetRelativePath(String fromPath, String toPath)</summary>
         </member>
-        <member name="P:Cogito.Build.Tasks.Fakes.ShimFixUpNuGetProps.ExecuteString">
-            <summary>Sets the shim of FixUpNuGetProps.Execute(String file)</summary>
+        <member name="P:Cogito.Build.Tasks.Fakes.ShimCogitoTask.SetAttributeValueXAttributeString">
+            <summary>Sets the shim of CogitoTask.SetAttributeValue(XAttribute attribute, String value)</summary>
         </member>
-        <member name="P:Cogito.Build.Tasks.Fakes.ShimFixUpNuGetProps.FixUpStringXDocument">
-            <summary>Sets the shim of FixUpNuGetProps.FixUp(String file, XDocument xml)</summary>
+        <member name="P:Cogito.Build.Tasks.Fakes.ShimCogitoTask.SetElementValueXElementString">
+            <summary>Sets the shim of CogitoTask.SetElementValue(XElement element, String value)</summary>
         </member>
-        <member name="P:Cogito.Build.Tasks.Fakes.ShimFixUpNuGetProps.GetProjectFile">
-            <summary>Sets the shim of FixUpNuGetProps.GetProjectFile()</summary>
+        <member name="P:Cogito.Build.Tasks.Fakes.ShimCogitoTask.StaticConstructor">
+            <summary>Sets the shim of CogitoTask.CogitoTask()</summary>
         </member>
-        <member name="P:Cogito.Build.Tasks.Fakes.ShimFixUpNuGetProps.GetSolutionDir">
-            <summary>Sets the shim of FixUpNuGetProps.GetSolutionDir()</summary>
-        </member>
-        <member name="P:Cogito.Build.Tasks.Fakes.ShimFixUpNuGetProps.GetSourceDir">
-            <summary>Sets the shim of FixUpNuGetProps.GetSourceDir()</summary>
-        </member>
-        <member name="P:Cogito.Build.Tasks.Fakes.ShimFixUpNuGetProps.ProjectFileGet">
-            <summary>Sets the shim of FixUpNuGetProps.get_ProjectFile()</summary>
-        </member>
-        <member name="P:Cogito.Build.Tasks.Fakes.ShimFixUpNuGetProps.ProjectFileSetITaskItem">
-            <summary>Sets the shim of FixUpNuGetProps.set_ProjectFile(ITaskItem value)</summary>
-        </member>
-        <member name="P:Cogito.Build.Tasks.Fakes.ShimFixUpNuGetProps.SolutionDirGet">
-            <summary>Sets the shim of FixUpNuGetProps.get_SolutionDir()</summary>
-        </member>
-        <member name="P:Cogito.Build.Tasks.Fakes.ShimFixUpNuGetProps.SolutionDirSetITaskItem">
-            <summary>Sets the shim of FixUpNuGetProps.set_SolutionDir(ITaskItem value)</summary>
-        </member>
-        <member name="P:Cogito.Build.Tasks.Fakes.ShimFixUpNuGetProps.StaticConstructor">
-            <summary>Sets the shim of FixUpNuGetProps.FixUpNuGetProps()</summary>
-        </member>
-        <member name="P:Cogito.Build.Tasks.Fakes.ShimFixUpNuGetProps._FixUpb__3XElement">
-            <summary>Sets the shim of FixUpNuGetProps.&lt;FixUp&gt;b__3(XElement i)</summary>
-        </member>
-        <member name="T:Cogito.Build.Tasks.Fakes.ShimFixUpNuGetProps.AllInstances">
+        <member name="T:Cogito.Build.Tasks.Fakes.ShimCogitoTask.AllInstances">
             <summary>Define shims for all instances members</summary>
         </member>
-        <member name="P:Cogito.Build.Tasks.Fakes.ShimFixUpNuGetProps.AllInstances.EnsureNuGetPropsFile">
-            <summary>Sets the shim of FixUpNuGetProps.EnsureNuGetPropsFile()</summary>
+        <member name="T:Cogito.Build.Tasks.Fakes.ShimGenerateAssemblyVersionTask">
+            <summary>Shim type of Cogito.Build.Tasks.GenerateAssemblyVersionTask</summary>
         </member>
-        <member name="P:Cogito.Build.Tasks.Fakes.ShimFixUpNuGetProps.AllInstances.Execute">
-            <summary>Sets the shim of FixUpNuGetProps.Execute()</summary>
-        </member>
-        <member name="P:Cogito.Build.Tasks.Fakes.ShimFixUpNuGetProps.AllInstances.ExecuteString">
-            <summary>Sets the shim of FixUpNuGetProps.Execute(String file)</summary>
-        </member>
-        <member name="P:Cogito.Build.Tasks.Fakes.ShimFixUpNuGetProps.AllInstances.FixUpStringXDocument">
-            <summary>Sets the shim of FixUpNuGetProps.FixUp(String file, XDocument xml)</summary>
-        </member>
-        <member name="P:Cogito.Build.Tasks.Fakes.ShimFixUpNuGetProps.AllInstances.GetProjectFile">
-            <summary>Sets the shim of FixUpNuGetProps.GetProjectFile()</summary>
-        </member>
-        <member name="P:Cogito.Build.Tasks.Fakes.ShimFixUpNuGetProps.AllInstances.GetSolutionDir">
-            <summary>Sets the shim of FixUpNuGetProps.GetSolutionDir()</summary>
-        </member>
-        <member name="P:Cogito.Build.Tasks.Fakes.ShimFixUpNuGetProps.AllInstances.GetSourceDir">
-            <summary>Sets the shim of FixUpNuGetProps.GetSourceDir()</summary>
-        </member>
-        <member name="P:Cogito.Build.Tasks.Fakes.ShimFixUpNuGetProps.AllInstances.ProjectFileGet">
-            <summary>Sets the shim of FixUpNuGetProps.get_ProjectFile()</summary>
-        </member>
-        <member name="P:Cogito.Build.Tasks.Fakes.ShimFixUpNuGetProps.AllInstances.ProjectFileSetITaskItem">
-            <summary>Sets the shim of FixUpNuGetProps.set_ProjectFile(ITaskItem value)</summary>
-        </member>
-        <member name="P:Cogito.Build.Tasks.Fakes.ShimFixUpNuGetProps.AllInstances.SolutionDirGet">
-            <summary>Sets the shim of FixUpNuGetProps.get_SolutionDir()</summary>
-        </member>
-        <member name="P:Cogito.Build.Tasks.Fakes.ShimFixUpNuGetProps.AllInstances.SolutionDirSetITaskItem">
-            <summary>Sets the shim of FixUpNuGetProps.set_SolutionDir(ITaskItem value)</summary>
-        </member>
-        <member name="T:Cogito.Build.Tasks.Fakes.ShimFixUpProjectFile">
-            <summary>Shim type of Cogito.Build.Tasks.FixUpProjectFile</summary>
-        </member>
-        <member name="M:Cogito.Build.Tasks.Fakes.ShimFixUpProjectFile.#ctor">
+        <member name="M:Cogito.Build.Tasks.Fakes.ShimGenerateAssemblyVersionTask.#ctor">
             <summary>Initializes a new shim instance</summary>
         </member>
-        <member name="M:Cogito.Build.Tasks.Fakes.ShimFixUpProjectFile.#ctor(Cogito.Build.Tasks.FixUpProjectFile)">
+        <member name="M:Cogito.Build.Tasks.Fakes.ShimGenerateAssemblyVersionTask.#ctor(Cogito.Build.Tasks.GenerateAssemblyVersionTask)">
             <summary>Initializes a new shim for the given instance</summary>
         </member>
-        <member name="M:Cogito.Build.Tasks.Fakes.ShimFixUpProjectFile.BehaveAsCurrent">
+        <member name="M:Cogito.Build.Tasks.Fakes.ShimGenerateAssemblyVersionTask.BehaveAsCurrent">
             <summary>Assigns the &apos;Current&apos; behavior for all methods of the shimmed type</summary>
         </member>
-        <member name="M:Cogito.Build.Tasks.Fakes.ShimFixUpProjectFile.BehaveAsNotImplemented">
+        <member name="M:Cogito.Build.Tasks.Fakes.ShimGenerateAssemblyVersionTask.BehaveAsNotImplemented">
             <summary>Assigns the &apos;NotImplemented&apos; behavior for all methods of the shimmed type</summary>
         </member>
-        <member name="M:Cogito.Build.Tasks.Fakes.ShimFixUpProjectFile.Bind(Microsoft.Build.Framework.ITask)">
+        <member name="M:Cogito.Build.Tasks.Fakes.ShimGenerateAssemblyVersionTask.Bind(Microsoft.Build.Framework.ITask)">
             <summary>Binds the members of the interface to the shim.</summary>
         </member>
-        <member name="P:Cogito.Build.Tasks.Fakes.ShimFixUpProjectFile.Behavior">
+        <member name="P:Cogito.Build.Tasks.Fakes.ShimGenerateAssemblyVersionTask.Behavior">
             <summary>Assigns the behavior for all methods of the shimmed type</summary>
         </member>
-        <member name="P:Cogito.Build.Tasks.Fakes.ShimFixUpProjectFile.Constructor">
-            <summary>Sets the shim of FixUpProjectFile.FixUpProjectFile()</summary>
+        <member name="P:Cogito.Build.Tasks.Fakes.ShimGenerateAssemblyVersionTask.Constructor">
+            <summary>Sets the shim of GenerateAssemblyVersionTask.GenerateAssemblyVersionTask()</summary>
         </member>
-        <member name="P:Cogito.Build.Tasks.Fakes.ShimFixUpProjectFile.Execute">
-            <summary>Sets the shim of FixUpProjectFile.Execute()</summary>
+        <member name="P:Cogito.Build.Tasks.Fakes.ShimGenerateAssemblyVersionTask.Execute">
+            <summary>Sets the shim of GenerateAssemblyVersionTask.Execute()</summary>
         </member>
-        <member name="P:Cogito.Build.Tasks.Fakes.ShimFixUpProjectFile.ExecuteString">
-            <summary>Sets the shim of FixUpProjectFile.Execute(String file)</summary>
+        <member name="P:Cogito.Build.Tasks.Fakes.ShimGenerateAssemblyVersionTask.OutputFileGet">
+            <summary>Sets the shim of GenerateAssemblyVersionTask.get_OutputFile()</summary>
         </member>
-        <member name="P:Cogito.Build.Tasks.Fakes.ShimFixUpProjectFile.FixPathString">
-            <summary>Sets the shim of FixUpProjectFile.FixPath(String path)</summary>
+        <member name="P:Cogito.Build.Tasks.Fakes.ShimGenerateAssemblyVersionTask.OutputFileSetString">
+            <summary>Sets the shim of GenerateAssemblyVersionTask.set_OutputFile(String value)</summary>
         </member>
-        <member name="P:Cogito.Build.Tasks.Fakes.ShimFixUpProjectFile.FixUpBuildImportPropsStringXDocument">
-            <summary>Sets the shim of FixUpProjectFile.FixUpBuildImportProps(String file, XDocument xml)</summary>
-        </member>
-        <member name="P:Cogito.Build.Tasks.Fakes.ShimFixUpProjectFile.FixUpBuildImportTargetsStringXDocument">
-            <summary>Sets the shim of FixUpProjectFile.FixUpBuildImportTargets(String file, XDocument xml)</summary>
-        </member>
-        <member name="P:Cogito.Build.Tasks.Fakes.ShimFixUpProjectFile.FixUpXAttribute">
-            <summary>Sets the shim of FixUpProjectFile.FixUp(XAttribute attribute)</summary>
-        </member>
-        <member name="P:Cogito.Build.Tasks.Fakes.ShimFixUpProjectFile.FixUpXElement">
-            <summary>Sets the shim of FixUpProjectFile.FixUp(XElement element)</summary>
-        </member>
-        <member name="P:Cogito.Build.Tasks.Fakes.ShimFixUpProjectFile.GetPackagesDir">
-            <summary>Sets the shim of FixUpProjectFile.GetPackagesDir()</summary>
-        </member>
-        <member name="P:Cogito.Build.Tasks.Fakes.ShimFixUpProjectFile.GetPathAttributeString">
-            <summary>Sets the shim of FixUpProjectFile.GetPathAttribute(String path)</summary>
-        </member>
-        <member name="P:Cogito.Build.Tasks.Fakes.ShimFixUpProjectFile.GetProjectFile">
-            <summary>Sets the shim of FixUpProjectFile.GetProjectFile()</summary>
-        </member>
-        <member name="P:Cogito.Build.Tasks.Fakes.ShimFixUpProjectFile.GetPropsFile">
-            <summary>Sets the shim of FixUpProjectFile.GetPropsFile()</summary>
-        </member>
-        <member name="P:Cogito.Build.Tasks.Fakes.ShimFixUpProjectFile.GetRelativePathStringString">
-            <summary>Sets the shim of FixUpProjectFile.GetRelativePath(String fromPath, String toPath)</summary>
-        </member>
-        <member name="P:Cogito.Build.Tasks.Fakes.ShimFixUpProjectFile.GetSolutionDir">
-            <summary>Sets the shim of FixUpProjectFile.GetSolutionDir()</summary>
-        </member>
-        <member name="P:Cogito.Build.Tasks.Fakes.ShimFixUpProjectFile.GetTargetFile">
-            <summary>Sets the shim of FixUpProjectFile.GetTargetFile()</summary>
-        </member>
-        <member name="P:Cogito.Build.Tasks.Fakes.ShimFixUpProjectFile.PackagesDirGet">
-            <summary>Sets the shim of FixUpProjectFile.get_PackagesDir()</summary>
-        </member>
-        <member name="P:Cogito.Build.Tasks.Fakes.ShimFixUpProjectFile.PackagesDirSetITaskItem">
-            <summary>Sets the shim of FixUpProjectFile.set_PackagesDir(ITaskItem value)</summary>
-        </member>
-        <member name="P:Cogito.Build.Tasks.Fakes.ShimFixUpProjectFile.ProjectFileGet">
-            <summary>Sets the shim of FixUpProjectFile.get_ProjectFile()</summary>
-        </member>
-        <member name="P:Cogito.Build.Tasks.Fakes.ShimFixUpProjectFile.ProjectFileSetITaskItem">
-            <summary>Sets the shim of FixUpProjectFile.set_ProjectFile(ITaskItem value)</summary>
-        </member>
-        <member name="P:Cogito.Build.Tasks.Fakes.ShimFixUpProjectFile.SetAttributeValueXAttributeString">
-            <summary>Sets the shim of FixUpProjectFile.SetAttributeValue(XAttribute attribute, String value)</summary>
-        </member>
-        <member name="P:Cogito.Build.Tasks.Fakes.ShimFixUpProjectFile.SetElementValueXElementString">
-            <summary>Sets the shim of FixUpProjectFile.SetElementValue(XElement element, String value)</summary>
-        </member>
-        <member name="P:Cogito.Build.Tasks.Fakes.ShimFixUpProjectFile.SolutionDirGet">
-            <summary>Sets the shim of FixUpProjectFile.get_SolutionDir()</summary>
-        </member>
-        <member name="P:Cogito.Build.Tasks.Fakes.ShimFixUpProjectFile.SolutionDirSetITaskItem">
-            <summary>Sets the shim of FixUpProjectFile.set_SolutionDir(ITaskItem value)</summary>
-        </member>
-        <member name="P:Cogito.Build.Tasks.Fakes.ShimFixUpProjectFile.StaticConstructor">
-            <summary>Sets the shim of FixUpProjectFile.FixUpProjectFile()</summary>
-        </member>
-        <member name="P:Cogito.Build.Tasks.Fakes.ShimFixUpProjectFile._FixUpBuildImportPropsb__3XElement">
-            <summary>Sets the shim of FixUpProjectFile.&lt;FixUpBuildImportProps&gt;b__3(XElement i)</summary>
-        </member>
-        <member name="P:Cogito.Build.Tasks.Fakes.ShimFixUpProjectFile._FixUpBuildImportPropsb__5XElement">
-            <summary>Sets the shim of FixUpProjectFile.&lt;FixUpBuildImportProps&gt;b__5(XElement i)</summary>
-        </member>
-        <member name="P:Cogito.Build.Tasks.Fakes.ShimFixUpProjectFile._FixUpBuildImportPropsb__6XElement">
-            <summary>Sets the shim of FixUpProjectFile.&lt;FixUpBuildImportProps&gt;b__6(XElement i)</summary>
-        </member>
-        <member name="P:Cogito.Build.Tasks.Fakes.ShimFixUpProjectFile._FixUpBuildImportTargetsb__cXElement">
-            <summary>Sets the shim of FixUpProjectFile.&lt;FixUpBuildImportTargets&gt;b__c(XElement i)</summary>
-        </member>
-        <member name="P:Cogito.Build.Tasks.Fakes.ShimFixUpProjectFile._FixUpBuildImportTargetsb__eXElement">
-            <summary>Sets the shim of FixUpProjectFile.&lt;FixUpBuildImportTargets&gt;b__e(XElement i)</summary>
-        </member>
-        <member name="P:Cogito.Build.Tasks.Fakes.ShimFixUpProjectFile._FixUpBuildImportTargetsb__fXElement">
-            <summary>Sets the shim of FixUpProjectFile.&lt;FixUpBuildImportTargets&gt;b__f(XElement i)</summary>
-        </member>
-        <member name="T:Cogito.Build.Tasks.Fakes.ShimFixUpProjectFile.AllInstances">
+        <member name="T:Cogito.Build.Tasks.Fakes.ShimGenerateAssemblyVersionTask.AllInstances">
             <summary>Define shims for all instances members</summary>
         </member>
-        <member name="P:Cogito.Build.Tasks.Fakes.ShimFixUpProjectFile.AllInstances.Execute">
-            <summary>Sets the shim of FixUpProjectFile.Execute()</summary>
+        <member name="P:Cogito.Build.Tasks.Fakes.ShimGenerateAssemblyVersionTask.AllInstances.Execute">
+            <summary>Sets the shim of GenerateAssemblyVersionTask.Execute()</summary>
         </member>
-        <member name="P:Cogito.Build.Tasks.Fakes.ShimFixUpProjectFile.AllInstances.ExecuteString">
-            <summary>Sets the shim of FixUpProjectFile.Execute(String file)</summary>
+        <member name="P:Cogito.Build.Tasks.Fakes.ShimGenerateAssemblyVersionTask.AllInstances.OutputFileGet">
+            <summary>Sets the shim of GenerateAssemblyVersionTask.get_OutputFile()</summary>
         </member>
-        <member name="P:Cogito.Build.Tasks.Fakes.ShimFixUpProjectFile.AllInstances.FixPathString">
-            <summary>Sets the shim of FixUpProjectFile.FixPath(String path)</summary>
+        <member name="P:Cogito.Build.Tasks.Fakes.ShimGenerateAssemblyVersionTask.AllInstances.OutputFileSetString">
+            <summary>Sets the shim of GenerateAssemblyVersionTask.set_OutputFile(String value)</summary>
         </member>
-        <member name="P:Cogito.Build.Tasks.Fakes.ShimFixUpProjectFile.AllInstances.FixUpBuildImportPropsStringXDocument">
-            <summary>Sets the shim of FixUpProjectFile.FixUpBuildImportProps(String file, XDocument xml)</summary>
+        <member name="T:Cogito.Build.Tasks.Fakes.ShimInstallBuildPropsTask">
+            <summary>Shim type of Cogito.Build.Tasks.InstallBuildPropsTask</summary>
         </member>
-        <member name="P:Cogito.Build.Tasks.Fakes.ShimFixUpProjectFile.AllInstances.FixUpBuildImportTargetsStringXDocument">
-            <summary>Sets the shim of FixUpProjectFile.FixUpBuildImportTargets(String file, XDocument xml)</summary>
+        <member name="M:Cogito.Build.Tasks.Fakes.ShimInstallBuildPropsTask.#ctor">
+            <summary>Initializes a new shim instance</summary>
         </member>
-        <member name="P:Cogito.Build.Tasks.Fakes.ShimFixUpProjectFile.AllInstances.FixUpXAttribute">
-            <summary>Sets the shim of FixUpProjectFile.FixUp(XAttribute attribute)</summary>
+        <member name="M:Cogito.Build.Tasks.Fakes.ShimInstallBuildPropsTask.#ctor(Cogito.Build.Tasks.InstallBuildPropsTask)">
+            <summary>Initializes a new shim for the given instance</summary>
         </member>
-        <member name="P:Cogito.Build.Tasks.Fakes.ShimFixUpProjectFile.AllInstances.FixUpXElement">
-            <summary>Sets the shim of FixUpProjectFile.FixUp(XElement element)</summary>
+        <member name="M:Cogito.Build.Tasks.Fakes.ShimInstallBuildPropsTask.BehaveAsCurrent">
+            <summary>Assigns the &apos;Current&apos; behavior for all methods of the shimmed type</summary>
         </member>
-        <member name="P:Cogito.Build.Tasks.Fakes.ShimFixUpProjectFile.AllInstances.GetPackagesDir">
-            <summary>Sets the shim of FixUpProjectFile.GetPackagesDir()</summary>
+        <member name="M:Cogito.Build.Tasks.Fakes.ShimInstallBuildPropsTask.BehaveAsNotImplemented">
+            <summary>Assigns the &apos;NotImplemented&apos; behavior for all methods of the shimmed type</summary>
         </member>
-        <member name="P:Cogito.Build.Tasks.Fakes.ShimFixUpProjectFile.AllInstances.GetProjectFile">
-            <summary>Sets the shim of FixUpProjectFile.GetProjectFile()</summary>
+        <member name="M:Cogito.Build.Tasks.Fakes.ShimInstallBuildPropsTask.Bind(Microsoft.Build.Framework.ITask)">
+            <summary>Binds the members of the interface to the shim.</summary>
         </member>
-        <member name="P:Cogito.Build.Tasks.Fakes.ShimFixUpProjectFile.AllInstances.GetPropsFile">
-            <summary>Sets the shim of FixUpProjectFile.GetPropsFile()</summary>
+        <member name="P:Cogito.Build.Tasks.Fakes.ShimInstallBuildPropsTask.Behavior">
+            <summary>Assigns the behavior for all methods of the shimmed type</summary>
         </member>
-        <member name="P:Cogito.Build.Tasks.Fakes.ShimFixUpProjectFile.AllInstances.GetSolutionDir">
-            <summary>Sets the shim of FixUpProjectFile.GetSolutionDir()</summary>
+        <member name="P:Cogito.Build.Tasks.Fakes.ShimInstallBuildPropsTask.Constructor">
+            <summary>Sets the shim of InstallBuildPropsTask.InstallBuildPropsTask()</summary>
         </member>
-        <member name="P:Cogito.Build.Tasks.Fakes.ShimFixUpProjectFile.AllInstances.GetTargetFile">
-            <summary>Sets the shim of FixUpProjectFile.GetTargetFile()</summary>
+        <member name="P:Cogito.Build.Tasks.Fakes.ShimInstallBuildPropsTask.Execute">
+            <summary>Sets the shim of InstallBuildPropsTask.Execute()</summary>
         </member>
-        <member name="P:Cogito.Build.Tasks.Fakes.ShimFixUpProjectFile.AllInstances.PackagesDirGet">
-            <summary>Sets the shim of FixUpProjectFile.get_PackagesDir()</summary>
+        <member name="P:Cogito.Build.Tasks.Fakes.ShimInstallBuildPropsTask.ExecuteString">
+            <summary>Sets the shim of InstallBuildPropsTask.Execute(String file)</summary>
         </member>
-        <member name="P:Cogito.Build.Tasks.Fakes.ShimFixUpProjectFile.AllInstances.PackagesDirSetITaskItem">
-            <summary>Sets the shim of FixUpProjectFile.set_PackagesDir(ITaskItem value)</summary>
+        <member name="P:Cogito.Build.Tasks.Fakes.ShimInstallBuildPropsTask.FixUpBuildImportPropsStringXDocument">
+            <summary>Sets the shim of InstallBuildPropsTask.FixUpBuildImportProps(String file, XDocument xml)</summary>
         </member>
-        <member name="P:Cogito.Build.Tasks.Fakes.ShimFixUpProjectFile.AllInstances.ProjectFileGet">
-            <summary>Sets the shim of FixUpProjectFile.get_ProjectFile()</summary>
+        <member name="P:Cogito.Build.Tasks.Fakes.ShimInstallBuildPropsTask.FixUpBuildImportTargetsStringXDocument">
+            <summary>Sets the shim of InstallBuildPropsTask.FixUpBuildImportTargets(String file, XDocument xml)</summary>
         </member>
-        <member name="P:Cogito.Build.Tasks.Fakes.ShimFixUpProjectFile.AllInstances.ProjectFileSetITaskItem">
-            <summary>Sets the shim of FixUpProjectFile.set_ProjectFile(ITaskItem value)</summary>
+        <member name="P:Cogito.Build.Tasks.Fakes.ShimInstallBuildPropsTask.GetPropsFile">
+            <summary>Sets the shim of InstallBuildPropsTask.GetPropsFile()</summary>
         </member>
-        <member name="P:Cogito.Build.Tasks.Fakes.ShimFixUpProjectFile.AllInstances.SolutionDirGet">
-            <summary>Sets the shim of FixUpProjectFile.get_SolutionDir()</summary>
+        <member name="P:Cogito.Build.Tasks.Fakes.ShimInstallBuildPropsTask.GetTargetFile">
+            <summary>Sets the shim of InstallBuildPropsTask.GetTargetFile()</summary>
         </member>
-        <member name="P:Cogito.Build.Tasks.Fakes.ShimFixUpProjectFile.AllInstances.SolutionDirSetITaskItem">
-            <summary>Sets the shim of FixUpProjectFile.set_SolutionDir(ITaskItem value)</summary>
+        <member name="P:Cogito.Build.Tasks.Fakes.ShimInstallBuildPropsTask.PackagesDirGet">
+            <summary>Sets the shim of InstallBuildPropsTask.get_PackagesDir()</summary>
         </member>
-        <member name="T:Cogito.Build.Tasks.Fakes.StubFixUpNuGetProps">
-            <summary>Stub type of Cogito.Build.Tasks.FixUpNuGetProps</summary>
+        <member name="P:Cogito.Build.Tasks.Fakes.ShimInstallBuildPropsTask.PackagesDirSetString">
+            <summary>Sets the shim of InstallBuildPropsTask.set_PackagesDir(String value)</summary>
         </member>
-        <member name="M:Cogito.Build.Tasks.Fakes.StubFixUpNuGetProps.#ctor">
+        <member name="P:Cogito.Build.Tasks.Fakes.ShimInstallBuildPropsTask.ProjectFileGet">
+            <summary>Sets the shim of InstallBuildPropsTask.get_ProjectFile()</summary>
+        </member>
+        <member name="P:Cogito.Build.Tasks.Fakes.ShimInstallBuildPropsTask.ProjectFileSetString">
+            <summary>Sets the shim of InstallBuildPropsTask.set_ProjectFile(String value)</summary>
+        </member>
+        <member name="P:Cogito.Build.Tasks.Fakes.ShimInstallBuildPropsTask.SolutionDirGet">
+            <summary>Sets the shim of InstallBuildPropsTask.get_SolutionDir()</summary>
+        </member>
+        <member name="P:Cogito.Build.Tasks.Fakes.ShimInstallBuildPropsTask.SolutionDirSetString">
+            <summary>Sets the shim of InstallBuildPropsTask.set_SolutionDir(String value)</summary>
+        </member>
+        <member name="P:Cogito.Build.Tasks.Fakes.ShimInstallBuildPropsTask._FixUpBuildImportPropsb__0XElement">
+            <summary>Sets the shim of InstallBuildPropsTask.&lt;FixUpBuildImportProps&gt;b__0(XElement i)</summary>
+        </member>
+        <member name="P:Cogito.Build.Tasks.Fakes.ShimInstallBuildPropsTask._FixUpBuildImportPropsb__2XElement">
+            <summary>Sets the shim of InstallBuildPropsTask.&lt;FixUpBuildImportProps&gt;b__2(XElement i)</summary>
+        </member>
+        <member name="P:Cogito.Build.Tasks.Fakes.ShimInstallBuildPropsTask._FixUpBuildImportPropsb__3XElement">
+            <summary>Sets the shim of InstallBuildPropsTask.&lt;FixUpBuildImportProps&gt;b__3(XElement i)</summary>
+        </member>
+        <member name="P:Cogito.Build.Tasks.Fakes.ShimInstallBuildPropsTask._FixUpBuildImportTargetsb__9XElement">
+            <summary>Sets the shim of InstallBuildPropsTask.&lt;FixUpBuildImportTargets&gt;b__9(XElement i)</summary>
+        </member>
+        <member name="P:Cogito.Build.Tasks.Fakes.ShimInstallBuildPropsTask._FixUpBuildImportTargetsb__bXElement">
+            <summary>Sets the shim of InstallBuildPropsTask.&lt;FixUpBuildImportTargets&gt;b__b(XElement i)</summary>
+        </member>
+        <member name="P:Cogito.Build.Tasks.Fakes.ShimInstallBuildPropsTask._FixUpBuildImportTargetsb__cXElement">
+            <summary>Sets the shim of InstallBuildPropsTask.&lt;FixUpBuildImportTargets&gt;b__c(XElement i)</summary>
+        </member>
+        <member name="T:Cogito.Build.Tasks.Fakes.ShimInstallBuildPropsTask.AllInstances">
+            <summary>Define shims for all instances members</summary>
+        </member>
+        <member name="P:Cogito.Build.Tasks.Fakes.ShimInstallBuildPropsTask.AllInstances.Execute">
+            <summary>Sets the shim of InstallBuildPropsTask.Execute()</summary>
+        </member>
+        <member name="P:Cogito.Build.Tasks.Fakes.ShimInstallBuildPropsTask.AllInstances.ExecuteString">
+            <summary>Sets the shim of InstallBuildPropsTask.Execute(String file)</summary>
+        </member>
+        <member name="P:Cogito.Build.Tasks.Fakes.ShimInstallBuildPropsTask.AllInstances.FixUpBuildImportPropsStringXDocument">
+            <summary>Sets the shim of InstallBuildPropsTask.FixUpBuildImportProps(String file, XDocument xml)</summary>
+        </member>
+        <member name="P:Cogito.Build.Tasks.Fakes.ShimInstallBuildPropsTask.AllInstances.FixUpBuildImportTargetsStringXDocument">
+            <summary>Sets the shim of InstallBuildPropsTask.FixUpBuildImportTargets(String file, XDocument xml)</summary>
+        </member>
+        <member name="P:Cogito.Build.Tasks.Fakes.ShimInstallBuildPropsTask.AllInstances.GetPropsFile">
+            <summary>Sets the shim of InstallBuildPropsTask.GetPropsFile()</summary>
+        </member>
+        <member name="P:Cogito.Build.Tasks.Fakes.ShimInstallBuildPropsTask.AllInstances.GetTargetFile">
+            <summary>Sets the shim of InstallBuildPropsTask.GetTargetFile()</summary>
+        </member>
+        <member name="P:Cogito.Build.Tasks.Fakes.ShimInstallBuildPropsTask.AllInstances.PackagesDirGet">
+            <summary>Sets the shim of InstallBuildPropsTask.get_PackagesDir()</summary>
+        </member>
+        <member name="P:Cogito.Build.Tasks.Fakes.ShimInstallBuildPropsTask.AllInstances.PackagesDirSetString">
+            <summary>Sets the shim of InstallBuildPropsTask.set_PackagesDir(String value)</summary>
+        </member>
+        <member name="P:Cogito.Build.Tasks.Fakes.ShimInstallBuildPropsTask.AllInstances.ProjectFileGet">
+            <summary>Sets the shim of InstallBuildPropsTask.get_ProjectFile()</summary>
+        </member>
+        <member name="P:Cogito.Build.Tasks.Fakes.ShimInstallBuildPropsTask.AllInstances.ProjectFileSetString">
+            <summary>Sets the shim of InstallBuildPropsTask.set_ProjectFile(String value)</summary>
+        </member>
+        <member name="P:Cogito.Build.Tasks.Fakes.ShimInstallBuildPropsTask.AllInstances.SolutionDirGet">
+            <summary>Sets the shim of InstallBuildPropsTask.get_SolutionDir()</summary>
+        </member>
+        <member name="P:Cogito.Build.Tasks.Fakes.ShimInstallBuildPropsTask.AllInstances.SolutionDirSetString">
+            <summary>Sets the shim of InstallBuildPropsTask.set_SolutionDir(String value)</summary>
+        </member>
+        <member name="T:Cogito.Build.Tasks.Fakes.ShimMakeRelativePathsTask">
+            <summary>Shim type of Cogito.Build.Tasks.MakeRelativePathsTask</summary>
+        </member>
+        <member name="M:Cogito.Build.Tasks.Fakes.ShimMakeRelativePathsTask.#ctor">
+            <summary>Initializes a new shim instance</summary>
+        </member>
+        <member name="M:Cogito.Build.Tasks.Fakes.ShimMakeRelativePathsTask.#ctor(Cogito.Build.Tasks.MakeRelativePathsTask)">
+            <summary>Initializes a new shim for the given instance</summary>
+        </member>
+        <member name="M:Cogito.Build.Tasks.Fakes.ShimMakeRelativePathsTask.BehaveAsCurrent">
+            <summary>Assigns the &apos;Current&apos; behavior for all methods of the shimmed type</summary>
+        </member>
+        <member name="M:Cogito.Build.Tasks.Fakes.ShimMakeRelativePathsTask.BehaveAsNotImplemented">
+            <summary>Assigns the &apos;NotImplemented&apos; behavior for all methods of the shimmed type</summary>
+        </member>
+        <member name="M:Cogito.Build.Tasks.Fakes.ShimMakeRelativePathsTask.Bind(Microsoft.Build.Framework.ITask)">
+            <summary>Binds the members of the interface to the shim.</summary>
+        </member>
+        <member name="P:Cogito.Build.Tasks.Fakes.ShimMakeRelativePathsTask.Behavior">
+            <summary>Assigns the behavior for all methods of the shimmed type</summary>
+        </member>
+        <member name="P:Cogito.Build.Tasks.Fakes.ShimMakeRelativePathsTask.Constructor">
+            <summary>Sets the shim of MakeRelativePathsTask.MakeRelativePathsTask()</summary>
+        </member>
+        <member name="P:Cogito.Build.Tasks.Fakes.ShimMakeRelativePathsTask.Execute">
+            <summary>Sets the shim of MakeRelativePathsTask.Execute()</summary>
+        </member>
+        <member name="P:Cogito.Build.Tasks.Fakes.ShimMakeRelativePathsTask.ProcessStringActionOfString">
+            <summary>Sets the shim of MakeRelativePathsTask.Process(String value, Action`1&lt;String&gt; set)</summary>
+        </member>
+        <member name="P:Cogito.Build.Tasks.Fakes.ShimMakeRelativePathsTask.ProcessXAttribute">
+            <summary>Sets the shim of MakeRelativePathsTask.Process(XAttribute attribute)</summary>
+        </member>
+        <member name="P:Cogito.Build.Tasks.Fakes.ShimMakeRelativePathsTask.ProcessXElement">
+            <summary>Sets the shim of MakeRelativePathsTask.Process(XElement element)</summary>
+        </member>
+        <member name="P:Cogito.Build.Tasks.Fakes.ShimMakeRelativePathsTask.ProjectFileGet">
+            <summary>Sets the shim of MakeRelativePathsTask.get_ProjectFile()</summary>
+        </member>
+        <member name="P:Cogito.Build.Tasks.Fakes.ShimMakeRelativePathsTask.ProjectFileSetString">
+            <summary>Sets the shim of MakeRelativePathsTask.set_ProjectFile(String value)</summary>
+        </member>
+        <member name="P:Cogito.Build.Tasks.Fakes.ShimMakeRelativePathsTask.VariablesGet">
+            <summary>Sets the shim of MakeRelativePathsTask.get_Variables()</summary>
+        </member>
+        <member name="P:Cogito.Build.Tasks.Fakes.ShimMakeRelativePathsTask.VariablesSetITaskItemArray">
+            <summary>Sets the shim of MakeRelativePathsTask.set_Variables(ITaskItem[] value)</summary>
+        </member>
+        <member name="T:Cogito.Build.Tasks.Fakes.ShimMakeRelativePathsTask.AllInstances">
+            <summary>Define shims for all instances members</summary>
+        </member>
+        <member name="P:Cogito.Build.Tasks.Fakes.ShimMakeRelativePathsTask.AllInstances.Execute">
+            <summary>Sets the shim of MakeRelativePathsTask.Execute()</summary>
+        </member>
+        <member name="P:Cogito.Build.Tasks.Fakes.ShimMakeRelativePathsTask.AllInstances.ProcessStringActionOfString">
+            <summary>Sets the shim of MakeRelativePathsTask.Process(String value, Action`1&lt;String&gt; set)</summary>
+        </member>
+        <member name="P:Cogito.Build.Tasks.Fakes.ShimMakeRelativePathsTask.AllInstances.ProcessXAttribute">
+            <summary>Sets the shim of MakeRelativePathsTask.Process(XAttribute attribute)</summary>
+        </member>
+        <member name="P:Cogito.Build.Tasks.Fakes.ShimMakeRelativePathsTask.AllInstances.ProcessXElement">
+            <summary>Sets the shim of MakeRelativePathsTask.Process(XElement element)</summary>
+        </member>
+        <member name="P:Cogito.Build.Tasks.Fakes.ShimMakeRelativePathsTask.AllInstances.ProjectFileGet">
+            <summary>Sets the shim of MakeRelativePathsTask.get_ProjectFile()</summary>
+        </member>
+        <member name="P:Cogito.Build.Tasks.Fakes.ShimMakeRelativePathsTask.AllInstances.ProjectFileSetString">
+            <summary>Sets the shim of MakeRelativePathsTask.set_ProjectFile(String value)</summary>
+        </member>
+        <member name="P:Cogito.Build.Tasks.Fakes.ShimMakeRelativePathsTask.AllInstances.VariablesGet">
+            <summary>Sets the shim of MakeRelativePathsTask.get_Variables()</summary>
+        </member>
+        <member name="P:Cogito.Build.Tasks.Fakes.ShimMakeRelativePathsTask.AllInstances.VariablesSetITaskItemArray">
+            <summary>Sets the shim of MakeRelativePathsTask.set_Variables(ITaskItem[] value)</summary>
+        </member>
+        <member name="T:Cogito.Build.Tasks.Fakes.ShimXDocumentExtensions">
+            <summary>Shim type of Cogito.Build.Tasks.XDocumentExtensions</summary>
+        </member>
+        <member name="M:Cogito.Build.Tasks.Fakes.ShimXDocumentExtensions.#ctor">
+            <summary>Initializes a new shim instance</summary>
+        </member>
+        <member name="M:Cogito.Build.Tasks.Fakes.ShimXDocumentExtensions.BehaveAsCurrent">
+            <summary>Assigns the &apos;Current&apos; behavior for all methods of the shimmed type</summary>
+        </member>
+        <member name="M:Cogito.Build.Tasks.Fakes.ShimXDocumentExtensions.BehaveAsNotImplemented">
+            <summary>Assigns the &apos;NotImplemented&apos; behavior for all methods of the shimmed type</summary>
+        </member>
+        <member name="P:Cogito.Build.Tasks.Fakes.ShimXDocumentExtensions.Behavior">
+            <summary>Assigns the behavior for all methods of the shimmed type</summary>
+        </member>
+        <member name="P:Cogito.Build.Tasks.Fakes.ShimXDocumentExtensions.UpdateXDocumentString">
+            <summary>Sets the shim of XDocumentExtensions.Update(XDocument document, String fileName)</summary>
+        </member>
+        <member name="T:Cogito.Build.Tasks.Fakes.StubCogitoTask">
+            <summary>Stub type of Cogito.Build.Tasks.CogitoTask</summary>
+        </member>
+        <member name="M:Cogito.Build.Tasks.Fakes.StubCogitoTask.#ctor">
             <summary>Initializes a new instance</summary>
         </member>
-        <member name="M:Cogito.Build.Tasks.Fakes.StubFixUpNuGetProps.Execute">
-            <summary>Sets the stub of FixUpNuGetProps.Execute()</summary>
+        <member name="M:Cogito.Build.Tasks.Fakes.StubCogitoTask.Execute">
+            <summary>Sets the stub of Task.Execute()</summary>
         </member>
-        <member name="F:Cogito.Build.Tasks.Fakes.StubFixUpNuGetProps.Execute01">
-            <summary>Sets the stub of FixUpNuGetProps.Execute()</summary>
+        <member name="F:Cogito.Build.Tasks.Fakes.StubCogitoTask.Execute01">
+            <summary>Sets the stub of Task.Execute()</summary>
         </member>
-        <member name="M:Cogito.Build.Tasks.Fakes.StubFixUpNuGetProps.InitializeStub">
-            <summary>Initializes a new instance of type StubFixUpNuGetProps</summary>
+        <member name="M:Cogito.Build.Tasks.Fakes.StubCogitoTask.InitializeStub">
+            <summary>Initializes a new instance of type StubCogitoTask</summary>
         </member>
-        <member name="P:Cogito.Build.Tasks.Fakes.StubFixUpNuGetProps.CallBase">
+        <member name="P:Cogito.Build.Tasks.Fakes.StubCogitoTask.CallBase">
             <summary>Gets or sets a value that indicates if the base method should be called instead of the fallback behavior</summary>
         </member>
-        <member name="P:Cogito.Build.Tasks.Fakes.StubFixUpNuGetProps.InstanceBehavior">
+        <member name="P:Cogito.Build.Tasks.Fakes.StubCogitoTask.InstanceBehavior">
             <summary>Gets or sets the instance behavior.</summary>
         </member>
-        <member name="P:Cogito.Build.Tasks.Fakes.StubFixUpNuGetProps.InstanceObserver">
+        <member name="P:Cogito.Build.Tasks.Fakes.StubCogitoTask.InstanceObserver">
             <summary>Gets or sets the instance observer.</summary>
         </member>
-        <member name="T:Cogito.Build.Tasks.Fakes.StubFixUpProjectFile">
-            <summary>Stub type of Cogito.Build.Tasks.FixUpProjectFile</summary>
+        <member name="T:Cogito.Build.Tasks.Fakes.StubGenerateAssemblyVersionTask">
+            <summary>Stub type of Cogito.Build.Tasks.GenerateAssemblyVersionTask</summary>
         </member>
-        <member name="M:Cogito.Build.Tasks.Fakes.StubFixUpProjectFile.#ctor">
+        <member name="M:Cogito.Build.Tasks.Fakes.StubGenerateAssemblyVersionTask.#ctor">
             <summary>Initializes a new instance</summary>
         </member>
-        <member name="M:Cogito.Build.Tasks.Fakes.StubFixUpProjectFile.Execute">
-            <summary>Sets the stub of FixUpProjectFile.Execute()</summary>
+        <member name="M:Cogito.Build.Tasks.Fakes.StubGenerateAssemblyVersionTask.Execute">
+            <summary>Sets the stub of GenerateAssemblyVersionTask.Execute()</summary>
         </member>
-        <member name="F:Cogito.Build.Tasks.Fakes.StubFixUpProjectFile.Execute01">
-            <summary>Sets the stub of FixUpProjectFile.Execute()</summary>
+        <member name="F:Cogito.Build.Tasks.Fakes.StubGenerateAssemblyVersionTask.Execute01">
+            <summary>Sets the stub of GenerateAssemblyVersionTask.Execute()</summary>
         </member>
-        <member name="M:Cogito.Build.Tasks.Fakes.StubFixUpProjectFile.InitializeStub">
-            <summary>Initializes a new instance of type StubFixUpProjectFile</summary>
+        <member name="M:Cogito.Build.Tasks.Fakes.StubGenerateAssemblyVersionTask.InitializeStub">
+            <summary>Initializes a new instance of type StubGenerateAssemblyVersionTask</summary>
         </member>
-        <member name="P:Cogito.Build.Tasks.Fakes.StubFixUpProjectFile.CallBase">
+        <member name="P:Cogito.Build.Tasks.Fakes.StubGenerateAssemblyVersionTask.CallBase">
             <summary>Gets or sets a value that indicates if the base method should be called instead of the fallback behavior</summary>
         </member>
-        <member name="P:Cogito.Build.Tasks.Fakes.StubFixUpProjectFile.InstanceBehavior">
+        <member name="P:Cogito.Build.Tasks.Fakes.StubGenerateAssemblyVersionTask.InstanceBehavior">
             <summary>Gets or sets the instance behavior.</summary>
         </member>
-        <member name="P:Cogito.Build.Tasks.Fakes.StubFixUpProjectFile.InstanceObserver">
+        <member name="P:Cogito.Build.Tasks.Fakes.StubGenerateAssemblyVersionTask.InstanceObserver">
+            <summary>Gets or sets the instance observer.</summary>
+        </member>
+        <member name="T:Cogito.Build.Tasks.Fakes.StubInstallBuildPropsTask">
+            <summary>Stub type of Cogito.Build.Tasks.InstallBuildPropsTask</summary>
+        </member>
+        <member name="M:Cogito.Build.Tasks.Fakes.StubInstallBuildPropsTask.#ctor">
+            <summary>Initializes a new instance</summary>
+        </member>
+        <member name="M:Cogito.Build.Tasks.Fakes.StubInstallBuildPropsTask.Execute">
+            <summary>Sets the stub of InstallBuildPropsTask.Execute()</summary>
+        </member>
+        <member name="F:Cogito.Build.Tasks.Fakes.StubInstallBuildPropsTask.Execute01">
+            <summary>Sets the stub of InstallBuildPropsTask.Execute()</summary>
+        </member>
+        <member name="M:Cogito.Build.Tasks.Fakes.StubInstallBuildPropsTask.InitializeStub">
+            <summary>Initializes a new instance of type StubInstallBuildPropsTask</summary>
+        </member>
+        <member name="P:Cogito.Build.Tasks.Fakes.StubInstallBuildPropsTask.CallBase">
+            <summary>Gets or sets a value that indicates if the base method should be called instead of the fallback behavior</summary>
+        </member>
+        <member name="P:Cogito.Build.Tasks.Fakes.StubInstallBuildPropsTask.InstanceBehavior">
+            <summary>Gets or sets the instance behavior.</summary>
+        </member>
+        <member name="P:Cogito.Build.Tasks.Fakes.StubInstallBuildPropsTask.InstanceObserver">
+            <summary>Gets or sets the instance observer.</summary>
+        </member>
+        <member name="T:Cogito.Build.Tasks.Fakes.StubMakeRelativePathsTask">
+            <summary>Stub type of Cogito.Build.Tasks.MakeRelativePathsTask</summary>
+        </member>
+        <member name="M:Cogito.Build.Tasks.Fakes.StubMakeRelativePathsTask.#ctor">
+            <summary>Initializes a new instance</summary>
+        </member>
+        <member name="M:Cogito.Build.Tasks.Fakes.StubMakeRelativePathsTask.Execute">
+            <summary>Sets the stub of MakeRelativePathsTask.Execute()</summary>
+        </member>
+        <member name="F:Cogito.Build.Tasks.Fakes.StubMakeRelativePathsTask.Execute01">
+            <summary>Sets the stub of MakeRelativePathsTask.Execute()</summary>
+        </member>
+        <member name="M:Cogito.Build.Tasks.Fakes.StubMakeRelativePathsTask.InitializeStub">
+            <summary>Initializes a new instance of type StubMakeRelativePathsTask</summary>
+        </member>
+        <member name="P:Cogito.Build.Tasks.Fakes.StubMakeRelativePathsTask.CallBase">
+            <summary>Gets or sets a value that indicates if the base method should be called instead of the fallback behavior</summary>
+        </member>
+        <member name="P:Cogito.Build.Tasks.Fakes.StubMakeRelativePathsTask.InstanceBehavior">
+            <summary>Gets or sets the instance behavior.</summary>
+        </member>
+        <member name="P:Cogito.Build.Tasks.Fakes.StubMakeRelativePathsTask.InstanceObserver">
             <summary>Gets or sets the instance observer.</summary>
         </member>
     </members>

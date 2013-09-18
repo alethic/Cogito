@@ -4,7 +4,7 @@
 
     <metadata xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
         <id>Cogito.Application</id>
-        <version>2013.9.17.1358</version>
+        <version>2013.9.18.837</version>
         <authors>Jerome Haltom</authors>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <description>Set of libraries for writing applications.</description>

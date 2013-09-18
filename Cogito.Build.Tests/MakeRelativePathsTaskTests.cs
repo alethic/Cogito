@@ -1,9 +1,7 @@
 ﻿using System.IO;
 using Cogito.Build.Tasks;
 using Cogito.Build.Tasks.Fakes;
-
-using Microsoft.Build.Framework;
-using Microsoft.Build.Utilities;
+using Microsoft.Build.Framework.Fakes;
 using Microsoft.QualityTools.Testing.Fakes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -11,16 +9,15 @@ namespace Cogito.Build.Tests
 {
 
     [TestClass]
-    public class FixUpProjectFileTests
+    public class MakeRelativePathsTaskTests
     {
 
         [TestMethod]
-        public void FixUpProjectFileTest1()
+        public void MakeRelativePathsTaskTest1()
         {
             using (var s = ShimsContext.Create())
             {
-                var t = new ShimFixUpProjectFile(new FixUpProjectFile());
-
+                var t = new ShimMakeRelativePathsTask(new MakeRelativePathsTask());
 
                 var solutionDir =
                     new DirectoryInfo(Directory.GetCurrentDirectory())
@@ -43,10 +40,9 @@ namespace Cogito.Build.Tests
                         .GetFiles("Cogito.Build.targets")[0]
                         .FullName;
 
-                t.GetSolutionDir = () => solutionDir;
-                t.GetPackagesDir = () => packagesDir;
-                t.GetProjectFile = () => "Test.csproj";
-                t.GetTargetFile = () => targetFile;
+                t.ProjectFileGet = () => "Test.csproj";
+                t.VariablesGet = () => new[] { 
+                    new StubITaskItem2() { ItemSpecGet = () => "PackagesDir", GetMetadataString = i => packagesDir } };
 
                 t.Instance.Execute();
             }
