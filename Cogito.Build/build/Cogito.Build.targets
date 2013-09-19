@@ -1,20 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<Project ToolsVersion="4.0"
-         xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project
+    ToolsVersion="4.0"
+    xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
     <PropertyGroup
-        Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">
+        Condition=" '$(SolutionDir)' == '' Or '$(SolutionDir)' == '*Undefined*'">
         <SolutionDir>$(MSBuildProjectDirectory)\..\</SolutionDir>
     </PropertyGroup>
 
     <PropertyGroup
-        Condition="'$(OS)' == 'Windows_NT'">
-        <PackagesDir>$([System.IO.Path]::Combine($(SolutionDir), "packages"))</PackagesDir>
+        Condition=" '$(PackagesDir)' == '' ">
+        <PackagesDir>$(MSBuildProjectDirectory)\..\packages</PackagesDir>
     </PropertyGroup>
 
-    <PropertyGroup>
-        <AssemblyVersionFile>$([System.IO.Path]::Combine($(BaseIntermediateOutputPath), "$(Configuration)\AssemblyVersion.g.cs"))</AssemblyVersionFile>
+
+    <PropertyGroup
+        Condition=" '$(GenerateAssemblyVersionFile)' == '' Or '$(GenerateAssemblyVersionFile)' == 'true' ">
+        <AssemblyVersionFile>$([System.IO.Path]::Combine($(IntermediateOutputPath), "AssemblyVersion.g.cs"))</AssemblyVersionFile>
     </PropertyGroup>
 
     <ItemGroup>
@@ -23,18 +26,18 @@
     </ItemGroup>
 
     <ItemGroup>
-        <MakeRelativePathsTaskVariable Include="SolutionDir">
-            <Path>$(SolutionDir)</Path>
-        </MakeRelativePathsTaskVariable>
-        <MakeRelativePathsTaskVariable Include="ProjectDir">
+        <MakeRelativePathsTaskVariable
+            Include="ProjectDir">
             <Path>$(MSBuildProjectDirectory)</Path>
         </MakeRelativePathsTaskVariable>
-        <MakeRelativePathsTaskVariable Include="PackagesDir">
+        <MakeRelativePathsTaskVariable
+            Include="PackagesDir">
             <Path>$(PackagesDir)</Path>
         </MakeRelativePathsTaskVariable>
     </ItemGroup>
 
-    <PropertyGroup>
+    <PropertyGroup
+        Condition=" '$(AssemblyVersionFile)' != '' ">
         <BuildDependsOn>
             _GenerateAssemblyVersion;
             $(BuildDependsOn);
@@ -51,7 +54,8 @@
     </Target>
 
     <Target
-        Name="_GenerateAssemblyVersion">
+        Name="_GenerateAssemblyVersion"
+        Condition=" '$(AssemblyVersionFile)' != '' ">
         <GenerateAssemblyVersionTask
             OutputFile="$(AssemblyVersionFile)" />
     </Target>

@@ -19,6 +19,8 @@
     <CodeContractsAssemblyMode>1</CodeContractsAssemblyMode>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
+    <NuSpecFile>Cogito.Build.Tests.nuspec</NuSpecFile>
+    <BuildPackage>true</BuildPackage>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -114,6 +116,9 @@
   </ItemGroup>
   <ItemGroup>
     <Fakes Include="Fakes\Microsoft.Build.Framework.fakes" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Cogito.Build.Tests.nuspec" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

@@ -25,9 +25,9 @@
         <tags>mef</tags>
     </metadata>
     <files>
-        <file src="bin\Release\Cogito.Web.Mvc.dll" target="lib\net45" />
-        <file src="bin\Release\Cogito.Web.Mvc.pdb" target="lib\net45" />
-        <file src="bin\Release\CodeContracts\Cogito.Web.Mvc.Contracts.dll" target="lib\net45" />
-        <file src="bin\Release\CodeContracts\Cogito.Web.Mvc.Contracts.pdb" target="lib\net45" />
+        <file src="bin\$configuration$\Cogito.Web.Mvc.dll" target="lib\net45" />
+        <file src="bin\$configuration$\Cogito.Web.Mvc.pdb" target="lib\net45" />
+        <file src="bin\$configuration$\CodeContracts\Cogito.Web.Mvc.Contracts.dll" target="lib\net45" />
+        <file src="bin\$configuration$\CodeContracts\Cogito.Web.Mvc.Contracts.pdb" target="lib\net45" />
     </files>
 </package>

@@ -1,10 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    
     <PropertyGroup Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">
         <SolutionDir>$(MSBuildProjectDirectory)\..\</SolutionDir>
     </PropertyGroup>
-    <PropertyGroup Condition="'$(OS)' == 'Windows_NT'">
+    
+    <PropertyGroup>
         <PackagesDir>$([System.IO.Path]::Combine($(SolutionDir), "packages"))</PackagesDir>
     </PropertyGroup>
+
+    <PropertyGroup>
+        <CogitoBuildEnabled>true</CogitoBuildEnabled>
+    </PropertyGroup>
+    
 </Project>

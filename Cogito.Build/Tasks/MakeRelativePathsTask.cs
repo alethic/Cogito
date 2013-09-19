@@ -108,7 +108,7 @@ namespace Cogito.Build.Tasks
         /// <summary>
         /// Applies fixes to the specified value, and then sets it using the given setter.
         /// </summary>
-        /// <param name="path"></param>
+        /// <param name="value"></param>
         /// <param name="set"></param>
         void Process(string value, Action<string> set)
         {
@@ -142,7 +142,7 @@ namespace Cogito.Build.Tasks
                     continue;
 
                 // make path relative to destination
-                var rela = GetRelativePath(dest, path);
+                var rela = Cogito.Build.Common.Path.MakeRelativePath(dest, path);
                 if (rela != path)
                     // final check for whether file exists
                     if (File.Exists(Path.Combine(dest, path)) ||

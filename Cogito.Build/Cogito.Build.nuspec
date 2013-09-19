@@ -6,10 +6,10 @@
     <metadata
         xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
         <id>Cogito.Build</id>
-        <version>2013.9.18.12</version>
+        <version>2013.9.18.58</version>
         <authors>Jerome Haltom</authors>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
-        <description>Build infrastructure improvements. Various tasks and project file alteration.</description>
+        <description>Build infrastructure improvements.</description>
         <language>en-US</language>
         <copyright>Jerome Haltom</copyright>
         <licenseUrl>https://raw.github.com/wasabii/Cogito/master/LICENSE</licenseUrl>
@@ -26,5 +26,38 @@
         <file
             src="bin\$configuration$\Cogito.Build.pdb"
             target="build" />
+        <file
+            src="bin\$configuration$\Cogito.Build.psd1"
+            target="build" />
+        <file
+            src="bin\$configuration$\Cogito.PowerShell.dll"
+            target="build" />
+        <file
+            src="bin\$configuration$\Cogito.PowerShell.pdb"
+            target="build" />
+        <file
+            src="bin\$configuration$\Cogito.PowerShell.psd1"
+            target="build" />
+        <file
+            src="bin\$configuration$\Cogito.Build.dll"
+            target="tools" />
+        <file
+            src="bin\$configuration$\Cogito.Build.pdb"
+            target="tools" />
+        <file
+            src="bin\$configuration$\Cogito.Build.psd1"
+            target="tools" />
+        <file
+            src="bin\$configuration$\Cogito.PowerShell.dll"
+            target="tools" />
+        <file
+            src="bin\$configuration$\Cogito.PowerShell.pdb"
+            target="tools" />
+        <file
+            src="bin\$configuration$\Cogito.PowerShell.psd1"
+            target="tools" />
+        <file
+            src="tools\**\*.*"
+            target="tools" />
     </files>
 </package>

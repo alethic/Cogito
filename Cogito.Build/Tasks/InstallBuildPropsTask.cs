@@ -100,7 +100,7 @@ namespace Cogito.Build.Tasks
             Contract.Requires<ArgumentNullException>(xml != null);
 
             // path to props file from SolutionDir
-            var path = GetRelativePath(PackagesDir, Path.GetFullPath(GetPropsFile()));
+            var path = Cogito.Build.Common.Path.MakeRelativePath(PackagesDir, Path.GetFullPath(GetPropsFile()));
             path = Path.Combine(@"$(PackagesDir)", path);
             path = path.Replace(@"\.\", @"\");
 
@@ -151,7 +151,7 @@ namespace Cogito.Build.Tasks
             Contract.Requires<ArgumentNullException>(xml != null);
 
             // path to props file from SolutionDir
-            var path = GetRelativePath(PackagesDir, Path.GetFullPath(GetTargetFile()));
+            var path = Cogito.Build.Common.Path.MakeRelativePath(PackagesDir, Path.GetFullPath(GetTargetFile()));
             path = Path.Combine(@"$(PackagesDir)", path);
             path = path.Replace(@"\.\", @"\");
 
