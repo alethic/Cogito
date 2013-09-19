@@ -11,5 +11,4 @@ Import-Module (Join-Path $PSScriptRoot Cogito.Build.psd1)
 Invoke-CogitoProject `
     -Package $package `
 	-Project $project `
-	-Dte $dte `
-    -Debug -Verbose
+	-Dte $dte

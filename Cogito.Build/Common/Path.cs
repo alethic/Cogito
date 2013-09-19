@@ -58,8 +58,8 @@ namespace Cogito.Build.Common
             Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(to));
 
             // ensure absolute versions
-            from = System.IO.Path.GetFileName(from);
-            to = System.IO.Path.GetFileName(to);
+            from = System.IO.Path.GetFullPath(from);
+            to = System.IO.Path.GetFullPath(to);
             
             var path = new StringBuilder(MAX_PATH);
             if (PathRelativePathTo(path, from, GetPathAttribute(from), to, GetPathAttribute(to)) == 0)

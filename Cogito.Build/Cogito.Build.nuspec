@@ -6,7 +6,7 @@
     <metadata
         xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
         <id>Cogito.Build</id>
-        <version>2013.9.18.58</version>
+        <version>2013.9.18.62</version>
         <authors>Jerome Haltom</authors>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <description>Build infrastructure improvements.</description>

@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\Cogito.Build.2013.9.18.62\build\Cogito.Build.props" Condition="Exists('..\packages\Cogito.Build.2013.9.18.62\build\Cogito.Build.props')" />
   <Import Project="..\packages\Cogito.Build.2013.9.18.25\build\Cogito.Build.props" Condition="Exists('..\packages\Cogito.Build.2013.9.18.25\build\Cogito.Build.props')" />
   <Import Project="..\..\packages\Cogito.Build.2013.9.18.12\build\Cogito.Build.props" Condition="Exists('..\..\packages\Cogito.Build.2013.9.18.12\build\Cogito.Build.props')" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.props" Condition="Exists('$(SolutionDir)\.nuget\NuGet.props')" />
@@ -145,4 +146,5 @@
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Import Project="..\..\packages\Cogito.Build.2013.9.18.12\build\Cogito.Build.targets" Condition="Exists('..\..\packages\Cogito.Build.2013.9.18.12\build\Cogito.Build.targets')" />
   <Import Project="..\packages\Cogito.Build.2013.9.18.25\build\Cogito.Build.targets" Condition="Exists('..\packages\Cogito.Build.2013.9.18.25\build\Cogito.Build.targets')" />
+  <Import Project="..\packages\Cogito.Build.2013.9.18.62\build\Cogito.Build.targets" Condition="Exists('..\packages\Cogito.Build.2013.9.18.62\build\Cogito.Build.targets')" />
 </Project>

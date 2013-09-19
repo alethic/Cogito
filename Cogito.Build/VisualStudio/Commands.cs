@@ -137,16 +137,16 @@ namespace Cogito.Build.VisualStudio
             // resolve hint path value; if relative combine with project directory
             var filePath = hintPath.EvaluatedValue;
             if (System.IO.Path.IsPathRooted(filePath) == false)
-                filePath = System.IO.Path.Combine(project.DirectoryPath, filePath);
+                filePath = System.IO.Path.GetFullPath(System.IO.Path.Combine(project.DirectoryPath, filePath));
 
-            log.WriteDebug(string.Format("      Resolved To: {0} -> {1}", filePath));
+            log.WriteDebug(string.Format("      Resolved To: {0} -> {1}", hintPath.EvaluatedValue, filePath));
 
             // reference needs to be in packages dir
             if (!filePath.StartsWith(packagesDir))
                 throw new DebugException("    {0} not in PackagesDir.", assemblyName.Name);
 
             // generate relative path
-            var relativePath = Cogito.Build.Common.Path.MakeRelativePath(filePath, packagesDir);
+            var relativePath = Cogito.Build.Common.Path.MakeRelativePath(packagesDir, filePath);
             if (relativePath.StartsWith("." + System.IO.Path.DirectorySeparatorChar) ||
                 relativePath.StartsWith("." + System.IO.Path.AltDirectorySeparatorChar))
                 relativePath = relativePath.Remove(0, 2);
