@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.IO;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 
@@ -56,16 +58,47 @@ namespace Cogito.Build.Common
         {
             Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(from));
             Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(to));
+            Contract.Requires<ArgumentOutOfRangeException>(System.IO.Path.IsPathRooted(from));
+            Contract.Requires<ArgumentOutOfRangeException>(System.IO.Path.IsPathRooted(to));
 
-            // ensure absolute versions
-            from = System.IO.Path.GetFullPath(from);
-            to = System.IO.Path.GetFullPath(to);
-            
             var path = new StringBuilder(MAX_PATH);
             if (PathRelativePathTo(path, from, GetPathAttribute(from), to, GetPathAttribute(to)) == 0)
                 throw new ArgumentException("Paths must have a common prefix");
 
             return path.ToString();
+        }
+
+        /// <summary>
+        /// Normalizes an absolute path.
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        public static string NormalizePath(string path)
+        {
+            Contract.Requires<ArgumentOutOfRangeException>(!string.IsNullOrWhiteSpace(path));
+
+            var f = path.Split(System.IO.Path.DirectorySeparatorChar, System.IO.Path.AltDirectorySeparatorChar);
+            var t = new Stack<string>(f.Length);
+
+            // walk path
+            foreach (var i in f)
+            {
+                if (i == ".")
+                    // has no effect
+                    continue;
+                else if (i == "..")
+                    // back up
+                    if (t.Count > 0 && t.Peek() != "..")
+                        // only if there's somewhere to go
+                        t.Pop();
+                    else
+                        t.Push("..");
+                else
+                    // otherwise go forwards
+                    t.Push(i);
+            }
+
+            return string.Join(System.IO.Path.DirectorySeparatorChar.ToString(), t.Reverse());
         }
 
     }

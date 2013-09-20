@@ -4,6 +4,564 @@
         <name>Cogito.Build.Fakes</name>
     </assembly>
     <members>
+        <member name="T:Cogito.Build.Common.Fakes.ShimDebugException">
+            <summary>Shim type of Cogito.Build.Common.DebugException</summary>
+        </member>
+        <member name="M:Cogito.Build.Common.Fakes.ShimDebugException.#ctor">
+            <summary>Initializes a new shim instance</summary>
+        </member>
+        <member name="M:Cogito.Build.Common.Fakes.ShimDebugException.#ctor(Cogito.Build.Common.DebugException)">
+            <summary>Initializes a new shim for the given instance</summary>
+        </member>
+        <member name="M:Cogito.Build.Common.Fakes.ShimDebugException.BehaveAsCurrent">
+            <summary>Assigns the &apos;Current&apos; behavior for all methods of the shimmed type</summary>
+        </member>
+        <member name="M:Cogito.Build.Common.Fakes.ShimDebugException.BehaveAsNotImplemented">
+            <summary>Assigns the &apos;NotImplemented&apos; behavior for all methods of the shimmed type</summary>
+        </member>
+        <member name="M:Cogito.Build.Common.Fakes.ShimDebugException.Bind(System.Runtime.Serialization.ISerializable)">
+            <summary>Binds the members of the interface to the shim.</summary>
+        </member>
+        <member name="P:Cogito.Build.Common.Fakes.ShimDebugException.Behavior">
+            <summary>Assigns the behavior for all methods of the shimmed type</summary>
+        </member>
+        <member name="P:Cogito.Build.Common.Fakes.ShimDebugException.ConstructorString">
+            <summary>Sets the shim of DebugException.DebugException(String message)</summary>
+        </member>
+        <member name="P:Cogito.Build.Common.Fakes.ShimDebugException.ConstructorStringObjectArray">
+            <summary>Sets the shim of DebugException.DebugException(String format, Object[] args)</summary>
+        </member>
+        <member name="T:Cogito.Build.Common.Fakes.ShimDebugException.AllInstances">
+            <summary>Define shims for all instances members</summary>
+        </member>
+        <member name="T:Cogito.Build.Common.Fakes.ShimInfoException">
+            <summary>Shim type of Cogito.Build.Common.InfoException</summary>
+        </member>
+        <member name="M:Cogito.Build.Common.Fakes.ShimInfoException.#ctor">
+            <summary>Initializes a new shim instance</summary>
+        </member>
+        <member name="M:Cogito.Build.Common.Fakes.ShimInfoException.#ctor(Cogito.Build.Common.InfoException)">
+            <summary>Initializes a new shim for the given instance</summary>
+        </member>
+        <member name="M:Cogito.Build.Common.Fakes.ShimInfoException.BehaveAsCurrent">
+            <summary>Assigns the &apos;Current&apos; behavior for all methods of the shimmed type</summary>
+        </member>
+        <member name="M:Cogito.Build.Common.Fakes.ShimInfoException.BehaveAsNotImplemented">
+            <summary>Assigns the &apos;NotImplemented&apos; behavior for all methods of the shimmed type</summary>
+        </member>
+        <member name="M:Cogito.Build.Common.Fakes.ShimInfoException.Bind(System.Runtime.Serialization.ISerializable)">
+            <summary>Binds the members of the interface to the shim.</summary>
+        </member>
+        <member name="P:Cogito.Build.Common.Fakes.ShimInfoException.Behavior">
+            <summary>Assigns the behavior for all methods of the shimmed type</summary>
+        </member>
+        <member name="P:Cogito.Build.Common.Fakes.ShimInfoException.ConstructorString">
+            <summary>Sets the shim of InfoException.InfoException(String message)</summary>
+        </member>
+        <member name="P:Cogito.Build.Common.Fakes.ShimInfoException.ConstructorStringObjectArray">
+            <summary>Sets the shim of InfoException.InfoException(String format, Object[] args)</summary>
+        </member>
+        <member name="T:Cogito.Build.Common.Fakes.ShimInfoException.AllInstances">
+            <summary>Define shims for all instances members</summary>
+        </member>
+        <member name="T:Cogito.Build.Common.Fakes.ShimPath">
+            <summary>Shim type of Cogito.Build.Common.Path</summary>
+        </member>
+        <member name="M:Cogito.Build.Common.Fakes.ShimPath.#ctor">
+            <summary>Initializes a new shim instance</summary>
+        </member>
+        <member name="M:Cogito.Build.Common.Fakes.ShimPath.BehaveAsCurrent">
+            <summary>Assigns the &apos;Current&apos; behavior for all methods of the shimmed type</summary>
+        </member>
+        <member name="M:Cogito.Build.Common.Fakes.ShimPath.BehaveAsNotImplemented">
+            <summary>Assigns the &apos;NotImplemented&apos; behavior for all methods of the shimmed type</summary>
+        </member>
+        <member name="P:Cogito.Build.Common.Fakes.ShimPath.Behavior">
+            <summary>Assigns the behavior for all methods of the shimmed type</summary>
+        </member>
+        <member name="P:Cogito.Build.Common.Fakes.ShimPath.GetPathAttributeString">
+            <summary>Sets the shim of Path.GetPathAttribute(String path)</summary>
+        </member>
+        <member name="P:Cogito.Build.Common.Fakes.ShimPath.MakeRelativePathStringString">
+            <summary>Sets the shim of Path.MakeRelativePath(String from, String to)</summary>
+        </member>
+        <member name="P:Cogito.Build.Common.Fakes.ShimPath.NormalizePathString">
+            <summary>Sets the shim of Path.NormalizePath(String path)</summary>
+        </member>
+        <member name="T:Cogito.Build.Common.Fakes.ShimWarningException">
+            <summary>Shim type of Cogito.Build.Common.WarningException</summary>
+        </member>
+        <member name="M:Cogito.Build.Common.Fakes.ShimWarningException.#ctor">
+            <summary>Initializes a new shim instance</summary>
+        </member>
+        <member name="M:Cogito.Build.Common.Fakes.ShimWarningException.#ctor(Cogito.Build.Common.WarningException)">
+            <summary>Initializes a new shim for the given instance</summary>
+        </member>
+        <member name="M:Cogito.Build.Common.Fakes.ShimWarningException.BehaveAsCurrent">
+            <summary>Assigns the &apos;Current&apos; behavior for all methods of the shimmed type</summary>
+        </member>
+        <member name="M:Cogito.Build.Common.Fakes.ShimWarningException.BehaveAsNotImplemented">
+            <summary>Assigns the &apos;NotImplemented&apos; behavior for all methods of the shimmed type</summary>
+        </member>
+        <member name="M:Cogito.Build.Common.Fakes.ShimWarningException.Bind(System.Runtime.Serialization.ISerializable)">
+            <summary>Binds the members of the interface to the shim.</summary>
+        </member>
+        <member name="P:Cogito.Build.Common.Fakes.ShimWarningException.Behavior">
+            <summary>Assigns the behavior for all methods of the shimmed type</summary>
+        </member>
+        <member name="P:Cogito.Build.Common.Fakes.ShimWarningException.ConstructorString">
+            <summary>Sets the shim of WarningException.WarningException(String message)</summary>
+        </member>
+        <member name="P:Cogito.Build.Common.Fakes.ShimWarningException.ConstructorStringObjectArray">
+            <summary>Sets the shim of WarningException.WarningException(String format, Object[] args)</summary>
+        </member>
+        <member name="T:Cogito.Build.Common.Fakes.ShimWarningException.AllInstances">
+            <summary>Define shims for all instances members</summary>
+        </member>
+        <member name="T:Cogito.Build.Common.Fakes.StubILogger">
+            <summary>Stub type of Cogito.Build.Common.ILogger</summary>
+        </member>
+        <member name="M:Cogito.Build.Common.Fakes.StubILogger.#ctor">
+            <summary>Initializes a new instance of type StubILogger</summary>
+        </member>
+        <member name="M:Cogito.Build.Common.Fakes.StubILogger.cb::Cogito#Build#Common#ILogger#Enter">
+            <summary>Sets the stub of ILogger.Enter()</summary>
+        </member>
+        <member name="M:Cogito.Build.Common.Fakes.StubILogger.cb::Cogito#Build#Common#ILogger#EnterWithDebug(System.String)">
+            <summary>Sets the stub of ILogger.EnterWithDebug(String message)</summary>
+        </member>
+        <member name="M:Cogito.Build.Common.Fakes.StubILogger.cb::Cogito#Build#Common#ILogger#EnterWithDebug(System.String,System.Object[])">
+            <summary>Sets the stub of ILogger.EnterWithDebug(String format, Object[] args)</summary>
+        </member>
+        <member name="M:Cogito.Build.Common.Fakes.StubILogger.cb::Cogito#Build#Common#ILogger#EnterWithError(System.String)">
+            <summary>Sets the stub of ILogger.EnterWithError(String message)</summary>
+        </member>
+        <member name="M:Cogito.Build.Common.Fakes.StubILogger.cb::Cogito#Build#Common#ILogger#EnterWithError(System.String,System.Object[])">
+            <summary>Sets the stub of ILogger.EnterWithError(String format, Object[] args)</summary>
+        </member>
+        <member name="M:Cogito.Build.Common.Fakes.StubILogger.cb::Cogito#Build#Common#ILogger#EnterWithInfo(System.String)">
+            <summary>Sets the stub of ILogger.EnterWithInfo(String message)</summary>
+        </member>
+        <member name="M:Cogito.Build.Common.Fakes.StubILogger.cb::Cogito#Build#Common#ILogger#EnterWithInfo(System.String,System.Object[])">
+            <summary>Sets the stub of ILogger.EnterWithInfo(String format, Object[] args)</summary>
+        </member>
+        <member name="M:Cogito.Build.Common.Fakes.StubILogger.cb::Cogito#Build#Common#ILogger#EnterWithWarning(System.String)">
+            <summary>Sets the stub of ILogger.EnterWithWarning(String message)</summary>
+        </member>
+        <member name="M:Cogito.Build.Common.Fakes.StubILogger.cb::Cogito#Build#Common#ILogger#EnterWithWarning(System.String,System.Object[])">
+            <summary>Sets the stub of ILogger.EnterWithWarning(String format, Object[] args)</summary>
+        </member>
+        <member name="M:Cogito.Build.Common.Fakes.StubILogger.cb::Cogito#Build#Common#ILogger#WriteDebug(System.String)">
+            <summary>Sets the stub of ILogger.WriteDebug(String message)</summary>
+        </member>
+        <member name="M:Cogito.Build.Common.Fakes.StubILogger.cb::Cogito#Build#Common#ILogger#WriteDebug(System.String,System.Object[])">
+            <summary>Sets the stub of ILogger.WriteDebug(String format, Object[] args)</summary>
+        </member>
+        <member name="M:Cogito.Build.Common.Fakes.StubILogger.cb::Cogito#Build#Common#ILogger#WriteError(System.String)">
+            <summary>Sets the stub of ILogger.WriteError(String message)</summary>
+        </member>
+        <member name="M:Cogito.Build.Common.Fakes.StubILogger.cb::Cogito#Build#Common#ILogger#WriteError(System.String,System.Object[])">
+            <summary>Sets the stub of ILogger.WriteError(String format, Object[] args)</summary>
+        </member>
+        <member name="M:Cogito.Build.Common.Fakes.StubILogger.cb::Cogito#Build#Common#ILogger#WriteInfo(System.String)">
+            <summary>Sets the stub of ILogger.WriteInfo(String message)</summary>
+        </member>
+        <member name="M:Cogito.Build.Common.Fakes.StubILogger.cb::Cogito#Build#Common#ILogger#WriteInfo(System.String,System.Object[])">
+            <summary>Sets the stub of ILogger.WriteInfo(String format, Object[] args)</summary>
+        </member>
+        <member name="M:Cogito.Build.Common.Fakes.StubILogger.cb::Cogito#Build#Common#ILogger#WriteWarning(System.String)">
+            <summary>Sets the stub of ILogger.WriteWarning(String message)</summary>
+        </member>
+        <member name="M:Cogito.Build.Common.Fakes.StubILogger.cb::Cogito#Build#Common#ILogger#WriteWarning(System.String,System.Object[])">
+            <summary>Sets the stub of ILogger.WriteWarning(String format, Object[] args)</summary>
+        </member>
+        <member name="F:Cogito.Build.Common.Fakes.StubILogger.Dispose">
+            <summary>Sets the stub of IDisposable.Dispose()</summary>
+        </member>
+        <member name="F:Cogito.Build.Common.Fakes.StubILogger.Enter">
+            <summary>Sets the stub of ILogger.Enter()</summary>
+        </member>
+        <member name="F:Cogito.Build.Common.Fakes.StubILogger.EnterWithDebugString">
+            <summary>Sets the stub of ILogger.EnterWithDebug(String message)</summary>
+        </member>
+        <member name="F:Cogito.Build.Common.Fakes.StubILogger.EnterWithDebugStringObjectArray">
+            <summary>Sets the stub of ILogger.EnterWithDebug(String format, Object[] args)</summary>
+        </member>
+        <member name="F:Cogito.Build.Common.Fakes.StubILogger.EnterWithErrorString">
+            <summary>Sets the stub of ILogger.EnterWithError(String message)</summary>
+        </member>
+        <member name="F:Cogito.Build.Common.Fakes.StubILogger.EnterWithErrorStringObjectArray">
+            <summary>Sets the stub of ILogger.EnterWithError(String format, Object[] args)</summary>
+        </member>
+        <member name="F:Cogito.Build.Common.Fakes.StubILogger.EnterWithInfoString">
+            <summary>Sets the stub of ILogger.EnterWithInfo(String message)</summary>
+        </member>
+        <member name="F:Cogito.Build.Common.Fakes.StubILogger.EnterWithInfoStringObjectArray">
+            <summary>Sets the stub of ILogger.EnterWithInfo(String format, Object[] args)</summary>
+        </member>
+        <member name="F:Cogito.Build.Common.Fakes.StubILogger.EnterWithWarningString">
+            <summary>Sets the stub of ILogger.EnterWithWarning(String message)</summary>
+        </member>
+        <member name="F:Cogito.Build.Common.Fakes.StubILogger.EnterWithWarningStringObjectArray">
+            <summary>Sets the stub of ILogger.EnterWithWarning(String format, Object[] args)</summary>
+        </member>
+        <member name="M:Cogito.Build.Common.Fakes.StubILogger.global::System#IDisposable#Dispose">
+            <summary>Sets the stub of IDisposable.Dispose()</summary>
+        </member>
+        <member name="F:Cogito.Build.Common.Fakes.StubILogger.WriteDebugString">
+            <summary>Sets the stub of ILogger.WriteDebug(String message)</summary>
+        </member>
+        <member name="F:Cogito.Build.Common.Fakes.StubILogger.WriteDebugStringObjectArray">
+            <summary>Sets the stub of ILogger.WriteDebug(String format, Object[] args)</summary>
+        </member>
+        <member name="F:Cogito.Build.Common.Fakes.StubILogger.WriteErrorString">
+            <summary>Sets the stub of ILogger.WriteError(String message)</summary>
+        </member>
+        <member name="F:Cogito.Build.Common.Fakes.StubILogger.WriteErrorStringObjectArray">
+            <summary>Sets the stub of ILogger.WriteError(String format, Object[] args)</summary>
+        </member>
+        <member name="F:Cogito.Build.Common.Fakes.StubILogger.WriteInfoString">
+            <summary>Sets the stub of ILogger.WriteInfo(String message)</summary>
+        </member>
+        <member name="F:Cogito.Build.Common.Fakes.StubILogger.WriteInfoStringObjectArray">
+            <summary>Sets the stub of ILogger.WriteInfo(String format, Object[] args)</summary>
+        </member>
+        <member name="F:Cogito.Build.Common.Fakes.StubILogger.WriteWarningString">
+            <summary>Sets the stub of ILogger.WriteWarning(String message)</summary>
+        </member>
+        <member name="F:Cogito.Build.Common.Fakes.StubILogger.WriteWarningStringObjectArray">
+            <summary>Sets the stub of ILogger.WriteWarning(String format, Object[] args)</summary>
+        </member>
+        <member name="T:Cogito.Build.PowerShell.Fakes.ShimInvokeCogitoActionsCommand">
+            <summary>Shim type of Cogito.Build.PowerShell.InvokeCogitoActionsCommand</summary>
+        </member>
+        <member name="M:Cogito.Build.PowerShell.Fakes.ShimInvokeCogitoActionsCommand.#ctor">
+            <summary>Initializes a new shim instance</summary>
+        </member>
+        <member name="M:Cogito.Build.PowerShell.Fakes.ShimInvokeCogitoActionsCommand.#ctor(Cogito.Build.PowerShell.InvokeCogitoActionsCommand)">
+            <summary>Initializes a new shim for the given instance</summary>
+        </member>
+        <member name="M:Cogito.Build.PowerShell.Fakes.ShimInvokeCogitoActionsCommand.BehaveAsCurrent">
+            <summary>Assigns the &apos;Current&apos; behavior for all methods of the shimmed type</summary>
+        </member>
+        <member name="M:Cogito.Build.PowerShell.Fakes.ShimInvokeCogitoActionsCommand.BehaveAsNotImplemented">
+            <summary>Assigns the &apos;NotImplemented&apos; behavior for all methods of the shimmed type</summary>
+        </member>
+        <member name="M:Cogito.Build.PowerShell.Fakes.ShimInvokeCogitoActionsCommand.Bind(Cogito.Build.Common.ILogger)">
+            <summary>Binds the members of the interface to the shim.</summary>
+        </member>
+        <member name="M:Cogito.Build.PowerShell.Fakes.ShimInvokeCogitoActionsCommand.Bind(System.IDisposable)">
+            <summary>Binds the members of the interface to the shim.</summary>
+        </member>
+        <member name="P:Cogito.Build.PowerShell.Fakes.ShimInvokeCogitoActionsCommand.Behavior">
+            <summary>Assigns the behavior for all methods of the shimmed type</summary>
+        </member>
+        <member name="P:Cogito.Build.PowerShell.Fakes.ShimInvokeCogitoActionsCommand.CogitoBuildCommonILoggerEnter">
+            <summary>Sets the shim of InvokeCogitoActionsCommand.Cogito.Build.Common.ILogger.Enter()</summary>
+        </member>
+        <member name="P:Cogito.Build.PowerShell.Fakes.ShimInvokeCogitoActionsCommand.CogitoBuildCommonILoggerEnterWithDebugString">
+            <summary>Sets the shim of InvokeCogitoActionsCommand.Cogito.Build.Common.ILogger.EnterWithDebug(String message)</summary>
+        </member>
+        <member name="P:Cogito.Build.PowerShell.Fakes.ShimInvokeCogitoActionsCommand.CogitoBuildCommonILoggerEnterWithDebugStringObjectArray">
+            <summary>Sets the shim of InvokeCogitoActionsCommand.Cogito.Build.Common.ILogger.EnterWithDebug(String format, Object[] args)</summary>
+        </member>
+        <member name="P:Cogito.Build.PowerShell.Fakes.ShimInvokeCogitoActionsCommand.CogitoBuildCommonILoggerEnterWithErrorString">
+            <summary>Sets the shim of InvokeCogitoActionsCommand.Cogito.Build.Common.ILogger.EnterWithError(String message)</summary>
+        </member>
+        <member name="P:Cogito.Build.PowerShell.Fakes.ShimInvokeCogitoActionsCommand.CogitoBuildCommonILoggerEnterWithErrorStringObjectArray">
+            <summary>Sets the shim of InvokeCogitoActionsCommand.Cogito.Build.Common.ILogger.EnterWithError(String format, Object[] args)</summary>
+        </member>
+        <member name="P:Cogito.Build.PowerShell.Fakes.ShimInvokeCogitoActionsCommand.CogitoBuildCommonILoggerEnterWithInfoString">
+            <summary>Sets the shim of InvokeCogitoActionsCommand.Cogito.Build.Common.ILogger.EnterWithInfo(String message)</summary>
+        </member>
+        <member name="P:Cogito.Build.PowerShell.Fakes.ShimInvokeCogitoActionsCommand.CogitoBuildCommonILoggerEnterWithInfoStringObjectArray">
+            <summary>Sets the shim of InvokeCogitoActionsCommand.Cogito.Build.Common.ILogger.EnterWithInfo(String format, Object[] args)</summary>
+        </member>
+        <member name="P:Cogito.Build.PowerShell.Fakes.ShimInvokeCogitoActionsCommand.CogitoBuildCommonILoggerEnterWithWarningString">
+            <summary>Sets the shim of InvokeCogitoActionsCommand.Cogito.Build.Common.ILogger.EnterWithWarning(String message)</summary>
+        </member>
+        <member name="P:Cogito.Build.PowerShell.Fakes.ShimInvokeCogitoActionsCommand.CogitoBuildCommonILoggerEnterWithWarningStringObjectArray">
+            <summary>Sets the shim of InvokeCogitoActionsCommand.Cogito.Build.Common.ILogger.EnterWithWarning(String format, Object[] args)</summary>
+        </member>
+        <member name="P:Cogito.Build.PowerShell.Fakes.ShimInvokeCogitoActionsCommand.CogitoBuildCommonILoggerWriteDebugString">
+            <summary>Sets the shim of InvokeCogitoActionsCommand.Cogito.Build.Common.ILogger.WriteDebug(String message)</summary>
+        </member>
+        <member name="P:Cogito.Build.PowerShell.Fakes.ShimInvokeCogitoActionsCommand.CogitoBuildCommonILoggerWriteDebugStringObjectArray">
+            <summary>Sets the shim of InvokeCogitoActionsCommand.Cogito.Build.Common.ILogger.WriteDebug(String format, Object[] args)</summary>
+        </member>
+        <member name="P:Cogito.Build.PowerShell.Fakes.ShimInvokeCogitoActionsCommand.CogitoBuildCommonILoggerWriteErrorString">
+            <summary>Sets the shim of InvokeCogitoActionsCommand.Cogito.Build.Common.ILogger.WriteError(String message)</summary>
+        </member>
+        <member name="P:Cogito.Build.PowerShell.Fakes.ShimInvokeCogitoActionsCommand.CogitoBuildCommonILoggerWriteErrorStringObjectArray">
+            <summary>Sets the shim of InvokeCogitoActionsCommand.Cogito.Build.Common.ILogger.WriteError(String format, Object[] args)</summary>
+        </member>
+        <member name="P:Cogito.Build.PowerShell.Fakes.ShimInvokeCogitoActionsCommand.CogitoBuildCommonILoggerWriteInfoString">
+            <summary>Sets the shim of InvokeCogitoActionsCommand.Cogito.Build.Common.ILogger.WriteInfo(String message)</summary>
+        </member>
+        <member name="P:Cogito.Build.PowerShell.Fakes.ShimInvokeCogitoActionsCommand.CogitoBuildCommonILoggerWriteInfoStringObjectArray">
+            <summary>Sets the shim of InvokeCogitoActionsCommand.Cogito.Build.Common.ILogger.WriteInfo(String format, Object[] args)</summary>
+        </member>
+        <member name="P:Cogito.Build.PowerShell.Fakes.ShimInvokeCogitoActionsCommand.CogitoBuildCommonILoggerWriteWarningString">
+            <summary>Sets the shim of InvokeCogitoActionsCommand.Cogito.Build.Common.ILogger.WriteWarning(String message)</summary>
+        </member>
+        <member name="P:Cogito.Build.PowerShell.Fakes.ShimInvokeCogitoActionsCommand.CogitoBuildCommonILoggerWriteWarningStringObjectArray">
+            <summary>Sets the shim of InvokeCogitoActionsCommand.Cogito.Build.Common.ILogger.WriteWarning(String format, Object[] args)</summary>
+        </member>
+        <member name="P:Cogito.Build.PowerShell.Fakes.ShimInvokeCogitoActionsCommand.Constructor">
+            <summary>Sets the shim of InvokeCogitoActionsCommand.InvokeCogitoActionsCommand()</summary>
+        </member>
+        <member name="P:Cogito.Build.PowerShell.Fakes.ShimInvokeCogitoActionsCommand.DteGet">
+            <summary>Sets the shim of InvokeCogitoActionsCommand.get_Dte()</summary>
+        </member>
+        <member name="P:Cogito.Build.PowerShell.Fakes.ShimInvokeCogitoActionsCommand.DteSetObject">
+            <summary>Sets the shim of InvokeCogitoActionsCommand.set_Dte(Object value)</summary>
+        </member>
+        <member name="P:Cogito.Build.PowerShell.Fakes.ShimInvokeCogitoActionsCommand.PackageGet">
+            <summary>Sets the shim of InvokeCogitoActionsCommand.get_Package()</summary>
+        </member>
+        <member name="P:Cogito.Build.PowerShell.Fakes.ShimInvokeCogitoActionsCommand.PackageSetObject">
+            <summary>Sets the shim of InvokeCogitoActionsCommand.set_Package(Object value)</summary>
+        </member>
+        <member name="P:Cogito.Build.PowerShell.Fakes.ShimInvokeCogitoActionsCommand.ProcessRecord">
+            <summary>Sets the shim of InvokeCogitoActionsCommand.ProcessRecord()</summary>
+        </member>
+        <member name="P:Cogito.Build.PowerShell.Fakes.ShimInvokeCogitoActionsCommand.ProjectGet">
+            <summary>Sets the shim of InvokeCogitoActionsCommand.get_Project()</summary>
+        </member>
+        <member name="P:Cogito.Build.PowerShell.Fakes.ShimInvokeCogitoActionsCommand.ProjectSetObject">
+            <summary>Sets the shim of InvokeCogitoActionsCommand.set_Project(Object value)</summary>
+        </member>
+        <member name="P:Cogito.Build.PowerShell.Fakes.ShimInvokeCogitoActionsCommand.SystemIDisposableDispose">
+            <summary>Sets the shim of InvokeCogitoActionsCommand.System.IDisposable.Dispose()</summary>
+        </member>
+        <member name="T:Cogito.Build.PowerShell.Fakes.ShimInvokeCogitoActionsCommand.AllInstances">
+            <summary>Define shims for all instances members</summary>
+        </member>
+        <member name="P:Cogito.Build.PowerShell.Fakes.ShimInvokeCogitoActionsCommand.AllInstances.CogitoBuildCommonILoggerEnter">
+            <summary>Sets the shim of InvokeCogitoActionsCommand.Cogito.Build.Common.ILogger.Enter()</summary>
+        </member>
+        <member name="P:Cogito.Build.PowerShell.Fakes.ShimInvokeCogitoActionsCommand.AllInstances.CogitoBuildCommonILoggerEnterWithDebugString">
+            <summary>Sets the shim of InvokeCogitoActionsCommand.Cogito.Build.Common.ILogger.EnterWithDebug(String message)</summary>
+        </member>
+        <member name="P:Cogito.Build.PowerShell.Fakes.ShimInvokeCogitoActionsCommand.AllInstances.CogitoBuildCommonILoggerEnterWithDebugStringObjectArray">
+            <summary>Sets the shim of InvokeCogitoActionsCommand.Cogito.Build.Common.ILogger.EnterWithDebug(String format, Object[] args)</summary>
+        </member>
+        <member name="P:Cogito.Build.PowerShell.Fakes.ShimInvokeCogitoActionsCommand.AllInstances.CogitoBuildCommonILoggerEnterWithErrorString">
+            <summary>Sets the shim of InvokeCogitoActionsCommand.Cogito.Build.Common.ILogger.EnterWithError(String message)</summary>
+        </member>
+        <member name="P:Cogito.Build.PowerShell.Fakes.ShimInvokeCogitoActionsCommand.AllInstances.CogitoBuildCommonILoggerEnterWithErrorStringObjectArray">
+            <summary>Sets the shim of InvokeCogitoActionsCommand.Cogito.Build.Common.ILogger.EnterWithError(String format, Object[] args)</summary>
+        </member>
+        <member name="P:Cogito.Build.PowerShell.Fakes.ShimInvokeCogitoActionsCommand.AllInstances.CogitoBuildCommonILoggerEnterWithInfoString">
+            <summary>Sets the shim of InvokeCogitoActionsCommand.Cogito.Build.Common.ILogger.EnterWithInfo(String message)</summary>
+        </member>
+        <member name="P:Cogito.Build.PowerShell.Fakes.ShimInvokeCogitoActionsCommand.AllInstances.CogitoBuildCommonILoggerEnterWithInfoStringObjectArray">
+            <summary>Sets the shim of InvokeCogitoActionsCommand.Cogito.Build.Common.ILogger.EnterWithInfo(String format, Object[] args)</summary>
+        </member>
+        <member name="P:Cogito.Build.PowerShell.Fakes.ShimInvokeCogitoActionsCommand.AllInstances.CogitoBuildCommonILoggerEnterWithWarningString">
+            <summary>Sets the shim of InvokeCogitoActionsCommand.Cogito.Build.Common.ILogger.EnterWithWarning(String message)</summary>
+        </member>
+        <member name="P:Cogito.Build.PowerShell.Fakes.ShimInvokeCogitoActionsCommand.AllInstances.CogitoBuildCommonILoggerEnterWithWarningStringObjectArray">
+            <summary>Sets the shim of InvokeCogitoActionsCommand.Cogito.Build.Common.ILogger.EnterWithWarning(String format, Object[] args)</summary>
+        </member>
+        <member name="P:Cogito.Build.PowerShell.Fakes.ShimInvokeCogitoActionsCommand.AllInstances.CogitoBuildCommonILoggerWriteDebugString">
+            <summary>Sets the shim of InvokeCogitoActionsCommand.Cogito.Build.Common.ILogger.WriteDebug(String message)</summary>
+        </member>
+        <member name="P:Cogito.Build.PowerShell.Fakes.ShimInvokeCogitoActionsCommand.AllInstances.CogitoBuildCommonILoggerWriteDebugStringObjectArray">
+            <summary>Sets the shim of InvokeCogitoActionsCommand.Cogito.Build.Common.ILogger.WriteDebug(String format, Object[] args)</summary>
+        </member>
+        <member name="P:Cogito.Build.PowerShell.Fakes.ShimInvokeCogitoActionsCommand.AllInstances.CogitoBuildCommonILoggerWriteErrorString">
+            <summary>Sets the shim of InvokeCogitoActionsCommand.Cogito.Build.Common.ILogger.WriteError(String message)</summary>
+        </member>
+        <member name="P:Cogito.Build.PowerShell.Fakes.ShimInvokeCogitoActionsCommand.AllInstances.CogitoBuildCommonILoggerWriteErrorStringObjectArray">
+            <summary>Sets the shim of InvokeCogitoActionsCommand.Cogito.Build.Common.ILogger.WriteError(String format, Object[] args)</summary>
+        </member>
+        <member name="P:Cogito.Build.PowerShell.Fakes.ShimInvokeCogitoActionsCommand.AllInstances.CogitoBuildCommonILoggerWriteInfoString">
+            <summary>Sets the shim of InvokeCogitoActionsCommand.Cogito.Build.Common.ILogger.WriteInfo(String message)</summary>
+        </member>
+        <member name="P:Cogito.Build.PowerShell.Fakes.ShimInvokeCogitoActionsCommand.AllInstances.CogitoBuildCommonILoggerWriteInfoStringObjectArray">
+            <summary>Sets the shim of InvokeCogitoActionsCommand.Cogito.Build.Common.ILogger.WriteInfo(String format, Object[] args)</summary>
+        </member>
+        <member name="P:Cogito.Build.PowerShell.Fakes.ShimInvokeCogitoActionsCommand.AllInstances.CogitoBuildCommonILoggerWriteWarningString">
+            <summary>Sets the shim of InvokeCogitoActionsCommand.Cogito.Build.Common.ILogger.WriteWarning(String message)</summary>
+        </member>
+        <member name="P:Cogito.Build.PowerShell.Fakes.ShimInvokeCogitoActionsCommand.AllInstances.CogitoBuildCommonILoggerWriteWarningStringObjectArray">
+            <summary>Sets the shim of InvokeCogitoActionsCommand.Cogito.Build.Common.ILogger.WriteWarning(String format, Object[] args)</summary>
+        </member>
+        <member name="P:Cogito.Build.PowerShell.Fakes.ShimInvokeCogitoActionsCommand.AllInstances.DteGet">
+            <summary>Sets the shim of InvokeCogitoActionsCommand.get_Dte()</summary>
+        </member>
+        <member name="P:Cogito.Build.PowerShell.Fakes.ShimInvokeCogitoActionsCommand.AllInstances.DteSetObject">
+            <summary>Sets the shim of InvokeCogitoActionsCommand.set_Dte(Object value)</summary>
+        </member>
+        <member name="P:Cogito.Build.PowerShell.Fakes.ShimInvokeCogitoActionsCommand.AllInstances.PackageGet">
+            <summary>Sets the shim of InvokeCogitoActionsCommand.get_Package()</summary>
+        </member>
+        <member name="P:Cogito.Build.PowerShell.Fakes.ShimInvokeCogitoActionsCommand.AllInstances.PackageSetObject">
+            <summary>Sets the shim of InvokeCogitoActionsCommand.set_Package(Object value)</summary>
+        </member>
+        <member name="P:Cogito.Build.PowerShell.Fakes.ShimInvokeCogitoActionsCommand.AllInstances.ProcessRecord">
+            <summary>Sets the shim of InvokeCogitoActionsCommand.ProcessRecord()</summary>
+        </member>
+        <member name="P:Cogito.Build.PowerShell.Fakes.ShimInvokeCogitoActionsCommand.AllInstances.ProjectGet">
+            <summary>Sets the shim of InvokeCogitoActionsCommand.get_Project()</summary>
+        </member>
+        <member name="P:Cogito.Build.PowerShell.Fakes.ShimInvokeCogitoActionsCommand.AllInstances.ProjectSetObject">
+            <summary>Sets the shim of InvokeCogitoActionsCommand.set_Project(Object value)</summary>
+        </member>
+        <member name="P:Cogito.Build.PowerShell.Fakes.ShimInvokeCogitoActionsCommand.AllInstances.SystemIDisposableDispose">
+            <summary>Sets the shim of InvokeCogitoActionsCommand.System.IDisposable.Dispose()</summary>
+        </member>
+        <member name="T:Cogito.Build.PowerShell.Fakes.ShimRemoveMissingImportsCommand">
+            <summary>Shim type of Cogito.Build.PowerShell.RemoveMissingImportsCommand</summary>
+        </member>
+        <member name="M:Cogito.Build.PowerShell.Fakes.ShimRemoveMissingImportsCommand.#ctor">
+            <summary>Initializes a new shim instance</summary>
+        </member>
+        <member name="M:Cogito.Build.PowerShell.Fakes.ShimRemoveMissingImportsCommand.#ctor(Cogito.Build.PowerShell.RemoveMissingImportsCommand)">
+            <summary>Initializes a new shim for the given instance</summary>
+        </member>
+        <member name="M:Cogito.Build.PowerShell.Fakes.ShimRemoveMissingImportsCommand.BehaveAsCurrent">
+            <summary>Assigns the &apos;Current&apos; behavior for all methods of the shimmed type</summary>
+        </member>
+        <member name="M:Cogito.Build.PowerShell.Fakes.ShimRemoveMissingImportsCommand.BehaveAsNotImplemented">
+            <summary>Assigns the &apos;NotImplemented&apos; behavior for all methods of the shimmed type</summary>
+        </member>
+        <member name="P:Cogito.Build.PowerShell.Fakes.ShimRemoveMissingImportsCommand.Behavior">
+            <summary>Assigns the behavior for all methods of the shimmed type</summary>
+        </member>
+        <member name="P:Cogito.Build.PowerShell.Fakes.ShimRemoveMissingImportsCommand.Constructor">
+            <summary>Sets the shim of RemoveMissingImportsCommand.RemoveMissingImportsCommand()</summary>
+        </member>
+        <member name="P:Cogito.Build.PowerShell.Fakes.ShimRemoveMissingImportsCommand.ConvertProjectObject">
+            <summary>Sets the shim of RemoveMissingImportsCommand.ConvertProject(Object o)</summary>
+        </member>
+        <member name="P:Cogito.Build.PowerShell.Fakes.ShimRemoveMissingImportsCommand.ProcessRecord">
+            <summary>Sets the shim of RemoveMissingImportsCommand.ProcessRecord()</summary>
+        </member>
+        <member name="P:Cogito.Build.PowerShell.Fakes.ShimRemoveMissingImportsCommand.ProjectsGet">
+            <summary>Sets the shim of RemoveMissingImportsCommand.get_Projects()</summary>
+        </member>
+        <member name="P:Cogito.Build.PowerShell.Fakes.ShimRemoveMissingImportsCommand.ProjectsSetIEnumerableOfObject">
+            <summary>Sets the shim of RemoveMissingImportsCommand.set_Projects(IEnumerable`1&lt;Object&gt; value)</summary>
+        </member>
+        <member name="P:Cogito.Build.PowerShell.Fakes.ShimRemoveMissingImportsCommand._ProcessRecordb__0Object">
+            <summary>Sets the shim of RemoveMissingImportsCommand.&lt;ProcessRecord&gt;b__0(Object i)</summary>
+        </member>
+        <member name="T:Cogito.Build.PowerShell.Fakes.ShimRemoveMissingImportsCommand.AllInstances">
+            <summary>Define shims for all instances members</summary>
+        </member>
+        <member name="P:Cogito.Build.PowerShell.Fakes.ShimRemoveMissingImportsCommand.AllInstances.ConvertProjectObject">
+            <summary>Sets the shim of RemoveMissingImportsCommand.ConvertProject(Object o)</summary>
+        </member>
+        <member name="P:Cogito.Build.PowerShell.Fakes.ShimRemoveMissingImportsCommand.AllInstances.ProcessRecord">
+            <summary>Sets the shim of RemoveMissingImportsCommand.ProcessRecord()</summary>
+        </member>
+        <member name="P:Cogito.Build.PowerShell.Fakes.ShimRemoveMissingImportsCommand.AllInstances.ProjectsGet">
+            <summary>Sets the shim of RemoveMissingImportsCommand.get_Projects()</summary>
+        </member>
+        <member name="P:Cogito.Build.PowerShell.Fakes.ShimRemoveMissingImportsCommand.AllInstances.ProjectsSetIEnumerableOfObject">
+            <summary>Sets the shim of RemoveMissingImportsCommand.set_Projects(IEnumerable`1&lt;Object&gt; value)</summary>
+        </member>
+        <member name="P:Cogito.Build.PowerShell.Fakes.ShimRemoveMissingImportsCommand.AllInstances._ProcessRecordb__0Object">
+            <summary>Sets the shim of RemoveMissingImportsCommand.&lt;ProcessRecord&gt;b__0(Object i)</summary>
+        </member>
+        <member name="T:Cogito.Build.PowerShell.Fakes.StubInvokeCogitoActionsCommand">
+            <summary>Stub type of Cogito.Build.PowerShell.InvokeCogitoActionsCommand</summary>
+        </member>
+        <member name="M:Cogito.Build.PowerShell.Fakes.StubInvokeCogitoActionsCommand.#ctor">
+            <summary>Initializes a new instance</summary>
+        </member>
+        <member name="M:Cogito.Build.PowerShell.Fakes.StubInvokeCogitoActionsCommand.BeginProcessing">
+            <summary>Sets the stub of Cmdlet.BeginProcessing()</summary>
+        </member>
+        <member name="F:Cogito.Build.PowerShell.Fakes.StubInvokeCogitoActionsCommand.BeginProcessing01">
+            <summary>Sets the stub of Cmdlet.BeginProcessing()</summary>
+        </member>
+        <member name="M:Cogito.Build.PowerShell.Fakes.StubInvokeCogitoActionsCommand.EndProcessing">
+            <summary>Sets the stub of Cmdlet.EndProcessing()</summary>
+        </member>
+        <member name="F:Cogito.Build.PowerShell.Fakes.StubInvokeCogitoActionsCommand.EndProcessing01">
+            <summary>Sets the stub of Cmdlet.EndProcessing()</summary>
+        </member>
+        <member name="M:Cogito.Build.PowerShell.Fakes.StubInvokeCogitoActionsCommand.GetResourceString(System.String,System.String)">
+            <summary>Sets the stub of Cmdlet.GetResourceString(String baseName, String resourceId)</summary>
+        </member>
+        <member name="F:Cogito.Build.PowerShell.Fakes.StubInvokeCogitoActionsCommand.GetResourceStringStringString">
+            <summary>Sets the stub of Cmdlet.GetResourceString(String baseName, String resourceId)</summary>
+        </member>
+        <member name="M:Cogito.Build.PowerShell.Fakes.StubInvokeCogitoActionsCommand.InitializeStub">
+            <summary>Initializes a new instance of type StubInvokeCogitoActionsCommand</summary>
+        </member>
+        <member name="M:Cogito.Build.PowerShell.Fakes.StubInvokeCogitoActionsCommand.ProcessRecord">
+            <summary>Sets the stub of InvokeCogitoActionsCommand.ProcessRecord()</summary>
+        </member>
+        <member name="F:Cogito.Build.PowerShell.Fakes.StubInvokeCogitoActionsCommand.ProcessRecord01">
+            <summary>Sets the stub of InvokeCogitoActionsCommand.ProcessRecord()</summary>
+        </member>
+        <member name="M:Cogito.Build.PowerShell.Fakes.StubInvokeCogitoActionsCommand.StopProcessing">
+            <summary>Sets the stub of Cmdlet.StopProcessing()</summary>
+        </member>
+        <member name="F:Cogito.Build.PowerShell.Fakes.StubInvokeCogitoActionsCommand.StopProcessing01">
+            <summary>Sets the stub of Cmdlet.StopProcessing()</summary>
+        </member>
+        <member name="P:Cogito.Build.PowerShell.Fakes.StubInvokeCogitoActionsCommand.CallBase">
+            <summary>Gets or sets a value that indicates if the base method should be called instead of the fallback behavior</summary>
+        </member>
+        <member name="P:Cogito.Build.PowerShell.Fakes.StubInvokeCogitoActionsCommand.InstanceBehavior">
+            <summary>Gets or sets the instance behavior.</summary>
+        </member>
+        <member name="P:Cogito.Build.PowerShell.Fakes.StubInvokeCogitoActionsCommand.InstanceObserver">
+            <summary>Gets or sets the instance observer.</summary>
+        </member>
+        <member name="T:Cogito.Build.PowerShell.Fakes.StubRemoveMissingImportsCommand">
+            <summary>Stub type of Cogito.Build.PowerShell.RemoveMissingImportsCommand</summary>
+        </member>
+        <member name="M:Cogito.Build.PowerShell.Fakes.StubRemoveMissingImportsCommand.#ctor">
+            <summary>Initializes a new instance</summary>
+        </member>
+        <member name="M:Cogito.Build.PowerShell.Fakes.StubRemoveMissingImportsCommand.BeginProcessing">
+            <summary>Sets the stub of Cmdlet.BeginProcessing()</summary>
+        </member>
+        <member name="F:Cogito.Build.PowerShell.Fakes.StubRemoveMissingImportsCommand.BeginProcessing01">
+            <summary>Sets the stub of Cmdlet.BeginProcessing()</summary>
+        </member>
+        <member name="M:Cogito.Build.PowerShell.Fakes.StubRemoveMissingImportsCommand.EndProcessing">
+            <summary>Sets the stub of Cmdlet.EndProcessing()</summary>
+        </member>
+        <member name="F:Cogito.Build.PowerShell.Fakes.StubRemoveMissingImportsCommand.EndProcessing01">
+            <summary>Sets the stub of Cmdlet.EndProcessing()</summary>
+        </member>
+        <member name="M:Cogito.Build.PowerShell.Fakes.StubRemoveMissingImportsCommand.GetResourceString(System.String,System.String)">
+            <summary>Sets the stub of Cmdlet.GetResourceString(String baseName, String resourceId)</summary>
+        </member>
+        <member name="F:Cogito.Build.PowerShell.Fakes.StubRemoveMissingImportsCommand.GetResourceStringStringString">
+            <summary>Sets the stub of Cmdlet.GetResourceString(String baseName, String resourceId)</summary>
+        </member>
+        <member name="M:Cogito.Build.PowerShell.Fakes.StubRemoveMissingImportsCommand.InitializeStub">
+            <summary>Initializes a new instance of type StubRemoveMissingImportsCommand</summary>
+        </member>
+        <member name="M:Cogito.Build.PowerShell.Fakes.StubRemoveMissingImportsCommand.ProcessRecord">
+            <summary>Sets the stub of RemoveMissingImportsCommand.ProcessRecord()</summary>
+        </member>
+        <member name="F:Cogito.Build.PowerShell.Fakes.StubRemoveMissingImportsCommand.ProcessRecord01">
+            <summary>Sets the stub of RemoveMissingImportsCommand.ProcessRecord()</summary>
+        </member>
+        <member name="M:Cogito.Build.PowerShell.Fakes.StubRemoveMissingImportsCommand.StopProcessing">
+            <summary>Sets the stub of Cmdlet.StopProcessing()</summary>
+        </member>
+        <member name="F:Cogito.Build.PowerShell.Fakes.StubRemoveMissingImportsCommand.StopProcessing01">
+            <summary>Sets the stub of Cmdlet.StopProcessing()</summary>
+        </member>
+        <member name="P:Cogito.Build.PowerShell.Fakes.StubRemoveMissingImportsCommand.CallBase">
+            <summary>Gets or sets a value that indicates if the base method should be called instead of the fallback behavior</summary>
+        </member>
+        <member name="P:Cogito.Build.PowerShell.Fakes.StubRemoveMissingImportsCommand.InstanceBehavior">
+            <summary>Gets or sets the instance behavior.</summary>
+        </member>
+        <member name="P:Cogito.Build.PowerShell.Fakes.StubRemoveMissingImportsCommand.InstanceObserver">
+            <summary>Gets or sets the instance observer.</summary>
+        </member>
         <member name="T:Cogito.Build.Tasks.Fakes.ShimCogitoTask">
             <summary>Shim type of Cogito.Build.Tasks.CogitoTask</summary>
         </member>
@@ -24,12 +582,6 @@
         </member>
         <member name="P:Cogito.Build.Tasks.Fakes.ShimCogitoTask.Constructor">
             <summary>Sets the shim of CogitoTask.CogitoTask()</summary>
-        </member>
-        <member name="P:Cogito.Build.Tasks.Fakes.ShimCogitoTask.GetPathAttributeString">
-            <summary>Sets the shim of CogitoTask.GetPathAttribute(String path)</summary>
-        </member>
-        <member name="P:Cogito.Build.Tasks.Fakes.ShimCogitoTask.GetRelativePathStringString">
-            <summary>Sets the shim of CogitoTask.GetRelativePath(String fromPath, String toPath)</summary>
         </member>
         <member name="P:Cogito.Build.Tasks.Fakes.ShimCogitoTask.SetAttributeValueXAttributeString">
             <summary>Sets the shim of CogitoTask.SetAttributeValue(XAttribute attribute, String value)</summary>
@@ -393,6 +945,75 @@
         </member>
         <member name="P:Cogito.Build.Tasks.Fakes.StubMakeRelativePathsTask.InstanceObserver">
             <summary>Gets or sets the instance observer.</summary>
+        </member>
+        <member name="T:Cogito.Build.VisualStudio.Fakes.ShimCommands">
+            <summary>Shim type of Cogito.Build.VisualStudio.Commands</summary>
+        </member>
+        <member name="M:Cogito.Build.VisualStudio.Fakes.ShimCommands.#ctor">
+            <summary>Initializes a new shim instance</summary>
+        </member>
+        <member name="M:Cogito.Build.VisualStudio.Fakes.ShimCommands.BehaveAsCurrent">
+            <summary>Assigns the &apos;Current&apos; behavior for all methods of the shimmed type</summary>
+        </member>
+        <member name="M:Cogito.Build.VisualStudio.Fakes.ShimCommands.BehaveAsNotImplemented">
+            <summary>Assigns the &apos;NotImplemented&apos; behavior for all methods of the shimmed type</summary>
+        </member>
+        <member name="P:Cogito.Build.VisualStudio.Fakes.ShimCommands.Behavior">
+            <summary>Assigns the behavior for all methods of the shimmed type</summary>
+        </member>
+        <member name="P:Cogito.Build.VisualStudio.Fakes.ShimCommands.InvokeILoggerDTE">
+            <summary>Sets the shim of Commands.Invoke(ILogger log, DTE dte)</summary>
+        </member>
+        <member name="P:Cogito.Build.VisualStudio.Fakes.ShimCommands.InvokeILoggerDTEProject">
+            <summary>Sets the shim of Commands.Invoke(ILogger log, DTE dte, Project dteProject)</summary>
+        </member>
+        <member name="P:Cogito.Build.VisualStudio.Fakes.ShimCommands.InvokeILoggerProject">
+            <summary>Sets the shim of Commands.Invoke(ILogger log, Project project)</summary>
+        </member>
+        <member name="P:Cogito.Build.VisualStudio.Fakes.ShimCommands.MakeRelativeHintPathILoggerProjectProjectItem">
+            <summary>Sets the shim of Commands.MakeRelativeHintPath(ILogger log, Project project, ProjectItem reference)</summary>
+        </member>
+        <member name="P:Cogito.Build.VisualStudio.Fakes.ShimCommands.MakeRelativeHintPathsILoggerProject">
+            <summary>Sets the shim of Commands.MakeRelativeHintPaths(ILogger log, Project project)</summary>
+        </member>
+        <member name="P:Cogito.Build.VisualStudio.Fakes.ShimCommands.MakeRelativeImportPathILoggerProjectProjectImportElement">
+            <summary>Sets the shim of Commands.MakeRelativeImportPath(ILogger log, Project project, ProjectImportElement import)</summary>
+        </member>
+        <member name="P:Cogito.Build.VisualStudio.Fakes.ShimCommands.MakeRelativeImportPathsILoggerProject">
+            <summary>Sets the shim of Commands.MakeRelativeImportPaths(ILogger log, Project project)</summary>
+        </member>
+        <member name="P:Cogito.Build.VisualStudio.Fakes.ShimCommands.RemoveDuplicateImportsILoggerProjectString">
+            <summary>Sets the shim of Commands.RemoveDuplicateImports(ILogger log, Project project, String fileName)</summary>
+        </member>
+        <member name="T:Cogito.Build.VisualStudio.Fakes.ShimMSBuildExtensions">
+            <summary>Shim type of Cogito.Build.VisualStudio.MSBuildExtensions</summary>
+        </member>
+        <member name="M:Cogito.Build.VisualStudio.Fakes.ShimMSBuildExtensions.#ctor">
+            <summary>Initializes a new shim instance</summary>
+        </member>
+        <member name="M:Cogito.Build.VisualStudio.Fakes.ShimMSBuildExtensions.BehaveAsCurrent">
+            <summary>Assigns the &apos;Current&apos; behavior for all methods of the shimmed type</summary>
+        </member>
+        <member name="M:Cogito.Build.VisualStudio.Fakes.ShimMSBuildExtensions.BehaveAsNotImplemented">
+            <summary>Assigns the &apos;NotImplemented&apos; behavior for all methods of the shimmed type</summary>
+        </member>
+        <member name="P:Cogito.Build.VisualStudio.Fakes.ShimMSBuildExtensions.Behavior">
+            <summary>Assigns the behavior for all methods of the shimmed type</summary>
+        </member>
+        <member name="P:Cogito.Build.VisualStudio.Fakes.ShimMSBuildExtensions.GetNameProject">
+            <summary>Sets the shim of MSBuildExtensions.GetName(Project project)</summary>
+        </member>
+        <member name="P:Cogito.Build.VisualStudio.Fakes.ShimMSBuildExtensions.GetPackagesDirProject">
+            <summary>Sets the shim of MSBuildExtensions.GetPackagesDir(Project project)</summary>
+        </member>
+        <member name="P:Cogito.Build.VisualStudio.Fakes.ShimMSBuildExtensions.IfExistsString">
+            <summary>Sets the shim of MSBuildExtensions.IfExists(String path)</summary>
+        </member>
+        <member name="P:Cogito.Build.VisualStudio.Fakes.ShimMSBuildExtensions.MakeAbsolutePathProjectString">
+            <summary>Sets the shim of MSBuildExtensions.MakeAbsolutePath(Project project, String path)</summary>
+        </member>
+        <member name="P:Cogito.Build.VisualStudio.Fakes.ShimMSBuildExtensions.MakeRelativePackagePathProjectILoggerString">
+            <summary>Sets the shim of MSBuildExtensions.MakeRelativePackagePath(Project project, ILogger log, String path)</summary>
         </member>
     </members>
 </doc>

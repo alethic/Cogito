@@ -28,6 +28,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{CBF008
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cogito.IO", "Cogito.IO\Cogito.IO.csproj", "{460F0507-8101-4D96-AE8E-42B57D703106}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -70,6 +72,10 @@ Global
 		{9CEFDE98-4BC9-4C20-B671-7C1BB6D015BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9CEFDE98-4BC9-4C20-B671-7C1BB6D015BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9CEFDE98-4BC9-4C20-B671-7C1BB6D015BA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{460F0507-8101-4D96-AE8E-42B57D703106}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{460F0507-8101-4D96-AE8E-42B57D703106}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{460F0507-8101-4D96-AE8E-42B57D703106}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{460F0507-8101-4D96-AE8E-42B57D703106}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

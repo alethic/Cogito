@@ -1,9 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\packages\Cogito.Build.2013.9.18.62\build\Cogito.Build.props" Condition="Exists('..\packages\Cogito.Build.2013.9.18.62\build\Cogito.Build.props')" />
-  <Import Project="..\packages\Cogito.Build.2013.9.18.25\build\Cogito.Build.props" Condition="Exists('..\packages\Cogito.Build.2013.9.18.25\build\Cogito.Build.props')" />
-  <Import Project="..\..\packages\Cogito.Build.2013.9.18.12\build\Cogito.Build.props" Condition="Exists('..\..\packages\Cogito.Build.2013.9.18.12\build\Cogito.Build.props')" />
-  <Import Project="$(SolutionDir)\.nuget\NuGet.props" Condition="Exists('$(SolutionDir)\.nuget\NuGet.props')" />
+  <Import Project="$(PackagesDir)\Cogito.Build.2013.9.19.50\build\Cogito.Build.props" Condition="Exists('$(PackagesDir)\Cogito.Build.2013.9.19.50\build\Cogito.Build.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -112,7 +109,7 @@
       <HintPath>$(PackagesDir)\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>$(PackagesDir)\Newtonsoft.Json.4.5.11\lib\net40\Newtonsoft.Json.dll</HintPath>
+      <HintPath>$(PackagesDir)\Newtonsoft.Json.5.0.6\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
@@ -152,12 +149,14 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
-    <None Include="Cogito.Web.Http.nuspec" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Cogito.Web.Http.nuspec">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
-  <Import Project="..\..\packages\Cogito.Build.2013.9.18.12\build\Cogito.Build.targets" Condition="Exists('..\..\packages\Cogito.Build.2013.9.18.12\build\Cogito.Build.targets')" />
-  <Import Project="..\packages\Cogito.Build.2013.9.18.25\build\Cogito.Build.targets" Condition="Exists('..\packages\Cogito.Build.2013.9.18.25\build\Cogito.Build.targets')" />
-  <Import Project="..\packages\Cogito.Build.2013.9.18.62\build\Cogito.Build.targets" Condition="Exists('..\packages\Cogito.Build.2013.9.18.62\build\Cogito.Build.targets')" />
+  <Import Project="$(PackagesDir)\Cogito.Build.2013.9.19.45\build\Cogito.Build.targets" Condition="Exists('$(PackagesDir)\Cogito.Build.2013.9.19.45\build\Cogito.Build.targets')" />
 </Project>

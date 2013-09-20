@@ -6,7 +6,7 @@
     <metadata
         xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
         <id>Cogito.Build</id>
-        <version>2013.9.18.62</version>
+        <version>2013.9.19.52</version>
         <authors>Jerome Haltom</authors>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <description>Build infrastructure improvements.</description>
@@ -21,40 +21,22 @@
             src="build\**\*.*"
             target="build" />
         <file
-            src="bin\$configuration$\Cogito.Build.dll"
+            src="bin\$configuration$\*.dll"
             target="build" />
         <file
-            src="bin\$configuration$\Cogito.Build.pdb"
+            src="bin\$configuration$\*.pdb"
             target="build" />
         <file
-            src="bin\$configuration$\Cogito.Build.psd1"
+            src="bin\$configuration$\*.psd1"
             target="build" />
         <file
-            src="bin\$configuration$\Cogito.PowerShell.dll"
-            target="build" />
-        <file
-            src="bin\$configuration$\Cogito.PowerShell.pdb"
-            target="build" />
-        <file
-            src="bin\$configuration$\Cogito.PowerShell.psd1"
-            target="build" />
-        <file
-            src="bin\$configuration$\Cogito.Build.dll"
+            src="bin\$configuration$\*.dll"
             target="tools" />
         <file
-            src="bin\$configuration$\Cogito.Build.pdb"
+            src="bin\$configuration$\*.pdb"
             target="tools" />
         <file
-            src="bin\$configuration$\Cogito.Build.psd1"
-            target="tools" />
-        <file
-            src="bin\$configuration$\Cogito.PowerShell.dll"
-            target="tools" />
-        <file
-            src="bin\$configuration$\Cogito.PowerShell.pdb"
-            target="tools" />
-        <file
-            src="bin\$configuration$\Cogito.PowerShell.psd1"
+            src="bin\$configuration$\*.psd1"
             target="tools" />
         <file
             src="tools\**\*.*"

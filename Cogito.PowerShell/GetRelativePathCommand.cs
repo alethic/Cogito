@@ -86,15 +86,26 @@ namespace Cogito.PowerShell
         [Parameter(Position = 2, Mandatory = true)]
         public string To { get; set; }
 
+        /// <summary>
+        /// Returns the relative path between <paramref name="from"/> and <paramref name="to"/>.
+        /// </summary>
+        /// <param name="from"></param>
+        /// <param name="to"></param>
+        /// <returns></returns>
+        object Execute(string from, string to)
+        {
+            Contract.Requires<PSArgumentNullException>(!string.IsNullOrWhiteSpace(from));
+            Contract.Requires<PSArgumentNullException>(!string.IsNullOrWhiteSpace(to));
+
+            from = Path.GetFullPath(From);
+            to = Path.GetFullPath(To);
+
+            return GetRelativePath(from, to);
+        }
+
         protected override void ProcessRecord()
         {
-            Contract.Requires<PSArgumentNullException>(!string.IsNullOrWhiteSpace(From));
-            Contract.Requires<PSArgumentNullException>(!string.IsNullOrWhiteSpace(To));
-
-            var from = Path.GetFullPath(From);
-            var to = Path.GetFullPath(To);
-
-            WriteObject(GetRelativePath(from, to));
+            WriteObject(Execute(From, To));
         }
 
     }
