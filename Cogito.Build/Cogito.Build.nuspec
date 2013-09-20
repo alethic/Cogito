@@ -1,0 +1,45 @@
+﻿<?xml version="1.0"?>
+
+<package
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <metadata
+        xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+        <id>Cogito.Build</id>
+        <version>2013.9.19.52</version>
+        <authors>Jerome Haltom</authors>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>Build infrastructure improvements.</description>
+        <language>en-US</language>
+        <copyright>Jerome Haltom</copyright>
+        <licenseUrl>https://raw.github.com/wasabii/Cogito/master/LICENSE</licenseUrl>
+        <projectUrl>https://github.com/wasabii/Cogito</projectUrl>
+        <tags></tags>
+    </metadata>
+    <files>
+        <file
+            src="build\**\*.*"
+            target="build" />
+        <file
+            src="bin\$configuration$\*.dll"
+            target="build" />
+        <file
+            src="bin\$configuration$\*.pdb"
+            target="build" />
+        <file
+            src="bin\$configuration$\*.psd1"
+            target="build" />
+        <file
+            src="bin\$configuration$\*.dll"
+            target="tools" />
+        <file
+            src="bin\$configuration$\*.pdb"
+            target="tools" />
+        <file
+            src="bin\$configuration$\*.psd1"
+            target="tools" />
+        <file
+            src="tools\**\*.*"
+            target="tools" />
+    </files>
+</package>
