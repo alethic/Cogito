@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<Project
+    ToolsVersion="4.0"
+    xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+    <PropertyGroup
+        Condition=" '$(SolutionDir)' == '' Or '$(SolutionDir)' == '*Undefined*'">
+        <SolutionDir>$(MSBuildProjectDirectory)\..\</SolutionDir>
+    </PropertyGroup>
+
+    <PropertyGroup
+        Condition=" '$(PackagesDir)' == '' ">
+        <PackagesDir>$(MSBuildProjectDirectory)\..\packages</PackagesDir>
+    </PropertyGroup>
+
+
+    <PropertyGroup
+        Condition=" '$(GenerateAssemblyVersionFile)' == '' Or '$(GenerateAssemblyVersionFile)' == 'true' ">
+        <AssemblyVersionFile>$([System.IO.Path]::Combine($(IntermediateOutputPath), "AssemblyVersion.g.cs"))</AssemblyVersionFile>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <Compile
+            Include="$(AssemblyVersionFile)" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <MakeRelativePathsTaskVariable
+            Include="ProjectDir">
+            <Path>$(MSBuildProjectDirectory)</Path>
+        </MakeRelativePathsTaskVariable>
+        <MakeRelativePathsTaskVariable
+            Include="PackagesDir">
+            <Path>$(PackagesDir)</Path>
+        </MakeRelativePathsTaskVariable>
+    </ItemGroup>
+
+    <PropertyGroup
+        Condition=" '$(AssemblyVersionFile)' != '' ">
+        <BuildDependsOn>
+            _GenerateAssemblyVersion;
+            $(BuildDependsOn);
+        </BuildDependsOn>
+    </PropertyGroup>
+
+    <Target
+        Name="_InstallBuildProps"
+        Condition="Exists('$(SolutionDir)') And Exists('$(PackagesDir)') And Exists('$(MSBuildProjectFile)')">
+        <InstallBuildPropsTask
+            SolutionDir="$(SolutionDir)"
+            PackagesDir="$(PackagesDir)"
+            ProjectFile="$(MSBuildProjectFile)" />
+    </Target>
+
+    <Target
+        Name="_GenerateAssemblyVersion"
+        Condition=" '$(AssemblyVersionFile)' != '' ">
+        <GenerateAssemblyVersionTask
+            OutputFile="$(AssemblyVersionFile)" />
+    </Target>
+
+    <Target
+        Name="_MakeRelativePathsTask">
+        <MakeRelativePathsTask
+            ProjectFile="$(MSBuildProjectFile)"
+            Variables="@(MakeRelativePathsTaskVariable)" />
+    </Target>
+
+    <UsingTask
+        TaskName="Cogito.Build.Tasks.InstallBuildPropsTask"
+        AssemblyFile="Cogito.Build.dll" />
+
+    <UsingTask
+        TaskName="Cogito.Build.Tasks.GenerateAssemblyVersionTask"
+        AssemblyFile="Cogito.Build.dll" />
+
+    <UsingTask
+        TaskName="Cogito.Build.Tasks.MakeRelativePathsTask"
+        AssemblyFile="Cogito.Build.dll" />
+
+</Project>
