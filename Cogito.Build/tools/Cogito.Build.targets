@@ -8,6 +8,13 @@
         <CogitoBuildTargetsImported>true</CogitoBuildTargetsImported>
     </PropertyGroup>
 
+    <PropertyGroup>
+        <AssemblyVersionFile
+            Condition=" '$(AssemblyVersionFile)' == '' ">
+            $([System.IO.Path]::Combine($(IntermediateOutputPath), "AssemblyVersion.g.cs"))
+        </AssemblyVersionFile>
+    </PropertyGroup>
+
     <PropertyGroup
         Condition=" '$(CogitoBuildEnabled)' == 'true' ">
         <BuildDependsOn>

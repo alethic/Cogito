@@ -622,11 +622,11 @@
         <member name="P:Cogito.Build.Tasks.Fakes.ShimGenerateAssemblyVersionTask.Execute">
             <summary>Sets the shim of GenerateAssemblyVersionTask.Execute()</summary>
         </member>
-        <member name="P:Cogito.Build.Tasks.Fakes.ShimGenerateAssemblyVersionTask.OutputFileGet">
-            <summary>Sets the shim of GenerateAssemblyVersionTask.get_OutputFile()</summary>
+        <member name="P:Cogito.Build.Tasks.Fakes.ShimGenerateAssemblyVersionTask.OutputFilePathGet">
+            <summary>Sets the shim of GenerateAssemblyVersionTask.get_OutputFilePath()</summary>
         </member>
-        <member name="P:Cogito.Build.Tasks.Fakes.ShimGenerateAssemblyVersionTask.OutputFileSetString">
-            <summary>Sets the shim of GenerateAssemblyVersionTask.set_OutputFile(String value)</summary>
+        <member name="P:Cogito.Build.Tasks.Fakes.ShimGenerateAssemblyVersionTask.OutputFilePathSetString">
+            <summary>Sets the shim of GenerateAssemblyVersionTask.set_OutputFilePath(String value)</summary>
         </member>
         <member name="T:Cogito.Build.Tasks.Fakes.ShimGenerateAssemblyVersionTask.AllInstances">
             <summary>Define shims for all instances members</summary>
@@ -634,11 +634,11 @@
         <member name="P:Cogito.Build.Tasks.Fakes.ShimGenerateAssemblyVersionTask.AllInstances.Execute">
             <summary>Sets the shim of GenerateAssemblyVersionTask.Execute()</summary>
         </member>
-        <member name="P:Cogito.Build.Tasks.Fakes.ShimGenerateAssemblyVersionTask.AllInstances.OutputFileGet">
-            <summary>Sets the shim of GenerateAssemblyVersionTask.get_OutputFile()</summary>
+        <member name="P:Cogito.Build.Tasks.Fakes.ShimGenerateAssemblyVersionTask.AllInstances.OutputFilePathGet">
+            <summary>Sets the shim of GenerateAssemblyVersionTask.get_OutputFilePath()</summary>
         </member>
-        <member name="P:Cogito.Build.Tasks.Fakes.ShimGenerateAssemblyVersionTask.AllInstances.OutputFileSetString">
-            <summary>Sets the shim of GenerateAssemblyVersionTask.set_OutputFile(String value)</summary>
+        <member name="P:Cogito.Build.Tasks.Fakes.ShimGenerateAssemblyVersionTask.AllInstances.OutputFilePathSetString">
+            <summary>Sets the shim of GenerateAssemblyVersionTask.set_OutputFilePath(String value)</summary>
         </member>
         <member name="T:Cogito.Build.Tasks.Fakes.ShimInstallBuildPropsTask">
             <summary>Shim type of Cogito.Build.Tasks.InstallBuildPropsTask</summary>
