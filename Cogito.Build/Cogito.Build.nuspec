@@ -6,7 +6,7 @@
     <metadata
         xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
         <id>Cogito.Build</id>
-        <version>2013.9.19.52</version>
+        <version>2013.9.21.10</version>
         <authors>Jerome Haltom</authors>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <description>Build infrastructure improvements.</description>
@@ -18,17 +18,8 @@
     </metadata>
     <files>
         <file
-            src="build\**\*.*"
-            target="build" />
-        <file
-            src="bin\$configuration$\*.dll"
-            target="build" />
-        <file
-            src="bin\$configuration$\*.pdb"
-            target="build" />
-        <file
-            src="bin\$configuration$\*.psd1"
-            target="build" />
+            src="content\"
+            target="content" />
         <file
             src="bin\$configuration$\*.dll"
             target="tools" />
@@ -39,7 +30,19 @@
             src="bin\$configuration$\*.psd1"
             target="tools" />
         <file
-            src="tools\**\*.*"
+            src="bin\$configuration$\*.dll"
             target="tools" />
+        <file
+            src="bin\$configuration$\*.pdb"
+            target="tools" />
+        <file
+            src="bin\$configuration$\*.psd1"
+            target="tools" />
+        <file
+            src="tools\"
+            target="tools" />
+        <file
+            src="build\"
+            target="build" />
     </files>
 </package>
