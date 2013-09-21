@@ -4,6 +4,8 @@
     [Parameter(Mandatory = $true)]          $package, 
     [Parameter(Mandatory = $true)]          $project
 )
+
+[System.AppDomain]::CurrentDomain.SetShadowCopyFiles();
  
 # Need to load MSBuild assembly if it's not loaded yet.
 Add-Type -AssemblyName 'Microsoft.Build, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a'
