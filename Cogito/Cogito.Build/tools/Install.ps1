@@ -5,7 +5,9 @@
     [Parameter(Mandatory = $true)]          $project
 )
 
-# Cogito.Build.targets
+[System.AppDomain]::CurrentDomain.SetShadowCopyFiles();
+
+# Files to be imported.
 $propsFile = [System.IO.Path]::Combine($toolsPath, "$($package.Id).props")
 $targetsFile = [System.IO.Path]::Combine($toolsPath, "$($package.Id).targets")
  
