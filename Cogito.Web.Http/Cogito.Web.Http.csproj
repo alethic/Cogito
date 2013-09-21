@@ -1,6 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\packages\Cogito.Build.2013.9.21.10\tools\Cogito.Build.props" Condition="Exists('..\packages\Cogito.Build.2013.9.21.10\tools\Cogito.Build.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -163,10 +162,5 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
-  <Import Project="..\packages\Cogito.Build.2013.9.21.10\tools\Cogito.Build.targets" Condition="Exists('..\packages\Cogito.Build.2013.9.21.10\tools\Cogito.Build.targets')" />
-  <Target Name="EnsureCogitoBuildImported" BeforeTargets="BeforeBuild" Condition="'$(CogitoBuildPropsImported)' == '' Or '$(CogitoBuildTargetsImported)' == ''">
-    <Error Condition="!Exists('..\packages\Cogito.Build.2013.9.21.10\tools\Cogito.Build.props') Or !Exists('..\packages\Cogito.Build.2013.9.21.10\tools\Cogito.Build.targets')" Text="This project references the package Cogito.Build that is missing on this computer. Enable NuGet Package Restore to download it." HelpKeyword="COGITOBUILD2001" />
-    <Error Condition="Exists('..\packages\Cogito.Build.2013.9.21.10\tools\Cogito.Build.props') And Exists('..\packages\Cogito.Build.2013.9.21.10\tools\Cogito.Build.targets')" Text="The build restored the Cogito.Build package. Build the project again to include this package." HelpKeyword="COGITOBUILD2002" />
-  </Target>
   <Import Project="Fody.targets" />
 </Project>
