@@ -5,16 +5,15 @@
     xmlns:xsd="http://www.w3.org/2001/XMLSchema">
     <metadata
         xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
-        <id>Cogito.Build</id>
-        <version>2013.9.21.12</version>
+        <id>$id$</id>
+        <version>$version$</version>
         <authors>Jerome Haltom</authors>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
-        <description>Build infrastructure improvements.</description>
+        <description>Various shared build infrastructure improvements.</description>
         <language>en-US</language>
         <copyright>Jerome Haltom</copyright>
         <licenseUrl>https://raw.github.com/wasabii/Cogito/master/LICENSE</licenseUrl>
         <projectUrl>https://github.com/wasabii/Cogito</projectUrl>
-        <tags></tags>
     </metadata>
     <files>
         <file

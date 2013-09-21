@@ -2,8 +2,8 @@
 
 <package xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
     <metadata xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
-        <id>Cogito.Web.Http</id>
-        <version>$version$-pre</version>
+        <id>$id$</id>
+        <version>$version$-alpha1</version>
         <authors>Jerome Haltom</authors>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <description>Set of libraries for HTTP hosting.</description>
@@ -13,18 +13,8 @@
         <licenseUrl>https://raw.github.com/wasabii/Cogito/master/LICENSE</licenseUrl>
         <projectUrl>https://github.com/wasabii/Cogito</projectUrl>
         <references>
-            <reference file="Cogito.Web.Http.dll" />
+            <reference 
+                file="Cogito.Web.Http.dll" />
         </references>
-        <dependencies>
-            <dependency id="Microsoft.AspNet.WebApi.Core" version="5.0.0-rc1" />
-            <dependency id="Cogito.Composition" />
-        </dependencies>
-        <tags>mef</tags>
     </metadata>
-    <files>
-        <file src="bin\$configuration$\Cogito.Web.Http.dll" target="lib\net45" />
-        <file src="bin\$configuration$\Cogito.Web.Http.pdb" target="lib\net45" />
-        <file src="bin\$configuration$\CodeContracts\Cogito.Web.Http.Contracts.dll" target="lib\net45" />
-        <file src="bin\$configuration$\CodeContracts\Cogito.Web.Http.Contracts.pdb" target="lib\net45" />
-    </files>
 </package>
