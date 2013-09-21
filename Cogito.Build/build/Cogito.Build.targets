@@ -1,161 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project
+    ToolsVersion="4.0"
+    xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
-    <PropertyGroup>
-        <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">$(MSBuildProjectDirectory)\..\</SolutionDir>
+    <PropertyGroup
+        Condition=" '$(SolutionDir)' == '' Or '$(SolutionDir)' == '*Undefined*'">
+        <SolutionDir>$(MSBuildProjectDirectory)\..\</SolutionDir>
     </PropertyGroup>
 
-    <PropertyGroup Condition=" '$(OS)' == 'Windows_NT'">
-        <!-- Windows specific commands -->
-        <PackagesDir>$([System.IO.Path]::Combine($(SolutionDir), "packages"))</PackagesDir>
+    <PropertyGroup
+        Condition=" '$(PackagesDir)' == '' ">
+        <PackagesDir>$(MSBuildProjectDirectory)\..\packages</PackagesDir>
     </PropertyGroup>
 
-    <PropertyGroup>
-        <AssemblyVersionPath>$([System.IO.Path]::Combine($(ProjectDir), "Properties\AssemblyVersion.cs"))</AssemblyVersionPath>
-        <NuspecPath>$([System.IO.Path]::Combine($(ProjectDir), "Properties\$(ProjectName).nuspec"))</NuspecPath>
 
-        <!-- Make the build depend on restore packages -->
+    <PropertyGroup
+        Condition=" '$(GenerateAssemblyVersionFile)' == '' Or '$(GenerateAssemblyVersionFile)' == 'true' ">
+        <AssemblyVersionFile>$([System.IO.Path]::Combine($(IntermediateOutputPath), "AssemblyVersion.g.cs"))</AssemblyVersionFile>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <Compile
+            Include="$(AssemblyVersionFile)" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <MakeRelativePathsTaskVariable
+            Include="ProjectDir">
+            <Path>$(MSBuildProjectDirectory)</Path>
+        </MakeRelativePathsTaskVariable>
+        <MakeRelativePathsTaskVariable
+            Include="PackagesDir">
+            <Path>$(PackagesDir)</Path>
+        </MakeRelativePathsTaskVariable>
+    </ItemGroup>
+
+    <PropertyGroup
+        Condition=" '$(AssemblyVersionFile)' != '' ">
         <BuildDependsOn>
-            _FixUpNuGetProps;
-            _FixUpProjectFile;
-            _UpdateAssemblyVersion;
-            _UpdateNuspecVersion;
+            _GenerateAssemblyVersion;
             $(BuildDependsOn);
         </BuildDependsOn>
     </PropertyGroup>
 
-    <Target Name="_FixUpNuGetProps" Condition="Exists('$(MSBuildProjectFile)')">
-        <FixUpNuGetProps SolutionDir="$(SolutionDir)" MSBuildProjectFile="$(MSBuildProjectFile)" />
+    <Target
+        Name="_InstallBuildProps"
+        Condition="Exists('$(SolutionDir)') And Exists('$(PackagesDir)') And Exists('$(MSBuildProjectFile)')">
+        <InstallBuildPropsTask
+            SolutionDir="$(SolutionDir)"
+            PackagesDir="$(PackagesDir)"
+            ProjectFile="$(MSBuildProjectFile)" />
     </Target>
 
-    <Target Name="_FixUpProjectFile" Condition="Exists('$(MSBuildProjectFile)')">
-        <FixUpProjectFile MSBuildProjectFile="$(MSBuildProjectFile)" />
+    <Target
+        Name="_GenerateAssemblyVersion"
+        Condition=" '$(AssemblyVersionFile)' != '' ">
+        <GenerateAssemblyVersionTask
+            OutputFile="$(AssemblyVersionFile)" />
     </Target>
 
-    <Target Name="_UpdateAssemblyVersion" Condition="Exists('$(AssemblyVersionPath)')">
-        <UpdateAssemblyVersion OutputFilename="$(AssemblyVersionPath)" />
-    </Target>
-
-    <Target Name="_UpdateNuspecVersion" Condition="Exists('$(NuspecPath)')">
-        <UpdateNuspecVersion OutputFilename="$(NuspecPath)" />
+    <Target
+        Name="_MakeRelativePathsTask">
+        <MakeRelativePathsTask
+            ProjectFile="$(MSBuildProjectFile)"
+            Variables="@(MakeRelativePathsTaskVariable)" />
     </Target>
 
     <UsingTask
-        TaskName="Cogito.Build.Tasks.FixUpNuGetProps"
+        TaskName="Cogito.Build.Tasks.InstallBuildPropsTask"
         AssemblyFile="Cogito.Build.dll" />
 
     <UsingTask
-        TaskName="Cogito.Build.Tasks.FixUpProjectFile"
+        TaskName="Cogito.Build.Tasks.GenerateAssemblyVersionTask"
         AssemblyFile="Cogito.Build.dll" />
 
     <UsingTask
-        TaskName="UpdateAssemblyVersion"
-        TaskFactory="CodeTaskFactory"
-        AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.v4.0.dll">
-        <ParameterGroup>
-            <OutputFilename
-                ParameterType="System.String"
-                Required="true" />
-        </ParameterGroup>
-        <Task>
-            <Reference Include="System.Core" />
-            <Using Namespace="System" />
-            <Using Namespace="System.IO" />
-            <Using Namespace="Microsoft.Build.Framework" />
-            <Using Namespace="Microsoft.Build.Utilities" />
-            <Code Type="Fragment"
-                  Language="cs">
-                <![CDATA[
-
-                var version = string.Format(@"{0}.{1}.{2}.{3}",
-                    DateTime.UtcNow.Year,
-                    DateTime.UtcNow.Month,
-                    DateTime.UtcNow.Day,
-                    DateTime.UtcNow.Hour * 100 + DateTime.UtcNow.Minute);
-            
-                try
-                {
-                    File.WriteAllText(Path.GetFullPath(OutputFilename), string.Format(@"
-using System.Reflection;
-
-[assembly: AssemblyVersion(""{0}"")]
-[assembly: AssemblyFileVersion(""{0}"")]
-[assembly: AssemblyInformationalVersion(""{0}"")]
-
-", version).Trim());
-                }
-                catch (Exception ex) 
-                {
-                    Log.LogErrorFromException(ex);
-                    return false;
-                }
-                
-                return true;
-            ]]>
-            </Code>
-        </Task>
-    </UsingTask>
-
-    <UsingTask
-        TaskName="UpdateNuspecVersion"
-        TaskFactory="CodeTaskFactory"
-        AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.v4.0.dll">
-        <ParameterGroup>
-            <OutputFilename
-                ParameterType="System.String"
-                Required="true" />
-        </ParameterGroup>
-        <Task>
-            <Reference
-                Include="System.Core" />
-            <Reference
-                Include="System.Xml" />
-            <Reference
-                Include="System.Xml.Linq" />
-            <Using
-                Namespace="System" />
-            <Using
-                Namespace="System.IO" />
-            <Using
-                Namespace="System.Xml.Linq" />
-            <Using
-                Namespace="Microsoft.Build.Framework" />
-            <Using
-                Namespace="Microsoft.Build.Utilities" />
-            <Code
-                Type="Fragment"
-                Language="cs">
-                <![CDATA[
-
-                var version = string.Format(@"{0}.{1}.{2}.{3}",
-                    DateTime.UtcNow.Year,
-                    DateTime.UtcNow.Month,
-                    DateTime.UtcNow.Day,
-                    DateTime.UtcNow.Hour * 100 + DateTime.UtcNow.Minute);
-                    
-                var ns = (XNamespace)@"http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd";
-            
-                try
-                {
-                    var xml = XDocument.Load(Path.GetFullPath(OutputFilename), LoadOptions.PreserveWhitespace | LoadOptions.SetLineInfo);
-                    xml
-                        .Element("package")
-                        .Element(ns + "metadata")
-                        .Element(ns + "version")
-                        .Value = version;
-                    xml.Save(Path.GetFullPath(OutputFilename), SaveOptions.DisableFormatting);
-                }
-                catch (Exception ex) 
-                {
-                    Log.LogErrorFromException(ex);
-                    return false;
-                }
-                
-                return true;
-            ]]>
-            </Code>
-        </Task>
-    </UsingTask>
+        TaskName="Cogito.Build.Tasks.MakeRelativePathsTask"
+        AssemblyFile="Cogito.Build.dll" />
 
 </Project>

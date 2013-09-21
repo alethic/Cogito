@@ -27,8 +27,6 @@ namespace Cogito.Web.Internal
 
         public void Activate(HttpApplication http)
         {
-            Contract.Requires<ArgumentNullException>(http != null);
-
             if (activated)
                 return;
 

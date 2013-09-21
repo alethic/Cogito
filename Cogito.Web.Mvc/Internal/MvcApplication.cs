@@ -43,9 +43,6 @@ namespace Cogito.Web.Mvc.Internal
 
         public void Activate(HttpApplication http, RouteCollection routes)
         {
-            Contract.Requires<ArgumentNullException>(http != null);
-            Contract.Requires<ArgumentNullException>(routes != null);
-
             if (activated)
                 return;
 

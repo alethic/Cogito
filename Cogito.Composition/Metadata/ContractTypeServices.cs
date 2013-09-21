@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.Contracts;
 using System.Text.RegularExpressions;
 
 namespace Cogito.Composition.Metadata
@@ -10,8 +11,6 @@ namespace Cogito.Composition.Metadata
     public static class ContractTypeServices
     {
 
-        static readonly Regex contractNameRegex = new Regex(@"^(?:[^()]|(?<Open>[(])|(?<Content-Open>[)]))*(?(Open)(?!))$", RegexOptions.IgnorePatternWhitespace);
-
         /// <summary>
         /// Attempts to resolve a contract name into a <see cref="Type"/>.
         /// </summary>
@@ -19,11 +18,8 @@ namespace Cogito.Composition.Metadata
         /// <returns></returns>
         public static Type ResolveContractName(string contractName)
         {
-            var m = contractNameRegex.Match(contractName);
-            if (m.Success)
-                return ResolveTypeMatch(m);
-
-            return null;
+            Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(contractName));
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -33,7 +29,7 @@ namespace Cogito.Composition.Metadata
         /// <returns></returns>
         static Type ResolveTypeMatch(Match m)
         {
-            return null;
+            throw new NotImplementedException();
         }
 
     }

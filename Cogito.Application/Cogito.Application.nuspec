@@ -4,7 +4,7 @@
 
     <metadata xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
         <id>Cogito.Application</id>
-        <version>2013.9.17.1358</version>
+        <version>$version$-pre</version>
         <authors>Jerome Haltom</authors>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <description>Set of libraries for writing applications.</description>
@@ -22,9 +22,9 @@
         <tags>mef</tags>
     </metadata>
     <files>
-        <file src="..\bin\Release\Cogito.Application.dll" target="lib\net45" />
-        <file src="..\bin\Release\Cogito.Application.pdb" target="lib\net45" />
-        <file src="..\bin\Release\CodeContracts\Cogito.Application.Contracts.dll" target="lib\net45" />
-        <file src="..\bin\Release\CodeContracts\Cogito.Application.Contracts.pdb" target="lib\net45" />
+        <file src="bin\$configuration$\Cogito.Application.dll" target="lib\net45" />
+        <file src="bin\$configuration$\Cogito.Application.pdb" target="lib\net45" />
+        <file src="bin\$configuration$\CodeContracts\Cogito.Application.Contracts.dll" target="lib\net45" />
+        <file src="bin\$configuration$\CodeContracts\Cogito.Application.Contracts.pdb" target="lib\net45" />
     </files>
 </package>
