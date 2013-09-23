@@ -21,7 +21,7 @@ namespace Cogito.Build.Tasks
         /// Injected path to output the generated AssemblyVersion file.
         /// </summary>
         [Required]
-        public string OutputFile { get; set; }
+        public string OutputFilePath { get; set; }
 
         /// <summary>
         /// Executes the task.
@@ -51,7 +51,7 @@ namespace Cogito.Build.Tasks
             cu.AssemblyCustomAttributes.Add(a3);
 
             // write to output file
-            using (var writer = File.CreateText(OutputFile))
+            using (var writer = File.CreateText(OutputFilePath))
                 new CSharpCodeProvider().GenerateCodeFromCompileUnit(cu, writer, new CodeGeneratorOptions());
 
             return true;
