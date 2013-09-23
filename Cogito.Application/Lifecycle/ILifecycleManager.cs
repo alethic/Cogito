@@ -7,7 +7,7 @@ namespace Cogito.Application.Lifecycle
     /// Provides methods to invoke lifecycle events.
     /// </summary>
     public interface ILifecycleManager<out T>
-        where T : IApplication
+        where T : class
     {
 
         /// <summary>
@@ -44,12 +44,12 @@ namespace Cogito.Application.Lifecycle
         /// Advances the state to the specified position.
         /// </summary>
         /// <param name="state"></param>
-        void EnsureState(State state);
+        void SetState(State state);
 
         /// <summary>
         /// Raised when the state of the application is changed.
         /// </summary>
-        event EventHandler<StateChangedEventArgs> StateChanged;
+        event EventHandler<StateChangeEventArgs> StateChange;
 
     }
 

@@ -3,35 +3,35 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.ComponentModel.Composition.Primitives;
 using System.ComponentModel.Composition.ReflectionModel;
+using System.Reflection;
 using System.Web.Mvc;
-using System.Linq;
+
 using Cogito.Application.Lifecycle;
 using Cogito.Composition;
-using System.Reflection;
 
 namespace Cogito.Web.Mvc.Configuration
 {
 
-    [OnStart(typeof(IMvcApplication))]
-    public class ControllerRouteConfiguration : MvcLifecycleComponent
+    [OnStart(typeof(IMvcModule))]
+    public class RouteSetup : MvcLifecycleListener
     {
 
         ICompositionContext composition;
-        IMvcApplication app;
+        IMvcModule module;
 
         /// <summary>
         /// Initializes a new instance.
         /// </summary>
         /// <param name="composition"></param>
-        /// <param name="app"></param>
+        /// <param name="module"></param>
         [ImportingConstructor]
-        public ControllerRouteConfiguration(
+        public RouteSetup(
             ICompositionContext composition,
-            IMvcApplication app)
-            : base(app)
+            IMvcModule module)
+            : base()
         {
             this.composition = composition;
-            this.app = app;
+            this.module = module;
         }
 
         public override void OnStart()
@@ -55,9 +55,9 @@ namespace Cogito.Web.Mvc.Configuration
                         if (a is Type)
                             t.Add((Type)a);
             }
-
+            
             // map the attributed routes
-            app.Routes.MapMvcAttributeRoutes(t);
+            module.Routes.MapMvcAttributeRoutes(t);
         }
 
     }

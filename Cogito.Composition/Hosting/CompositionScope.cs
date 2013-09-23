@@ -14,7 +14,7 @@ namespace Cogito.Composition.Hosting
         /// Initializes a new instance.
         /// </summary>
         /// <param name="parent"></param>
-        public CompositionScope(CompositionContainerCore parent)
+        public CompositionScope(System.ComponentModel.Composition.Hosting.CompositionContainer parent)
             : base(
                 parent: parent,
                 catalog: null,

@@ -5,14 +5,14 @@ namespace Cogito.Application.Lifecycle
 {
 
     [AttributeUsage(AttributeTargets.Class)]
-    public class OnShutdownAttribute : ExportAttribute
+    public class OnStateChangeAttribute : ExportAttribute
     {
 
         /// <summary>
         /// Initializes a new instance.
         /// </summary>
-        public OnShutdownAttribute(Type type)
-            : base(typeof(IOnShutdown<>).MakeGenericType(type))
+        public OnStateChangeAttribute(Type type)
+            : base(typeof(IOnStateChange<>).MakeGenericType(type))
         {
 
         }

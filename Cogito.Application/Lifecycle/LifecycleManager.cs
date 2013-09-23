@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Diagnostics.Contracts;
-using System.Linq;
 
 using Cogito.Composition;
 
@@ -14,18 +13,18 @@ namespace Cogito.Application.Lifecycle
     /// </summary>
     [Export(typeof(ILifecycleManager<>))]
     public class LifecycleManager<T> : ILifecycleManager<T>
-        where T : IApplication
+        where T : class
     {
 
         State state = State.Unknown;
         ICompositionContext composition;
-        IEnumerable<ILifecycleManager<IApplication>> baseManagers;
         IEnumerable<IOnInit<T>> init;
         IEnumerable<IOnBeforeStart<T>> beforeStart;
         IEnumerable<IOnStart<T>> start;
         IEnumerable<IOnAfterStart<T>> afterStart;
         IEnumerable<IOnBeforeShutdown<T>> beforeShutdown;
         IEnumerable<IOnShutdown<T>> shutdown;
+        IEnumerable<IOnStateChange<T>> stateChange;
 
         /// <summary>
         /// Initializes a new instance.
@@ -42,45 +41,14 @@ namespace Cogito.Application.Lifecycle
             this.afterStart = composition.GetExportedValue<IImportCollection<IOnAfterStart<T>>>();
             this.beforeShutdown = composition.GetExportedValue<IImportCollection<IOnBeforeShutdown<T>>>();
             this.shutdown = composition.GetExportedValue<IImportCollection<IOnShutdown<T>>>();
-        }
-
-        /// <summary>
-        /// Returns all the <see cref="ILifecycleManager"/> instances that this instance is based on.
-        /// </summary>
-        /// <returns></returns>
-        IEnumerable<ILifecycleManager<IApplication>> GetBaseManagers()
-        {
-            if (baseManagers != null)
-                return baseManagers;
-
-            // obtain lifecycle manager for every application type subordinate to us
-            var l = typeof(T).GetInterfaces()
-                .Where(i => typeof(IApplication).IsAssignableFrom(i))
-                .Select(i => (ILifecycleManager<IApplication>)composition.GetExportedValue(typeof(ILifecycleManager<>).MakeGenericType(i)))
-                .ToList();
-
-            // subscribe to notification of change
-            foreach (var i in l)
-                i.StateChanged += baseManager_StateChanged;
-
-            return baseManagers = l;
-        }
-
-        /// <summary>
-        /// Invoked when the state of one of the base applications is changed.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="args"></param>
-        void baseManager_StateChanged(object sender, StateChangedEventArgs args)
-        {
-            EnsureState(args.State);
+            this.stateChange = composition.GetExportedValue<IImportCollection<IOnStateChange<T>>>();
         }
 
         /// <summary>
         /// Advances to the specified state.
         /// </summary>
         /// <param name="state"></param>
-        public void EnsureState(State state)
+        public void SetState(State state)
         {
             switch (state)
             {
@@ -106,26 +74,18 @@ namespace Cogito.Application.Lifecycle
         }
 
         /// <summary>
-        /// 
-        /// </summary>
-        IEnumerable<ILifecycleManager<IApplication>> BaseManagers
-        {
-            get { return baseManagers ?? (baseManagers = GetBaseManagers()); }
-        }
-
-        /// <summary>
         /// Raised when the state is changed.
         /// </summary>
-        public event EventHandler<StateChangedEventArgs> StateChanged;
+        public event EventHandler<StateChangeEventArgs> StateChange;
 
         /// <summary>
         /// Raises the StateChanged event.
         /// </summary>
         /// <param name="args"></param>
-        void OnStateChanged(StateChangedEventArgs args)
+        void OnStateChanged(StateChangeEventArgs args)
         {
-            if (StateChanged != null)
-                StateChanged(this, args);
+            if (StateChange != null)
+                StateChange(this, args);
         }
 
         /// <summary>
@@ -138,13 +98,10 @@ namespace Cogito.Application.Lifecycle
 
             state = State.Init;
 
-            foreach (var m in BaseManagers)
-                m.Init();
-
             foreach (var i in init)
                 i.OnInit();
 
-            OnStateChanged(new StateChangedEventArgs(state));
+            OnStateChanged(new StateChangeEventArgs(state));
         }
 
         /// <summary>
@@ -159,13 +116,10 @@ namespace Cogito.Application.Lifecycle
 
             state = State.BeforeStart;
 
-            foreach (var m in BaseManagers)
-                m.BeforeStart();
-
             foreach (var i in beforeStart)
                 i.OnBeforeStart();
 
-            OnStateChanged(new StateChangedEventArgs(state));
+            OnStateChanged(new StateChangeEventArgs(state));
         }
 
         /// <summary>
@@ -180,13 +134,10 @@ namespace Cogito.Application.Lifecycle
 
             state = State.Start;
 
-            foreach (var m in BaseManagers)
-                m.Start();
-
             foreach (var i in start)
                 i.OnStart();
 
-            OnStateChanged(new StateChangedEventArgs(state));
+            OnStateChanged(new StateChangeEventArgs(state));
         }
 
         /// <summary>
@@ -201,13 +152,10 @@ namespace Cogito.Application.Lifecycle
 
             state = State.AfterStart;
 
-            foreach (var m in BaseManagers)
-                m.AfterStart();
-
             foreach (var i in afterStart)
                 i.OnAfterStart();
 
-            OnStateChanged(new StateChangedEventArgs(state));
+            OnStateChanged(new StateChangeEventArgs(state));
         }
 
         /// <summary>
@@ -222,13 +170,10 @@ namespace Cogito.Application.Lifecycle
 
             state = State.BeforeShutdown;
 
-            foreach (var m in BaseManagers)
-                m.BeforeShutdown();
-
             foreach (var i in beforeShutdown)
                 i.OnBeforeShutdown();
 
-            OnStateChanged(new StateChangedEventArgs(state));
+            OnStateChanged(new StateChangeEventArgs(state));
         }
 
         /// <summary>
@@ -243,13 +188,10 @@ namespace Cogito.Application.Lifecycle
 
             state = State.Shutdown;
 
-            foreach (var m in BaseManagers)
-                m.Shutdown();
-
             foreach (var i in shutdown)
                 i.OnShutdown();
 
-            OnStateChanged(new StateChangedEventArgs(state));
+            OnStateChanged(new StateChangeEventArgs(state));
         }
 
     }

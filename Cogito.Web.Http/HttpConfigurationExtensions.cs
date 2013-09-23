@@ -27,7 +27,7 @@ namespace Cogito.Web.Http
             Contract.Requires<ArgumentNullException>(composition != null);
 
             // activate WebApi framework
-            composition.GetExportedValue<IApiApplication>().Activate(configuration);
+            composition.GetExportedValue<IWebApiModule>().Configure(configuration);
 
             return configuration;
         }

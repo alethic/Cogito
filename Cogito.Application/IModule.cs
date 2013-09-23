@@ -2,9 +2,9 @@
 {
 
     /// <summary>
-    /// Base interface describing an application.
+    /// Represents a component of an application.
     /// </summary>
-    public interface IApplication
+    public interface IModule
     {
 
 

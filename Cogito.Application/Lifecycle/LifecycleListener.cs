@@ -1,32 +1,26 @@
-﻿using System;
-
-namespace Cogito.Application.Lifecycle
+﻿namespace Cogito.Application.Lifecycle
 {
 
     /// <summary>
-    /// Base lifecycle component implementation that is invoked on all lifecycle events and determines their
-    /// applicability through a boolean.
+    /// Base lifecycle component implementation that is invoked on all lifecycle events. Override the On methods to
+    /// implement responses to lifecycle changes.
     /// </summary>
-    public abstract class LifecycleComponent<T> :
+    public abstract class LifecycleListener<T> :
         IOnInit<T>,
         IOnBeforeStart<T>,
         IOnStart<T>,
         IOnAfterStart<T>,
         IOnBeforeShutdown<T>,
         IOnShutdown<T>
-        where T : IApplication
+        where T : class
     {
-
-        Func<bool> enabled;
 
         /// <summary>
         /// Initializes a new instance.
         /// </summary>
-        /// <param name="enabled"></param>
-        public LifecycleComponent(
-            Func<bool> enabled)
+        public LifecycleListener()
         {
-            this.enabled = enabled;
+
         }
 
         public virtual void OnInit()
@@ -61,32 +55,27 @@ namespace Cogito.Application.Lifecycle
 
         void IOnBeforeStart<T>.OnBeforeStart()
         {
-            if (enabled())
-                OnBeforeStart();
+            OnBeforeStart();
         }
 
         void IOnStart<T>.OnStart()
         {
-            if (enabled())
-                OnStart();
+            OnStart();
         }
 
         void IOnAfterStart<T>.OnAfterStart()
         {
-            if (enabled())
-                OnAfterStart();
+            OnAfterStart();
         }
 
         void IOnBeforeShutdown<T>.OnBeforeShutdown()
         {
-            if (enabled())
-                OnBeforeShutdown();
+            OnBeforeShutdown();
         }
 
         void IOnShutdown<T>.OnShutdown()
         {
-            if (enabled())
-                OnShutdown();
+            OnShutdown();
         }
 
     }

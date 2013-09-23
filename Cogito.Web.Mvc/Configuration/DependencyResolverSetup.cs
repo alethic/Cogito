@@ -4,13 +4,15 @@ using System.Diagnostics.Contracts;
 using System.Web.Mvc;
 
 using Cogito.Application.Lifecycle;
-using Cogito.Web.Mvc;
 
-namespace Cogito.Web.Http.Configuration
+namespace Cogito.Web.Mvc
 {
 
-    [OnBeforeStart(typeof(IMvcApplication))]
-    public class DependencyResolverConfiguration : MvcLifecycleComponent
+    /// <summary>
+    /// Configures the MVC dependency resolver.
+    /// </summary>
+    [OnBeforeStart(typeof(IMvcModule))]
+    public class DependencyResolverSetup : MvcLifecycleListener
     {
 
         IDependencyResolver dependencyResolver;
@@ -18,15 +20,13 @@ namespace Cogito.Web.Http.Configuration
         /// <summary>
         /// Initializes a new instance.
         /// </summary>
-        /// <param name="app"></param>
+        /// <param name="module"></param>
         /// <param name="dependencyResolver"></param>
         [ImportingConstructor]
-        public DependencyResolverConfiguration(
-            IMvcApplication app,
+        public DependencyResolverSetup(
             IDependencyResolver dependencyResolver)
-            : base(app)
+            : base()
         {
-            Contract.Requires<ArgumentNullException>(app != null);
             Contract.Requires<ArgumentNullException>(dependencyResolver != null);
 
             this.dependencyResolver = dependencyResolver;

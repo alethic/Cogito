@@ -7,7 +7,7 @@ namespace Cogito.Composition.Internal
     /// Provides a grammar for parsing a MEF contract type specification.
     /// </summary>
     [Language("ContractTypeName", "1", "MEF Contract Type Name Grammar")]
-    internal class ContractTypeNameGrammar : Grammar
+    class ContractTypeNameGrammar : Grammar
     {
 
         public static class Terms
@@ -32,10 +32,14 @@ namespace Cogito.Composition.Internal
         public ContractTypeNameGrammar()
             : base(true)
         {
+            MarkPunctuation("(", ")", ".", ",");
+
             var identifier = TerminalFactory.CreateCSharpIdentifier(Terms.identifier);
+            identifier.Flags |= TermFlags.NoAstNode;
             var qualified_identifier = new NonTerminal(Terms.qualified_identifier);
             var type_arg_list = new NonTerminal(Terms.type_arg_list);
             var type_arg_opt = new NonTerminal(Terms.type_arg_opt);
+            type_arg_opt.Flags |= TermFlags.NoAstNode;
             var type_specifier = new NonTerminal(Terms.type_specifier);
 
             // symbols
@@ -49,10 +53,9 @@ namespace Cogito.Composition.Internal
             type_arg_list.Rule = MakeStarRule(type_arg_list, COMMA, type_specifier);
             type_arg_opt.Rule = Empty | LPAREN + type_arg_list + RPAREN;
             type_specifier.Rule = qualified_identifier + type_arg_opt;
-
+            
             // configure grammar
             Root = type_specifier;
-            MarkPunctuation("(", ")", ".", ",");
         }
 
     }

@@ -113,10 +113,8 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include=".\IApplication.cs" />
-    <Compile Include=".\Lifecycle\DefaultLifecycleComponent.cs" />
+    <Compile Include="IModule.cs" />
     <Compile Include=".\Lifecycle\IOnInit.cs" />
-    <Compile Include=".\Lifecycle\LifecycleDispatcher.cs" />
     <Compile Include=".\Lifecycle\LifecycleManager.cs" />
     <Compile Include=".\Lifecycle\IOnAfterStart.cs" />
     <Compile Include=".\Lifecycle\IOnBeforeShutdown.cs" />
@@ -124,15 +122,19 @@
     <Compile Include=".\Lifecycle\ILifecycleManager.cs" />
     <Compile Include=".\Lifecycle\IOnShutdown.cs" />
     <Compile Include=".\Lifecycle\IOnStart.cs" />
-    <Compile Include=".\Lifecycle\LifecycleComponent.cs" />
+    <Compile Include="Lifecycle\IOnStateChange.cs" />
+    <Compile Include="Lifecycle\LifecycleListener.cs" />
     <Compile Include=".\Lifecycle\OnAfterStartAttribute.cs" />
     <Compile Include=".\Lifecycle\OnInitAttribute.cs" />
     <Compile Include=".\Lifecycle\OnBeforeStartAttribute.cs" />
     <Compile Include=".\Lifecycle\OnShutdownAttribute.cs" />
     <Compile Include=".\Lifecycle\OnStartAttribute.cs" />
     <Compile Include=".\Lifecycle\State.cs" />
-    <Compile Include=".\Lifecycle\StateChangedEventArgs.cs" />
+    <Compile Include="Lifecycle\OnStateChangeAttribute.cs" />
+    <Compile Include="Lifecycle\StateChangeEventArgs.cs" />
     <Compile Include=".\Properties\AssemblyInfo.cs" />
+    <Compile Include="ModuleException.cs" />
+    <Compile Include="ModuleAttribute.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Cogito.Composition\Cogito.Composition.csproj">
