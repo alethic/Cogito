@@ -16,7 +16,7 @@ namespace Cogito.Composition.Hosting
         public DefaultCompositionContainer()
             : this(
                 catalog: new ApplicationCatalog(),
-                provider: new ConcreteTypeExportProvider())
+                provider: null /* new ConcreteTypeExportProvider() */)
         {
             
         }
@@ -24,14 +24,14 @@ namespace Cogito.Composition.Hosting
         /// <summary>
         /// Initializes a new instance.
         /// </summary>
-        public DefaultCompositionContainer(
+        DefaultCompositionContainer(
             ApplicationCatalog catalog,
             ConcreteTypeExportProvider provider)
             : base(
                 catalog: catalog,
                 provider: provider)
         {
-            provider.SourceProvider = this;
+            //provider.SourceProvider = this;
         }
 
     }

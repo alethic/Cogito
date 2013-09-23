@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics.Contracts;
-using System.Text.RegularExpressions;
+
+using Cogito.Composition.Internal;
 
 namespace Cogito.Composition.Metadata
 {
@@ -19,17 +20,8 @@ namespace Cogito.Composition.Metadata
         public static Type ResolveContractName(string contractName)
         {
             Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(contractName));
-            throw new NotImplementedException();
-        }
 
-        /// <summary>
-        /// Handles the results of the contract name regular expression.
-        /// </summary>
-        /// <param name="m"></param>
-        /// <returns></returns>
-        static Type ResolveTypeMatch(Match m)
-        {
-            throw new NotImplementedException();
+            return ContractTypeNameResolver.ResolveType(contractName);
         }
 
     }

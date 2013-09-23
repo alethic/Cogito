@@ -6,17 +6,17 @@ namespace Cogito.Web.Http
     /// <summary>
     /// Base WebApi lifecycle component that only fires events if WebApi is enabled.
     /// </summary>
-    public abstract class ApiLifecycleComponent :
-        LifecycleComponent<IApiApplication>
+    public abstract class WebApiLifecycleListener :
+        LifecycleListener<IWebApiModule>
     {
 
         /// <summary>
         /// Initializes a new instance.
         /// </summary>
-        /// <param name="app"></param>
-        public ApiLifecycleComponent(
-            IApiApplication app)
-            : base(() => app.Activated)
+        /// <param name="module"></param>
+        public WebApiLifecycleListener(
+            IWebApiModule module)
+            : base()
         {
 
         }

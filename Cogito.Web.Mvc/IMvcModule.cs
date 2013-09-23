@@ -6,20 +6,25 @@ using Cogito.Application;
 namespace Cogito.Web.Mvc
 {
 
-    public interface IMvcApplication : IApplication
+    public interface IMvcModule : IModule
     {
 
         /// <summary>
         /// Activates the MVC application components.
         /// </summary>
-        /// <param name="application"></param>
+        /// <param name="http"></param>
         /// <param name="routes"></param>
-        void Activate(HttpApplication application, RouteCollection routes);
+        void Configure(RouteCollection routes);
+
+        /// <summary>
+        /// Activates the MVC application components.
+        /// </summary>
+        void Configure();
 
         /// <summary>
         /// Gets whether or not the application is activated.
         /// </summary>
-        bool Activated { get; }
+        bool IsConfigured { get; }
 
         /// <summary>
         /// Routing table.

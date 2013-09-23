@@ -5,37 +5,41 @@ using System.Web.Http.Dependencies;
 
 using Cogito.Application.Lifecycle;
 
-namespace Cogito.Web.Http.Configuration
+namespace Cogito.Web.Http.Dependencies
 {
 
-    [OnStart(typeof(IApiApplication))]
-    public class DependencyResolverConfiguration : ApiLifecycleComponent
+    /// <summary>
+    /// Configures the WebApi DependencyResolver.
+    /// </summary>
+    [OnStart(typeof(IWebApiModule))]
+    public class DependencyResolverSetup : WebApiLifecycleListener
     {
 
-        IApiApplication app;
+        IWebApiModule module;
         IDependencyResolver dependencyResolver;
 
         /// <summary>
         /// Initializes a new instance.
         /// </summary>
-        /// <param name="app"></param>
+        /// <param name="module"></param>
         /// <param name="dependencyResolver"></param>
         [ImportingConstructor]
-        public DependencyResolverConfiguration(
-            IApiApplication app,
+        public DependencyResolverSetup(
+            IWebApiModule module,
             IDependencyResolver dependencyResolver)
-            : base(app)
+            : base(module)
         {
-            Contract.Requires<ArgumentNullException>(app != null);
+            Contract.Requires<ArgumentNullException>(module != null);
             Contract.Requires<ArgumentNullException>(dependencyResolver != null);
 
-            this.app = app;
+            this.module = module;
             this.dependencyResolver = dependencyResolver;
         }
 
         public override void OnStart()
         {
-            app.Http.DependencyResolver = dependencyResolver;
+            // set up dependency resolver
+            module.Http.DependencyResolver = dependencyResolver;
         }
 
     }

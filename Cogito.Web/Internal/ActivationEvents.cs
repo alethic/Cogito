@@ -12,7 +12,7 @@ namespace Cogito.Web.Internal
 {
 
     /// <summary>
-    /// Raises events signaling state changes.
+    /// Raises events signaling state changes in response to the lifetime of the ASP.Net application.
     /// </summary>
     static class ActivationEvents
     {
@@ -21,20 +21,32 @@ namespace Cogito.Web.Internal
         public static event EventHandler PostStart;
         public static event EventHandler Shutdown;
 
+        public static bool HasRunPreStart { get; private set; }
+
+        public static bool HasRunPostStart { get; private set; }
+
+        public static bool HasRunShutdown { get; private set; }
+
         public static void OnPreStart()
         {
+            HasRunPreStart = true;
+
             if (PreStart != null)
                 PreStart(null, EventArgs.Empty);
         }
 
         public static void OnPostStart()
         {
+            HasRunPostStart = true;
+
             if (PostStart != null)
                 PostStart(null, EventArgs.Empty);
         }
 
         public static void OnShutdown()
         {
+            HasRunShutdown = true;
+
             if (Shutdown != null)
                 Shutdown(null, EventArgs.Empty);
         }
