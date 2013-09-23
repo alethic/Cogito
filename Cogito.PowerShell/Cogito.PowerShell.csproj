@@ -1,6 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\packages\Cogito.Build.2013.9.21.10\tools\Cogito.Build.props" Condition="Exists('..\packages\Cogito.Build.2013.9.21.10\tools\Cogito.Build.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -14,6 +13,7 @@
     <FileAlignment>512</FileAlignment>
     <CodeContractsAssemblyMode>1</CodeContractsAssemblyMode>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <FodyPath>..\packages\Fody.1.16.2.0</FodyPath>
     <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -45,7 +45,7 @@
     <CodeContractsRunInBackground>True</CodeContractsRunInBackground>
     <CodeContractsShowSquigglies>True</CodeContractsShowSquigglies>
     <CodeContractsUseBaseLine>False</CodeContractsUseBaseLine>
-    <CodeContractsEmitXMLDocs>True</CodeContractsEmitXMLDocs>
+    <CodeContractsEmitXMLDocs>False</CodeContractsEmitXMLDocs>
     <CodeContractsCustomRewriterAssembly />
     <CodeContractsCustomRewriterClass />
     <CodeContractsLibPaths />
@@ -66,6 +66,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <BuildPackage>true</BuildPackage>
     <CodeContractsEnableRuntimeChecking>True</CodeContractsEnableRuntimeChecking>
     <CodeContractsRuntimeOnlyPublicSurface>True</CodeContractsRuntimeOnlyPublicSurface>
     <CodeContractsRuntimeThrowOnFailure>True</CodeContractsRuntimeThrowOnFailure>
@@ -120,17 +121,16 @@
     <Content Include="Cogito.PowerShell.psd1">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="Cogito.PowerShell.nuspec" />
+    <None Include="FodyWeavers.xml" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Fody.targets" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
-  <Import Project="..\packages\Cogito.Build.2013.9.21.10\tools\Cogito.Build.targets" Condition="Exists('..\packages\Cogito.Build.2013.9.21.10\tools\Cogito.Build.targets')" />
-  <Target Name="EnsureCogitoBuildImported" BeforeTargets="BeforeBuild" Condition="'$(CogitoBuildPropsImported)' == '' Or '$(CogitoBuildTargetsImported)' == ''">
-    <Error Condition="!Exists('..\packages\Cogito.Build.2013.9.21.10\tools\Cogito.Build.props') Or !Exists('..\packages\Cogito.Build.2013.9.21.10\tools\Cogito.Build.targets')" Text="This project references the package Cogito.Build that is missing on this computer. Enable NuGet Package Restore to download it." HelpKeyword="COGITOBUILD2001" />
-    <Error Condition="Exists('..\packages\Cogito.Build.2013.9.21.10\tools\Cogito.Build.props') And Exists('..\packages\Cogito.Build.2013.9.21.10\tools\Cogito.Build.targets')" Text="The build restored the Cogito.Build package. Build the project again to include this package." HelpKeyword="COGITOBUILD2002" />
-  </Target>
+  <Import Project="Fody.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

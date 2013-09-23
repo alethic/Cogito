@@ -12,7 +12,6 @@
         <CogitoBuildPropsImported>true</CogitoBuildPropsImported>
         <CogitoBuildEnabled>true</CogitoBuildEnabled>
         <GenerateAssemblyVersionFile>true</GenerateAssemblyVersionFile>
-        <AssemblyVersionFile>$([System.IO.Path]::Combine($(IntermediateOutputPath), "AssemblyVersion.g.cs"))</AssemblyVersionFile>
     </PropertyGroup>
 
 </Project>

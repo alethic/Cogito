@@ -17,8 +17,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cogito.Linq", "Cogito.Linq\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cogito.Build", "Cogito.Build\Cogito.Build.csproj", "{943E311A-79AE-47EA-B5B3-EE0AFD4C4E3B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cogito.Build.Tests", "Cogito.Build.Tests\Cogito.Build.Tests.csproj", "{7D7117A8-AEB9-406B-9E48-0A82653F8DD2}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cogito.PowerShell", "Cogito.PowerShell\Cogito.PowerShell.csproj", "{9CEFDE98-4BC9-4C20-B671-7C1BB6D015BA}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{CBF00857-08B7-46B9-AF36-D90F8506DD70}"
@@ -64,10 +62,6 @@ Global
 		{943E311A-79AE-47EA-B5B3-EE0AFD4C4E3B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{943E311A-79AE-47EA-B5B3-EE0AFD4C4E3B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{943E311A-79AE-47EA-B5B3-EE0AFD4C4E3B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7D7117A8-AEB9-406B-9E48-0A82653F8DD2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7D7117A8-AEB9-406B-9E48-0A82653F8DD2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7D7117A8-AEB9-406B-9E48-0A82653F8DD2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7D7117A8-AEB9-406B-9E48-0A82653F8DD2}.Release|Any CPU.Build.0 = Release|Any CPU
 		{9CEFDE98-4BC9-4C20-B671-7C1BB6D015BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{9CEFDE98-4BC9-4C20-B671-7C1BB6D015BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9CEFDE98-4BC9-4C20-B671-7C1BB6D015BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
