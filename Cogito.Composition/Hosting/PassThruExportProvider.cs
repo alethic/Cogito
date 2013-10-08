@@ -30,7 +30,7 @@ namespace Cogito.Composition.Hosting
 
         protected override IEnumerable<Export> GetExportsCore(ImportDefinition definition, AtomicComposition atomicComposition)
         {
-            return provider.GetExports(definition, atomicComposition);
+            return provider.TryGetExports(definition, atomicComposition);
         }
 
     }

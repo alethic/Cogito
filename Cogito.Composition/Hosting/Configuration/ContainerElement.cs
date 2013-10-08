@@ -14,6 +14,9 @@ namespace Cogito.Composition.Hosting.Configuration
 
         XElement xaml;
 
+        /// <summary>
+        /// Gets or sets the name of the container.
+        /// </summary>
         [ConfigurationProperty("name", IsKey = true)]
         public string Name
         {
@@ -32,6 +35,7 @@ namespace Cogito.Composition.Hosting.Configuration
 
         protected override bool OnDeserializeUnrecognizedElement(string elementName, XmlReader reader)
         {
+            // parse element into XML for later instantiation
             xaml = XElement.Load(reader.ReadSubtree(), LoadOptions.None);
             return true;
         }

@@ -222,7 +222,6 @@ namespace Cogito.Composition
     /// <typeparam name="T"></typeparam>
     [Export(typeof(DynamicImportCollection<>))]
     [Export(typeof(IImportCollection<>))]
-    [Export("ImportCollection", typeof(IImportCollection<>))]
     [PartCreationPolicy(CreationPolicy.NonShared)]
     public class DynamicImportCollection<T> :
         DynamicImportCollection<T, IDictionary<string, object>>
@@ -231,7 +230,7 @@ namespace Cogito.Composition
 
         [ImportingConstructor]
         public DynamicImportCollection()
-            :base()
+            : base()
         {
 
         }

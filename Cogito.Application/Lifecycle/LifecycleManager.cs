@@ -31,17 +31,31 @@ namespace Cogito.Application.Lifecycle
         /// </summary>
         [ImportingConstructor]
         public LifecycleManager(
-            ICompositionContext composition)
+            ICompositionContext composition,
+            [ImportMany] IEnumerable<IOnInit<T>> init,
+            [ImportMany] IEnumerable<IOnBeforeStart<T>> beforeStart,
+            [ImportMany] IEnumerable<IOnStart<T>> start,
+            [ImportMany] IEnumerable<IOnAfterStart<T>> afterStart,
+            [ImportMany] IEnumerable<IOnBeforeShutdown<T>> beforeShutdown,
+            [ImportMany] IEnumerable<IOnShutdown<T>> shutdown,
+            [ImportMany] IEnumerable<IOnStateChange<T>> stateChange)
         {
             Contract.Requires<ArgumentNullException>(composition != null);
             this.composition = composition;
-            this.init = composition.GetExportedValue<IImportCollection<IOnInit<T>>>();
-            this.beforeStart = composition.GetExportedValue<IImportCollection<IOnBeforeStart<T>>>();
-            this.start = composition.GetExportedValue<IImportCollection<IOnStart<T>>>();
-            this.afterStart = composition.GetExportedValue<IImportCollection<IOnAfterStart<T>>>();
-            this.beforeShutdown = composition.GetExportedValue<IImportCollection<IOnBeforeShutdown<T>>>();
-            this.shutdown = composition.GetExportedValue<IImportCollection<IOnShutdown<T>>>();
-            this.stateChange = composition.GetExportedValue<IImportCollection<IOnStateChange<T>>>();
+            this.init = init;
+            this.beforeStart = beforeStart;
+            this.start = start;
+            this.afterStart = afterStart;
+            this.beforeShutdown = beforeShutdown;
+            this.shutdown = shutdown;
+            this.stateChange = stateChange;
+        }
+
+        void Invoke<TAction>(IEnumerable<TAction> items, Action<TAction> action, State requiredState)
+        {
+            foreach (var i in items)
+                if (state >= requiredState)
+                    action(i);
         }
 
         /// <summary>

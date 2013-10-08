@@ -1,4 +1,6 @@
-﻿namespace Cogito.Composition.Hosting
+﻿using Cogito.Composition.Scoping;
+
+namespace Cogito.Composition.Hosting
 {
 
     /// <summary>
