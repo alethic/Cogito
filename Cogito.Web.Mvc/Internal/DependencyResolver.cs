@@ -34,7 +34,7 @@ namespace Cogito.Web.Mvc.Internal
 
         public object GetService(Type serviceType)
         {
-            return GetServices(serviceType).SingleOrDefault();
+            return GetServices(serviceType).FirstOrDefault();
         }
 
         public IEnumerable<object> GetServices(Type serviceType)

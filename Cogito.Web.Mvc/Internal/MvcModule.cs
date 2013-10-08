@@ -63,7 +63,17 @@ namespace Cogito.Web.Mvc.Internal
 
         public RouteCollection Routes
         {
-            get { return routes;  }
+            get { return routes; }
+        }
+
+        void IMvcModule.Configure()
+        {
+            Configure();
+        }
+
+        void IMvcModule.Configure(RouteCollection routes)
+        {
+            Configure(routes);
         }
 
     }

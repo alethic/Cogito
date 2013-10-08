@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Diagnostics.Contracts;
-using System.Web;
 
 using Cogito.Application.Lifecycle;
 using Cogito.Composition;
@@ -15,7 +14,7 @@ namespace Cogito.Web.Internal
     {
 
         [ContractInvariantMethod]
-        private void ObjectInvariant()
+        void ObjectInvariant()
         {
             Contract.Invariant(composition != null);
             Contract.Invariant(defaultConfiguration != null);
@@ -43,6 +42,32 @@ namespace Cogito.Web.Internal
             this.composition = composition;
             this.defaultConfiguration = configurations;
             this.lifecycle = lifecycle;
+
+            ActivationEvents.PreStart += ActivationEvents_PreStart;
+            ActivationEvents.PostStart += ActivationEvents_PostStart;
+            ActivationEvents.Shutdown += ActivationEvents_Shutdown;
+
+            if (ActivationEvents.HasRunPreStart)
+                lifecycle.BeforeStart();
+            if (ActivationEvents.HasRunPostStart)
+                lifecycle.AfterStart();
+            if (ActivationEvents.HasRunShutdown)
+                lifecycle.Shutdown();
+        }
+
+        void ActivationEvents_PreStart(object sender, EventArgs args)
+        {
+            lifecycle.BeforeStart();
+        }
+
+        void ActivationEvents_PostStart(object sender, EventArgs args)
+        {
+            lifecycle.AfterStart();
+        }
+
+        void ActivationEvents_Shutdown(object sender, EventArgs args)
+        {
+            lifecycle.Shutdown();
         }
 
         public void Configure()
@@ -57,6 +82,11 @@ namespace Cogito.Web.Internal
         public bool IsConfigured
         {
             get { return configured; }
+        }
+
+        void IWebModule.Configure()
+        {
+            Configure();
         }
 
     }

@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.ComponentModel.Composition;
 using System.ComponentModel.Composition.Hosting;
 using System.ComponentModel.Composition.Primitives;
 using System.Diagnostics.Contracts;
@@ -16,9 +14,7 @@ namespace Cogito.Composition.Hosting
     /// provider collection.
     /// </summary>
     public abstract class CompositionContainerCore :
-        System.ComponentModel.Composition.Hosting.CompositionContainer,
-        ICompositionContext,
-        ICompositionContainerHideMembers
+        System.ComponentModel.Composition.Hosting.CompositionContainer
     {
 
         public const CompositionOptions DEFAULT_COMPOSITION_OPTIONS =
@@ -26,9 +22,27 @@ namespace Cogito.Composition.Hosting
             CompositionOptions.ExportCompositionService |
             CompositionOptions.IsThreadSafe;
 
+        /// <summary>
+        /// Gets the parent catalog for the given container.
+        /// </summary>
+        /// <param name="container"></param>
+        /// <returns></returns>
+        static ComposablePartCatalog GetParentCatalog(System.ComponentModel.Composition.Hosting.CompositionContainer container)
+        {
+            // user catalog is separate in our implementation (exclude filteredCatalog)
+            var cogito = container as CompositionContainerCore;
+            if (cogito != null)
+                return cogito.userCatalog;
+
+            return container.Catalog;
+        }
+
         System.ComponentModel.Composition.Hosting.CompositionContainer parent;
-        AggregateCatalog catalog;
-        Cogito.Composition.Hosting.AggregateExportProvider provider;
+        FilteredCatalog filteredCatalog;
+        AggregateCatalog userCatalog;
+        FilteredExportProvider filteredProvider;
+        AggregateExportProvider userProvider;
+        ICompositionContext context;
 
         /// <summary>
         /// Initializes a new instance.
@@ -76,7 +90,7 @@ namespace Cogito.Composition.Hosting
             : this(
                 parent,
                 new AggregateCatalog(
-                    new[] { importParentCatalog ? parent.Catalog : null }
+                    new[] { importParentCatalog ? GetParentCatalog(parent) : null }
                         .Concat(catalogs ?? Enumerable.Empty<ComposablePartCatalog>())
                         .Where(i => i != null)),
                 new AggregateExportProvider(
@@ -87,6 +101,8 @@ namespace Cogito.Composition.Hosting
         {
             Contract.Requires<ArgumentException>(!(parent == null && importParentCatalog), "Cannot import parent catalog without parent.");
             Contract.Requires<ArgumentException>(!(parent == null && importParent), "Cannot import parent without parent.");
+
+            this.parent = parent;
         }
 
         /// <summary>
@@ -98,18 +114,28 @@ namespace Cogito.Composition.Hosting
         /// <param name="provider"></param>
         CompositionContainerCore(
             System.ComponentModel.Composition.Hosting.CompositionContainer parent,
-            AggregateCatalog catalog,
-            Cogito.Composition.Hosting.AggregateExportProvider provider,
+            AggregateCatalog userCatalog,
+            AggregateExportProvider userProvider,
             CompositionOptions options)
             : base(
-                catalog,
+                new AggregateCatalog(),
                 options,
-                provider)
+                new AggregateExportProvider())
         {
+            Contract.Requires<ArgumentNullException>(userCatalog != null);
+            Contract.Requires<ArgumentNullException>(userProvider != null);
+
             this.parent = parent;
-            this.catalog = catalog;
-            this.provider = provider;
-            this.AddExportedValue<ICompositionContext>(this);
+            this.userCatalog = userCatalog;
+            this.userProvider = userProvider;
+            this.context = this.AsContext();
+            this.context.AddExportedValue<ICompositionContext>(this.context);
+
+            // establish filtered components
+            this.filteredCatalog = new FilteredCatalog(userCatalog, PartFilter);
+            this.filteredProvider = new FilteredExportProvider(userProvider, ExportFilter);
+            ((AggregateCatalog)base.Catalog).Catalogs.Add(filteredCatalog);
+            ((AggregateExportProvider)base.Providers[0]).Providers.Add(filteredProvider);
 
             // allow overrides to begin other actions
             OnInit();
@@ -124,56 +150,49 @@ namespace Cogito.Composition.Hosting
         }
 
         /// <summary>
-        /// Collection of <see cref="ComposablePartCatalog"/>s which provide additional parts to this container.
+        /// Set of <see cref="ComposablePartCatalog"/>s provided by the user.
         /// </summary>
         public ICollection<ComposablePartCatalog> Catalogs
         {
-            get { return catalog.Catalogs; }
+            get { return userCatalog.Catalogs; }
         }
 
         /// <summary>
-        /// Collection of <see cref="ExportProvider"/>s which provide additional exports to this container.
+        /// Set of <see cref="ExportProviders"/> provided by the user.
         /// </summary>
         public new ICollection<ExportProvider> Providers
         {
-            get { return provider.Providers; }
+            get { return userProvider.Providers; }
         }
 
         /// <summary>
-        /// Implements ICompositionService.BeginScope.
-        /// </summary>
-        /// <returns></returns>
-        public virtual ICompositionContext BeginScope()
-        {
-            return new CompositionScope(this);
-        }
-
-        /// <summary>
-        /// Executes the composition specified by the given batch.
-        /// </summary>
-        /// <param name="batch"></param>
-        public new void Compose(CompositionBatch batch)
-        {
-            base.Compose(batch);
-        }
-
-        /// <summary>
-        /// Searches for the <see cref="Export"/>s which match the specifeid <see cref="ImportDefinition"/>.
+        /// Implements a filter around the available parts. Override this method to implement such things as scope
+        /// filters.
         /// </summary>
         /// <param name="definition"></param>
         /// <returns></returns>
-        public new IEnumerable<Export> GetExports(ImportDefinition definition)
+        protected virtual bool PartFilter(ComposablePartDefinition definition)
         {
-            return base.GetExports(definition);
+            return true;
         }
 
         /// <summary>
-        /// Returns a collection of all exports that match the conditions in the specified ImportDefinition object.
+        /// Implements a filter around the available exports. Override this method to implement such things as scope
+        /// filters.
+        /// </summary>
+        /// <param name="definition"></param>
+        /// <returns></returns>
+        protected virtual bool ExportFilter(ExportDefinition definition)
+        {
+            return true;
+        }
+
+        /// <summary>
+        /// Returns a collection of all exports that match the conditions in the specified <see cref="ImportDefinition"/>.
         /// </summary>
         /// <param name="definition"></param>
         /// <param name="atomicComposition"></param>
         /// <returns></returns>
-        [EditorBrowsable(EditorBrowsableState.Never)]
         protected override IEnumerable<Export> GetExportsCore(ImportDefinition definition, AtomicComposition atomicComposition)
         {
             return base.GetExportsCore(definition, atomicComposition).ToList();

@@ -101,13 +101,77 @@ namespace Cogito.Composition.Hosting
             OnExportsChanged(args);
         }
 
+        /// <summary>
+        /// Returns the exports from the first provider that successfully returns exports.
+        /// </summary>
+        /// <param name="definition"></param>
+        /// <param name="atomicComposition"></param>
+        /// <returns></returns>
+        protected virtual IEnumerable<Export> GetExportsCoreExactlyOne(ImportDefinition definition, AtomicComposition atomicComposition)
+        {
+            IEnumerable<Export> all = Enumerable.Empty<Export>();
+
+            foreach (var provider in providers)
+            {
+                // ask provider for exports
+                IEnumerable<Export> exports;
+                var got = provider.TryGetExports(definition, atomicComposition, out exports);
+                var any = exports.Any();
+
+                // provider suceeded, and we have exports
+                if (got && any)
+                    return exports;
+
+                // append exports to result
+                if (any)
+                    all = all.Concat(exports);
+            }
+
+            return all;
+        }
+
+        /// <summary>
+        /// Returns all of the provider's exports.
+        /// </summary>
+        /// <param name="definition"></param>
+        /// <param name="atomicComposition"></param>
+        /// <returns></returns>
+        protected virtual IEnumerable<Export> GetExportsCoreZeroOrOne(ImportDefinition definition, AtomicComposition atomicComposition)
+        {
+            return providers.SelectMany(i => i.TryGetExports(definition, atomicComposition));
+        }
+
+        /// <summary>
+        /// Returns all of the provider's exports.
+        /// </summary>
+        /// <param name="definition"></param>
+        /// <param name="atomicComposition"></param>
+        /// <returns></returns>
+        protected virtual IEnumerable<Export> GetExportsCoreZeroOrMore(ImportDefinition definition, AtomicComposition atomicComposition)
+        {
+            return providers.SelectMany(i => i.TryGetExports(definition, atomicComposition));
+        }
+
+        /// <summary>
+        /// Implementation of GetExportsCore.
+        /// </summary>
+        /// <param name="definition"></param>
+        /// <param name="atomicComposition"></param>
+        /// <returns></returns>
         IEnumerable<Export> GetExportsCoreInternal(ImportDefinition definition, AtomicComposition atomicComposition)
         {
             Contract.Requires<ArgumentNullException>(definition != null);
+            ThrowIfDisposed();
 
-            foreach (var provider in providers)
-                foreach (var export in provider.GetExports(definition, atomicComposition))
-                    yield return export;
+            // asked for ZeroOrMore: simply return from all providers
+            if (definition.Cardinality == ImportCardinality.ExactlyOne)
+                return GetExportsCoreExactlyOne(definition, atomicComposition);
+            else if (definition.Cardinality == ImportCardinality.ZeroOrOne)
+                return GetExportsCoreZeroOrMore(definition, atomicComposition);
+            else if (definition.Cardinality == ImportCardinality.ZeroOrMore)
+                return GetExportsCoreZeroOrMore(definition, atomicComposition);
+
+            throw new InvalidOperationException();
         }
 
         protected override IEnumerable<Export> GetExportsCore(ImportDefinition definition, AtomicComposition atomicComposition)
@@ -115,6 +179,9 @@ namespace Cogito.Composition.Hosting
             return GetExportsCoreInternal(definition, atomicComposition);
         }
 
+        /// <summary>
+        /// Throws an exception if the object is disposed.
+        /// </summary>
         [DebuggerStepThrough]
         void ThrowIfDisposed()
         {

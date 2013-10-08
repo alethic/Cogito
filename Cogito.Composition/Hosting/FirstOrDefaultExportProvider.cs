@@ -29,7 +29,7 @@ namespace Cogito.Composition.Hosting
         {
             // replace ZeroOrOne with ZeroOrMore to prevent errors down the chain; we'll grab the first
             if (definition.Cardinality == ImportCardinality.ExactlyOne)
-                return base.GetExports(new ImportDefinition(
+                return base.GetExportsCore(new ImportDefinition(
                     definition.Constraint,
                     definition.ContractName,
                     ImportCardinality.ZeroOrMore,
@@ -38,7 +38,7 @@ namespace Cogito.Composition.Hosting
                     definition.Metadata), atomicComposition)
                     .Take(1);
 
-            return base.GetExports(definition, atomicComposition);
+            return base.GetExportsCore(definition, atomicComposition);
         }
 
     }

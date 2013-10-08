@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using System.Diagnostics.Contracts;
 using System.Reactive.Linq;
 
 namespace Cogito.Composition.Hosting
@@ -10,11 +12,8 @@ namespace Cogito.Composition.Hosting
     /// method.
     /// </summary>
     [Export(typeof(ContainerInitInvoker))]
-    public class ContainerInitInvoker : IDisposable
+    public class ContainerInitInvoker
     {
-
-        IImportCollection<IContainerInit> initialize;
-        IDisposable subscription;
 
         /// <summary>
         /// Initializes a new instance.
@@ -22,20 +21,13 @@ namespace Cogito.Composition.Hosting
         /// <param name="initialize"></param>
         [ImportingConstructor]
         public ContainerInitInvoker(
-            IImportCollection<IContainerInit> initialize)
+            [ImportMany] IEnumerable<IContainerInit> initialize)
         {
-            this.initialize = initialize;
+            Contract.Requires<ArgumentNullException>(initialize != null);
 
             // invoke initialization as parts are discovered
-            subscription = this.initialize
-                .AsObservable<IContainerInit>()
-                .Subscribe(i => i.OnInit());
-        }
-        
-        public void Dispose()
-        {
-            subscription.Dispose();
-            initialize.Dispose();
+            foreach (var i in initialize)
+                i.OnInit();
         }
 
     }

@@ -1,6 +1,10 @@
-﻿using Cogito.Application.Lifecycle;
+﻿using System;
+using System.Diagnostics.Contracts;
+using System.Web;
+
+using Cogito.Application.Lifecycle;
 using Cogito.Composition;
-using Cogito.Composition.Hosting.Configuration;
+using Cogito.Composition.Hosting;
 
 namespace Cogito.Web
 {
@@ -12,13 +16,13 @@ namespace Cogito.Web
     public class HttpApplication : System.Web.HttpApplication
     {
 
-        readonly ICompositionContext composition;
+        readonly ICompositionContext compositionContext;
 
         /// <summary>
         /// Initializes a new instance.
         /// </summary>
         public HttpApplication()
-            : this("Default")
+            : this(ContainerManager.GetDefaultContainer())
         {
 
         }
@@ -28,9 +32,9 @@ namespace Cogito.Web
         /// </summary>
         /// <param name="containerName"></param>
         public HttpApplication(string containerName)
-            : this(ConfigurationManager.GetContainer(containerName))
+            : this(ContainerManager.GetContainer(containerName))
         {
-
+            Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(containerName));
         }
 
         /// <summary>
@@ -40,7 +44,7 @@ namespace Cogito.Web
         public HttpApplication(System.ComponentModel.Composition.Hosting.CompositionContainer container)
             : this(container.AsContext())
         {
-
+            Contract.Requires<ArgumentNullException>(container != null);
         }
 
         /// <summary>
@@ -50,17 +54,61 @@ namespace Cogito.Web
         public HttpApplication(ICompositionContext composition)
             : base()
         {
-            this.composition = composition;
+            Contract.Requires<ArgumentNullException>(composition != null);
+
+            this.compositionContext = composition;
         }
 
-        public ICompositionContext Composition
+        /// <summary>
+        /// Obtains a reference to the configured <see cref="ICompositionContext"/>.
+        /// </summary>
+        public ICompositionContext ApplicationCompositionContext
         {
-            get { return this.composition; }
+            get { return compositionContext; }
         }
 
-        protected virtual void OnStart()
+        /// <summary>
+        /// Gets the <see cref="ICompositionContext"/> configured for the current request.
+        /// </summary>
+        public ICompositionContext RequestCompositionContext
         {
-            composition.GetExportedValue<ILifecycleManager<IWebModule>>()
+            get { return GetRequestCompositionContext(); }
+        }
+
+        /// <summary>
+        /// Implements the getter for RequestCompositionContext.
+        /// </summary>
+        /// <returns></returns>
+        ICompositionContext GetRequestCompositionContext()
+        {
+            // are we operating in a request?
+            var ctx = HttpContext.Current;
+            if (ctx == null)
+                return null;
+
+            // find existing context
+            var com = (ICompositionContext)ctx.Items[typeof(ICompositionContext)];
+            if (com != null)
+                return com;
+
+            // default to application level
+            return compositionContext;
+        }
+
+        /// <summary>
+        /// Invoked when the application is started.
+        /// </summary>
+        public void Application_Start()
+        {
+            OnStart();
+        }
+
+        /// <summary>
+        /// Invoked when the application is started.
+        /// </summary>
+        public virtual void OnStart()
+        {
+            compositionContext.GetExportedValue<ILifecycleManager<IWebModule>>()
                 .Start();
         }
 
