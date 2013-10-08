@@ -1,6 +1,4 @@
-﻿using System;
-using System.Diagnostics.Contracts;
-using Cogito.Composition.Hosting;
+﻿using Cogito.Composition.Hosting;
 using Cogito.Composition.Internal;
 
 using mef = System.ComponentModel.Composition.Hosting;
@@ -22,18 +20,10 @@ namespace Cogito.Composition
         /// <returns></returns>
         public static ICompositionContext AsContext(this mef.CompositionContainer self)
         {
-            return self as ICompositionContext ?? new CompositionContextShim(self);
-        }
-
-        /// <summary>
-        /// Initializes the <see cref="ContainerInitInvoker"/> to invoke initialization handlers.
-        /// </summary>
-        /// <param name="self"></param>
-        public static void BeginInit(this mef.CompositionContainer self)
-        {
-            Contract.Requires<ArgumentNullException>(self != null);
-
-            self.GetExportedValue<ContainerInitInvoker>();
+            return
+                self as ICompositionContext ??
+                self.GetExportedValueOrDefault<ICompositionContext>() ??
+                new CompositionContextShim(self);
         }
 
     }

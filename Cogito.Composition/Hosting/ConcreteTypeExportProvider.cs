@@ -8,6 +8,8 @@ using System.Linq;
 using Cogito.Composition.Metadata;
 using Cogito.Composition.Reflection;
 
+using mef = System.ComponentModel.Composition;
+
 namespace Cogito.Composition.Hosting
 {
 
@@ -59,7 +61,7 @@ namespace Cogito.Composition.Hosting
             // metadata that would be used
             var metadata = new Dictionary<string, object>()
             {
-                { CompositionConstants.ExportTypeIdentityMetadataName, AttributedModelServices.GetTypeIdentity(type)}
+                { mef.Hosting.CompositionConstants.ExportTypeIdentityMetadataName, AttributedModelServices.GetTypeIdentity(type)}
             };
 
             // would we be satisfied by a hypothetical export?

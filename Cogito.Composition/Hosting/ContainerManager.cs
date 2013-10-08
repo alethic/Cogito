@@ -3,17 +3,37 @@ using System.Collections.Concurrent;
 using System.Diagnostics.Contracts;
 using System.Xaml;
 
-namespace Cogito.Composition.Hosting.Configuration
+using Cogito.Composition.Hosting.Configuration;
+
+namespace Cogito.Composition.Hosting
 {
 
     /// <summary>
-    /// Provides access to the containers by configuration.
+    /// Provides access to containers configured by name.
     /// </summary>
-    public static class ConfigurationManager
+    public static class ContainerManager
     {
 
+        /// <summary>
+        /// Cached default container name.
+        /// </summary>
+        readonly static string defaultContainerName;
+
+        /// <summary>
+        /// Caches instantiated containers.
+        /// </summary>
         readonly static ConcurrentDictionary<string, System.ComponentModel.Composition.Hosting.CompositionContainer> containers =
             new ConcurrentDictionary<string, System.ComponentModel.Composition.Hosting.CompositionContainer>();
+
+        /// <summary>
+        /// Initializes the static type.
+        /// </summary>
+        static ContainerManager()
+        {
+            var s = ConfigurationSection.GetDefaultSection();
+            if (s != null)
+                defaultContainerName = s.Containers.Default;
+        }
 
         /// <summary>
         /// Gets the container configured with the specified key.
@@ -42,6 +62,15 @@ namespace Cogito.Composition.Hosting.Configuration
 
                 return c;
             });
+        }
+
+        /// <summary>
+        /// Gets the default container.
+        /// </summary>
+        /// <returns></returns>
+        public static System.ComponentModel.Composition.Hosting.CompositionContainer GetDefaultContainer()
+        {
+            return GetContainer(defaultContainerName);
         }
 
     }

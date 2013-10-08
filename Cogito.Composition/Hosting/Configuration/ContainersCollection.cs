@@ -22,6 +22,16 @@ namespace Cogito.Composition.Hosting.Configuration
             get { return (ContainerElement)base.BaseGet(name); }
         }
 
+        /// <summary>
+        /// Gets or sets the name of the default container.
+        /// </summary>
+        [ConfigurationProperty("default", IsRequired = false, DefaultValue = "Default")]
+        public string Default
+        {
+            get { return (string)base["default"]; }
+            set { base["default"] = value; }
+        }
+
     }
 
 }

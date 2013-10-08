@@ -21,7 +21,7 @@ namespace Cogito.Composition.Hosting
         public CompositionContainer()
             : this(
                 parent: null,
-                catalog: new AssemblyCatalog(typeof(CompositionContainer).Assembly),
+                catalog: null,
                 provider: null)
         {
 
@@ -38,6 +38,34 @@ namespace Cogito.Composition.Hosting
                 provider: null)
         {
             Contract.Requires<ArgumentNullException>(parent != null);
+        }
+
+        /// <summary>
+        /// Initializes a new instance.
+        /// </summary>
+        /// <param name="catalog"></param>
+        public CompositionContainer(
+            ComposablePartCatalog catalog)
+            : this(
+                parent: null,
+                catalog: catalog)
+        {
+
+        }
+
+        /// <summary>
+        /// Initializes a new instance.
+        /// </summary>
+        /// <param name="catalog"></param>
+        public CompositionContainer(
+            ComposablePartCatalog catalog,
+            ExportProvider provider)
+            : this(
+                parent: null,
+                catalog: catalog,
+                provider: provider)
+        {
+
         }
 
         /// <summary>
@@ -88,10 +116,15 @@ namespace Cogito.Composition.Hosting
 
         }
 
+        protected override bool PartFilter(ComposablePartDefinition definition)
+        {
+            // root container only supports parts with no defined scope
+            return !definition.Metadata.ContainsKey(CompositionConstants.RequiredScopeMetadataName);
+        }
+
         protected override void OnInit()
         {
-            // initiate init events
-            this.BeginInit();
+            GetExportedValueOrDefault<ContainerInitInvoker>();
         }
 
     }

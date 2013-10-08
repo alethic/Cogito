@@ -35,7 +35,7 @@ namespace Cogito.Web.Http.Dependencies
 
         public IDependencyScope BeginScope()
         {
-            return new DependencyResolver(composition.BeginScope());
+            return new DependencyResolver(composition.BeginScope<IRequestScope>());
         }
 
         public object GetService(Type serviceType)
