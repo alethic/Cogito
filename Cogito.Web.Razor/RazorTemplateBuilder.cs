@@ -10,15 +10,14 @@ using System.Reflection;
 using System.Text;
 using System.Web.Razor;
 using System.Web.Razor.Generator;
-using System.Web.Razor.Parser;
-
-using Microsoft.CSharp;
 
 using Cogito.CodeDom.Compiler;
 using Cogito.Collections;
 using Cogito.Linq;
 using Cogito.Reflection;
 using Cogito.Text;
+
+using Microsoft.CSharp;
 
 namespace Cogito.Web.Razor
 {
@@ -41,6 +40,7 @@ namespace Cogito.Web.Razor
         /// <returns></returns>
         static string GetCSharpMemberExpression(MemberInfo member)
         {
+            Contract.Requires<ArgumentNullException>(member != null);
             return string.Format("(({0})this).{1}", member.DeclaringType.FullName, member.Name);
         }
 
@@ -101,6 +101,7 @@ namespace Cogito.Web.Razor
             Contract.Requires<ArgumentNullException>(source != null);
             Contract.Requires<ArgumentNullException>(referencedAssemblies != null);
             Contract.Requires<ArgumentNullException>(importedNamespaces != null);
+            Contract.Requires<ArgumentNullException>(host != null);
             Contract.Ensures(Contract.Result<string>() != null);
 
             var builder = new StringBuilder(source().ReadToEnd())
@@ -188,6 +189,7 @@ namespace Cogito.Web.Razor
             ref Type innerTemplateClass,
             ref RazorEngineHost host)
         {
+            Contract.Requires<ArgumentNullException>(source != null);
 
             // check for Execute method
             if (defaultBaseClass != null)
@@ -264,6 +266,8 @@ namespace Cogito.Web.Razor
             ref string cacheKey,
             ref RazorEngineHost host)
         {
+            Contract.Requires<ArgumentNullException>(source != null);
+
             CheckParameters(
                 ref source,
                 ref defaultNamespace,
@@ -307,7 +311,7 @@ namespace Cogito.Web.Razor
                 writeLiteralMethod,
                 writeToMethod,
                 writeLiteralToMethod,
-                innerTemplateType != null ? innerTemplateType.FullName : null,
+                innerTemplateType != null ? innerTemplateType.FullName : typeof(HelperResult).FullName,
                 defineSectionMethod,
                 beginContextMethod,
                 endContextMethod);
@@ -346,9 +350,7 @@ namespace Cogito.Web.Razor
             Contract.Requires<ArgumentNullException>(host != null);
             Contract.Ensures(Contract.Result<GeneratorResults>() != null);
 
-            var code = source().ReadToEnd();
-
-            // initialize Razor and parse template
+            // initialize Razor
             var engine = CreateTemplateEngine(
                 defaultNamespace,
                 defaultClassName,
@@ -356,6 +358,8 @@ namespace Cogito.Web.Razor
                 importedNamespaces,
                 innerTemplateType,
                 host);
+
+            // parse template into code unit
             var result = engine.GenerateCode(source());
 
             // check for errors
@@ -386,6 +390,7 @@ namespace Cogito.Web.Razor
         {
             Contract.Requires<ArgumentNullException>(source != null); ;
             Contract.Requires<ArgumentNullException>(importedNamespaces != null);
+            Contract.Requires<ArgumentNullException>(host != null);
             Contract.Ensures(Contract.Result<CodeCompileUnit>() != null);
 
             return RazorGenerate(
@@ -515,9 +520,10 @@ namespace Cogito.Web.Razor
         /// <returns></returns>
         static Assembly Compile(
             CodeCompileUnit codeUnit,
-            IEnumerable<string> referencedAssemblies = null)
+            IEnumerable<string> referencedAssemblies)
         {
             Contract.Requires<ArgumentNullException>(codeUnit != null);
+            Contract.Requires<ArgumentNullException>(referencedAssemblies != null);
             Contract.Ensures(Contract.Result<Assembly>() != null);
 
             // transform assemblies to local paths
@@ -556,6 +562,7 @@ namespace Cogito.Web.Razor
         /// <param name="referencedAssemblies"></param>
         /// <param name="importedNamespaces"></param>
         /// <param name="innerTemplateType"></param>
+        /// <param name="host"></param>
         /// <returns></returns>
         static Assembly BuildAssembly(
             Func<TextReader> source,
@@ -568,6 +575,9 @@ namespace Cogito.Web.Razor
             RazorEngineHost host)
         {
             Contract.Requires<ArgumentNullException>(source != null);
+            Contract.Requires<ArgumentNullException>(referencedAssemblies != null);
+            Contract.Requires<ArgumentNullException>(importedNamespaces != null);
+            Contract.Requires<ArgumentNullException>(host != null);
             Contract.Ensures(Contract.Result<Assembly>() != null);
 
             // generate initial code from Razor template
@@ -607,6 +617,9 @@ namespace Cogito.Web.Razor
             RazorEngineHost host)
         {
             Contract.Requires<ArgumentNullException>(source != null);
+            Contract.Requires<ArgumentNullException>(referencedAssemblies != null);
+            Contract.Requires<ArgumentNullException>(importedNamespaces != null);
+            Contract.Requires<ArgumentNullException>(host != null);
             Contract.Ensures(Contract.Result<Type>() != null);
 
             // build new assembly
@@ -630,18 +643,18 @@ namespace Cogito.Web.Razor
         /// Parses and compiles the template into an assembly and returns the newly generated type.
         /// </summary>
         /// <param name="source"></param>
-        /// <param name="namespaceOfGeneratedClass"></param>
-        /// <param name="generatedClassName"></param>
-        /// <param name="baseClassType"></param>
+        /// <param name="defaultNamespace"></param>
+        /// <param name="defaultClassName"></param>
+        /// <param name="defaultBaseClass"></param>
         /// <param name="referencedAssemblies"></param>
         /// <param name="importedNamespaces"></param>
         /// <param name="cacheKey"></param>
         /// <returns></returns>
         public static Type GetOrBuildType(
             Func<TextReader> source,
-            string namespaceOfGeneratedClass = null,
-            string generatedClassName = null,
-            Type baseClassType = null,
+            string defaultNamespace = null,
+            string defaultClassName = null,
+            Type defaultBaseClass = null,
             IEnumerable<string> referencedAssemblies = null,
             IEnumerable<string> importedNamespaces = null,
             Type innerTemplateType = null,
@@ -654,9 +667,9 @@ namespace Cogito.Web.Razor
             // fix up parameters
             CheckParameters(
                 ref source,
-                ref namespaceOfGeneratedClass,
-                ref generatedClassName,
-                ref baseClassType,
+                ref defaultNamespace,
+                ref defaultClassName,
+                ref defaultBaseClass,
                 ref referencedAssemblies,
                 ref importedNamespaces,
                 ref innerTemplateType,
@@ -666,9 +679,9 @@ namespace Cogito.Web.Razor
             return typeCache.GetOrAdd(cacheKey, _ =>
                 BuildType(
                     source,
-                    namespaceOfGeneratedClass,
-                    generatedClassName,
-                    baseClassType,
+                    defaultNamespace,
+                    defaultClassName,
+                    defaultBaseClass,
                     referencedAssemblies,
                     importedNamespaces,
                     innerTemplateType,
@@ -679,18 +692,18 @@ namespace Cogito.Web.Razor
         /// Parses and compiles the template into an assembly and returns the newly generated type.
         /// </summary>
         /// <param name="source"></param>
-        /// <param name="namespaceOfGeneratedClass"></param>
-        /// <param name="generatedClassName"></param>
-        /// <param name="baseClassType"></param>
+        /// <param name="defaultNamespace"></param>
+        /// <param name="defaultClassName"></param>
+        /// <param name="defaultBaseClass"></param>
         /// <param name="referencedAssemblies"></param>
         /// <param name="importedNamespaces"></param>
         /// <param name="cacheKey"></param>
         /// <returns></returns>
         public static Type GetOrBuildType(
             Func<TextReader> source,
-            string namespaceOfGeneratedClass = null,
-            string generatedClassName = null,
-            Type baseClassType = null,
+            string defaultNamespace = null,
+            string defaultClassName = null,
+            Type defaultBaseClass = null,
             IEnumerable<Assembly> referencedAssemblies = null,
             IEnumerable<string> importedNamespaces = null,
             Type innerTemplateType = null,
@@ -706,9 +719,9 @@ namespace Cogito.Web.Razor
 
             return GetOrBuildType(
                 source,
-                namespaceOfGeneratedClass,
-                generatedClassName,
-                baseClassType,
+                defaultNamespace,
+                defaultClassName,
+                defaultBaseClass,
                 referencedAssemblyLocations,
                 importedNamespaces,
                 innerTemplateType,

@@ -50,6 +50,18 @@ namespace Cogito.Reflection
                     LoadAllReferencedAssembliesInternal(assembly, assemblies);
         }
 
+        /// <summary>
+        /// Resolves the <see cref="Version"/> of the specified assembly.
+        /// </summary>
+        /// <param name="assembly"></param>
+        /// <returns></returns>
+        public static Version GetVersion(this Assembly assembly)
+        {
+            Contract.Requires<ArgumentNullException>(assembly != null);
+
+            return new RuntimeVersion(assembly.GetName().Version);
+        }
+
     }
 
 }

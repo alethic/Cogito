@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Text;
 
 namespace Cogito.Text
@@ -15,6 +17,9 @@ namespace Cogito.Text
         /// <returns></returns>
         public static StringBuilder AppendMany<T>(this StringBuilder self, IEnumerable<T> source)
         {
+            Contract.Requires<ArgumentNullException>(self != null);
+            Contract.Requires<ArgumentNullException>(source != null);
+
             foreach (var i in source)
                 self.Append(i);
             return self;
@@ -28,6 +33,9 @@ namespace Cogito.Text
         /// <returns></returns>
         public static StringBuilder AppendManyLines<T>(this StringBuilder self, IEnumerable<T> source)
         {
+            Contract.Requires<ArgumentNullException>(self != null);
+            Contract.Requires<ArgumentNullException>(source != null);
+
             foreach (var i in source)
                 self.Append(i).AppendLine();
             return self;
@@ -41,6 +49,9 @@ namespace Cogito.Text
         /// <returns></returns>
         public static StringBuilder AppendManyLines<T>(this StringBuilder self, IEnumerable<T> source, string prefix = null, string suffix = null)
         {
+            Contract.Requires<ArgumentNullException>(self != null);
+            Contract.Requires<ArgumentNullException>(source != null);
+
             foreach (var i in source)
             {
                 if (prefix != null)
@@ -61,6 +72,9 @@ namespace Cogito.Text
         /// <returns></returns>
         public static StringBuilder AppendFullLine<T>(this StringBuilder self, IEnumerable<T> source)
         {
+            Contract.Requires<ArgumentNullException>(self != null);
+            Contract.Requires<ArgumentNullException>(source != null);
+
             foreach (var i in source)
                 self.Append(i);
             self.AppendLine();
@@ -75,6 +89,9 @@ namespace Cogito.Text
         /// <returns></returns>
         public static StringBuilder AppendManyFullLines<T>(this StringBuilder self, IEnumerable<IEnumerable<T>> source)
         {
+            Contract.Requires<ArgumentNullException>(self != null);
+            Contract.Requires<ArgumentNullException>(source != null);
+
             foreach (var i in source)
                 AppendFullLine(self, i);
             return self;
@@ -92,6 +109,9 @@ namespace Cogito.Text
         /// <returns></returns>
         public static StringBuilder AppendManyFullLines<T>(this StringBuilder self, IEnumerable<IEnumerable<T>> source, string prefix = null, string suffix = null)
         {
+            Contract.Requires<ArgumentNullException>(self != null);
+            Contract.Requires<ArgumentNullException>(source != null);
+
             foreach (var i in source)
             {
                 if (prefix != null)

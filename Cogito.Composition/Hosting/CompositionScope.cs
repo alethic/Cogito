@@ -133,7 +133,7 @@ namespace Cogito.Composition.Hosting
         protected override bool PartFilter(ComposablePartDefinition definition)
         {
             // extract boundary data
-            var b = definition.Metadata.ValueOrDefault(CompositionConstants.RequiredScopeMetadataName);
+            var b = definition.Metadata.GetOrDefault(CompositionConstants.RequiredScopeMetadataName);
             if (b == null)
                 return false;
 

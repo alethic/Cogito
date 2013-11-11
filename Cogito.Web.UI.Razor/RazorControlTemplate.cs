@@ -138,8 +138,10 @@ namespace Cogito.Web.UI.Razor
                 ((Control)value).RenderControl(writer as HtmlTextWriter ?? new HtmlTextWriter(writer));
             else if (value is HelperResult)
                 ((HelperResult)value).WriteTo(writer);
-            else if (value is IHtmlString)
-                writer.Write(((IHtmlString)value).ToHtmlString());
+            else if (value is Cogito.Web.Razor.IHtmlString)
+                writer.Write(((Cogito.Web.Razor.IHtmlString)value).ToHtmlString());
+            else if (value is System.Web.IHtmlString)
+                writer.Write(((System.Web.IHtmlString)value).ToHtmlString());
             else
                 (writer as HtmlTextWriter ?? new HtmlTextWriter(writer)).WriteEncodedText(value.ToString());
         }

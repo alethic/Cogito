@@ -57,7 +57,7 @@ namespace Cogito.Web.Mvc.Configuration
             }
             
             // map the attributed routes
-            module.Routes.MapMvcAttributeRoutes(t);
+            throw new NotSupportedException();
         }
 
     }

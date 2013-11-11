@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 
 namespace Cogito.Collections
 {
@@ -12,13 +14,15 @@ namespace Cogito.Collections
         /// </summary>
         /// <typeparam name="TKey"></typeparam>
         /// <typeparam name="TValue"></typeparam>
-        /// <param name="source"></param>
+        /// <param name="self"></param>
         /// <param name="key"></param>
         /// <returns></returns>
-        public static TValue ValueOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> source, TKey key)
+        public static TValue GetOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> self, TKey key)
         {
+            Contract.Requires<ArgumentNullException>(self != null);
+
             TValue v;
-            return source.TryGetValue(key, out v) ? v : default(TValue);
+            return self.TryGetValue(key, out v) ? v : default(TValue);
         }
 
         /// <summary>
@@ -26,14 +30,20 @@ namespace Cogito.Collections
         /// </summary>
         /// <typeparam name="TKey"></typeparam>
         /// <typeparam name="TValue"></typeparam>
-        /// <param name="source"></param>
+        /// <param name="self"></param>
         /// <param name="key"></param>
         /// <param name="create"></param>
         /// <returns></returns>
-        public static TValue GetOrAdd<TKey, TValue>(this IDictionary<TKey, TValue> source, TKey key, Func<TKey, TValue> create)
+        public static TValue GetOrAdd<TKey, TValue>(this IDictionary<TKey, TValue> self, TKey key, Func<TKey, TValue> create)
         {
+            Contract.Requires<ArgumentNullException>(self != null);
+
+            // ConcurrentDictionary provides it's own thread-safe version
+            if (self is ConcurrentDictionary<TKey, TValue>)
+                return ((ConcurrentDictionary<TKey, TValue>)self).GetOrAdd(key, create);
+
             TValue v;
-            return source.TryGetValue(key, out v) ? v : source[key] = create(key);
+            return self.TryGetValue(key, out v) ? v : self[key] = create(key);
         }
 
     }

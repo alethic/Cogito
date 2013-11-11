@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Linq;
 
 namespace Cogito.Linq
@@ -11,6 +12,21 @@ namespace Cogito.Linq
     /// </summary>
     public static class EnumerableExtensions
     {
+
+        /// <summary>
+        /// Performs an action on each item in a list, used to shortcut a "foreach" loop.
+        /// </summary>
+        /// <typeparam name="T">Type contained in List</typeparam>
+        /// <param name="source">List to enumerate over</param>
+        /// <param name="action">Lambda Function to be performed on all elements in List</param>
+        public static void ForEach<T>(this IEnumerable<T> source, Action<T> action)
+        {
+            Contract.Requires<ArgumentNullException>(source != null);
+            Contract.Requires<ArgumentNullException>(action != null);
+
+            foreach (T item in source)
+                action(item);
+        }
 
         /// <summary>
         /// Returns an empty <see cref="IEnumerable"/> if <paramref name="source"/> is null.
@@ -42,6 +58,8 @@ namespace Cogito.Linq
         /// <returns></returns>
         public static IEnumerable<T> Append<T>(this IEnumerable<T> source, T o)
         {
+            Contract.Requires<ArgumentNullException>(source != null);
+
             foreach (T t in source)
                 yield return t;
             yield return o;
@@ -56,6 +74,8 @@ namespace Cogito.Linq
         /// <returns></returns>
         public static IEnumerable<T> Prepend<T>(this IEnumerable<T> source, T o)
         {
+            Contract.Requires<ArgumentNullException>(source != null);
+
             yield return o;
             foreach (T t in source)
                 yield return t;
@@ -70,6 +90,9 @@ namespace Cogito.Linq
         /// <returns></returns>
         public static IEnumerable<T> Recurse<T>(this IEnumerable<T> source, Func<T, IEnumerable<T>> children)
         {
+            Contract.Requires<ArgumentNullException>(source != null);
+            Contract.Requires<ArgumentNullException>(children != null);
+
             foreach (T t in source)
             {
                 yield return t;
@@ -87,6 +110,8 @@ namespace Cogito.Linq
         /// <returns></returns>
         public static IEnumerable<T> Recurse<T>(this T target, Func<T, T> nextFunc)
         {
+            Contract.Requires<ArgumentNullException>(nextFunc != null);
+
             // yield existing item
             yield return target;
 
@@ -106,6 +131,8 @@ namespace Cogito.Linq
         /// <returns></returns>
         public static IEnumerable<T> InsertBeforeEach<T>(this IEnumerable<T> source, T value)
         {
+            Contract.Requires<ArgumentNullException>(source != null);
+
             foreach (var i in source)
             {
                 yield return value;
@@ -122,6 +149,8 @@ namespace Cogito.Linq
         /// <returns></returns>
         public static IEnumerable<T> InsertAfterEach<T>(this IEnumerable<T> source, T value)
         {
+            Contract.Requires<ArgumentNullException>(source != null);
+
             foreach (var i in source)
             {
                 yield return i;
@@ -137,6 +166,8 @@ namespace Cogito.Linq
         /// <returns></returns>
         public static IEnumerable<IEnumerable<T>> Explode<T>(this IEnumerable<T> source)
         {
+            Contract.Requires<ArgumentNullException>(source != null);
+
             foreach (var i in source)
                 yield return Enumerable.Empty<T>().Prepend(i);
         }
@@ -149,8 +180,134 @@ namespace Cogito.Linq
         /// <returns></returns>
         public static HashSet<T> ToHashSet<T>(this IEnumerable<T> source)
         {
+            Contract.Requires<ArgumentNullException>(source != null);
+
             return new HashSet<T>(source);
         }
+
+        /// <summary>
+        /// Wraps the given enumerable with another enumerable that can be enumerated multiple times without
+        /// reenumerating the original.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="source"></param>
+        /// <returns></returns>
+        public static IEnumerable<T> Tee<T>(this IEnumerable<T> source)
+        {
+            Contract.Requires<ArgumentNullException>(source != null);
+
+            return Tee(source, false);
+        }
+
+        /// <summary>
+        /// Wraps the given enumerable with another enumerable that can be enumerated multiple times without
+        /// reenumerating the original.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="source"></param>
+        /// <returns></returns>
+        public static IEnumerable<T> Tee<T>(this IEnumerable<T> source, bool threadSafe)
+        {
+            Contract.Requires<ArgumentNullException>(source != null);
+
+            if (threadSafe)
+                return TeeInternalThreadSafe<T>(source.GetEnumerator(), new List<T>());
+            else
+                return TeeInternal<T>(source.GetEnumerator(), new List<T>());
+        }
+
+        /// <summary>
+        /// Generator for Tee.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="source"></param>
+        /// <param name="cache"></param>
+        /// <returns></returns>
+        static IEnumerable<T> TeeInternal<T>(this IEnumerator<T> source, IList<T> cache)
+        {
+            int index = 0;
+            while (true)
+            {
+                // Fill from enumerator if we haven't done so already
+                if (index == cache.Count)
+                {
+                    if (source.MoveNext())
+                        cache.Add(source.Current);
+                    else
+                        yield break;
+                }
+
+                // Yield value from cache and advance
+                yield return cache[index++];
+            }
+        }
+
+        /// <summary>
+        /// Generator for Tee.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="source"></param>
+        /// <param name="cache"></param>
+        /// <returns></returns>
+        static IEnumerable<T> TeeInternalThreadSafe<T>(this IEnumerator<T> source, IList<T> cache)
+        {
+            int index = 0;
+            while (true)
+            {
+                lock (cache)
+                {
+                    // Fill from enumerator if we haven't done so already
+                    if (index == cache.Count)
+                    {
+                        if (source.MoveNext())
+                            cache.Add(source.Current);
+                        else
+                            yield break;
+                    }
+                }
+
+                // yield value from cache and advance
+                yield return cache[index++];
+            }
+        }
+
+        /// <summary>
+        /// Transforms the input, making the previous item available.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="TResult"></typeparam>
+        /// <param name="source"></param>
+        /// <param name="func"></param>
+        /// <returns></returns>
+        public static IEnumerable<TResult> SelectWithPrevious<T, TResult>(this IEnumerable<T> source, Func<T, T, TResult> func)
+        {
+            T p = default(T);
+
+            foreach (var i in source)
+            {
+                yield return func(i, p);
+                p = i;
+            }
+        }
+
+        public static IEnumerable<IEnumerable<T>> Transpose<T>(this IEnumerable<IEnumerable<T>> source)
+        {
+            var enumerators = source
+                .Select(e => e.GetEnumerator()).ToArray();
+
+            try
+            {
+                while (enumerators.All(e => e.MoveNext()))
+                    yield return enumerators
+                        .Select(e => e.Current)
+                        .ToArray();
+            }
+            finally
+            {
+                Array.ForEach(enumerators, e => e.Dispose());
+            }
+        }
+
 
     }
 

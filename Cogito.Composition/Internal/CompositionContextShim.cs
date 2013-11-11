@@ -117,6 +117,18 @@ namespace Cogito.Composition.Internal
         }
 
         /// <summary>
+        /// Gets all the exports with the specified contract name.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="contractType"></param>
+        /// <returns></returns>
+        public IEnumerable<System.Lazy<T, IDictionary<string, object>>> GetExports<T>(Type contractType)
+            where T : class
+        {
+            return GetExports<T, IDictionary<string, object>>(contractType);
+        }
+
+        /// <summary>
         /// Gets all the exports with the specified contract name derived from the type parameter.
         /// </summary>
         /// <typeparam name="T"></typeparam>
@@ -247,7 +259,8 @@ namespace Cogito.Composition.Internal
         public T GetExportedValueOrDefault<T>()
             where T : class
         {
-            return container.GetExportedValueOrDefault<T>();
+            var o = container.GetExportedValueOrDefault<T>();
+            return o;
         }
 
         /// <summary>

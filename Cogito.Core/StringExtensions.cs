@@ -1,8 +1,12 @@
 ﻿using System;
+using System.Diagnostics.Contracts;
 
 namespace Cogito
 {
 
+    /// <summary>
+    /// Various extensions for working with strings.
+    /// </summary>
     public static class StringExtensions
     {
 
@@ -54,6 +58,24 @@ namespace Cogito
         public static string TrimOrNull(this string self)
         {
             return self == null ? null : (self = self.Trim()) == "" ? null : self;
+        }
+
+        /// <summary>
+        /// Removes the end portion of the string that matches <paramref name="value"/>.
+        /// </summary>
+        /// <param name="self"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static string RemoveEnd(this string self, string value)
+        {
+            Contract.Requires<ArgumentNullException>(self != null);
+            Contract.Requires<ArgumentNullException>(value != null);
+
+            var idx = self.LastIndexOf(value);
+            if (idx > -1)
+                return self.Remove(idx);
+
+            return self;
         }
 
     }

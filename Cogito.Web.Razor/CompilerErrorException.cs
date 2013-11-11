@@ -1,5 +1,7 @@
-﻿using System.CodeDom.Compiler;
+﻿using System;
+using System.CodeDom.Compiler;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Linq;
 
 namespace Cogito.Web.Razor
@@ -21,6 +23,8 @@ namespace Cogito.Web.Razor
         internal CompilerErrorException(CompilerErrorCollection errors, string code)
             : base(errors[0].ErrorText)
         {
+            Contract.Requires<ArgumentNullException>(errors != null);
+            Contract.Requires<ArgumentNullException>(code != null);
             this.errors = errors.Cast<CompilerError>();
             this.code = code;
         }

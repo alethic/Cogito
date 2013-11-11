@@ -23,11 +23,11 @@ namespace Cogito.Web.Razor
             object value);
 
         /// <summary>
-        /// Writes the <see cref="HelperResult"/>.
+        /// Writes the <see cref="IHtmlString"/>.
         /// </summary>
-        /// <param name="result"></param>
+        /// <param name="html"></param>
         void Write(
-            HelperResult result);
+            IHtmlString html);
 
         /// <summary>
         /// Writes the value.
@@ -39,13 +39,13 @@ namespace Cogito.Web.Razor
             object value);
 
         /// <summary>
-        /// Writes the <see cref="HelperResult"/>.
+        /// Writes the <see cref="IHtmlString"/>.
         /// </summary>
         /// <param name="writer"></param>
-        /// <param name="result"></param>
+        /// <param name="html"></param>
         void WriteTo(
             TextWriter writer,
-            HelperResult result);
+            IHtmlString html);
 
         /// <summary>
         /// Writes the literal value.

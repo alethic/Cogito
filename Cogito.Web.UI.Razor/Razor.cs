@@ -99,7 +99,7 @@ namespace Cogito.Web.UI.Razor
             // obtain or create the Razor template for the given control
             var type = RazorTemplateBuilder.GetOrBuildType(
                 () => ReadTemplate(typeof(T)),
-                baseClassType: typeof(RazorControlTemplate<T>),
+                defaultBaseClass: typeof(RazorControlTemplate<T>),
                 referencedAssemblies: referencedAssemblies,
                 importedNamespaces: new[] { typeof(Control).Namespace },
                 innerTemplateType: typeof(HtmlHelperResult),

@@ -58,6 +58,13 @@ namespace Cogito.Composition
             throw new NotImplementedException();
         }
 
+        public IEnumerable<Lazy<T, IDictionary<string, object>>> GetExports<T>(Type contractType)
+            where T : class
+        {
+            Contract.Requires<ArgumentNullException>(contractType != null);
+            throw new NotImplementedException();
+        }
+
         public IEnumerable<Lazy<T, TMetadataView>> GetExports<T, TMetadataView>()
             where T : class
         {
@@ -312,6 +319,19 @@ namespace Cogito.Composition
             throw new NotImplementedException();
         }
 
+        public object GetExportedValue(Type contractType)
+        {
+            Contract.Requires<ArgumentNullException>(contractType != null);
+            throw new NotImplementedException();
+        }
+
+        public object GetExportedValue(Type type, string contractName)
+        {
+            Contract.Requires<ArgumentNullException>(type != null);
+            Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(contractName));
+            throw new NotImplementedException();
+        }
+
     }
 
     /// <summary>
@@ -348,6 +368,9 @@ namespace Cogito.Composition
             where T : class;
 
         IEnumerable<System.Lazy<T, IDictionary<string, object>>> GetExports<T>(string contractName)
+            where T : class;
+
+        IEnumerable<System.Lazy<T, IDictionary<string, object>>> GetExports<T>(Type contractType)
             where T : class;
 
         /// <summary>
@@ -410,13 +433,17 @@ namespace Cogito.Composition
         T GetExportedValue<T>(string contractName)
             where T : class;
 
-        object GetExportedValueOrDefault(Type contractType);
+        object GetExportedValue(Type contractType);
+
+        object GetExportedValue(Type type, string contractName);
 
         T GetExportedValueOrDefault<T>()
             where T : class;
 
         T GetExportedValueOrDefault<T>(string contractName)
             where T : class;
+
+        object GetExportedValueOrDefault(Type contractType);
 
         object GetExportedValueOrDefault(Type type, string contractName);
 

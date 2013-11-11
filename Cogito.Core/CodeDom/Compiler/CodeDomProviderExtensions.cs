@@ -1,5 +1,7 @@
-﻿using System.CodeDom;
+﻿using System;
+using System.CodeDom;
 using System.CodeDom.Compiler;
+using System.Diagnostics.Contracts;
 using System.IO;
 
 namespace Cogito.CodeDom.Compiler
@@ -21,6 +23,8 @@ namespace Cogito.CodeDom.Compiler
             CodeCompileUnit compileUnit,
             CodeGeneratorOptions options)
         {
+            Contract.Requires<ArgumentNullException>(self != null);
+
             var w = new StringWriter();
             self.GenerateCodeFromCompileUnit(compileUnit, w, options);
             return w.ToString();
