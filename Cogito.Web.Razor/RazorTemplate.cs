@@ -7,7 +7,8 @@ namespace Cogito.Web.Razor
     /// <summary>
     /// Base <see cref="IRazorTemplate"/> type.
     /// </summary>
-    public abstract class RazorTemplate : IRazorTemplate
+    public abstract class RazorTemplate : 
+        IRazorTemplate
     {
 
         /// <summary>
@@ -98,20 +99,37 @@ namespace Cogito.Web.Razor
             params AttributeValue[] values);
 
         /// <summary>
-        /// Gets the layout.
+        /// Renders the body.
         /// </summary>
-        public virtual object Layout
-        {
-            get { throw new NotImplementedException(); }
-        }
+        /// <returns></returns>
+        public abstract object RenderBody();
+
+        /// <summary>
+        /// Returns <c>true</c> if the section is defined.
+        /// </summary>
+        /// <param name="sectionName"></param>
+        /// <returns></returns>
+        public abstract bool IsSectionDefined(string sectionName);
 
         /// <summary>
         /// Defines a section.
         /// </summary>
-        public virtual void DefineSection()
-        {
-            throw new NotImplementedException();
-        }
+        public abstract void DefineSection(string sectionName, Action action);
+
+        /// <summary>
+        /// Renders the section.
+        /// </summary>
+        /// <param name="sectionName">Name of the section.</param>
+        /// <returns></returns>
+        public abstract object RenderSection(string sectionName);
+
+        /// <summary>
+        /// Renders the section.
+        /// </summary>
+        /// <param name="sectionName">Name of the section.</param>
+        /// <param name="required"></param>
+        /// <returns></returns>
+        public abstract object RenderSection(string sectionName, bool required);
 
         /// <summary>
         /// Begins a new context.

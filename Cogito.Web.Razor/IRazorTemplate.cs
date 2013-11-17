@@ -94,14 +94,35 @@ namespace Cogito.Web.Razor
             params AttributeValue[] values);
 
         /// <summary>
-        /// Gets the layout.
+        /// Renders the body.
         /// </summary>
-        object Layout { get; }
+        /// <returns></returns>
+        object RenderBody();
+
+        /// <summary>
+        /// Returns <c>true</c> if the specified section is defined.
+        /// </summary>
+        /// <param name="sectionName"></param>
+        /// <returns></returns>
+        bool IsSectionDefined(string sectionName);
 
         /// <summary>
         /// Defines a section.
         /// </summary>
-        void DefineSection();
+        void DefineSection(string sectionName, Action action);
+
+        /// <summary>
+        /// Renders a section.
+        /// </summary>
+        /// <param name="sectionName"></param>
+        object RenderSection(string sectionName);
+
+        /// <summary>
+        /// Renders a section.
+        /// </summary>
+        /// <param name="sectionName"></param>
+        /// <param name="required"></param>
+        object RenderSection(string sectionName, bool required);
 
         /// <summary>
         /// Begins a context.

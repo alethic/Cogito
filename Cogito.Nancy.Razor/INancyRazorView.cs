@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.Composition;
-
 using Cogito.Composition.Scoping;
 using Cogito.Web;
-
+using Cogito.Web.Razor;
 using Nancy.ViewEngines;
 using Nancy.ViewEngines.Razor;
 
@@ -19,7 +18,10 @@ namespace Cogito.Nancy.Razor
         INancyRazorView
     {
 
-
+        /// <summary>
+        /// Returns <c>true</c> if the view has a model.
+        /// </summary>
+        new TModel Model { get; }
 
     }
 
@@ -27,7 +29,7 @@ namespace Cogito.Nancy.Razor
     /// Interface for Nancy Razor views.
     /// </summary>
     public interface INancyRazorView :
-        global::Nancy.ViewEngines.Razor.INancyRazorView
+        IRazorTemplate
     {
 
         /// <summary>
@@ -51,19 +53,14 @@ namespace Cogito.Nancy.Razor
         object Model { get; }
 
         /// <summary>
-        /// Returns the rendered body of the view.
+        /// Gets the produced body.
         /// </summary>
         string Body { get; }
 
         /// <summary>
-        /// Gets the rendered section contents of the view.
+        /// Gets the produced sections.
         /// </summary>
-        IDictionary<string, string> SectionContents { get; set; }
-
-        /// <summary>
-        /// Gets the name of the specified layout.
-        /// </summary>
-        string Layout { get; set; }
+        IDictionary<string, string> SectionContents { get; }
 
     }
 

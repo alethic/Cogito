@@ -20,9 +20,9 @@ namespace Cogito.Nancy.Razor
         INancyRazorViewRenderer
     {
 
-        IRazorConfiguration configuration;
-        IRenderContextFactory contextFactory;
-        INancyRazorLayoutViewProvider layoutViewProvider;
+        readonly IRazorConfiguration configuration;
+        readonly IRenderContextFactory contextFactory;
+        readonly INancyRazorLayoutViewProvider layoutViewProvider;
 
         /// <summary>
         /// Initializes a new instance.
@@ -133,7 +133,7 @@ namespace Cogito.Nancy.Razor
                     context,
                     requestedMediaRange,
                     view,
-                    view.Layout)
+                    null)
                 .Where(i => !except.Contains(i.ViewType))
                 .Select(i => i)
                 .FirstOrDefault();

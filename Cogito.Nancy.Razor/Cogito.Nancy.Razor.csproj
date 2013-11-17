@@ -101,16 +101,11 @@
     <CodeContractsAnalysisWarningLevel>0</CodeContractsAnalysisWarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Nancy, Version=0.21.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Nancy.0.21.1\lib\net40\Nancy.dll</HintPath>
+    <Reference Include="Nancy">
+      <HintPath>..\packages\Nancy.0.21.1\lib\net40\Nancy.dll</HintPath>
     </Reference>
-    <Reference Include="Nancy.ViewEngines.Razor, Version=0.21.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Nancy.Viewengines.Razor.0.21.1\lib\net40\Nancy.ViewEngines.Razor.dll</HintPath>
-    </Reference>
-    <Reference Include="Nancy.ViewEngines.Razor.BuildProviders">
-      <HintPath>..\..\packages\Nancy.Viewengines.Razor.0.21.1\BuildProviders\Nancy.ViewEngines.Razor.BuildProviders.dll</HintPath>
+    <Reference Include="Nancy.Bootstrappers.Mef">
+      <HintPath>..\packages\Nancy.Bootstrappers.Mef.0.19.0\lib\net45\Nancy.Bootstrappers.Mef.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
@@ -120,11 +115,7 @@
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Microsoft.AspNet.Razor.3.0.0\lib\net45\System.Web.Razor.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web.Razor.Unofficial">
-      <HintPath>..\..\packages\System.Web.Razor.Unofficial.2.0.2\lib\net40\System.Web.Razor.Unofficial.dll</HintPath>
-      <Aliases>RazorUnofficial</Aliases>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.0.0\lib\net45\System.Web.Razor.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="Microsoft.CSharp" />
@@ -132,9 +123,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BuildProviders\CSharpRazorBuildProvider.cs" />
+    <Compile Include="HtmlHelpers.cs" />
+    <Compile Include="IHtmlString.cs" />
+    <Compile Include="IRazorConfiguration.cs" />
+    <Compile Include="IRazorViewRenderer.cs" />
     <Compile Include="NancyRazorCatalogProvider.cs" />
+    <Compile Include="NancyRazorErrorView.cs" />
     <Compile Include="NancyRenderContext.cs" />
     <Compile Include="NancyRenderContextFactory.cs" />
+    <Compile Include="NonEncodedHtmlString.cs" />
+    <Compile Include="RazorViewEngine.cs" />
+    <Compile Include="UrlHelpers.cs" />
     <Compile Include="UrlHelpersExtensions.cs" />
     <Compile Include="INancyRazorLayoutViewMetadata.cs" />
     <Compile Include="NancyRazorLayoutViewAttribute.cs" />
@@ -167,10 +166,6 @@
     <None Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Nancy.Bootstrappers.Mef\Nancy.Bootstrappers.Mef\Nancy.Bootstrappers.Mef.csproj">
-      <Project>{187dcedf-7093-46fc-8c76-793f0c6bd591}</Project>
-      <Name>Nancy.Bootstrappers.Mef</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Cogito.Composition.Web\Cogito.Composition.Web.csproj">
       <Project>{8c774089-78f9-49a3-b3d5-18f18a0782e2}</Project>
       <Name>Cogito.Composition.Web</Name>
@@ -200,12 +195,10 @@
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <PropertyGroup>
     <PostBuildEvent>
-if $(ConfigurationName) == Debug (
-xcopy /s /y /R "$(SolutionDir)packages\Nancy.Viewengines.Razor.0.21.1\BuildProviders\Nancy.ViewEngines.Razor.BuildProviders.dll" "$(ProjectDir)bin\"
-xcopy /s /y /R "$(SolutionDir)packages\Nancy.Viewengines.Razor.0.21.1\lib\Net40\Nancy.ViewEngines.Razor.dll" "$(ProjectDir)bin\"
-)</PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
   <Import Project="..\..\packages\Microsoft.CodeContracts.1.5.60911.10\build\Microsoft.CodeContracts.targets" Condition="Exists('..\..\packages\Microsoft.CodeContracts.1.5.60911.10\build\Microsoft.CodeContracts.targets')" />
+  <Import Project="..\packages\Microsoft.CodeContracts.1.5.60911.10\build\Microsoft.CodeContracts.targets" Condition="Exists('..\packages\Microsoft.CodeContracts.1.5.60911.10\build\Microsoft.CodeContracts.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

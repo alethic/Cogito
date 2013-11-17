@@ -1,12 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using System.Globalization;
 using System.IO;
-using System.Linq;
+using System.Text;
 using Cogito.Composition.Scoping;
 using Cogito.Composition.Web;
-using Cogito.Web;
 using Cogito.Web.Razor;
+using Nancy;
+using Nancy.Helpers;
+using Nancy.ViewEngines;
+using Nancy.ViewEngines.Razor;
 
 namespace Cogito.Nancy.Razor
 {
@@ -14,7 +18,8 @@ namespace Cogito.Nancy.Razor
     /// <summary>
     /// Base nancy view type for a model of dynamic type.
     /// </summary>
-    public abstract class NancyRazorViewBase : NancyRazorViewBase<dynamic>
+    public abstract class NancyRazorViewBase :
+        NancyRazorViewBase<dynamic>
     {
 
 
@@ -28,10 +33,41 @@ namespace Cogito.Nancy.Razor
     [PartCreationPolicy(CreationPolicy.NonShared)]
     [PartScope(typeof(IWebRequestScope))]
     public abstract class NancyRazorViewBase<TModel> :
-        global::Nancy.ViewEngines.Razor.NancyRazorViewBase<TModel>,
-        INancyRazorView<TModel>,
-        IRazorTemplate
+        RazorTemplate,
+        INancyRazorView<TModel>
     {
+
+        /// <summary>
+        /// Html encodes an object if required
+        /// </summary>
+        /// <param name="value">Object to potentially encode</param>
+        /// <returns>String representation, encoded if necessary</returns>
+        static string HtmlEncode(object value)
+        {
+            if (value == null)
+                return null;
+
+            var str = value as IHtmlString;
+            return str != null ? str.ToHtmlString() : HttpUtility.HtmlEncode(Convert.ToString(value, CultureInfo.CurrentCulture));
+        }
+
+        IRenderContext renderContext;
+        HtmlHelpers<TModel> html;
+        TModel model;
+        UrlHelpers<TModel> url;
+        dynamic viewBag;
+
+        // defined output destinations
+        StringWriter contents;
+        IDictionary<string, Action> sections;
+
+        // produced output
+        string body;
+        IDictionary<string, string> sectionContents;
+
+        // child items for Render methods
+        string childBody;
+        IDictionary<string, string> childSections;
 
         /// <summary>
         /// Initializes a new instance.
@@ -39,97 +75,277 @@ namespace Cogito.Nancy.Razor
         public NancyRazorViewBase()
             : base()
         {
-
+            this.contents = new StringWriter();
+            this.sections = new Dictionary<string, Action>();
         }
 
-        public override void DefineSection(string sectionName, Action action)
+        public virtual void Initialize(RazorViewEngine engine, IRenderContext renderContext, object model)
         {
-            base.DefineSection(sectionName, action);
+            this.renderContext = renderContext;
+            this.html = new HtmlHelpers<TModel>(engine, renderContext, (TModel)model);
+            this.model = (TModel)model;
+            this.url = new UrlHelpers<TModel>(engine, renderContext);
+            this.viewBag = renderContext.Context.ViewBag;
+        }
+
+        public HtmlHelpers<TModel> Html
+        {
+            get { return html; }
+        }
+
+        public UrlHelpers<TModel> Url
+        {
+            get { return url; }
+        }
+
+        public dynamic ViewBag
+        {
+            get { return viewBag; }
         }
 
         /// <summary>
         /// Gets the model associated with the view.
         /// </summary>
+        public TModel Model
+        {
+            get { return model; }
+        }
+
         object INancyRazorView.Model
         {
-            get { return Model; }
+            get { return model; }
         }
 
-        #region IRazorTemplate Methods
-
-        void IRazorTemplate.Write(object value)
+        /// <summary>
+        /// Gets the produced body.
+        /// </summary>
+        public string Body
         {
-            base.Write(value);
+            get { return body; }
         }
 
-        void IRazorTemplate.Write(IHtmlString result)
+        /// <summary>
+        /// Gets the produced sections.
+        /// </summary>
+        public IDictionary<string, string> SectionContents
         {
-            base.WriteLiteral(result);
+            get { return sectionContents; }
         }
 
-        void IRazorTemplate.WriteTo(TextWriter writer, object value)
-        {
-            base.WriteTo(writer, value);
-        }
-
-        void IRazorTemplate.WriteTo(TextWriter writer, IHtmlString result)
-        {
-            base.WriteLiteralTo(writer, result);
-        }
-
-        void IRazorTemplate.WriteLiteral(object value)
-        {
-            base.WriteLiteral(value);
-        }
-
-        void IRazorTemplate.WriteLiteralTo(TextWriter writer, object value)
-        {
-            base.WriteLiteralTo(writer, value);
-        }
-
-        void IRazorTemplate.WriteAttribute(string attr, Tuple<string, int> ltoken, Tuple<string, int> rtoken, params AttributeValue[] values)
-        {
-            base.WriteAttribute(attr, ltoken, rtoken,
-                values
-                    .Select(i => new global::Nancy.ViewEngines.Razor.AttributeValue(
-                         Tuple.Create(i.Prefix, 0),
-                         Tuple.Create(i.Value, 0),
-                         i.IsLiteral))
-                    .ToArray());
-        }
-
-        void IRazorTemplate.WriteAttributeTo(TextWriter writer, string attr, Tuple<string, int> ltoken, Tuple<string, int> rtoken, params AttributeValue[] values)
-        {
-            base.WriteAttributeTo(writer, attr, ltoken, rtoken,
-                values
-                    .Select(i => new global::Nancy.ViewEngines.Razor.AttributeValue(
-                         Tuple.Create(i.Prefix, 0),
-                         Tuple.Create(i.Value, 0),
-                         i.IsLiteral))
-                    .ToArray());
-        }
-
-        object IRazorTemplate.Layout
-        {
-            get { throw new NotImplementedException(); }
-        }
-
-        void IRazorTemplate.DefineSection()
+        public override void Execute()
         {
             throw new NotImplementedException();
         }
 
-        void IRazorTemplate.BeginContext()
+        public override void Write(object value)
         {
-            throw new NotImplementedException();
+            WriteTo(contents, value);
         }
 
-        void IRazorTemplate.EndContext()
+        public override void WriteTo(TextWriter writer, object value)
         {
-            throw new NotImplementedException();
+            writer.Write(HtmlEncode(value));
         }
 
-        #endregion
+        public override void WriteLiteral(object value)
+        {
+            WriteLiteralTo(contents, value);
+        }
+
+        public override void WriteLiteralTo(TextWriter writer, object value)
+        {
+            writer.Write(value);
+        }
+
+        public override void WriteAttribute(string attr, Tuple<string, int> ltoken, Tuple<string, int> rtoken, params Web.Razor.AttributeValue[] values)
+        {
+            WriteAttributeTo(contents, attr, ltoken, rtoken, values);
+        }
+
+        public override void WriteAttributeTo(TextWriter writer, string attr, Tuple<string, int> ltoken, Tuple<string, int> rtoken, params Web.Razor.AttributeValue[] values)
+        {
+            WriteLiteralTo(writer, BuildAttribute(attr, ltoken, rtoken, values));
+        }
+
+        /// <summary>
+        /// Builds an attribute into a string.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="prefix"></param>
+        /// <param name="suffix"></param>
+        /// <param name="values"></param>
+        /// <returns></returns>
+        string BuildAttribute(string name, Tuple<string, int> prefix, Tuple<string, int> suffix, params AttributeValue[] values)
+        {
+            var writtenAttribute = false;
+            var attributeBuilder = new StringBuilder(prefix.Item1);
+
+            foreach (var value in values)
+            {
+                if (ShouldWriteValue(value.Value))
+                {
+                    var stringValue = GetStringValue(value);
+                    var valuePrefix = value.Prefix;
+
+                    if (!string.IsNullOrEmpty(valuePrefix))
+                        attributeBuilder.Append(valuePrefix);
+
+                    attributeBuilder.Append(stringValue);
+                    writtenAttribute = true;
+                }
+            }
+
+            attributeBuilder.Append(suffix.Item1);
+
+            var renderAttribute = writtenAttribute || values.Length == 0;
+            if (renderAttribute)
+                return attributeBuilder.ToString();
+
+            return string.Empty;
+        }
+
+        /// <summary>
+        /// Gets the string value for the given attribute.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        string GetStringValue(AttributeValue value)
+        {
+            if (value.IsLiteral)
+                return (string)value.Value;
+
+            if (value.Value is IHtmlString)
+                return ((IHtmlString)value.Value).ToHtmlString();
+
+            if (value.Value is DynamicDictionaryValue)
+            {
+                var dynamicValue = (DynamicDictionaryValue)value.Value;
+                return dynamicValue.HasValue ? dynamicValue.Value.ToString() : string.Empty;
+            }
+
+            return value.Value.ToString();
+        }
+
+        /// <summary>
+        /// Returns <c>true</c> if the value should be written.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        bool ShouldWriteValue(object value)
+        {
+            if (value == null)
+                return false;
+
+            if (value is bool)
+                return (bool)value;
+
+            return true;
+        }
+
+        /// <summary>
+        /// Indicates if a section is defined.
+        /// </summary>
+        public override bool IsSectionDefined(string sectionName)
+        {
+            return childSections.ContainsKey(sectionName);
+        }
+
+        /// <summary>
+        /// Stores sections
+        /// </summary>
+        /// <param name="sectionName">Name of the section.</param>
+        /// <param name="action">The action.</param>
+        public override void DefineSection(string sectionName, Action action)
+        {
+            sections.Add(sectionName, action);
+        }
+
+        /// <summary>
+        /// Renders the body.
+        /// </summary>
+        /// <returns></returns>
+        public override object RenderBody()
+        {
+            WriteLiteral(childBody);
+            return null;
+        }
+
+        /// <summary>
+        /// Renders the section.
+        /// </summary>
+        /// <param name="sectionName">Name of the section.</param>
+        /// <returns></returns>
+        public override object RenderSection(string sectionName)
+        {
+            return RenderSection(sectionName, true);
+        }
+
+        /// <summary>
+        /// Renders the section.
+        /// </summary>
+        /// <param name="sectionName">Name of the section.</param>
+        /// <param name="required">if set to <c>true</c> [required].</param>
+        public override object RenderSection(string sectionName, bool required)
+        {
+            string sectionContent;
+
+            var exists = childSections.TryGetValue(sectionName, out sectionContent);
+            if (!exists && required)
+                throw new InvalidOperationException("Section name " + sectionName + " not found and is required.");
+
+            WriteLiteral(sectionContent);
+            return null;
+        }
+
+        /// <summary>
+        /// Resolves the given url.
+        /// </summary>
+        /// <param name="url"></param>
+        /// <returns></returns>
+        public virtual string ResolveUrl(string url)
+        {
+            return renderContext.ParsePath(url);
+        }
+
+        /// <summary>
+        /// Executes the view.
+        /// </summary>
+        /// <param name="childBody">The body.</param>
+        /// <param name="childSections">The section contents.</param>
+        public void ExecuteView(string childBody, IDictionary<string, string> childSections)
+        {
+            childBody = childBody ?? string.Empty;
+            childSections = childSections ?? new Dictionary<string, string>();
+
+            try
+            {
+                // attempt to execute the view
+                Execute();
+            }
+            catch (NullReferenceException e)
+            {
+                throw new ViewRenderException("Unable to render the view.  Most likely the Model, or a property on the Model, is null", e);
+            }
+
+            body = contents.ToString();
+            sectionContents = new Dictionary<string, string>(sections.Count);
+
+            foreach (var section in sections)
+            {
+                contents = new StringWriter();
+
+                try
+                {
+                    section.Value.Invoke();
+                }
+                catch (NullReferenceException e)
+                {
+                    throw new ViewRenderException(string.Format("A null reference was encountered while rendering the section {0}.  Does the section require a model? (maybe it wasn't passed in)", section.Key), e);
+                }
+
+                sectionContents.Add(section.Key, contents.ToString());
+            }
+        }
 
     }
 

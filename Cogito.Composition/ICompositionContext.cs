@@ -319,19 +319,6 @@ namespace Cogito.Composition
             throw new NotImplementedException();
         }
 
-        public object GetExportedValue(Type contractType)
-        {
-            Contract.Requires<ArgumentNullException>(contractType != null);
-            throw new NotImplementedException();
-        }
-
-        public object GetExportedValue(Type type, string contractName)
-        {
-            Contract.Requires<ArgumentNullException>(type != null);
-            Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(contractName));
-            throw new NotImplementedException();
-        }
-
     }
 
     /// <summary>

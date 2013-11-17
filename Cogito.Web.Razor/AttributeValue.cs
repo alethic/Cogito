@@ -32,6 +32,10 @@ namespace Cogito.Web.Razor
             return new AttributeValue(value.Item1.Item1, value.Item2.Item1, value.Item3);
         }
 
+        readonly string prefix;
+        readonly object value;
+        readonly bool isLiteral;
+
         /// <summary>
         /// Initializes a new instance.
         /// </summary>
@@ -40,25 +44,37 @@ namespace Cogito.Web.Razor
         /// <param name="isLiteral"></param>
         public AttributeValue(string prefix, object value, bool isLiteral)
         {
-            Prefix = prefix;
-            Value = value;
-            IsLiteral = isLiteral;
+            Contract.Requires<ArgumentNullException>(prefix != null);
+            Contract.Requires<ArgumentNullException>(value != null);
+
+            this.prefix = prefix;
+            this.value = value;
+            this.isLiteral = isLiteral;
         }
 
         /// <summary>
         /// Gets the previx of the attribute.
         /// </summary>
-        public string Prefix { get; private set; }
+        public string Prefix
+        {
+            get { return prefix; }
+        }
 
         /// <summary>
         /// Gets the value of the attribute.
         /// </summary>
-        public object Value { get; private set; }
+        public object Value
+        {
+            get { return value; }
+        }
 
         /// <summary>
         /// Gets whether the value is a literal.
         /// </summary>
-        public bool IsLiteral { get; private set; }
+        public bool IsLiteral
+        {
+            get { return isLiteral; }
+        }
 
     }
 

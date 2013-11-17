@@ -45,13 +45,12 @@ namespace Cogito.Nancy.Razor
                 defaultNamespace: template.Namespace,
                 defaultClassName: template.Name,
                 defaultBaseClass: typeof(NancyRazorViewBase),
-                innerTemplateType: typeof(global::Nancy.ViewEngines.Razor.HelperResult),
+                innerTemplateType: typeof(HelperResult),
                 referencedAssemblies: template.ReferencedAssemblies.Concat(new[] { 
                         typeof(NancyEngine).Assembly,
                         typeof(Microsoft.CSharp.RuntimeBinder.Binder).Assembly,
                         typeof(System.ComponentModel.Composition.Hosting.CompositionContainer).Assembly,
                         typeof(NancyRazorViewCatalog).Assembly,
-                        typeof(global::Nancy.ViewEngines.Razor.NancyRazorViewBase).Assembly,
                 }),
                 importedNamespaces: new[] {
                     typeof(System.ComponentModel.Composition.ExportAttribute).Namespace,
