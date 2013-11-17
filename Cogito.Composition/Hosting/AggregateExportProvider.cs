@@ -20,8 +20,8 @@ namespace Cogito.Composition.Hosting
     public class AggregateExportProvider : ExportProvider, IDisposable
     {
 
+        readonly ExportProviderCollection providers;
         int disposed;
-        ExportProviderCollection providers;
 
         /// <summary>
         /// Collection of aggregated providers.
@@ -36,6 +36,8 @@ namespace Cogito.Composition.Hosting
         /// </summary>
         public AggregateExportProvider()
         {
+            Contract.Ensures(providers != null);
+
             providers = new ExportProviderCollection();
             providers.CollectionChanged += providers_CollectionChanged;
         }
@@ -91,6 +93,7 @@ namespace Cogito.Composition.Hosting
         {
             Contract.Requires<ArgumentNullException>(sender != null);
             Contract.Requires<ArgumentNullException>(args != null);
+
             OnExportsChanging(args);
         }
 
@@ -98,6 +101,7 @@ namespace Cogito.Composition.Hosting
         {
             Contract.Requires<ArgumentNullException>(sender != null);
             Contract.Requires<ArgumentNullException>(args != null);
+
             OnExportsChanged(args);
         }
 
@@ -109,7 +113,7 @@ namespace Cogito.Composition.Hosting
         /// <returns></returns>
         protected virtual IEnumerable<Export> GetExportsCoreExactlyOne(ImportDefinition definition, AtomicComposition atomicComposition)
         {
-            IEnumerable<Export> all = Enumerable.Empty<Export>();
+            var all = Enumerable.Empty<Export>();
 
             foreach (var provider in providers)
             {

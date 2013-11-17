@@ -1,12 +1,12 @@
 ﻿using Cogito.Composition.Scoping;
 
-namespace Cogito.Web
+namespace Cogito.Composition.Web
 {
 
     /// <summary>
     /// Deliminates the boundaries of a <see cref="HttpRequest"/>.
     /// </summary>
-    public interface IRequestScope :
+    public interface IWebRequestScope :
         IScope,
         ITransactionScope,
         IUserIdentityScope

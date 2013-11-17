@@ -1,20 +1,18 @@
 ﻿using System;
 using System.ComponentModel.Composition;
 
-using Cogito.Composition.Hosting;
-
-namespace Cogito.Composition
+namespace Cogito.Composition.Services
 {
 
     [AttributeUsage(AttributeTargets.Class)]
-    public class OnContainerInit : ExportAttribute
+    public class OnInitInvokeAttribute : ExportAttribute
     {
 
         /// <summary>
         /// Initializes a new instance.
         /// </summary>
-        public OnContainerInit()
-            :base(typeof(IContainerInit))
+        public OnInitInvokeAttribute()
+            : base(typeof(IOnInitInvoke))
         {
 
         }

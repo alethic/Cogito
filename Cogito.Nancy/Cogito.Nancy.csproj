@@ -115,19 +115,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ResourceModule.cs" />
     <Compile Include="DefaultModelBinder.cs" />
     <Compile Include="FormKeyValuePairProvider.cs" />
     <Compile Include="IKeyValueProvider.cs" />
     <Compile Include="KeyValueBodyDeserializer.cs" />
     <Compile Include="NancyBootstrapper.cs" />
-    <Compile Include="NancyErrorStatusCodeHandler.cs" />
+    <Compile Include="ErrorStatusCodeHandler.cs" />
     <Compile Include="NancyModuleAttribute.cs" />
-    <Compile Include="NancyUriProcessor.cs" />
+    <Compile Include="UriProcessor.cs" />
     <Compile Include="NegotiationResponseProcessor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Diagnostics.cs" />
     <Compile Include="QueryKeyValuePairProvider.cs" />
-    <Compile Include="ResourceBundleModule.cs" />
     <Compile Include="ResourceProcessor.cs" />
     <Compile Include="Responses\ErrorResponse.cs" />
     <Compile Include="Responses\NotFoundResponse.cs" />
@@ -136,6 +136,10 @@
     <ProjectReference Include="..\..\Nancy.Bootstrappers.Mef\Nancy.Bootstrappers.Mef\Nancy.Bootstrappers.Mef.csproj">
       <Project>{187dcedf-7093-46fc-8c76-793f0c6bd591}</Project>
       <Name>Nancy.Bootstrappers.Mef</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Cogito.Composition.Web\Cogito.Composition.Web.csproj">
+      <Project>{8c774089-78f9-49a3-b3d5-18f18a0782e2}</Project>
+      <Name>Cogito.Composition.Web</Name>
     </ProjectReference>
     <ProjectReference Include="..\Cogito.Composition\Cogito.Composition.csproj">
       <Project>{7bc455c8-108c-4b5a-bf25-f20eee0a8140}</Project>

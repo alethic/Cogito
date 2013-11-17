@@ -16,8 +16,9 @@ namespace Cogito.Composition.Hosting
     /// Implements a scoped <see cref="CompositionContainer"/> using generics.
     /// </summary>
     /// <typeparam name="TScope"></typeparam>
-    public class CompositionScope<TScope> : CompositionScope
-            where TScope : IScope
+    public class CompositionScope<TScope> : 
+        CompositionScope
+        where TScope : IScope
     {
 
         /// <summary>
@@ -27,7 +28,7 @@ namespace Cogito.Composition.Hosting
         public CompositionScope(System.ComponentModel.Composition.Hosting.CompositionContainer parent)
             : base(parent, typeof(TScope))
         {
-
+            Contract.Requires<ArgumentNullException>(parent != null);
         }
 
     }
@@ -35,7 +36,8 @@ namespace Cogito.Composition.Hosting
     /// <summary>
     /// Implements a scoped <see cref="CompositionContainer"/>.
     /// </summary>
-    public class CompositionScope : CompositionContainerCore
+    public class CompositionScope : 
+        CompositionContainerCore
     {
 
         /// <summary>
@@ -72,8 +74,8 @@ namespace Cogito.Composition.Hosting
             return new CompositionScope<TScope>(parent);
         }
 
-        HashSet<Type> scopes;
-        HashSet<string> identities;
+        readonly HashSet<Type> scopes;
+        readonly HashSet<string> identities;
 
         /// <summary>
         /// Initializes a new instance.
@@ -88,6 +90,7 @@ namespace Cogito.Composition.Hosting
                 provider: null)
         {
             Contract.Requires<ArgumentNullException>(parent != null);
+            Contract.Requires<ArgumentNullException>(scope != null);
 
             // extract boundaries from specified scope
             this.scopes = GetScopes(scope);

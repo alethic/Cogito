@@ -1,11 +1,11 @@
 ﻿using System.ComponentModel.Composition.Hosting;
 using System.ComponentModel.Composition.Primitives;
 using System.Linq;
-using System.Web;
 
+using Cogito.Composition;
 using Cogito.Composition.Hosting;
+using Cogito.Composition.Web;
 using Cogito.Nancy.Responses;
-using Cogito.Web;
 
 using Nancy;
 using Nancy.Bootstrapper;
@@ -17,7 +17,8 @@ namespace Cogito.Nancy
     /// <summary>
     /// Base <see cref="NancyBootstrapper/> implementation which configures a Cogito composition container.
     /// </summary>
-    public abstract class NancyBootstrapper : global::Nancy.Bootstrappers.Mef.NancyBootstrapper<Cogito.Composition.Hosting.CompositionContainerCore>
+    public abstract class NancyBootstrapper : 
+        global::Nancy.Bootstrappers.Mef.NancyBootstrapper<Cogito.Composition.Hosting.CompositionContainerCore>
     {
 
         protected override void RequestStartup(CompositionContainerCore container, IPipelines pipelines, NancyContext context)
@@ -35,11 +36,8 @@ namespace Cogito.Nancy
 
         protected override Cogito.Composition.Hosting.CompositionContainerCore CreateRequestContainer()
         {
-            // wrap request container to prevent disposal
-            // simply appeals to a parent container
-            return new Cogito.Composition.Hosting.CompositionContainer(
-                (Cogito.Composition.Hosting.CompositionContainerCore)HttpContext.Current.GetCompositionContext()
-                    .AsContainer());
+            return (Cogito.Composition.Hosting.CompositionContainerCore)
+                ApplicationContainer.AsContext().GetOrBeginScope<IWebRequestScope>().AsContainer();
         }
 
         protected override void AddCatalog(Cogito.Composition.Hosting.CompositionContainerCore container, ComposablePartCatalog catalog)

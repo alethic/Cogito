@@ -40,6 +40,7 @@ namespace Cogito.Resources
             var assemblyName = assembly.GetName().Name;
             var bundleAttrs = assembly.GetCustomAttributes<AssemblyResourceBundleAttribute>();
             var resourceAttrs = assembly.GetCustomAttributes<AssemblyResourceAttribute>();
+            var pathAttrs = assembly.GetCustomAttributes<AssemblyResourcePathAttribute>();
 
             // value to strip from resource name
             var strip = bundleAttrs
@@ -62,6 +63,7 @@ namespace Cogito.Resources
             // find common namespace prefix to build pathed name
             var namespacePrefix = assembly.GetTypes()
                 .Select(i => i.Namespace)
+                .Concat(pathAttrs.Select(i => i.Path))
                 .Where(i => i != null && i != "")
                 .Where(i => resourceName.StartsWith(i))
                 .Distinct()

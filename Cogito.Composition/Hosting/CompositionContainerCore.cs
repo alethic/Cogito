@@ -136,17 +136,6 @@ namespace Cogito.Composition.Hosting
             this.filteredProvider = new FilteredExportProvider(userProvider, ExportFilter);
             ((AggregateCatalog)base.Catalog).Catalogs.Add(filteredCatalog);
             ((AggregateExportProvider)base.Providers[0]).Providers.Add(filteredProvider);
-
-            // allow overrides to begin other actions
-            OnInit();
-        }
-
-        /// <summary>
-        /// Invoked during construction of the container.
-        /// </summary>
-        protected virtual void OnInit()
-        {
-
         }
 
         /// <summary>

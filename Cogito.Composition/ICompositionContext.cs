@@ -301,21 +301,21 @@ namespace Cogito.Composition
             throw new NotImplementedException();
         }
 
-        public ICompositionContext CreateScope<TScope>()
-            where TScope : IScope
-        {
-            throw new NotImplementedException();
-        }
-
-        public ICompositionContext CreateScope(Type scopeType)
-        {
-            Contract.Requires<ArgumentNullException>(scopeType != null);
-            Contract.Requires<ArgumentException>(typeof(IScope).IsAssignableFrom(scopeType));
-            throw new NotImplementedException();
-        }
-
         public void Dispose()
         {
+            throw new NotImplementedException();
+        }
+
+        public object GetExportedValue(Type contractType)
+        {
+            Contract.Requires<ArgumentNullException>(contractType != null);
+            throw new NotImplementedException();
+        }
+
+        public object GetExportedValue(Type type, string contractName)
+        {
+            Contract.Requires<ArgumentNullException>(type != null);
+            Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(contractName));
             throw new NotImplementedException();
         }
 
@@ -521,21 +521,6 @@ namespace Cogito.Composition
         /// <param name="scopeType"></param>
         /// <returns></returns>
         ICompositionContext GetScope(Type scopeType);
-
-        /// <summary>
-        /// Creates a new composition context for the specified scope.
-        /// </summary>
-        /// <typeparam name="TScope"></typeparam>
-        /// <returns></returns>
-        ICompositionContext CreateScope<TScope>()
-            where TScope : IScope;
-
-        /// <summary>
-        /// Creates a new composition context for the specified scope.
-        /// </summary>
-        /// <param name="scopeType"></param>
-        /// <returns></returns>
-        ICompositionContext CreateScope(Type scopeType);
 
     }
 

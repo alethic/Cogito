@@ -119,7 +119,6 @@
     <Compile Include="FileSystem\ListOfPathHelper.cs" />
     <Compile Include="FileSystem\PathHelper.cs" />
     <Compile Include="FileSystem\PathMode.cs" />
-    <Compile Include="BlockingStream.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

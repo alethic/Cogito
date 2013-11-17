@@ -5,12 +5,10 @@ using System.ComponentModel.Composition.Primitives;
 using System.ComponentModel.Composition.ReflectionModel;
 using System.Diagnostics.Contracts;
 using System.Linq;
-
 using Cogito.Collections;
 using Cogito.Composition;
+using Cogito.Composition.Web;
 using Cogito.Reflection;
-using Cogito.Web;
-
 using Nancy;
 using Nancy.Responses.Negotiation;
 
@@ -60,7 +58,7 @@ namespace Cogito.Nancy.Razor
         {
             Contract.Requires<ArgumentNullException>(body != null);
 
-            var scope = composition.GetOrBeginScope<IRequestScope>();
+            var scope = composition.GetOrBeginScope<IWebRequestScope>();
             if (scope == null)
                 throw new NullReferenceException();
 

@@ -124,7 +124,11 @@
     <Compile Include="Collections\IPriorityQueue.cs" />
     <Compile Include="Collections\IQueue.cs" />
     <Compile Include="Collections\MergedDictionary.cs" />
+    <Compile Include="IO\BlockingStream.cs" />
+    <Compile Include="Resources\AssemblyResourcePath.cs" />
     <Compile Include="Resources\AssemblyResourceBundleAttribute.cs" />
+    <Compile Include="Resources\ResourceBundleResourceProvider.cs" />
+    <Compile Include="Resources\ResourceNotFoundException.cs" />
     <Compile Include="TextMediaTypeProvider.cs" />
     <Compile Include="ImageMediaTypeProvider.cs" />
     <Compile Include="DefaultMediaTypeResolver.cs" />
@@ -161,7 +165,6 @@
     <Compile Include="Resources\Resource.cs" />
     <Compile Include="Resources\ResourceBundleProviderAttribute.cs" />
     <Compile Include="Resources\ResourceBundleQueryExtensions.cs" />
-    <Compile Include="Resources\ResourceBundleResolver.cs" />
     <Compile Include="Resources\ResourceProviderAttribute.cs" />
     <Compile Include="RuntimeVersion.cs" />
     <Compile Include="StringExtensions.cs" />

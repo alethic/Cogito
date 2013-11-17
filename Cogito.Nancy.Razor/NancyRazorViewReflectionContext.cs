@@ -4,8 +4,8 @@ using System.ComponentModel.Composition.Registration;
 using System.Reflection;
 
 using Cogito.Composition.Hosting;
+using Cogito.Composition.Web;
 using Cogito.Linq;
-using Cogito.Web;
 
 namespace Cogito.Nancy.Razor
 {
@@ -51,7 +51,7 @@ namespace Cogito.Nancy.Razor
             registrationBuilder.ForTypesMatching(i => GetModelType(i) != null)
                 .AddMetadata(
                     CompositionConstants.RequiredScopeMetadataName,
-                    AttributedModelServices.GetTypeIdentity(typeof(IRequestScope)))
+                    AttributedModelServices.GetTypeIdentity(typeof(IWebRequestScope)))
                 .SetCreationPolicy(CreationPolicy.NonShared)
                 .ExportInterfaces(i => typeof(INancyRazorView).IsAssignableFrom(i));
         }

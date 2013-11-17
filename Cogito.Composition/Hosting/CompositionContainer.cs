@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition.Hosting;
 using System.ComponentModel.Composition.Primitives;
 using System.Diagnostics.Contracts;
+using Cogito.Composition.Services;
 
 namespace Cogito.Composition.Hosting
 {
@@ -12,7 +13,8 @@ namespace Cogito.Composition.Hosting
     /// cref="CompositionContainer"/> which is preconfigured with a dynamic catalog collection, dynamic export provider
     /// collection and simplified support for begining a new scope.
     /// </summary>
-    public class CompositionContainer : CompositionContainerCore
+    public class CompositionContainer : 
+        CompositionContainerCore
     {
 
         /// <summary>
@@ -113,7 +115,7 @@ namespace Cogito.Composition.Hosting
                 importParentCatalog: importParentCatalog && parent != null,
                 importParent: importParent && parent != null)
         {
-
+            OnInit();
         }
 
         protected override bool PartFilter(ComposablePartDefinition definition)
@@ -122,9 +124,15 @@ namespace Cogito.Composition.Hosting
             return !definition.Metadata.ContainsKey(CompositionConstants.RequiredScopeMetadataName);
         }
 
-        protected override void OnInit()
+        protected void OnInit()
         {
-            GetExportedValueOrDefault<ContainerInitInvoker>();
+            // expose common services
+            this.AsContext().AddExportedValue<ICatalogService>(new CatalogService(Catalogs));
+
+            // invoke container init servics
+            this.AsContext().ComposeExportedValue<InitImportCollection>(new InitImportCollection());
+            this.AsContext().GetExportedValue<InitImportCollection>()
+                .Subscribe((ILazy<IOnInitInvoke> _) => _.Value.Invoke());
         }
 
     }

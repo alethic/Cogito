@@ -73,7 +73,7 @@ namespace Cogito.Nancy.Razor
             var resource = query.Query(bundleId, resourceName)
                 .FirstOrDefault();
             if (resource == null)
-                throw new NullReferenceException();
+                throw new ResourceNotFoundException(bundleId, resourceName);
 
             // return url
             return new NonEncodedHtmlString(helpers.Content("/r/" + resource.Bundle.Id + "/" + resource.Bundle.Version + "/" + resource.Name));

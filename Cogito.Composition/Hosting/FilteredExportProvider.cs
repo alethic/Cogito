@@ -14,8 +14,8 @@ namespace Cogito.Composition.Hosting
     public class FilteredExportProvider : ExportProvider
     {
 
-        ExportProvider provider;
-        Func<ExportDefinition, bool> filter;
+        readonly ExportProvider provider;
+        readonly Func<ExportDefinition, bool> filter;
 
         /// <summary>
         /// Initializes a new instance.
@@ -25,6 +25,7 @@ namespace Cogito.Composition.Hosting
         {
             Contract.Requires<ArgumentNullException>(provider != null);
             Contract.Requires<ArgumentNullException>(filter != null);
+
             this.provider = provider;
             this.filter = filter;
 
@@ -34,6 +35,9 @@ namespace Cogito.Composition.Hosting
 
         void provider_ExportsChanging(object sender, ExportsChangeEventArgs args)
         {
+            Contract.Requires<ArgumentNullException>(sender != null);
+            Contract.Requires<ArgumentNullException>(args != null);
+
             OnExportsChanging(new ExportsChangeEventArgs(
                 args.AddedExports.Where(i => filter(i)),
                 args.RemovedExports.Where(i => filter(i)),
@@ -42,6 +46,9 @@ namespace Cogito.Composition.Hosting
 
         void provider_ExportsChanged(object sender, ExportsChangeEventArgs args)
         {
+            Contract.Requires<ArgumentNullException>(sender != null);
+            Contract.Requires<ArgumentNullException>(args != null);
+
             OnExportsChanging(new ExportsChangeEventArgs(
                 args.AddedExports.Where(i => filter(i)),
                 args.RemovedExports.Where(i => filter(i)),

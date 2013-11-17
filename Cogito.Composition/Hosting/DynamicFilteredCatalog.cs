@@ -9,7 +9,9 @@ namespace Cogito.Composition.Hosting
     /// <summary>
     /// Filtered catalog that can have filter sets added to it.
     /// </summary>
-    public class DynamicFilteredCatalog : ComposablePartCatalog
+    public class DynamicFilteredCatalog :
+        ComposablePartCatalog,
+        INotifyComposablePartCatalogChanged
     {
 
         AggregateCatalog aggregate;
@@ -22,6 +24,18 @@ namespace Cogito.Composition.Hosting
         public DynamicFilteredCatalog(ComposablePartCatalog source)
         {
             aggregate = new AggregateCatalog(filter = source.Filter(i => false));
+            aggregate.Changing += aggregate_Changing;
+            aggregate.Changed += aggregate_Changed;
+        }
+
+        void aggregate_Changing(object sender, ComposablePartCatalogChangeEventArgs args)
+        {
+            OnChanging(args);
+        }
+
+        void aggregate_Changed(object sender, ComposablePartCatalogChangeEventArgs args)
+        {
+            OnChanged(args);
         }
 
         /// <summary>
@@ -35,12 +49,43 @@ namespace Cogito.Composition.Hosting
         }
 
         /// <summary>
+        /// Raised when the composable parts are changing.
+        /// </summary>
+        public event EventHandler<ComposablePartCatalogChangeEventArgs> Changing;
+
+        /// <summary>
+        /// Raises Changing.
+        /// </summary>
+        /// <param name="args"></param>
+        void OnChanging(ComposablePartCatalogChangeEventArgs args)
+        {
+            if (Changing != null)
+                Changing(this, args);
+        }
+
+        /// <summary>
         /// Gets the part definitions that are contained in the catalog.
         /// </summary>
         public override IQueryable<ComposablePartDefinition> Parts
         {
             get { return aggregate.Parts; }
         }
+
+        /// <summary>
+        /// Raised when the composable parts are changing.
+        /// </summary>
+        public event EventHandler<ComposablePartCatalogChangeEventArgs> Changed;
+
+        /// <summary>
+        /// Raises Changed.
+        /// </summary>
+        /// <param name="args"></param>
+        void OnChanged(ComposablePartCatalogChangeEventArgs args)
+        {
+            if (Changed != null)
+                Changed(this, args);
+        }
+
 
         /// <summary>
         /// Disposes of the instance.

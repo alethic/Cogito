@@ -32,7 +32,7 @@ namespace Cogito.Composition.Internal
         /// <summary>
         /// Underlying <see cref="CompositionContainer"/>.
         /// </summary>
-        System.ComponentModel.Composition.Hosting.CompositionContainer container;
+        readonly System.ComponentModel.Composition.Hosting.CompositionContainer container;
 
         /// <summary>
         /// Initializes a new instance.
@@ -649,28 +649,7 @@ namespace Cogito.Composition.Internal
         /// <returns></returns>
         public ICompositionContext GetOrBeginScope(Type scopeType)
         {
-            return GetExportedValue<ScopeProvider>().GetOrBeginScope(scopeType);
-        }
-
-        /// <summary>
-        /// Begins a new composition scope of the specified type.
-        /// </summary>
-        /// <typeparam name="TScope"></typeparam>
-        /// <returns></returns>
-        public ICompositionContext BeginScope<TScope>()
-            where TScope : IScope
-        {
-            return BeginScope(typeof(IScope));
-        }
-
-        /// <summary>
-        /// Begins a new composition scope of the specified type.
-        /// </summary>
-        /// <param name="scopeType"></param>
-        /// <returns></returns>
-        public ICompositionContext BeginScope(Type scopeType)
-        {
-            return GetExportedValue<ScopeProvider>().BeginScope(scopeType);
+            return GetExportedValue<ScopeManager>().GetOrBeginContext(scopeType);
         }
 
         /// <summary>
@@ -691,28 +670,28 @@ namespace Cogito.Composition.Internal
         /// <returns></returns>
         public ICompositionContext GetScope(Type scopeType)
         {
-            return GetExportedValue<ScopeProvider>().GetScope(scopeType);
+            return GetExportedValue<ScopeManager>().GetContext(scopeType);
         }
 
         /// <summary>
-        /// Creates a composition scope of the specified type.
+        /// Gets or begins a composition scope of the specified type.
         /// </summary>
         /// <typeparam name="TScope"></typeparam>
         /// <returns></returns>
-        public ICompositionContext CreateScope<TScope>()
+        public ICompositionContext BeginScope<TScope>()
             where TScope : IScope
         {
-            return CreateScope(typeof(TScope));
+            return BeginScope(typeof(TScope));
         }
 
         /// <summary>
-        /// Creates a composition scope of the specified type.
+        /// Gets or begins a composition scope of the specified type.
         /// </summary>
         /// <param name="scopeType"></param>
         /// <returns></returns>
-        public ICompositionContext CreateScope(Type scopeType)
+        public ICompositionContext BeginScope(Type scopeType)
         {
-            return CompositionScope.CreateScope(container, scopeType).AsContext();
+            return GetExportedValue<ScopeManager>().BeginContext(scopeType);
         }
 
         /// <summary>

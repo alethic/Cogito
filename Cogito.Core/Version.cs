@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 
 namespace Cogito
@@ -40,14 +41,12 @@ namespace Cogito
 
         public static bool operator ==(Version version1, Version version2)
         {
-            Contract.Requires<ArgumentNullException>(version1 != null);
-            return version1.Equals(version2);
+            return EqualityComparer<Version>.Default.Equals(version1, version2);
         }
 
         public static bool operator !=(Version version1, Version version2)
         {
-            Contract.Requires<ArgumentNullException>(version1 != null);
-            return !version1.Equals(version2);
+            return !EqualityComparer<Version>.Default.Equals(version1, version2);
         }
 
         /// <summary>

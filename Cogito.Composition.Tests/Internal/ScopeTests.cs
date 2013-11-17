@@ -1,5 +1,4 @@
-﻿using System;
-using System.ComponentModel.Composition;
+﻿using System.ComponentModel.Composition;
 using Cogito.Composition.Hosting;
 using Cogito.Composition.Scoping;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -34,7 +33,7 @@ namespace Cogito.Composition.Tests.Internal
         }
 
         [Export]
-        [Scope(typeof(IChildScope))]
+        [PartScope(typeof(IChildScope))]
         public class InChildScope
         {
 

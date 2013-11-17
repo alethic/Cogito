@@ -20,6 +20,8 @@ namespace Cogito.Web
         /// <returns></returns>
         public static ICompositionContext GetCompositionContext(this HttpContext http)
         {
+            Contract.Requires<ArgumentNullException>(http != null);
+
             return GetCompositionContext(new HttpContextWrapper(http));
         }
 
@@ -33,28 +35,35 @@ namespace Cogito.Web
             Contract.Requires<ArgumentNullException>(http != null);
 
             // find existing context
-            var ctx = (ICompositionContext)http.Items[typeof(ICompositionContext)];
-            if (ctx == null)
-                // or create new
-                http.Items.Add(typeof(ICompositionContext), ctx = CreateCompositionContext(http));
-
-            return ctx;
+            return (ICompositionContext)http.Items[typeof(ICompositionContext)];
         }
 
         /// <summary>
-        /// Creates a new per-request context.
+        /// Gets the composition context for the current request.
         /// </summary>
         /// <param name="http"></param>
+        /// <param name="composition"></param>
         /// <returns></returns>
-        static ICompositionContext CreateCompositionContext(this HttpContextBase http)
+        public static void SetCompositionContext(this HttpContext http, ICompositionContext composition)
         {
             Contract.Requires<ArgumentNullException>(http != null);
+            Contract.Requires<ArgumentNullException>(composition != null);
 
-            var ctx = http.Application.GetCompositionContext();
-            if (ctx == null)
-                throw new NullReferenceException("Could not obtain application level context.");
+            SetCompositionContext(new HttpContextWrapper(http), composition);
+        }
 
-            return ctx.CreateScope<IRequestScope>();
+        /// <summary>
+        /// Sets the composition context for the current request.
+        /// </summary>
+        /// <param name="http"></param>
+        /// <param name="composition"></param>
+        /// <returns></returns>
+        public static void SetCompositionContext(this HttpContextBase http, ICompositionContext composition)
+        {
+            Contract.Requires<ArgumentNullException>(http != null);
+            Contract.Requires<ArgumentNullException>(composition != null);
+
+            http.Items[typeof(ICompositionContext)] = composition;
         }
 
     }

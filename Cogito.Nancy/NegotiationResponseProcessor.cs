@@ -13,6 +13,7 @@ namespace Cogito.Nancy
     /// <summary>
     /// Processes Nancy responses using the Cogito negotitation framework.
     /// </summary>
+    [Export(typeof(IResponseProcessor))]
     public class NegotiationResponseProcessor :
         IResponseProcessor
     {

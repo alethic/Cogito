@@ -16,15 +16,15 @@ namespace Cogito.Application.Lifecycle
         where T : class
     {
 
+        readonly ICompositionContext composition;
+        readonly IEnumerable<IOnInit<T>> init;
+        readonly IEnumerable<IOnBeforeStart<T>> beforeStart;
+        readonly IEnumerable<IOnStart<T>> start;
+        readonly IEnumerable<IOnAfterStart<T>> afterStart;
+        readonly IEnumerable<IOnBeforeShutdown<T>> beforeShutdown;
+        readonly IEnumerable<IOnShutdown<T>> shutdown;
+        readonly IEnumerable<IOnStateChange<T>> stateChange;
         State state = State.Unknown;
-        ICompositionContext composition;
-        IEnumerable<IOnInit<T>> init;
-        IEnumerable<IOnBeforeStart<T>> beforeStart;
-        IEnumerable<IOnStart<T>> start;
-        IEnumerable<IOnAfterStart<T>> afterStart;
-        IEnumerable<IOnBeforeShutdown<T>> beforeShutdown;
-        IEnumerable<IOnShutdown<T>> shutdown;
-        IEnumerable<IOnStateChange<T>> stateChange;
 
         /// <summary>
         /// Initializes a new instance.

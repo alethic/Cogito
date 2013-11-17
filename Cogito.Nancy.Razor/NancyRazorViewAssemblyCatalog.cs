@@ -7,6 +7,7 @@ using System.Reflection;
 using System.Text;
 
 using Cogito;
+using Cogito.Linq;
 
 using System.Threading.Tasks;
 
@@ -38,7 +39,13 @@ namespace Cogito.Nancy.Razor
             var a = t.Split('.');
             var cn = a.Last();
             var ns = string.Join(".", a.Take(a.Length - 1));
-            return new RazorViewTemplate(ns, cn, assembly.GetManifestResourceStream(resourceName), new[] { assembly });
+
+            // resolve direct references of host assembly
+            var refs = assembly.GetReferencedAssemblies()
+                .SelectMany(i => AppDomain.CurrentDomain.GetAssemblies().Where(j => j.GetName().Name == i.Name))
+                .Prepend(assembly);
+
+            return new RazorViewTemplate(ns, cn, assembly.GetManifestResourceStream(resourceName), refs);
         }
 
         /// <summary>

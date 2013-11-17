@@ -13,7 +13,7 @@ namespace Cogito.Composition.Reflection
 {
 
     /// <summary>
-    /// Provides part metadata based on <see cref="ScopeAttribute"/> decorations.
+    /// Provides part metadata based on <see cref="PartScopeAttribute"/> decorations.
     /// </summary>
     public class ScopeMetadataReflectionContext : CustomReflectionContext
     {
@@ -64,8 +64,8 @@ namespace Cogito.Composition.Reflection
 
             // obtain all boundary attributes and generate part metadata
             return type.GetCustomAttributes(true)
-                .OfType<ScopeAttribute>()
-                .Select(i => i.Scope)
+                .OfType<PartScopeAttribute>()
+                .Select(i => i.ScopeType)
                 .Select(i => new PartMetadataAttribute(CompositionConstants.RequiredScopeMetadataName, AttributedModelServices.GetTypeIdentity(i)));
         }
 

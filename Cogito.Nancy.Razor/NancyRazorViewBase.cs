@@ -4,6 +4,7 @@ using System.ComponentModel.Composition;
 using System.IO;
 using System.Linq;
 using Cogito.Composition.Scoping;
+using Cogito.Composition.Web;
 using Cogito.Web;
 using Cogito.Web.Razor;
 
@@ -25,7 +26,7 @@ namespace Cogito.Nancy.Razor
     /// </summary>
     /// <typeparam name="TModel"></typeparam>
     [PartCreationPolicy(CreationPolicy.NonShared)]
-    [Scope(typeof(IRequestScope))]
+    [PartScope(typeof(IWebRequestScope))]
     public abstract class NancyRazorViewBase<TModel> :
         global::Nancy.ViewEngines.Razor.NancyRazorViewBase<TModel>,
         INancyRazorView<TModel>,

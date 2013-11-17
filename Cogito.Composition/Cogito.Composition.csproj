@@ -133,12 +133,21 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ExportProviderExtensions.cs" />
+    <Compile Include="Hosting\CatalogService.cs" />
+    <Compile Include="Hosting\InitImportCollection.cs" />
+    <Compile Include="Hosting\ScopeCatalog.cs" />
+    <Compile Include="Hosting\ScopedPartDefinition.cs" />
     <Compile Include="Hosting\TypeCatalog.cs" />
     <Compile Include="Hosting\ApplicationCatalog.cs" />
     <Compile Include="Hosting\DynamicFilteredCatalog.cs" />
+    <Compile Include="Services\CatalogInstaller.cs" />
+    <Compile Include="Services\ICatalogProvider.cs" />
+    <Compile Include="Scoping\ScopedExportAttribute.cs" />
     <Compile Include="Reflection\ScopeMetadataReflectionContext.cs" />
-    <Compile Include="Scoping\IScopeContext.cs" />
-    <Compile Include="Scoping\ScopeAttribute.cs" />
+    <Compile Include="Scoping\IRootScope.cs" />
+    <Compile Include="Scoping\Visibility.cs" />
+    <Compile Include="Scoping\IScopeRegistrar.cs" />
+    <Compile Include="Scoping\PartScopeAttribute.cs" />
     <Compile Include="Scoping\IScope.cs" />
     <Compile Include="Scoping\ITransactionScope.cs" />
     <Compile Include="Scoping\IUserIdentityScope.cs" />
@@ -152,7 +161,6 @@
     <Compile Include="Hosting\FilteredExportProvider.cs" />
     <Compile Include="ImportCollectionChangedEventHandler.cs" />
     <Compile Include="ImportChangedEventHandler.cs" />
-    <Compile Include="Hosting\ContainerInitInvoker.cs" />
     <Compile Include="Hosting\ContainerInitTrace.cs" />
     <Compile Include="Hosting\DefaultCompositionContainer.cs" />
     <Compile Include="Hosting\CompositionContainerCore.cs" />
@@ -172,7 +180,8 @@
     <Compile Include="IImportValue.cs" />
     <Compile Include="IImportCollection.cs" />
     <Compile Include="ICompositionContext.cs" />
-    <Compile Include="Hosting\IContainerInit.cs" />
+    <Compile Include="Services\ICatalogService.cs" />
+    <Compile Include="Services\IOnInitInvoke.cs" />
     <Compile Include="Metadata\ContractTypeServices.cs" />
     <Compile Include="Metadata\PartMetadataServices.cs" />
     <Compile Include="Reflection\ConcreteTypeReflectionContext.cs" />
@@ -180,7 +189,7 @@
     <Compile Include="Metadata\Metadata.cs" />
     <Compile Include="Metadata\ExportMetadataServices.cs" />
     <Compile Include="Metadata\IMetadataItem.cs" />
-    <Compile Include="OnContainerInit.cs" />
+    <Compile Include="Services\OnInitInvokeAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Metadata\ExportTypeIdentityMetadata.cs" />
     <Compile Include="Metadata\ExportTypeIdentityMetadataItem.cs" />
@@ -188,7 +197,7 @@
     <Compile Include="DynamicImportCollection.cs" />
     <Compile Include="ImportChangedEventArgs.cs" />
     <Compile Include="ImportCollectionChangedEventArgs.cs" />
-    <Compile Include="Scoping\ScopeProvider.cs" />
+    <Compile Include="Scoping\ScopeManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Cogito.Composition.nuspec" />

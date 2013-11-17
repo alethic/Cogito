@@ -6,19 +6,21 @@ using System.Linq;
 using System.Web.Http.Dependencies;
 
 using Cogito.Composition;
+using Cogito.Composition.Web;
 
 namespace Cogito.Web.Http.Dependencies
 {
 
     [Export(typeof(IDependencyResolver))]
     [Export(typeof(IDependencyScope))]
-    public class DependencyResolver : IDependencyResolver
+    public class DependencyResolver : 
+        IDependencyResolver
     {
 
         /// <summary>
         /// Gets the <see cref="ICompositionService"/> which serves the scope.
         /// </summary>
-        ICompositionContext composition;
+        readonly ICompositionContext composition;
 
         /// <summary>
         /// Initializes a new instance.
@@ -35,7 +37,7 @@ namespace Cogito.Web.Http.Dependencies
 
         public IDependencyScope BeginScope()
         {
-            return new DependencyResolver(composition.BeginScope<IRequestScope>());
+            return new DependencyResolver(composition.GetOrBeginScope<IWebRequestScope>());
         }
 
         public object GetService(Type serviceType)
@@ -48,18 +50,9 @@ namespace Cogito.Web.Http.Dependencies
             return composition.GetExportedValues(serviceType);
         }
 
-        /// <summary>
-        /// Disposes of the instance.
-        /// </summary>
         public void Dispose()
         {
-            Contract.Ensures(composition == null);
 
-            if (composition != null)
-            {
-                composition.Dispose();
-                composition = null;
-            }
         }
 
     }

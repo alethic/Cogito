@@ -9,10 +9,11 @@ using Nancy.ViewEngines.Razor;
 namespace Cogito.Nancy.Razor
 {
 
-    public class CSharpRazorBuildProvider : global::Nancy.ViewEngines.Razor.BuildProviders.NancyCSharpRazorBuildProvider
+    public class CSharpRazorBuildProvider : 
+        global::Nancy.ViewEngines.Razor.BuildProviders.NancyCSharpRazorBuildProvider
     {
 
-        NancyRazorEngineHost host;
+        readonly NancyRazorEngineHost host;
         CodeCompileUnit generatedCode;
 
         /// <summary>
@@ -23,6 +24,7 @@ namespace Cogito.Nancy.Razor
         {
             this.host = new NancyRazorEngineHost(new CSharpRazorCodeLanguage());
         }
+
         public override void GenerateCode(AssemblyBuilder assemblyBuilder)
         {
             assemblyBuilder.AddCodeCompileUnit(this, GetGeneratedCode());

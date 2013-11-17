@@ -19,9 +19,9 @@ namespace Cogito.Composition.Hosting
     public class ConcreteTypeExportProvider : ExportProvider
     {
 
-        ConcreteTypeReflectionContext reflectionContext;
-        AggregateCatalog catalog;
-        CatalogExportProvider provider;
+        readonly ConcreteTypeReflectionContext reflectionContext;
+        readonly AggregateCatalog catalog;
+        readonly CatalogExportProvider provider;
 
         /// <summary>
         /// Initializes a new instance.

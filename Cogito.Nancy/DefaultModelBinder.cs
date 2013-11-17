@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using System.Diagnostics.Contracts;
+
 using Nancy.ModelBinding;
 
 namespace Cogito.Nancy
@@ -28,7 +30,10 @@ namespace Cogito.Nancy
             BindingDefaults defaults)
             : base(typeConverters, bodyDeserializers, fieldNameConverter, defaults)
         {
-
+            Contract.Requires<ArgumentNullException>(typeConverters != null);
+            Contract.Requires<ArgumentNullException>(bodyDeserializers != null);
+            Contract.Requires<ArgumentNullException>(fieldNameConverter != null);
+            Contract.Requires<ArgumentNullException>(defaults != null);
         }
 
         public bool CanBind(Type modelType)

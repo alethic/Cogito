@@ -43,6 +43,7 @@ namespace Cogito.Composition.Hosting
         public static System.ComponentModel.Composition.Hosting.CompositionContainer GetContainer(string name)
         {
             Contract.Requires<ArgumentNullException>(name != null);
+            Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(name));
 
             return containers.GetOrAdd(name, _ =>
             {
