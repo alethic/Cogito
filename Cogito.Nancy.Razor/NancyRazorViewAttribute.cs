@@ -1,5 +1,7 @@
 ﻿using System;
 using System.ComponentModel.Composition;
+using Cogito.Composition.Scoping;
+using Cogito.Composition.Web;
 
 namespace Cogito.Nancy.Razor
 {
@@ -9,10 +11,13 @@ namespace Cogito.Nancy.Razor
     /// </summary>
     [AttributeUsage(AttributeTargets.Class)]
     [MetadataAttribute]
-    public class NancyRazorViewAttribute : ExportAttribute, INancyRazorViewMetadata
+    [PartScope(typeof(IWebRequestScope))]
+    public class NancyRazorViewAttribute :
+        InheritedExportAttribute,
+        INancyRazorViewMetadata
     {
 
-        string name;
+        readonly string name;
 
         /// <summary>
         /// Initializes a new instance.

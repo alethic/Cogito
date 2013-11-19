@@ -16,7 +16,7 @@ namespace Cogito.Web.Razor.Generator
     public class CSharpAttributeCodeGenerator : SpanCodeGenerator
     {
 
-        string signature;
+        readonly string signature;
 
         /// <summary>
         /// Initializes a new instance.

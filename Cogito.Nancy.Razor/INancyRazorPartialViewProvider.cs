@@ -10,22 +10,19 @@ namespace Cogito.Nancy.Razor
     /// <summary>
     /// Provides <see cref="INancyRazorView"/>s for a given model type.
     /// </summary>
-    [InheritedExport(typeof(INancyRazorViewProvider))]
-    public interface INancyRazorViewProvider
+    [InheritedExport(typeof(INancyRazorPartialViewProvider))]
+    public interface INancyRazorPartialViewProvider
     {
 
         /// <summary>
-        /// Gets the view for the requested media type and model.
+        /// Gets the partial view for the requested media type and model.
         /// </summary>
-        /// <param name="requestedMediaRange"></param>
-        /// <param name="model"></param>
         /// <param name="context"></param>
+        /// <param name="model"></param>
         /// <returns></returns>
-        IEnumerable<ViewReference<INancyRazorView>> GetViews(
+        IEnumerable<ViewReference<INancyRazorPartialView>> GetPartialViews(
             NancyContext context,
-            MediaRange requestedMediaRange,
-            object model,
-            string name);
+            object model);
 
     }
 

@@ -1,7 +1,4 @@
-﻿using System;
-using System.IO;
-using System.Linq.Expressions;
-using Nancy.Security;
+﻿using Nancy.Security;
 using Nancy.ViewEngines;
 
 namespace Cogito.Nancy.Razor
@@ -14,67 +11,36 @@ namespace Cogito.Nancy.Razor
     public class HtmlHelpers<TModel>
     {
 
+        readonly IRenderContext renderContext;
+        readonly TModel model;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="HtmlHelpers{T}"/> class.
         /// </summary>
-        /// <param name="engine">The razor view engine instance that the helpers are being used by.</param>
         /// <param name="renderContext">The <see cref="IRenderContext"/> that the helper are being used by.</param>
         /// <param name="model">The model that is used by the page where the helpers are invoked.</param>
-        public HtmlHelpers(RazorViewEngine engine, IRenderContext renderContext, TModel model)
+        public HtmlHelpers(IRenderContext renderContext, TModel model)
         {
-            this.Engine = engine;
-            this.RenderContext = renderContext;
-            this.Model = model;
+            this.renderContext = renderContext;
+            this.model = model;
         }
 
         /// <summary>
         /// The model that is being used by the current view.
         /// </summary>
         /// <value>An instance of the view model.</value>
-        public TModel Model { get; set; }
-
-        /// <summary>
-        /// The engine that is currently rendering the view.
-        /// </summary>
-        /// <value>A <see cref="RazorViewEngine"/> instance.</value>
-        public RazorViewEngine Engine { get; set; }
+        public TModel Model
+        {
+            get { return model; }
+        }
 
         /// <summary>
         /// The context of the current render operation.
         /// </summary>
         /// <value>An <see cref="IRenderContext"/> intance.</value>
-        public IRenderContext RenderContext { get; set; }
-
-        /// <summary>
-        /// Renders a partial with the given view name.
-        /// </summary>
-        /// <param name="viewName">Name of the view.</param>
-        /// <returns>An <see cref="IHtmlString"/> representation of the partial.</returns>
-        public IHtmlString Partial(string viewName)
+        public IRenderContext RenderContext
         {
-            return this.Partial(viewName, null);
-        }
-
-        /// <summary>
-        /// Renders a partial with the given view name.
-        /// </summary>
-        /// <param name="viewName">Name of the partial view.</param>
-        /// <param name="modelForPartial">The model that is passed to the partial.</param>
-        /// <returns>An <see cref="IHtmlString"/> representation of the partial.</returns>
-        public IHtmlString Partial(string viewName, dynamic modelForPartial)
-        {
-            var view = this.RenderContext.LocateView(viewName, modelForPartial);
-
-            var response = this.Engine.RenderView(view, modelForPartial, this.RenderContext);
-            Action<Stream> action = response.Contents;
-            var mem = new MemoryStream();
-
-            action.Invoke(mem);
-            mem.Position = 0;
-
-            var reader = new StreamReader(mem);
-
-            return new NonEncodedHtmlString(reader.ReadToEnd());
+            get { return renderContext; }
         }
 
         /// <summary>
@@ -93,10 +59,8 @@ namespace Cogito.Nancy.Razor
         /// <returns>An <see cref="IHtmlString"/> representation of the anti forgery token.</returns>
         public IHtmlString AntiForgeryToken()
         {
-            var tokenKeyValue =
-                this.RenderContext.GetCsrfToken();
-
-            return new NonEncodedHtmlString(String.Format("<input type=\"hidden\" name=\"{0}\" value=\"{1}\"/>", tokenKeyValue.Key, tokenKeyValue.Value));
+            var tokenKeyValue = renderContext.GetCsrfToken();
+            return new NonEncodedHtmlString(string.Format("<input type=\"hidden\" name=\"{0}\" value=\"{1}\"/>", tokenKeyValue.Key, tokenKeyValue.Value));
         }
 
         /// <summary>
@@ -104,7 +68,7 @@ namespace Cogito.Nancy.Razor
         /// </summary>
         public string CurrentLocale
         {
-            get { return this.RenderContext.Context.Culture.Name; }
+            get { return renderContext.Context.Culture.Name; }
         }
 
         /// <summary>
@@ -112,7 +76,7 @@ namespace Cogito.Nancy.Razor
         /// </summary>
         public IUserIdentity CurrentUser
         {
-            get { return this.RenderContext.Context.CurrentUser; }
+            get { return renderContext.Context.CurrentUser; }
         }
 
         /// <summary>
@@ -120,7 +84,9 @@ namespace Cogito.Nancy.Razor
         /// </summary>
         public bool IsAuthenticated
         {
-            get { return this.RenderContext.Context.CurrentUser != null; }
+            get { return renderContext.Context.CurrentUser != null; }
         }
+
     }
+
 }

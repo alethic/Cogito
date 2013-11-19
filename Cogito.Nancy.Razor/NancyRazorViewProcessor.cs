@@ -5,8 +5,7 @@ using System.Diagnostics.Contracts;
 using System.IO;
 using System.Linq;
 using System.Text;
-using Cogito.Composition.Scoping;
-using Cogito.Web;
+
 using Nancy;
 using Nancy.Responses;
 using Nancy.Responses.Negotiation;
@@ -18,7 +17,8 @@ namespace Cogito.Nancy.Razor
     /// Processes responses which have available Nancy Razor views.
     /// </summary>
     [Export(typeof(IResponseProcessor))]
-    public class NancyRazorViewProcessor : IResponseProcessor
+    public class NancyRazorViewProcessor :
+        IResponseProcessor
     {
 
         static readonly ProcessorMatch noMatch = new ProcessorMatch();
@@ -50,17 +50,21 @@ namespace Cogito.Nancy.Razor
 
         public ProcessorMatch CanProcess(MediaRange requestedMediaRange, dynamic model, NancyContext context)
         {
+            var name = context.NegotiationContext != null ? context.NegotiationContext.ViewName : null;
+
             return
                 model != null &&
                 requestedMediaRange.Matches("text/html") &&
-                viewProvider.GetViews(context, requestedMediaRange, (object)model).Any() ?
+                viewProvider.GetViews(context, requestedMediaRange, (object)model, name).Any() ?
                 onMatch : noMatch;
         }
 
         public Response Process(MediaRange requestedMediaRange, dynamic model, NancyContext context)
         {
+            var name = context.NegotiationContext != null ? context.NegotiationContext.ViewName : null;
+
             // obtain view
-            var view = viewProvider.GetViews(context, requestedMediaRange, (object)model)
+            var view = viewProvider.GetViews(context, requestedMediaRange, (object)model, name)
                 .FirstOrDefault();
             if (view == null)
                 return new HtmlResponse(HttpStatusCode.InternalServerError);
@@ -69,7 +73,7 @@ namespace Cogito.Nancy.Razor
                 contents: stream =>
                 {
                     using (var wrt = new StreamWriter(stream, Encoding.UTF8, 1024, true))
-                        viewRenderer.RenderView(context, requestedMediaRange, view.View, (object)model, wrt);
+                        viewRenderer.RenderView(context, view.View, (object)model, wrt);
                 });
         }
 

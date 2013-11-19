@@ -8,14 +8,16 @@ namespace Cogito.Nancy.Razor
      /// <summary>
      /// A custom razor engine host responsible for decorating the existing code generators with nancy versions.
      /// </summary>
-     public class NancyRazorEngineHost : RazorEngineHost
+     public class NancyRazorEngineHost : 
+         RazorEngineHost
      {
 
          /// <summary>
          /// Initializes a new instance of the <see cref="NancyRazorEngineHost"/> class.
          /// </summary>
          /// <param name="language">The language.</param>
-         public NancyRazorEngineHost(RazorCodeLanguage language)
+         public NancyRazorEngineHost(
+             RazorCodeLanguage language)
              : base(language)
          {
 

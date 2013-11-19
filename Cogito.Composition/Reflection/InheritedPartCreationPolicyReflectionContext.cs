@@ -6,16 +6,13 @@ using System.Linq;
 using System.Reflection;
 using System.Reflection.Context;
 
-using Cogito.Composition.Hosting;
-using Cogito.Composition.Scoping;
-
 namespace Cogito.Composition.Reflection
 {
 
     /// <summary>
-    /// Provides part metadata based on <see cref="PartScopeAttribute"/> decorations.
+    /// Provides <see cref="PartCreationPolicyAttribute"/> based on <see cref="InheritedPartCreationPolicyAttribute"/>s.
     /// </summary>
-    public class ScopeMetadataReflectionContext :
+    public class InheritedPartCreationPolicyReflectionContext :
         CustomReflectionContext
     {
 
@@ -25,7 +22,7 @@ namespace Cogito.Composition.Reflection
         /// <summary>
         /// Initializes a new instance.
         /// </summary>
-        public ScopeMetadataReflectionContext()
+        public InheritedPartCreationPolicyReflectionContext()
             : base()
         {
 
@@ -35,7 +32,7 @@ namespace Cogito.Composition.Reflection
         /// Initializes a new instance.
         /// </summary>
         /// <param name="source"></param>
-        public ScopeMetadataReflectionContext(ReflectionContext source)
+        public InheritedPartCreationPolicyReflectionContext(ReflectionContext source)
             : base(source)
         {
 
@@ -48,26 +45,23 @@ namespace Cogito.Composition.Reflection
             // types handled
             var type = member as Type;
             if (type != null)
-                attrs = attrs.Concat(metadata.GetOrAdd(type, _ => GetMetadataAttributes(_).ToList()));
+                attrs = attrs.Concat(metadata.GetOrAdd(type, _ => GetAttributes(_).ToList()));
 
             return attrs;
         }
 
         /// <summary>
-        /// Returns additional <see cref="PartMetadataAttribute"/>s for the given type.
+        /// Returns additional <see cref="PartCreationPolicyAttribute"/>s for the given type.
         /// </summary>
         /// <param name="type"></param>
-        /// <param name="declaredAttributes"></param>
         /// <returns></returns>
-        IEnumerable<object> GetMetadataAttributes(Type type)
+        IEnumerable<object> GetAttributes(Type type)
         {
             var name = type.Name;
 
             // obtain all boundary attributes and generate part metadata
-            return type.GetCustomAttributes(true)
-                .OfType<PartScopeAttribute>()
-                .Select(i => i.ScopeType)
-                .Select(i => new PartMetadataAttribute(CompositionConstants.RequiredScopeMetadataName, AttributedModelServices.GetTypeIdentity(i)));
+            return type.GetCustomAttributes<InheritedPartCreationPolicyAttribute>(true)
+                .Select(i => new PartCreationPolicyAttribute(i.CreationPolicy));
         }
 
     }

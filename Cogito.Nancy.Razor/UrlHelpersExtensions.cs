@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Diagnostics.Contracts;
 using System.Linq;
+
 using Cogito.Resources;
-using Nancy.ViewEngines.Razor;
 
 namespace Cogito.Nancy.Razor
 {
 
+    /// <summary>
+    /// Provides standard Url helpers.
+    /// </summary>
     public static class UrlHelpersExtensions
     {
 
@@ -16,12 +19,12 @@ namespace Cogito.Nancy.Razor
         /// <typeparam name="T"></typeparam>
         /// <param name="helpers"></param>
         /// <returns></returns>
-        static NancyRenderContext GetRenderContext<T>(UrlHelpers<T> helpers)
+        static NancyRazorRenderContext GetRenderContext<T>(UrlHelpers<T> helpers)
         {
             Contract.Requires<ArgumentNullException>(helpers != null);
-            Contract.Ensures(Contract.Result<NancyRenderContext>() != null);
+            Contract.Ensures(Contract.Result<NancyRazorRenderContext>() != null);
 
-            return (NancyRenderContext)helpers.RenderContext;
+            return (NancyRazorRenderContext)helpers.RenderContext;
         }
 
         /// <summary>
@@ -49,7 +52,35 @@ namespace Cogito.Nancy.Razor
                 throw new NullReferenceException();
 
             // return url
-            return new NonEncodedHtmlString(helpers.Content("/r/" + resource.Bundle.Id + "/" + resource.Bundle.Version + "/" + resource.Name));
+            return ResourceUrl<T>(helpers, resource);
+        }
+
+        /// <summary>
+        /// Resolves the URL of a resource given its name relative to the current view.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="helpers"></param>
+        /// <param name="resourceName"></param>
+        /// <returns></returns>
+        public static IHtmlString ResourceUrl<T>(this UrlHelpers<T> helpers, string bundleId, string version, string resourceName)
+        {
+            Contract.Requires<ArgumentNullException>(helpers != null);
+            Contract.Requires<ArgumentNullException>(bundleId != null);
+            Contract.Requires<ArgumentNullException>(version != null);
+            Contract.Requires<ArgumentNullException>(resourceName != null);
+
+            var query = GetRenderContext<T>(helpers).Composition.GetExportedValueOrDefault<IResourceBundleQuery>();
+            if (query == null)
+                throw new NullReferenceException();
+
+            // find first available resource
+            var resource = query.Query(bundleId, version, resourceName)
+                .FirstOrDefault();
+            if (resource == null)
+                throw new NullReferenceException();
+
+            // return url
+            return ResourceUrl<T>(helpers, resource);
         }
 
         /// <summary>
@@ -76,22 +107,22 @@ namespace Cogito.Nancy.Razor
                 throw new ResourceNotFoundException(bundleId, resourceName);
 
             // return url
-            return new NonEncodedHtmlString(helpers.Content("/r/" + resource.Bundle.Id + "/" + resource.Bundle.Version + "/" + resource.Name));
+            return ResourceUrl<T>(helpers, resource);
         }
 
         /// <summary>
-        /// Resolves the URL of a resource given its name relative to the current view.
+        /// Formats a URL for the given <see cref="IResource"/>.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="helpers"></param>
-        /// <param name="resourceName"></param>
+        /// <param name="resource"></param>
         /// <returns></returns>
-        public static IHtmlString ResourceUrl<T>(this UrlHelpers<T> helpers, string resourceName)
+        public static IHtmlString ResourceUrl<T>(this UrlHelpers<T> helpers, IResource resource)
         {
-            Contract.Requires<ArgumentNullException>(helpers != null);
-            Contract.Requires<ArgumentNullException>(resourceName != null);
-
-            throw new NotImplementedException();
+            return new NonEncodedHtmlString(helpers.Content(string.Format("/r/{0}/{1}/{2}",
+                resource.Bundle.Id,
+                resource.Bundle.Version,
+                resource.Name)));
         }
 
     }

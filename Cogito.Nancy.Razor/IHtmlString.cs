@@ -1,6 +1,9 @@
 ﻿namespace Cogito.Nancy.Razor
 {
 
+    /// <summary>
+    /// Describes a raw HTML string.
+    /// </summary>
     public interface IHtmlString
     {
 

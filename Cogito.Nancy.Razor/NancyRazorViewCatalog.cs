@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.Composition.Hosting;
 using System.Diagnostics.Contracts;
 using System.IO;
 using System.Linq;
@@ -16,15 +15,17 @@ namespace Cogito.Nancy.Razor
     /// <summary>
     /// Provides Nancy Razor View parts from a set of Razor template streams.
     /// </summary>
-    public class NancyRazorViewCatalog : TypeCatalog
+    public class NancyRazorViewCatalog : 
+        Cogito.Composition.Hosting.TypeCatalog
     {
 
         /// <summary>
         /// Initializes the static instance.
         /// </summary>
-        static IEnumerable<Type> GetOrBuildViewTypes(IEnumerable<RazorViewTemplate> templates)
+        static IEnumerable<Type> GetOrBuildViewTypes(IEnumerable<RazorViewDefinition> templates)
         {
             Contract.Requires<ArgumentNullException>(templates != null);
+
             return templates.Select(i => GetOrBuildViewType(i));
         }
 
@@ -33,7 +34,7 @@ namespace Cogito.Nancy.Razor
         /// </summary>
         /// <param name="template"></param>
         /// <returns></returns>
-        static Type GetOrBuildViewType(RazorViewTemplate template)
+        static Type GetOrBuildViewType(RazorViewDefinition template)
         {
             Contract.Requires<ArgumentNullException>(template.Name != null);
             Contract.Requires<ArgumentNullException>(template.Stream != null);
@@ -66,8 +67,8 @@ namespace Cogito.Nancy.Razor
         /// Initializes a new instance.
         /// </summary>
         /// <param name="templates"></param>
-        public NancyRazorViewCatalog(IEnumerable<RazorViewTemplate> templates)
-            : base(GetOrBuildViewTypes(templates), new NancyRazorViewReflectionContext())
+        public NancyRazorViewCatalog(IEnumerable<RazorViewDefinition> templates)
+            : base(GetOrBuildViewTypes(templates) /*, new NancyRazorViewReflectionContext() */)
         {
             Contract.Requires<ArgumentNullException>(templates != null);
         }

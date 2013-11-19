@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.Composition;
 
 using Nancy;
@@ -19,15 +18,13 @@ namespace Cogito.Nancy.Razor
         /// Gets the layout view for the given information.
         /// </summary>
         /// <param name="context"></param>
-        /// <param name="requestedMediaRange"></param>
         /// <param name="body"></param>
-        /// <param name="layout"></param>
+        /// <param name="name"></param>
         /// <returns></returns>
         IEnumerable<ViewReference<INancyRazorLayoutView>> GetLayoutViews(
             NancyContext context,
-            MediaRange requestedMediaRange,
             INancyRazorView body,
-            string layout = null);
+            string name = null);
 
     }
 

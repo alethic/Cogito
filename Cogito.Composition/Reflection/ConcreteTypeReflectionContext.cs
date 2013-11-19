@@ -7,7 +7,8 @@ namespace Cogito.Composition.Reflection
     /// <summary>
     /// Provides export attributes for concrete types.
     /// </summary>
-    public class ConcreteTypeReflectionContext : RegistrationBuilder
+    public class ConcreteTypeReflectionContext : 
+        RegistrationBuilder
     {
 
         /// <summary>

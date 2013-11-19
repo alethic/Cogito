@@ -13,8 +13,8 @@ namespace Cogito.Web.Razor
     public class CompilerErrorException : RazorException
     {
 
-        IEnumerable<CompilerError> errors;
-        string code;
+        readonly IEnumerable<CompilerError> errors;
+        readonly string code;
 
         /// <summary>
         /// Initializes a new instance.
@@ -25,6 +25,7 @@ namespace Cogito.Web.Razor
         {
             Contract.Requires<ArgumentNullException>(errors != null);
             Contract.Requires<ArgumentNullException>(code != null);
+
             this.errors = errors.Cast<CompilerError>();
             this.code = code;
         }

@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\Microsoft.CodeContracts.1.5.60911.11\build\Microsoft.CodeContracts.props" Condition="Exists('..\packages\Microsoft.CodeContracts.1.5.60911.11\build\Microsoft.CodeContracts.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -122,17 +123,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BuildProviders\CSharpRazorBuildProvider.cs" />
+    <Compile Include="DefaultNancyRazorPartialViewProvider.cs" />
     <Compile Include="HtmlHelpers.cs" />
     <Compile Include="IHtmlString.cs" />
-    <Compile Include="IRazorConfiguration.cs" />
-    <Compile Include="IRazorViewRenderer.cs" />
+    <Compile Include="INancyRazorPartialViewMetadata.cs" />
+    <Compile Include="INancyRazorPartialView.cs" />
+    <Compile Include="INancyRazorPartialViewProvider.cs" />
+    <Compile Include="INancyRazorRenderContext.cs" />
+    <Compile Include="INancyRazorRenderContextFactory.cs" />
     <Compile Include="NancyRazorCatalogProvider.cs" />
-    <Compile Include="NancyRazorErrorView.cs" />
-    <Compile Include="NancyRenderContext.cs" />
-    <Compile Include="NancyRenderContextFactory.cs" />
+    <Compile Include="NancyRazorRenderContext.cs" />
+    <Compile Include="DefaultNancyRenderContextFactory.cs" />
     <Compile Include="NonEncodedHtmlString.cs" />
-    <Compile Include="RazorViewEngine.cs" />
     <Compile Include="UrlHelpers.cs" />
     <Compile Include="UrlHelpersExtensions.cs" />
     <Compile Include="INancyRazorLayoutViewMetadata.cs" />
@@ -147,21 +149,20 @@
     <Compile Include="NancyRazorCSharpModelCodeGenerator.cs" />
     <Compile Include="NancyRazorEngineHost.cs" />
     <Compile Include="NancyRazorLayoutViewBase.cs" />
-    <Compile Include="NancyRazorLayoutViewProvider.cs" />
+    <Compile Include="DefaultNancyRazorLayoutViewProvider.cs" />
     <Compile Include="NancyRazorViewAssemblyCatalog.cs" />
     <Compile Include="NancyRazorViewBase.cs" />
     <Compile Include="NancyRazorViewCatalog.cs" />
     <Compile Include="NancyRazorViewAttribute.cs" />
     <Compile Include="NancyRazorViewProcessor.cs" />
-    <Compile Include="NancyRazorViewProvider.cs" />
+    <Compile Include="DefaultNancyRazorViewProvider.cs" />
     <Compile Include="NancyRazorViewReflectionContext.cs" />
-    <Compile Include="NancyRazorViewRenderer.cs" />
-    <Compile Include="RazorViewTemplate.cs" />
+    <Compile Include="DefaultNancyRazorViewRenderer.cs" />
+    <Compile Include="RazorViewDefinition.cs" />
     <Compile Include="ViewReference.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
     <None Include="packages.config" />
     <None Include="Web.config" />
   </ItemGroup>
@@ -186,10 +187,6 @@
       <Project>{a3d721a0-0086-44c3-887e-fa26d9310931}</Project>
       <Name>Cogito.Web.Razor</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Cogito.Web\Cogito.Web.csproj">
-      <Project>{8c490862-8a00-4f54-9baf-3fb1c6c1d66d}</Project>
-      <Name>Cogito.Web</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
@@ -197,13 +194,5 @@
     <PostBuildEvent>
     </PostBuildEvent>
   </PropertyGroup>
-  <Import Project="..\..\packages\Microsoft.CodeContracts.1.5.60911.10\build\Microsoft.CodeContracts.targets" Condition="Exists('..\..\packages\Microsoft.CodeContracts.1.5.60911.10\build\Microsoft.CodeContracts.targets')" />
-  <Import Project="..\packages\Microsoft.CodeContracts.1.5.60911.10\build\Microsoft.CodeContracts.targets" Condition="Exists('..\packages\Microsoft.CodeContracts.1.5.60911.10\build\Microsoft.CodeContracts.targets')" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
+  <Import Project="..\packages\Microsoft.CodeContracts.1.5.60911.11\build\Microsoft.CodeContracts.targets" Condition="Exists('..\packages\Microsoft.CodeContracts.1.5.60911.11\build\Microsoft.CodeContracts.targets')" />
 </Project>

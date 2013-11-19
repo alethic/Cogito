@@ -18,13 +18,11 @@ namespace Cogito.Nancy.Razor
         /// Renders the view to the given output.
         /// </summary>
         /// <param name="context"></param>
-        /// <param name="requestedMediaRange"></param>
         /// <param name="view"></param>
         /// <param name="model"></param>
         /// <param name="writer"></param>
         void RenderView(
             NancyContext context,
-            MediaRange requestedMediaRange,
             INancyRazorView view,
             object model,
             TextWriter writer);

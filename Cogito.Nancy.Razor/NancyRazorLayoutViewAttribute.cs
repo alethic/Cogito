@@ -9,10 +9,12 @@ namespace Cogito.Nancy.Razor
     /// </summary>
     [AttributeUsage(AttributeTargets.Class)]
     [MetadataAttribute]
-    public class NancyRazorLayoutViewAttribute : InheritedExportAttribute, INancyRazorLayoutViewMetadata
+    public class NancyRazorLayoutViewAttribute :
+        InheritedExportAttribute, 
+        INancyRazorLayoutViewMetadata
     {
 
-        string name;
+        readonly string name;
 
         /// <summary>
         /// Initializes a new instance.

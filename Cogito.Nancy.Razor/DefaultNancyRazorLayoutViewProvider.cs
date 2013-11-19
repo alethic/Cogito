@@ -5,10 +5,12 @@ using System.ComponentModel.Composition.Primitives;
 using System.ComponentModel.Composition.ReflectionModel;
 using System.Diagnostics.Contracts;
 using System.Linq;
+
 using Cogito.Collections;
 using Cogito.Composition;
 using Cogito.Composition.Web;
 using Cogito.Reflection;
+
 using Nancy;
 using Nancy.Responses.Negotiation;
 
@@ -18,17 +20,18 @@ namespace Cogito.Nancy.Razor
     /// <summary>
     /// Provides <see cref="INancyRazorLayoutView"/>s.
     /// </summary>
-    public class NancyRazorLayoutViewProvider : INancyRazorLayoutViewProvider
+    public class DefaultNancyRazorLayoutViewProvider : 
+        INancyRazorLayoutViewProvider
     {
 
-        ICompositionContext composition;
+        readonly ICompositionContext composition;
 
         /// <summary>
         /// Initializes a new instance.
         /// </summary>
         /// <param name="composition"></param>
         [ImportingConstructor]
-        public NancyRazorLayoutViewProvider(
+        public DefaultNancyRazorLayoutViewProvider(
             [Import] ICompositionContext composition)
         {
             this.composition = composition;
@@ -50,11 +53,11 @@ namespace Cogito.Nancy.Razor
         /// Gets the layout view for the associated model and body view.
         /// </summary>
         /// <param name="body"></param>
-        /// <param name="layout"></param>
+        /// <param name="name"></param>
         /// <returns></returns>
         IEnumerable<ViewReference<INancyRazorLayoutView>> GetLayoutViews(
             INancyRazorView body,
-            string layout)
+            string name)
         {
             Contract.Requires<ArgumentNullException>(body != null);
 
@@ -72,7 +75,6 @@ namespace Cogito.Nancy.Razor
                     false,
                     false,
                     CreationPolicy.NonShared)))
-                .Where(i => (string)i.Metadata.GetOrDefault("Layout") == layout)
                 .Select(i => new
                 {
                     Type = ReflectionModelServices.GetExportingMember(i.Definition).GetAccessors()[0] as Type,
@@ -93,13 +95,9 @@ namespace Cogito.Nancy.Razor
         /// <returns></returns>
         public IEnumerable<ViewReference<INancyRazorLayoutView>> GetLayoutViews(
             NancyContext context,
-            MediaRange requestedMediaRange,
             INancyRazorView body,
             string layout = null)
         {
-            if (!requestedMediaRange.Matches("text/html"))
-                return null;
-
             return GetLayoutViews(
                 body,
                 layout);

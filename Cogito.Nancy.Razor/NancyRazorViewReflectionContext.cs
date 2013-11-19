@@ -13,10 +13,9 @@ namespace Cogito.Nancy.Razor
     /// <summary>
     /// Maps types that implement INancyRazorView<> as exports.
     /// </summary>
-    public class NancyRazorViewReflectionContext : ReflectionContext
+    public class NancyRazorViewReflectionContext :
+        ReflectionContext
     {
-
-        RegistrationBuilder registrationBuilder;
 
         /// <summary>
         /// Gets the implemented model type for the given concrete type. Searches for INancyRazorView<> implementations
@@ -40,20 +39,26 @@ namespace Cogito.Nancy.Razor
             return null;
         }
 
+        readonly RegistrationBuilder registrationBuilder;
+
         /// <summary>
         /// Initializes a new instance.
         /// </summary>
         public NancyRazorViewReflectionContext()
         {
-            registrationBuilder = new RegistrationBuilder();
+            this.registrationBuilder = new RegistrationBuilder();
 
             // export INancyRazorView<> interfaces
-            registrationBuilder.ForTypesMatching(i => GetModelType(i) != null)
+            this.registrationBuilder.ForTypesMatching(i => GetModelType(i) != null)
                 .AddMetadata(
                     CompositionConstants.RequiredScopeMetadataName,
                     AttributedModelServices.GetTypeIdentity(typeof(IWebRequestScope)))
                 .SetCreationPolicy(CreationPolicy.NonShared)
-                .ExportInterfaces(i => typeof(INancyRazorView).IsAssignableFrom(i));
+                .ExportInterfaces(
+                i =>
+                    typeof(INancyRazorView).IsAssignableFrom(i),
+                (t, b) =>
+                    b.AsContractType(t));
         }
 
         public override Assembly MapAssembly(Assembly assembly)

@@ -99,12 +99,6 @@ namespace Cogito.Web.Razor
             params AttributeValue[] values);
 
         /// <summary>
-        /// Renders the body.
-        /// </summary>
-        /// <returns></returns>
-        public abstract object RenderBody();
-
-        /// <summary>
         /// Returns <c>true</c> if the section is defined.
         /// </summary>
         /// <param name="sectionName"></param>
@@ -115,21 +109,6 @@ namespace Cogito.Web.Razor
         /// Defines a section.
         /// </summary>
         public abstract void DefineSection(string sectionName, Action action);
-
-        /// <summary>
-        /// Renders the section.
-        /// </summary>
-        /// <param name="sectionName">Name of the section.</param>
-        /// <returns></returns>
-        public abstract object RenderSection(string sectionName);
-
-        /// <summary>
-        /// Renders the section.
-        /// </summary>
-        /// <param name="sectionName">Name of the section.</param>
-        /// <param name="required"></param>
-        /// <returns></returns>
-        public abstract object RenderSection(string sectionName, bool required);
 
         /// <summary>
         /// Begins a new context.

@@ -5,6 +5,9 @@ using System.Linq;
 namespace Cogito.Resources
 {
 
+    /// <summary>
+    /// Provides extension methods for operating against a <see cref="IQueryable<IResourceBundle>"/>.
+    /// </summary>
     public static class ResourceBundleQueryExtensions
     {
 
@@ -14,13 +17,11 @@ namespace Cogito.Resources
         /// <returns></returns>
         static bool GetIsDebug()
         {
-            var debug = false;
-
 #if DEBUG
-            debug = true;
+            return true;
+#else
+            return false;
 #endif
-
-            return debug;
         }
 
         /// <summary>
@@ -38,11 +39,8 @@ namespace Cogito.Resources
             Contract.Requires<ArgumentNullException>(version != null);
             Contract.Requires<ArgumentNullException>(resourceName != null);
 
-            return query
-                .Where(i => i.Id == bundleId && object.Equals(i.Version, version))
-                .SelectMany(i => i)
-                .Where(i => i.Name == resourceName)
-                .Where(i => i.IsDebug == null || i.IsDebug == GetIsDebug());
+            return Query(query, bundleId, resourceName)
+                .Where(i => i.Bundle.Id == bundleId && object.Equals(i.Bundle.Version, version));
         }
 
         /// <summary>
@@ -60,11 +58,8 @@ namespace Cogito.Resources
             Contract.Requires<ArgumentNullException>(version != null);
             Contract.Requires<ArgumentNullException>(resourceName != null);
 
-            return query
-                .Where(i => i.Id == bundleId && object.Equals(i.Version.ToString(), version))
-                .SelectMany(i => i)
-                .Where(i => i.Name == resourceName)
-                .Where(i => i.IsDebug == null || i.IsDebug == GetIsDebug());
+            return Query(query, bundleId, resourceName)
+                .Where(i => i.Bundle.Id == bundleId && object.Equals(i.Bundle.Version.ToString(), version));
         }
 
         /// <summary>

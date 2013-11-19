@@ -12,7 +12,8 @@ namespace Cogito.Web.Razor.Parser
     /// <summary>
     /// Implements an extended version of the <see cref="CSharpCodeParser"/>, supporting some new directives.
     /// </summary>
-    public class CSharpCodeParser : System.Web.Razor.Parser.CSharpCodeParser
+    public class CSharpCodeParser :
+        System.Web.Razor.Parser.CSharpCodeParser
     {
 
         /// <summary>

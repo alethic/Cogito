@@ -10,7 +10,7 @@ namespace Cogito.Web.Razor.Generator
     public class CSharpImplementsCodeGenerator : SpanCodeGenerator
     {
 
-        string interfaceName;
+        readonly string interfaceName;
 
         /// <summary>
         /// Initializes a new instance.

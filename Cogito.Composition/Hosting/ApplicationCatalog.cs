@@ -16,7 +16,7 @@ namespace Cogito.Composition.Hosting
         /// Initializes a new instance.
         /// </summary>
         public ApplicationCatalog()
-            : base(new ScopeMetadataReflectionContext())
+            : base(new DefaultReflectionContext())
         {
 
         }
@@ -26,7 +26,7 @@ namespace Cogito.Composition.Hosting
         /// </summary>
         /// <param name="reflectionContext"></param>
         public ApplicationCatalog(ReflectionContext reflectionContext)
-            : base(new ScopeMetadataReflectionContext(reflectionContext))
+            : base(new DefaultReflectionContext(reflectionContext))
         {
 
         }

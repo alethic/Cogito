@@ -13,7 +13,7 @@ namespace Cogito
         /// <param name="self"></param>
         /// <param name="path"></param>
         /// <returns></returns>
-        public static Uri Navitate(this Uri self, string path)
+        public static Uri Combine(this Uri self, string path)
         {
             Contract.Requires<ArgumentNullException>(self != null);
             Contract.Requires<ArgumentOutOfRangeException>(self.IsAbsoluteUri);

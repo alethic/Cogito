@@ -45,9 +45,29 @@ namespace Cogito
         /// </summary>
         /// <param name="self"></param>
         /// <returns></returns>
-        public static string TrimIfNotNull(this string self)
+        public static string TrimIfNotNull(this string self, params char[] trimChars)
         {
-            return self != null ? self.Trim() : null;
+            return self != null ? self.Trim(trimChars) : null;
+        }
+
+        /// <summary>
+        /// Returns the trimmed version of the string, or <c>null</c> if the string is <c>null</c>.
+        /// </summary>
+        /// <param name="self"></param>
+        /// <returns></returns>
+        public static string TrimEndIfNotNull(this string self, params char[] trimChars)
+        {
+            return self != null ? self.TrimEnd(trimChars) : null;
+        }
+
+        /// <summary>
+        /// Returns the trimmed version of the string, or <c>null</c> if the string is <c>null</c>.
+        /// </summary>
+        /// <param name="self"></param>
+        /// <returns></returns>
+        public static string TrimStartIfNotNull(this string self, params char[] trimChars)
+        {
+            return self != null ? self.TrimStart(trimChars) : null;
         }
 
         /// <summary>

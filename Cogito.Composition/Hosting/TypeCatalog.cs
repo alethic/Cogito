@@ -11,14 +11,15 @@ namespace Cogito.Composition.Hosting
     /// <summary>
     /// Discovers attributed parts from a collection of <see cref="Type"/>s.
     /// </summary>
-    public class TypeCatalog : System.ComponentModel.Composition.Hosting.TypeCatalog
+    public class TypeCatalog :
+        System.ComponentModel.Composition.Hosting.TypeCatalog
     {
 
         /// <summary>
         /// Initializes a new instance.
         /// </summary>
         public TypeCatalog(IEnumerable<Type> types)
-            : base(types, new ScopeMetadataReflectionContext())
+            : base(types, new DefaultReflectionContext())
         {
 
         }
@@ -28,7 +29,7 @@ namespace Cogito.Composition.Hosting
         /// </summary>
         /// <param name="reflectionContext"></param>
         public TypeCatalog(IEnumerable<Type> types, ReflectionContext reflectionContext)
-            : base(types, new ScopeMetadataReflectionContext(reflectionContext))
+            : base(types, new DefaultReflectionContext(reflectionContext))
         {
 
         }

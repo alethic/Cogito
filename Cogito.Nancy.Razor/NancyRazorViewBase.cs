@@ -4,12 +4,13 @@ using System.ComponentModel.Composition;
 using System.Globalization;
 using System.IO;
 using System.Text;
+using Cogito.Composition;
 using Cogito.Composition.Scoping;
 using Cogito.Composition.Web;
 using Cogito.Web.Razor;
+
 using Nancy;
 using Nancy.Helpers;
-using Nancy.ViewEngines;
 using Nancy.ViewEngines.Razor;
 
 namespace Cogito.Nancy.Razor
@@ -30,7 +31,7 @@ namespace Cogito.Nancy.Razor
     /// Base Nancy view type for a model.
     /// </summary>
     /// <typeparam name="TModel"></typeparam>
-    [PartCreationPolicy(CreationPolicy.NonShared)]
+    [InheritedPartCreationPolicy(CreationPolicy.NonShared)]
     [PartScope(typeof(IWebRequestScope))]
     public abstract class NancyRazorViewBase<TModel> :
         RazorTemplate,
@@ -51,14 +52,19 @@ namespace Cogito.Nancy.Razor
             return str != null ? str.ToHtmlString() : HttpUtility.HtmlEncode(Convert.ToString(value, CultureInfo.CurrentCulture));
         }
 
-        IRenderContext renderContext;
-        HtmlHelpers<TModel> html;
-        TModel model;
-        UrlHelpers<TModel> url;
-        dynamic viewBag;
 
-        // defined output destinations
+        INancyRazorRenderContext renderContext;
+        dynamic viewBag;
+        TModel model;
+        HtmlHelpers<TModel> html;
+        UrlHelpers<TModel> url;
+
+        // output
         StringWriter contents;
+
+        // view definitions
+        string name;
+        string layout;
         IDictionary<string, Action> sections;
 
         // produced output
@@ -79,25 +85,43 @@ namespace Cogito.Nancy.Razor
             this.sections = new Dictionary<string, Action>();
         }
 
-        public virtual void Initialize(RazorViewEngine engine, IRenderContext renderContext, object model)
+        /// <summary>
+        /// Initializes the view.
+        /// </summary>
+        /// <param name="renderContext"></param>
+        /// <param name="model"></param>
+        public virtual void Initialize(
+            INancyRazorRenderContext renderContext,
+            object model)
         {
             this.renderContext = renderContext;
-            this.html = new HtmlHelpers<TModel>(engine, renderContext, (TModel)model);
-            this.model = (TModel)model;
-            this.url = new UrlHelpers<TModel>(engine, renderContext);
             this.viewBag = renderContext.Context.ViewBag;
+            this.model = (TModel)model;
+            this.html = new HtmlHelpers<TModel>(renderContext, (TModel)model);
+            this.url = new UrlHelpers<TModel>(renderContext);
         }
 
-        public HtmlHelpers<TModel> Html
+        /// <summary>
+        /// Gets the name of the view.
+        /// </summary>
+        public string Name
         {
-            get { return html; }
+            get { return name; }
+            set { name = value; }
         }
 
-        public UrlHelpers<TModel> Url
+        /// <summary>
+        /// Gets the name of the layout of the view.
+        /// </summary>
+        public string Layout
         {
-            get { return url; }
+            get { return layout; }
+            set { layout = value; }
         }
 
+        /// <summary>
+        /// Gets a dynamic object onto which arbitrary properties can be set.
+        /// </summary>
         public dynamic ViewBag
         {
             get { return viewBag; }
@@ -111,26 +135,31 @@ namespace Cogito.Nancy.Razor
             get { return model; }
         }
 
+        /// <summary>
+        /// Implements INancyRazorView.Model.
+        /// </summary>
         object INancyRazorView.Model
         {
             get { return model; }
         }
 
         /// <summary>
-        /// Gets the produced body.
+        /// Gets helpers to generate HTML content.
         /// </summary>
-        public string Body
+        public HtmlHelpers<TModel> Html
         {
-            get { return body; }
+            get { return html; }
         }
 
         /// <summary>
-        /// Gets the produced sections.
+        /// Gets helpers for working with urls.
         /// </summary>
-        public IDictionary<string, string> SectionContents
+        public UrlHelpers<TModel> Url
         {
-            get { return sectionContents; }
+            get { return url; }
         }
+
+        #region Template Methods
 
         public override void Execute()
         {
@@ -260,11 +289,13 @@ namespace Cogito.Nancy.Razor
             sections.Add(sectionName, action);
         }
 
+        #endregion
+
         /// <summary>
         /// Renders the body.
         /// </summary>
         /// <returns></returns>
-        public override object RenderBody()
+        public object RenderBody()
         {
             WriteLiteral(childBody);
             return null;
@@ -275,7 +306,7 @@ namespace Cogito.Nancy.Razor
         /// </summary>
         /// <param name="sectionName">Name of the section.</param>
         /// <returns></returns>
-        public override object RenderSection(string sectionName)
+        public object RenderSection(string sectionName)
         {
             return RenderSection(sectionName, true);
         }
@@ -285,7 +316,7 @@ namespace Cogito.Nancy.Razor
         /// </summary>
         /// <param name="sectionName">Name of the section.</param>
         /// <param name="required">if set to <c>true</c> [required].</param>
-        public override object RenderSection(string sectionName, bool required)
+        public object RenderSection(string sectionName, bool required)
         {
             string sectionContent;
 
@@ -295,6 +326,31 @@ namespace Cogito.Nancy.Razor
 
             WriteLiteral(sectionContent);
             return null;
+        }
+
+        /// <summary>
+        /// Renders the specified model.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public object RenderPartial<T>(T model)
+        {
+            return RenderPartial(model, null);
+        }
+
+        /// <summary>
+        /// Renders the specified model with the view with the given name.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="model"></param>
+        /// <param name="viewName"></param>
+        /// <returns></returns>
+        public object RenderPartial<T>(T model, string viewName)
+        {
+            var writer = new StringWriter();
+            renderContext.RenderPartial(model, viewName, writer);
+            return Html.Raw(writer.ToString());
         }
 
         /// <summary>
@@ -308,14 +364,30 @@ namespace Cogito.Nancy.Razor
         }
 
         /// <summary>
+        /// Gets the produced body.
+        /// </summary>
+        public string Body
+        {
+            get { return body; }
+        }
+
+        /// <summary>
+        /// Gets the produced sections.
+        /// </summary>
+        public IDictionary<string, string> SectionContents
+        {
+            get { return sectionContents; }
+        }
+
+        /// <summary>
         /// Executes the view.
         /// </summary>
         /// <param name="childBody">The body.</param>
         /// <param name="childSections">The section contents.</param>
         public void ExecuteView(string childBody, IDictionary<string, string> childSections)
         {
-            childBody = childBody ?? string.Empty;
-            childSections = childSections ?? new Dictionary<string, string>();
+            this.childBody = childBody ?? string.Empty;
+            this.childSections = childSections ?? new Dictionary<string, string>();
 
             try
             {

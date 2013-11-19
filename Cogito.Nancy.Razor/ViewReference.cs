@@ -11,8 +11,8 @@ namespace Cogito.Nancy.Razor
         where TView : INancyRazorView
     {
 
-        Type viewType;
-        Func<TView> getter;
+        readonly Type viewType;
+        readonly Func<TView> getter;
 
         /// <summary>
         /// Initializes a new instance.

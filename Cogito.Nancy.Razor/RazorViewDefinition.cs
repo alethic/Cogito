@@ -8,9 +8,9 @@ namespace Cogito.Nancy.Razor
 {
 
     /// <summary>
-    /// Describes a Razor template.
+    /// Describes a Razor view.
     /// </summary>
-    public struct RazorViewTemplate
+    public struct RazorViewDefinition
     {
 
         /// <summary>
@@ -19,7 +19,7 @@ namespace Cogito.Nancy.Razor
         /// <param name="ns"></param>
         /// <param name="name"></param>
         /// <param name="stream"></param>
-        public RazorViewTemplate(
+        public RazorViewDefinition(
             string ns,
             string name,
             Stream stream,

@@ -1,18 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Cogito.Nancy.Razor
+﻿namespace Cogito.Nancy.Razor
 {
 
     /// <summary>
     /// An html string that is not encoded.
     /// </summary>
-    public class NonEncodedHtmlString : IHtmlString
+    public class NonEncodedHtmlString : 
+        IHtmlString
     {
 
+        /// <summary>
+        /// Converts a <see cref="string"/> into a <see cref="NonEncodedHtmlString"/>.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
         public static implicit operator NonEncodedHtmlString(string value)
         {
             return new NonEncodedHtmlString(value);
@@ -22,6 +22,7 @@ namespace Cogito.Nancy.Razor
         /// Represents the empty <see cref="NonEncodedHtmlString"/>. This field is readonly.
         /// </summary>
         public static readonly NonEncodedHtmlString Empty = new NonEncodedHtmlString(string.Empty);
+
 
         readonly string value;
 

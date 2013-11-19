@@ -9,7 +9,8 @@ namespace Cogito.Nancy.Razor
     /// <summary>
     /// Implements an extended <see cref="CSharpCodeParser"/> that adds functionality for Nancy Razor views.
     /// </summary>
-    public class NancyCSharpRazorCodeParser : CSharpCodeParser
+    public class NancyCSharpRazorCodeParser : 
+        CSharpCodeParser
     {
 
         bool modelStatementFound;
