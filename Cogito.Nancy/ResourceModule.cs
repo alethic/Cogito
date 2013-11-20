@@ -32,7 +32,7 @@ namespace Cogito.Nancy
 
             return GetResourcePath(
                 resource.Bundle.Id,
-                resource.Bundle.Version.ToString(), 
+                resource.Bundle.Version.ToString(),
                 resource.Name);
         }
 
@@ -95,8 +95,9 @@ namespace Cogito.Nancy
         {
             return resources
                 .Where(i => i.Bundle.Id == bundleId)
-                .Where(i => i.Bundle.Version.ToString().Equals(version))
-                .Where(i => i.Name == name);
+                .Where(i => version == null || i.Bundle.Version.ToString().Equals(version))
+                .Where(i => i.Name == name)
+                .OrderByDescending(i => i.Bundle.Version);
         }
 
     }
