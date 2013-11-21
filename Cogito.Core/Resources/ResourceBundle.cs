@@ -202,7 +202,7 @@ namespace Cogito.Resources
             Contract.Requires<ArgumentNullException>(contentType != null);
             Contract.Requires<ArgumentNullException>(source != null);
 
-            return Includes(new Resource(this, name, contentType, cultureInfo, isDebug, source, dependencies));
+            return Includes(new Resource(this, name, contentType, cultureInfo, isDebug, source, null, dependencies));
         }
 
         /// <summary>
