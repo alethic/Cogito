@@ -9,7 +9,8 @@ namespace Cogito.Web.UI.Razor
     /// <summary>
     /// Razor template interface.
     /// </summary>
-    public interface IRazorControlTemplate : IRazorTemplate
+    public interface IRazorControlTemplate :
+        IRazorTemplate
     {
 
         /// <summary>
@@ -27,7 +28,7 @@ namespace Cogito.Web.UI.Razor
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        T FindControl<T>(string id) 
+        T FindControl<T>(string id)
             where T : Control;
 
         /// <summary>

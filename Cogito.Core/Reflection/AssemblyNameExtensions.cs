@@ -29,6 +29,10 @@ namespace Cogito.Reflection
             {
                 // ignore
             }
+            catch (FileLoadException)
+            {
+                // ignore
+            }
 
             return null;
         }

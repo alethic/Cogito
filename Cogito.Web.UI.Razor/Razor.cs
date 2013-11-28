@@ -13,7 +13,7 @@ namespace Cogito.Web.UI.Razor
 {
 
     /// <summary>
-    /// Provides methods to render <see cref="Control"/> instances using Razor.
+    /// Provides methods to render <see cref="CogitoControl"/> instances using Razor.
     /// </summary>
     public static class Razor
     {
@@ -76,7 +76,7 @@ namespace Cogito.Web.UI.Razor
         }
 
         /// <summary>
-        /// Loads and returns the template for the specified <see cref="Control"/>.
+        /// Loads and returns the template for the specified <see cref="CogitoControl"/>.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="control"></param>
@@ -89,10 +89,15 @@ namespace Cogito.Web.UI.Razor
             // recursively inherit all references of the control being referenced and ourself
             var referencedAssemblies = Enumerable.Empty<Assembly>()
                 .Append(typeof(Razor).Assembly)
-                .Append(typeof(Control).Assembly)
-                .Append(typeof(T).Assembly)
-                .Select(i => i.LoadAllReferencedAssemblies())
-                .SelectMany(i => i)
+                .Append(typeof(CogitoControl).Assembly)
+                .Append(typeof(T).Assembly);
+
+            referencedAssemblies = referencedAssemblies
+                .SelectMany(i => i.GetReferencedAssemblies())
+                .Select(i => Assembly.Load(i))
+                .Concat(referencedAssemblies);
+
+            var referencedAssemblyPaths = referencedAssemblies
                 .Select(i => new Uri(i.Location))
                 .Select(i => i.LocalPath);
 
@@ -100,8 +105,8 @@ namespace Cogito.Web.UI.Razor
             var type = RazorTemplateBuilder.GetOrBuildType(
                 () => ReadTemplate(typeof(T)),
                 defaultBaseClass: typeof(RazorControlTemplate<T>),
-                referencedAssemblies: referencedAssemblies,
-                importedNamespaces: new[] { typeof(Control).Namespace },
+                referencedAssemblies: referencedAssemblyPaths,
+                importedNamespaces: new[] { typeof(CogitoControl).Namespace },
                 innerTemplateType: typeof(HtmlHelperResult),
                 cacheKey: typeof(T).FullName);
             if (type == null)
@@ -115,7 +120,7 @@ namespace Cogito.Web.UI.Razor
                 template = ctor1.Invoke(new[] { control });
 
             // non generic constructor
-            var ctor2 = type.GetConstructor(new[] { typeof(Control) });
+            var ctor2 = type.GetConstructor(new[] { typeof(CogitoControl) });
             if (ctor2 != null)
                 template = ctor2.Invoke(new[] { control });
 
@@ -134,7 +139,7 @@ namespace Cogito.Web.UI.Razor
         }
 
         /// <summary>
-        /// Loads and returns the template for the specified <see cref="Control"/>.
+        /// Loads and returns the template for the specified <see cref="CogitoControl"/>.
         /// </summary>
         /// <param name="control"></param>
         /// <param name="controlType"></param>
@@ -155,7 +160,7 @@ namespace Cogito.Web.UI.Razor
         /// <param name="writer"></param>
         /// <param name="template"></param>
         public static void Render<T>(HtmlTextWriter writer, IRazorControlTemplate<T> template)
-            where T : Control
+            where T : CogitoControl
         {
             Contract.Requires<ArgumentNullException>(writer != null);
             Contract.Requires<ArgumentNullException>(template != null);
@@ -164,8 +169,8 @@ namespace Cogito.Web.UI.Razor
         }
 
         /// <summary>
-        /// Renders the Razor template configured for the specified <see cref="Control"/> instance, to the specified
-        /// <see cref="HtmlTextWriter"/>. This method is best invoked from the <see cref="Control"/>.Render method.
+        /// Renders the Razor template configured for the specified <see cref="CogitoControl"/> instance, to the specified
+        /// <see cref="HtmlTextWriter"/>. This method is best invoked from the <see cref="CogitoControl"/>.Render method.
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="control"></param>
@@ -181,14 +186,14 @@ namespace Cogito.Web.UI.Razor
         }
 
         /// <summary>
-        /// Renders the Razor template configured for the specified <see cref="Control"/> instance, to the specified
-        /// <see cref="HtmlTextWriter"/>. This method is best invoked from the <see cref="Control"/>.Render method.
+        /// Renders the Razor template configured for the specified <see cref="CogitoControl"/> instance, to the specified
+        /// <see cref="HtmlTextWriter"/>. This method is best invoked from the <see cref="CogitoControl"/>.Render method.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="writer"></param>
         /// <param name="control"></param>
         public static void Render<T>(HtmlTextWriter writer, T control)
-            where T : Control
+            where T : CogitoControl
         {
             Contract.Requires<ArgumentNullException>(writer != null);
             Contract.Requires<ArgumentNullException>(control != null);
@@ -201,13 +206,13 @@ namespace Cogito.Web.UI.Razor
         }
 
         /// <summary>
-        /// Renders the Razor template configured for the specified <see cref="Control"/> instance, to the specified
-        /// <see cref="HtmlTextWriter"/>. This method is best invoked from the <see cref="Control"/>.Render method.
+        /// Renders the Razor template configured for the specified <see cref="CogitoControl"/> instance, to the specified
+        /// <see cref="HtmlTextWriter"/>. This method is best invoked from the <see cref="CogitoControl"/>.Render method.
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="control"></param>
         /// <param name="controlType"></param>
-        public static void Render(HtmlTextWriter writer, Control control, Type controlType)
+        public static void Render(HtmlTextWriter writer, CogitoControl control, Type controlType)
         {
             Contract.Requires<ArgumentNullException>(writer != null);
             Contract.Requires<ArgumentNullException>(control != null);

@@ -126,9 +126,11 @@
     <Compile Include="HttpApplicationStateExtensions.cs" />
     <Compile Include="HttpContextExtensions.cs" />
     <Compile Include="Internal\ActivationEvents.cs" />
+    <Compile Include="Internal\ApplicationScopeInit.cs" />
     <Compile Include="Internal\RequestScopeModule.cs" />
     <Compile Include="Internal\RequestScopeRegistrar.cs" />
     <Compile Include="Internal\RequestScopeSetup.cs" />
+    <Compile Include="Internal\ApplicationScopeRegister.cs" />
     <Compile Include="IWebConfiguration.cs" />
     <Compile Include="IWebModule.cs" />
     <Compile Include="Internal\WebModule.cs" />

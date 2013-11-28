@@ -5,7 +5,8 @@ namespace Cogito.Composition.Services
 {
 
     [AttributeUsage(AttributeTargets.Class)]
-    public class OnInitInvokeAttribute : ExportAttribute
+    public class OnInitInvokeAttribute :
+        ExportAttribute
     {
 
         /// <summary>

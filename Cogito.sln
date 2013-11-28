@@ -68,6 +68,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cogito.Nancy.Razor", "Cogit
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cogito.Owin", "Cogito.Owin\Cogito.Owin.csproj", "{80241936-902A-4ED2-B0C9-C482717B21B8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cogito.Nancy.Web.UI", "Cogito.Nancy.Web.UI\Cogito.Nancy.Web.UI.csproj", "{F796A8EF-0731-4000-8307-006C57BB2282}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cogito.Nancy.Web.UI.Tests.Site", "Cogito.Nancy.Web.UI.Tests.Site\Cogito.Nancy.Web.UI.Tests.Site.csproj", "{AA1062D8-0CAC-4A79-B2D8-46B593EF1732}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -186,6 +190,14 @@ Global
 		{80241936-902A-4ED2-B0C9-C482717B21B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{80241936-902A-4ED2-B0C9-C482717B21B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{80241936-902A-4ED2-B0C9-C482717B21B8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F796A8EF-0731-4000-8307-006C57BB2282}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F796A8EF-0731-4000-8307-006C57BB2282}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F796A8EF-0731-4000-8307-006C57BB2282}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F796A8EF-0731-4000-8307-006C57BB2282}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AA1062D8-0CAC-4A79-B2D8-46B593EF1732}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AA1062D8-0CAC-4A79-B2D8-46B593EF1732}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AA1062D8-0CAC-4A79-B2D8-46B593EF1732}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AA1062D8-0CAC-4A79-B2D8-46B593EF1732}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -201,5 +213,6 @@ Global
 		{D9745B2F-41D9-48ED-A976-C570B7663DC5} = {87130765-A579-4878-B462-70139F28B475}
 		{68ED5758-220F-486C-902F-5C30BA5F410D} = {87130765-A579-4878-B462-70139F28B475}
 		{225920AC-B84A-4263-9D45-34C2FD2F6487} = {87130765-A579-4878-B462-70139F28B475}
+		{AA1062D8-0CAC-4A79-B2D8-46B593EF1732} = {87130765-A579-4878-B462-70139F28B475}
 	EndGlobalSection
 EndGlobal

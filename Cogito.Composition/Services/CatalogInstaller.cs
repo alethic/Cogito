@@ -16,6 +16,7 @@ namespace Cogito.Composition.Services
         readonly ICatalogService catalogs;
         readonly IEnumerable<ICatalogProvider> providers;
         readonly ICompositionContext context;
+
         /// <summary>
         /// Initializes a new instance.
         /// </summary>

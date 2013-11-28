@@ -20,7 +20,7 @@ namespace Cogito.Resources
 
         readonly string id;
         readonly Version version;
-        IQueryable<Expression<Func<IResourceBundle, bool>>> dependencies;
+        List<Expression<Func<IResourceBundle, bool>>> dependencies;
         IQueryable<IResource> resources;
 
         /// <summary>
@@ -31,8 +31,6 @@ namespace Cogito.Resources
         {
             Contract.Invariant(id != null);
             Contract.Invariant(version != null);
-            Contract.Invariant(dependencies != null);
-            Contract.Invariant(resources != null);
         }
 
         /// <summary>
@@ -40,7 +38,7 @@ namespace Cogito.Resources
         /// </summary>
         /// <param name="id"></param>
         /// <param name="version"></param>
-        ResourceBundle(
+        protected ResourceBundle(
             string id,
             Version version)
         {
@@ -49,98 +47,8 @@ namespace Cogito.Resources
 
             this.id = id;
             this.version = version;
-        }
-
-        /// <summary>
-        /// Initializes a new instance.
-        /// </summary>
-        /// <param name="id"></param>
-        /// <param name="version"></param>
-        /// <param name="resources"></param>
-        /// <param name="dependencies"></param>
-        /// <param name="resourceDependencies"></param>
-        public ResourceBundle(
-            string id,
-            Version version,
-            IQueryable<Resource> resources,
-            IQueryable<Expression<Func<IResourceBundle, bool>>> dependencies)
-            : this(id, version)
-        {
-            Contract.Requires<ArgumentNullException>(id != null);
-            Contract.Requires<ArgumentNullException>(version != null);
-            Contract.Requires<ArgumentNullException>(resources != null);
-
-            this.resources = resources;
-            this.dependencies = dependencies ?? Enumerable.Empty<Expression<Func<IResourceBundle, bool>>>().AsQueryable();
-        }
-
-        /// <summary>
-        /// Initializes a new instance.
-        /// </summary>
-        /// <param name="id"></param>
-        /// <param name="version"></param>
-        /// <param name="items"></param>
-        /// <param name="dependencies"></param>
-        /// <param name="resourceDependency"></param>
-        public ResourceBundle(
-            string id,
-            Version version,
-            IEnumerable<Resource> items,
-            IEnumerable<Expression<Func<IResourceBundle, bool>>> dependencies = null)
-            : this(
-                id,
-                version,
-                items.AsQueryable(),
-                dependencies != null ? dependencies.AsQueryable() : null)
-        {
-            Contract.Requires<ArgumentNullException>(id != null);
-            Contract.Requires<ArgumentNullException>(version != null);
-            Contract.Requires<ArgumentNullException>(items != null);
-        }
-
-        /// <summary>
-        /// Initializes a new instance.
-        /// </summary>
-        /// <param name="id"></param>
-        /// <param name="version"></param>
-        /// <param name="items"></param>
-        public ResourceBundle(
-            string id,
-            Version version,
-            params Resource[] items)
-            : this(
-                id,
-                version,
-                items.AsQueryable())
-        {
-            Contract.Requires<ArgumentNullException>(id != null);
-            Contract.Requires<ArgumentNullException>(version != null);
-            Contract.Requires<ArgumentNullException>(items != null);
-        }
-
-        /// <summary>
-        /// Initializes a new instance.
-        /// </summary>
-        /// <param name="id"></param>
-        /// <param name="version"></param>
-        /// <param name="resources"></param>
-        /// <param name="dependencies"></param>
-        /// <param name="resourceDependency"></param>
-        public ResourceBundle(
-            string id,
-            Version version,
-            IEnumerable<Expression<Func<IResourceBundle, bool>>> dependencies,
-            params Resource[] resources)
-            : this(
-                id,
-                version,
-                resources.AsQueryable(),
-                dependencies != null ? dependencies.AsQueryable() : null)
-        {
-            Contract.Requires<ArgumentNullException>(id != null);
-            Contract.Requires<ArgumentNullException>(version != null);
-            Contract.Requires<ArgumentNullException>(resources != null);
-            Contract.Requires<ArgumentOutOfRangeException>(resources.Length > 0);
+            this.dependencies = new List<Expression<Func<IResourceBundle, bool>>>();
+            this.resources = Enumerable.Empty<IResource>().AsQueryable();
         }
 
         /// <summary>
@@ -162,7 +70,7 @@ namespace Cogito.Resources
         /// <summary>
         /// Gets the dependencies of this bundle.
         /// </summary>
-        public IQueryable<Expression<Func<IResourceBundle, bool>>> Dependencies
+        public IEnumerable<Expression<Func<IResourceBundle, bool>>> Dependencies
         {
             get { return dependencies; }
         }
@@ -237,7 +145,7 @@ namespace Cogito.Resources
         public ResourceBundle Requires(Expression<Func<IResourceBundle, bool>> dependency)
         {
             Contract.Requires<ArgumentNullException>(dependency != null);
-            dependencies = dependencies.Append(dependency).AsQueryable();
+            dependencies.Add(dependency);
             return this;
         }
 

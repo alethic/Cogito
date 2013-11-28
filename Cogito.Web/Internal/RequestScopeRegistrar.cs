@@ -10,7 +10,8 @@ namespace Cogito.Web.Internal
     /// <summary>
     /// Provides <see cref="IWebRequestScope"/> containers.
     /// </summary>
-    public class RequestScopeRegistrar : IScopeRegistrar<IWebRequestScope>
+    public class RequestScopeRegistrar :
+        IScopeRegistrar<IWebRequestScope>
     {
 
         public ICompositionContext GetScope()

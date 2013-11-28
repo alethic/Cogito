@@ -6,8 +6,7 @@ namespace Cogito.Application.Lifecycle
     /// <summary>
     /// Provides methods to invoke lifecycle events.
     /// </summary>
-    public interface ILifecycleManager<out T>
-        where T : class
+    public interface ILifecycleManager<T>
     {
 
         /// <summary>
