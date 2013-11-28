@@ -1,11 +1,11 @@
-﻿using Cogito.Composition;
+﻿using System;
+using System.Diagnostics.Contracts;
+using Cogito.Composition;
 using Cogito.Composition.Hosting;
 using Cogito.Composition.Web;
 using Cogito.Nancy.Responses;
-
 using Nancy;
 using Nancy.Bootstrapper;
-
 using mef = System.ComponentModel.Composition.Hosting;
 
 namespace Cogito.Nancy
@@ -33,7 +33,7 @@ namespace Cogito.Nancy
         public NancyBootstrapper(mef.CompositionContainer parent)
             : base(parent)
         {
-
+            Contract.Requires<ArgumentNullException>(parent != null);
         }
 
     }
@@ -61,7 +61,7 @@ namespace Cogito.Nancy
         public NancyBootstrapper(TContainer parent)
             : base(parent)
         {
-
+            Contract.Requires<ArgumentNullException>(parent != null);
         }
 
         protected override void RequestStartup(
