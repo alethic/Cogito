@@ -5,6 +5,7 @@ using System.Web;
 using Cogito.Application.Lifecycle;
 using Cogito.Composition;
 using Cogito.Composition.Hosting;
+using Cogito.Composition.Scoping;
 
 namespace Cogito.Web
 {
@@ -13,7 +14,8 @@ namespace Cogito.Web
     /// Base <see cref="HttpApplication"/> implementation for the Web container framework. Ensures the container is
     /// initialized and that the Start phase is executed.
     /// </summary>
-    public class HttpApplication : System.Web.HttpApplication
+    public class HttpApplication : 
+        System.Web.HttpApplication
     {
 
         readonly ICompositionContext compositionContext;
@@ -51,12 +53,17 @@ namespace Cogito.Web
         /// Initializes a new instance.
         /// </summary>
         /// <param name="composition"></param>
-        public HttpApplication(ICompositionContext composition)
+        public HttpApplication(
+            ICompositionContext composition)
             : base()
         {
             Contract.Requires<ArgumentNullException>(composition != null);
 
             this.compositionContext = composition;
+
+            // ensures the composition context is registered with the web framework
+            composition.GetExportedValue<ScopeManager>()
+                .RegisterContext(typeof(IRootScope), composition);
         }
 
         /// <summary>

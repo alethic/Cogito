@@ -1,13 +1,16 @@
 ﻿using System;
 using System.Diagnostics.Contracts;
 using System.Web;
+
 using Cogito.Composition;
-using Cogito.Composition.Hosting;
 using Cogito.Web.Configuration;
 
 namespace Cogito.Web
 {
 
+    /// <summary>
+    /// Provides extension methods for working with the <see cref="HttpApplicationState"/> type.
+    /// </summary>
     public static class HttpApplicationStateExtensions
     {
 
@@ -15,7 +18,17 @@ namespace Cogito.Web
             ConfigurationSection.GetDefaultSection();
 
         /// <summary>
-        /// Gets the configured <see cref="ICompositionContext"/>.
+        /// Gets the <see cref="ICompositionContext"/> for the application.
+        /// </summary>
+        /// <param name="http"></param>
+        /// <returns></returns>
+        public static ICompositionContext GetCompositionContext(this HttpApplicationState http)
+        {
+            return GetCompositionContext(new HttpApplicationStateWrapper(http));
+        }
+
+        /// <summary>
+        /// Gets the <see cref="ICompositionContext"/> for the application.
         /// </summary>
         /// <param name="http"></param>
         /// <returns></returns>
@@ -23,24 +36,33 @@ namespace Cogito.Web
         {
             Contract.Requires<ArgumentNullException>(http != null);
 
-            var ctx = (ICompositionContext)http.Get(typeof(ICompositionContext).FullName);
-            if (ctx == null)
-                http.Add(typeof(ICompositionContext).FullName, ctx = GetConfiguredContext(http));
-
-            return ctx;
+            return (ICompositionContext)http.Get(typeof(ICompositionContext).FullName);
         }
 
         /// <summary>
-        /// Gets the configured composition context.
+        /// Sets the given <see cref="ICompositionContext"/> for the application.
         /// </summary>
         /// <param name="http"></param>
-        /// <returns></returns>
-        static ICompositionContext GetConfiguredContext(this HttpApplicationStateBase http)
+        /// <param name="composition"></param>
+        public static void SetCompositionContext(this HttpApplicationState http, ICompositionContext composition)
         {
             Contract.Requires<ArgumentNullException>(http != null);
+            Contract.Requires<ArgumentNullException>(composition != null);
 
-            return ContainerManager.GetContainer(configuration.Composition.ContainerName ?? "Default")
-                .AsContext();
+            SetCompositionContext(new HttpApplicationStateWrapper(http), composition);
+        }
+
+        /// <summary>
+        /// Sets the given <see cref="ICompositionContext"/> for the application.
+        /// </summary>
+        /// <param name="http"></param>
+        /// <param name="composition"></param>
+        public static void SetCompositionContext(this HttpApplicationStateBase http, ICompositionContext composition)
+        {
+            Contract.Requires<ArgumentNullException>(http != null);
+            Contract.Requires<ArgumentNullException>(composition != null);
+
+            http[typeof(ICompositionContext).FullName] = composition;
         }
 
     }

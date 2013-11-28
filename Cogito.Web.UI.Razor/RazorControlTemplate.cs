@@ -1,9 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.IO;
 using System.Web;
 using System.Web.UI;
-
 using Cogito.Web.Razor;
 
 namespace Cogito.Web.UI.Razor
@@ -12,10 +12,21 @@ namespace Cogito.Web.UI.Razor
     /// <summary>
     /// Base non-generic Razor template type for server controls that is applied during the Render phase.
     /// </summary>
-    public abstract class RazorControlTemplate : RazorTemplate, IRazorControlTemplate
+    public abstract class RazorControlTemplate :
+        RazorTemplate,
+        IRazorControlTemplate
     {
 
+        readonly IDictionary<string, Action> sections;
         HtmlTextWriter writer;
+
+        /// <summary>
+        /// Initializes a new instance.
+        /// </summary>
+        public RazorControlTemplate()
+        {
+            this.sections = new Dictionary<string, Action>();
+        }
 
         /// <summary>
         /// Gets the type of control this template will render.
@@ -28,12 +39,12 @@ namespace Cogito.Web.UI.Razor
         /// <summary>
         /// Gets the control being rendered.
         /// </summary>
-        public abstract Control Control { get; }
+        public abstract System.Web.UI.Control Control { get; }
 
         /// <summary>
         /// Gets the control being rendered.
         /// </summary>
-        protected Control _
+        protected System.Web.UI.Control _
         {
             get { return Control; }
         }
@@ -91,11 +102,11 @@ namespace Cogito.Web.UI.Razor
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public Control FindControl(string id)
+        public System.Web.UI.Control FindControl(string id)
         {
             Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(id));
 
-            return FindControl<Control>(id);
+            return FindControl<CogitoControl>(id);
         }
 
         /// <summary>
@@ -105,7 +116,7 @@ namespace Cogito.Web.UI.Razor
         /// <param name="id"></param>
         /// <returns></returns>
         public T FindControl<T>(string id)
-            where T : Control
+            where T : System.Web.UI.Control
         {
             Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(id));
 
@@ -134,8 +145,8 @@ namespace Cogito.Web.UI.Razor
                 return;
             else if (value is string)
                 (writer as HtmlTextWriter ?? new HtmlTextWriter(writer)).WriteEncodedText((string)value);
-            else if (value is Control)
-                ((Control)value).RenderControl(writer as HtmlTextWriter ?? new HtmlTextWriter(writer));
+            else if (value is CogitoControl)
+                ((CogitoControl)value).RenderControl(writer as HtmlTextWriter ?? new HtmlTextWriter(writer));
             else if (value is HelperResult)
                 ((HelperResult)value).WriteTo(writer);
             else if (value is Cogito.Web.Razor.IHtmlString)
@@ -228,7 +239,7 @@ namespace Cogito.Web.UI.Razor
         /// Renders the specified <see cref="Control"/>.
         /// </summary>
         /// <param name="control"></param>
-        protected void Write(Control control)
+        protected void Write(CogitoControl control)
         {
             Contract.Requires<ArgumentNullException>(control != null, "Cannot render null Control instance.");
             Contract.Requires<InvalidOperationException>(CurrentWriter != null);
@@ -262,11 +273,39 @@ namespace Cogito.Web.UI.Razor
         /// </summary>
         /// <param name="control"></param>
         /// <returns></returns>
-        protected string IdOf(Control control)
+        protected string IdOf(CogitoControl control)
         {
             Contract.Requires<ArgumentNullException>(control != null);
 
             return control.ClientID;
+        }
+        
+        /// <summary>
+        /// Gets the defined sections.
+        /// </summary>
+        public IDictionary<string, Action> Sections
+        {
+            get { return sections; }
+        }
+
+        /// <summary>
+        /// Returns <c>true</c> if the specified section exists.
+        /// </summary>
+        /// <param name="sectionName"></param>
+        /// <returns></returns>
+        public override bool IsSectionDefined(string sectionName)
+        {
+            return sections.ContainsKey(sectionName);
+        }
+
+        /// <summary>
+        /// Defines a new section.
+        /// </summary>
+        /// <param name="sectionName"></param>
+        /// <param name="action"></param>
+        public override void DefineSection(string sectionName, Action action)
+        {
+            sections[sectionName] = action;
         }
 
     }
@@ -275,11 +314,12 @@ namespace Cogito.Web.UI.Razor
     /// Hides the non-generic version of Control.
     /// </summary>
     /// <typeparam name="TControl"></typeparam>
-    public abstract class RazorControlTemplateInternal<TControl> : RazorControlTemplate
-        where TControl : Control
+    public abstract class RazorControlTemplateInternal<TControl> :
+        RazorControlTemplate
+        where TControl : System.Web.UI.Control
     {
 
-        public override Control Control
+        public override System.Web.UI.Control Control
         {
             get { return ControlInternal; }
         }
@@ -292,8 +332,10 @@ namespace Cogito.Web.UI.Razor
     /// Recommended base <see cref="ITemplate"/> implementation for <see cref="RazorControl"/> web controls.
     /// </summary>
     /// <typeparam name="TControl"></typeparam>
-    public abstract class RazorControlTemplate<TControl> : RazorControlTemplateInternal<TControl>, IRazorControlTemplate<TControl>
-        where TControl : Control
+    public abstract class RazorControlTemplate<TControl> :
+        RazorControlTemplateInternal<TControl>,
+        IRazorControlTemplate<TControl>
+        where TControl : System.Web.UI.Control
     {
 
         /// <summary>

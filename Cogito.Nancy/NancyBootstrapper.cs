@@ -1,6 +1,5 @@
-﻿using System.ComponentModel.Composition.Hosting;
-using System.ComponentModel.Composition.Primitives;
-using System.Linq;
+﻿using System;
+using System.Diagnostics.Contracts;
 
 using Cogito.Composition;
 using Cogito.Composition.Hosting;
@@ -9,19 +8,54 @@ using Cogito.Nancy.Responses;
 
 using Nancy;
 using Nancy.Bootstrapper;
-using Nancy.Bootstrappers.Mef.Composition.Hosting;
+
+using mef = System.ComponentModel.Composition.Hosting;
 
 namespace Cogito.Nancy
 {
 
     /// <summary>
-    /// Base <see cref="NancyBootstrapper/> implementation which configures a Cogito composition container.
+    /// Base <see cref="NancyBootstrapper"/> implementation which configures a Cogito composition container.
     /// </summary>
-    public abstract class NancyBootstrapper : 
-        global::Nancy.Bootstrappers.Mef.NancyBootstrapper<Cogito.Composition.Hosting.CompositionContainerCore>
+    public abstract class NancyBootstrapper :
+        global::Nancy.Bootstrappers.Mef.NancyBootstrapper<CompositionContainer, CompositionScope>
     {
 
-        protected override void RequestStartup(CompositionContainerCore container, IPipelines pipelines, NancyContext context)
+        /// <summary>
+        /// Initializes a new instance.
+        /// </summary>
+        public NancyBootstrapper()
+            : base()
+        {
+
+        }
+
+        /// <summary>
+        /// Initializes a new instance.
+        /// </summary>
+        public NancyBootstrapper(bool createDefaultContainer = true)
+            : base(true)
+        {
+
+        }
+
+        /// <summary>
+        /// Initializes a new instance.
+        /// </summary>
+        /// <param name="container"></param>
+        public NancyBootstrapper(CompositionContainer container)
+            : base(container)
+        {
+            Contract.Requires<ArgumentNullException>(container != null);
+        }
+
+        /// <summary>
+        /// Initializes the request.
+        /// </summary>
+        /// <param name="container"></param>
+        /// <param name="pipelines"></param>
+        /// <param name="context"></param>
+        protected override void RequestStartup(mef.CompositionContainer container, IPipelines pipelines, NancyContext context)
         {
             // capture exceptions and wrap with ErrorResponse
             pipelines.OnError.AddItemToEndOfPipeline((c, e) => ErrorResponse.FromException(e));
@@ -29,29 +63,31 @@ namespace Cogito.Nancy
             base.RequestStartup(container, pipelines, context);
         }
 
-        protected override Cogito.Composition.Hosting.CompositionContainerCore GetApplicationContainer()
+        /// <summary>
+        /// Creates the default container.
+        /// </summary>
+        /// <returns></returns>
+        protected override CompositionContainer CreateDefaultContainer()
         {
-            return (Cogito.Composition.Hosting.CompositionContainerCore)ContainerManager.GetDefaultContainer();
+            return (CompositionContainer)ContainerManager.GetDefaultContainer();
         }
 
-        protected override Cogito.Composition.Hosting.CompositionContainerCore CreateRequestContainer()
+        /// <summary>
+        /// Creates a new request container.
+        /// </summary>
+        /// <param name="parent"></param>
+        /// <returns></returns>
+        protected override CompositionScope CreateRequestContainer(mef.CompositionContainer parent)
         {
-            return (Cogito.Composition.Hosting.CompositionContainerCore)
-                ApplicationContainer.AsContext().GetOrBeginScope<IWebRequestScope>().AsContainer();
+            return (CompositionScope)parent
+                .AsContext()
+                .GetOrBeginScope<IWebRequestScope>()
+                .AsContainer();
         }
 
-        protected override void AddCatalog(Cogito.Composition.Hosting.CompositionContainerCore container, ComposablePartCatalog catalog)
+        protected override void AddCatalog(mef.CompositionContainer container, System.ComponentModel.Composition.Primitives.ComposablePartCatalog catalog)
         {
-            // find nancy export provider
-            var provider = container.Providers
-                .OfType<NancyExportProvider>()
-                .First();
-
-            // add new catalog
-            provider.Providers.Add(new CatalogExportProvider(catalog)
-            {
-                SourceProvider = container,
-            });
+            base.AddCatalog(container, catalog);
         }
 
     }

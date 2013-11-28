@@ -10,10 +10,12 @@ namespace Cogito.Web.UI.Razor
     /// <summary>
     /// Specialized <see cref="Page"/> instance that uses the Razor templating service to implement it's Render method.
     /// </summary>
-    public abstract class RazorPage : Page, IRazorControlAccessor
+    public abstract class RazorPage : 
+        Page, 
+        IRazorControlAccessor
     {
 
-        IRazorControlTemplate template;
+        readonly IRazorControlTemplate template;
 
         /// <summary>
         /// Initializes a new instance.

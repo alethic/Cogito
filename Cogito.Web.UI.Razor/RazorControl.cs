@@ -8,12 +8,14 @@ namespace Cogito.Web.UI.Razor
 {
 
     /// <summary>
-    /// Specialized <see cref="Control"/> instance that uses the Razor templating service to implement it's Render method.
+    /// Specialized <see cref="CogitoControl"/> instance that uses the Razor templating service to implement it's Render method.
     /// </summary>
-    public abstract class RazorControl : Control, IRazorControlAccessor
+    public abstract class RazorControl :
+        CogitoControl,
+        IRazorControlAccessor
     {
 
-        IRazorControlTemplate template;
+        readonly IRazorControlTemplate template;
 
         /// <summary>
         /// Initializes a new instance.

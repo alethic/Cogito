@@ -1,4 +1,7 @@
-﻿using Cogito.Composition.Hosting;
+﻿using System;
+using System.Diagnostics.Contracts;
+
+using Cogito.Composition.Hosting;
 using Cogito.Composition.Internal;
 
 using mef = System.ComponentModel.Composition.Hosting;
@@ -20,6 +23,8 @@ namespace Cogito.Composition
         /// <returns></returns>
         public static ICompositionContext AsContext(this mef.CompositionContainer self)
         {
+            Contract.Requires<ArgumentNullException>(self != null);
+
             return
                 self as ICompositionContext ??
                 self.GetExportedValueOrDefault<ICompositionContext>() ??

@@ -10,20 +10,13 @@ namespace Cogito.Web.Internal
 {
 
     [Module(typeof(IWebModule))]
-    public class WebModule : IWebModule
+    public class WebModule :
+        IWebModule
     {
 
-        [ContractInvariantMethod]
-        void ObjectInvariant()
-        {
-            Contract.Invariant(composition != null);
-            Contract.Invariant(defaultConfiguration != null);
-            Contract.Invariant(lifecycle != null);
-        }
-
-        ICompositionContext composition;
-        IEnumerable<IWebConfiguration> defaultConfiguration;
-        ILifecycleManager<IWebModule> lifecycle;
+        readonly ICompositionContext composition;
+        readonly IEnumerable<IWebConfiguration> defaultConfiguration;
+        readonly ILifecycleManager<IWebModule> lifecycle;
         bool configured;
 
         /// <summary>

@@ -12,7 +12,7 @@ namespace Cogito.Resources
 {
 
     /// <summary>
-    /// Describes an <see cref="ResourceBundle"/> derived from an <see cref="Assembly"/>.
+    /// Describes an <see cref="IResourceBundle"/> derived from an <see cref="Assembly"/>.
     /// </summary>
     public class AssemblyResourceBundle :
         IResourceBundle
@@ -65,9 +65,9 @@ namespace Cogito.Resources
             get { return version; }
         }
 
-        public IQueryable<Expression<Func<IResourceBundle, bool>>> Dependencies
+        public IEnumerable<Expression<Func<IResourceBundle, bool>>> Dependencies
         {
-            get { return Enumerable.Empty<Expression<Func<IResourceBundle, bool>>>().AsQueryable(); }
+            get { return Enumerable.Empty<Expression<Func<IResourceBundle, bool>>>(); }
         }
 
         public IEnumerator<IResource> GetEnumerator()

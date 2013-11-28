@@ -5,7 +5,8 @@ using Cogito.Application;
 namespace Cogito.Web
 {
 
-    public interface IWebModule : IModule
+    public interface IWebModule :
+        IModule
     {
 
         /// <summary>

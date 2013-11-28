@@ -8,13 +8,13 @@ namespace Cogito.Web.UI.Razor
 {
 
     /// <summary>
-    /// Provides extensions that make working with <see cref="Control"/> instances easier.
+    /// Provides extensions that make working with <see cref="CogitoControl"/> instances easier.
     /// </summary>
     public static class ControlExtensions
     {
 
         /// <summary>
-        /// Sets the given attribute and attribute value on the <see cref="Control"/>.
+        /// Sets the given attribute and attribute value on the <see cref="CogitoControl"/>.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="control"></param>
@@ -32,7 +32,7 @@ namespace Cogito.Web.UI.Razor
         }
 
         /// <summary>
-        /// Sets the given attribute and attribute value on the <see cref="Control"/>.
+        /// Sets the given attribute and attribute value on the <see cref="CogitoControl"/>.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="control"></param>
@@ -50,7 +50,7 @@ namespace Cogito.Web.UI.Razor
         }
 
         /// <summary>
-        /// Adds the given CSS class to the <see cref="Control"/>.
+        /// Adds the given CSS class to the <see cref="CogitoControl"/>.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="control"></param>
@@ -87,28 +87,28 @@ namespace Cogito.Web.UI.Razor
         /// <param name="value"></param>
         /// <returns></returns>
         public static T WithContent<T>(this T control, string value)
-            where T : Control
+            where T : CogitoControl
         {
             control.Controls.Add(new LiteralControl(value));
             return control;
         }
 
         public static T WithContent<T>(this T control, Action<object> action)
-            where T : Control
+            where T : CogitoControl
         {
             control.Controls.Add(new HtmlHelperControl(action));
             return control;
         }
 
         /// <summary>
-        /// Generates a '<label />' element for the given <see cref="Control"/>.
+        /// Generates a '<label />' element for the given <see cref="CogitoControl"/>.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="control"></param>
         /// <param name="label"></param>
         /// <returns></returns>
         public static HtmlGenericControl HtmlLabelFor<T>(this T control, string label)
-            where T : Control
+            where T : CogitoControl
         {
             var l = new HtmlGenericControl("label");
             l.Attributes["for"] = control.ClientID;
