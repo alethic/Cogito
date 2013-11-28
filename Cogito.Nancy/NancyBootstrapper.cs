@@ -29,7 +29,7 @@ namespace Cogito.Nancy
             base.RequestStartup(container, pipelines, context);
         }
 
-        protected override System.ComponentModel.Composition.Hosting.CompositionContainer CreateRequestContainer()
+        protected override System.ComponentModel.Composition.Hosting.CompositionContainer CreateRequestContainer(System.ComponentModel.Composition.Hosting.CompositionContainer parent)
         {
             return ApplicationContainer
                 .AsContext()
