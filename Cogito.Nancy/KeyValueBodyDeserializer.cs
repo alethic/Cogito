@@ -52,8 +52,9 @@ namespace Cogito.Nancy
         /// <returns></returns>
         public bool CanDeserialize(string contentType, BindingContext context)
         {
-            return GetSetters(context.Context, context.DestinationType, new string[0])
+            var b = GetSetters(context.Context, context.DestinationType, new string[0])
                 .Any();
+            return b;
         }
 
         /// <summary>

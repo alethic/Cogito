@@ -20,6 +20,7 @@ namespace Cogito.Resources
 
         readonly Assembly assembly;
         readonly Version version;
+        readonly DateTime? lastModifiedTimeUtc;
         readonly IEnumerable<AssemblyResource> resources;
         readonly IQueryable<AssemblyResource> resourcesQuery;
 
@@ -36,6 +37,7 @@ namespace Cogito.Resources
 
             this.assembly = assembly;
             this.version = assembly.GetVersion();
+            this.lastModifiedTimeUtc = assembly.GetLastModifiedTimeUtc();
             this.resources = GetAssemblyResources(mediaTypeResolver).ToList();
             this.resourcesQuery = resources.AsQueryable();
         }
@@ -93,6 +95,11 @@ namespace Cogito.Resources
         public IQueryProvider Provider
         {
             get { return resourcesQuery.Provider; }
+        }
+
+        public DateTime? LastModifiedTimeUtc
+        {
+            get { return lastModifiedTimeUtc; }
         }
 
     }

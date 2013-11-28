@@ -68,7 +68,16 @@ namespace Cogito.Nancy
                 throw new Exception();
 
             // return proper response
-            return new StreamResponse(() => r.Source() as Stream, r.ContentType);
+            var s = new StreamResponse(() => r.Source() as Stream, r.ContentType);
+
+            // set last modified time based on resource, if available
+            if (r.LastModifiedTimeUtc != null)
+            {
+                s.WithHeader("ETag", ((DateTime)r.LastModifiedTimeUtc).Ticks.ToString("x"));
+                s.WithHeader("Last-Modified", ((DateTime)r.LastModifiedTimeUtc).ToString("R"));
+            }
+
+            return s;
         }
 
     }

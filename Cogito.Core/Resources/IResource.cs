@@ -41,6 +41,11 @@ namespace Cogito.Resources
         /// </summary>
         Func<object> Source { get; }
 
+        /// <summary>
+        /// Potentially provides a last modified time for the resource.
+        /// </summary>
+        DateTime? LastModifiedTimeUtc { get; }
+
     }
 
 }

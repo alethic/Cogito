@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
+using System.IO;
 using System.Reflection;
-
 using Cogito.Collections;
 
 namespace Cogito.Reflection
@@ -60,6 +60,23 @@ namespace Cogito.Reflection
             Contract.Requires<ArgumentNullException>(assembly != null);
 
             return new RuntimeVersion(assembly.GetName().Version);
+        }
+
+        /// <summary>
+        /// Gets the last modification time of an assembly if possible.
+        /// </summary>
+        /// <param name="assembly"></param>
+        /// <returns></returns>
+        public static DateTime? GetLastModifiedTimeUtc(this Assembly assembly)
+        {
+            if (assembly.Location == null)
+                return null;
+
+            var fileInfo = new FileInfo(assembly.Location);
+            if (fileInfo.Exists)
+                return fileInfo.LastWriteTimeUtc;
+
+            return null;
         }
 
     }

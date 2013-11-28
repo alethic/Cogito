@@ -5,8 +5,6 @@ using System.Globalization;
 using System.Linq;
 using System.Reflection;
 
-using Cogito.Linq;
-
 namespace Cogito.Resources
 {
 
@@ -22,6 +20,8 @@ namespace Cogito.Resources
 
         static string PeriodSuffix(string value)
         {
+            Contract.Requires<ArgumentNullException>(value != null);
+
             if (!value.EndsWith("."))
                 value = value + ".";
 
@@ -36,6 +36,9 @@ namespace Cogito.Resources
         /// <returns></returns>
         static string GetResourceName(Assembly assembly, string resourceName)
         {
+            Contract.Requires<ArgumentNullException>(assembly != null);
+            Contract.Requires<ArgumentNullException>(resourceName != null);
+
             var name = resourceName;
             var assemblyName = assembly.GetName().Name;
             var bundleAttrs = assembly.GetCustomAttributes<AssemblyResourceBundleAttribute>();
@@ -87,6 +90,10 @@ namespace Cogito.Resources
         /// <returns></returns>
         static string GetContentType(Assembly assembly, string resourceName, IMediaTypeResolver mediaTypeResolver)
         {
+            Contract.Requires<ArgumentNullException>(assembly != null);
+            Contract.Requires<ArgumentNullException>(resourceName != null);
+            Contract.Requires<ArgumentNullException>(mediaTypeResolver != null);
+
             return contentTypeCache.GetOrAdd(Tuple.Create(assembly, resourceName), _ =>
             {
                 return assembly.GetCustomAttributes<AssemblyResourceAttribute>()
@@ -118,6 +125,7 @@ namespace Cogito.Resources
                 CultureInfo.InvariantCulture,
                 null,
                 () => type.Assembly.GetManifestResourceStream(type, resourceName),
+                bundle.LastModifiedTimeUtc,
                 null)
         {
             Contract.Requires<ArgumentNullException>(bundle != null);
@@ -170,6 +178,7 @@ namespace Cogito.Resources
                 CultureInfo.InvariantCulture,
                 null,
                 () => bundle.Assembly.GetManifestResourceStream(resourceName),
+                bundle.LastModifiedTimeUtc,
                 null)
         {
             Contract.Requires<ArgumentNullException>(bundle != null);
