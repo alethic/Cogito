@@ -4,8 +4,10 @@ using Cogito.Composition;
 using Cogito.Composition.Hosting;
 using Cogito.Composition.Web;
 using Cogito.Nancy.Responses;
+
 using Nancy;
 using Nancy.Bootstrapper;
+
 using mef = System.ComponentModel.Composition.Hosting;
 
 namespace Cogito.Nancy
