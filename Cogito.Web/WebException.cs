@@ -4,7 +4,8 @@ namespace Cogito.Web
 {
 
 
-    public class WebException : ModuleException<IWebModule>
+    public class WebException :
+        ModuleException<IWebModule>
     {
 
         /// <summary>

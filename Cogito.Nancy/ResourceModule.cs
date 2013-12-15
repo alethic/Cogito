@@ -1,11 +1,9 @@
-﻿using System;
-using System.ComponentModel.Composition;
-using System.Diagnostics.Contracts;
+﻿using System.ComponentModel.Composition;
 using System.Linq;
 
 using Cogito.Composition.Scoping;
-using Cogito.Composition.Web;
 using Cogito.Resources;
+using Cogito.Web;
 
 using Nancy;
 
@@ -21,49 +19,6 @@ namespace Cogito.Nancy
         NancyModule
     {
 
-        /// <summary>
-        /// Gets the path for the given resource.
-        /// </summary>
-        /// <param name="resource"></param>
-        /// <returns></returns>
-        public static string GetResourcePath(IResource resource)
-        {
-            Contract.Requires<ArgumentNullException>(resource != null);
-
-            return GetResourcePath(
-                resource.Bundle.Id,
-                resource.Bundle.Version.ToString(),
-                resource.Name);
-        }
-
-        /// <summary>
-        /// Gets the path for the given resource properties.
-        /// </summary>
-        /// <param name="bundleId"></param>
-        /// <param name="version"></param>
-        /// <param name="name"></param>
-        /// <returns></returns>
-        public static string GetResourcePath(string bundleId, string version, string name)
-        {
-            return string.Format("/r/{0};{1}/{2}",
-                bundleId,
-                version,
-                name);
-        }
-
-        /// <summary>
-        /// Gets the path for the given resource properties.
-        /// </summary>
-        /// <param name="bundleId"></param>
-        /// <param name="name"></param>
-        /// <returns></returns>
-        public static string GetResourcePath(string bundleId, string name)
-        {
-            return string.Format("/r/{0}/{1}",
-                bundleId,
-                name);
-        }
-
         readonly IResourceQuery resources;
 
         /// <summary>
@@ -76,7 +31,7 @@ namespace Cogito.Nancy
         {
             this.resources = resources;
 
-            Get["/^(?:(?<Bundle>[^;/]+)(;(?<Version>[^/]+))?/(?<Name>.+))$"] = x => GetResource(
+            Get["{Bundle}/{Version}/{Name*}"] = x => GetResource(
                 (string)x.Bundle,
                 (string)x.Version,
                 (string)x.Name);
@@ -95,9 +50,8 @@ namespace Cogito.Nancy
         {
             return resources
                 .Where(i => i.Bundle.Id == bundleId)
-                .Where(i => version == null || i.Bundle.Version.ToString().Equals(version))
-                .Where(i => i.Name == name)
-                .OrderByDescending(i => i.Bundle.Version);
+                .Where(i => i.Bundle.Version.ToString().Equals(version))
+                .Where(i => i.Name == name);
         }
 
     }

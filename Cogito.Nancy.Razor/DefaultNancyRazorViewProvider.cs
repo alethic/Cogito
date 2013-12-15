@@ -8,8 +8,8 @@ using System.Linq;
 
 using Cogito.Collections;
 using Cogito.Composition;
-using Cogito.Composition.Web;
 using Cogito.Reflection;
+using Cogito.Web;
 
 using Nancy;
 using Nancy.Responses.Negotiation;

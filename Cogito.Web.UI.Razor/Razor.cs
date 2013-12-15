@@ -18,6 +18,8 @@ namespace Cogito.Web.UI.Razor
     public static class Razor
     {
 
+        static readonly object syncRoot = new object();
+
         /// <summary>
         /// Invoked dynamically.
         /// </summary>
@@ -44,11 +46,7 @@ namespace Cogito.Web.UI.Razor
             Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(name));
 
             // find resource
-            var res = assembly.GetManifestResourceStream(name);
-            if (res == null)
-                throw new RazorException("Unable to locate Razor template {0}.{1}.", assembly, name);
-
-            return res;
+            return assembly.GetManifestResourceStream(name);
         }
 
         /// <summary>
@@ -71,8 +69,39 @@ namespace Cogito.Web.UI.Razor
             if (atr != null && atr.ResourceName != null)
                 res = atr.ResourceName;
 
-            // return new reader
-            return new StreamReader(OpenResourceStream(asm, res));
+            // open discovered resource and wrap with reader
+            var stm = OpenResourceStream(asm, res);
+            if (stm != null)
+                return new StreamReader(stm);;
+
+            return null;
+        }
+
+        /// <summary>
+        /// Gets the template for the specified type, or it's parent types.
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        static TextReader FindTemplateRecursive(Type type)
+        {
+            return type
+                .Recurse(i => i.BaseType)
+                .Select(i => ReadTemplate(i))
+                .FirstOrDefault(i => i != null);
+        }
+
+        /// <summary>
+        /// Finds the appropriate template.
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        static TextReader FindTemplate(Type type)
+        {
+            var template = FindTemplateRecursive(type);
+            if (template == null)
+                throw new NullReferenceException("Could not locate Razor template for " + type.Name);
+
+            return template;
         }
 
         /// <summary>
@@ -86,56 +115,51 @@ namespace Cogito.Web.UI.Razor
         {
             Contract.Requires<ArgumentNullException>(control != null);
 
-            // recursively inherit all references of the control being referenced and ourself
-            var referencedAssemblies = Enumerable.Empty<Assembly>()
-                .Append(typeof(Razor).Assembly)
-                .Append(typeof(CogitoControl).Assembly)
-                .Append(typeof(T).Assembly);
+            lock (syncRoot)
+            {
+                // recursively inherit all references of the control being referenced and ourself
+                var referencedAssemblies = Enumerable.Empty<Assembly>()
+                    .Append(typeof(Razor).Assembly)
+                    .Append(typeof(CogitoControl).Assembly)
+                    .Append(typeof(T).Assembly);
 
-            referencedAssemblies = referencedAssemblies
-                .SelectMany(i => i.GetReferencedAssemblies())
-                .Select(i => Assembly.Load(i))
-                .Concat(referencedAssemblies);
+                referencedAssemblies = referencedAssemblies
+                    .SelectMany(i => i.GetReferencedAssemblies())
+                    .Select(i => Assembly.Load(i))
+                    .Concat(referencedAssemblies);
 
-            var referencedAssemblyPaths = referencedAssemblies
-                .Select(i => new Uri(i.Location))
-                .Select(i => i.LocalPath);
+                var referencedAssemblyPaths = referencedAssemblies
+                    .Select(i => new Uri(i.Location))
+                    .Select(i => i.LocalPath);
 
-            // obtain or create the Razor template for the given control
-            var type = RazorTemplateBuilder.GetOrBuildType(
-                () => ReadTemplate(typeof(T)),
-                defaultBaseClass: typeof(RazorControlTemplate<T>),
-                referencedAssemblies: referencedAssemblyPaths,
-                importedNamespaces: new[] { typeof(CogitoControl).Namespace },
-                innerTemplateType: typeof(HtmlHelperResult),
-                cacheKey: typeof(T).FullName);
-            if (type == null)
-                throw new NullReferenceException("Unable to locate newly generated Type.");
+                // obtain or create the Razor template for the given control
+                var type = RazorTemplateBuilder.GetOrBuildType(
+                    () => FindTemplate(typeof(T)),
+                    defaultBaseClass: typeof(RazorControlTemplate<T>),
+                    referencedAssemblies: referencedAssemblyPaths,
+                    importedNamespaces: new[] { typeof(CogitoControl).Namespace },
+                    innerTemplateType: typeof(HtmlHelperResult),
+                    cacheKey: typeof(T).FullName);
+                if (type == null)
+                    throw new NullReferenceException("Unable to locate newly generated Type.");
 
-            object template = null;
+                IRazorControlTemplate template = null;
 
-            // generic constructor
-            var ctor1 = type.GetConstructor(new[] { typeof(T) });
-            if (ctor1 != null)
-                template = ctor1.Invoke(new[] { control });
+                // generic constructor
+                var ctor1 = type.GetConstructor(new[] { typeof(T) });
+                if (ctor1 != null)
+                    template = (IRazorControlTemplate)ctor1.Invoke(new[] { control });
 
-            // non generic constructor
-            var ctor2 = type.GetConstructor(new[] { typeof(CogitoControl) });
-            if (ctor2 != null)
-                template = ctor2.Invoke(new[] { control });
+                // non generic constructor
+                var ctor2 = type.GetConstructor(new[] { typeof(CogitoControl) });
+                if (ctor2 != null)
+                    template = (IRazorControlTemplate)ctor2.Invoke(new[] { control });
 
-            // attempt to set control on it through generic instance
-            template = Activator.CreateInstance(type);
-            var baseTemplate = template as RazorControlTemplate<T>;
-            if (baseTemplate != null)
-                baseTemplate.Control = control;
+                if (template == null)
+                    throw new NullReferenceException("Could not construct new template instance. Could find compatible constructor.");
 
-            // template at least needs to implement IRazorControlTemplate<>
-            var razorTemplate = template as IRazorControlTemplate;
-            if (razorTemplate == null)
-                throw new RazorException("Could not retrieve template which implements IRazorControlTemplate.");
-
-            return razorTemplate;
+                return template;
+            }
         }
 
         /// <summary>

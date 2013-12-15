@@ -38,10 +38,16 @@ namespace Cogito.Composition.Reflection
 
         }
 
+        /// <summary>
+        /// Provides a list of custom attributes for the specified member.
+        /// </summary>
+        /// <param name="member"></param>
+        /// <param name="declaredAttributes"></param>
+        /// <returns></returns>
         protected override IEnumerable<object> GetCustomAttributes(MemberInfo member, IEnumerable<object> declaredAttributes)
         {
             var attrs = base.GetCustomAttributes(member, declaredAttributes);
-
+            var name = member.Name;
             // types handled
             var type = member as Type;
             if (type != null)
@@ -60,7 +66,8 @@ namespace Cogito.Composition.Reflection
             var name = type.Name;
 
             // obtain all boundary attributes and generate part metadata
-            return type.GetCustomAttributes<InheritedPartCreationPolicyAttribute>(true)
+            return type.UnderlyingSystemType
+                .GetCustomAttributes<InheritedPartCreationPolicyAttribute>(true)
                 .Select(i => new PartCreationPolicyAttribute(i.CreationPolicy));
         }
 

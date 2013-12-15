@@ -1,6 +1,6 @@
 ﻿using Cogito.Composition.Scoping;
 
-namespace Cogito.Composition.Web
+namespace Cogito.Web
 {
 
     /// <summary>

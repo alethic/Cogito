@@ -1,7 +1,7 @@
-﻿using System.Web.UI;
+﻿using System.Linq;
+using System.Web.UI;
 
 using Cogito.Composition;
-using Cogito.Composition.Web;
 
 namespace Cogito.Web.UI
 {
@@ -9,8 +9,8 @@ namespace Cogito.Web.UI
     /// <summary>
     /// Base Cogito <see cref="System.Web.UI.Control"/> type that provides composition access.
     /// </summary>
-    public abstract class CogitoControl
-        : Control
+    public abstract class CogitoControl :
+        Control
     {
 
         ICompositionContext composition;
@@ -28,7 +28,23 @@ namespace Cogito.Web.UI
         /// </summary>
         public ICompositionContext Composition
         {
-            get { return composition ?? (composition = Context.Application.GetCompositionContext().GetOrBeginScope<IWebRequestScope>()); }
+            get { return composition ?? (composition = WebContainerManager.GetOrCreateRequestScope()); }
+        }
+
+        /// <summary>
+        /// Resolves the URL to reach the target object.
+        /// </summary>
+        /// <param name="target"></param>
+        /// <returns></returns>
+        public string ResolveUrl(object target)
+        {
+            if (target is string)
+                return base.ResolveUrl((string)target);
+
+            // find first resolved url to target
+            return Composition.GetExportedValues<IUrlResolver>()
+                .Select(i => i.ResolveUrl(target))
+                .FirstOrDefault();
         }
 
     }

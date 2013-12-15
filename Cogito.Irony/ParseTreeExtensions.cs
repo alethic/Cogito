@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Xml.Linq;
-
 using Irony;
 using Irony.Parsing;
 
@@ -134,6 +133,20 @@ namespace Cogito.Irony
             Contract.Requires<ArgumentNullException>(name != null);
 
             return node.ChildNodes.Where(i => i.Term.Name == name);
+        }
+
+        /// <summary>
+        /// Gets the child elements <see cref="ParseTreeNode"/> with the specified name.
+        /// </summary>
+        /// <param name="nodes"></param>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public static IEnumerable<ParseTreeNode> Nodes(this IEnumerable<ParseTreeNode> nodes, string name)
+        {
+            Contract.Requires<ArgumentNullException>(nodes != null);
+            Contract.Requires<ArgumentNullException>(name != null);
+
+            return nodes.SelectMany(i => i.ChildNodes.Where(j => j.Term.Name == name));
         }
 
         /// <summary>

@@ -1,7 +1,4 @@
-﻿using System.ComponentModel.Composition;
-using System.Web;
-
-using Cogito.Composition;
+﻿using Cogito.Composition;
 using Cogito.Composition.Scoping;
 
 namespace Cogito.Web.Internal
@@ -15,30 +12,21 @@ namespace Cogito.Web.Internal
     {
 
         /// <summary>
-        /// Initializes a new instance.
+        /// Gets the composition context registered with the web application.
         /// </summary>
-        [ImportingConstructor]
-        public ApplicationScopeRegister()
-        {
-
-        }
-
+        /// <returns></returns>
         public ICompositionContext GetScope()
         {
-            var ctx = HttpContext.Current;
-            if (ctx == null)
-                return null;
-
-            return ctx.Application.GetCompositionContext();
+            return WebContainerManager.GetApplicationScope();
         }
 
-        public void RegisterScope(ICompositionContext context)
+        /// <summary>
+        /// Registers the given root scope with the web application.
+        /// </summary>
+        /// <param name="composition"></param>
+        public void RegisterScope(ICompositionContext composition)
         {
-            var ctx = HttpContext.Current;
-            if (ctx == null)
-                return;
-
-            ctx.Application.SetCompositionContext(context);
+            WebContainerManager.RegisterApplicationScope(composition);
         }
 
     }

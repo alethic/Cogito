@@ -40,7 +40,8 @@ namespace Cogito.Composition.Scoping
         public ScopedExportAttribute(Type contractType, Type scopeType, Visibility visibility)
             : this(null, contractType, scopeType, visibility)
         {
-
+            Contract.Requires<ArgumentNullException>(contractType != null);
+            Contract.Requires<ArgumentNullException>(scopeType != null);
         }
 
         /// <summary>
@@ -50,7 +51,8 @@ namespace Cogito.Composition.Scoping
         public ScopedExportAttribute(Type contractType, Type scopeType)
             : this(contractType, scopeType, Visibility.Global)
         {
-
+            Contract.Requires<ArgumentNullException>(contractType != null);
+            Contract.Requires<ArgumentNullException>(scopeType != null);
         }
 
         /// <summary>
@@ -60,7 +62,7 @@ namespace Cogito.Composition.Scoping
         public ScopedExportAttribute(Type contractType, Visibility visibility)
             : this(contractType, typeof(IRootScope), visibility)
         {
-
+            Contract.Requires<ArgumentNullException>(contractType != null);
         }
 
         /// <summary>

@@ -70,6 +70,8 @@ namespace Cogito.Composition.Hosting
         /// <returns></returns>
         public static mef.CompositionContainer GetDefaultContainer()
         {
+            Contract.Ensures(Contract.Result<mef.CompositionContainer>() != null);
+
             return
                 defaultContainer ??
                 (defaultContainer = GetContainer(defaultContainerName)) ??

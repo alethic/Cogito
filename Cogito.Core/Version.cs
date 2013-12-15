@@ -49,6 +49,34 @@ namespace Cogito
             return !EqualityComparer<Version>.Default.Equals(version1, version2);
         }
 
+        public static bool operator >(Version version1, string version2)
+        {
+            Contract.Requires<ArgumentNullException>(version1 != null);
+            Contract.Requires<ArgumentNullException>(version2 != null);
+            return version1.CompareTo(version2) == 1;
+        }
+
+        public static bool operator <(Version version1, string version2)
+        {
+            Contract.Requires<ArgumentNullException>(version1 != null);
+            Contract.Requires<ArgumentNullException>(version2 != null);
+            return version1.CompareTo(version2) == -1;
+        }
+
+        public static bool operator >=(Version version1, string version2)
+        {
+            Contract.Requires<ArgumentNullException>(version1 != null);
+            Contract.Requires<ArgumentNullException>(version2 != null);
+            return version1.CompareTo(version2) >= 0;
+        }
+
+        public static bool operator <=(Version version1, string version2)
+        {
+            Contract.Requires<ArgumentNullException>(version1 != null);
+            Contract.Requires<ArgumentNullException>(version2 != null);
+            return version1.CompareTo(version2) <= 0;
+        }
+
         /// <summary>
         /// Creates a clone of this <see cref="Version"/> object.
         /// </summary>

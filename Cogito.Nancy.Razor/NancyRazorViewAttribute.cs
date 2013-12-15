@@ -1,7 +1,8 @@
 ﻿using System;
+
 using System.ComponentModel.Composition;
 using Cogito.Composition.Scoping;
-using Cogito.Composition.Web;
+using Cogito.Web;
 
 namespace Cogito.Nancy.Razor
 {

@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Diagnostics.Contracts;
+
 using Cogito.Composition;
 using Cogito.Composition.Hosting;
-using Cogito.Composition.Web;
 using Cogito.Nancy.Responses;
+using Cogito.Web;
 
 using Nancy;
 using Nancy.Bootstrapper;
@@ -14,10 +15,10 @@ namespace Cogito.Nancy
 {
 
     /// <summary>
-    /// Base <see cref="NancyBootstrapper/> implementation which configures a composition container.
+    /// Base <see cref="NancyBootstrapper"/> implementation which configures a Cogito composition container.
     /// </summary>
-    public class NancyBootstrapper :
-        NancyBootstrapper<mef.CompositionContainer>
+    public abstract class NancyBootstrapper :
+        global::Nancy.Bootstrappers.Mef.NancyBootstrapper<CompositionContainer, CompositionScope>
     {
 
         /// <summary>
@@ -32,26 +33,7 @@ namespace Cogito.Nancy
         /// <summary>
         /// Initializes a new instance.
         /// </summary>
-        public NancyBootstrapper(mef.CompositionContainer parent)
-            : base(parent)
-        {
-            Contract.Requires<ArgumentNullException>(parent != null);
-        }
-
-    }
-
-    /// <summary>
-    /// Base <see cref="NancyBootstrapper/> implementation which configures a composition container.
-    /// </summary>
-    public class NancyBootstrapper<TContainer> :
-        global::Nancy.Bootstrappers.Mef.NancyBootstrapper<TContainer>
-        where TContainer : mef.CompositionContainer
-    {
-
-        /// <summary>
-        /// Initializes a new instance.
-        /// </summary>
-        public NancyBootstrapper()
+        public NancyBootstrapper(bool createDefaultContainer = true)
             : base(true)
         {
 
@@ -60,16 +42,20 @@ namespace Cogito.Nancy
         /// <summary>
         /// Initializes a new instance.
         /// </summary>
-        public NancyBootstrapper(TContainer parent)
-            : base(parent)
+        /// <param name="container"></param>
+        public NancyBootstrapper(CompositionContainer container)
+            : base(container)
         {
-            Contract.Requires<ArgumentNullException>(parent != null);
+            Contract.Requires<ArgumentNullException>(container != null);
         }
 
-        protected override void RequestStartup(
-            mef.CompositionContainer container,
-            IPipelines pipelines,
-            NancyContext context)
+        /// <summary>
+        /// Initializes the request.
+        /// </summary>
+        /// <param name="container"></param>
+        /// <param name="pipelines"></param>
+        /// <param name="context"></param>
+        protected override void RequestStartup(mef.CompositionContainer container, IPipelines pipelines, NancyContext context)
         {
             // capture exceptions and wrap with ErrorResponse
             pipelines.OnError.AddItemToEndOfPipeline((c, e) => ErrorResponse.FromException(e));
@@ -77,17 +63,31 @@ namespace Cogito.Nancy
             base.RequestStartup(container, pipelines, context);
         }
 
-        protected override TContainer CreateDefaultContainer()
+        /// <summary>
+        /// Creates the default container.
+        /// </summary>
+        /// <returns></returns>
+        protected override CompositionContainer CreateDefaultContainer()
         {
-            return (TContainer)ContainerManager.GetDefaultContainer();
+            return (CompositionContainer)ContainerManager.GetDefaultContainer();
         }
 
-        protected override mef.CompositionContainer CreateRequestContainer()
+        /// <summary>
+        /// Creates a new request container.
+        /// </summary>
+        /// <param name="parent"></param>
+        /// <returns></returns>
+        protected override CompositionScope CreateRequestContainer(mef.CompositionContainer parent)
         {
-            return ApplicationContainer
+            return (CompositionScope)parent
                 .AsContext()
                 .GetOrBeginScope<IWebRequestScope>()
                 .AsContainer();
+        }
+
+        protected override void AddCatalog(mef.CompositionContainer container, System.ComponentModel.Composition.Primitives.ComposablePartCatalog catalog)
+        {
+            base.AddCatalog(container, catalog);
         }
 
     }

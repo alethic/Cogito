@@ -189,31 +189,32 @@ namespace Cogito
         }
 
         /// <summary>
-        /// Compares the two <see cref="SemanticVersion"/>s for equality.
+        /// Tests the specified versions for equality.
         /// </summary>
-        /// <param name="version1"></param>
-        /// <param name="version2"></param>
-        /// <returns></returns>
-        public static bool Equals(SemanticVersion version1, SemanticVersion version2)
+        /// <param name="versionA">The first version.</param>
+        /// <param name="versionB">The second version.</param>
+        /// <returns>If versionA is equal to versionB <c>true</c>, else <c>false</c>.</returns>
+        public static bool Equals(SemanticVersion versionA, SemanticVersion versionB)
         {
-            if (ReferenceEquals(version1, null))
-                return ReferenceEquals(version2, null);
+            if (ReferenceEquals(versionA, null))
+                return ReferenceEquals(versionB, null);
 
-            return version1.Equals(version2);
+            return versionA.Equals(versionB);
         }
 
         /// <summary>
-        /// Compares the two <see cref="SemanticVersion"/>s.
+        /// Compares the specified versions.
         /// </summary>
-        /// <param name="version1"></param>
-        /// <param name="version2"></param>
-        /// <returns></returns>
-        public static int Compare(SemanticVersion version1, SemanticVersion version2)
+        /// <param name="versionA">The version to compare to.</param>
+        /// <param name="versionB">The version to compare against.</param>
+        /// <returns>If versionA &lt; versionB <c>-1</c>, if versionA &gt; versionB <c>1</c>,
+        /// if versionA is equal to versionB <c>0</c>.</returns>
+        public static int Compare(SemanticVersion versionA, SemanticVersion versionB)
         {
-            if (ReferenceEquals(version1, null))
-                return ReferenceEquals(version2, null) ? 0 : -1;
+            if (ReferenceEquals(versionA, null))
+                return ReferenceEquals(versionB, null) ? 0 : -1;
 
-            return version1.CompareTo(version2);
+            return versionA.CompareTo(versionB);
         }
 
         readonly int major;
@@ -303,21 +304,98 @@ namespace Cogito
         /// <returns></returns>
         public override int CompareTo(Version other)
         {
-            var version = other as SemanticVersion;
-            if (version == null)
-                return -1;
-
-            return CompareTo(version);
+            return CompareTo(other as SemanticVersion);
         }
 
         /// <summary>
-        /// Compares this <see cref="SemanticVersion"/> to another <see cref="SemanticVersion"/>.
+        /// Compares the current instance with another object of the same type and returns an integer that indicates 
+        /// whether the current instance precedes, follows, or occurs in the same position in the sort order as the 
+        /// other object.
         /// </summary>
-        /// <param name="version"></param>
-        /// <returns></returns>
-        public int CompareTo(SemanticVersion version)
+        /// <param name="other">An object to compare with this instance.</param>
+        /// <returns>A value that indicates the relative order of the objects being compared.</returns>
+        public int CompareTo(SemanticVersion other)
         {
-            return Compare(this, version);
+            if (ReferenceEquals(other, null))
+                return 1;
+
+            var r = CompareByPrecedence(other);
+            if (r != 0)
+                return r;
+
+            return CompareComponent(build, other.build);
+        }
+
+        /// <summary>
+        /// Compares to semantic versions by precedence. This does the same as a Equals, but ignores the build information.
+        /// </summary>
+        /// <param name="other">The semantic version.</param>
+        /// <returns><c>true</c> if the version precedence matches.</returns>
+        public bool PrecedenceMatches(SemanticVersion other)
+        {
+            return CompareByPrecedence(other) == 0;
+        }
+
+        /// <summary>
+        /// Compares to semantic versions by precedence. This does the same as a Equals, but ignores the build information.
+        /// </summary>
+        /// <param name="other">The semantic version.</param>
+        /// <returns>A value that indicates the relative order of the objects being compared.</returns>
+        public int CompareByPrecedence(SemanticVersion other)
+        {
+            if (ReferenceEquals(other, null))
+                return 1;
+
+            var r = major.CompareTo(other.major);
+            if (r != 0)
+                return r;
+
+            r = minor.CompareTo(other.minor);
+            if (r != 0)
+                return r;
+
+            r = patch.CompareTo(other.patch);
+            if (r != 0)
+                return r;
+
+            return CompareComponent(prerelease, other.prerelease, true);
+        }
+
+        static int CompareComponent(string a, string b, bool lower = false)
+        {
+            var aEmpty = string.IsNullOrEmpty(a);
+            var bEmpty = string.IsNullOrEmpty(b);
+            if (aEmpty && bEmpty)
+                return 0;
+
+            if (aEmpty)
+                return lower ? 1 : -1;
+            if (bEmpty)
+                return lower ? -1 : 1;
+
+            var aComps = a.Split('.');
+            var bComps = b.Split('.');
+
+            var minLen = Math.Min(aComps.Length, bComps.Length);
+            for (int i = 0; i < minLen; i++)
+            {
+                var ac = aComps[i];
+                var bc = bComps[i];
+                int anum, bnum;
+                var isanum = int.TryParse(ac, out anum);
+                var isbnum = int.TryParse(bc, out bnum);
+                if (isanum && isbnum)
+                    return anum.CompareTo(bnum);
+                if (isanum)
+                    return -1;
+                if (isbnum)
+                    return 1;
+                var r = string.CompareOrdinal(ac, bc);
+                if (r != 0)
+                    return r;
+            }
+
+            return aComps.Length.CompareTo(bComps.Length);
         }
 
         /// <summary>
@@ -341,7 +419,12 @@ namespace Cogito
         /// <returns></returns>
         public bool Equals(SemanticVersion other)
         {
-            return Equals(this, other);
+            return
+                other != null &&
+                major == other.major &&
+                minor == other.minor &&
+                build == other.build &&
+                prerelease == other.prerelease;
         }
 
         public override bool Equals(object obj)

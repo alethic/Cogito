@@ -119,10 +119,10 @@ namespace Cogito.Nancy.Razor
         /// <returns></returns>
         public static IHtmlString ResourceUrl<T>(this UrlHelpers<T> helpers, IResource resource)
         {
-            Contract.Requires<ArgumentNullException>(helpers != null);
-            Contract.Requires<ArgumentNullException>(resource != null);
-
-            return new NonEncodedHtmlString(helpers.Content(ResourceModule.GetResourcePath(resource)));
+            return new NonEncodedHtmlString(helpers.Content(string.Format("/r/{0}/{1}/{2}",
+                resource.Bundle.Id,
+                resource.Bundle.Version,
+                resource.Name)));
         }
 
     }

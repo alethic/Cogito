@@ -1,7 +1,4 @@
-﻿using System;
-using System.Diagnostics.Contracts;
-
-using Nancy.ViewEngines;
+﻿using Nancy.ViewEngines;
 
 namespace Cogito.Nancy.Razor
 {
@@ -21,8 +18,6 @@ namespace Cogito.Nancy.Razor
         /// <param name="renderContext">The render context.</param>
         public UrlHelpers(IRenderContext renderContext)
         {
-            Contract.Requires<ArgumentNullException>(renderContext != null);
-
             this.renderContext = renderContext;
         }
 
@@ -41,8 +36,6 @@ namespace Cogito.Nancy.Razor
         /// <param name="path">The path.</param>
         public string Content(string path)
         {
-            Contract.Requires<ArgumentNullException>(path != null);
-
             return renderContext.ParsePath(path);
         }
 

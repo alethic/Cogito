@@ -109,6 +109,9 @@ namespace Cogito.Negotiation
             Action<IOutputNegotiator> sourceConfigure,
             Action<ISourceNegotiator> outputConfigure)
         {
+            Contract.Requires<ArgumentNullException>(sourceType != null);
+            Contract.Requires<ArgumentNullException>(outputType != null);
+
             return (Negotiated)genericMethodDefinition.MakeGenericMethod(sourceType, outputType)
                 .Invoke(this, new object[] { sourceConfigure, outputConfigure });
         }

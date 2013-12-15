@@ -279,7 +279,7 @@ namespace Cogito.Web.UI.Razor
 
             return control.ClientID;
         }
-        
+
         /// <summary>
         /// Gets the defined sections.
         /// </summary>
@@ -335,8 +335,20 @@ namespace Cogito.Web.UI.Razor
     public abstract class RazorControlTemplate<TControl> :
         RazorControlTemplateInternal<TControl>,
         IRazorControlTemplate<TControl>
-        where TControl : System.Web.UI.Control
+        where TControl : Control
     {
+
+        readonly TControl control;
+
+        /// <summary>
+        /// Initializes a new instance.
+        /// </summary>
+        /// <param name="control"></param>
+        public RazorControlTemplate(TControl control)
+            : base()
+        {
+            this.control = control;
+        }
 
         /// <summary>
         /// Gets the type of control this template will render.
@@ -349,7 +361,10 @@ namespace Cogito.Web.UI.Razor
         /// <summary>
         /// Gets the control being rendered.
         /// </summary>
-        public new TControl Control { get; internal set; }
+        public new TControl Control
+        {
+            get { return control; }
+        }
 
         /// <summary>
         /// Gets the control being rendered.

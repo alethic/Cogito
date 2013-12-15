@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.Contracts;
 using System.Web.UI;
 
 using Cogito.Web.Razor;
@@ -9,7 +10,8 @@ namespace Cogito.Web.UI.Razor
     /// <summary>
     /// Simple template writer than invokes a delegate to write to a <see cref="HtmlWriter"/>.
     /// </summary>
-    public class HtmlHelperResult : HelperResult
+    public class HtmlHelperResult :
+        HelperResult
     {
 
         /// <summary>
@@ -19,7 +21,7 @@ namespace Cogito.Web.UI.Razor
         public HtmlHelperResult(Action<HtmlTextWriter> action)
             : base(w => action(w as HtmlTextWriter ?? new HtmlTextWriter(w)))
         {
-
+            Contract.Requires<ArgumentNullException>(action != null);
         }
 
         /// <summary>
@@ -28,6 +30,8 @@ namespace Cogito.Web.UI.Razor
         /// <param name="writer"></param>
         public void WriteTo(HtmlTextWriter writer)
         {
+            Contract.Requires<ArgumentNullException>(writer != null);
+
             base.WriteTo(writer);
         }
 

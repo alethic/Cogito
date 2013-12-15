@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Reflection;
 
@@ -21,7 +22,7 @@ namespace Cogito.Composition.Hosting
         public TypeCatalog(IEnumerable<Type> types)
             : base(types, new DefaultReflectionContext())
         {
-
+            Contract.Requires<ArgumentNullException>(types != null);
         }
 
         /// <summary>
@@ -31,7 +32,8 @@ namespace Cogito.Composition.Hosting
         public TypeCatalog(IEnumerable<Type> types, ReflectionContext reflectionContext)
             : base(types, new DefaultReflectionContext(reflectionContext))
         {
-
+            Contract.Requires<ArgumentNullException>(types != null);
+            Contract.Requires<ArgumentNullException>(reflectionContext != null);
         }
 
         /// <summary>
@@ -40,7 +42,7 @@ namespace Cogito.Composition.Hosting
         public TypeCatalog(params Type[] types)
             : this(types.AsEnumerable())
         {
-
+            Contract.Requires<ArgumentNullException>(types != null);
         }
 
         /// <summary>
@@ -50,7 +52,8 @@ namespace Cogito.Composition.Hosting
         public TypeCatalog(ReflectionContext reflectionContext, params Type[] types)
             : this(types.AsEnumerable(), reflectionContext)
         {
-
+            Contract.Requires<ArgumentNullException>(reflectionContext != null);
+            Contract.Requires<ArgumentNullException>(types != null);
         }
 
     }

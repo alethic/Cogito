@@ -14,17 +14,17 @@ namespace Cogito.Web
     /// Base <see cref="HttpApplication"/> implementation for the Web container framework. Ensures the container is
     /// initialized and that the Start phase is executed.
     /// </summary>
-    public class HttpApplication : 
+    public class HttpApplication :
         System.Web.HttpApplication
     {
 
-        readonly ICompositionContext compositionContext;
+        readonly ICompositionContext composition;
 
         /// <summary>
         /// Initializes a new instance.
         /// </summary>
         public HttpApplication()
-            : this(ContainerManager.GetDefaultContainer())
+            : this(WebContainerManager.GetDefaultContainer())
         {
 
         }
@@ -59,10 +59,8 @@ namespace Cogito.Web
         {
             Contract.Requires<ArgumentNullException>(composition != null);
 
-            this.compositionContext = composition;
-
-            // ensures the composition context is registered with the web framework
-            composition.GetExportedValue<ScopeManager>()
+            this.composition = composition;
+            this.composition.GetExportedValue<ScopeManager>()
                 .RegisterContext(typeof(IRootScope), composition);
         }
 
@@ -71,7 +69,7 @@ namespace Cogito.Web
         /// </summary>
         public ICompositionContext ApplicationCompositionContext
         {
-            get { return compositionContext; }
+            get { return composition; }
         }
 
         /// <summary>
@@ -88,18 +86,7 @@ namespace Cogito.Web
         /// <returns></returns>
         ICompositionContext GetRequestCompositionContext()
         {
-            // are we operating in a request?
-            var ctx = HttpContext.Current;
-            if (ctx == null)
-                return null;
-
-            // find existing context
-            var com = (ICompositionContext)ctx.Items[typeof(ICompositionContext)];
-            if (com != null)
-                return com;
-
-            // default to application level
-            return compositionContext;
+            return composition.GetOrBeginScope<IWebRequestScope>();
         }
 
         /// <summary>
@@ -113,10 +100,125 @@ namespace Cogito.Web
         /// <summary>
         /// Invoked when the application is started.
         /// </summary>
-        public virtual void OnStart()
+        protected virtual void OnStart()
         {
-            compositionContext.GetExportedValue<ILifecycleManager<IWebModule>>()
-                .Start();
+            composition.GetExportedValue<ILifecycleManager<IWebModule>>().Start();
+        }
+
+        /// <summary>
+        /// Invoked when the application is stopped.
+        /// </summary>
+        public void Application_Stop()
+        {
+            OnStop();
+        }
+
+        /// <summary>
+        /// Invoked when the application is stopped.
+        /// </summary>
+        protected virtual void OnStop()
+        {
+
+        }
+
+        /// <summary>
+        /// Invoked when an unhandled exception occurs.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
+        public void Application_Error(object sender, EventArgs args)
+        {
+            var e = Server.GetLastError();
+            if (e == null)
+                return;
+
+            if (HttpContext.Current != null &&
+                HttpContext.Current.Session != null)
+                HttpContext.Current.Session["LastError"] = e;
+
+            OnError(e);
+        }
+
+        /// <summary>
+        /// Invoked when an unhandled exception occurs.
+        /// </summary>
+        protected virtual void OnError(Exception e)
+        {
+
+        }
+
+        /// <summary>
+        /// Invoked when a request begins.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
+        public void Application_BeginRequest(object sender, EventArgs args)
+        {
+            OnBeginRequest();
+        }
+
+        /// <summary>
+        /// Invoked when a request begins.
+        /// </summary>
+        protected virtual void OnBeginRequest()
+        {
+
+        }
+
+        /// <summary>
+        /// Invoked when a request is authenticated.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
+        public void Application_AuthenticateRequest(object sender, EventArgs args)
+        {
+            OnAuthenticateRequest();
+        }
+
+        /// <summary>
+        /// Invoked when a request is authenticated.
+        /// </summary>
+        protected virtual void OnAuthenticateRequest()
+        {
+
+        }
+
+        /// <summary>
+        /// Invoked when a request ends.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
+        public void Application_EndRequest(object sender, EventArgs args)
+        {
+            OnEndRequest();
+        }
+
+        /// <summary>
+        /// Invoked when a request ends.
+        /// </summary>
+        protected virtual void OnEndRequest()
+        {
+
+        }
+
+        /// <summary>
+        /// Invoked when a session begins.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
+        public void Session_Start(object sender, EventArgs args)
+        {
+            OnSessionStart();
+        }
+
+        /// <summary>
+        /// Invoked when a session begins.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
+        protected virtual void OnSessionStart()
+        {
+
         }
 
     }

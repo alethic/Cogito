@@ -15,8 +15,6 @@ namespace Cogito.Composition.Hosting
     {
 
         readonly ComposablePartCatalog parent;
-        readonly HashSet<Type> scopes;
-        readonly HashSet<string> identities;
 
         /// <summary>
         /// Initializes a new instance.

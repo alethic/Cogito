@@ -10,7 +10,8 @@ namespace Cogito.Composition
 {
 
     [ContractClassFor(typeof(ICompositionContext))]
-    abstract class ICompositionContext_Contract : ICompositionContext
+    abstract class ICompositionContext_Contract :
+        ICompositionContext
     {
 
         public CompositionContainer AsContainer()
@@ -325,7 +326,8 @@ namespace Cogito.Composition
     /// Provides an abstraction around the MEF composition container, exposing convenience methods to parts. 
     /// </summary>
     [ContractClass(typeof(ICompositionContext_Contract))]
-    public interface ICompositionContext : IDisposable
+    public interface ICompositionContext :
+        IDisposable
     {
 
         /// <summary>

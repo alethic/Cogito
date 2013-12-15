@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Linq;
-using System.Text;
-using Cogito.Linq;
-using System.Threading.Tasks;
 using System.Web.UI;
+
+using Cogito.Linq;
 
 namespace Cogito.Web.UI
 {
@@ -22,6 +21,8 @@ namespace Cogito.Web.UI
         /// <returns></returns>
         public static ResourceManager GetResourceManager(this Page page)
         {
+            Contract.Requires<ArgumentNullException>(page != null);
+
             return page.Controls
                 .Cast<Control>()
                 .Recurse(i => i.Controls.Cast<Control>())

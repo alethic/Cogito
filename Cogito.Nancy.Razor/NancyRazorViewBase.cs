@@ -4,9 +4,10 @@ using System.ComponentModel.Composition;
 using System.Globalization;
 using System.IO;
 using System.Text;
+
 using Cogito.Composition;
 using Cogito.Composition.Scoping;
-using Cogito.Composition.Web;
+using Cogito.Web;
 using Cogito.Web.Razor;
 
 using Nancy;

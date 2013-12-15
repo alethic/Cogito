@@ -40,6 +40,8 @@ namespace Cogito.Negotiation
         /// <returns></returns>
         public virtual IEnumerable<Neighbor> GetNeighbors(IOutputNegotiator negotiator)
         {
+            Contract.Requires<ArgumentNullException>(negotiator != null);
+
             return GetNeighbors(negotiator, GetNegotiators().OfType<ISourceNegotiator>());
         }
 

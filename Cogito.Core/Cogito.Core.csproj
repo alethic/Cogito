@@ -125,12 +125,15 @@
     <Compile Include="Collections\IPriorityQueue.cs" />
     <Compile Include="Collections\IQueue.cs" />
     <Compile Include="Collections\MergedDictionary.cs" />
+    <Compile Include="DisposableExtensions.cs" />
+    <Compile Include="IDisposable.cs" />
     <Compile Include="IO\BlockingStream.cs" />
     <Compile Include="Resources\AssemblyResourcePath.cs" />
     <Compile Include="Resources\AssemblyResourceBundleAttribute.cs" />
     <Compile Include="Resources\ResourceBundleAttribute.cs" />
     <Compile Include="Resources\ResourceBundleResourceProvider.cs" />
     <Compile Include="Resources\ResourceException.cs" />
+    <Compile Include="Resources\ResourceBundleNotFoundException.cs" />
     <Compile Include="Resources\ResourceNotFoundException.cs" />
     <Compile Include="TextMediaTypeProvider.cs" />
     <Compile Include="ImageMediaTypeProvider.cs" />

@@ -13,7 +13,7 @@ namespace Cogito.Web.UI
     {
 
         /// <summary>
-        /// Gets or adds a <see cref="CogitoControl"/> to the <see cref="ControlCollection"/>.
+        /// Gets or adds a <see cref="Control"/> to the <see cref="ControlCollection"/>.
         /// </summary>
         /// <typeparam name="TControl"></typeparam>
         /// <param name="controls"></param>
@@ -21,7 +21,7 @@ namespace Cogito.Web.UI
         /// <param name="create"></param>
         /// <returns></returns>
         public static TControl GetOrAdd<TControl>(this ControlCollection controls, Predicate<TControl> predicate, Func<TControl> create)
-            where TControl : CogitoControl
+            where TControl : Control
         {
             Contract.Requires<ArgumentNullException>(controls != null);
             Contract.Requires<ArgumentNullException>(predicate != null);
@@ -41,14 +41,14 @@ namespace Cogito.Web.UI
         }
 
         /// <summary>
-        /// Gets or adds a new <see cref="CogitoControl"/> to the <see cref="ControlCollection"/>.
+        /// Gets or adds a new <see cref="Control"/> to the <see cref="ControlCollection"/>.
         /// </summary>
         /// <typeparam name="TControl"></typeparam>
         /// <param name="controls"></param>
         /// <param name="predicate"></param>
         /// <returns></returns>
         public static TControl GetOrAdd<TControl>(this ControlCollection controls, Predicate<TControl> predicate)
-            where TControl : CogitoControl, new()
+            where TControl : Control, new()
         {
             Contract.Requires<ArgumentNullException>(controls != null);
             Contract.Requires<ArgumentNullException>(predicate != null);
@@ -57,14 +57,14 @@ namespace Cogito.Web.UI
         }
 
         /// <summary>
-        /// Gets or adds a <see cref="CogitoControl"/> to the <see cref="ControlCollection"/>.
+        /// Gets or adds a <see cref="Control"/> to the <see cref="ControlCollection"/>.
         /// </summary>
         /// <typeparam name="TControl"></typeparam>
         /// <param name="controls"></param>
         /// <param name="create"></param>
         /// <returns></returns>
         public static TControl GetOrAdd<TControl>(this ControlCollection controls, Func<TControl> create)
-            where TControl : CogitoControl
+            where TControl : Control
         {
             Contract.Requires<ArgumentNullException>(controls != null);
             Contract.Requires<ArgumentNullException>(create != null);
@@ -79,7 +79,7 @@ namespace Cogito.Web.UI
         /// <param name="controls"></param>
         /// <returns></returns>
         public static TControl GetOrAdd<TControl>(this ControlCollection controls)
-            where TControl : CogitoControl, new()
+            where TControl : Control, new()
         {
             Contract.Requires<ArgumentNullException>(controls != null);
 

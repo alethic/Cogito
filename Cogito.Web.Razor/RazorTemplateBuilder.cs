@@ -10,13 +10,12 @@ using System.Reflection;
 using System.Text;
 using System.Web.Razor;
 using System.Web.Razor.Generator;
-
 using Cogito.CodeDom.Compiler;
 using Cogito.Collections;
 using Cogito.Linq;
 using Cogito.Reflection;
 using Cogito.Text;
-
+using Cogito.Web.Internal;
 using Microsoft.CSharp;
 
 namespace Cogito.Web.Razor
@@ -88,6 +87,45 @@ namespace Cogito.Web.Razor
             "System.Linq",
         };
 
+        /// <summary>
+        /// Loads all of the given <see cref="Assembly"/>s by name.
+        /// </summary>
+        /// <param name="assemblies"></param>
+        /// <returns></returns>
+        static IEnumerable<string> ToLocalPaths(IEnumerable<string> assemblies)
+        {
+            // transform assemblies to local paths
+            return assemblies
+                .Select(i => new Uri(i))
+                .Select(i => i.LocalPath)
+                .Distinct()
+                .OrderBy(i => i)
+                .Tee();
+        }
+
+        /// <summary>
+        /// Loads the set of <see cref="Assembly"/>s.
+        /// </summary>
+        /// <param name="assemblies"></param>
+        /// <returns></returns>
+        static IEnumerable<Assembly> ReflectionOnlyLoadAssemblies(IEnumerable<string> assemblies)
+        {
+            return ToLocalPaths(assemblies)
+                .Select(i => Assembly.ReflectionOnlyLoadFrom(i));
+        }
+
+        /// <summary>
+        /// Appends additional information to the code.
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="defaultNamespace"></param>
+        /// <param name="defaultClassName"></param>
+        /// <param name="defaultBaseClass"></param>
+        /// <param name="referencedAssemblies"></param>
+        /// <param name="importedNamespaces"></param>
+        /// <param name="innerTemplateType"></param>
+        /// <param name="host"></param>
+        /// <returns></returns>
         static string AugmentCodeCore(
             Func<TextReader> source,
             string defaultNamespace,
@@ -333,19 +371,23 @@ namespace Cogito.Web.Razor
         /// <param name="defaultNamespace"></param>
         /// <param name="defaultClassName"></param>
         /// <param name="defaultBaseClass"></param>
+        /// <param name="referencedAssemblies"></param>
         /// <param name="importedNamespaces"></param>
         /// <param name="innerTemplateType"></param>
+        /// <param name="host"></param>
         /// <returns></returns>
         static GeneratorResults RazorGenerate(
             Func<TextReader> source,
             string defaultNamespace,
             string defaultClassName,
             Type defaultBaseClass,
+            IEnumerable<string> referencedAssemblies,
             IEnumerable<string> importedNamespaces,
             Type innerTemplateType,
             RazorEngineHost host)
         {
             Contract.Requires<ArgumentNullException>(source != null);
+            Contract.Requires<ArgumentNullException>(referencedAssemblies != null);
             Contract.Requires<ArgumentNullException>(importedNamespaces != null);
             Contract.Requires<ArgumentNullException>(host != null);
             Contract.Ensures(Contract.Result<GeneratorResults>() != null);
@@ -366,6 +408,57 @@ namespace Cogito.Web.Razor
             if (result.ParserErrors.Count > 0)
                 throw new ParserErrorException(result, source());
 
+            // find generated type and imports
+            var typeDeclaration = result.GeneratedCode.Namespaces
+                .Cast<CodeNamespace>()
+                .Select(i => new
+                {
+                    Namespaces = i.Imports.Cast<CodeNamespaceImport>().Select(j => j.Namespace),
+                    Type = i.Types.Cast<CodeTypeDeclaration>().First(),
+                })
+                .FirstOrDefault();
+            if (typeDeclaration == null)
+                throw new NullReferenceException("Could not find generated type.");
+
+            // remove existing ctors
+            foreach (var ctor in typeDeclaration.Type.Members.OfType<CodeConstructor>().ToList())
+                typeDeclaration.Type.Members.Remove(ctor);
+
+            // extract current constructors, and base types
+            var bases = typeDeclaration.Type.BaseTypes.Cast<CodeTypeReference>().Select(i => i.BaseType);
+
+            // resolve base types for base class
+            var btype = bases
+                .Select(i => CSharpTypeNameResolver.ResolveType(
+                    i, 
+                    ReflectionOnlyLoadAssemblies(referencedAssemblies).ToList(), 
+                    typeDeclaration.Namespaces))
+                .Where(i => i.IsClass)
+                .FirstOrDefault();
+            if (btype == null)
+                throw new NullReferenceException("Cannot resolve base type.");
+
+            foreach (var bctor in btype.GetConstructors())
+            {
+                if (bctor.IsPublic ||
+                    bctor.IsFamily ||
+                    bctor.IsFamilyOrAssembly)
+                {
+                    // generate public ctor
+                    var ctor = new CodeConstructor();
+                    ctor.Attributes = (ctor.Attributes & ~MemberAttributes.AccessMask) | MemberAttributes.Public;
+                    typeDeclaration.Type.Members.Add(ctor);
+
+                    // populate parameters
+                    foreach (var p in bctor.GetParameters())
+                        ctor.Parameters.Add(new CodeParameterDeclarationExpression(p.ParameterType, p.Name));
+
+                    // invoke base parameters
+                    foreach (var p in bctor.GetParameters())
+                        ctor.BaseConstructorArgs.Add(new CodeArgumentReferenceExpression(p.Name));
+                }
+            }
+
             return result;
         }
 
@@ -376,19 +469,23 @@ namespace Cogito.Web.Razor
         /// <param name="defaultNamespace"></param>
         /// <param name="defaultClassName"></param>
         /// <param name="defaultBaseClass"></param>
+        /// <param name="referencedAssemblies"></param>
         /// <param name="importedNamespaces"></param>
         /// <param name="innerTemplateType"></param>
+        /// <param name="host"></param>
         /// <returns></returns>
         static CodeCompileUnit Generate(
             Func<TextReader> source,
             string defaultNamespace,
             string defaultClassName,
             Type defaultBaseClass,
+            IEnumerable<string> referencedAssemblies,
             IEnumerable<string> importedNamespaces,
             Type innerTemplateType,
             RazorEngineHost host)
         {
             Contract.Requires<ArgumentNullException>(source != null); ;
+            Contract.Requires<ArgumentNullException>(referencedAssemblies != null);
             Contract.Requires<ArgumentNullException>(importedNamespaces != null);
             Contract.Requires<ArgumentNullException>(host != null);
             Contract.Ensures(Contract.Result<CodeCompileUnit>() != null);
@@ -398,6 +495,7 @@ namespace Cogito.Web.Razor
                     defaultNamespace,
                     defaultClassName,
                     defaultBaseClass,
+                    referencedAssemblies,
                     importedNamespaces,
                     innerTemplateType,
                     host)
@@ -450,6 +548,7 @@ namespace Cogito.Web.Razor
                 defaultNamespace,
                 defaultClassName,
                 defaultBaseClass,
+                referencedAssemblies,
                 importedNamespaces,
                 innerTemplateType,
                 host);
@@ -526,17 +625,9 @@ namespace Cogito.Web.Razor
             Contract.Requires<ArgumentNullException>(referencedAssemblies != null);
             Contract.Ensures(Contract.Result<Assembly>() != null);
 
-            // transform assemblies to local paths
-            var assemblies = referencedAssemblies
-                .Select(i => new Uri(i))
-                .Select(i => i.LocalPath)
-                .Distinct()
-                .OrderBy(i => i)
-                .ToArray();
-
             // configure compiler and add additional references
             var outputAssemblyName = Path.GetTempPath() + Guid.NewGuid().ToString("N") + ".dll";
-            var compilerParameters = new CompilerParameters(assemblies, outputAssemblyName);
+            var compilerParameters = new CompilerParameters(ToLocalPaths(referencedAssemblies).ToArray(), outputAssemblyName);
             compilerParameters.GenerateInMemory = true;
 
 #if DEBUG
@@ -586,6 +677,7 @@ namespace Cogito.Web.Razor
                 defaultNamespace,
                 defaultClassName,
                 defaultBaseClass,
+                referencedAssemblies,
                 importedNamespaces,
                 innerTemplateType,
                 host);
