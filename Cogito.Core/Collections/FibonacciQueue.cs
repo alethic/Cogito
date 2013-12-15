@@ -21,7 +21,7 @@ namespace Cogito.Collections
         /// <returns></returns>
         public static Func<TKey, TValue> GetIndexer<TKey, TValue>(Dictionary<TKey, TValue> dictionary)
         {
-            Contract.Requires(dictionary != null);
+            Contract.Requires<ArgumentNullException>(dictionary != null);
             Contract.Ensures(Contract.Result<Func<TKey, TValue>>() != null);
 
             var method = dictionary.GetType().GetProperty("Item").GetGetMethod();
@@ -36,7 +36,8 @@ namespace Cogito.Collections
         /// Initializes a new instance.
         /// </summary>
         /// <param name="distances"></param>
-        public FibonacciQueue(Func<TVertex, TDistance> distances)
+        public FibonacciQueue(
+            Func<TVertex, TDistance> distances)
             : this(0, null, distances, Comparer<TDistance>.Default.Compare)
         {
             Contract.Requires<ArgumentNullException>(distances != null);
@@ -54,6 +55,8 @@ namespace Cogito.Collections
             Func<TVertex, TDistance> distances)
             : this(valueCount, values, distances, Comparer<TDistance>.Default.Compare)
         {
+            Contract.Requires<ArgumentOutOfRangeException>(valueCount >= 0);
+            Contract.Requires<ArgumentOutOfRangeException>(valueCount == 0 || (values != null && valueCount == Enumerable.Count(values)));
             Contract.Requires<ArgumentNullException>(distances != null);
         }
 
@@ -70,10 +73,10 @@ namespace Cogito.Collections
             Func<TVertex, TDistance> distances,
             Func<TDistance, TDistance, int> distanceComparison)
         {
-            Contract.Requires(valueCount >= 0);
-            Contract.Requires(valueCount == 0 || (values != null && valueCount == Enumerable.Count(values)));
-            Contract.Requires(distances != null);
-            Contract.Requires(distanceComparison != null);
+            Contract.Requires<ArgumentOutOfRangeException>(valueCount >= 0);
+            Contract.Requires<ArgumentOutOfRangeException>(valueCount == 0 || (values != null && valueCount == Enumerable.Count(values)));
+            Contract.Requires<ArgumentNullException>(distances != null);
+            Contract.Requires<ArgumentNullException>(distanceComparison != null);
 
             this.distances = distances;
             this.cells = new Dictionary<TVertex, FibonacciHeapCell<TDistance, TVertex>>(valueCount);
@@ -100,8 +103,8 @@ namespace Cogito.Collections
             Dictionary<TVertex, TDistance> values,
             Func<TDistance, TDistance, int> distanceComparison)
         {
-            Contract.Requires(values != null);
-            Contract.Requires(distanceComparison != null);
+            Contract.Requires<ArgumentNullException>(values != null);
+            Contract.Requires<ArgumentNullException>(distanceComparison != null);
 
             distances = GetIndexer(values);
             cells = new Dictionary<TVertex, FibonacciHeapCell<TDistance, TVertex>>(values.Count);
@@ -128,7 +131,7 @@ namespace Cogito.Collections
             Dictionary<TVertex, TDistance> values)
             : this(values, Comparer<TDistance>.Default.Compare)
         {
-
+            Contract.Requires<ArgumentNullException>(values != null);
         }
 
         #region IQueue<TVertex> Members

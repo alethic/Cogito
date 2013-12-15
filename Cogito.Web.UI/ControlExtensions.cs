@@ -27,6 +27,7 @@ namespace Cogito.Web.UI
             Contract.Requires<ArgumentNullException>(key != null);
 
             control.SetAttribute(key, value);
+
             return control;
         }
 
@@ -45,6 +46,7 @@ namespace Cogito.Web.UI
 
             foreach (var p in attribute.Parameters)
                 WithAttribute(control, p.Name, attribute.Compile()(control.GetAttribute(p.Name)));
+
             return control;
         }
 
@@ -58,8 +60,11 @@ namespace Cogito.Web.UI
         public static T WithClass<T>(this T control, string @class)
             where T : IAttributeAccessor
         {
+            Contract.Requires<ArgumentNullException>(control != null);
+
             if (!string.IsNullOrWhiteSpace(@class))
                 control.SetAttribute("class", (control.GetAttribute("class") + " " + @class).TrimEnd());
+
             return control;
         }
 
@@ -73,7 +78,11 @@ namespace Cogito.Web.UI
         public static T WithContent<T>(this T control, string value)
             where T : CogitoControl
         {
-            control.Controls.Add(new LiteralControl(value));
+            Contract.Requires<ArgumentNullException>(control != null);
+
+            if (!string.IsNullOrWhiteSpace(value))
+                control.Controls.Add(new LiteralControl(value));
+
             return control;
         }
 

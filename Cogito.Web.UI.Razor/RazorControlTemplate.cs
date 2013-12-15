@@ -4,6 +4,7 @@ using System.Diagnostics.Contracts;
 using System.IO;
 using System.Web;
 using System.Web.UI;
+
 using Cogito.Web.Razor;
 
 namespace Cogito.Web.UI.Razor
@@ -138,8 +139,8 @@ namespace Cogito.Web.UI.Razor
         /// <param name="value"></param>
         public override void WriteTo(TextWriter writer, object value)
         {
-            Contract.Requires<ArgumentNullException>(value != null);
-            Contract.Requires<InvalidOperationException>(CurrentWriter != null);
+            Contract.Assert(value != null);
+            Contract.Assert(CurrentWriter != null);
 
             if (value == null)
                 return;
@@ -173,8 +174,8 @@ namespace Cogito.Web.UI.Razor
         /// <param name="value"></param>
         public override void WriteLiteralTo(TextWriter writer, object value)
         {
-            Contract.Requires<ArgumentNullException>(value != null);
-            Contract.Requires<InvalidOperationException>(CurrentWriter != null);
+            Contract.Assert(value != null);
+            Contract.Assert(CurrentWriter != null);
 
             if (value == null)
                 return;

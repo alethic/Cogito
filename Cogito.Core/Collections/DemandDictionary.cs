@@ -65,7 +65,7 @@ namespace Cogito.Collections
         public DemandDictionary(TryFunc<TKey, TValue> getter, bool threadSafe)
             : this(getter, threadSafe ? (IDictionary<TKey, TValue>)new ConcurrentDictionary<TKey, TValue>() : new Dictionary<TKey, TValue>())
         {
-
+            Contract.Requires<ArgumentNullException>(getter != null);
         }
 
         /// <summary>
@@ -76,7 +76,7 @@ namespace Cogito.Collections
         public DemandDictionary(Func<TKey, TValue> getter, bool threadSafe)
             : this(TryFuncFunc(getter), threadSafe)
         {
-
+            Contract.Requires<ArgumentNullException>(getter != null);
         }
 
         /// <summary>
@@ -86,7 +86,7 @@ namespace Cogito.Collections
         public DemandDictionary(TryFunc<TKey, TValue> getter)
             : this(getter, false)
         {
-
+            Contract.Requires<ArgumentNullException>(getter != null);
         }
 
         /// <summary>
@@ -96,7 +96,7 @@ namespace Cogito.Collections
         public DemandDictionary(Func<TKey, TValue> getter)
             : this(TryFuncFunc(getter), false)
         {
-
+            Contract.Requires<ArgumentNullException>(getter != null);
         }
 
         /// <summary>
