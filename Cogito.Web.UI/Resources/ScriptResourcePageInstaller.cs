@@ -55,6 +55,8 @@ namespace Cogito.Web.UI.Resources
         /// <returns></returns>
         string GetResourceName(IResource resource)
         {
+            Contract.Requires<ArgumentNullException>(resource != null);
+
             var name = resource.Name;
             if (name.EndsWith(".js"))
                 name = name.RemoveEnd(".js");
