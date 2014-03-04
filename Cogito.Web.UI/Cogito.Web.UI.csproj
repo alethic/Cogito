@@ -112,11 +112,27 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Web" />
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Web.Extensions" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CogitoControl.cs" />
+    <Compile Include="ControlCollectionExtensions.cs" />
+    <Compile Include="ControlExtensions.cs" />
     <Compile Include="Internal\PageHandlerFactorySetup.cs" />
+    <Compile Include="Resources\ScriptResourceInstaller.cs" />
+    <Compile Include="VersionedBundleReference.cs" />
+    <Compile Include="PageExtensions.cs" />
     <Compile Include="PageHandlerFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ResourceManager.cs" />
+    <Compile Include="BundleReference.cs" />
+    <Compile Include="Resources\IResourceReferencePageInstaller.cs" />
+    <Compile Include="Resources\ResourceHttpHandler.cs" />
+    <Compile Include="Resources\StyleSheetResourceControl.cs" />
+    <Compile Include="Resources\ScriptResourceControl.cs" />
+    <Compile Include="Resources\StyleSheetResourcePageInstaller.cs" />
+    <Compile Include="Resources\ScriptResourcePageInstaller.cs" />
+    <Compile Include="Resources\StyleSheetManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Cogito.Application\Cogito.Application.csproj">
@@ -126,6 +142,14 @@
     <ProjectReference Include="..\Cogito.Composition\Cogito.Composition.csproj">
       <Project>{7bc455c8-108c-4b5a-bf25-f20eee0a8140}</Project>
       <Name>Cogito.Composition</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Cogito.Core\Cogito.Core.csproj">
+      <Project>{133c2d12-bda9-4806-ba0a-70ec83bec9bd}</Project>
+      <Name>Cogito.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Cogito.Web.Core\Cogito.Web.Core.csproj">
+      <Project>{d9186efa-c085-4877-9fdb-47c3c28bccf0}</Project>
+      <Name>Cogito.Web.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\Cogito.Web\Cogito.Web.csproj">
       <Project>{8c490862-8a00-4f54-9baf-3fb1c6c1d66d}</Project>

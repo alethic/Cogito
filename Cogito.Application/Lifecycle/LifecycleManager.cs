@@ -12,8 +12,8 @@ namespace Cogito.Application.Lifecycle
     /// Provides for execution of application lifecycle events.
     /// </summary>
     [Export(typeof(ILifecycleManager<>))]
-    public class LifecycleManager<T> : ILifecycleManager<T>
-        where T : class
+    public class LifecycleManager<T> : 
+        ILifecycleManager<T>
     {
 
         readonly ICompositionContext composition;

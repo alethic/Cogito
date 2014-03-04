@@ -5,7 +5,7 @@ namespace Cogito.Web.UI.Razor
 {
 
     /// <summary>
-    /// Provides methods to access protected properties of a <see cref="Control"/> from within a Razor template.
+    /// Provides methods to access protected properties of a <see cref="CogitoControl"/> from within a Razor template.
     /// </summary>
     public interface IRazorControlAccessor
     {

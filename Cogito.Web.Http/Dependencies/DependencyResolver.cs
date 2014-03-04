@@ -6,7 +6,6 @@ using System.Linq;
 using System.Web.Http.Dependencies;
 
 using Cogito.Composition;
-using Cogito.Composition.Web;
 
 namespace Cogito.Web.Http.Dependencies
 {

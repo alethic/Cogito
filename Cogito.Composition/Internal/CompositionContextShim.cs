@@ -308,8 +308,6 @@ namespace Cogito.Composition.Internal
         public ICompositionContext AddExportedValue<T>(T exportedValue)
             where T : class
         {
-            Contract.Requires<ArgumentNullException>(exportedValue != null);
-
             var b = new CompositionBatch();
             b.AddExportedValue<T>(exportedValue);
             container.Compose(b);

@@ -5,6 +5,7 @@ using System.ComponentModel.Composition.Primitives;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Reflection;
+
 using Cogito.Collections;
 using Cogito.Composition.Scoping;
 using Cogito.Linq;
@@ -16,7 +17,7 @@ namespace Cogito.Composition.Hosting
     /// Implements a scoped <see cref="CompositionContainer"/> using generics.
     /// </summary>
     /// <typeparam name="TScope"></typeparam>
-    public class CompositionScope<TScope> : 
+    public class CompositionScope<TScope> :
         CompositionScope
         where TScope : IScope
     {
@@ -36,7 +37,7 @@ namespace Cogito.Composition.Hosting
     /// <summary>
     /// Implements a scoped <see cref="CompositionContainer"/>.
     /// </summary>
-    public class CompositionScope : 
+    public class CompositionScope :
         CompositionContainerCore
     {
 
@@ -71,6 +72,8 @@ namespace Cogito.Composition.Hosting
             System.ComponentModel.Composition.Hosting.CompositionContainer parent)
             where TScope : IScope
         {
+            Contract.Requires<ArgumentNullException>(parent != null);
+
             return new CompositionScope<TScope>(parent);
         }
 

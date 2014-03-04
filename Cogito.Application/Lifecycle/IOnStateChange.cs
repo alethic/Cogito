@@ -5,7 +5,6 @@
     /// To be invoked when a lifecycle state changes.
     /// </summary>
     public interface IOnStateChange<T>
-        where T : class
     {
 
         /// <summary>

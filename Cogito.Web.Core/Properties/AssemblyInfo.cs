@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Cogito.Composition.Web")]
+[assembly: AssemblyTitle("Cogito.Web.Core")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Cogito.Composition.Web")]
+[assembly: AssemblyProduct("Cogito.Web.Core")]
 [assembly: AssemblyCopyright("Copyright ©  2013")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("f657892d-225d-4f1a-87c3-cd5ba2fec139")]
+[assembly: Guid("896b72f0-32da-4498-a59b-17cf633e02d8")]
 
 // Version information for an assembly consists of the following four values:
 //

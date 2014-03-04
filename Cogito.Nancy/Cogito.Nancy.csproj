@@ -106,9 +106,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Nancy.0.21.1\lib\net40\Nancy.dll</HintPath>
     </Reference>
-    <Reference Include="Nancy.Bootstrappers.Mef, Version=0.19.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Nancy.Bootstrappers.Mef, Version=0.23.1.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Nancy.Bootstrappers.Mef.0.19.0\lib\net45\Nancy.Bootstrappers.Mef.dll</HintPath>
+      <HintPath>..\packages\Nancy.Bootstrappers.Mef.0.23.1\lib\net45\Nancy.Bootstrappers.Mef.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
@@ -138,10 +138,6 @@
     <Compile Include="Responses\NotFoundResponse.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Cogito.Composition.Web\Cogito.Composition.Web.csproj">
-      <Project>{8c774089-78f9-49a3-b3d5-18f18a0782e2}</Project>
-      <Name>Cogito.Composition.Web</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Cogito.Composition\Cogito.Composition.csproj">
       <Project>{7bc455c8-108c-4b5a-bf25-f20eee0a8140}</Project>
       <Name>Cogito.Composition</Name>
@@ -153,6 +149,10 @@
     <ProjectReference Include="..\Cogito.Negotiation\Cogito.Negotiation.csproj">
       <Project>{dcf6aab4-f221-459f-9887-8a87cf2866dd}</Project>
       <Name>Cogito.Negotiation</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Cogito.Web.Core\Cogito.Web.Core.csproj">
+      <Project>{d9186efa-c085-4877-9fdb-47c3c28bccf0}</Project>
+      <Name>Cogito.Web.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

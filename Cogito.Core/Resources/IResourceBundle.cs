@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 
@@ -25,7 +26,7 @@ namespace Cogito.Resources
         /// <summary>
         /// Specifies the dependencies of this bundle.
         /// </summary>
-        IQueryable<Expression<Func<IResourceBundle, bool>>> Dependencies { get; }
+        IEnumerable<Expression<Func<IResourceBundle, bool>>> Dependencies { get; }
 
     }
 

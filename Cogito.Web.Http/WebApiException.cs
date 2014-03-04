@@ -1,9 +1,13 @@
-﻿using Cogito.Application;
+﻿using System;
+using System.Diagnostics.Contracts;
+
+using Cogito.Application;
 
 namespace Cogito.Web.Http
 {
 
-    public class WebApiException : ModuleException<IWebApiModule>
+    public class WebApiException :
+        ModuleException<IWebApiModule>
     {
 
         /// <summary>
@@ -14,7 +18,7 @@ namespace Cogito.Web.Http
         public WebApiException(IWebApiModule module)
             : base(module)
         {
-
+            Contract.Requires<ArgumentNullException>(module != null);
         }
 
         /// <summary>
@@ -25,7 +29,7 @@ namespace Cogito.Web.Http
         public WebApiException(IWebApiModule module, string message)
             : base(module)
         {
-
+            Contract.Requires<ArgumentNullException>(module != null);
         }
 
     }

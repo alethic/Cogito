@@ -4,8 +4,8 @@ using System.ComponentModel.Composition.Registration;
 using System.Reflection;
 
 using Cogito.Composition.Hosting;
-using Cogito.Composition.Web;
 using Cogito.Linq;
+using Cogito.Web;
 
 namespace Cogito.Nancy.Razor
 {

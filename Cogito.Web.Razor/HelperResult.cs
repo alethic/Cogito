@@ -9,7 +9,8 @@ namespace Cogito.Web.Razor
     /// <summary>
     /// Encapsulated result of a helper invocation.
     /// </summary>
-    public class HelperResult : IHtmlString
+    public class HelperResult : 
+        IHtmlString
     {
 
         readonly Action<TextWriter> action;

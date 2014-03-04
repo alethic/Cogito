@@ -3,7 +3,11 @@
 namespace Cogito.Web.Configuration
 {
 
-    public class CompositionElement : System.Configuration.ConfigurationElement
+    /// <summary>
+    /// Describes the configuration of the composition framework with regards to a web application.
+    /// </summary>
+    public class CompositionElement : 
+        System.Configuration.ConfigurationElement
     {
 
         /// <summary>

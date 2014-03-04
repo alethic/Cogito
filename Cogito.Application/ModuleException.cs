@@ -8,7 +8,8 @@ namespace Cogito.Application
     /// Exception specific to a module.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class ModuleException<T> : Exception
+    public class ModuleException<T> : 
+        Exception
         where T : IModule
     {
 

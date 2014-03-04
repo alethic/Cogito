@@ -10,7 +10,7 @@ namespace Cogito.IO
     public class LineReader : TextReader
     {
 
-        IEnumerator<string> iterator;
+        readonly IEnumerator<string> iterator;
 
         string current;
         StringReader line;

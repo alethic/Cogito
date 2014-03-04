@@ -5,7 +5,8 @@ namespace Cogito.Application.Lifecycle
 {
 
     [AttributeUsage(AttributeTargets.Class)]
-    public class ModuleAttribute : ExportAttribute
+    public class ModuleAttribute : 
+        ExportAttribute
     {
 
         /// <summary>

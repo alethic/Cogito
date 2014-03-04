@@ -2,8 +2,8 @@
 using System.Linq;
 
 using Cogito.Composition.Scoping;
-using Cogito.Composition.Web;
 using Cogito.Resources;
+using Cogito.Web;
 
 using Nancy;
 
