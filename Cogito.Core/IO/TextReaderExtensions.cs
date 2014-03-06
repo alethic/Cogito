@@ -12,7 +12,7 @@ namespace Cogito.IO
         /// </summary>
         /// <param name="self"></param>
         /// <returns></returns>
-        public static IEnumerable<string> ReadAllLines(this TextReader self)
+        public static IEnumerable<string> ReadLines(this TextReader self)
         {
             string line;
             while ((line = self.ReadLine()) != null)

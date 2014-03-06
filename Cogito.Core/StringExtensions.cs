@@ -98,6 +98,19 @@ namespace Cogito
             return self;
         }
 
+        /// <summary>
+        /// Gets the leftmost portion of the string up to the count.
+        /// </summary>
+        /// <param name="self"></param>
+        /// <param name="count"></param>
+        /// <returns></returns>
+        public static string Left(this string self, int count)
+        {
+            Contract.Requires<ArgumentNullException>(self != null);
+
+            return self.Substring(0, Math.Min(self.Length, count));
+        }
+
     }
 
 }

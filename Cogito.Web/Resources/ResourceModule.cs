@@ -1,9 +1,11 @@
 ﻿using System;
-using System.Web;
-using System.Linq;
-using Cogito.Resources;
-using Microsoft.Web.Infrastructure.DynamicModuleHelper;
 using System.IO;
+using System.Linq;
+using System.Web;
+
+using Cogito.Resources;
+
+using Microsoft.Web.Infrastructure.DynamicModuleHelper;
 
 [assembly: PreApplicationStartMethod(typeof(Cogito.Web.Resources.ResourceModule), "Start")]
 

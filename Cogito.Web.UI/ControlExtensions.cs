@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq.Expressions;
 using System.Web.UI;
@@ -11,6 +12,22 @@ namespace Cogito.Web.UI
     /// </summary>
     public static class ControlExtensions
     {
+
+        /// <summary>
+        /// Traverses from this control downward.
+        /// </summary>
+        /// <param name="control"></param>
+        /// <returns></returns>
+        public static IEnumerable<Control> Traverse(this Control control)
+        {
+            Contract.Requires<ArgumentNullException>(control != null);
+
+            yield return control;
+
+            foreach (Control _ in control.Controls)
+                foreach (Control __ in Traverse(_))
+                    yield return __;
+        }
 
         /// <summary>
         /// Sets the given attribute and attribute value on the <see cref="Control"/>.
@@ -76,7 +93,7 @@ namespace Cogito.Web.UI
         /// <param name="value"></param>
         /// <returns></returns>
         public static T WithContent<T>(this T control, string value)
-            where T : CogitoControl
+            where T : Control
         {
             Contract.Requires<ArgumentNullException>(control != null);
 

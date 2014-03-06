@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Cogito.Web.UI.Resources
+﻿namespace Cogito.Web.UI.Resources
 {
 
     class ScriptResourceInstaller
     {
+
+
+
     }
 
 }

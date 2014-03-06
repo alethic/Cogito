@@ -1,4 +1,7 @@
-﻿using Cogito.Application;
+﻿using System;
+using System.Diagnostics.Contracts;
+
+using Cogito.Application;
 
 namespace Cogito.Web
 {
@@ -16,7 +19,7 @@ namespace Cogito.Web
         public WebException(IWebModule module)
             : base(module)
         {
-
+            Contract.Requires<ArgumentNullException>(module != null);
         }
 
         /// <summary>
@@ -27,7 +30,7 @@ namespace Cogito.Web
         public WebException(IWebModule module, string message)
             : base(module)
         {
-
+            Contract.Requires<ArgumentNullException>(module != null);
         }
 
     }

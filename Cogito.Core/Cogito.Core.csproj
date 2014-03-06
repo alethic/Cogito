@@ -124,6 +124,7 @@
     <Compile Include="Collections\HeapDirection.cs" />
     <Compile Include="Collections\IPriorityQueue.cs" />
     <Compile Include="Collections\IQueue.cs" />
+    <Compile Include="Collections\LinkedListExtensions.cs" />
     <Compile Include="Collections\MergedDictionary.cs" />
     <Compile Include="DisposableExtensions.cs" />
     <Compile Include="IDisposable.cs" />

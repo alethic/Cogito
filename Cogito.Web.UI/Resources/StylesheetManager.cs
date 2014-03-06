@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Diagnostics.Contracts;
-using System.Web.UI;
 
 namespace Cogito.Web.UI.Resources
 {
