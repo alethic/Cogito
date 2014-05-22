@@ -93,7 +93,9 @@ namespace Cogito.Web.Resources
                 s.CopyTo(http.Response.OutputStream);
                 http.Response.StatusCode = 200;
                 http.Response.ContentType = r.ContentType;
-                http.Response.End();
+                http.Response.Flush();
+                http.Response.SuppressContent = true;
+                http.ApplicationInstance.CompleteRequest();
             }
         }
 
