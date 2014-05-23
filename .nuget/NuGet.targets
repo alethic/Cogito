@@ -110,12 +110,7 @@
     </Target>
 
     <Target Name="BuildPackage" DependsOnTargets="CheckPrerequisites">
-        <Exec Command="$(BuildCommand)" 
-              Condition=" '$(OS)' != 'Windows_NT' " />
-              
-        <Exec Command="$(BuildCommand)"
-              LogStandardErrorAsError="true"
-              Condition=" '$(OS)' == 'Windows_NT' " />
+       
     </Target>
     
     <Target Name="CleanPackage" DependsOnTargets="CheckPrerequisites">
