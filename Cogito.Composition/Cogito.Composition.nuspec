@@ -14,10 +14,6 @@
         <copyright>Jerome Haltom</copyright>
         <licenseUrl>https://raw.github.com/wasabii/Cogito/master/LICENSE</licenseUrl>
         <projectUrl>https://github.com/wasabii/Cogito</projectUrl>
-        <references>
-            <reference 
-                file="$id$.dll" />
-        </references>
         <tags>mef</tags>
     </metadata>
 </package>
