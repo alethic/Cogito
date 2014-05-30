@@ -18,7 +18,7 @@
     <FodyPath>..\..\packages\Fody.1.17.4.0</FodyPath>
     <RestorePackages>true</RestorePackages>
     <TargetFrameworkProfile />
-    <NuGetPackageImportStamp>a7a0ff35</NuGetPackageImportStamp>
+    <NuGetPackageImportStamp>9ce3b016</NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>

@@ -17,7 +17,7 @@
     <RestorePackages>true</RestorePackages>
     <NuSpecFile>Cogito.Web.nuspec</NuSpecFile>
     <FodyPath>..\..\packages\Fody.1.17.4.0</FodyPath>
-    <NuGetPackageImportStamp>83bae447</NuGetPackageImportStamp>
+    <NuGetPackageImportStamp>f1b8a922</NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
