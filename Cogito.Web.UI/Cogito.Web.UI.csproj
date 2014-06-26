@@ -120,6 +120,7 @@
     <Compile Include="ControlExtensions.cs" />
     <Compile Include="Internal\PageHandlerFactorySetup.cs" />
     <Compile Include="Resources\ScriptResourceInstaller.cs" />
+    <Compile Include="Resources\ScriptResourceBundleReference.cs" />
     <Compile Include="VersionedBundleReference.cs" />
     <Compile Include="PageExtensions.cs" />
     <Compile Include="PageHandlerFactory.cs" />
