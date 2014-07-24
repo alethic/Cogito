@@ -214,8 +214,6 @@ namespace Cogito.Web
         /// <summary>
         /// Invoked when a session begins.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="args"></param>
         protected virtual void OnSessionStart()
         {
 
