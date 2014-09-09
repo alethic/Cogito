@@ -11,8 +11,8 @@ namespace Cogito.Collections
     public class MergedDictionary<TKey, TValue> : IDictionary<TKey, TValue>
     {
 
-        IDictionary<TKey, TValue> prev;
-        IDictionary<TKey, TValue> self;
+        readonly IDictionary<TKey, TValue> prev;
+        readonly IDictionary<TKey, TValue> self;
 
         /// <summary>
         /// Initializes a new instance.
