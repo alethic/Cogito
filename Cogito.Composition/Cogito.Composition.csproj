@@ -138,6 +138,7 @@
     <Compile Include="Hosting\ApplicationCatalog.cs" />
     <Compile Include="Hosting\DynamicFilteredCatalog.cs" />
     <Compile Include="InheritedPartCreationPolicyAttribute.cs" />
+    <Compile Include="ITypeResolver.cs" />
     <Compile Include="Reflection\DefaultReflectionContext.cs" />
     <Compile Include="Reflection\InheritedPartCreationPolicyReflectionContext.cs" />
     <Compile Include="Services\CatalogInstaller.cs" />
@@ -198,6 +199,7 @@
     <Compile Include="ImportChangedEventArgs.cs" />
     <Compile Include="ImportCollectionChangedEventArgs.cs" />
     <Compile Include="Scoping\ScopeManager.cs" />
+    <Compile Include="TypeResolver.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Cogito.Composition.nuspec" />
