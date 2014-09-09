@@ -120,6 +120,8 @@
       <Name>Cogito.Core</Name>
     </ProjectReference>
   </ItemGroup>
+    <Import Project="$(ProjectDir)\..\.nuget\NuGet.targets"
+            Condition="Exists('$(ProjectDir)\..\.nuget\NuGet.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
