@@ -67,13 +67,8 @@ namespace Cogito.Composition.Reflection
         /// <returns></returns>
         IEnumerable<object> GetMetadataAttributes(Type type)
         {
-            var name = type.Name;
-
-            // obtain all boundary attributes and generate part metadata
-            return type.UnderlyingSystemType
-                .GetCustomAttributes<PartScopeAttribute>(true)
-                .Select(i => i.ScopeType)
-                .Select(i => new PartMetadataAttribute(CompositionConstants.RequiredScopeMetadataName, AttributedModelServices.GetTypeIdentity(i)));
+            foreach (var i in type.UnderlyingSystemType.GetCustomAttributes<PartScopeAttribute>(true))
+                yield return new PartMetadataAttribute(CompositionConstants.ScopeMetadataKey, i);
         }
 
     }

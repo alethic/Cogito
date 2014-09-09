@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel.Composition;
 using System.ComponentModel.Composition.Primitives;
+
 using Cogito.Composition.Services;
 
 namespace Cogito.Composition.Hosting

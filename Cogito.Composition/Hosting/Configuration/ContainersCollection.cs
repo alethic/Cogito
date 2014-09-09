@@ -4,7 +4,8 @@ namespace Cogito.Composition.Hosting.Configuration
 {
 
     [ConfigurationCollection(typeof(ContainerElement))]
-    public class ContainersCollection : System.Configuration.ConfigurationElementCollection
+    public class ContainersCollection : 
+        System.Configuration.ConfigurationElementCollection
     {
 
         protected override ConfigurationElement CreateNewElement()

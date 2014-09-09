@@ -17,7 +17,9 @@ namespace Cogito.Composition.Hosting
     /// Retrieves exports provided by a collection of <see cref="ExportProvider" /> objects. Unlike the system provided
     /// export provider, this one supports addition of new export providers at runtime.
     /// </summary>
-    public class AggregateExportProvider : ExportProvider, IDisposable
+    public class AggregateExportProvider : 
+        ExportProvider,
+        IDisposable
     {
 
         readonly ExportProviderCollection providers;

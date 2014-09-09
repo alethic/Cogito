@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition.Hosting;
 using System.ComponentModel.Composition.Primitives;
 using System.Diagnostics.Contracts;
+
 using Cogito.Composition.Services;
 
 namespace Cogito.Composition.Hosting
@@ -121,7 +122,7 @@ namespace Cogito.Composition.Hosting
         protected override bool PartFilter(ComposablePartDefinition definition)
         {
             // root container only supports parts with no defined scope
-            return !definition.Metadata.ContainsKey(CompositionConstants.RequiredScopeMetadataName);
+            return !definition.Metadata.ContainsKey(CompositionConstants.ScopeMetadataKey);
         }
 
         protected void OnInit()

@@ -132,8 +132,8 @@
     <Compile Include="ExportProviderExtensions.cs" />
     <Compile Include="Hosting\CatalogService.cs" />
     <Compile Include="Hosting\InitImportCollection.cs" />
+    <Compile Include="Hosting\RootScopeCatalog.cs" />
     <Compile Include="Hosting\ScopeCatalog.cs" />
-    <Compile Include="Hosting\ScopedPartDefinition.cs" />
     <Compile Include="Hosting\TypeCatalog.cs" />
     <Compile Include="Hosting\ApplicationCatalog.cs" />
     <Compile Include="Hosting\DynamicFilteredCatalog.cs" />

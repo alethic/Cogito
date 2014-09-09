@@ -9,7 +9,8 @@ namespace Cogito.Composition.Hosting.Configuration
     /// Describes a named <see cref="CompositionContainer"/>. The body of this element should be a XAML instance of a 
     /// <see cref="CompositionContainer"/>.
     /// </summary>
-    public class ContainerElement : ConfigurationElement
+    public class ContainerElement : 
+        ConfigurationElement
     {
 
         XElement xaml;

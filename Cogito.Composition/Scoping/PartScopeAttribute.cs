@@ -8,7 +8,8 @@ namespace Cogito.Composition.Scoping
     /// Marks a part as requiring a container supporting the specified scope.
     /// </summary>
     [AttributeUsage(AttributeTargets.Class, Inherited = true, AllowMultiple = true)]
-    public class PartScopeAttribute : Attribute
+    public class PartScopeAttribute : 
+        Attribute
     {
 
         readonly Type scopeType;
@@ -32,7 +33,7 @@ namespace Cogito.Composition.Scoping
         /// </summary>
         /// <param name="scopeType"></param>
         public PartScopeAttribute(Type scopeType)
-            : this(scopeType, Visibility.Global)
+            : this(scopeType, Visibility.Inherit)
         {
 
         }

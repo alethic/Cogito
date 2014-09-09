@@ -49,7 +49,7 @@ namespace Cogito.Composition.Scoping
         /// </summary>
         /// <param name="scopeType"></param>
         public ScopedExportAttribute(Type contractType, Type scopeType)
-            : this(contractType, scopeType, Visibility.Global)
+            : this(contractType, scopeType, Visibility.Inherit)
         {
             Contract.Requires<ArgumentNullException>(contractType != null);
             Contract.Requires<ArgumentNullException>(scopeType != null);

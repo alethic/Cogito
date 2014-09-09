@@ -3,7 +3,8 @@
 namespace Cogito.Composition.Hosting.Configuration
 {
 
-    public class ConfigurationSection : System.Configuration.ConfigurationSection
+    public class ConfigurationSection : 
+        System.Configuration.ConfigurationSection
     {
 
         /// <summary>
