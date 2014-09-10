@@ -9,7 +9,7 @@ namespace Cogito.Web
     public interface IWebRequestScope :
         IScope,
         ITransactionScope,
-        IUserIdentityScope
+        IIdentityScope
     {
 
 

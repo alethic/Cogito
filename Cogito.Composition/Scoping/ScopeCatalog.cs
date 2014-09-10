@@ -3,39 +3,18 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition.Primitives;
 using System.Diagnostics.Contracts;
 using System.Linq;
-
 using Cogito.Collections;
-using Cogito.Composition.Scoping;
+using Cogito.Composition.Hosting;
 using Cogito.Linq;
 
-namespace Cogito.Composition.Hosting
+namespace Cogito.Composition.Scoping
 {
-
-    /// <summary>
-    /// Filters the underlying catalog for exports available in the specified scope.
-    /// </summary>
-    /// <typeparam name="TScope"></typeparam>
-    public class ScopeCatalog<TScope> :
-        ScopeCatalog
-    {
-
-        /// <summary>
-        /// Initializes a new instance.
-        /// </summary>
-        /// <param name="parent"></param>
-        public ScopeCatalog(ComposablePartCatalog parent)
-            : base(parent)
-        {
-            IncludeScope(typeof(TScope));
-        }
-
-    }
 
     /// <summary>
     /// Implements a <see cref="ComposablePartCatalog"/> that exposes parts from the given parent <see
     /// cref="ComposablePartCatalog"/> that are within one of the supported scopes.
     /// </summary>
-    public abstract class ScopeCatalog :
+    public class ScopeCatalog :
         ComposablePartCatalog
     {
 
@@ -51,6 +30,21 @@ namespace Cogito.Composition.Hosting
             Contract.Requires<ArgumentNullException>(parent != null);
 
             this.parent = parent;
+            this.scopes = new HashSet<Type>();
+        }
+
+        /// <summary>
+        /// Initializes a new instance.
+        /// </summary>
+        /// <param name="parent"></param>
+        /// <param name="scopes"></param>
+        public ScopeCatalog(ComposablePartCatalog parent, params Type[] scopes)
+            : this(parent)
+        {
+            // include all specified scopes
+            if (scopes != null)
+                foreach (var scope in scopes)
+                    IncludeScope(scope);
         }
 
         /// <summary>
@@ -110,7 +104,11 @@ namespace Cogito.Composition.Hosting
         {
             Contract.Requires<ArgumentNullException>(definition != null);
 
-            return scopes.Any() ? GetScopes(definition).Any(i => scopes.Contains(i.ScopeType)) : !GetScopes(definition).Any();
+            // if limited to scopes, filter by scope; else only return objects with no scope
+            return
+                GetScopes(definition).Any() == false && scopes.Count == 0 || // part is only available to root scope, and this is an unscoped catalog
+                GetScopes(definition).Contains(typeof(IEveryScope)) || // part is available to all scopes
+                GetScopes(definition).Any(i => scopes.Contains(i)); // part is only available to specified scopes;
         }
 
         /// <summary>
@@ -118,9 +116,9 @@ namespace Cogito.Composition.Hosting
         /// </summary>
         /// <param name="definition"></param>
         /// <returns></returns>
-        IEnumerable<PartScopeAttribute> GetScopes(ComposablePartDefinition definition)
+        IEnumerable<Type> GetScopes(ComposablePartDefinition definition)
         {
-            return (IEnumerable<PartScopeAttribute>)definition.Metadata.GetOrDefault(CompositionConstants.ScopeMetadataKey);
+            return (IEnumerable<Type>)definition.Metadata.GetOrDefault(CompositionConstants.ScopeMetadataKey);
         }
 
     }

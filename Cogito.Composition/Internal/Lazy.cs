@@ -1,5 +1,4 @@
-﻿
-namespace Cogito.Composition.Internal
+﻿namespace Cogito.Composition.Internal
 {
 
     /// <summary>

@@ -7,8 +7,7 @@ namespace Cogito.Composition.Services
     /// <summary>
     /// Allows access to the currently registered catalogs.
     /// </summary>
-    public interface ICatalogService :
-        IEnumerable<ComposablePartCatalog>
+    public interface ICatalogService
     {
 
         /// <summary>

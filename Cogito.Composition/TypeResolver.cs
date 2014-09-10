@@ -4,24 +4,32 @@ using System.ComponentModel.Composition;
 using System.ComponentModel.Composition.Primitives;
 using System.Linq;
 
+using Cogito.Composition.Hosting;
+using Cogito.Composition.Scoping;
+
 namespace Cogito.Composition
 {
 
+    /// <summary>
+    /// Default <see cref="ITypeResolver"/> implementation.
+    /// </summary>
+    [PartMetadata(CompositionConstants.ScopeMetadataKey, typeof(IEveryScope))]
     [Export(typeof(ITypeResolver))]
+    [ExportMetadata(CompositionConstants.VisibilityMetadataKey, Visibility.Local)]
     public class TypeResolver :
         ITypeResolver
     {
 
-        readonly ICompositionContext context;
+        readonly CompositionContainerRef container;
 
         /// <summary>
         /// Initializes a new instance.
         /// </summary>
         /// <param name="container"></param>
         [ImportingConstructor]
-        public TypeResolver(ICompositionContext context)
+        public TypeResolver(CompositionContainerRef container)
         {
-            this.context = context;
+            this.container = container;
         }
 
         public T Resolve<T>()
@@ -55,7 +63,7 @@ namespace Cogito.Composition
 
         public IEnumerable<Lazy<T, IDictionary<string, object>>> ResolveManyLazy<T>()
         {
-            return context.GetExports(new ContractBasedImportDefinition(
+            return container.Container.GetExports(new ContractBasedImportDefinition(
                     AttributedModelServices.GetContractName(typeof(T)),
                     AttributedModelServices.GetTypeIdentity(typeof(T)),
                     null,
@@ -74,7 +82,7 @@ namespace Cogito.Composition
 
         public IEnumerable<Lazy<object, IDictionary<string, object>>> ResolveManyLazy(Type type)
         {
-            return context.GetExports(new ContractBasedImportDefinition(
+            return container.Container.GetExports(new ContractBasedImportDefinition(
                     AttributedModelServices.GetContractName(type),
                     AttributedModelServices.GetTypeIdentity(type),
                     null,

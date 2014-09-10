@@ -15,7 +15,7 @@ namespace Cogito.Web.Internal
         /// Gets the composition context registered with the web application.
         /// </summary>
         /// <returns></returns>
-        public ICompositionContext GetScope()
+        public ICompositionContext Resolve()
         {
             return WebContainerManager.GetApplicationScope();
         }

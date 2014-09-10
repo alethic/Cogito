@@ -4,7 +4,7 @@
     /// <summary>
     /// Scope represents a transaction boundary. When the scope ends, so does a transaction.
     /// </summary>
-    public interface ITransactionScope : IScope
+    public interface ITransactionScope
     {
 
 

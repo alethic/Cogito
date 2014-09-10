@@ -1,40 +1,26 @@
-﻿using System.ComponentModel.Composition;
+﻿using System.ComponentModel.Composition.Hosting;
 
 namespace Cogito.Composition.Scoping
 {
 
     /// <summary>
-    /// Provides registration for known scopes.
+    /// Manages a scope container.
     /// </summary>
-    /// <typeparam name="TScope"></typeparam>
-    [InheritedExport(typeof(IScopeRegistrar<>))]
-    public interface IScopeRegistrar<TScope> :
-        IScopeRegistrar
-    {
-
-
-
-    }
-
-    /// <summary>
-    /// Provides registration for known scopes.
-    /// </summary>
-    /// <typeparam name="TScope"></typeparam>
     public interface IScopeRegistrar
     {
 
         /// <summary>
-        /// Finds a composition context for the current scope of the proper type.
+        /// Finds a container for the scope.
         /// </summary>
         /// <returns></returns>
-        ICompositionContext GetScope();
+        CompositionContainer Resolve();
 
         /// <summary>
-        /// Sets a new scope of the proper type.
+        /// Sets a container for the scope.
         /// </summary>
         /// <param name="context"></param>
         /// <returns></returns>
-        void RegisterScope(ICompositionContext context);
+        void Register(CompositionContainer context);
 
     }
 

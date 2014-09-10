@@ -15,7 +15,7 @@ namespace Cogito.Web.Internal
         /// Gets the existing request context.
         /// </summary>
         /// <returns></returns>
-        public ICompositionContext GetScope()
+        public ICompositionContext Resolve()
         {
             return WebContainerManager.GetRequestScope();
         }

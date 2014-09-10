@@ -2,10 +2,9 @@
 {
 
     /// <summary>
-    /// Describes an unscoped container.
+    /// Provides methods for interacting with scopes.
     /// </summary>
-    public interface IRootScope :
-        IScope
+    public interface IScopeService
     {
 
 

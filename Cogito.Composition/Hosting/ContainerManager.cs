@@ -75,7 +75,7 @@ namespace Cogito.Composition.Hosting
             return
                 defaultContainer ??
                 (defaultContainer = GetContainer(defaultContainerName)) ??
-                (defaultContainer = new CompositionContainer(new ApplicationCatalog()));
+                (defaultContainer = new DefaultCompositionContainer());
         }
 
     }

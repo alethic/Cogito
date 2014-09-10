@@ -8,6 +8,7 @@
     {
 
         public const string ScopeMetadataKey = "Cogito.Composition.Scope";
+        public const string VisibilityMetadataKey = "Cogito.Composition.Visibility";
 
     }
 
