@@ -129,10 +129,10 @@
   <ItemGroup>
     <Compile Include="ExportProviderExtensions.cs" />
     <Compile Include="Hosting\CompositionContainer.cs" />
-    <Compile Include="Hosting\CompositionContainerExport.cs" />
-    <Compile Include="Hosting\CompositionContainerProvider.cs" />
+    <Compile Include="Hosting\ContainerExport.cs" />
+    <Compile Include="Hosting\ContainerProvider.cs" />
     <Compile Include="Hosting\DefaultCompositionContainer.cs" />
-    <Compile Include="Hosting\IContainerRef.cs" />
+    <Compile Include="Hosting\IContainerProvider.cs" />
     <Compile Include="Hosting\InitImportCollection.cs" />
     <Compile Include="Scoping\IScopeTypeResolver.cs" />
     <Compile Include="Scoping\IScopeService.cs" />

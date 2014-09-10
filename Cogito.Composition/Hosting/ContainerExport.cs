@@ -6,7 +6,7 @@ namespace Cogito.Composition.Hosting
     /// <summary>
     /// Exports the <see cref="CompositionContainer"/> to itself.
     /// </summary>
-    public class CompositionContainerExport :
+    public class ContainerExport :
         Value<CompositionContainer>
     {
 
@@ -14,7 +14,7 @@ namespace Cogito.Composition.Hosting
         /// Initializes a new instance.
         /// </summary>
         /// <param name="container"></param>
-        public CompositionContainerExport(CompositionContainer container)
+        public ContainerExport(CompositionContainer container)
             : base(container)
         {
 

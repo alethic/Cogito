@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.Composition;
+
 using Cogito.Composition.Scoping;
 using Cogito.Core;
 
@@ -7,16 +8,16 @@ namespace Cogito.Composition.Hosting
 {
 
     /// <summary>
-    /// Makes the <see cref="CompositionContainerExport"/>'s container available to the container itself in various ways.
+    /// Makes the <see cref="ContainerExport"/>'s container available to the container itself in various ways.
     /// </summary>
     [PartMetadata(CompositionConstants.ScopeMetadataKey, typeof(IEveryScope))]
     [Export(typeof(IContainerProvider))]
     [ExportMetadata(CompositionConstants.VisibilityMetadataKey, Visibility.Local)]
-    public class CompositionContainerProvider
+    public class ContainerProvider
         : IContainerProvider
     {
 
-        readonly Lazy<CompositionContainerExport> export;
+        readonly Lazy<ContainerExport> export;
         readonly RefManager<CompositionContainer> manager;
 
         /// <summary>
@@ -24,7 +25,7 @@ namespace Cogito.Composition.Hosting
         /// </summary>
         /// <param name="export"></param>
         [ImportingConstructor]
-        public CompositionContainerProvider(Lazy<CompositionContainerExport> export)
+        public ContainerProvider(Lazy<ContainerExport> export)
         {
             this.export = export;
             this.manager = new RefManager<CompositionContainer>(() => export.Value.Item, () => export.Value.Item.Dispose());

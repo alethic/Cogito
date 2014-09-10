@@ -80,7 +80,7 @@ namespace Cogito.Composition.Hosting
         void Init()
         {
             // export container reference
-            this.ComposeExportedValue<CompositionContainerExport>(new CompositionContainerExport(this));
+            this.ComposeExportedValue<ContainerExport>(new ContainerExport(this));
 
             // invoke any initialization routines
             foreach (var init in GetExportedValues<IOnInitInvoke>())

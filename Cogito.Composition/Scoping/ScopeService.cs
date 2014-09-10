@@ -4,7 +4,6 @@ using System.ComponentModel.Composition;
 using System.Linq;
 
 using Cogito.Composition.Hosting;
-using Cogito.Core;
 
 namespace Cogito.Composition.Scoping
 {
@@ -13,13 +12,13 @@ namespace Cogito.Composition.Scoping
     /// Local-scope manager available to every scope.
     /// </summary>
     [PartMetadata(CompositionConstants.ScopeMetadataKey, typeof(IEveryScope))]
-    [Export(typeof(ScopeManager))]
+    [Export(typeof(IScopeService))]
     [ExportMetadata(CompositionConstants.VisibilityMetadataKey, Visibility.Local)]
     public class ScopeService :
         IScopeService
     {
 
-        public Func<CompositionContainer> container;
+        public IContainerProvider container;
         public IEnumerable<IScopeProvider> registrars;
 
         /// <summary>
@@ -29,7 +28,7 @@ namespace Cogito.Composition.Scoping
         /// <param name="registrars"></param>
         [ImportingConstructor]
         public ScopeService(
-            Func<CompositionContainer> container,
+            IContainerProvider container,
             [ImportMany] IEnumerable<IScopeProvider> registrars)
         {
             this.container = container;
@@ -49,7 +48,7 @@ namespace Cogito.Composition.Scoping
         ITypeResolver Create(Type scopeType)
         {
             // generate new container and obtain resolver
-            var scope = new CompositionContainer(container(), scopeType);
+            var scope = new CompositionContainer(container.GetContainer(), scopeType);
             if (scope == null)
                 throw new NullReferenceException("Generated scope container does not contain ITypeResolver.");
 

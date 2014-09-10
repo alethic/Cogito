@@ -2,8 +2,9 @@
 using System.Collections.Concurrent;
 using System.Diagnostics.Contracts;
 using System.Xaml;
+
 using Cogito.Composition.Hosting.Configuration;
-using Cogito.Core;
+
 using mef = System.ComponentModel.Composition.Hosting;
 
 namespace Cogito.Composition.Hosting
@@ -74,6 +75,15 @@ namespace Cogito.Composition.Hosting
             return
                 defaultContainer ??
                 (defaultContainer = new DefaultCompositionContainer());
+        }
+
+        /// <summary>
+        /// Gets the default type resolver.
+        /// </summary>
+        /// <returns></returns>
+        public static ITypeResolver GetDefaultTypeResolver()
+        {
+            return GetDefaultContainer().GetExportedValue<ITypeResolver>();
         }
 
     }
