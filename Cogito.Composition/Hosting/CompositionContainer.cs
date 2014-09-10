@@ -1,138 +1,108 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using System.ComponentModel.Composition.Hosting;
 using System.ComponentModel.Composition.Primitives;
 using System.Diagnostics.Contracts;
+using Cogito.Composition.Scoping;
 using Cogito.Composition.Services;
+using Cogito.Core;
 
 namespace Cogito.Composition.Hosting
 {
 
     /// <summary>
-    /// Manages the composition of parts. This class serves as an implementation of a specicialized version of <see
-    /// cref="CompositionContainer"/> which is preconfigured with a dynamic catalog collection, dynamic export provider
-    /// collection and simplified support for begining a new scope.
+    /// Cogito enhanced <see cref="CompositionContainer"/> that supports scoping.
     /// </summary>
-    public class CompositionContainer : 
-        CompositionContainerCore
+    public class CompositionContainer
+        : System.ComponentModel.Composition.Hosting.CompositionContainer
     {
 
-        /// <summary>
-        /// Initializes a new instance.
-        /// </summary>
-        public CompositionContainer()
-            : this(
-                parent: null,
-                catalog: null,
-                provider: null)
-        {
-
-        }
-
-        /// <summary>
-        /// Initializes a new instance.
-        /// </summary>
-        public CompositionContainer(
-            System.ComponentModel.Composition.Hosting.CompositionContainer parent)
-            : this(
-                parent: parent,
-                catalog: null,
-                provider: null)
-        {
-            Contract.Requires<ArgumentNullException>(parent != null);
-        }
+        readonly CompositionContainer parent;
+        readonly ComposablePartCatalog rootCatalog;
+        readonly AggregateCatalog aggregateCatalog;
+        readonly Type scopeType;
 
         /// <summary>
         /// Initializes a new instance.
         /// </summary>
         /// <param name="catalog"></param>
-        public CompositionContainer(
-            ComposablePartCatalog catalog)
-            : this(
-                parent: null,
-                catalog: catalog)
+        public CompositionContainer(ComposablePartCatalog catalog)
+            : base(new AggregateCatalog())
         {
+            this.parent = null;
+            this.scopeType = null;
+            this.aggregateCatalog = (AggregateCatalog)base.Catalog;
 
-        }
+            // set root catalog and add
+            if (catalog != null)
+                AddCatalog(rootCatalog = catalog);
 
-        /// <summary>
-        /// Initializes a new instance.
-        /// </summary>
-        /// <param name="catalog"></param>
-        public CompositionContainer(
-            ComposablePartCatalog catalog,
-            ExportProvider provider)
-            : this(
-                parent: null,
-                catalog: catalog,
-                provider: provider)
-        {
-
-        }
-
-        /// <summary>
-        /// Initializes a new instance.
-        /// </summary>
-        public CompositionContainer(
-            System.ComponentModel.Composition.Hosting.CompositionContainer parent = null,
-            IEnumerable<ComposablePartCatalog> catalogs = null,
-            IEnumerable<ExportProvider> providers = null,
-            CompositionOptions options = DEFAULT_COMPOSITION_OPTIONS,
-            bool importParentCatalog = true,
-            bool importParent = true)
-            : base(
-                parent,
-                catalogs: catalogs,
-                providers: providers,
-                options: options,
-                importParentCatalog: importParentCatalog && parent != null,
-                importParent: importParent && parent != null)
-        {
-
+            // initialize container
+            Init();
         }
 
         /// <summary>
         /// Initializes a new instance.
         /// </summary>
         /// <param name="parent"></param>
+        /// <param name="scopeType"></param>
+        public CompositionContainer(CompositionContainer parent, Type scopeType)
+            : base(new AggregateCatalog(), new FilteredExportProvider(parent, i => ScopeMetadataServices.GetVisibility(i) == Visibility.Inherit))
+        {
+            Contract.Requires<ArgumentNullException>(parent != null);
+
+            this.parent = parent;
+            this.scopeType = scopeType;
+            this.aggregateCatalog = (AggregateCatalog)base.Catalog;
+
+            // set root catalog and add
+            if (parent.rootCatalog != null)
+                AddCatalog(rootCatalog = parent.rootCatalog);
+
+            // initialize container
+            Init();
+        }
+
+        /// <summary>
+        /// Adds the given catalog to this container, filtered for the supported container scopes.
+        /// </summary>
         /// <param name="catalog"></param>
-        /// <param name="provider"></param>
-        /// <param name="options"></param>
-        /// <param name="importParentCatalog"></param>
-        /// <param name="importParent"></param>
-        protected CompositionContainer(
-            System.ComponentModel.Composition.Hosting.CompositionContainer parent = null,
-            ComposablePartCatalog catalog = null,
-            ExportProvider provider = null,
-            CompositionOptions options = DEFAULT_COMPOSITION_OPTIONS,
-            bool importParentCatalog = true,
-            bool importParent = true)
-            : base(
-                parent,
-                catalogs: catalog != null ? new[] { catalog } : null,
-                providers: provider != null ? new[] { provider } : null,
-                options: options,
-                importParentCatalog: importParentCatalog && parent != null,
-                importParent: importParent && parent != null)
+        internal void AddCatalog(ComposablePartCatalog catalog)
         {
-            OnInit();
+            Contract.Requires<ArgumentNullException>(catalog != null);
+
+            aggregateCatalog.Catalogs.Add(new ScopeCatalog(catalog, scopeType));
         }
 
-        protected override bool PartFilter(ComposablePartDefinition definition)
+        /// <summary>
+        /// 
+        /// </summary>
+        void Init()
         {
-            // root container only supports parts with no defined scope
-            return !definition.Metadata.ContainsKey(CompositionConstants.RequiredScopeMetadataName);
+            // export container reference
+            this.ComposeExportedValue<ContainerExport>(new ContainerExport(this));
+
+            // invoke any initialization routines
+            foreach (var init in GetExportedValues<IOnInitInvoke>())
+                init.Invoke();
         }
 
-        protected void OnInit()
+        /// <summary>
+        /// Releases the resources of the container.
+        /// </summary>
+        /// <param name="disposing"></param>
+        protected override void Dispose(bool disposing)
         {
-            // expose common services
-            this.AsContext().AddExportedValue<ICatalogService>(new CatalogService(Catalogs));
+            // invoke any disposal routines
+            foreach (var init in GetExportedValues<IOnDisposeInvoke>())
+                init.Invoke();
 
-            // invoke container init servics
-            this.AsContext().ComposeExportedValue<InitImportCollection>(new InitImportCollection());
-            this.AsContext().GetExportedValue<InitImportCollection>()
-                .Subscribe((ILazy<IOnInitInvoke> _) => _.Value.Invoke());
+            base.Dispose(disposing);
+        }
+
+        protected override System.Collections.Generic.IEnumerable<Export> GetExportsCore(ImportDefinition definition, AtomicComposition atomicComposition)
+        {
+            return base.GetExportsCore(definition, atomicComposition);
         }
 
     }

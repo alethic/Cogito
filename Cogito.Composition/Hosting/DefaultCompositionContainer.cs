@@ -1,37 +1,20 @@
-﻿using System.ComponentModel.Composition.Hosting;
-
-namespace Cogito.Composition.Hosting
+﻿namespace Cogito.Composition.Hosting
 {
 
     /// <summary>
-    /// <see cref="CompositionContainer"/> implementation which imports all assemblies available to the application by
-    /// default. Serves as a suitable base container for most implementations.
+    /// Standard <see cref="CompositionContainer"/> that includes the entire application by default.
     /// </summary>
-    public class DefaultCompositionContainer : CompositionContainer
+    public class DefaultCompositionContainer :
+        CompositionContainer
     {
 
         /// <summary>
         /// Initializes a new instance.
         /// </summary>
         public DefaultCompositionContainer()
-            : this(
-                catalog: new ApplicationCatalog(),
-                provider: null /* new ConcreteTypeExportProvider() */)
+            : base(new ApplicationCatalog())
         {
-            
-        }
 
-        /// <summary>
-        /// Initializes a new instance.
-        /// </summary>
-        DefaultCompositionContainer(
-            ApplicationCatalog catalog,
-            ConcreteTypeExportProvider provider)
-            : base(
-                catalog: catalog,
-                provider: provider)
-        {
-            //provider.SourceProvider = this;
         }
 
     }

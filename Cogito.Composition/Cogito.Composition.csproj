@@ -15,7 +15,7 @@
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <FodyPath>..\..\packages\Fody.1.17.4.0</FodyPath>
     <RestorePackages>true</RestorePackages>
-    <NuGetPackageImportStamp>40b21702</NuGetPackageImportStamp>
+    <NuGetPackageImportStamp>8a269cf8</NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -57,10 +57,8 @@
     <CodeContractsCacheAnalysisResults>True</CodeContractsCacheAnalysisResults>
     <CodeContractsFailBuildOnWarnings>False</CodeContractsFailBuildOnWarnings>
     <CodeContractsRuntimeCheckingLevel>Full</CodeContractsRuntimeCheckingLevel>
-    <CodeContractsReferenceAssembly>%28none%29</CodeContractsReferenceAssembly>
+    <CodeContractsReferenceAssembly>Build</CodeContractsReferenceAssembly>
     <CodeContractsAnalysisWarningLevel>0</CodeContractsAnalysisWarningLevel>
-    <CodeContractsSuggestReadonly>True</CodeContractsSuggestReadonly>
-    <CodeContractsBeingOptimisticOnExternal>True</CodeContractsBeingOptimisticOnExternal>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -69,6 +67,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <BuildPackage>true</BuildPackage>
     <CodeContractsEnableRuntimeChecking>True</CodeContractsEnableRuntimeChecking>
     <CodeContractsRuntimeOnlyPublicSurface>True</CodeContractsRuntimeOnlyPublicSurface>
     <CodeContractsRuntimeThrowOnFailure>True</CodeContractsRuntimeThrowOnFailure>
@@ -115,13 +114,13 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Reactive.Core, Version=2.2.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Rx-Core.2.2.4\lib\net45\System.Reactive.Core.dll</HintPath>
+    <Reference Include="System.Reactive.Core">
+      <HintPath>..\packages\Rx-Core.2.2.5\lib\net45\System.Reactive.Core.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="System.Reactive.Interfaces, Version=2.2.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Rx-Interfaces.2.2.4\lib\net45\System.Reactive.Interfaces.dll</HintPath>
+    <Reference Include="System.Reactive.Interfaces">
+      <HintPath>..\packages\Rx-Interfaces.2.2.5\lib\net45\System.Reactive.Interfaces.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System.Reflection.Context" />
     <Reference Include="System.Xaml" />
@@ -131,57 +130,57 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ExportProviderExtensions.cs" />
-    <Compile Include="Hosting\CatalogService.cs" />
+    <Compile Include="Hosting\CompositionContainer.cs" />
+    <Compile Include="Hosting\ContainerExport.cs" />
+    <Compile Include="Hosting\ContainerProvider.cs" />
+    <Compile Include="Hosting\DefaultCompositionContainer.cs" />
+    <Compile Include="Hosting\IContainerProvider.cs" />
     <Compile Include="Hosting\InitImportCollection.cs" />
-    <Compile Include="Hosting\ScopeCatalog.cs" />
-    <Compile Include="Hosting\ScopedPartDefinition.cs" />
+    <Compile Include="Scoping\IScopeTypeResolver.cs" />
+    <Compile Include="Scoping\IScopeService.cs" />
+    <Compile Include="Scoping\ScopeCatalog.cs" />
     <Compile Include="Hosting\TypeCatalog.cs" />
     <Compile Include="Hosting\ApplicationCatalog.cs" />
     <Compile Include="Hosting\DynamicFilteredCatalog.cs" />
     <Compile Include="InheritedPartCreationPolicyAttribute.cs" />
+    <Compile Include="ITypeResolver.cs" />
     <Compile Include="Reflection\DefaultReflectionContext.cs" />
     <Compile Include="Reflection\InheritedPartCreationPolicyReflectionContext.cs" />
+    <Compile Include="Scoping\IEveryScope.cs" />
+    <Compile Include="Scoping\ScopeService.cs" />
+    <Compile Include="Scoping\ScopeMetadataServices.cs" />
+    <Compile Include="Scoping\ScopeTypeResolver.cs" />
     <Compile Include="Services\CatalogInstaller.cs" />
+    <Compile Include="Services\CatalogService.cs" />
     <Compile Include="Services\ICatalogProvider.cs" />
-    <Compile Include="Scoping\ScopedExportAttribute.cs" />
-    <Compile Include="Reflection\ScopeMetadataReflectionContext.cs" />
-    <Compile Include="Scoping\IRootScope.cs" />
     <Compile Include="Scoping\Visibility.cs" />
-    <Compile Include="Scoping\IScopeRegistrar.cs" />
-    <Compile Include="Scoping\PartScopeAttribute.cs" />
-    <Compile Include="Scoping\IScope.cs" />
+    <Compile Include="Scoping\IScopeProvider.cs" />
     <Compile Include="Scoping\ITransactionScope.cs" />
-    <Compile Include="Scoping\IUserIdentityScope.cs" />
+    <Compile Include="Scoping\IIdentityScope.cs" />
     <Compile Include="Hosting\CompositionConstants.cs" />
     <Compile Include="Hosting\ContainerManager.cs" />
-    <Compile Include="Hosting\Configuration\ContainerElement.cs" />
-    <Compile Include="CompositionContainerExtensions.cs" />
-    <Compile Include="Hosting\Configuration\ConfigurationSection.cs" />
-    <Compile Include="Hosting\Configuration\ContainersCollection.cs" />
+    <Compile Include="Configuration\ContainerElement.cs" />
+    <Compile Include="Configuration\ConfigurationSection.cs" />
+    <Compile Include="Configuration\ContainersCollection.cs" />
     <Compile Include="Hosting\ConcreteTypeExportProvider.cs" />
     <Compile Include="Hosting\FilteredExportProvider.cs" />
     <Compile Include="ImportCollectionChangedEventHandler.cs" />
     <Compile Include="ImportChangedEventHandler.cs" />
     <Compile Include="Hosting\ContainerInitTrace.cs" />
-    <Compile Include="Hosting\DefaultCompositionContainer.cs" />
-    <Compile Include="Hosting\CompositionContainerCore.cs" />
-    <Compile Include="Hosting\CompositionScope.cs" />
     <Compile Include="DelegateDisposable.cs" />
     <Compile Include="Hosting\AggregateExportProvider.cs" />
-    <Compile Include="Hosting\CompositionContainer.cs" />
     <Compile Include="Hosting\ExportProviderCollection.cs" />
     <Compile Include="Hosting\PassThruExportProvider.cs" />
     <Compile Include="Hosting\FirstOrDefaultExportProvider.cs" />
     <Compile Include="Hosting\Util.cs" />
     <Compile Include="ILazy.cs" />
-    <Compile Include="Internal\CompositionContextShim.cs" />
     <Compile Include="Internal\ContractTypeNameGrammar.cs" />
     <Compile Include="Internal\ContractTypeNameResolver.cs" />
     <Compile Include="Internal\Lazy.cs" />
     <Compile Include="IImportValue.cs" />
     <Compile Include="IImportCollection.cs" />
-    <Compile Include="ICompositionContext.cs" />
     <Compile Include="Services\ICatalogService.cs" />
+    <Compile Include="Services\IOnDisposeInvoke.cs" />
     <Compile Include="Services\IOnInitInvoke.cs" />
     <Compile Include="Metadata\ContractTypeServices.cs" />
     <Compile Include="Metadata\PartMetadataServices.cs" />
@@ -190,6 +189,7 @@
     <Compile Include="Metadata\Metadata.cs" />
     <Compile Include="Metadata\ExportMetadataServices.cs" />
     <Compile Include="Metadata\IMetadataItem.cs" />
+    <Compile Include="Services\OnInitDisposeAttribute.cs" />
     <Compile Include="Services\OnInitInvokeAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Metadata\ExportTypeIdentityMetadata.cs" />
@@ -199,6 +199,7 @@
     <Compile Include="ImportChangedEventArgs.cs" />
     <Compile Include="ImportCollectionChangedEventArgs.cs" />
     <Compile Include="Scoping\ScopeManager.cs" />
+    <Compile Include="TypeResolver.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Cogito.Composition.nuspec" />
@@ -211,5 +212,12 @@
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(ProjectDir)\..\.nuget\NuGet.targets" Condition="Exists('$(ProjectDir)\..\.nuget\NuGet.targets')" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
+  </Target>
 </Project>

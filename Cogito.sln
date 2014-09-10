@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.30324.0
+VisualStudioVersion = 12.0.30723.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cogito.Composition", "Cogito.Composition\Cogito.Composition.csproj", "{7BC455C8-108C-4B5A-BF25-F20EEE0A8140}"
 EndProject
@@ -22,6 +22,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{CBF008
 		.nuget\NuGet.config = .nuget\NuGet.config
 		.nuget\NuGet.exe = .nuget\NuGet.exe
 		.nuget\NuGet.targets = .nuget\NuGet.targets
+		.nuget\packages.config = .nuget\packages.config
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cogito.IO", "Cogito.IO\Cogito.IO.csproj", "{460F0507-8101-4D96-AE8E-42B57D703106}"
@@ -71,6 +72,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cogito.Nancy.Web.UI.Tests.Site", "Cogito.Nancy.Web.UI.Tests.Site\Cogito.Nancy.Web.UI.Tests.Site.csproj", "{AA1062D8-0CAC-4A79-B2D8-46B593EF1732}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cogito.Web.Core", "Cogito.Web.Core\Cogito.Web.Core.csproj", "{D9186EFA-C085-4877-9FDB-47C3C28BCCF0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cogito.ServiceBus", "Cogito.ServiceBus\Cogito.ServiceBus.csproj", "{2F9A61CA-5F20-4F98-90E5-6BF972BB87C5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cogito.ServiceBus.MassTransit", "Cogito.ServiceBus.MassTransit\Cogito.ServiceBus.MassTransit.csproj", "{16506209-6820-4070-9690-C78C6369EC60}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -198,6 +203,14 @@ Global
 		{D9186EFA-C085-4877-9FDB-47C3C28BCCF0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D9186EFA-C085-4877-9FDB-47C3C28BCCF0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D9186EFA-C085-4877-9FDB-47C3C28BCCF0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2F9A61CA-5F20-4F98-90E5-6BF972BB87C5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2F9A61CA-5F20-4F98-90E5-6BF972BB87C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2F9A61CA-5F20-4F98-90E5-6BF972BB87C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2F9A61CA-5F20-4F98-90E5-6BF972BB87C5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{16506209-6820-4070-9690-C78C6369EC60}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{16506209-6820-4070-9690-C78C6369EC60}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{16506209-6820-4070-9690-C78C6369EC60}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{16506209-6820-4070-9690-C78C6369EC60}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

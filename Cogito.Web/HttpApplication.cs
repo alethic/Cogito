@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Diagnostics.Contracts;
 using System.Web;
 
-using Cogito.Application.Lifecycle;
-using Cogito.Composition;
 using Cogito.Composition.Hosting;
-using Cogito.Composition.Scoping;
+using Cogito.Core;
 
 namespace Cogito.Web
 {
@@ -18,75 +15,22 @@ namespace Cogito.Web
         System.Web.HttpApplication
     {
 
-        readonly ICompositionContext composition;
+        readonly Lazy<Ref<CompositionContainer>> composition;
 
         /// <summary>
         /// Initializes a new instance.
         /// </summary>
         public HttpApplication()
-            : this(WebContainerManager.GetDefaultContainer())
         {
-
+            this.composition = new Lazy<Ref<CompositionContainer>>(() => ContainerManager.GetDefaultContainer().GetExportedValue<Func<Ref<CompositionContainer>>>()());
         }
 
         /// <summary>
-        /// Initializes a new instance.
+        /// Gets a reference to the <see cref="CompositionContainer"/> for the application.
         /// </summary>
-        /// <param name="containerName"></param>
-        public HttpApplication(string containerName)
-            : this(ContainerManager.GetContainer(containerName))
+        public CompositionContainer Container
         {
-            Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(containerName));
-        }
-
-        /// <summary>
-        /// Initializes a new instance.
-        /// </summary>
-        /// <param name="container"></param>
-        public HttpApplication(System.ComponentModel.Composition.Hosting.CompositionContainer container)
-            : this(container.AsContext())
-        {
-            Contract.Requires<ArgumentNullException>(container != null);
-        }
-
-        /// <summary>
-        /// Initializes a new instance.
-        /// </summary>
-        /// <param name="composition"></param>
-        public HttpApplication(
-            ICompositionContext composition)
-            : base()
-        {
-            Contract.Requires<ArgumentNullException>(composition != null);
-
-            this.composition = composition;
-            this.composition.GetExportedValue<ScopeManager>()
-                .RegisterContext(typeof(IRootScope), composition);
-        }
-
-        /// <summary>
-        /// Obtains a reference to the configured <see cref="ICompositionContext"/>.
-        /// </summary>
-        public ICompositionContext ApplicationCompositionContext
-        {
-            get { return composition; }
-        }
-
-        /// <summary>
-        /// Gets the <see cref="ICompositionContext"/> configured for the current request.
-        /// </summary>
-        public ICompositionContext RequestCompositionContext
-        {
-            get { return GetRequestCompositionContext(); }
-        }
-
-        /// <summary>
-        /// Implements the getter for RequestCompositionContext.
-        /// </summary>
-        /// <returns></returns>
-        ICompositionContext GetRequestCompositionContext()
-        {
-            return composition.GetOrBeginScope<IWebRequestScope>();
+            get { return composition.Value.Value; }
         }
 
         /// <summary>
@@ -102,7 +46,7 @@ namespace Cogito.Web
         /// </summary>
         protected virtual void OnStart()
         {
-            composition.GetExportedValue<ILifecycleManager<IWebModule>>().Start();
+
         }
 
         /// <summary>
@@ -118,7 +62,8 @@ namespace Cogito.Web
         /// </summary>
         protected virtual void OnStop()
         {
-
+            if (composition.IsValueCreated)
+                composition.Value.Dispose();
         }
 
         /// <summary>
