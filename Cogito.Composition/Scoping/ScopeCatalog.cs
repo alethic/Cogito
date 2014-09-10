@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using System.ComponentModel.Composition.Primitives;
 using System.Diagnostics.Contracts;
 using System.Linq;
+
 using Cogito.Collections;
 using Cogito.Composition.Hosting;
 using Cogito.Linq;
@@ -20,6 +22,7 @@ namespace Cogito.Composition.Scoping
 
         readonly ComposablePartCatalog parent;
         readonly HashSet<Type> scopes;
+        readonly IEnumerable<ComposablePartDefinition> parts;
 
         /// <summary>
         /// Initializes a new instance.
@@ -31,49 +34,26 @@ namespace Cogito.Composition.Scoping
 
             this.parent = parent;
             this.scopes = new HashSet<Type>();
+            this.parts = parent.Parts.Where(i => Filter(i)).Tee(true);
         }
 
         /// <summary>
         /// Initializes a new instance.
         /// </summary>
         /// <param name="parent"></param>
-        /// <param name="scopes"></param>
-        public ScopeCatalog(ComposablePartCatalog parent, params Type[] scopes)
+        /// <param name="scopeType"></param>
+        public ScopeCatalog(ComposablePartCatalog parent, Type scopeType)
             : this(parent)
         {
-            // include all specified scopes
-            if (scopes != null)
-                foreach (var scope in scopes)
-                    IncludeScope(scope);
+            // include specified scope
+            if (scopeType != null)
+                foreach (var i in GetScopeTypes(scopeType))
+                    scopes.Add(i);
         }
 
-        /// <summary>
-        /// Gets the part definitions that are contained in the catalog.
-        /// </summary>
-        public override IQueryable<ComposablePartDefinition> Parts
+        public override IEnumerator<ComposablePartDefinition> GetEnumerator()
         {
-            get { return GetParts(); }
-        }
-
-        /// <summary>
-        /// Implements the retrieval of parts from this catalog.
-        /// </summary>
-        /// <returns></returns>
-        IQueryable<ComposablePartDefinition> GetParts()
-        {
-            return parent.Parts.Where(i => Filter(i));
-        }
-
-        /// <summary>
-        /// Includes the specified scope with this catalog.
-        /// </summary>
-        /// <param name="type"></param>
-        public void IncludeScope(Type type)
-        {
-            Contract.Requires<ArgumentNullException>(type != null);
-
-            foreach (var i in GetScopeTypes(type))
-                scopes.Add(i);
+            return parts.GetEnumerator();
         }
 
         /// <summary>
@@ -105,10 +85,11 @@ namespace Cogito.Composition.Scoping
             Contract.Requires<ArgumentNullException>(definition != null);
 
             // if limited to scopes, filter by scope; else only return objects with no scope
+            var l = GetScopes(definition).ToList();
             return
-                GetScopes(definition).Any() == false && scopes.Count == 0 || // part is only available to root scope, and this is an unscoped catalog
-                GetScopes(definition).Contains(typeof(IEveryScope)) || // part is available to all scopes
-                GetScopes(definition).Any(i => scopes.Contains(i)); // part is only available to specified scopes;
+                l.Any() == false && scopes.Count == 0 || // part is only available to root scope, and this is an unscoped catalog
+                l.Contains(typeof(IEveryScope)) || // part is available to all scopes
+                l.Any(i => scopes.Contains(i)); // part is only available to specified scopes;
         }
 
         /// <summary>
@@ -118,7 +99,15 @@ namespace Cogito.Composition.Scoping
         /// <returns></returns>
         IEnumerable<Type> GetScopes(ComposablePartDefinition definition)
         {
-            return (IEnumerable<Type>)definition.Metadata.GetOrDefault(CompositionConstants.ScopeMetadataKey);
+            var o = definition.Metadata.GetOrDefault(CompositionConstants.ScopeMetadataKey);
+
+            if (o is IEnumerable<Type>)
+                return (IEnumerable<Type>)o;
+
+            if (o is Type)
+                return new[] { (Type)o };
+
+            return Enumerable.Empty<Type>();
         }
 
     }

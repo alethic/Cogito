@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.Composition;
+﻿using System;
+using System.ComponentModel.Composition;
 using System.ComponentModel.Composition.Primitives;
 
 using Cogito.Composition.Hosting;
@@ -13,21 +14,21 @@ namespace Cogito.Composition.Services
         ICatalogService
     {
 
-        readonly CompositionContainerRef _ref;
+        readonly IContainerProvider provider;
 
         /// <summary>
         /// Initializes a new instance.
         /// </summary>
-        /// <param name="_ref"></param>
+        /// <param name="provider"></param>
         [ImportingConstructor]
-        public CatalogService(CompositionContainerRef _ref)
+        public CatalogService(IContainerProvider provider)
         {
-            this._ref = _ref;
+            this.provider = provider;
         }
 
         public void Add(ComposablePartCatalog catalog)
         {
-            _ref.Container.AddCatalog(catalog);
+            provider.GetContainer().AddCatalog(catalog);
         }
 
     }

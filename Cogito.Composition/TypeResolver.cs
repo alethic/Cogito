@@ -20,16 +20,16 @@ namespace Cogito.Composition
         ITypeResolver
     {
 
-        readonly CompositionContainerRef container;
+        readonly IContainerProvider provider;
 
         /// <summary>
         /// Initializes a new instance.
         /// </summary>
-        /// <param name="container"></param>
+        /// <param name="provider"></param>
         [ImportingConstructor]
-        public TypeResolver(CompositionContainerRef container)
+        public TypeResolver(IContainerProvider provider)
         {
-            this.container = container;
+            this.provider = provider;
         }
 
         public T Resolve<T>()
@@ -63,7 +63,7 @@ namespace Cogito.Composition
 
         public IEnumerable<Lazy<T, IDictionary<string, object>>> ResolveManyLazy<T>()
         {
-            return container.Container.GetExports(new ContractBasedImportDefinition(
+            return provider.GetContainer().GetExports(new ContractBasedImportDefinition(
                     AttributedModelServices.GetContractName(typeof(T)),
                     AttributedModelServices.GetTypeIdentity(typeof(T)),
                     null,
@@ -82,7 +82,7 @@ namespace Cogito.Composition
 
         public IEnumerable<Lazy<object, IDictionary<string, object>>> ResolveManyLazy(Type type)
         {
-            return container.Container.GetExports(new ContractBasedImportDefinition(
+            return provider.GetContainer().GetExports(new ContractBasedImportDefinition(
                     AttributedModelServices.GetContractName(type),
                     AttributedModelServices.GetTypeIdentity(type),
                     null,

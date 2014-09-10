@@ -2,9 +2,8 @@
 using System.Collections.Concurrent;
 using System.Diagnostics.Contracts;
 using System.Xaml;
-
 using Cogito.Composition.Hosting.Configuration;
-
+using Cogito.Core;
 using mef = System.ComponentModel.Composition.Hosting;
 
 namespace Cogito.Composition.Hosting
@@ -74,7 +73,6 @@ namespace Cogito.Composition.Hosting
 
             return
                 defaultContainer ??
-                (defaultContainer = GetContainer(defaultContainerName)) ??
                 (defaultContainer = new DefaultCompositionContainer());
         }
 

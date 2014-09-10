@@ -114,13 +114,11 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Reactive.Core, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Rx-Core.2.2.2\lib\net45\System.Reactive.Core.dll</HintPath>
+    <Reference Include="System.Reactive.Core">
+      <HintPath>..\..\packages\Rx-Core.2.2.5\lib\net45\System.Reactive.Core.dll</HintPath>
     </Reference>
-    <Reference Include="System.Reactive.Interfaces, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Rx-Interfaces.2.2.2\lib\net45\System.Reactive.Interfaces.dll</HintPath>
+    <Reference Include="System.Reactive.Interfaces">
+      <HintPath>..\..\packages\Rx-Interfaces.2.2.5\lib\net45\System.Reactive.Interfaces.dll</HintPath>
     </Reference>
     <Reference Include="System.Reflection.Context" />
     <Reference Include="System.Xaml" />
@@ -131,10 +129,12 @@
   <ItemGroup>
     <Compile Include="ExportProviderExtensions.cs" />
     <Compile Include="Hosting\CompositionContainer.cs" />
-    <Compile Include="Hosting\CompositionContainerRef.cs" />
+    <Compile Include="Hosting\CompositionContainerExport.cs" />
+    <Compile Include="Hosting\CompositionContainerProvider.cs" />
     <Compile Include="Hosting\DefaultCompositionContainer.cs" />
+    <Compile Include="Hosting\IContainerRef.cs" />
     <Compile Include="Hosting\InitImportCollection.cs" />
-    <Compile Include="Scoping\IScopeManager.cs" />
+    <Compile Include="Scoping\IScopeTypeResolver.cs" />
     <Compile Include="Scoping\IScopeService.cs" />
     <Compile Include="Scoping\ScopeCatalog.cs" />
     <Compile Include="Hosting\TypeCatalog.cs" />
@@ -145,12 +145,14 @@
     <Compile Include="Reflection\DefaultReflectionContext.cs" />
     <Compile Include="Reflection\InheritedPartCreationPolicyReflectionContext.cs" />
     <Compile Include="Scoping\IEveryScope.cs" />
+    <Compile Include="Scoping\ScopeService.cs" />
     <Compile Include="Scoping\ScopeMetadataServices.cs" />
+    <Compile Include="Scoping\ScopeTypeResolver.cs" />
     <Compile Include="Services\CatalogInstaller.cs" />
     <Compile Include="Services\CatalogService.cs" />
     <Compile Include="Services\ICatalogProvider.cs" />
     <Compile Include="Scoping\Visibility.cs" />
-    <Compile Include="Scoping\IScopeRegistrar.cs" />
+    <Compile Include="Scoping\IScopeProvider.cs" />
     <Compile Include="Scoping\ITransactionScope.cs" />
     <Compile Include="Scoping\IIdentityScope.cs" />
     <Compile Include="Hosting\CompositionConstants.cs" />

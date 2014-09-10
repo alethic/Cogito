@@ -26,7 +26,7 @@ namespace Cogito.Composition.Services
         /// <param name="catalogs"></param>
         [ImportingConstructor]
         public CatalogInstaller(
-            ICatalogService catalogs, 
+            ICatalogService catalogs,
             [ImportMany] IEnumerable<ICatalogProvider> providers)
         {
             this.catalogs = catalogs;

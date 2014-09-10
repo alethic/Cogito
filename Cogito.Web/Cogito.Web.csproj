@@ -123,19 +123,13 @@
     <Compile Include="Configuration\CompositionElement.cs" />
     <Compile Include="Configuration\ConfigurationSection.cs" />
     <Compile Include="IWebApplicationRegistrar.cs" />
-    <Compile Include="Resources\ResourceModule.cs" />
-    <Compile Include="Resources\ResourceResolver.cs" />
-    <Compile Include="Resources\ScriptResourceWebRegistrar.cs" />
     <Compile Include="WebHttpModule.cs" />
     <Compile Include="HttpApplication.cs" />
     <Compile Include="Internal\ActivationEvents.cs" />
-    <Compile Include="Internal\RequestScopeRegistrar.cs" />
-    <Compile Include="Internal\ApplicationScopeRegister.cs" />
     <Compile Include="IWebConfiguration.cs" />
     <Compile Include="IWebModule.cs" />
     <Compile Include="Internal\WebModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="WebContainerManager.cs" />
     <Compile Include="WebException.cs" />
     <Compile Include="WebLifecycleListener.cs" />
   </ItemGroup>

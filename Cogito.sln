@@ -73,6 +73,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cogito.Nancy.Web.UI.Tests.S
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cogito.Web.Core", "Cogito.Web.Core\Cogito.Web.Core.csproj", "{D9186EFA-C085-4877-9FDB-47C3C28BCCF0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cogito.ServiceBus", "Cogito.ServiceBus\Cogito.ServiceBus.csproj", "{2F9A61CA-5F20-4F98-90E5-6BF972BB87C5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cogito.ServiceBus.MassTransit", "Cogito.ServiceBus.MassTransit\Cogito.ServiceBus.MassTransit.csproj", "{16506209-6820-4070-9690-C78C6369EC60}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -199,6 +203,14 @@ Global
 		{D9186EFA-C085-4877-9FDB-47C3C28BCCF0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D9186EFA-C085-4877-9FDB-47C3C28BCCF0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D9186EFA-C085-4877-9FDB-47C3C28BCCF0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2F9A61CA-5F20-4F98-90E5-6BF972BB87C5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2F9A61CA-5F20-4F98-90E5-6BF972BB87C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2F9A61CA-5F20-4F98-90E5-6BF972BB87C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2F9A61CA-5F20-4F98-90E5-6BF972BB87C5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{16506209-6820-4070-9690-C78C6369EC60}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{16506209-6820-4070-9690-C78C6369EC60}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{16506209-6820-4070-9690-C78C6369EC60}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{16506209-6820-4070-9690-C78C6369EC60}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

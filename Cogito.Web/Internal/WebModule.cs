@@ -14,7 +14,6 @@ namespace Cogito.Web.Internal
         IWebModule
     {
 
-        readonly ICompositionContext composition;
         readonly IEnumerable<IWebConfiguration> defaultConfiguration;
         readonly ILifecycleManager<IWebModule> lifecycle;
         bool configured;
@@ -24,15 +23,12 @@ namespace Cogito.Web.Internal
         /// </summary>
         [ImportingConstructor]
         public WebModule(
-            ICompositionContext composition,
             [ImportMany] IEnumerable<IWebConfiguration> configurations,
             ILifecycleManager<IWebModule> lifecycle)
         {
-            Contract.Requires<ArgumentNullException>(composition != null);
             Contract.Requires<ArgumentNullException>(configurations != null);
             Contract.Requires<ArgumentNullException>(lifecycle != null);
 
-            this.composition = composition;
             this.defaultConfiguration = configurations;
             this.lifecycle = lifecycle;
 

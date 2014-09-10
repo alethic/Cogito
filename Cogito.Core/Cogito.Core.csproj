@@ -129,6 +129,8 @@
     <Compile Include="DisposableExtensions.cs" />
     <Compile Include="IDisposable.cs" />
     <Compile Include="IO\BlockingStream.cs" />
+    <Compile Include="Ref.cs" />
+    <Compile Include="RefManager.cs" />
     <Compile Include="Resources\AssemblyResourcePath.cs" />
     <Compile Include="Resources\AssemblyResourceBundleAttribute.cs" />
     <Compile Include="Resources\ResourceBundleAttribute.cs" />
@@ -181,6 +183,7 @@
     <Compile Include="UriBuilderExtensions.cs" />
     <Compile Include="UriExtensions.cs" />
     <Compile Include="SemanticVersion.cs" />
+    <Compile Include="Value.cs" />
     <Compile Include="Version.cs" />
     <Compile Include="Xml\Extensions.cs" />
   </ItemGroup>
