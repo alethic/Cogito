@@ -2,7 +2,7 @@
 using System.Xml;
 using System.Xml.Linq;
 
-namespace Cogito.Composition.Hosting.Configuration
+namespace Cogito.Composition.Configuration
 {
 
     /// <summary>

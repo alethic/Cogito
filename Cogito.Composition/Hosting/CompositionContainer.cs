@@ -100,6 +100,11 @@ namespace Cogito.Composition.Hosting
             base.Dispose(disposing);
         }
 
+        protected override System.Collections.Generic.IEnumerable<Export> GetExportsCore(ImportDefinition definition, AtomicComposition atomicComposition)
+        {
+            return base.GetExportsCore(definition, atomicComposition);
+        }
+
     }
 
 }

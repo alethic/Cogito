@@ -51,9 +51,9 @@ namespace Cogito.ServiceBus.Infrastructure
         /// <summary>
         /// Initializes a new instance.
         /// </summary>
-        /// <param name="sharedBus"></param>
-        public Semaphore(IServiceBus sharedBus)
-            : this(sharedBus, 1)
+        /// <param name="bus"></param>
+        public Semaphore(IServiceBus bus)
+            : this(bus, 1)
         {
 
         }

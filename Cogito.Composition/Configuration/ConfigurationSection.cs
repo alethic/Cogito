@@ -1,6 +1,6 @@
 ﻿using System.Configuration;
 
-namespace Cogito.Composition.Hosting.Configuration
+namespace Cogito.Composition.Configuration
 {
 
     public class ConfigurationSection : 

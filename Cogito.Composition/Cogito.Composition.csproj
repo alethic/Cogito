@@ -157,9 +157,9 @@
     <Compile Include="Scoping\IIdentityScope.cs" />
     <Compile Include="Hosting\CompositionConstants.cs" />
     <Compile Include="Hosting\ContainerManager.cs" />
-    <Compile Include="Hosting\Configuration\ContainerElement.cs" />
-    <Compile Include="Hosting\Configuration\ConfigurationSection.cs" />
-    <Compile Include="Hosting\Configuration\ContainersCollection.cs" />
+    <Compile Include="Configuration\ContainerElement.cs" />
+    <Compile Include="Configuration\ConfigurationSection.cs" />
+    <Compile Include="Configuration\ContainersCollection.cs" />
     <Compile Include="Hosting\ConcreteTypeExportProvider.cs" />
     <Compile Include="Hosting\FilteredExportProvider.cs" />
     <Compile Include="ImportCollectionChangedEventHandler.cs" />
