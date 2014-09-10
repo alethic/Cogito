@@ -126,6 +126,13 @@
     <Compile Include="Collections\IQueue.cs" />
     <Compile Include="Collections\LinkedListExtensions.cs" />
     <Compile Include="Collections\MergedDictionary.cs" />
+    <Compile Include="Components\ComponentBase.cs" />
+    <Compile Include="Components\Extensions.cs" />
+    <Compile Include="Components\IComponent.cs" />
+    <Compile Include="Components\Services\IService.cs" />
+    <Compile Include="Components\Services\IServiceManager.cs" />
+    <Compile Include="Components\Services\ServiceBase.cs" />
+    <Compile Include="Components\Services\ServiceManager.cs" />
     <Compile Include="DisposableExtensions.cs" />
     <Compile Include="IDisposable.cs" />
     <Compile Include="IO\BlockingStream.cs" />
@@ -179,11 +186,16 @@
     <Compile Include="StringExtensions.cs" />
     <Compile Include="STuple.cs" />
     <Compile Include="Text\StringBuilderExtensions.cs" />
+    <Compile Include="Threading\AsyncLock.cs" />
+    <Compile Include="Threading\AsyncManualResetEvent.cs" />
+    <Compile Include="Threading\CompletedAsyncResult.cs" />
+    <Compile Include="Threading\TaskExtensions.cs" />
     <Compile Include="TryFunc.cs" />
     <Compile Include="UriBuilderExtensions.cs" />
     <Compile Include="UriExtensions.cs" />
     <Compile Include="SemanticVersion.cs" />
     <Compile Include="Value.cs" />
+    <Compile Include="ValueEventArgs.cs" />
     <Compile Include="Version.cs" />
     <Compile Include="Xml\Extensions.cs" />
   </ItemGroup>
