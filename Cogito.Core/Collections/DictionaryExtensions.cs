@@ -46,6 +46,19 @@ namespace Cogito.Collections
             return self.TryGetValue(key, out v) ? v : self[key] = create(key);
         }
 
+        /// <summary>
+        /// Returns a <see cref="IDictionary"/> implementation which merges the first dictionary with the second.
+        /// </summary>
+        /// <typeparam name="TKey"></typeparam>
+        /// <typeparam name="TValue"></typeparam>
+        /// <param name="source"></param>
+        /// <param name="second"></param>
+        /// <returns></returns>
+        public static IDictionary<TKey, TValue> Merge<TKey, TValue>(this IDictionary<TKey, TValue> source, IDictionary<TKey, TValue> second)
+        {
+            return new MergedDictionary<TKey, TValue>(source, second);
+        }
+
     }
 
 }
