@@ -7,7 +7,8 @@
     public static class CompositionConstants
     {
 
-        public const string RequiredScopeMetadataName = "Cogito.Composition.RequiredScope";
+        public const string ScopeMetadataKey = "Cogito.Composition.Scope";
+        public const string VisibilityMetadataKey = "Cogito.Composition.Visibility";
 
     }
 

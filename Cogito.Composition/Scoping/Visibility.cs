@@ -10,7 +10,7 @@
         /// <summary>
         /// Instances of the part are available to any children scopes.
         /// </summary>
-        Global,
+        Inherit,
 
         /// <summary>
         /// Instances of the part are not available to children scopes.

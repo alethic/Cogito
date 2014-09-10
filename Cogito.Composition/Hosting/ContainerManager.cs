@@ -3,9 +3,7 @@ using System.Collections.Concurrent;
 using System.Diagnostics.Contracts;
 using System.Xaml;
 
-using Cogito.Composition.Hosting.Configuration;
-
-using mef = System.ComponentModel.Composition.Hosting;
+using Cogito.Composition.Configuration;
 
 namespace Cogito.Composition.Hosting
 {
@@ -17,9 +15,9 @@ namespace Cogito.Composition.Hosting
     {
 
 
-        readonly static ConcurrentDictionary<string, mef.CompositionContainer> containers;
+        readonly static ConcurrentDictionary<string, CompositionContainer> containers;
         readonly static string defaultContainerName;
-        static mef.CompositionContainer defaultContainer;
+        static CompositionContainer defaultContainer;
 
         /// <summary>
         /// Initializes the static type.
@@ -27,7 +25,7 @@ namespace Cogito.Composition.Hosting
         static ContainerManager()
         {
             defaultContainerName = "Default";
-            containers = new ConcurrentDictionary<string, mef.CompositionContainer>();
+            containers = new ConcurrentDictionary<string, CompositionContainer>();
 
             var s = ConfigurationSection.GetDefaultSection();
             if (s != null)
@@ -39,7 +37,7 @@ namespace Cogito.Composition.Hosting
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        public static mef.CompositionContainer GetContainer(string name)
+        public static CompositionContainer GetContainer(string name)
         {
             Contract.Requires<ArgumentNullException>(name != null);
             Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(name));
@@ -56,7 +54,7 @@ namespace Cogito.Composition.Hosting
                     throw new IndexOutOfRangeException("Unconfigured container name.");
 
                 // convert xaml into object
-                var c = XamlServices.Load(l.Xaml.CreateReader()) as mef.CompositionContainer;
+                var c = XamlServices.Load(l.Xaml.CreateReader()) as CompositionContainer;
                 if (c == null)
                     throw new IndexOutOfRangeException("Unknown container name.");
 
@@ -68,14 +66,22 @@ namespace Cogito.Composition.Hosting
         /// Gets the default container.
         /// </summary>
         /// <returns></returns>
-        public static mef.CompositionContainer GetDefaultContainer()
+        public static CompositionContainer GetDefaultContainer()
         {
-            Contract.Ensures(Contract.Result<mef.CompositionContainer>() != null);
+            Contract.Ensures(Contract.Result<CompositionContainer>() != null);
 
             return
                 defaultContainer ??
-                (defaultContainer = GetContainer(defaultContainerName)) ??
-                (defaultContainer = new CompositionContainer(new ApplicationCatalog()));
+                (defaultContainer = new DefaultCompositionContainer());
+        }
+
+        /// <summary>
+        /// Gets the default type resolver.
+        /// </summary>
+        /// <returns></returns>
+        public static ITypeResolver GetDefaultTypeResolver()
+        {
+            return GetDefaultContainer().GetExportedValue<ITypeResolver>();
         }
 
     }

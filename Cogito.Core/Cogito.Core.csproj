@@ -126,9 +126,18 @@
     <Compile Include="Collections\IQueue.cs" />
     <Compile Include="Collections\LinkedListExtensions.cs" />
     <Compile Include="Collections\MergedDictionary.cs" />
+    <Compile Include="Components\ComponentBase.cs" />
+    <Compile Include="Components\Extensions.cs" />
+    <Compile Include="Components\IComponent.cs" />
+    <Compile Include="Components\Services\IService.cs" />
+    <Compile Include="Components\Services\IServiceManager.cs" />
+    <Compile Include="Components\Services\ServiceBase.cs" />
+    <Compile Include="Components\Services\ServiceManager.cs" />
     <Compile Include="DisposableExtensions.cs" />
     <Compile Include="IDisposable.cs" />
     <Compile Include="IO\BlockingStream.cs" />
+    <Compile Include="Ref.cs" />
+    <Compile Include="RefManager.cs" />
     <Compile Include="Resources\AssemblyResourcePath.cs" />
     <Compile Include="Resources\AssemblyResourceBundleAttribute.cs" />
     <Compile Include="Resources\ResourceBundleAttribute.cs" />
@@ -177,10 +186,16 @@
     <Compile Include="StringExtensions.cs" />
     <Compile Include="STuple.cs" />
     <Compile Include="Text\StringBuilderExtensions.cs" />
+    <Compile Include="Threading\AsyncLock.cs" />
+    <Compile Include="Threading\AsyncManualResetEvent.cs" />
+    <Compile Include="Threading\CompletedAsyncResult.cs" />
+    <Compile Include="Threading\TaskExtensions.cs" />
     <Compile Include="TryFunc.cs" />
     <Compile Include="UriBuilderExtensions.cs" />
     <Compile Include="UriExtensions.cs" />
     <Compile Include="SemanticVersion.cs" />
+    <Compile Include="Value.cs" />
+    <Compile Include="ValueEventArgs.cs" />
     <Compile Include="Version.cs" />
     <Compile Include="Xml\Extensions.cs" />
   </ItemGroup>
@@ -188,6 +203,13 @@
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <Import Project="$(ProjectDir)\..\.nuget\NuGet.targets" Condition="Exists('$(ProjectDir)\..\.nuget\NuGet.targets')" />
   <Import Project="..\packages\Microsoft.CodeContracts.1.5.60911.11\build\Microsoft.CodeContracts.targets" Condition="Exists('..\packages\Microsoft.CodeContracts.1.5.60911.11\build\Microsoft.CodeContracts.targets')" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
+  </Target>
 </Project>
