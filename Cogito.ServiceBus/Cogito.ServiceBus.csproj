@@ -32,19 +32,30 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Configuration\ConfigurationSection.cs" />
     <Compile Include="IBusContext.cs" />
     <Compile Include="IConsumeContext.cs" />
     <Compile Include="IMessageContext.cs" />
+    <Compile Include="Infrastructure\ISemaphoreFactory.cs" />
+    <Compile Include="Infrastructure\Semaphore.cs" />
+    <Compile Include="Infrastructure\SemaphoreFactory.cs" />
+    <Compile Include="Infrastructure\SemaphoreMessage.cs" />
+    <Compile Include="Infrastructure\SemaphoreProvider.cs" />
+    <Compile Include="Infrastructure\SemaphoreStatus.cs" />
     <Compile Include="IPublishContext.cs" />
     <Compile Include="ISendContext.cs" />
     <Compile Include="IServiceBus.cs" />
+    <Compile Include="IServiceBusFactory.cs" />
     <Compile Include="IServiceContextObservable.cs" />
     <Compile Include="IServiceObservable.cs" />
+    <Compile Include="MessageException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ServiceBusProvider.cs" />
     <Compile Include="ServiceObservable.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

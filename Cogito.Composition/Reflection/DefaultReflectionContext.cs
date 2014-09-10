@@ -20,9 +20,7 @@ namespace Cogito.Composition.Reflection
         /// <returns></returns>
         static ReflectionContext Get()
         {
-            return
-                new ScopeMetadataReflectionContext(
-                    new InheritedPartCreationPolicyReflectionContext());
+            return new InheritedPartCreationPolicyReflectionContext();
         }
 
         /// <summary>
@@ -34,10 +32,7 @@ namespace Cogito.Composition.Reflection
         {
             Contract.Requires<ArgumentNullException>(source != null);
 
-            return
-                new ScopeMetadataReflectionContext(
-                    new InheritedPartCreationPolicyReflectionContext(
-                        source));
+            return new InheritedPartCreationPolicyReflectionContext(source);
         }
 
         /// <summary>

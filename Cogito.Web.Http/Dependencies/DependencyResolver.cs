@@ -2,56 +2,57 @@
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Diagnostics.Contracts;
-using System.Linq;
 using System.Web.Http.Dependencies;
 
 using Cogito.Composition;
+using Cogito.Composition.Hosting;
+using Cogito.Composition.Scoping;
+using Cogito.Core;
 
 namespace Cogito.Web.Http.Dependencies
 {
 
     [Export(typeof(IDependencyResolver))]
     [Export(typeof(IDependencyScope))]
-    public class DependencyResolver : 
+    public class DependencyResolver :
         IDependencyResolver
     {
 
-        /// <summary>
-        /// Gets the <see cref="ICompositionService"/> which serves the scope.
-        /// </summary>
-        readonly ICompositionContext composition;
+        readonly ITypeResolver resolver;
+        readonly IScopeService service;
+        readonly Ref<CompositionContainer> _ref;
 
         /// <summary>
         /// Initializes a new instance.
         /// </summary>
-        /// <param name="composition"></param>
+        /// <param name="resolver"></param>
         [ImportingConstructor]
-        public DependencyResolver(
-            ICompositionContext composition)
+        public DependencyResolver(ITypeResolver resolver)
         {
-            Contract.Requires<ArgumentNullException>(composition != null);
+            Contract.Requires<ArgumentNullException>(resolver != null);
 
-            this.composition = composition;
+            this.resolver = resolver;
+            this._ref = resolver.Resolve<Func<Ref<CompositionContainer>>>()();
         }
 
         public IDependencyScope BeginScope()
         {
-            return new DependencyResolver(composition.GetOrBeginScope<IWebRequestScope>());
+            return new DependencyResolver(service.Resolve<IWebRequestScope>());
         }
 
         public object GetService(Type serviceType)
         {
-            return GetServices(serviceType).SingleOrDefault();
+            return resolver.Resolve(serviceType);
         }
 
         public IEnumerable<object> GetServices(Type serviceType)
         {
-            return composition.GetExportedValues(serviceType);
+            return resolver.ResolveMany(serviceType);
         }
 
         public void Dispose()
         {
-
+            _ref.Dispose();
         }
 
     }

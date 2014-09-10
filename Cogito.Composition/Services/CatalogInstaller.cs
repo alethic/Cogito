@@ -2,6 +2,9 @@
 using System.ComponentModel.Composition;
 using System.Linq;
 
+using Cogito.Composition.Hosting;
+using Cogito.Composition.Scoping;
+
 namespace Cogito.Composition.Services
 {
 
@@ -9,13 +12,13 @@ namespace Cogito.Composition.Services
     /// Installs provided catalogs in the container.
     /// </summary>
     [OnInitInvokeAttribute]
+    [ExportMetadata(CompositionConstants.VisibilityMetadataKey, Visibility.Local)]
     public class CatalogInstaller :
         IOnInitInvoke
     {
 
         readonly ICatalogService catalogs;
         readonly IEnumerable<ICatalogProvider> providers;
-        readonly ICompositionContext context;
 
         /// <summary>
         /// Initializes a new instance.
@@ -23,13 +26,11 @@ namespace Cogito.Composition.Services
         /// <param name="catalogs"></param>
         [ImportingConstructor]
         public CatalogInstaller(
-            ICompositionContext context,
-            ICatalogService catalogs, 
+            ICatalogService catalogs,
             [ImportMany] IEnumerable<ICatalogProvider> providers)
         {
             this.catalogs = catalogs;
             this.providers = providers;
-            this.context = context;
         }
 
         public void Invoke()

@@ -1,37 +1,34 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 
 namespace Cogito.Collections
 {
 
     /// <summary>
-    /// A collection of keys and values which overlaps an existing <see cref="IDictionary"/>.
+    /// Dictionary implementation that wraps two other dictionaries.
     /// </summary>
-    public class MergedDictionary<TKey, TValue> : IDictionary<TKey, TValue>
+    /// <typeparam name="TKey"></typeparam>
+    /// <typeparam name="TValue"></typeparam>
+    public class MergedDictionary<TKey, TValue> :
+        IDictionary<TKey, TValue>
     {
 
-        readonly IDictionary<TKey, TValue> prev;
+        readonly IDictionary<TKey, TValue> first;
+        readonly IDictionary<TKey, TValue> second;
         readonly IDictionary<TKey, TValue> self;
 
         /// <summary>
         /// Initializes a new instance.
         /// </summary>
-        /// <param name="prev"></param>
-        public MergedDictionary(IDictionary<TKey, TValue> prev)
-            : this(prev, null)
+        /// <param name="first"></param>
+        /// <param name="second"></param>
+        public MergedDictionary(IDictionary<TKey, TValue> first, IDictionary<TKey, TValue> second)
         {
-
-        }
-
-        /// <summary>
-        /// Initializes a new instance.
-        /// </summary>
-        /// <param name="prev"></param>
-        public MergedDictionary(IDictionary<TKey, TValue> prev, IDictionary<TKey, TValue> self)
-        {
-            this.prev = prev ?? new Dictionary<TKey, TValue>();
-            this.self = self ?? new Dictionary<TKey, TValue>();
+            this.first = first;
+            this.second = second;
+            this.self = new Dictionary<TKey, TValue>();
         }
 
         public void Add(TKey key, TValue value)
@@ -41,33 +38,56 @@ namespace Cogito.Collections
 
         public bool ContainsKey(TKey key)
         {
-            return self.ContainsKey(key) || prev.ContainsKey(key);
+            return
+                self.ContainsKey(key) ||
+                second.ContainsKey(key) ||
+                first.ContainsKey(key);
         }
 
         public ICollection<TKey> Keys
         {
-            get { return self.Keys.Concat(prev.Keys).ToList(); }
+            get { return new ReadOnlyCollection<TKey>(self.Select(i => i.Key).ToList()); }
         }
 
         public bool Remove(TKey key)
         {
-            return self.Remove(key) | prev.Remove(key);
+            if (self.Remove(key) | second.Remove(key) | first.Remove(key))
+                return true;
+
+            return false;
         }
 
         public bool TryGetValue(TKey key, out TValue value)
         {
-            return self.TryGetValue(key, out value) || prev.TryGetValue(key, out value);
+            if (self.TryGetValue(key, out value))
+                return true;
+            if (second.TryGetValue(key, out value))
+                return true;
+            if (first.TryGetValue(key, out value))
+                return true;
+
+            return false;
         }
 
         public ICollection<TValue> Values
         {
-            get { return self.Values.Concat(prev.Values).ToList(); }
+            get { return new ReadOnlyCollection<TValue>(self.Select(i => i.Value).ToList()); }
         }
 
         public TValue this[TKey key]
         {
-            get { return self.ContainsKey(key) ? self[key] : prev.ContainsKey(key) ? prev[key] : default(TValue); }
-            set { self[key] = value; }
+            get
+            {
+                TValue k;
+                if (!TryGetValue(key, out k))
+                    throw new KeyNotFoundException();
+
+                return default(TValue);
+            }
+            set
+            {
+                self[key] = value;
+            }
         }
 
         public void Add(KeyValuePair<TKey, TValue> item)
@@ -78,38 +98,41 @@ namespace Cogito.Collections
         public void Clear()
         {
             self.Clear();
-            prev.Clear();
+            second.Clear();
+            first.Clear();
         }
 
         public bool Contains(KeyValuePair<TKey, TValue> item)
         {
-            return self.Contains(item) || prev.Contains(item);
+            return self.Contains(item) || second.Contains(item) || first.Contains(item);
         }
 
         public void CopyTo(KeyValuePair<TKey, TValue>[] array, int arrayIndex)
         {
-            self.CopyTo(array, arrayIndex);
-            prev.CopyTo(array, arrayIndex + Count);
+            this.ToArray().CopyTo(array, arrayIndex);
         }
 
         public int Count
         {
-            get { return self.Count + prev.Count; }
+            get { return this.Count(); }
         }
 
         public bool IsReadOnly
         {
-            get { return self.IsReadOnly; }
+            get { return false; ; }
         }
 
         public bool Remove(KeyValuePair<TKey, TValue> item)
         {
-            return self.Remove(item) | prev.Remove(item);
+            return self.Remove(item) | second.Remove(item) | first.Remove(item);
         }
 
         public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator()
         {
-            return self.Concat(prev).GetEnumerator();
+            return self.Concat(second).Concat(first)
+                .GroupBy(i => i.Key)
+                .Select(i => i.First())
+                .GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()

@@ -8,14 +8,55 @@ namespace Cogito.ServiceBus.MassTransit
 {
 
     /// <summary>
-    /// Creates service bus instances.
+    /// Creates shared service bus instances.
     /// </summary>
-    [Export(typeof(ServiceBusFactory))]
-    public class ServiceBusFactory
+    [Export(typeof(IServiceBusFactory))]
+    public class ServiceBusFactory :
+        ServiceBusFactoryBase,
+        IServiceBusFactory
+    {
+
+        public IServiceBus CreateBus()
+        {
+            // each global bus obtains it's own unique ID
+            return new ServiceBus(base.CreateBus(Guid.NewGuid().ToString("N"), true));
+        }
+
+    }
+
+    /// <summary>
+    /// Creates scoped service bus instances.
+    /// </summary>
+    /// <typeparam name="TScope"></typeparam>
+    [Export(typeof(IServiceBusFactory<>))]
+    public class ServiceBusFactory<TScope> :
+        ServiceBusFactoryBase,
+        IServiceBusFactory<TScope>
+    {
+
+        public IServiceBus<TScope> CreateBus()
+        {
+            return new ServiceBus<TScope>(base.CreateBus(typeof(TScope).FullName, false));
+        }
+
+    }
+
+    /// <summary>
+    /// Common MassTransit service bus factory.
+    /// </summary>
+    public abstract class ServiceBusFactoryBase
     {
 
         static readonly string VHOST = "";
         static readonly string BASE_URI = @"rabbitmq://localhost/";
+
+        /// <summary>
+        /// Initializes a new instance.
+        /// </summary>
+        internal ServiceBusFactoryBase()
+        {
+
+        }
 
         /// <summary>
         /// Builds a service bus queue URI.
@@ -47,24 +88,11 @@ namespace Cogito.ServiceBus.MassTransit
         /// Gets a <see cref="IServiceBus"/> instance.
         /// </summary>
         /// <returns></returns>
-        public global::MassTransit.IServiceBus CreateBus()
+        protected global::MassTransit.IServiceBus CreateBus(string queue, bool temporary)
         {
             return global::MassTransit.ServiceBusFactory.New(sbc =>
             {
-                Configure(sbc, Guid.NewGuid().ToString("N"));
-            });
-        }
-
-        /// <summary>
-        /// Gets a generic <see cref="IServiceBus"/> instance.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <returns></returns>
-        public global::MassTransit.IServiceBus CreateBus<T>()
-        {
-            return global::MassTransit.ServiceBusFactory.New(sbc =>
-            {
-                Configure(sbc, typeof(T).FullName, false);
+                Configure(sbc, queue, temporary);
             });
         }
 

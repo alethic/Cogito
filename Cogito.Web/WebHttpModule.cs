@@ -49,7 +49,7 @@ namespace Cogito.Web
         /// <param name="args"></param>
         void context_EndRequest(object sender, EventArgs args)
         {
-            WebContainerManager.UnregisterRequestScope();
+
         }
 
         /// <summary>

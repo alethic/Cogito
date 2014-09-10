@@ -1,7 +1,12 @@
 ﻿using System;
+
 namespace Cogito.ServiceBus
 {
 
+    /// <summary>
+    /// General service bus interface. Inject an instance of this type when you want to obtain the application
+    /// specific service bus, for broadcast notifications.
+    /// </summary>
     public interface IServiceBus
     {
 
@@ -34,11 +39,15 @@ namespace Cogito.ServiceBus
 
     }
 
-    public interface IServiceBus<TService> :
+    /// <summary>
+    /// Scope-specific service bus. Use this to listen to identified worker queues.
+    /// </summary>
+    /// <typeparam name="TScope"></typeparam>
+    public interface IServiceBus<TScope> :
         IServiceBus
     {
 
-        IServiceBus Global { get; }
+
 
     }
 

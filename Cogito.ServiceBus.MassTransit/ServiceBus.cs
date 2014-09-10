@@ -4,6 +4,9 @@ using System.ComponentModel.Composition;
 namespace Cogito.ServiceBus.MassTransit
 {
 
+    /// <summary>
+    /// MassTransit <see cref="IServiceBus"/> implementation.
+    /// </summary>
     public class ServiceBus :
         IServiceBus,
         IDisposable
@@ -398,16 +401,10 @@ namespace Cogito.ServiceBus.MassTransit
         /// </summary>
         /// <param name="bus"></param>
         /// <param name="sharedBus"></param>
-        [ImportingConstructor]
-        public ServiceBus(global::MassTransit.IServiceBus bus, IServiceBus sharedBus)
+        public ServiceBus(global::MassTransit.IServiceBus bus)
             : base(bus)
         {
-            this.sharedBus = sharedBus;
-        }
 
-        public IServiceBus Global
-        {
-            get { return sharedBus; }
         }
 
     }
