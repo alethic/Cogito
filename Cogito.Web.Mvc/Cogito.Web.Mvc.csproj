@@ -146,11 +146,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Configuration\RouteSetup.cs" />
     <Compile Include="Configuration\DependencyResolverSetup.cs" />
     <Compile Include="ControllerAttribute.cs" />
     <Compile Include="IMvcModule.cs" />
-    <Compile Include="Internal\DependencyResolver.cs" />
     <Compile Include="Internal\ControllerActivator.cs" />
     <Compile Include="Internal\ReflectionContext.cs" />
     <Compile Include="Internal\WebLifecycleTracker.cs" />
