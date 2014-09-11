@@ -61,10 +61,6 @@
       <Project>{133c2d12-bda9-4806-ba0a-70ec83bec9bd}</Project>
       <Name>Cogito.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Cogito.Nancy\Cogito.Nancy.csproj">
-      <Project>{6c122c4d-5255-408d-8509-2bffa212ac89}</Project>
-      <Name>Cogito.Nancy</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Cogito.Web.UI\Cogito.Web.UI.csproj">
       <Project>{13fe01e6-c37c-4127-bed1-58608179e55d}</Project>
       <Name>Cogito.Web.UI</Name>
