@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.Composition;
 using System.Linq;
 
-using Cogito.Composition.Scoping;
+using Cogito.Composition.Hosting;
 using Cogito.Resources;
 using Cogito.Web;
 
@@ -14,7 +14,7 @@ namespace Cogito.Nancy
     /// Provides access to resource bundles.
     /// </summary>
     [Export(typeof(INancyModule))]
-    [PartScope(typeof(IWebRequestScope))]
+    [PartMetadata(CompositionConstants.ScopeMetadataKey, typeof(IWebRequestScope))]
     public class ResourceModule :
         NancyModule
     {
