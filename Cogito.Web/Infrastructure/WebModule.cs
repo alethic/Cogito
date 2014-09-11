@@ -6,7 +6,7 @@ using System.Diagnostics.Contracts;
 using Cogito.Application.Lifecycle;
 using Cogito.Composition;
 
-namespace Cogito.Web.Internal
+namespace Cogito.Web.Infrastructure
 {
 
     [Module(typeof(IWebModule))]

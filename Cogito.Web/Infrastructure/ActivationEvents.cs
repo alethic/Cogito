@@ -1,6 +1,6 @@
 ﻿using System;
 
-using Cogito.Web.Internal;
+using Cogito.Web.Infrastructure;
 
 using WebActivatorEx;
 
@@ -8,7 +8,7 @@ using WebActivatorEx;
 [assembly: PostApplicationStartMethod(typeof(ActivationEvents), "OnPostStart")]
 [assembly: ApplicationShutdownMethod(typeof(ActivationEvents), "OnShutdown")]
 
-namespace Cogito.Web.Internal
+namespace Cogito.Web.Infrastructure
 {
 
     /// <summary>

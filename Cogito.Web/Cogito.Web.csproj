@@ -122,13 +122,14 @@
   <ItemGroup>
     <Compile Include="Configuration\CompositionElement.cs" />
     <Compile Include="Configuration\ConfigurationSection.cs" />
+    <Compile Include="Infrastructure\WebRequestScopeProvider.cs" />
     <Compile Include="IWebApplicationRegistrar.cs" />
     <Compile Include="WebHttpModule.cs" />
     <Compile Include="HttpApplication.cs" />
-    <Compile Include="Internal\ActivationEvents.cs" />
+    <Compile Include="Infrastructure\ActivationEvents.cs" />
     <Compile Include="IWebConfiguration.cs" />
     <Compile Include="IWebModule.cs" />
-    <Compile Include="Internal\WebModule.cs" />
+    <Compile Include="Infrastructure\WebModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WebException.cs" />
     <Compile Include="WebLifecycleListener.cs" />
