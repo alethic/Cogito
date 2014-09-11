@@ -27,9 +27,9 @@ namespace Cogito.Web.UI
         /// </summary>
         public ResourceManager()
         {
-            this.bundles = TypeResolver.GetExportedValue<IResourceBundleQuery>();
+            this.bundles = TypeResolver.Resolve<IResourceBundleQuery>();
             this.references = new List<BundleReference>();
-            this.installers = TypeResolver.GetExportedValues<IResourceReferencePageInstaller>();
+            this.installers = TypeResolver.ResolveMany<IResourceReferencePageInstaller>();
         }
 
         /// <summary>

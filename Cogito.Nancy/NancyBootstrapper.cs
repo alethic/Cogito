@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Diagnostics.Contracts;
-
 using Cogito.Composition;
 using Cogito.Composition.Hosting;
+using Cogito.Composition.Scoping;
 using Cogito.Nancy.Responses;
 using Cogito.Web;
-
 using Nancy;
 using Nancy.Bootstrapper;
-
 using mef = System.ComponentModel.Composition.Hosting;
 
 namespace Cogito.Nancy
@@ -18,7 +16,7 @@ namespace Cogito.Nancy
     /// Base <see cref="NancyBootstrapper"/> implementation which configures a Cogito composition container.
     /// </summary>
     public abstract class NancyBootstrapper :
-        global::Nancy.Bootstrappers.Mef.NancyBootstrapper<CompositionContainer, CompositionScope>
+        global::Nancy.Bootstrappers.Mef.NancyBootstrapper<ITypeResolver, ITypeResolver>
     {
 
         /// <summary>
@@ -42,11 +40,11 @@ namespace Cogito.Nancy
         /// <summary>
         /// Initializes a new instance.
         /// </summary>
-        /// <param name="container"></param>
-        public NancyBootstrapper(CompositionContainer container)
-            : base(container)
+        /// <param name="typeResolver"></param>
+        public NancyBootstrapper(ITypeResolver typeResolver)
+            : base(typeResolver)
         {
-            Contract.Requires<ArgumentNullException>(container != null);
+            Contract.Requires<ArgumentNullException>(typeResolver != null);
         }
 
         /// <summary>
@@ -77,12 +75,9 @@ namespace Cogito.Nancy
         /// </summary>
         /// <param name="parent"></param>
         /// <returns></returns>
-        protected override CompositionScope CreateRequestContainer(mef.CompositionContainer parent)
+        protected override ITypeResolver CreateRequestContainer(ITypeResolver parent)
         {
-            return (CompositionScope)parent
-                .AsContext()
-                .GetOrBeginScope<IWebRequestScope>()
-                .AsContainer();
+            return parent.Resolve<IScopeTypeResolver>().Resolve<ITypeResolver, IWebRequestScope>();
         }
 
         protected override void AddCatalog(mef.CompositionContainer container, System.ComponentModel.Composition.Primitives.ComposablePartCatalog catalog)
