@@ -3,9 +3,9 @@ using System.ComponentModel.Composition;
 using System.ComponentModel.Composition.Hosting;
 using System.ComponentModel.Composition.Primitives;
 using System.Diagnostics.Contracts;
+
 using Cogito.Composition.Scoping;
 using Cogito.Composition.Services;
-using Cogito.Core;
 
 namespace Cogito.Composition.Hosting
 {
@@ -27,7 +27,7 @@ namespace Cogito.Composition.Hosting
         /// </summary>
         /// <param name="catalog"></param>
         public CompositionContainer(ComposablePartCatalog catalog)
-            : base(new AggregateCatalog())
+            : base(new AggregateCatalog(), true)
         {
             this.parent = null;
             this.scopeType = null;
@@ -47,7 +47,7 @@ namespace Cogito.Composition.Hosting
         /// <param name="parent"></param>
         /// <param name="scopeType"></param>
         public CompositionContainer(CompositionContainer parent, Type scopeType)
-            : base(new AggregateCatalog(), new FilteredExportProvider(parent, i => ScopeMetadataServices.GetVisibility(i) == Visibility.Inherit))
+            : base(new AggregateCatalog(), true, new FilteredExportProvider(new NonRecomposableExportProvider(parent), i => ScopeMetadataServices.GetVisibility(i) == Visibility.Inherit))
         {
             Contract.Requires<ArgumentNullException>(parent != null);
 

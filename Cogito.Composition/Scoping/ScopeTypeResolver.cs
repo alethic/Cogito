@@ -8,7 +8,7 @@ namespace Cogito.Composition.Scoping
 {
 
     [PartMetadata(CompositionConstants.ScopeMetadataKey, typeof(IEveryScope))]
-    [Export(typeof(ScopeManager))]
+    [Export(typeof(IScopeTypeResolver))]
     [ExportMetadata(CompositionConstants.VisibilityMetadataKey, Visibility.Local)]
     public class ScopeTypeResolver :
         IScopeTypeResolver
@@ -20,6 +20,7 @@ namespace Cogito.Composition.Scoping
         /// Initializes a new instance.
         /// </summary>
         /// <param name="service"></param>
+        [ImportingConstructor]
         public ScopeTypeResolver(IScopeService service)
         {
             this.service = service;

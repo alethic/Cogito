@@ -1,5 +1,6 @@
 ﻿using System;
-namespace Cogito.Core
+
+namespace Cogito
 {
 
     /// <summary>

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
@@ -23,6 +24,19 @@ namespace Cogito.Collections
 
             TValue v;
             return self.TryGetValue(key, out v) ? v : default(TValue);
+        }
+
+        /// <summary>
+        /// Gets the value for the specified key, or the default value of the type.
+        /// </summary>
+        /// <param name="self"></param>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        public static object GetOrDefault(this IDictionary self, object key)
+        {
+            Contract.Requires<ArgumentNullException>(self != null);
+
+            return self.Contains(key) ? self[key] : null;
         }
 
         /// <summary>

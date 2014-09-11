@@ -1,5 +1,10 @@
 ﻿using System;
 using System.Web;
+
+using Cogito.Collections;
+using Cogito.Composition.Hosting;
+using Cogito.Web.Infrastructure;
+
 using Microsoft.Web.Infrastructure.DynamicModuleHelper;
 
 [assembly: PreApplicationStartMethod(typeof(Cogito.Web.WebHttpModule), "Start")]
@@ -49,7 +54,17 @@ namespace Cogito.Web
         /// <param name="args"></param>
         void context_EndRequest(object sender, EventArgs args)
         {
-
+            var ctx = HttpContext.Current;
+            if (ctx != null)
+            {
+                // find existing item
+                var r = ctx.Items.GetOrDefault(WebRequestScopeProvider.CONTEXT_KEY) as Ref<CompositionContainer>;
+                if (r != null)
+                {
+                    ctx.Items.Remove(WebRequestScopeProvider.CONTEXT_KEY);
+                    r.Dispose();
+                }
+            }
         }
 
         /// <summary>

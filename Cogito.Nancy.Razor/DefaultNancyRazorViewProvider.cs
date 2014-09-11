@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
-using System.ComponentModel.Composition.Primitives;
 using System.ComponentModel.Composition.ReflectionModel;
 using System.Diagnostics.Contracts;
 using System.Linq;
 
 using Cogito.Collections;
 using Cogito.Composition;
+using Cogito.Composition.Scoping;
 using Cogito.Reflection;
 using Cogito.Web;
 
@@ -24,17 +24,17 @@ namespace Cogito.Nancy.Razor
         INancyRazorViewProvider
     {
 
-        readonly ICompositionContext composition;
+        readonly ITypeResolver typeResolver;
 
         /// <summary>
         /// Initializes a new instance.
         /// </summary>
-        /// <param name="composition"></param>
+        /// <param name="typeResolver"></param>
         [ImportingConstructor]
         public DefaultNancyRazorViewProvider(
-            [Import] ICompositionContext composition)
+            [Import] ITypeResolver typeResolver)
         {
-            this.composition = composition;
+            this.typeResolver = typeResolver;
         }
 
         /// <summary>
@@ -59,20 +59,13 @@ namespace Cogito.Nancy.Razor
         {
             Contract.Requires<ArgumentNullException>(model != null);
 
-            var scope = composition.GetOrBeginScope<IWebRequestScope>();
+            var scope = typeResolver.Resolve<IScopeTypeResolver>().Resolve<IExportResolver, IWebRequestScope>();
             if (scope == null)
                 throw new NullReferenceException();
 
             // find any layout view that supports one of the types implemented by the body
             return GetModelTypes(model)
-                .SelectMany(i => scope.GetExports(new ContractBasedImportDefinition(
-                    AttributedModelServices.GetContractName(typeof(INancyRazorView<>).MakeGenericType(i)),
-                    AttributedModelServices.GetTypeIdentity(typeof(INancyRazorView<>).MakeGenericType(i)),
-                    null,
-                    ImportCardinality.ZeroOrMore,
-                    false,
-                    false,
-                    CreationPolicy.NonShared)))
+                .SelectMany(i => scope.ResolveMany(typeof(INancyRazorView<>).MakeGenericType(i)))
 
                 // extract name metadata
                 .Select(i => new { Name = (string)i.Metadata.GetOrDefault("Name"), Export = i })
