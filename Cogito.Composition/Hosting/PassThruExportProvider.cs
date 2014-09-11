@@ -10,7 +10,8 @@ namespace Cogito.Composition.Hosting
     /// <summary>
     /// Provides a base <see cref="ExportProvider"/> implementation that defers to another <see cref="ExportProvider"/>.
     /// </summary>
-    public abstract class PassThruExportProvider : ExportProvider
+    public abstract class PassThruExportProvider : 
+        ExportProvider
     {
 
         ExportProvider provider;
