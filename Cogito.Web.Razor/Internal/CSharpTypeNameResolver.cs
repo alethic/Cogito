@@ -8,7 +8,7 @@ using Cogito.Irony;
 
 using Irony.Parsing;
 
-namespace Cogito.Web.Internal
+namespace Cogito.Web.Infrastructure
 {
 
     /// <summary>

@@ -15,7 +15,7 @@ using Cogito.Collections;
 using Cogito.Linq;
 using Cogito.Reflection;
 using Cogito.Text;
-using Cogito.Web.Internal;
+using Cogito.Web.Infrastructure;
 using Microsoft.CSharp;
 
 namespace Cogito.Web.Razor
