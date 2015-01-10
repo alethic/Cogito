@@ -16,7 +16,6 @@ namespace Cogito.Application.Lifecycle
         ILifecycleManager<T>
     {
 
-        readonly ICompositionContext composition;
         readonly IEnumerable<IOnInit<T>> init;
         readonly IEnumerable<IOnBeforeStart<T>> beforeStart;
         readonly IEnumerable<IOnStart<T>> start;
@@ -31,7 +30,6 @@ namespace Cogito.Application.Lifecycle
         /// </summary>
         [ImportingConstructor]
         public LifecycleManager(
-            ICompositionContext composition,
             [ImportMany] IEnumerable<IOnInit<T>> init,
             [ImportMany] IEnumerable<IOnBeforeStart<T>> beforeStart,
             [ImportMany] IEnumerable<IOnStart<T>> start,
@@ -40,8 +38,6 @@ namespace Cogito.Application.Lifecycle
             [ImportMany] IEnumerable<IOnShutdown<T>> shutdown,
             [ImportMany] IEnumerable<IOnStateChange<T>> stateChange)
         {
-            Contract.Requires<ArgumentNullException>(composition != null);
-            this.composition = composition;
             this.init = init;
             this.beforeStart = beforeStart;
             this.start = start;

@@ -32,7 +32,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Nancy">
+    <Reference Include="Nancy, Version=0.21.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Nancy.0.21.1\lib\net40\Nancy.dll</HintPath>
     </Reference>
     <Reference Include="System" />
@@ -60,10 +61,6 @@
       <Project>{133c2d12-bda9-4806-ba0a-70ec83bec9bd}</Project>
       <Name>Cogito.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Cogito.Nancy\Cogito.Nancy.csproj">
-      <Project>{6c122c4d-5255-408d-8509-2bffa212ac89}</Project>
-      <Name>Cogito.Nancy</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Cogito.Web.UI\Cogito.Web.UI.csproj">
       <Project>{13fe01e6-c37c-4127-bed1-58608179e55d}</Project>
       <Name>Cogito.Web.UI</Name>
@@ -77,6 +74,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(ProjectDir)\..\.nuget\NuGet.targets" Condition="Exists('$(ProjectDir)\..\.nuget\NuGet.targets')" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

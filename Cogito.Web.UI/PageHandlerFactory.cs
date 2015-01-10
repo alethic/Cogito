@@ -3,7 +3,7 @@
 namespace Cogito.Web.UI
 {
 
-    public class PageHandlerFactory : 
+    public class PageHandlerFactory :
         System.Web.UI.PageHandlerFactory
     {
 

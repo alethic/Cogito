@@ -2,6 +2,8 @@
 using System.Web.UI;
 
 using Cogito.Composition;
+using Cogito.Composition.Hosting;
+using Cogito.Composition.Scoping;
 
 namespace Cogito.Web.UI
 {
@@ -13,7 +15,7 @@ namespace Cogito.Web.UI
         Control
     {
 
-        ICompositionContext composition;
+        ITypeResolver typeResolver;
 
         /// <summary>
         /// Initializes a new instance.
@@ -26,9 +28,9 @@ namespace Cogito.Web.UI
         /// <summary>
         /// Gets a reference to the <see cref="ICompositionContext"/> for the current request.
         /// </summary>
-        public ICompositionContext Composition
+        public ITypeResolver TypeResolver
         {
-            get { return composition ?? (composition = WebContainerManager.GetOrCreateRequestScope()); }
+            get { return typeResolver ?? (typeResolver = ContainerManager.GetDefaultContainer().GetExportedValue<IScopeTypeResolver>().Resolve<ITypeResolver, IWebRequestScope>()); }
         }
 
         /// <summary>
@@ -42,7 +44,7 @@ namespace Cogito.Web.UI
                 return base.ResolveUrl((string)target);
 
             // find first resolved url to target
-            return Composition.GetExportedValues<IUrlResolver>()
+            return TypeResolver.ResolveMany<IUrlResolver>()
                 .Select(i => i.ResolveUrl(target))
                 .FirstOrDefault();
         }

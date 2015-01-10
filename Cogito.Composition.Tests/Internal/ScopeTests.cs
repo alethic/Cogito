@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.Composition;
 using Cogito.Composition.Hosting;
 using Cogito.Composition.Scoping;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Cogito.Composition.Tests.Internal
@@ -10,10 +11,8 @@ namespace Cogito.Composition.Tests.Internal
     public class ScopeTests
     {
 
-        public interface IChildScope : IScope
+        public interface IChildScope
         {
-
-
 
         }
 
@@ -21,10 +20,18 @@ namespace Cogito.Composition.Tests.Internal
         public class InRootScope
         {
 
+
+
+        }
+
+        [Export]
+        public class InRootScopeWithChild
+        {
+
             InChildScope child;
 
             [ImportingConstructor]
-            public InRootScope(
+            public InRootScopeWithChild(
                 InChildScope child)
             {
                 this.child = child;
@@ -33,7 +40,7 @@ namespace Cogito.Composition.Tests.Internal
         }
 
         [Export]
-        [PartScope(typeof(IChildScope))]
+        [PartMetadata(CompositionConstants.ScopeMetadataKey, typeof(IChildScope))]
         public class InChildScope
         {
 
@@ -45,19 +52,41 @@ namespace Cogito.Composition.Tests.Internal
 
         }
 
-        [TestMethod]
-        public void Test_scope_filter_not_found()
+        [Export]
+        [PartMetadata(CompositionConstants.ScopeMetadataKey, typeof(IChildScope))]
+        public class InChildScopeWithRoot
         {
-            var container = new CompositionContainer(new TypeCatalog(new[] { typeof(InRootScope), typeof(InChildScope) }));
-            try
+
+            [ImportingConstructor]
+            public InChildScopeWithRoot(InRootScope root)
             {
-                var item = container.GetExportedValue<InRootScope>();
+
             }
-            catch (CompositionException e)
-            {
-                return;
-            }
-            Assert.Fail();
+
+        }
+
+        [TestMethod]
+        public void Test_root_without_child_found()
+        {
+            Assert.IsNotNull(ContainerManager.GetDefaultTypeResolver().Resolve<InRootScope>());
+        }
+
+        [TestMethod]
+        public void Test_root_with_scope_child_not_found()
+        {
+            Assert.IsNull(ContainerManager.GetDefaultTypeResolver().Resolve<InRootScopeWithChild>());
+        }
+
+        [TestMethod]
+        public void Test_child_scope_found()
+        {
+            Assert.IsNotNull(ContainerManager.GetDefaultTypeResolver().Resolve<IScopeTypeResolver>().Resolve<InChildScope, IChildScope>());
+        }
+
+        [TestMethod]
+        public void Test_root_scope_found_from_child()
+        {
+            Assert.IsNotNull(ContainerManager.GetDefaultTypeResolver().Resolve<IScopeTypeResolver>().Resolve<InChildScopeWithRoot, IChildScope>());
         }
 
     }
