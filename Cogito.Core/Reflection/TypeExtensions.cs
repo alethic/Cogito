@@ -61,6 +61,55 @@ namespace Cogito.Reflection
                 .FirstOrDefault(i => i.Name.Equals(name, comparisontype));
         }
 
+        /// <summary>
+        /// Returns the <see cref="Type"/> of the elements in a given sequence type.
+        /// </summary>
+        /// <param name="seqType"></param>
+        /// <returns></returns>
+        public static Type GetElementType(this Type seqType)
+        {
+            var ienum = FindIEnumerable(seqType);
+            if (ienum == null)
+                return seqType;
+
+            return ienum.GetGenericArguments()[0];
+        }
+
+        static Type FindIEnumerable(Type sequenceType)
+        {
+            if (sequenceType == null || sequenceType == typeof(string))
+                return null;
+
+            if (sequenceType.IsArray)
+                return typeof(IEnumerable<>).MakeGenericType(sequenceType.GetElementType());
+
+            if (sequenceType.IsGenericType)
+            {
+                foreach (Type arg in sequenceType.GetGenericArguments())
+                {
+                    var ienum = typeof(IEnumerable<>).MakeGenericType(arg);
+                    if (ienum.IsAssignableFrom(sequenceType))
+                        return ienum;
+                }
+            }
+
+            var ifaces = sequenceType.GetInterfaces();
+            if (ifaces != null && ifaces.Length > 0)
+            {
+                foreach (Type iface in ifaces)
+                {
+                    var ienum = FindIEnumerable(iface);
+                    if (ienum != null) 
+                        return ienum;
+                }
+            }
+
+            if (sequenceType.BaseType != null && sequenceType.BaseType != typeof(object))
+                return FindIEnumerable(sequenceType.BaseType);
+
+            return null;
+        }
+
     }
 
 }

@@ -136,6 +136,10 @@
     <Compile Include="DisposableExtensions.cs" />
     <Compile Include="IDisposable.cs" />
     <Compile Include="IO\BlockingStream.cs" />
+    <Compile Include="Linq\Query.cs" />
+    <Compile Include="Linq\QueryProvider.cs" />
+    <Compile Include="Linq\Requeryable.cs" />
+    <Compile Include="Linq\RequeryableProvider.cs" />
     <Compile Include="Ref.cs" />
     <Compile Include="RefManager.cs" />
     <Compile Include="TextMediaTypeProvider.cs" />
