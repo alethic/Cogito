@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Linq.Expressions;
 
@@ -22,6 +23,8 @@ namespace Cogito.Core.Linq
 
         public override object Execute(Expression expression)
         {
+            Contract.Requires<ArgumentNullException>(expression != null);
+
             throw new NotImplementedException();
         }
 

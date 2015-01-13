@@ -26,6 +26,18 @@ namespace Cogito.Core.Linq
             Contract.Requires<ArgumentNullException>(expression != null);
         }
 
+        /// <summary>
+        /// Applies the <see cref="Requerable{TElement}"/> to a new <see cref="IQueryable"/>.
+        /// </summary>
+        /// <param name="source"></param>
+        /// <returns></returns>
+        public IQueryable<TElement> Requery(IQueryable<TElement> source)
+        {
+            Contract.Requires<ArgumentNullException>(source != null);
+
+            throw new NotImplementedException();
+        }
+
     }
 
 }
