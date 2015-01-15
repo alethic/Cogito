@@ -8,7 +8,11 @@ namespace Cogito
     /// <summary>
     /// Represents a version.
     /// </summary>
-    public abstract class Version : ICloneable, IComparable, IComparable<Version>, IEquatable<Version>
+    public abstract class Version : 
+        ICloneable, 
+        IComparable, 
+        IComparable<Version>, 
+        IEquatable<Version>
     {
 
         public static bool operator >(Version version1, Version version2)

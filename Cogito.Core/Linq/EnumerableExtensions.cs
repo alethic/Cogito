@@ -293,7 +293,8 @@ namespace Cogito.Linq
         public static IEnumerable<IEnumerable<T>> Transpose<T>(this IEnumerable<IEnumerable<T>> source)
         {
             var enumerators = source
-                .Select(e => e.GetEnumerator()).ToArray();
+                .Select(e => e.GetEnumerator())
+                .ToArray();
 
             try
             {
@@ -307,7 +308,6 @@ namespace Cogito.Linq
                 Array.ForEach(enumerators, e => e.Dispose());
             }
         }
-
 
     }
 
