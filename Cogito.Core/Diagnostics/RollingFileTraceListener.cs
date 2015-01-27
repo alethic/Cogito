@@ -70,7 +70,7 @@ namespace Cogito.Diagnostics
 
             return Path.Combine(
                 Path.GetDirectoryName(filePath),
-                Path.GetFileNameWithoutExtension(filePath) + "_" + today.ToString("yyyymmdd") + Path.GetExtension(filePath));
+                Path.GetFileNameWithoutExtension(filePath) + "_" + today.ToString("yyyyMMdd") + Path.GetExtension(filePath));
         }
 
         void Rollover()
