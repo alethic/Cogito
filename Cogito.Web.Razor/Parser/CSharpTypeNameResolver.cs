@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Reflection;
-
 using Cogito.Irony;
-
+using Cogito.Linq;
 using Irony.Parsing;
 
-namespace Cogito.Web.Infrastructure
+namespace Cogito.Web.Razor.Parser
 {
 
     /// <summary>
@@ -20,7 +19,7 @@ namespace Cogito.Web.Infrastructure
         /// <summary>
         /// Irony parser for contract name.
         /// </summary>
-        static readonly Parser parser = new Parser(new CSharpTypeNameGrammar());
+        static readonly global::Irony.Parsing.Parser parser = new global::Irony.Parsing.Parser(new CSharpTypeNameGrammar());
 
         /// <summary>
         /// Transforms a 'qualified_identifier' node into a identifier string.
@@ -104,6 +103,8 @@ namespace Cogito.Web.Infrastructure
 
             // for each namespace, attempt to resolve type from assemblies
             var type = namespaces
+                .Prepend("")
+                .Reverse()
                 .SelectMany(i => assemblies
                     .Select(j => GetTypeByFullyQualifiedName(j, GetFullyQualifiedTypeName(i, typeName), args)))
                 .FirstOrDefault(i => i != null);

@@ -1,6 +1,6 @@
 ﻿using Irony.Parsing;
 
-namespace Cogito.Web.Infrastructure
+namespace Cogito.Web.Razor.Parser
 {
 
     /// <summary>

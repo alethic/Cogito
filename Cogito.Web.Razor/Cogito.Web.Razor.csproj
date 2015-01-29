@@ -127,8 +127,8 @@
     <Compile Include="Generator\CSharpGrammar.cs" />
     <Compile Include="HelperResult.cs" />
     <Compile Include="IHtmlString.cs" />
-    <Compile Include="Internal\CSharpTypeNameGrammar.cs" />
-    <Compile Include="Internal\CSharpTypeNameResolver.cs" />
+    <Compile Include="Parser\CSharpTypeNameGrammar.cs" />
+    <Compile Include="Parser\CSharpTypeNameResolver.cs" />
     <Compile Include="IRazorTemplate.cs" />
     <Compile Include="ParserErrorException.cs" />
     <Compile Include="Parser\CSharpCodeParser.cs" />
@@ -150,6 +150,9 @@
       <Project>{ae3568e9-03b0-4c86-b5ca-4d99219fdc15}</Project>
       <Name>Cogito.Irony</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Internal\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(ProjectDir)\..\.nuget\NuGet.targets" Condition="Exists('$(ProjectDir)\..\.nuget\NuGet.targets')" />

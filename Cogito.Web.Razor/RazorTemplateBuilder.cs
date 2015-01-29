@@ -10,12 +10,14 @@ using System.Reflection;
 using System.Text;
 using System.Web.Razor;
 using System.Web.Razor.Generator;
+
 using Cogito.CodeDom.Compiler;
 using Cogito.Collections;
 using Cogito.Linq;
 using Cogito.Reflection;
 using Cogito.Text;
-using Cogito.Web.Infrastructure;
+using Cogito.Web.Razor.Parser;
+
 using Microsoft.CSharp;
 
 namespace Cogito.Web.Razor
@@ -424,13 +426,11 @@ namespace Cogito.Web.Razor
             foreach (var ctor in typeDeclaration.Type.Members.OfType<CodeConstructor>().ToList())
                 typeDeclaration.Type.Members.Remove(ctor);
 
-            // extract current constructors, and base types
-            var bases = typeDeclaration.Type.BaseTypes.Cast<CodeTypeReference>().Select(i => i.BaseType);
-
-            // resolve base types for base class
-            var btype = bases
+            // implemented class
+            var btype = typeDeclaration.Type.BaseTypes
+                .Cast<CodeTypeReference>()
                 .Select(i => CSharpTypeNameResolver.ResolveType(
-                    i, 
+                    codeProvider.GetTypeOutput(i),
                     ReflectionOnlyLoadAssemblies(referencedAssemblies).ToList(), 
                     typeDeclaration.Namespaces))
                 .Where(i => i.IsClass)
