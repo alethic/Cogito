@@ -292,6 +292,8 @@ namespace Cogito.Linq
 
         public static IEnumerable<IEnumerable<T>> Transpose<T>(this IEnumerable<IEnumerable<T>> source)
         {
+            Contract.Requires<ArgumentNullException>(source != null);
+
             var enumerators = source
                 .Select(e => e.GetEnumerator())
                 .ToArray();
@@ -307,6 +309,21 @@ namespace Cogito.Linq
             {
                 Array.ForEach(enumerators, e => e.Dispose());
             }
+        }
+
+        /// <summary>
+        /// Returns <c>true</c> if the <paramref name="source"/> sequences contains all the elements of the <paramref name="items"/> sequence.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="source"></param>
+        /// <param name="items"></param>
+        /// <returns></returns>
+        public static bool ContainsAll<T>(this IEnumerable<T> source, IEnumerable<T> items)
+        {
+            Contract.Requires<ArgumentNullException>(source != null);
+            Contract.Requires<ArgumentNullException>(items != null);
+
+            return !items.Except(source).Any();
         }
 
     }
