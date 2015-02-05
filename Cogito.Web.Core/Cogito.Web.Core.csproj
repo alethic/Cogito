@@ -118,6 +118,5 @@
       <Name>Cogito.Core</Name>
     </ProjectReference>
   </ItemGroup>
-  <Import Project="$(ProjectDir)\..\.nuget\NuGet.targets" Condition="Exists('$(ProjectDir)\..\.nuget\NuGet.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
