@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 
@@ -31,6 +32,7 @@ namespace Cogito.Linq.Expressions
                 default:
                     return null;
             }
+
         }
 
         /// <summary>
@@ -67,6 +69,70 @@ namespace Cogito.Linq.Expressions
 
             // join with separator
             return string.Join(".", path);
+        }
+
+        /// <summary>
+        /// Navigates from the return value of the given <see cref="Expression"/>.
+        /// </summary>
+        /// <param name="self"></param>
+        /// <param name="propertyPath"></param>
+        /// <returns></returns>
+        public static Expression GetPropertyOrFieldFromPath(this Expression self, string propertyPath)
+        {
+            Contract.Requires<ArgumentNullException>(self != null);
+            Contract.Requires<ArgumentNullException>(propertyPath != null);
+
+            // split property path
+            var path = propertyPath.Split('.')
+                .Select(i => i.Trim())
+                .ToArray();
+
+            // recursively apply path to expression tree
+            var expr = self;
+            foreach (var i in path)
+                expr = Expression.PropertyOrField(expr, i);
+
+            return expr;
+        }
+
+        /// <summary>
+        /// Navigates from the return value of the given <see cref="Expression"/> to the given property.
+        /// </summary>
+        /// <typeparam name="TInput"></typeparam>
+        /// <typeparam name="TReturn"></typeparam>
+        /// <param name="self"></param>
+        /// <param name="accessor"></param>
+        /// <returns></returns>
+        public static Expression GetPropertyOrFieldExpression<TInput, TReturn>(this Expression self, Expression<Func<TInput, TReturn>> accessor)
+        {
+            Contract.Requires<ArgumentNullException>(self != null);
+            Contract.Requires<ArgumentNullException>(accessor != null);
+
+            return self.GetPropertyOrFieldFromPath(accessor.GetPropertyOrFieldPath());
+        }
+
+        /// <summary>
+        /// Applies an AndAlso operation between each <see cref="Expression"/> in the sequence.
+        /// </summary>
+        /// <param name="source"></param>
+        /// <returns></returns>
+        public static Expression AndAlsoAll(this IEnumerable<Expression> source)
+        {
+            Contract.Requires<ArgumentNullException>(source != null);
+
+            return source.Aggregate((i, j) => Expression.AndAlso(i, j));
+        }
+
+        /// <summary>
+        /// Applies an OrElse operation between each <see cref="Expression"/> in the sequence.
+        /// </summary>
+        /// <param name="source"></param>
+        /// <returns></returns>
+        public static Expression OrElseAll(this IEnumerable<Expression> source)
+        {
+            Contract.Requires<ArgumentNullException>(source != null);
+
+            return source.Aggregate((i, j) => Expression.OrElse(i, j));
         }
 
     }

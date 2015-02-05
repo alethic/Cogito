@@ -23,6 +23,7 @@ namespace Cogito.Linq
         public static IEnumerable<T[]> Combinations<T>(this IEnumerable<T> self, int size)
         {
             Contract.Requires<ArgumentNullException>(self != null);
+            Contract.Requires<ArgumentOutOfRangeException>(size >= 1);
             Contract.Requires<ArgumentOutOfRangeException>(size <= self.Count());
 
             return Combinations(self.ToArray(), size);
@@ -39,6 +40,7 @@ namespace Cogito.Linq
         public static IEnumerable<T[]> Combinations<T>(this T[] self, int size)
         {
             Contract.Requires<ArgumentNullException>(self != null);
+            Contract.Requires<ArgumentOutOfRangeException>(size >= 1);
             Contract.Requires<ArgumentOutOfRangeException>(size <= self.Length);
 
             // replace input with incrementing series
