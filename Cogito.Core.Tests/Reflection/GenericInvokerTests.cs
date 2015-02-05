@@ -14,12 +14,12 @@ namespace Cogito.Core.Tests.Reflection
             return t1;
         }
 
-        [TestMethod]
-        public void Invoke_with_1_arg()
-        {
-            var r = GenericInvoker.Invoke(typeof(int), () => TestMethod<object>(new object()));
-            Assert.AreEqual(typeof(object), r.GetType());
-        }
+        //[TestMethod]
+        //public void Invoke_with_1_arg()
+        //{
+        //    var r = GenericInvoker.Invoke(typeof(int), () => TestMethod<object>(new object()));
+        //    Assert.AreEqual(typeof(object), r.GetType());
+        //}
 
     }
 

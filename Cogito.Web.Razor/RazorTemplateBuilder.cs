@@ -87,6 +87,7 @@ namespace Cogito.Web.Razor
             "System",
             "System.Collections.Generic",
             "System.Linq",
+            "Cogito.Web.Razor",
         };
 
         /// <summary>

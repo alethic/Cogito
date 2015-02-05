@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.Composition;
+
 using Cogito.Composition.Hosting;
 using Cogito.Composition.Scoping;
 

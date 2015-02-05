@@ -313,7 +313,6 @@ namespace Cogito.ServiceBus.MassTransit
         }
 
         readonly global::MassTransit.IServiceBus bus;
-        readonly Lazy<ServiceBus> controlBus;
 
         /// <summary>
         /// Initializes a new instance.
@@ -322,7 +321,6 @@ namespace Cogito.ServiceBus.MassTransit
         internal ServiceBus(global::MassTransit.IServiceBus bus)
         {
             this.bus = bus;
-            this.controlBus = new Lazy<ServiceBus>(() => new ServiceBus(bus.ControlBus));
         }
 
         public IDisposable Subscribe<T>(Action<T> handler)

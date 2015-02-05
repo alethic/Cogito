@@ -3,6 +3,8 @@ using System.ComponentModel.Composition;
 using System.ComponentModel.Composition.Hosting;
 using System.ComponentModel.Composition.Primitives;
 using System.Diagnostics.Contracts;
+using System.Linq;
+using System.Reflection;
 
 using Cogito.Composition.Scoping;
 using Cogito.Composition.Services;
@@ -71,7 +73,15 @@ namespace Cogito.Composition.Hosting
         {
             Contract.Requires<ArgumentNullException>(catalog != null);
 
-            aggregateCatalog.Catalogs.Add(new ScopeCatalog(catalog, scopeType));
+            try
+            {
+                aggregateCatalog.Catalogs.Add(new ScopeCatalog(catalog, scopeType));
+            }
+            catch (ReflectionTypeLoadException e)
+            {
+                // rethrow as AggregateException for detail
+                throw new AggregateException(e.LoaderExceptions);
+            }
         }
 
         /// <summary>
