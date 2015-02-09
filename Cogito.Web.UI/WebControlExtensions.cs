@@ -71,6 +71,45 @@ namespace Cogito.Web.UI
             return control;
         }
 
+        /// <summary>
+        /// Adds the given CSS style to the <see cref="WebControl"/>.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="control"></param>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static T AddCssStyle<T>(this T control, string key, string value)
+            where T : WebControl
+        {
+            Contract.Requires<ArgumentNullException>(control != null);
+            Contract.Requires<ArgumentNullException>(key != null);
+            Contract.Requires<ArgumentOutOfRangeException>(!string.IsNullOrWhiteSpace(key));
+
+            control.Style.Add(key, value);
+
+            return control;
+        }
+
+        /// <summary>
+        /// Removes the given CSS style from the <see cref="WebControl"/>.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="control"></param>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        public static T RemoveCssStyle<T>(this T control, string key)
+            where T : WebControl
+        {
+            Contract.Requires<ArgumentNullException>(control != null);
+            Contract.Requires<ArgumentNullException>(key != null);
+            Contract.Requires<ArgumentOutOfRangeException>(!string.IsNullOrWhiteSpace(key));
+
+            control.Style.Remove(key);
+
+            return control;
+        }
+
     }
 
 }
