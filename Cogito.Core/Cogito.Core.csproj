@@ -137,6 +137,7 @@
     <Compile Include="DisposableExtensions.cs" />
     <Compile Include="IDisposable.cs" />
     <Compile Include="IO\BlockingStream.cs" />
+    <Compile Include="Linq\Expressions\RedundantConvertExpressionTransformer.cs" />
     <Compile Include="Ref.cs" />
     <Compile Include="RefManager.cs" />
     <Compile Include="TextMediaTypeProvider.cs" />
