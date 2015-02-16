@@ -21,7 +21,6 @@ namespace Cogito.Linq.Expressions
             return base.VisitUnary(node);
         }
 
-
     }
 
 }
