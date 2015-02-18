@@ -40,7 +40,7 @@ namespace Cogito.Web.UI
         /// <param name="key"></param>
         /// <param name="value"></param>
         /// <returns></returns>
-        public static T WithAttribute<T>(this T control, string key, string value)
+        public static T AddAttribute<T>(this T control, string key, string value)
             where T : IAttributeAccessor
         {
             Contract.Requires<ArgumentNullException>(control != null);
@@ -58,14 +58,14 @@ namespace Cogito.Web.UI
         /// <param name="control"></param>
         /// <param name="attribute"></param>
         /// <returns></returns>
-        public static T WithAttribute<T>(this T control, Expression<Func<string, string>> attribute)
+        public static T AddAttribute<T>(this T control, Expression<Func<string, string>> attribute)
             where T : IAttributeAccessor
         {
             Contract.Requires<ArgumentNullException>(control != null);
             Contract.Requires<ArgumentNullException>(attribute != null);
 
             foreach (var p in attribute.Parameters)
-                WithAttribute(control, p.Name, attribute.Compile()(control.GetAttribute(p.Name)));
+                AddAttribute(control, p.Name, attribute.Compile()(control.GetAttribute(p.Name)));
 
             return control;
         }
