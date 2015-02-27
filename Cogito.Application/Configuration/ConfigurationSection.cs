@@ -27,4 +27,5 @@ namespace Cogito.Application.Configuration
         }
 
     }
+
 }

@@ -74,7 +74,13 @@ namespace Cogito.Collections
         /// <returns></returns>
         public static IDictionary<TKey, TValue> Merge<TKey, TValue>(this IDictionary<TKey, TValue> source, IDictionary<TKey, TValue> second)
         {
-            return new MergedDictionary<TKey, TValue>(source, second);
+            var d = new Dictionary<TKey, TValue>(source);
+
+            // merge keys from second into new copy
+            foreach (var i in second)
+                d[i.Key] = i.Value;
+
+            return d;
         }
 
         /// <summary>
