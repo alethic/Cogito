@@ -59,7 +59,7 @@ namespace Cogito.Web.UI
         /// <param name="attribute"></param>
         /// <returns></returns>
         public static T AddAttribute<T>(this T control, Expression<Func<string, string>> attribute)
-            where T : IAttributeAccessor
+            where T : class, IAttributeAccessor
         {
             Contract.Requires<ArgumentNullException>(control != null);
             Contract.Requires<ArgumentNullException>(attribute != null);
@@ -78,14 +78,14 @@ namespace Cogito.Web.UI
         /// <param name="class"></param>
         /// <returns></returns>
         public static T AddClass<T>(this T control, string @class)
-            where T : IAttributeAccessor
+            where T : class, IAttributeAccessor
         {
             Contract.Requires<ArgumentNullException>(control != null);
 
             if (!string.IsNullOrWhiteSpace(@class))
             {
                 // split all class names, append new class name, remove duplicates
-                var css = control.GetAttribute("class")
+                var css = (control.GetAttribute("class") ?? "")
                     .Split(' ')
                     .Append(@class)
                     .Select(i => i.TrimOrNull())
@@ -107,21 +107,21 @@ namespace Cogito.Web.UI
         /// <param name="class"></param>
         /// <returns></returns>
         public static T RemoveClass<T>(this T control, string @class)
-            where T : IAttributeAccessor
+            where T : class, IAttributeAccessor
         {
             Contract.Requires<ArgumentNullException>(control != null);
 
             if (!string.IsNullOrWhiteSpace(@class))
             {
                 // split all class names, append new class name, remove duplicates
-                var css = control.GetAttribute("class")
+                var css = (control.GetAttribute("class") ?? "")
                     .Split(' ')
                     .Select(i => i.TrimOrNull())
                     .Where(i => i != null)
                     .Where(i => i != @class)
                     .ToArray();
 
-                control.SetAttribute("class", string.Join(" ", css));
+                control.SetAttribute("class", string.Join(" ", css).TrimOrNull());
             }
 
             return control;
