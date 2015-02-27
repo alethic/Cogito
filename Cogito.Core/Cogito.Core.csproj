@@ -126,6 +126,7 @@
     <Compile Include="Collections\IQueue.cs" />
     <Compile Include="Collections\LinkedListExtensions.cs" />
     <Compile Include="Collections\MergedDictionary.cs" />
+    <Compile Include="Collections\NameValueCollectionExtensions.cs" />
     <Compile Include="Components\ComponentBase.cs" />
     <Compile Include="Components\Extensions.cs" />
     <Compile Include="Components\IComponent.cs" />

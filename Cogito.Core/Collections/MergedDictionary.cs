@@ -1,6 +1,8 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics.Contracts;
 using System.Linq;
 
 namespace Cogito.Collections
@@ -26,6 +28,9 @@ namespace Cogito.Collections
         /// <param name="second"></param>
         public MergedDictionary(IDictionary<TKey, TValue> first, IDictionary<TKey, TValue> second)
         {
+            Contract.Requires<ArgumentNullException>(first != null);
+            Contract.Requires<ArgumentNullException>(second != null);
+
             this.first = first;
             this.second = second;
             this.self = new Dictionary<TKey, TValue>();
@@ -114,7 +119,7 @@ namespace Cogito.Collections
 
         public int Count
         {
-            get { return this.Count(); }
+            get { return this.ToArray().Count(); }
         }
 
         public bool IsReadOnly
