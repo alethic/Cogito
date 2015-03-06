@@ -136,8 +136,10 @@
     <Compile Include="Components\Services\ServiceManager.cs" />
     <Compile Include="Diagnostics\RollingFileTraceListener.cs" />
     <Compile Include="DisposableExtensions.cs" />
+    <Compile Include="ExceptionExtensions.cs" />
     <Compile Include="IDisposable.cs" />
     <Compile Include="IO\BlockingStream.cs" />
+    <Compile Include="IO\DelayedFileSystemWatcher.cs" />
     <Compile Include="Linq\Expressions\RedundantConvertExpressionTransformer.cs" />
     <Compile Include="Ref.cs" />
     <Compile Include="RefManager.cs" />
