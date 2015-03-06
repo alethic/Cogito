@@ -134,6 +134,8 @@
     <Compile Include="Components\Services\IServiceManager.cs" />
     <Compile Include="Components\Services\ServiceBase.cs" />
     <Compile Include="Components\Services\ServiceManager.cs" />
+    <Compile Include="Diagnostics\CrossAppDomainTraceListener.cs" />
+    <Compile Include="Diagnostics\DelegateTraceListener.cs" />
     <Compile Include="Diagnostics\RollingFileTraceListener.cs" />
     <Compile Include="DisposableExtensions.cs" />
     <Compile Include="ExceptionExtensions.cs" />
