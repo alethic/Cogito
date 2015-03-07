@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Timers;
 
@@ -35,6 +37,8 @@ namespace Cogito.ServiceBus.Infrastructure
         /// <param name="max"></param>
         public Semaphore(IServiceBus bus, int max)
         {
+            Contract.Requires<ArgumentNullException>(bus != null);
+
             this.id = Guid.NewGuid();
             this.sort = DateTime.UtcNow;
             this.bus = bus;
@@ -55,7 +59,7 @@ namespace Cogito.ServiceBus.Infrastructure
         public Semaphore(IServiceBus bus)
             : this(bus, 1)
         {
-
+            Contract.Requires<ArgumentNullException>(bus != null);
         }
 
         /// <summary>
@@ -198,7 +202,7 @@ namespace Cogito.ServiceBus.Infrastructure
         /// <param name="args"></param>
         void OnActivated(EventArgs args)
         {
-            Console.WriteLine("Activated: {0}", id);
+            Debug.Print("Activated: {0}", id);
 
             if (Activated != null)
                 Activated(this, args);
@@ -215,7 +219,7 @@ namespace Cogito.ServiceBus.Infrastructure
         /// <param name="args"></param>
         void OnDeactivated(EventArgs args)
         {
-            Console.WriteLine("Deactivated: {0}", id);
+            Debug.Print("Deactivated: {0}", id);
 
             if (Deactivated != null)
                 Deactivated(this, args);
@@ -224,6 +228,17 @@ namespace Cogito.ServiceBus.Infrastructure
         public void Dispose()
         {
             Stop();
+
+            if (subscription != null)
+            {
+                subscription.Dispose();
+                subscription = null;
+            }
+
+            if (bus != null)
+            {
+                bus.Dispose();
+            }
         }
 
     }

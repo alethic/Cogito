@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using System.Diagnostics.Contracts;
 using System.Linq;
 
 namespace Cogito.ServiceBus.MassTransit
@@ -21,8 +22,11 @@ namespace Cogito.ServiceBus.MassTransit
         /// <param name="factories"></param>
         [ImportingConstructor]
         public ServiceBusProvider(
-            [ImportMany] IEnumerable<IServiceBusFactory> factories)
+            [ImportMany] IServiceBusFactory[] factories)
         {
+            Contract.Requires<ArgumentNullException>(factories != null);
+            Contract.Requires<ArgumentNullException>(factories.Length > 0);
+
             this.factories = factories;
             this.bus = new Lazy<IServiceBus>(() => factories.Select(i => i.CreateBus()).FirstOrDefault(i => i != null));
         }
@@ -53,6 +57,8 @@ namespace Cogito.ServiceBus.MassTransit
         public ServiceBusProvider(
             [ImportMany] IEnumerable<IServiceBusFactory<TScope>> factories)
         {
+            Contract.Requires<ArgumentNullException>(factories != null);
+
             this.factories = factories;
             this.bus = new Lazy<IServiceBus<TScope>>(() => factories.Select(i => i.CreateBus()).FirstOrDefault(i => i != null));
         }

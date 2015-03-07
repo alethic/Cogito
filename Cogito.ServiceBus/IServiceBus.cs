@@ -7,7 +7,8 @@ namespace Cogito.ServiceBus
     /// General service bus interface. Inject an instance of this type when you want to obtain the application
     /// specific service bus, for broadcast notifications.
     /// </summary>
-    public interface IServiceBus
+    public interface IServiceBus :
+        IDisposable
     {
 
         IDisposable Subscribe<T>(Action<T> handler)
