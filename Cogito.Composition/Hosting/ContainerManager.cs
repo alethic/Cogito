@@ -30,6 +30,25 @@ namespace Cogito.Composition.Hosting
             var s = ConfigurationSection.GetDefaultSection();
             if (s != null)
                 defaultContainerName = s.Containers.Default ?? defaultContainerName;
+
+            // static container instances need to be disposed of when AppDomain shutdown
+            AppDomain.CurrentDomain.DomainUnload += CurrentDomain_DomainUnload;
+        }
+
+        /// <summary>
+        /// Invoked when the <see cref="AppDomain"/> is being unloaded.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
+        static void CurrentDomain_DomainUnload(object sender, EventArgs args)
+        {
+            // dispose of named containers
+            foreach (var container in containers)
+                container.Value.Dispose();
+
+            // dispose of default container
+            if (defaultContainer != null)
+                defaultContainer.Dispose();
         }
 
         /// <summary>

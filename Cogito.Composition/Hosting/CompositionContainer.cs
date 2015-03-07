@@ -3,7 +3,6 @@ using System.ComponentModel.Composition;
 using System.ComponentModel.Composition.Hosting;
 using System.ComponentModel.Composition.Primitives;
 using System.Diagnostics.Contracts;
-using System.Linq;
 using System.Reflection;
 
 using Cogito.Composition.Scoping;
