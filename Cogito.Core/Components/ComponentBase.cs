@@ -43,7 +43,7 @@ namespace Cogito.Components
         /// <summary>
         /// Disposes of the instance.
         /// </summary>
-        public void Dispose()
+        public virtual void Dispose()
         {
             foreach (var disposable in attached.OfType<IDisposable>())
                 disposable.Dispose();

@@ -25,14 +25,12 @@ namespace Cogito.Core.Diagnostics
         /// <param name="domain"></param>
         public static void ListenTo(AppDomain domain)
         {
-            var listenerType = typeof(CrossAppDomainTraceRelay);
-            var remote = (CrossAppDomainTraceRelay)domain.CreateInstanceAndUnwrap(
-                listenerType.Assembly.FullName,
-                listenerType.FullName);
+            Contract.Requires<ArgumentNullException>(domain != null);
 
-            var local = new CrossAppDomainTraceRelay();
-
-            remote.Register(local);
+            ((CrossAppDomainTraceRelay)domain.CreateInstanceAndUnwrap(
+                    typeof(CrossAppDomainTraceRelay).Assembly.FullName,
+                    typeof(CrossAppDomainTraceRelay).FullName))
+                .Register(new CrossAppDomainTraceRelay());
         }
 
         /// <summary>
@@ -69,6 +67,11 @@ namespace Cogito.Core.Diagnostics
             Contract.Requires<ArgumentNullException>(message != null);
 
             Trace.Write(message);
+        }
+
+        public override object InitializeLifetimeService()
+        {
+            return null;
         }
 
     }
