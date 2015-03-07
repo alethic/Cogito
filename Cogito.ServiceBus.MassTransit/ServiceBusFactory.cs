@@ -48,7 +48,10 @@ namespace Cogito.ServiceBus.MassTransit
     public abstract class ServiceBusFactoryBase
     {
 
-        static readonly string VHOST = "";
+        static readonly ConfigurationSection cfg = ConfigurationSection.GetDefaultSection();
+        static readonly string VHOST = cfg.VHost ?? "";
+        static readonly string USERNAME = cfg.Username ?? "guest";
+        static readonly string PASSWORD = cfg.Password ?? "guest";
         static readonly string BASE_URI = @"rabbitmq://localhost/";
 
         /// <summary>
@@ -70,7 +73,7 @@ namespace Cogito.ServiceBus.MassTransit
             Contract.Requires<ArgumentNullException>(vhost != null);
             Contract.Requires<ArgumentNullException>(queue != null);
 
-            var b = new UriBuilder(new Uri(new Uri(new Uri(BASE_URI, UriKind.Absolute), vhost), queue));
+            var b = new UriBuilder(new Uri(new Uri(new Uri(BASE_URI, UriKind.Absolute), vhost + "/"), queue));
             if (temporary) b.Query = "temporary=true";
             return b.Uri;
         }
@@ -86,7 +89,7 @@ namespace Cogito.ServiceBus.MassTransit
             Contract.Requires<ArgumentNullException>(configurator != null);
             Contract.Requires<ArgumentNullException>(queue != null);
 
-            configurator.UseRabbitMq();
+            configurator.UseRabbitMq(x => x.ConfigureHost(BuildQueueUri(VHOST, queue, temporary), c => { c.SetUsername(USERNAME); c.SetPassword(PASSWORD); }));
             configurator.DisablePerformanceCounters();
             configurator.UseBinarySerializer();
             configurator.ReceiveFrom(BuildQueueUri(VHOST, queue, temporary));
