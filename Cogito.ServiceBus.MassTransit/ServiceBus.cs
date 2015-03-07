@@ -1,5 +1,5 @@
 ﻿using System;
-using System.ComponentModel.Composition;
+using System.Diagnostics.Contracts;
 
 namespace Cogito.ServiceBus.MassTransit
 {
@@ -27,6 +27,8 @@ namespace Cogito.ServiceBus.MassTransit
             /// <param name="action"></param>
             public Subscription(global::MassTransit.UnsubscribeAction action)
             {
+                Contract.Requires<ArgumentNullException>(action != null);
+
                 this.action = action;
             }
 
@@ -50,6 +52,8 @@ namespace Cogito.ServiceBus.MassTransit
             /// <param name="context"></param>
             public MessageContext(global::MassTransit.IMessageContext context)
             {
+                Contract.Requires<ArgumentNullException>(context != null);
+
                 this.context = context;
             }
 
@@ -81,6 +85,8 @@ namespace Cogito.ServiceBus.MassTransit
             public MessageContext(global::MassTransit.IMessageContext<T> context)
                 : base(context)
             {
+                Contract.Requires<ArgumentNullException>(context != null);
+
                 this.context = context;
             }
 
@@ -108,6 +114,9 @@ namespace Cogito.ServiceBus.MassTransit
             public SendContext(ServiceBus bus, global::MassTransit.ISendContext context)
                 : base(context)
             {
+                Contract.Requires<ArgumentNullException>(bus != null);
+                Contract.Requires<ArgumentNullException>(context != null);
+
                 this.bus = bus;
                 this.context = context;
             }
@@ -152,6 +161,9 @@ namespace Cogito.ServiceBus.MassTransit
             public SendContext(IServiceBus bus, global::MassTransit.ISendContext<T> context)
                 : base(context)
             {
+                Contract.Requires<ArgumentNullException>(bus != null);
+                Contract.Requires<ArgumentNullException>(context != null);
+
                 this.bus = bus;
                 this.context = context;
             }
@@ -193,6 +205,9 @@ namespace Cogito.ServiceBus.MassTransit
             public ConsumeContext(IServiceBus bus, global::MassTransit.IConsumeContext context)
                 : base(context)
             {
+                Contract.Requires<ArgumentNullException>(bus != null);
+                Contract.Requires<ArgumentNullException>(context != null);
+
                 this.bus = bus;
                 this.context = context;
             }
@@ -226,6 +241,9 @@ namespace Cogito.ServiceBus.MassTransit
             public ConsumeContext(IServiceBus bus, global::MassTransit.IConsumeContext<T> context)
                 : base(bus, context)
             {
+                Contract.Requires<ArgumentNullException>(bus != null);
+                Contract.Requires<ArgumentNullException>(context != null);
+
                 this.context = context;
             }
 
@@ -250,6 +268,9 @@ namespace Cogito.ServiceBus.MassTransit
             /// <param name="context"></param>
             public PublishContext(IServiceBus bus, global::MassTransit.IPublishContext context)
             {
+                Contract.Requires<ArgumentNullException>(bus != null);
+                Contract.Requires<ArgumentNullException>(context != null);
+
                 this.bus = bus;
                 this.context = context;
             }
@@ -302,6 +323,9 @@ namespace Cogito.ServiceBus.MassTransit
             public PublishContext(IServiceBus bus, global::MassTransit.IPublishContext<T> context)
                 : base(bus, context)
             {
+                Contract.Requires<ArgumentNullException>(bus != null);
+                Contract.Requires<ArgumentNullException>(context != null);
+
                 this.context = context;
             }
 
@@ -320,6 +344,8 @@ namespace Cogito.ServiceBus.MassTransit
         /// <param name="bus"></param>
         internal ServiceBus(global::MassTransit.IServiceBus bus)
         {
+            Contract.Requires<ArgumentNullException>(bus != null);
+
             this.bus = bus;
         }
 
@@ -392,8 +418,6 @@ namespace Cogito.ServiceBus.MassTransit
         IServiceBus<T>
     {
 
-        readonly IServiceBus sharedBus;
-
         /// <summary>
         /// Initializes a new instance.
         /// </summary>
@@ -402,7 +426,7 @@ namespace Cogito.ServiceBus.MassTransit
         public ServiceBus(global::MassTransit.IServiceBus bus)
             : base(bus)
         {
-
+            Contract.Requires<ArgumentNullException>(bus != null);
         }
 
     }

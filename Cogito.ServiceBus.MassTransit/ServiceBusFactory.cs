@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.Composition;
+using System.Diagnostics.Contracts;
 
 using MassTransit;
 using MassTransit.BusConfigurators;
@@ -66,6 +67,9 @@ namespace Cogito.ServiceBus.MassTransit
         /// <returns></returns>
         Uri BuildQueueUri(string vhost, string queue, bool temporary)
         {
+            Contract.Requires<ArgumentNullException>(vhost != null);
+            Contract.Requires<ArgumentNullException>(queue != null);
+
             var b = new UriBuilder(new Uri(new Uri(new Uri(BASE_URI, UriKind.Absolute), vhost), queue));
             if (temporary) b.Query = "temporary=true";
             return b.Uri;
@@ -75,8 +79,13 @@ namespace Cogito.ServiceBus.MassTransit
         /// Applies default configuration.
         /// </summary>
         /// <param name="configurator"></param>
+        /// <param name="queue"></param>
+        /// <param name="temporary"></param>
         void Configure(ServiceBusConfigurator configurator, string queue, bool temporary = true)
         {
+            Contract.Requires<ArgumentNullException>(configurator != null);
+            Contract.Requires<ArgumentNullException>(queue != null);
+
             configurator.UseRabbitMq();
             configurator.DisablePerformanceCounters();
             configurator.UseBinarySerializer();
@@ -87,9 +96,13 @@ namespace Cogito.ServiceBus.MassTransit
         /// <summary>
         /// Gets a <see cref="IServiceBus"/> instance.
         /// </summary>
+        /// <param name="queue"></param>
+        /// <param name="temporary"></param>
         /// <returns></returns>
         protected global::MassTransit.IServiceBus CreateBus(string queue, bool temporary)
         {
+            Contract.Requires<ArgumentNullException>(queue != null);
+
             return global::MassTransit.ServiceBusFactory.New(sbc =>
             {
                 Configure(sbc, queue, temporary);
