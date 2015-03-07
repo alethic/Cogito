@@ -5,16 +5,16 @@ using System.Diagnostics.Contracts;
 namespace Cogito.Core.Diagnostics
 {
 
-    public class CrossAppDomainTraceListener :
+    public class CrossAppDomainTraceRelay :
         MarshalByRefObject
     {
 
-        CrossAppDomainTraceListener parent;
+        CrossAppDomainTraceRelay parent;
 
         /// <summary>
         /// Initializes a new instance.
         /// </summary>
-        public CrossAppDomainTraceListener()
+        public CrossAppDomainTraceRelay()
         {
 
         }
@@ -25,12 +25,12 @@ namespace Cogito.Core.Diagnostics
         /// <param name="domain"></param>
         public static void ListenTo(AppDomain domain)
         {
-            var listenerType = typeof(CrossAppDomainTraceListener);
-            var remote = (CrossAppDomainTraceListener)domain.CreateInstanceAndUnwrap(
+            var listenerType = typeof(CrossAppDomainTraceRelay);
+            var remote = (CrossAppDomainTraceRelay)domain.CreateInstanceAndUnwrap(
                 listenerType.Assembly.FullName,
                 listenerType.FullName);
 
-            var local = new CrossAppDomainTraceListener();
+            var local = new CrossAppDomainTraceRelay();
 
             remote.Register(local);
         }
@@ -39,7 +39,7 @@ namespace Cogito.Core.Diagnostics
         /// Invoked on the remote <see cref="AppDomain"/>.
         /// </summary>
         /// <param name="parent"></param>
-        void Register(CrossAppDomainTraceListener parent)
+        void Register(CrossAppDomainTraceRelay parent)
         {
             Contract.Requires<ArgumentNullException>(parent != null);
 
