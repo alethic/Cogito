@@ -9,7 +9,8 @@ namespace Cogito.Components.Services
 {
 
     /// <summary>
-    /// Manages a <see cref="DistributedService"/>.
+    /// Manages a <see cref="DistributedService"/>. Attaches to the given <see cref="Semaphore"/> and uses it to
+    /// monitor whether or not the currently identified node should be up or down.
     /// </summary>
     public abstract class DistributedServiceManager
     {
@@ -51,7 +52,7 @@ namespace Cogito.Components.Services
         /// <summary>
         /// Signals that the service would like to be running.
         /// </summary>
-        public void Enable()
+        internal void Enable()
         {
             lock (sync)
             {
@@ -63,7 +64,7 @@ namespace Cogito.Components.Services
         /// <summary>
         /// Signals that the service no longer needs to be running.
         /// </summary>
-        public void Disable()
+        internal void Disable()
         {
             lock (sync)
             {
@@ -89,7 +90,7 @@ namespace Cogito.Components.Services
         /// Raises the Start event.
         /// </summary>
         /// <param name="args"></param>
-        protected void OnStart(EventArgs args)
+        void OnStart(EventArgs args)
         {
             Contract.Requires<ArgumentNullException>(args != null);
             Trace.TraceInformation("DistributedServiceManager ({0}): OnStart", serviceName);
@@ -107,7 +108,7 @@ namespace Cogito.Components.Services
         /// Raises the Stop event.
         /// </summary>
         /// <param name="args"></param>
-        protected void OnStop(EventArgs args)
+        void OnStop(EventArgs args)
         {
             Contract.Requires<ArgumentNullException>(args != null);
             Trace.TraceInformation("DistributedServiceManager ({0}): OnStop", serviceName);
@@ -121,15 +122,18 @@ namespace Cogito.Components.Services
         /// </summary>
         void Evaluate()
         {
-            if (!running && Runnable)
+            lock (sync)
             {
-                running = true;
-                OnStart(EventArgs.Empty);
-            }
-            else if (running)
-            {
-                OnStop(EventArgs.Empty);
-                running = false;
+                if (!running && Runnable)
+                {
+                    running = true;
+                    OnStart(EventArgs.Empty);
+                }
+                else if (running)
+                {
+                    OnStop(EventArgs.Empty);
+                    running = false;
+                }
             }
         }
 
