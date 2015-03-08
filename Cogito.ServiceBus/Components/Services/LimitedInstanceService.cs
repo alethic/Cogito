@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Diagnostics.Contracts;
 
 namespace Cogito.Components.Services
@@ -24,8 +25,8 @@ namespace Cogito.Components.Services
             Contract.Requires<ArgumentNullException>(manager != null);
 
             this.manager = manager;
-            this.manager.Start += (s, a) => OnStart();
-            this.manager.Stop += (s, a) => OnStop();
+            this.manager.Start += (s, a) => InvokeOnStart();
+            this.manager.Stop += (s, a) => InvokeOnStop();
         }
 
         /// <summary>
@@ -61,12 +62,24 @@ namespace Cogito.Components.Services
 
         }
 
+        void InvokeOnStart()
+        {
+            Trace.TraceInformation("{0}: starting...", GetType().FullName);
+            OnStart();
+        }
+
         /// <summary>
         /// Invoked when the service should be stopped.
         /// </summary>
         protected virtual void OnStop()
         {
 
+        }
+
+        void InvokeOnStop()
+        {
+            Trace.TraceInformation("{0}: stopping...", GetType().FullName);
+            OnStop();
         }
 
     }

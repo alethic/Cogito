@@ -8,13 +8,18 @@ namespace Cogito.ServiceBus.Infrastructure
     /// </summary>
     /// <typeparam name="T"></typeparam>
     [Serializable]
-    public class SemaphoreMessage<T>
+    public class SemaphoreMessage
     {
+
+        /// <summary>
+        /// Unique identifier of the semaphore.
+        /// </summary>
+        public string SemaphoreId { get; set; }
 
         /// <summary>
         /// Unique identifier of the semaphore instance.
         /// </summary>
-        public Guid Id { get; set; }
+        public string InstanceId { get; set; }
 
         /// <summary>
         /// Message time.

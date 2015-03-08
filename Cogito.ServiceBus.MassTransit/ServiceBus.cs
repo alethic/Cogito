@@ -336,13 +336,13 @@ namespace Cogito.ServiceBus.MassTransit
 
         }
 
-        readonly global::MassTransit.IServiceBus bus;
+        readonly Lazy<global::MassTransit.IServiceBus> bus;
 
         /// <summary>
         /// Initializes a new instance.
         /// </summary>
         /// <param name="bus"></param>
-        internal ServiceBus(global::MassTransit.IServiceBus bus)
+        internal ServiceBus(Lazy<global::MassTransit.IServiceBus> bus)
         {
             Contract.Requires<ArgumentNullException>(bus != null);
 
@@ -352,63 +352,66 @@ namespace Cogito.ServiceBus.MassTransit
         public IDisposable Subscribe<T>(Action<T> handler)
             where T : class
         {
-            return new Subscription(global::MassTransit.HandlerSubscriptionExtensions.SubscribeHandler<T>(bus, handler));
+            return new Subscription(global::MassTransit.HandlerSubscriptionExtensions.SubscribeHandler<T>(bus.Value, handler));
         }
 
         public IDisposable Subscribe<T>(Action<T> handler, Predicate<T> condition)
             where T : class
         {
-            return new Subscription(global::MassTransit.HandlerSubscriptionExtensions.SubscribeHandler<T>(bus, handler, condition));
+            return new Subscription(global::MassTransit.HandlerSubscriptionExtensions.SubscribeHandler<T>(bus.Value, handler, condition));
         }
 
         public IDisposable Subscribe<T>(Action<IConsumeContext<T>> handler)
             where T : class
         {
-            return new Subscription(global::MassTransit.HandlerSubscriptionExtensions.SubscribeContextHandler<T>(bus, _ => handler(new ConsumeContext<T>(this, _))));
+            return new Subscription(global::MassTransit.HandlerSubscriptionExtensions.SubscribeContextHandler<T>(bus.Value, _ => handler(new ConsumeContext<T>(this, _))));
         }
 
         public virtual void Publish<T>(object values, Action<IPublishContext<T>> contextCallback)
             where T : class
         {
-            bus.Publish<T>(values, _ => contextCallback(new PublishContext<T>(this, _)));
+            bus.Value.Publish<T>(values, _ => contextCallback(new PublishContext<T>(this, _)));
         }
 
         public virtual void Publish<T>(object values)
             where T : class
         {
-            bus.Publish<T>(values);
+            bus.Value.Publish<T>(values);
         }
 
         public virtual void Publish(object message, Type messageType, Action<IPublishContext> contextCallback)
         {
-            bus.Publish(message, messageType, _ => contextCallback(new PublishContext(this, _)));
+            bus.Value.Publish(message, messageType, _ => contextCallback(new PublishContext(this, _)));
         }
 
         public virtual void Publish(object message, Type messageType)
         {
-            bus.Publish(message, messageType);
+            bus.Value.Publish(message, messageType);
         }
 
         public virtual void Publish(object message)
         {
-            bus.Publish(message);
+            bus.Value.Publish(message);
         }
 
         public virtual void Publish<T>(T message, Action<IPublishContext<T>> contextCallback)
             where T : class
         {
-            bus.Publish<T>(message, _ => contextCallback(new PublishContext<T>(this, _)));
+            bus.Value.Publish<T>(message, _ => contextCallback(new PublishContext<T>(this, _)));
         }
 
         public virtual void Publish<T>(T message)
             where T : class
         {
-            bus.Publish<T>(message);
+            bus.Value.Publish<T>(message);
         }
 
         public virtual void Dispose()
         {
-            bus.Dispose();
+            if (bus.IsValueCreated)
+            {
+                bus.Value.Dispose();
+            }
         }
 
     }
@@ -422,8 +425,7 @@ namespace Cogito.ServiceBus.MassTransit
         /// Initializes a new instance.
         /// </summary>
         /// <param name="bus"></param>
-        /// <param name="sharedBus"></param>
-        public ServiceBus(global::MassTransit.IServiceBus bus)
+        public ServiceBus(Lazy<global::MassTransit.IServiceBus> bus)
             : base(bus)
         {
             Contract.Requires<ArgumentNullException>(bus != null);

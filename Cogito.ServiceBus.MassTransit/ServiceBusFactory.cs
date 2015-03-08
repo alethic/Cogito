@@ -20,7 +20,7 @@ namespace Cogito.ServiceBus.MassTransit
         public IServiceBus CreateBus()
         {
             // each global bus obtains it's own unique ID
-            return new ServiceBus(base.CreateBus(Guid.NewGuid().ToString("N"), true));
+            return new ServiceBus(new Lazy<global::MassTransit.IServiceBus>(() => base.CreateBus(Guid.NewGuid().ToString("N"), true)));
         }
 
     }
@@ -37,7 +37,7 @@ namespace Cogito.ServiceBus.MassTransit
 
         public IServiceBus<TScope> CreateBus()
         {
-            return new ServiceBus<TScope>(base.CreateBus(typeof(TScope).FullName, false));
+            return new ServiceBus<TScope>(new Lazy<global::MassTransit.IServiceBus>(() => base.CreateBus(typeof(TScope).FullName, false)));
         }
 
     }

@@ -107,13 +107,11 @@ namespace Cogito.Components.Services
         {
             if (!running && Runnable)
             {
-                Trace.TraceInformation("{0}: starting...", GetType().Name);
                 running = true;
                 OnStart(EventArgs.Empty);
             }
             else if (running)
             {
-                Trace.TraceInformation("{0}: stopping...", GetType().Name);
                 OnStop(EventArgs.Empty);
                 running = false;
             }
