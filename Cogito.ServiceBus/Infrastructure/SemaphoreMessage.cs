@@ -19,7 +19,7 @@ namespace Cogito.ServiceBus.Infrastructure
         /// <summary>
         /// Message time.
         /// </summary>
-        public DateTime Ping { get; set; }
+        public DateTime Timestamp { get; set; }
 
         /// <summary>
         /// Sort order of the node instance.

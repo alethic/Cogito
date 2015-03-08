@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
+using System.Collections.Immutable;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Timers;
@@ -12,39 +12,125 @@ namespace Cogito.ServiceBus.Infrastructure
     /// Maintains a distributed semaphore structure. Requires a <see cref="ServiceBus"/> that participates in
     /// broadcast messages.
     /// </summary>
+    public abstract class Semaphore :
+        IDisposable
+    {
+
+        /// <summary>
+        /// Initializes a new instance.
+        /// </summary>
+        protected internal Semaphore()
+        {
+
+        }
+
+        /// <summary>
+        /// Acquires a resource. This operation begins engaging with the service bus.
+        /// </summary>
+        public abstract void Acquire();
+
+        /// <summary>
+        /// Releases a resource. This operation stops engaging with the service bus.
+        /// </summary>
+        public abstract void Release();
+
+        /// <summary>
+        /// Gets the maximum number of instances that can be running.
+        /// </summary>
+        public abstract int Resources { get; set; }
+
+        /// <summary>
+        /// Gets the number of available instances that can be running.
+        /// </summary>
+        public abstract int Peers { get; }
+
+        /// <summary>
+        /// Gets the current number of instances that are running.
+        /// </summary>
+        public abstract int Consumed { get; }
+
+        /// <summary>
+        /// Returns <c>true</c> if a resource has been acquired.
+        /// </summary>
+        public abstract bool IsAcquired { get; }
+
+        /// <summary>
+        /// Raised when a resource is acquired.
+        /// </summary>
+        public event EventHandler Acquired;
+
+        /// <summary>
+        /// Raises the Acquired event.
+        /// </summary>
+        /// <param name="args"></param>
+        protected void OnAcquired(EventArgs args)
+        {
+            if (Acquired != null)
+                Acquired(this, args);
+        }
+
+        /// <summary>
+        /// Raised when the service is deactivated.
+        /// </summary>
+        public event EventHandler Released;
+
+        /// <summary>
+        /// Raises the Released event.
+        /// </summary>
+        /// <param name="args"></param>
+        protected void OnReleased(EventArgs args)
+        {
+            if (Released != null)
+                Released(this, args);
+        }
+
+        /// <summary>
+        /// Disposes of the instance.
+        /// </summary>
+        public virtual void Dispose()
+        {
+
+        }
+
+    }
+
+    /// <summary>
+    /// Maintains a distributed semaphore structure. Requires a <see cref="ServiceBus"/> that participates in
+    /// broadcast messages.
+    /// </summary>
     /// <typeparam name="TIdentity">Unique identity of the semaphore on the broadcast bus.</typeparam>
     public class Semaphore<TIdentity> :
-        IDisposable
+        Semaphore
     {
 
         readonly object sync = new object();
         readonly Guid id;
         readonly DateTime sort;
-        readonly Dictionary<Guid, Tuple<DateTime, DateTime>> registrations = new Dictionary<Guid, Tuple<DateTime, DateTime>>();
         readonly IServiceBus bus;
 
+        ImmutableDictionary<Guid, Tuple<DateTime, DateTime>> nodes = ImmutableDictionary<Guid, Tuple<DateTime, DateTime>>.Empty;
         IDisposable subscription;
         Timer timer;
-        int max;
-        int available;
-        int active;
-        bool isActive;
+        int resources;
+        int peers;
+        int consumed;
+        bool isAcquired;
 
         /// <summary>
         /// Initializes a new instance.
         /// </summary>
         /// <param name="bus"></param>
-        /// <param name="max"></param>
-        public Semaphore(IServiceBus bus, int max)
+        /// <param name="resources"></param>
+        public Semaphore(IServiceBus bus, int resources)
         {
             Contract.Requires<ArgumentNullException>(bus != null);
 
             this.id = Guid.NewGuid();
             this.sort = DateTime.UtcNow;
             this.bus = bus;
-            this.max = max;
+            this.resources = resources;
 
-            this.isActive = false;
+            this.isAcquired = false;
             this.subscription = this.bus.Subscribe<SemaphoreMessage<TIdentity>>(OnServiceMessage);
 
             this.timer = new Timer();
@@ -63,43 +149,50 @@ namespace Cogito.ServiceBus.Infrastructure
         }
 
         /// <summary>
-        /// Gets the maximum number of instances that can be running.
+        /// Gets the total number of resources.
         /// </summary>
-        public int Maximum
+        public override int Resources
         {
-            get { return max; }
+            get { return resources; }
+            set { resources = value; }
         }
 
         /// <summary>
-        /// Gets the number of available instances that can be running.
+        /// Gets the total number of peers waiting for resources.
         /// </summary>
-        public int Available
+        public override int Peers
         {
-            get { return available; }
+            get { return peers; }
         }
 
         /// <summary>
-        /// Gets the current number of instances that are running.
+        /// Gets the current number of resources that are consumed.
         /// </summary>
-        public int Active
+        public override int Consumed
         {
-            get { return active; }
+            get { return consumed; }
         }
 
         /// <summary>
         /// Gets whether or not this node is active.
         /// </summary>
-        public bool IsActive
+        public override bool IsAcquired
         {
-            get { return isActive; }
+            get { return isAcquired; }
         }
 
-        public void Start()
+        /// <summary>
+        /// Acquires a resource allocation.
+        /// </summary>
+        public override void Acquire()
         {
             timer.Start();
         }
 
-        public void Stop()
+        /// <summary>
+        /// Releases the resource allocation.
+        /// </summary>
+        public override void Release()
         {
             lock (sync)
             {
@@ -111,123 +204,109 @@ namespace Cogito.ServiceBus.Infrastructure
                     bus.Publish<SemaphoreMessage<TIdentity>>(new SemaphoreMessage<TIdentity>()
                     {
                         Id = id,
-                        Ping = DateTime.UtcNow,
+                        Timestamp = DateTime.UtcNow,
                         Sort = sort,
-                        Status = SemaphoreStatus.Unavailable,
+                        Status = SemaphoreStatus.Release,
                     }, x => x.SetExpirationTime(DateTime.UtcNow.AddSeconds(5)));
 
                     // deactivate
-                    OnDeactive();
+                    OnRelease();
                 }
             }
         }
 
+        /// <summary>
+        /// Invoked periodically. Publishes notification messages to the bus.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
         void timer_Elapsed(object sender, ElapsedEventArgs args)
         {
             lock (sync)
             {
-                // notify that we're still alive
-                bus.Publish<SemaphoreMessage<TIdentity>>(new SemaphoreMessage<TIdentity>()
+                if (timer.Enabled)
                 {
-                    Id = id,
-                    Ping = DateTime.UtcNow,
-                    Sort = sort,
-                    Status = SemaphoreStatus.Available,
-                }, x => x.SetExpirationTime(DateTime.UtcNow.AddSeconds(5)));
+                    bus.Publish<SemaphoreMessage<TIdentity>>(new SemaphoreMessage<TIdentity>()
+                    {
+                        Id = id,
+                        Timestamp = DateTime.UtcNow,
+                        Sort = sort,
+                        Status = SemaphoreStatus.Acquire,
+                    }, x => x.SetExpirationTime(DateTime.UtcNow.AddSeconds(5)));
+                }
             }
         }
 
+        /// <summary>
+        /// Invoked when a bus message arrives.
+        /// </summary>
+        /// <param name="message"></param>
         void OnServiceMessage(SemaphoreMessage<TIdentity> message)
         {
             lock (sync)
             {
                 if (timer.Enabled)
                 {
-                    // service is alive
-                    if (message.Status == SemaphoreStatus.Available)
-                        registrations[message.Id] = Tuple.Create(message.Ping, message.Sort);
+                    // remote semaphore node is seeking to acquire a resource
+                    if (message.Status == SemaphoreStatus.Acquire)
+                        nodes = nodes.SetItem(message.Id, Tuple.Create(message.Timestamp, message.Sort));
 
-                    // service is disposed
-                    if (message.Status == SemaphoreStatus.Unavailable)
-                        registrations.Remove(message.Id);
+                    // remote semaphore node is not seeking to acquire a resource
+                    if (message.Status == SemaphoreStatus.Release)
+                        nodes = nodes.Remove(message.Id);
 
-                    // remove stale registrations
-                    foreach (var i in registrations.Where(i => i.Value.Item1 < DateTime.UtcNow.AddSeconds(-15)).ToList())
-                        registrations.Remove(i.Key);
+                    // remove stale nodes
+                    nodes = nodes.RemoveRange(nodes.Where(i => i.Value.Item1 < DateTime.UtcNow.AddSeconds(-15)).Select(i => i.Key));
 
-                    // select oldest count registrations
-                    var all = registrations
+                    // order nodes by age
+                    var ordered = nodes
                         .OrderBy(i => i.Value.Item2)
                         .Select(i => i.Key)
-                        .ToList();
+                        .ToArray();
 
                     // update counts
-                    available = all.Count;
-                    active = all.Take(max).Count();
+                    peers = ordered.Length;
+                    consumed = Math.Min(resources, peers);
 
-                    if (all.Take(max).Contains(id))
-                        OnActive();
+                    // are we a member of the active set?
+                    if (ordered.Take(resources).Contains(id))
+                        OnAcquire();
                     else
-                        OnDeactive();
+                        OnRelease();
                 }
             }
         }
 
-        void OnActive()
+        /// <summary>
+        /// Signals that a resource was acquired.
+        /// </summary>
+        void OnAcquire()
         {
-            if (!isActive)
+            if (!isAcquired)
             {
-                isActive = true;
-                OnActivated(EventArgs.Empty);
-            }
-        }
-
-        void OnDeactive()
-        {
-            if (isActive)
-            {
-                isActive = false;
-                OnDeactivated(EventArgs.Empty);
+                isAcquired = true;
+                OnAcquired(EventArgs.Empty);
             }
         }
 
         /// <summary>
-        /// Raised when the service is activated.
+        /// Signals that a resource was released.
         /// </summary>
-        public event EventHandler Activated;
-
-        /// <summary>
-        /// Raises the activated event.
-        /// </summary>
-        /// <param name="args"></param>
-        void OnActivated(EventArgs args)
+        void OnRelease()
         {
-            Debug.Print("Activated: {0}", id);
-
-            if (Activated != null)
-                Activated(this, args);
+            if (isAcquired)
+            {
+                isAcquired = false;
+                OnReleased(EventArgs.Empty);
+            }
         }
 
         /// <summary>
-        /// Raised when the service is deactivated.
+        /// Disposes of the instance.
         /// </summary>
-        public event EventHandler Deactivated;
-
-        /// <summary>
-        /// Raises the Deactivated event.
-        /// </summary>
-        /// <param name="args"></param>
-        void OnDeactivated(EventArgs args)
+        public override void Dispose()
         {
-            Debug.Print("Deactivated: {0}", id);
-
-            if (Deactivated != null)
-                Deactivated(this, args);
-        }
-
-        public void Dispose()
-        {
-            Stop();
+            Release();
 
             if (subscription != null)
             {
@@ -239,6 +318,8 @@ namespace Cogito.ServiceBus.Infrastructure
             {
                 bus.Dispose();
             }
+
+            base.Dispose();
         }
 
     }

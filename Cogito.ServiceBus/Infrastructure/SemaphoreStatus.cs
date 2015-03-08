@@ -8,14 +8,14 @@
     {
 
         /// <summary>
-        /// The semaphore node is available.
+        /// The semaphore node is looking to acquire a resource.
         /// </summary>
-        Available = 1,
+        Acquire = 1,
 
         /// <summary>
-        /// The semaphore node is unavailable.
+        /// The semaphore node is not looking to acquire a resource.
         /// </summary>
-        Unavailable = 2,
+        Release = 2,
 
     }
 
