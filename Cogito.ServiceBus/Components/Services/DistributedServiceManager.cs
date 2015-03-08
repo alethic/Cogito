@@ -9,27 +9,34 @@ namespace Cogito.Components.Services
 {
 
     /// <summary>
-    /// Manages a <see cref="LimitedInstanceService"/>.
+    /// Manages a <see cref="DistributedService"/>.
     /// </summary>
-    public abstract class LimitedInstanceServiceManager
+    public abstract class DistributedServiceManager
     {
 
         readonly object sync = new object();
         readonly Semaphore semaphore;
+        readonly string serviceName;
         bool running;
 
         /// <summary>
         /// Initializes a new instance.
         /// </summary>
         /// <param name="semaphore"></param>
-        internal protected LimitedInstanceServiceManager(Semaphore semaphore)
+        /// <param name="serviceName"></param>
+        internal protected DistributedServiceManager(
+            Semaphore semaphore,
+            string serviceName)
         {
             Contract.Requires<ArgumentNullException>(semaphore != null);
+            Contract.Requires<ArgumentNullException>(serviceName != null);
+            Contract.Requires<ArgumentOutOfRangeException>(!string.IsNullOrWhiteSpace(serviceName));
 
             this.semaphore = semaphore;
             this.semaphore.Resources = 1;
             this.semaphore.Acquired += (s, a) => Evaluate();
             this.semaphore.Released += (s, a) => Evaluate();
+            this.serviceName = serviceName;
         }
 
         /// <summary>
@@ -79,13 +86,13 @@ namespace Cogito.Components.Services
         public EventHandler Start;
 
         /// <summary>
-        /// Raises the Activated event.
+        /// Raises the Start event.
         /// </summary>
         /// <param name="args"></param>
         protected void OnStart(EventArgs args)
         {
             Contract.Requires<ArgumentNullException>(args != null);
-            Trace.TraceInformation("LimitedInstanceServiceManager: OnStart");
+            Trace.TraceInformation("DistributedServiceManager ({0}): OnStart", serviceName);
 
             if (Start != null)
                 Start(this, args);
@@ -97,13 +104,13 @@ namespace Cogito.Components.Services
         public EventHandler Stop;
 
         /// <summary>
-        /// Raises the OnDeactivated event.
+        /// Raises the Stop event.
         /// </summary>
         /// <param name="args"></param>
         protected void OnStop(EventArgs args)
         {
             Contract.Requires<ArgumentNullException>(args != null);
-            Trace.TraceInformation("LimitedInstanceServiceManager: OnStop");
+            Trace.TraceInformation("DistributedServiceManager ({0}): OnStop", serviceName);
 
             if (Stop != null)
                 Stop(this, args);
@@ -129,12 +136,12 @@ namespace Cogito.Components.Services
     }
 
     /// <summary>
-    /// Used by a <see cref="LimitedInstanceService"/> to maintain Service Bus signaling.
+    /// Used by a <see cref="DistributedService"/> to maintain Service Bus signaling.
     /// </summary>
     /// <typeparam name="TService"></typeparam>
-    [Export(typeof(LimitedInstanceServiceManager<>))]
-    public class LimitedInstanceServiceManager<TService> :
-        LimitedInstanceServiceManager
+    [Export(typeof(DistributedServiceManager<>))]
+    public class DistributedServiceManager<TService> :
+        DistributedServiceManager
         where TService : IService
     {
 
@@ -143,9 +150,9 @@ namespace Cogito.Components.Services
         /// </summary>
         /// <param name="semaphore"></param>
         [ImportingConstructor]
-        public LimitedInstanceServiceManager(
+        public DistributedServiceManager(
             Semaphore<TService> semaphore)
-            : base(semaphore)
+            : base(semaphore, typeof(TService).FullName)
         {
             Contract.Requires<ArgumentNullException>(semaphore != null);
         }

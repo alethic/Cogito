@@ -127,8 +127,8 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Components\Services\LimitedInstanceService.cs" />
-    <Compile Include="Components\Services\LimitedInstanceServiceManager.cs" />
+    <Compile Include="Components\Services\DistributedService.cs" />
+    <Compile Include="Components\Services\DistributedServiceManager.cs" />
     <Compile Include="Components\Services\SingleInstanceTimerService.cs" />
     <Compile Include="Components\Services\SingleInstanceTimerServiceManager.cs" />
     <Compile Include="IBusContext.cs" />

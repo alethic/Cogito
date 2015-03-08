@@ -13,7 +13,7 @@ namespace Cogito.Components.Services
     /// <typeparam name="TService"></typeparam>
     [Export(typeof(SingleInstanceTimerServiceManager<>))]
     public class SingleInstanceTimerServiceManager<TService> :
-        LimitedInstanceServiceManager<TService>
+        DistributedServiceManager<TService>
         where TService : IService
     {
 

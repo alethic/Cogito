@@ -11,7 +11,7 @@ namespace Cogito.Components.Services
     /// </summary>
     /// <typeparam name="TService"></typeparam>
     public abstract class SingleInstanceTimerService<TService> :
-        LimitedInstanceService
+        DistributedService<TService>
         where TService : IService
     {
 

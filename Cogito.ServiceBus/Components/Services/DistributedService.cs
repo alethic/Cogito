@@ -7,20 +7,22 @@ namespace Cogito.Components.Services
 
     /// <summary>
     /// Service implementation that limits the number of instances that can be running at a given time. Be sure to
-    /// pass a <see cref="LimitedInstanceServiceManager"/> of the appropriate <see cref="IService"/> type to the
+    /// pass a <see cref="DistributedServiceManager"/> of the appropriate <see cref="IService"/> type to the
     /// constructor.
     /// </summary>
-    public abstract class LimitedInstanceService :
+    public abstract class DistributedService<TService> :
         ServiceBase
+        where TService : IService
     {
 
-        readonly LimitedInstanceServiceManager manager;
+        readonly DistributedServiceManager<TService> manager;
 
         /// <summary>
         /// Initializes a new instance.
         /// </summary>
         /// <param name="manager"></param>
-        public LimitedInstanceService(LimitedInstanceServiceManager manager)
+        public DistributedService(
+            DistributedServiceManager<TService> manager)
         {
             Contract.Requires<ArgumentNullException>(manager != null);
 
