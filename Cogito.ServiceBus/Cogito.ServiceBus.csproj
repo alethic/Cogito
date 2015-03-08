@@ -129,6 +129,8 @@
   <ItemGroup>
     <Compile Include="Components\Services\LimitedInstanceService.cs" />
     <Compile Include="Components\Services\LimitedInstanceServiceManager.cs" />
+    <Compile Include="Components\Services\SingleInstanceTimerService.cs" />
+    <Compile Include="Components\Services\SingleInstanceTimerServiceManager.cs" />
     <Compile Include="IBusContext.cs" />
     <Compile Include="IConsumeContext.cs" />
     <Compile Include="IMessageContext.cs" />

@@ -365,7 +365,9 @@ namespace Cogito.ServiceBus.Infrastructure
         /// </summary>
         /// <param name="bus"></param>
         /// <param name="resources"></param>
-        public Semaphore(IServiceBus bus, int resources)
+        public Semaphore(
+            IServiceBus bus, 
+            int resources)
             : base(bus, typeof(TIdentity).FullName, resources)
         {
             Contract.Requires<ArgumentNullException>(bus != null);
@@ -376,7 +378,8 @@ namespace Cogito.ServiceBus.Infrastructure
         /// Initializes a new instance.
         /// </summary>
         /// <param name="bus"></param>
-        public Semaphore(IServiceBus bus)
+        public Semaphore(
+            IServiceBus bus)
             : this(bus, 1)
         {
             Contract.Requires<ArgumentNullException>(bus != null);

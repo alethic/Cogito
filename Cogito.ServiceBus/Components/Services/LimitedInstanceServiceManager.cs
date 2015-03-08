@@ -35,7 +35,7 @@ namespace Cogito.Components.Services
         /// <summary>
         /// Gets or sets the number of instances that can be running.
         /// </summary>
-        public int Instances
+        public virtual int Instances
         {
             get { return semaphore.Resources; }
             set { Contract.Requires<ArgumentOutOfRangeException>(value >= 1); semaphore.Resources = value; }
