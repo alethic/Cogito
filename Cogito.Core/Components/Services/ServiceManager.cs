@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Diagnostics.Contracts;
+using System.Linq;
 
 namespace Cogito.Components.Services
 {
@@ -28,14 +29,42 @@ namespace Cogito.Components.Services
 
         public void Start()
         {
-            foreach (var svc in services)
-                svc.Start();
+            var e = services.Select(i => TryStart(i)).Where(i => i != null);
+            if (e.Any())
+                throw new AggregateException(e);
         }
 
         public void Stop()
         {
-            foreach (var svc in services)
-                svc.Stop();
+            var e = services.Select(i => TryStop(i)).Where(i => i != null);
+            if (e.Any())
+                throw new AggregateException(e);
+        }
+
+        Exception TryStart(IService service)
+        {
+            try
+            {
+                service.Start();
+                return null;
+            }
+            catch (Exception e)
+            {
+                return e;
+            }
+        }
+
+        Exception TryStop(IService service)
+        {
+            try
+            {
+                service.Stop();
+                return null;
+            }
+            catch (Exception e)
+            {
+                return e;
+            }
         }
 
     }
