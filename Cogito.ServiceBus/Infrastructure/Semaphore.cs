@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Diagnostics.Contracts;
 using System.Linq;
@@ -35,7 +34,7 @@ namespace Cogito.ServiceBus.Infrastructure
         public abstract void Release();
 
         /// <summary>
-        /// Gets the maximum number of instances that can be running.
+        /// Gets or sets the maximum number of instances that can be running.
         /// </summary>
         public abstract int Resources { get; set; }
 
