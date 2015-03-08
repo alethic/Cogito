@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using System.Diagnostics.Contracts;
 
 namespace Cogito.Components.Services
 {
@@ -19,6 +21,8 @@ namespace Cogito.Components.Services
         public ServiceManager(
             [ImportMany] IEnumerable<IService> services)
         {
+            Contract.Requires<ArgumentNullException>(services != null);
+
             this.services = services;
         }
 
@@ -33,6 +37,7 @@ namespace Cogito.Components.Services
             foreach (var svc in services)
                 svc.Stop();
         }
+
     }
 
 }
