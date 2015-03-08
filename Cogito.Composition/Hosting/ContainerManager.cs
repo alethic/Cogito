@@ -44,11 +44,25 @@ namespace Cogito.Composition.Hosting
         {
             // dispose of named containers
             foreach (var container in containers)
-                container.Value.Dispose();
+                TryDispose(container.Value);
 
             // dispose of default container
             if (defaultContainer != null)
-                defaultContainer.Dispose();
+                TryDispose(defaultContainer);
+        }
+
+        static void TryDispose(IDisposable disposable)
+        {
+            Contract.Requires<ArgumentNullException>(disposable != null);
+
+            try
+            {
+                disposable.Dispose();
+            }
+            catch (Exception e)
+            {
+                e.Trace();
+            }
         }
 
         /// <summary>

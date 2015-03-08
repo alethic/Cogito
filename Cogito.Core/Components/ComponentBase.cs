@@ -13,6 +13,7 @@ namespace Cogito.Components
     {
 
         readonly LinkedList<object> attached;
+        bool disposed;
 
         /// <summary>
         /// Initializes a new instance.
@@ -43,10 +44,33 @@ namespace Cogito.Components
         /// <summary>
         /// Disposes of the instance.
         /// </summary>
-        public virtual void Dispose()
+        /// <param name="disposing"></param>
+        protected virtual void Dispose(bool disposing)
         {
-            foreach (var disposable in attached.OfType<IDisposable>())
-                disposable.Dispose();
+            if (disposed)
+                return;
+
+            if (disposing)
+            {
+                foreach (var disposable in attached.OfType<IDisposable>())
+                    disposable.Dispose();
+            }
+
+            disposed = true;
+        }
+
+        /// <summary>
+        /// Disposes of the instance.
+        /// </summary>
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        ~ComponentBase()
+        {
+            Dispose(false);
         }
 
     }

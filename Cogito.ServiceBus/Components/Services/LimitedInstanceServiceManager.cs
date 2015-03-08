@@ -14,6 +14,7 @@ namespace Cogito.Components.Services
     public abstract class LimitedInstanceServiceManager
     {
 
+        readonly object sync = new object();
         readonly Semaphore semaphore;
         bool running;
 
@@ -45,8 +46,11 @@ namespace Cogito.Components.Services
         /// </summary>
         public void Enable()
         {
-            semaphore.Acquire();
-            Evaluate();
+            lock (sync)
+            {
+                semaphore.Acquire();
+                Evaluate();
+            }
         }
 
         /// <summary>
@@ -54,8 +58,11 @@ namespace Cogito.Components.Services
         /// </summary>
         public void Disable()
         {
-            semaphore.Release();
-            Evaluate();
+            lock (sync)
+            {
+                semaphore.Release();
+                Evaluate();
+            }
         }
 
         /// <summary>
@@ -78,6 +85,7 @@ namespace Cogito.Components.Services
         protected void OnStart(EventArgs args)
         {
             Contract.Requires<ArgumentNullException>(args != null);
+            Trace.TraceInformation("LimitedInstanceServiceManager: OnStart");
 
             if (Start != null)
                 Start(this, args);
@@ -95,6 +103,7 @@ namespace Cogito.Components.Services
         protected void OnStop(EventArgs args)
         {
             Contract.Requires<ArgumentNullException>(args != null);
+            Trace.TraceInformation("LimitedInstanceServiceManager: OnStop");
 
             if (Stop != null)
                 Stop(this, args);

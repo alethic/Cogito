@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.Composition;
+using System.Diagnostics;
 using System.Diagnostics.Contracts;
-
 using MassTransit;
 using MassTransit.BusConfigurators;
 
@@ -37,7 +37,7 @@ namespace Cogito.ServiceBus.MassTransit
 
         public IServiceBus<TScope> CreateBus()
         {
-            return new ServiceBus<TScope>(new Lazy<global::MassTransit.IServiceBus>(() => base.CreateBus(typeof(TScope).FullName, false)));
+            return new ServiceBus<TScope>(new Lazy<global::MassTransit.IServiceBus>(() => base.CreateBus(typeof(TScope).FullName, false), true));
         }
 
     }
@@ -89,10 +89,14 @@ namespace Cogito.ServiceBus.MassTransit
             Contract.Requires<ArgumentNullException>(configurator != null);
             Contract.Requires<ArgumentNullException>(queue != null);
 
-            configurator.UseRabbitMq(x => x.ConfigureHost(BuildQueueUri(VHOST, queue, temporary), c => { c.SetUsername(USERNAME); c.SetPassword(PASSWORD); }));
+            var uri = BuildQueueUri(VHOST, queue, temporary);
+            Trace.TraceInformation("ServiceBusFactory: Uri=\"{0}\"", uri);
+
+            configurator.UseRabbitMq(x => x.ConfigureHost(uri, c => { c.SetUsername(USERNAME); c.SetPassword(PASSWORD); }));
+            configurator.SetCreateMissingQueues(true);
             configurator.DisablePerformanceCounters();
             configurator.UseBinarySerializer();
-            configurator.ReceiveFrom(BuildQueueUri(VHOST, queue, temporary));
+            configurator.ReceiveFrom(uri);
             configurator.SetConcurrentConsumerLimit(1);
         }
 

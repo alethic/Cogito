@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.Linq;
 
@@ -49,6 +50,8 @@ namespace Cogito.Components.Services
 
         Exception TryStart(IService service)
         {
+            Trace.TraceInformation("ServiceManager: TryStart ({0})", service.GetType().FullName);
+
             try
             {
                 service.Start();
@@ -56,12 +59,15 @@ namespace Cogito.Components.Services
             }
             catch (Exception e)
             {
+                e.Trace();
                 return e;
             }
         }
 
         Exception TryStop(IService service)
         {
+            Trace.TraceInformation("ServiceManager: TryStop ({0})", service.GetType().FullName);
+
             try
             {
                 service.Stop();
@@ -69,6 +75,7 @@ namespace Cogito.Components.Services
             }
             catch (Exception e)
             {
+                e.Trace();
                 return e;
             }
         }

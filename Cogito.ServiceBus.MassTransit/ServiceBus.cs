@@ -336,7 +336,8 @@ namespace Cogito.ServiceBus.MassTransit
 
         }
 
-        readonly Lazy<global::MassTransit.IServiceBus> bus;
+        readonly object sync = new object();
+        Lazy<global::MassTransit.IServiceBus> bus;
         bool disposed;
 
         /// <summary>
@@ -353,74 +354,87 @@ namespace Cogito.ServiceBus.MassTransit
         public IDisposable Subscribe<T>(Action<T> handler)
             where T : class
         {
-            return new Subscription(global::MassTransit.HandlerSubscriptionExtensions.SubscribeHandler<T>(bus.Value, handler));
+            lock (sync)
+                return new Subscription(global::MassTransit.HandlerSubscriptionExtensions.SubscribeHandler<T>(bus.Value, handler));
         }
 
         public IDisposable Subscribe<T>(Action<T> handler, Predicate<T> condition)
             where T : class
         {
-            return new Subscription(global::MassTransit.HandlerSubscriptionExtensions.SubscribeHandler<T>(bus.Value, handler, condition));
+            lock (sync)
+                return new Subscription(global::MassTransit.HandlerSubscriptionExtensions.SubscribeHandler<T>(bus.Value, handler, condition));
         }
 
         public IDisposable Subscribe<T>(Action<IConsumeContext<T>> handler)
             where T : class
         {
-            return new Subscription(global::MassTransit.HandlerSubscriptionExtensions.SubscribeContextHandler<T>(bus.Value, _ => handler(new ConsumeContext<T>(this, _))));
+            lock (sync)
+                return new Subscription(global::MassTransit.HandlerSubscriptionExtensions.SubscribeContextHandler<T>(bus.Value, _ => handler(new ConsumeContext<T>(this, _))));
         }
 
         public virtual void Publish<T>(object values, Action<IPublishContext<T>> contextCallback)
             where T : class
         {
-            bus.Value.Publish<T>(values, _ => contextCallback(new PublishContext<T>(this, _)));
+            lock (sync)
+                bus.Value.Publish<T>(values, _ => contextCallback(new PublishContext<T>(this, _)));
         }
 
         public virtual void Publish<T>(object values)
             where T : class
         {
-            bus.Value.Publish<T>(values);
+            lock (sync)
+                bus.Value.Publish<T>(values);
         }
 
         public virtual void Publish(object message, Type messageType, Action<IPublishContext> contextCallback)
         {
-            bus.Value.Publish(message, messageType, _ => contextCallback(new PublishContext(this, _)));
+            lock (sync)
+                bus.Value.Publish(message, messageType, _ => contextCallback(new PublishContext(this, _)));
         }
 
         public virtual void Publish(object message, Type messageType)
         {
-            bus.Value.Publish(message, messageType);
+            lock (sync)
+                bus.Value.Publish(message, messageType);
         }
 
         public virtual void Publish(object message)
         {
-            bus.Value.Publish(message);
+            lock (sync)
+                bus.Value.Publish(message);
         }
 
         public virtual void Publish<T>(T message, Action<IPublishContext<T>> contextCallback)
             where T : class
         {
-            bus.Value.Publish<T>(message, _ => contextCallback(new PublishContext<T>(this, _)));
+            lock (sync)
+                bus.Value.Publish<T>(message, _ => contextCallback(new PublishContext<T>(this, _)));
         }
 
         public virtual void Publish<T>(T message)
             where T : class
         {
-            bus.Value.Publish<T>(message);
+            lock (sync)
+                bus.Value.Publish<T>(message);
         }
 
         protected virtual void Dispose(bool disposing)
         {
-            if (!disposed)
-            {
-                disposed = true;
+            if (disposed)
+                return;
 
-                if (disposing)
+            if (disposing)
+            {
+                if (bus != null)
                 {
                     if (bus.IsValueCreated)
-                    {
                         bus.Value.Dispose();
-                    }
+
+                    bus = null;
                 }
             }
+
+            disposed = true;
         }
 
         public virtual void Dispose()
