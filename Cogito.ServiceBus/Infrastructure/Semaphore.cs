@@ -28,6 +28,7 @@ namespace Cogito.ServiceBus.Infrastructure
         int peers;
         int consumed;
         bool isAcquired;
+        bool disposed;
 
         /// <summary>
         /// Initializes a new instance.
@@ -45,7 +46,6 @@ namespace Cogito.ServiceBus.Infrastructure
             this.resources = resources;
 
             this.isAcquired = false;
-            this.subscription = this.bus.Subscribe<SemaphoreMessage>(OnServiceMessage);
 
             this.timer = new Timer();
             this.timer.Interval = TimeSpan.FromSeconds(5).TotalMilliseconds;
@@ -100,9 +100,16 @@ namespace Cogito.ServiceBus.Infrastructure
         {
             lock (sync)
             {
-                if (timer.Enabled)
+                if (timer != null && timer.Enabled)
                 {
                     timer.Stop();
+
+                    // cease our subscription
+                    if (subscription != null)
+                    {
+                        subscription.Dispose();
+                        subscription = null;
+                    }
 
                     // signal others
                     bus.Publish<SemaphoreMessage>(new SemaphoreMessage()
@@ -131,6 +138,11 @@ namespace Cogito.ServiceBus.Infrastructure
             {
                 if (timer.Enabled)
                 {
+                    // subscribe to events on the bus if not already subscribed
+                    if (subscription == null)
+                        subscription = this.bus.Subscribe<SemaphoreMessage>(OnServiceMessage);
+
+                    // advertise our intentions
                     bus.Publish<SemaphoreMessage>(new SemaphoreMessage()
                     {
                         SemaphoreId = semaphoreId,
@@ -244,20 +256,51 @@ namespace Cogito.ServiceBus.Infrastructure
         /// <summary>
         /// Disposes of the instance.
         /// </summary>
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposed)
+                return;
+
+            if (disposing)
+            {
+                Release();
+
+                if (timer != null)
+                {
+                    timer.Dispose();
+                    timer = null;
+                }
+
+                if (subscription != null)
+                {
+                    subscription.Dispose();
+                    subscription = null;
+                }
+
+                if (bus != null)
+                {
+                    bus.Dispose();
+                }
+            }
+
+            disposed = true;
+        }
+
+        /// <summary>
+        /// Disposes of the instance.
+        /// </summary>
         public void Dispose()
         {
-            Release();
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
 
-            if (subscription != null)
-            {
-                subscription.Dispose();
-                subscription = null;
-            }
-
-            if (bus != null)
-            {
-                bus.Dispose();
-            }
+        /// <summary>
+        /// Finalizes the instance.
+        /// </summary>
+        ~Semaphore()
+        {
+            Dispose(false);
         }
 
     }

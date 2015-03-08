@@ -29,16 +29,22 @@ namespace Cogito.Components.Services
 
         public void Start()
         {
-            var e = services.Select(i => TryStart(i)).Where(i => i != null);
-            if (e.Any())
-                throw new AggregateException(e);
+            lock (services)
+            {
+                var e = services.Select(i => TryStart(i)).Where(i => i != null).ToArray();
+                if (e.Any())
+                    throw new AggregateException(e).Flatten();
+            }
         }
 
         public void Stop()
         {
-            var e = services.Select(i => TryStop(i)).Where(i => i != null);
-            if (e.Any())
-                throw new AggregateException(e);
+            lock (services)
+            {
+                var e = services.Select(i => TryStop(i)).Where(i => i != null).ToArray();
+                if (e.Any())
+                    throw new AggregateException(e).Flatten();
+            }
         }
 
         Exception TryStart(IService service)

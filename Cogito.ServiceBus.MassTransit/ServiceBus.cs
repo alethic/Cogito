@@ -337,6 +337,7 @@ namespace Cogito.ServiceBus.MassTransit
         }
 
         readonly Lazy<global::MassTransit.IServiceBus> bus;
+        bool disposed;
 
         /// <summary>
         /// Initializes a new instance.
@@ -406,12 +407,31 @@ namespace Cogito.ServiceBus.MassTransit
             bus.Value.Publish<T>(message);
         }
 
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposed)
+            {
+                disposed = true;
+
+                if (disposing)
+                {
+                    if (bus.IsValueCreated)
+                    {
+                        bus.Value.Dispose();
+                    }
+                }
+            }
+        }
+
         public virtual void Dispose()
         {
-            if (bus.IsValueCreated)
-            {
-                bus.Value.Dispose();
-            }
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        ~ServiceBus()
+        {
+            Dispose(false);
         }
 
     }
