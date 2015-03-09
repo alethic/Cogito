@@ -104,7 +104,7 @@ namespace Cogito.ServiceBus.Infrastructure
 
                 // begin listening to messages
                 if (subscription == null)
-                    subscription = bus.Subscribe<SemaphoreMessage>(OnMessage);
+                    subscription = bus.Subscribe<SemaphoreMessage>(OnMessage, i => i.SemaphoreId == semaphoreId);
 
                 // begin attempting to acquire resource
                 timer.Start();
@@ -206,9 +206,7 @@ namespace Cogito.ServiceBus.Infrastructure
                     Contract.Assert(timer != null);
                     if (timer.Enabled)
                     {
-                        // message not destined to us
-                        if (message.SemaphoreId != semaphoreId)
-                            return;
+                        Contract.Assert(message.SemaphoreId == semaphoreId);
 
                         // remote semaphore node is seeking to acquire a resource
                         if (message.Status == SemaphoreStatus.Acquire)
