@@ -2,27 +2,29 @@
 using System.Diagnostics;
 using System.Diagnostics.Contracts;
 
-namespace Cogito.Components.Services
+using Cogito.Components;
+
+namespace Cogito.ServiceBus.Components
 {
 
     /// <summary>
-    /// Service implementation that limits the number of instances that can be running at a given time. Be sure to
-    /// pass a <see cref="DistributedServiceManager"/> of the appropriate <see cref="IService"/> type to the
-    /// constructor.
+    /// Component implementation that limits the number of instances that can be running at a given time on a cluster.
+    /// Be sure to pass a <see cref="DistributedComponentManager"/> of the appropriate <see cref="IComponent"/> type
+    /// to the constructor.
     /// </summary>
-    public abstract class DistributedService<TService> :
-        ServiceBase
-        where TService : IService
+    public abstract class DistributedComponent<TComponent> :
+        Component
+        where TComponent : IComponent
     {
 
-        readonly DistributedServiceManager<TService> manager;
+        readonly DistributedComponentManager<TComponent> manager;
 
         /// <summary>
         /// Initializes a new instance.
         /// </summary>
         /// <param name="manager"></param>
-        public DistributedService(
-            DistributedServiceManager<TService> manager)
+        public DistributedComponent(
+            DistributedComponentManager<TComponent> manager)
         {
             Contract.Requires<ArgumentNullException>(manager != null);
 
@@ -32,7 +34,7 @@ namespace Cogito.Components.Services
         }
 
         /// <summary>
-        /// Gets or sets the number of service instances that can be running at one time.
+        /// Gets or sets the number of component instances that can be running at one time.
         /// </summary>
         public int Instances
         {
@@ -41,7 +43,7 @@ namespace Cogito.Components.Services
         }
 
         /// <summary>
-        /// Implements the service start method. Does not immediately start the service. Instead signals the manager.
+        /// Implements the service start method. Does not immediately start the component. Instead signals the manager.
         /// </summary>
         public override sealed void Start()
         {
@@ -49,7 +51,7 @@ namespace Cogito.Components.Services
         }
 
         /// <summary>
-        /// Implements the stop method. Does not immediately stop the service. Instead signals the manager.
+        /// Implements the stop method. Does not immediately stop the component. Instead signals the manager.
         /// </summary>
         public override sealed void Stop()
         {
@@ -57,7 +59,7 @@ namespace Cogito.Components.Services
         }
 
         /// <summary>
-        /// Invoked when the service should be started.
+        /// Invoked when the component should be started.
         /// </summary>
         protected virtual void OnStart()
         {
@@ -71,7 +73,7 @@ namespace Cogito.Components.Services
         }
 
         /// <summary>
-        /// Invoked when the service should be stopped.
+        /// Invoked when the component should be stopped.
         /// </summary>
         protected virtual void OnStop()
         {

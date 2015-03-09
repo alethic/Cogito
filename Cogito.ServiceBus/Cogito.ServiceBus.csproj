@@ -127,10 +127,10 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Components\Services\DistributedService.cs" />
-    <Compile Include="Components\Services\DistributedServiceManager.cs" />
-    <Compile Include="Components\Services\SingleInstanceTimerService.cs" />
-    <Compile Include="Components\Services\SingleInstanceTimerServiceManager.cs" />
+    <Compile Include="Components\DistributedComponent.cs" />
+    <Compile Include="Components\DistributedComponentManager.cs" />
+    <Compile Include="Components\SingleNodeTimer.cs" />
+    <Compile Include="Components\SingleNodeTimerManager.cs" />
     <Compile Include="IBusContext.cs" />
     <Compile Include="IConsumeContext.cs" />
     <Compile Include="IMessageContext.cs" />

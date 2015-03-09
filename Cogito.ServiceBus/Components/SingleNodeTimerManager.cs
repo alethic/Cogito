@@ -2,19 +2,20 @@
 using System.ComponentModel.Composition;
 using System.Diagnostics.Contracts;
 
+using Cogito.Components;
 using Cogito.ServiceBus.Infrastructure;
 
-namespace Cogito.Components.Services
+namespace Cogito.ServiceBus.Components
 {
 
     /// <summary>
-    /// Provides a service manager for a <see cref="SingleInstanceTimerService{TService}"/>.
+    /// Provides a service manager for a <see cref="SingleNodeTimer{TComponent}"/>.
     /// </summary>
-    /// <typeparam name="TService"></typeparam>
-    [Export(typeof(SingleInstanceTimerServiceManager<>))]
-    public class SingleInstanceTimerServiceManager<TService> :
-        DistributedServiceManager<TService>
-        where TService : IService
+    /// <typeparam name="TComponent"></typeparam>
+    [Export(typeof(SingleNodeTimerManager<>))]
+    public class SingleNodeTimerManager<TComponent> :
+        DistributedComponentManager<TComponent>
+        where TComponent : IComponent
     {
 
         /// <summary>
@@ -22,13 +23,13 @@ namespace Cogito.Components.Services
         /// </summary>
         /// <param name="semaphore"></param>
         [ImportingConstructor]
-        public SingleInstanceTimerServiceManager(
-            Semaphore<TService> semaphore)
+        public SingleNodeTimerManager(
+            Semaphore<TComponent> semaphore)
             : base(semaphore)
         {
             Contract.Requires<ArgumentNullException>(semaphore != null);
 
-            // single instance service requires one instance
+            // single instance component requires at least one instance
             base.Instances = 1;
         }
 

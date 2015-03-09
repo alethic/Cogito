@@ -3,16 +3,18 @@ using System.Diagnostics.Contracts;
 using System.Threading;
 using System.Timers;
 
-namespace Cogito.Components.Services
+using Cogito.Components;
+
+namespace Cogito.ServiceBus.Components
 {
 
     /// <summary>
-    /// Extend this class to implement a service which runs on a single node and periodically raises a timer event.
+    /// Extend this class to implement a component which runs on a single node and periodically raises a timer event.
     /// </summary>
-    /// <typeparam name="TService"></typeparam>
-    public abstract class SingleInstanceTimerService<TService> :
-        DistributedService<TService>
-        where TService : IService
+    /// <typeparam name="TComponent"></typeparam>
+    public abstract class SingleNodeTimer<TComponent> :
+        DistributedComponent<TComponent>
+        where TComponent : IComponent
     {
 
         readonly object sync = new object();
@@ -27,8 +29,8 @@ namespace Cogito.Components.Services
         /// <param name="manager"></param>
         /// <param name="bus"></param>
         /// <param name="data"></param>
-        public SingleInstanceTimerService(
-            SingleInstanceTimerServiceManager<TService> manager,
+        public SingleNodeTimer(
+            SingleNodeTimerManager<TComponent> manager,
             TimeSpan interval)
             : base(manager)
         {
@@ -112,6 +114,8 @@ namespace Cogito.Components.Services
         /// <param name="e"></param>
         protected virtual void OnException(Exception e)
         {
+            Contract.Requires<ArgumentNullException>(e != null);
+
             e.Trace();
         }
 

@@ -136,13 +136,10 @@
     <Compile Include="Collections\LinkedListExtensions.cs" />
     <Compile Include="Collections\MergedDictionary.cs" />
     <Compile Include="Collections\NameValueCollectionExtensions.cs" />
-    <Compile Include="Components\ComponentBase.cs" />
-    <Compile Include="Components\Extensions.cs" />
     <Compile Include="Components\IComponent.cs" />
-    <Compile Include="Components\Services\IService.cs" />
-    <Compile Include="Components\Services\IServiceManager.cs" />
-    <Compile Include="Components\Services\ServiceBase.cs" />
-    <Compile Include="Components\Services\ServiceManager.cs" />
+    <Compile Include="Components\IComponentManager.cs" />
+    <Compile Include="Components\Component.cs" />
+    <Compile Include="Components\ComponentManager.cs" />
     <Compile Include="Diagnostics\DelegateTraceListener.cs" />
     <Compile Include="Diagnostics\RollingFileTraceListener.cs" />
     <Compile Include="DisposableExtensions.cs" />
@@ -188,5 +185,6 @@
     <Compile Include="Version.cs" />
     <Compile Include="Xml\Extensions.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

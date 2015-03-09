@@ -3,45 +3,46 @@ using System.ComponentModel.Composition;
 using System.Diagnostics;
 using System.Diagnostics.Contracts;
 
+using Cogito.Components;
 using Cogito.ServiceBus.Infrastructure;
 
-namespace Cogito.Components.Services
+namespace Cogito.ServiceBus.Components
 {
 
     /// <summary>
-    /// Manages a <see cref="DistributedService"/>. Attaches to the given <see cref="Semaphore"/> and uses it to
+    /// Manages a <see cref="DistributedComponent"/>. Attaches to the given <see cref="Semaphore"/> and uses it to
     /// monitor whether or not the currently identified node should be up or down.
     /// </summary>
-    public abstract class DistributedServiceManager
+    public abstract class DistributedComponentManager
     {
 
         readonly object sync = new object();
         readonly Semaphore semaphore;
-        readonly string serviceName;
+        readonly string name;
         bool running;
 
         /// <summary>
         /// Initializes a new instance.
         /// </summary>
         /// <param name="semaphore"></param>
-        /// <param name="serviceName"></param>
-        internal protected DistributedServiceManager(
+        /// <param name="name"></param>
+        internal protected DistributedComponentManager(
             Semaphore semaphore,
-            string serviceName)
+            string name)
         {
             Contract.Requires<ArgumentNullException>(semaphore != null);
-            Contract.Requires<ArgumentNullException>(serviceName != null);
-            Contract.Requires<ArgumentOutOfRangeException>(!string.IsNullOrWhiteSpace(serviceName));
+            Contract.Requires<ArgumentNullException>(name != null);
+            Contract.Requires<ArgumentOutOfRangeException>(!string.IsNullOrWhiteSpace(name));
 
             this.semaphore = semaphore;
             this.semaphore.Resources = 1;
             this.semaphore.Acquired += (s, a) => Evaluate();
             this.semaphore.Released += (s, a) => Evaluate();
-            this.serviceName = serviceName;
+            this.name = name;
         }
 
         /// <summary>
-        /// Gets or sets the number of instances that can be running.
+        /// Gets or sets the number of nodes that can be running.
         /// </summary>
         public virtual int Instances
         {
@@ -50,7 +51,7 @@ namespace Cogito.Components.Services
         }
 
         /// <summary>
-        /// Signals that the service would like to be running.
+        /// Signals that the component would like to be running.
         /// </summary>
         internal void Enable()
         {
@@ -62,7 +63,7 @@ namespace Cogito.Components.Services
         }
 
         /// <summary>
-        /// Signals that the service no longer needs to be running.
+        /// Signals that the component no longer needs to be running.
         /// </summary>
         internal void Disable()
         {
@@ -74,7 +75,7 @@ namespace Cogito.Components.Services
         }
 
         /// <summary>
-        /// Gets whether or not the service should be running.
+        /// Gets whether or not the component should be running.
         /// </summary>
         public bool Runnable
         {
@@ -82,7 +83,7 @@ namespace Cogito.Components.Services
         }
 
         /// <summary>
-        /// Raised when the service should be started.
+        /// Raised when the component should be started.
         /// </summary>
         public EventHandler Start;
 
@@ -93,7 +94,7 @@ namespace Cogito.Components.Services
         void OnStart(EventArgs args)
         {
             Contract.Requires<ArgumentNullException>(args != null);
-            Trace.TraceInformation("DistributedServiceManager ({0}): OnStart", serviceName);
+            Trace.TraceInformation("{0} ({1}): OnStart", typeof(DistributedComponentManager).Name, name);
 
             if (Start != null)
                 Start(this, args);
@@ -111,7 +112,7 @@ namespace Cogito.Components.Services
         void OnStop(EventArgs args)
         {
             Contract.Requires<ArgumentNullException>(args != null);
-            Trace.TraceInformation("DistributedServiceManager ({0}): OnStop", serviceName);
+            Trace.TraceInformation("{0} ({1}): OnStop", typeof(DistributedComponentManager).Name, name);
 
             if (Stop != null)
                 Stop(this, args);
@@ -140,13 +141,13 @@ namespace Cogito.Components.Services
     }
 
     /// <summary>
-    /// Used by a <see cref="DistributedService"/> to maintain Service Bus signaling.
+    /// Used by a <see cref="DistributedComponent"/> to maintain Service Bus signaling.
     /// </summary>
-    /// <typeparam name="TService"></typeparam>
-    [Export(typeof(DistributedServiceManager<>))]
-    public class DistributedServiceManager<TService> :
-        DistributedServiceManager
-        where TService : IService
+    /// <typeparam name="TComponent"></typeparam>
+    [Export(typeof(DistributedComponentManager<>))]
+    public class DistributedComponentManager<TComponent> :
+        DistributedComponentManager
+        where TComponent : IComponent
     {
 
         /// <summary>
@@ -154,9 +155,9 @@ namespace Cogito.Components.Services
         /// </summary>
         /// <param name="semaphore"></param>
         [ImportingConstructor]
-        public DistributedServiceManager(
-            Semaphore<TService> semaphore)
-            : base(semaphore, typeof(TService).FullName)
+        public DistributedComponentManager(
+            Semaphore<TComponent> semaphore)
+            : base(semaphore, typeof(TComponent).FullName)
         {
             Contract.Requires<ArgumentNullException>(semaphore != null);
         }
