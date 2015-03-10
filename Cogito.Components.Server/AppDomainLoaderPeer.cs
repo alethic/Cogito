@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Diagnostics.Contracts;
 using System.IO;
 using System.Reflection;
 
@@ -14,25 +15,58 @@ namespace Cogito.Components.Server
     {
 
         readonly object sync = new object();
+        readonly dynamic manager;
 
         /// <summary>
         /// Initializes a new instance.
         /// </summary>
         public AppDomainLoaderPeer()
         {
+            manager = GetComponentManager();
+        }
 
+        /// <summary>
+        /// Uses reflection to obtain an instance of the <see cref="ITypeResolver"/>. The usage of reflection and
+        /// dynamic types prevents this assembly from declaring a hard binding tp the Cogito.Composition assembly.
+        /// </summary>
+        /// <returns></returns>
+        dynamic GetComponentManager()
+        {
+            Contract.Ensures(Contract.Result<object>() != null);
+
+            var assembly = TryLoadAssembly("Cogito.Composition");
+            if (assembly == null)
+                throw new TypeLoadException("Unable to load assembly 'Cogito.Composition'.");
+
+            var type = assembly.GetType("Cogito.Composition.Hosting.ContainerManager");
+            if (type == null)
+                throw new TypeLoadException("Unable to load type 'Cogito.Composition.Hosting.ContainerManager'.");
+
+            var method = type.GetMethod("GetDefaultTypeResolver", BindingFlags.Public | BindingFlags.Static);
+            if (method == null)
+                    throw new TypeLoadException("Unable to find 'GetDefaultTypeResolver' method.");
+
+            var resolver = (dynamic)method.Invoke(null, new object[0]);
+            if (resolver == null)
+                throw new TypeLoadException("Unable to find default type resolver.");
+
+            var manager = resolver.Resolve<IComponentManager>();
+            if (manager == null)
+                throw new NullReferenceException("Unable to resolve 'Cogito.Components.IComponentManager'.");
+
+            return manager;
         }
 
         /// <summary>
         ///  Attempts to load the given <see cref="Assembly"/>.
         /// </summary>
-        /// <param name="path"></param>
+        /// <param name="name"></param>
         /// <returns></returns>
-        Assembly LoadAssembly(string path)
+        Assembly TryLoadAssembly(string name)
         {
             try
             {
-                return Assembly.LoadFrom(path);
+                return Assembly.Load(name);
             }
             catch (FileLoadException)
             {
@@ -45,19 +79,6 @@ namespace Cogito.Components.Server
         }
 
         /// <summary>
-        /// Uses reflection to obtain an instance of the <see cref="ITypeResolver"/>. The usage of reflection and
-        /// dynamic types prevents this assembly from declaring a hard binding tp the Cogito.Composition assembly.
-        /// </summary>
-        /// <returns></returns>
-        dynamic GetTypeResolver()
-        {
-            return Assembly.Load("Cogito.Composition")
-                .GetType("Cogito.Composition.Hosting.ContainerManager")
-                .GetMethod("GetDefaultTypeResolver", BindingFlags.Public | BindingFlags.Static)
-                .Invoke(null, new object[0]);
-        }
-
-        /// <summary>
         /// Loads all the loaders.
         /// </summary>
         public bool Load()
@@ -66,8 +87,16 @@ namespace Cogito.Components.Server
 
             lock (sync)
             {
-                var c = (IComponentManager)GetTypeResolver().Resolve<IComponentManager>();
-                c.Start();
+                try
+                {
+                    manager.Start();
+                }
+                catch (Exception e)
+                {
+                    e.Trace();
+                    return false;
+                }
+
                 return true;
             }
         }
@@ -81,8 +110,16 @@ namespace Cogito.Components.Server
 
             lock (sync)
             {
-                var c = (IComponentManager)GetTypeResolver().Resolve<IComponentManager>();
-                c.Stop();
+                try
+                {
+                    manager.Stop();
+                }
+                catch (Exception e)
+                {
+                    e.Trace();
+                    return false;
+                }
+
                 return true;
             }
         }

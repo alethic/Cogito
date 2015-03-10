@@ -10,7 +10,8 @@ namespace Cogito.Components.Server
         ServiceControl
     {
 
-        readonly string basePath = ConfigurationSection.GetDefaultSection().BinPath.TrimOrNull();
+        readonly string binPath = ConfigurationSection.GetDefaultSection().BinPath.TrimOrNull();
+        readonly string tmpPath = ConfigurationSection.GetDefaultSection().TmpPath.TrimOrNull();
         readonly AppDomainLoader loader;
 
         /// <summary>
@@ -18,19 +19,17 @@ namespace Cogito.Components.Server
         /// </summary>
         public ServiceHost()
         {
-            this.loader = new AppDomainLoader(basePath);
+            this.loader = new AppDomainLoader(binPath, tmpPath);
         }
 
         public bool Start(HostControl hostControl)
         {
-            loader.Load();
-            return true;
+            return loader.Load();
         }
 
         public bool Stop(HostControl hostControl)
         {
-            loader.Unload();
-            return true;
+            return loader.Unload();
         }
 
     }

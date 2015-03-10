@@ -94,7 +94,7 @@ namespace Cogito.ServiceBus.Components
         void OnStart(EventArgs args)
         {
             Contract.Requires<ArgumentNullException>(args != null);
-            Trace.TraceInformation("{0} ({1}): OnStart", typeof(DistributedComponentManager).Name, name);
+            Debug.WriteLine("{0} ({1}): OnStart", typeof(DistributedComponentManager).Name, name);
 
             if (Start != null)
                 Start(this, args);
@@ -112,7 +112,7 @@ namespace Cogito.ServiceBus.Components
         void OnStop(EventArgs args)
         {
             Contract.Requires<ArgumentNullException>(args != null);
-            Trace.TraceInformation("{0} ({1}): OnStop", typeof(DistributedComponentManager).Name, name);
+            Debug.WriteLine("{0} ({1}): OnStop", typeof(DistributedComponentManager).Name, name);
 
             if (Stop != null)
                 Stop(this, args);

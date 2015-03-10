@@ -21,6 +21,7 @@ namespace Cogito.Components.Server
         readonly static Random rnd = new Random();
         readonly object sync = new object();
         readonly DirectoryInfo basePath;
+        readonly DirectoryInfo tempPath;
         AppDomain domain;
         AppDomainLoaderPeer peer;
         FileSystemWatcher watcher;
@@ -30,9 +31,19 @@ namespace Cogito.Components.Server
         /// Initializes a new instance.
         /// </summary>
         /// <param name="basePath"></param>
-        public AppDomainLoader(string basePath = null)
+        /// <param name="tempPath"></param>
+        public AppDomainLoader(string basePath = null, string tempPath = null)
         {
             this.basePath = new DirectoryInfo(basePath ?? AppDomain.CurrentDomain.BaseDirectory);
+            this.tempPath = new DirectoryInfo(tempPath ?? Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString("N")));
+
+            // directory must exist
+            if (!this.basePath.Exists)
+                throw new DirectoryNotFoundException(basePath);
+
+            // create temp path
+            if (!this.tempPath.Exists)
+                this.tempPath.Create();
         }
 
         /// <summary>
@@ -49,9 +60,9 @@ namespace Cogito.Components.Server
         /// <summary>
         /// Starts the <see cref="AppDomainLoader"/>.
         /// </summary>
-        public void Load()
+        public bool Load()
         {
-            Trace.TraceInformation("AppDomain Load");
+            Debug.WriteLine("{0}: Load", typeof(AppDomainLoader).Name);
 
             if (timer != null)
                 throw new InvalidOperationException("AppDomainLoader is already started");
@@ -62,6 +73,8 @@ namespace Cogito.Components.Server
             timer.Interval = TimeSpan.FromSeconds(1).TotalMilliseconds;
             timer.Elapsed += timer_Elapsed;
             timer.Start();
+
+            return true;
         }
 
         /// <summary>
@@ -71,7 +84,7 @@ namespace Cogito.Components.Server
         {
             Contract.Requires(domain == null);
             Contract.Requires(peer == null);
-            Trace.TraceInformation("AppDomainLoader: Load");
+            Debug.WriteLine("{0}: OnLoad", typeof(AppDomainLoader).Name);
 
             lock (sync)
             {
@@ -173,7 +186,7 @@ namespace Cogito.Components.Server
                 timer.Elapsed += timer_Elapsed;
                 timer.Start();
 
-                Trace.TraceInformation("AppDomainLoader: reload in {0}...", TimeSpan.FromMilliseconds(timer.Interval));
+                Trace.TraceInformation("{0}: reload in {1}...", typeof(AppDomainLoader).Name, TimeSpan.FromMilliseconds(timer.Interval));
             }
         }
 
@@ -217,9 +230,9 @@ namespace Cogito.Components.Server
         /// <summary>
         /// Stops the running <see cref="AppDomain"/>.
         /// </summary>
-        public void Unload()
+        public bool Unload()
         {
-            Trace.TraceInformation("AppDomainLoader: Unload");
+            Debug.WriteLine("{0}: Unload", typeof(AppDomainLoader).Name);
 
             lock (sync)
             {
@@ -247,7 +260,7 @@ namespace Cogito.Components.Server
                     // attempt unload three more times
                     for (var i = 0; i < 3; i++)
                     {
-                        Trace.TraceInformation("AppDomainLoader: Unload attempt #{0}", i + 1);
+                        Trace.TraceInformation("{0}: Unload attempt #{1}", typeof(AppDomainLoader).Name, i + 1);
 
                         try
                         {
@@ -265,12 +278,14 @@ namespace Cogito.Components.Server
                         }
                     }
 
-                    Trace.TraceInformation("AppDomainLoader: Unload successful");
+                    Trace.TraceInformation("{0}: Unload successful", typeof(AppDomainLoader).Name);
 
                     // clear domain variable
                     domain = null;
                 }
             }
+
+            return true;
         }
 
     }
