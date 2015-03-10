@@ -32,6 +32,7 @@ namespace Cogito.Components.Server
         /// <returns></returns>
         IEnumerable<string> GetConfigurationFiles()
         {
+            yield return Path.Combine(basePath.FullName, "Components.config");
             yield return Path.Combine(basePath.FullName, "Service.config");
             yield return AppDomain.CurrentDomain.SetupInformation.ConfigurationFile;
         }
