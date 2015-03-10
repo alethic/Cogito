@@ -16,7 +16,7 @@ namespace Cogito.Components
         IComponentManager
     {
 
-        readonly IEnumerable<IComponent> services;
+        readonly IEnumerable<IComponent> components;
 
         /// <summary>
         /// Initializes a new instance.
@@ -28,14 +28,14 @@ namespace Cogito.Components
         {
             Contract.Requires<ArgumentNullException>(components != null);
 
-            this.services = components;
+            this.components = components;
         }
 
         public void Start()
         {
-            lock (services)
+            lock (components)
             {
-                var e = services.Select(i => TryStart(i)).Where(i => i != null).ToArray();
+                var e = components.Select(i => TryStart(i)).Where(i => i != null).ToArray();
                 if (e.Any())
                     throw new AggregateException(e).Flatten();
             }
@@ -43,9 +43,9 @@ namespace Cogito.Components
 
         public void Stop()
         {
-            lock (services)
+            lock (components)
             {
-                var e = services.Select(i => TryStop(i)).Where(i => i != null).ToArray();
+                var e = components.Select(i => TryStop(i)).Where(i => i != null).ToArray();
                 if (e.Any())
                     throw new AggregateException(e).Flatten();
             }

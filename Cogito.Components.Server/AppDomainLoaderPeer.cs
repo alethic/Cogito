@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Reflection;
-
-using Cogito.Components.Server.Loading;
 
 namespace Cogito.Components.Server
 {
@@ -17,23 +13,14 @@ namespace Cogito.Components.Server
         MarshalByRefObject
     {
 
-        readonly List<ILoader> loaders;
+        readonly object sync = new object();
 
         /// <summary>
         /// Initializes a new instance.
         /// </summary>
         public AppDomainLoaderPeer()
         {
-            // discover all loaders
-            loaders = Directory.GetFiles(AppDomain.CurrentDomain.BaseDirectory, "*.dll")
-                .Select(i => LoadAssembly(i))
-                .Where(i => i != null)
-                .SelectMany(i => i.GetTypes())
-                .Where(i => i.IsClass && !i.IsAbstract && i.IsPublic)
-                .Where(i => typeof(ILoader).IsAssignableFrom(i))
-                .Where(i => i.GetConstructor(Type.EmptyTypes) != null)
-                .Select(i => (ILoader)Activator.CreateInstance(i))
-                .ToList();
+
         }
 
         /// <summary>
@@ -58,21 +45,29 @@ namespace Cogito.Components.Server
         }
 
         /// <summary>
+        /// Uses reflection to obtain an instance of the <see cref="ITypeResolver"/>. The usage of reflection and
+        /// dynamic types prevents this assembly from declaring a hard binding tp the Cogito.Composition assembly.
+        /// </summary>
+        /// <returns></returns>
+        dynamic GetTypeResolver()
+        {
+            return Assembly.Load("Cogito.Composition")
+                .GetType("Cogito.Composition.Hosting.ContainerManager")
+                .GetMethod("GetDefaultTypeResolver", BindingFlags.Public | BindingFlags.Static)
+                .Invoke(null, new object[0]);
+        }
+
+        /// <summary>
         /// Loads all the loaders.
         /// </summary>
         public bool Load()
         {
-            Debug.WriteLine("AppDomainPeer: Load");
+            Debug.WriteLine("{0}: Load", typeof(AppDomainLoaderPeer).Name);
 
-            lock (loaders)
+            lock (sync)
             {
-                var e = loaders.Select(i => TryLoad(i)).Where(i => i != null).ToArray();
-                if (e.Any())
-                {
-                    Trace.TraceError("{0:HH:mm:ss.fff} {1}", DateTime.Now, new AggregateException(e).Flatten());
-                    return false;
-                }
-
+                var c = (IComponentManager)GetTypeResolver().Resolve<IComponentManager>();
+                c.Start();
                 return true;
             }
         }
@@ -82,44 +77,13 @@ namespace Cogito.Components.Server
         /// </summary>
         public bool Unload()
         {
-            Debug.WriteLine("AppDomainPeer: Unload");
+            Debug.WriteLine("{0}: Unload", typeof(AppDomainLoaderPeer).Name);
 
-            lock (loaders)
+            lock (sync)
             {
-                var e = loaders.Select(i => TryUnload(i)).Where(i => i != null).ToArray();
-                if (e.Any())
-                {
-                    Trace.TraceError("{0:HH:mm:ss.fff} {1}", DateTime.Now, new AggregateException(e).Flatten());
-                    return false;
-                }
-
+                var c = (IComponentManager)GetTypeResolver().Resolve<IComponentManager>();
+                c.Stop();
                 return true;
-            }
-        }
-
-        Exception TryLoad(ILoader loader)
-        {
-            try
-            {
-                loader.Load();
-                return null;
-            }
-            catch (Exception e)
-            {
-                return e;
-            }
-        }
-
-        Exception TryUnload(ILoader loader)
-        {
-            try
-            {
-                loader.Unload();
-                return null;
-            }
-            catch (Exception e)
-            {
-                return e;
             }
         }
 

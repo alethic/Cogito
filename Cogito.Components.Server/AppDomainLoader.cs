@@ -27,6 +27,15 @@ namespace Cogito.Components.Server
         volatile Timer timer;
 
         /// <summary>
+        /// Initializes a new instance.
+        /// </summary>
+        /// <param name="basePath"></param>
+        public AppDomainLoader(string basePath = null)
+        {
+            this.basePath = new DirectoryInfo(basePath ?? AppDomain.CurrentDomain.BaseDirectory);
+        }
+
+        /// <summary>
         /// Yields the possible configuration file paths.
         /// </summary>
         /// <returns></returns>
@@ -35,15 +44,6 @@ namespace Cogito.Components.Server
             yield return Path.Combine(basePath.FullName, "Components.config");
             yield return Path.Combine(basePath.FullName, "Service.config");
             yield return AppDomain.CurrentDomain.SetupInformation.ConfigurationFile;
-        }
-
-        /// <summary>
-        /// Initializes a new instance.
-        /// </summary>
-        /// <param name="basePath"></param>
-        public AppDomainLoader(string basePath = null)
-        {
-            this.basePath = new DirectoryInfo(basePath ?? AppDomain.CurrentDomain.BaseDirectory);
         }
 
         /// <summary>
@@ -244,36 +244,28 @@ namespace Cogito.Components.Server
 
                 if (domain != null)
                 {
-                    // attempt to unload
-                    try
+                    // attempt unload three more times
+                    for (var i = 0; i < 3; i++)
                     {
-                        Trace.TraceInformation("AppDomainLoader: Unload attempt #1");
-                        AppDomain.Unload(domain);
-                    }
-                    catch (CannotUnloadAppDomainException e)
-                    {
-                        e.Trace();
+                        Trace.TraceInformation("AppDomainLoader: Unload attempt #{0}", i + 1);
 
-                        // attempt unload three more times
-                        for (var i = 0; i < 3; i++)
+                        try
                         {
-                            // release lock during wait
-                            System.Threading.Monitor.Wait(sync, 5000);
-
-                            try
-                            {
-                                Trace.TraceInformation("AppDomainLoader: Unload attempt #{0}", i + 2);
-                                AppDomain.Unload(domain);
-                            }
-                            catch (Exception e2)
-                            {
-                                e2.Trace();
-                                continue;
-                            }
-
+                            AppDomain.Unload(domain);
                             break;
                         }
+                        catch (Exception e2)
+                        {
+                            e2.Trace();
+
+                            // wait for 5 seconds before trying again
+                            System.Threading.Monitor.Wait(sync, 5000);
+
+                            continue;
+                        }
                     }
+
+                    Trace.TraceInformation("AppDomainLoader: Unload successful");
 
                     // clear domain variable
                     domain = null;

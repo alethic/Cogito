@@ -103,10 +103,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Cogito.Components.Server.Loading\Cogito.Components.Server.Loading.csproj">
-      <Project>{5f62274d-6373-454b-bcdd-c40e6e4b10cb}</Project>
-      <Name>Cogito.Components.Server.Loading</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Cogito.Core\Cogito.Core.csproj">
       <Project>{133c2d12-bda9-4806-ba0a-70ec83bec9bd}</Project>
       <Name>Cogito.Core</Name>
