@@ -117,6 +117,7 @@
     <Reference Include="System.Core" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Reflection.Context" />
+    <Reference Include="System.Runtime.Caching" />
     <Reference Include="System.XML" />
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
@@ -148,6 +149,7 @@
     <Compile Include="IO\BlockingStream.cs" />
     <Compile Include="IO\DelayedFileSystemWatcher.cs" />
     <Compile Include="Linq\Expressions\RedundantConvertExpressionTransformer.cs" />
+    <Compile Include="Runtime\Caching\ObjectCacheExtensions.cs" />
     <Compile Include="Ref.cs" />
     <Compile Include="RefManager.cs" />
     <Compile Include="TextMediaTypeProvider.cs" />
