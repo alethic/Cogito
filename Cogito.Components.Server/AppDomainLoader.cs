@@ -62,7 +62,7 @@ namespace Cogito.Components.Server
         /// </summary>
         public bool Load()
         {
-            Debug.WriteLine("{0}: Load", typeof(AppDomainLoader).Name);
+            Debug.WriteLine("{0}: Load", new[] { typeof(AppDomainLoader).Name });
 
             if (timer != null)
                 throw new InvalidOperationException("AppDomainLoader is already started");
@@ -84,7 +84,7 @@ namespace Cogito.Components.Server
         {
             Contract.Requires(domain == null);
             Contract.Requires(peer == null);
-            Debug.WriteLine("{0}: OnLoad", typeof(AppDomainLoader).Name);
+            Debug.WriteLine("{0}: OnLoad", new[] { typeof(AppDomainLoader).Name });
 
             lock (sync)
             {
@@ -232,7 +232,7 @@ namespace Cogito.Components.Server
         /// </summary>
         public bool Unload()
         {
-            Debug.WriteLine("{0}: Unload", typeof(AppDomainLoader).Name);
+            Debug.WriteLine("{0}: Unload", new[] { typeof(AppDomainLoader).Name });
 
             lock (sync)
             {

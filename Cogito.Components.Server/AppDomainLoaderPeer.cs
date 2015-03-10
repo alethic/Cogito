@@ -44,7 +44,7 @@ namespace Cogito.Components.Server
 
             var method = type.GetMethod("GetDefaultTypeResolver", BindingFlags.Public | BindingFlags.Static);
             if (method == null)
-                    throw new TypeLoadException("Unable to find 'GetDefaultTypeResolver' method.");
+                throw new TypeLoadException("Unable to find 'GetDefaultTypeResolver' method.");
 
             var resolver = (dynamic)method.Invoke(null, new object[0]);
             if (resolver == null)
@@ -83,7 +83,7 @@ namespace Cogito.Components.Server
         /// </summary>
         public bool Load()
         {
-            Debug.WriteLine("{0}: Load", typeof(AppDomainLoaderPeer).Name);
+            Debug.WriteLine("{0}: Load", new[] { typeof(AppDomainLoaderPeer).Name });
 
             lock (sync)
             {
@@ -106,7 +106,7 @@ namespace Cogito.Components.Server
         /// </summary>
         public bool Unload()
         {
-            Debug.WriteLine("{0}: Unload", typeof(AppDomainLoaderPeer).Name);
+            Debug.WriteLine("{0}: Unload", new[] { typeof(AppDomainLoaderPeer).Name });
 
             lock (sync)
             {
