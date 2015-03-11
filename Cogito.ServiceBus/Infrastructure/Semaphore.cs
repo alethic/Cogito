@@ -1,9 +1,11 @@
 ﻿using System;
-using System.Collections.Immutable;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Timers;
+
+using Cogito.Collections;
 
 namespace Cogito.ServiceBus.Infrastructure
 {
@@ -16,15 +18,26 @@ namespace Cogito.ServiceBus.Infrastructure
         IDisposable
     {
 
+        class Node
+        {
+
+            public string Id { get; set; }
+
+            public DateTime Timestamp { get; set; }
+
+            public DateTime Sort { get; set; }
+
+        }
+
         readonly object sync = new object();
         readonly string semaphoreId;
         readonly string id;
-        readonly DateTime sort;
         readonly IServiceBus bus;
 
-        ImmutableDictionary<string, Tuple<DateTime, DateTime>> nodes = ImmutableDictionary<string, Tuple<DateTime, DateTime>>.Empty;
+        Dictionary<string, Node> nodes = new Dictionary<string, Node>();
         IDisposable subscription;
         Timer timer;
+        DateTime sort;
         int resources;
         int peers;
         int consumed;
@@ -98,15 +111,13 @@ namespace Cogito.ServiceBus.Infrastructure
                 if (disposed)
                     throw new ObjectDisposedException(semaphoreId);
 
-                Contract.Assert(timer != null);
-                if (timer.Enabled)
-                    return;
-
                 // begin listening to messages
                 if (subscription == null)
                     subscription = bus.Subscribe<SemaphoreMessage>(OnMessage, i => i.SemaphoreId == semaphoreId);
 
                 // begin attempting to acquire resource
+                sort = DateTime.UtcNow;
+                nodes = new Dictionary<string, Node>();
                 timer.Start();
             }
         }
@@ -118,20 +129,22 @@ namespace Cogito.ServiceBus.Infrastructure
         {
             Trace.TraceInformation("Semaphore: ({0}) Release", semaphoreId);
 
+            // cease publishing messages immediately
+            timer.Stop();
+
             lock (sync)
             {
                 if (disposed)
                     throw new ObjectDisposedException(semaphoreId);
 
-                Contract.Assert(timer != null);
-                if (timer.Enabled)
-                {
-                    // cease publishing messages
-                    timer.Stop();
+                // second stop within lock
+                timer.Stop();
 
-                    try
+                try
+                {
+                    // signal that we are no longer interested in a resource
+                    if (bus != null)
                     {
-                        // signal that we are no longer interested in a resource
                         bus.Publish<SemaphoreMessage>(new SemaphoreMessage()
                         {
                             SemaphoreId = semaphoreId,
@@ -139,27 +152,27 @@ namespace Cogito.ServiceBus.Infrastructure
                             Timestamp = DateTime.UtcNow,
                             Sort = sort,
                             Status = SemaphoreStatus.Release,
-                        }, x => x.SetExpirationTime(DateTime.UtcNow.AddSeconds(5)).SetRetryCount(0));
+                        }, x => x.SetExpirationTime(DateTime.Now.AddMinutes(1)).SetRetryCount(0));
                     }
-                    catch (Exception e)
-                    {
-                        e.Trace();
-                    }
-
-                    // cease our subscription
-                    if (subscription != null)
-                    {
-                        subscription.Dispose();
-                        subscription = null;
-                    }
-
-                    // reset counters
-                    peers = 0;
-                    consumed = 0;
-
-                    // deactivate
-                    OnRelease();
                 }
+                catch (Exception e)
+                {
+                    e.Trace();
+                }
+
+                // cease our subscription
+                if (subscription != null)
+                {
+                    subscription.Dispose();
+                    subscription = null;
+                }
+
+                // reset counters
+                peers = 0;
+                consumed = 0;
+
+                // deactivate
+                SetRelease();
             }
         }
 
@@ -170,30 +183,32 @@ namespace Cogito.ServiceBus.Infrastructure
         /// <param name="args"></param>
         void timer_Elapsed(object sender, ElapsedEventArgs args)
         {
-            try
+            lock (sync)
             {
-                lock (sync)
-                {
-                    if (disposed)
-                        return;
+                if (disposed)
+                    return;
 
-                    Contract.Assert(timer != null);
-                    if (timer.Enabled)
+                if (timer.Enabled)
+                {
+                    try
                     {
-                        bus.Publish<SemaphoreMessage>(new SemaphoreMessage()
+                        if (bus != null)
                         {
-                            SemaphoreId = semaphoreId,
-                            InstanceId = id,
-                            Timestamp = DateTime.UtcNow,
-                            Sort = sort,
-                            Status = SemaphoreStatus.Acquire,
-                        }, x => x.SetExpirationTime(DateTime.UtcNow.AddSeconds(5)).SetRetryCount(0));
+                            bus.Publish<SemaphoreMessage>(new SemaphoreMessage()
+                            {
+                                SemaphoreId = semaphoreId,
+                                InstanceId = id,
+                                Timestamp = DateTime.UtcNow,
+                                Sort = sort,
+                                Status = SemaphoreStatus.Acquire,
+                            }, x => x.SetExpirationTime(DateTime.Now.AddMinutes(1)).SetRetryCount(0));
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        e.Trace();
                     }
                 }
-            }
-            catch (Exception e)
-            {
-                e.Trace();
             }
         }
 
@@ -203,6 +218,8 @@ namespace Cogito.ServiceBus.Infrastructure
         /// <param name="message"></param>
         void OnMessage(SemaphoreMessage message)
         {
+            Contract.Assert(message.SemaphoreId == semaphoreId);
+
             try
             {
                 lock (sync)
@@ -210,37 +227,42 @@ namespace Cogito.ServiceBus.Infrastructure
                     if (disposed)
                         return;
 
-                    Contract.Assert(timer != null);
-                    if (timer.Enabled)
+                    // insert or update node
+                    var node = nodes.GetOrAdd(message.InstanceId, _ => new Node() { Id = message.InstanceId });
+                    node.Timestamp = message.Timestamp;
+                    node.Sort = message.Sort;
+
+                    // remote semaphore node is not seeking to acquire a resource
+                    if (message.Status == SemaphoreStatus.Release)
+                        nodes.Remove(node.Id);
+
+                    // remove stale nodes
+                    foreach (var i in nodes.Where(i => i.Value.Timestamp < DateTime.UtcNow.AddSeconds(-30)).Select(i => i.Key).ToArray())
+                        nodes.Remove(i);
+
+                    // order nodes by age
+                    var ordered = nodes.Values
+                        .OrderBy(i => i.Sort)
+                        .ToArray();
+
+                    // update counts
+                    peers = ordered.Length;
+                    consumed = Math.Min(resources, peers);
+
+                    // determine whether we are one of the running nodes
+                    var running = ordered.Take(resources).ToArray();
+                    var self = running.Where(i => i.Id == id).FirstOrDefault();
+
+                    // is our own record at least 15 seconds old?
+                    if (self != null && self.Sort <= DateTime.UtcNow.AddSeconds(-15))
                     {
-                        Contract.Assert(message.SemaphoreId == semaphoreId);
-
-                        // remote semaphore node is seeking to acquire a resource
-                        if (message.Status == SemaphoreStatus.Acquire)
-                            nodes = nodes.SetItem(message.InstanceId, Tuple.Create(message.Timestamp, message.Sort));
-
-                        // remote semaphore node is not seeking to acquire a resource
-                        if (message.Status == SemaphoreStatus.Release)
-                            nodes = nodes.Remove(message.InstanceId);
-
-                        // remove stale nodes
-                        nodes = nodes.RemoveRange(nodes.Where(i => i.Value.Item1 < DateTime.UtcNow.AddSeconds(-15)).Select(i => i.Key));
-
-                        // order nodes by age
-                        var ordered = nodes
-                            .OrderBy(i => i.Value.Item2)
-                            .Select(i => i.Key)
-                            .ToArray();
-
-                        // update counts
-                        peers = ordered.Length;
-                        consumed = Math.Min(resources, peers);
-
-                        // are we a member of the active set?
-                        if (ordered.Take(resources).Contains(id))
-                            OnAcquire();
-                        else
-                            OnRelease();
+                        // we acquired the semaphore
+                        SetAcquire();
+                    }
+                    else
+                    {
+                        // we did not acquire the semaphore
+                        SetRelease();
                     }
                 }
             }
@@ -253,7 +275,7 @@ namespace Cogito.ServiceBus.Infrastructure
         /// <summary>
         /// Signals that a resource was acquired.
         /// </summary>
-        void OnAcquire()
+        void SetAcquire()
         {
             if (!isAcquired)
             {
@@ -265,7 +287,7 @@ namespace Cogito.ServiceBus.Infrastructure
         /// <summary>
         /// Signals that a resource was released.
         /// </summary>
-        void OnRelease()
+        void SetRelease()
         {
             if (isAcquired)
             {
@@ -285,6 +307,7 @@ namespace Cogito.ServiceBus.Infrastructure
         /// <param name="args"></param>
         protected void OnAcquired(EventArgs args)
         {
+            Contract.Requires<ArgumentNullException>(args != null);
             Trace.TraceInformation("Semaphore: ({0}) OnAcquired", semaphoreId);
 
             if (Acquired != null)
@@ -302,6 +325,7 @@ namespace Cogito.ServiceBus.Infrastructure
         /// <param name="args"></param>
         protected void OnReleased(EventArgs args)
         {
+            Contract.Requires<ArgumentNullException>(args != null);
             Trace.TraceInformation("Semaphore: ({0}) OnReleased", semaphoreId);
 
             if (Released != null)
@@ -318,13 +342,9 @@ namespace Cogito.ServiceBus.Infrastructure
 
             if (disposing)
             {
-                Release();
-
                 if (timer != null)
                 {
                     timer.Stop();
-                    timer.Dispose();
-                    timer = null;
                 }
 
                 if (subscription != null)
@@ -371,7 +391,7 @@ namespace Cogito.ServiceBus.Infrastructure
         /// <param name="bus"></param>
         /// <param name="resources"></param>
         public Semaphore(
-            IServiceBus bus, 
+            IServiceBus bus,
             int resources)
             : base(bus, typeof(TIdentity).FullName, resources)
         {
