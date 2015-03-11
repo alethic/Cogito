@@ -40,7 +40,7 @@ namespace Cogito.ServiceBus.Components
             this.interval = interval;
         }
 
-        protected sealed override void OnStart()
+        protected override void OnStart()
         {
             lock (sync)
             {
@@ -61,8 +61,15 @@ namespace Cogito.ServiceBus.Components
             }
         }
 
-        protected sealed override void OnStop()
+        protected override void OnStop()
         {
+            // signal any outstanding timer invocations to cancel
+            if (cts != null)
+            {
+                cts.Cancel();
+                cts = null;
+            }
+
             lock (sync)
             {
                 if (cts != null)

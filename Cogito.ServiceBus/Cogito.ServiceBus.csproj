@@ -129,6 +129,7 @@
   <ItemGroup>
     <Compile Include="Components\DistributedComponent.cs" />
     <Compile Include="Components\DistributedComponentManager.cs" />
+    <Compile Include="Components\MessageConsumer.cs" />
     <Compile Include="Components\SingleNodeTimer.cs" />
     <Compile Include="Components\SingleNodeTimerManager.cs" />
     <Compile Include="IBusContext.cs" />

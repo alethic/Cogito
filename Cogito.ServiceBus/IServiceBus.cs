@@ -43,8 +43,8 @@ namespace Cogito.ServiceBus
     /// <summary>
     /// Scope-specific service bus. Use this to listen to identified worker queues.
     /// </summary>
-    /// <typeparam name="TScope"></typeparam>
-    public interface IServiceBus<TScope> :
+    /// <typeparam name="TIdentity"></typeparam>
+    public interface IServiceBus<TIdentity> :
         IServiceBus
     {
 

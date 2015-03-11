@@ -19,6 +19,8 @@ namespace Cogito.ServiceBus
         where T : class
     {
 
+
+
     }
 
 }
