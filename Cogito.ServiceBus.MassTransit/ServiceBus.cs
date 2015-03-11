@@ -126,19 +126,28 @@ namespace Cogito.ServiceBus.MassTransit
                 get { return bus; }
             }
 
-            public void SetExpirationTime(DateTime value)
+            public ISendContext SetExpirationTime(DateTime value)
             {
                 context.SetExpirationTime(value);
+                return this;
             }
 
-            public void SetHeader(string key, string value)
+            public ISendContext SetHeader(string key, string value)
             {
                 context.SetHeader(key, value);
+                return this;
             }
 
-            public void SetMessageType(string messageType)
+            public ISendContext SetMessageType(string messageType)
             {
                 context.SetMessageType(messageType);
+                return this;
+            }
+
+            public ISendContext SetRetryCount(int retryCount)
+            {
+                context.SetRetryCount(retryCount);
+                return this;
             }
 
         }
@@ -173,19 +182,48 @@ namespace Cogito.ServiceBus.MassTransit
                 get { return bus; }
             }
 
-            public void SetExpirationTime(DateTime value)
+            public ISendContext<T> SetExpirationTime(DateTime value)
             {
                 context.SetExpirationTime(value);
+                return this;
             }
 
-            public void SetHeader(string key, string value)
+            public ISendContext<T> SetHeader(string key, string value)
             {
                 context.SetHeader(key, value);
+                return this;
             }
 
-            public void SetMessageType(string messageType)
+            public ISendContext<T> SetMessageType(string messageType)
             {
                 context.SetMessageType(messageType);
+                return this;
+            }
+
+            public ISendContext<T> SetRetryCount(int retryCount)
+            {
+                context.SetRetryCount(retryCount);
+                return this;
+            }
+
+            ISendContext ISendContext.SetExpirationTime(DateTime value)
+            {
+                return SetExpirationTime(value);
+            }
+
+            ISendContext ISendContext.SetHeader(string key, string value)
+            {
+                return SetHeader(key, value);
+            }
+
+            ISendContext ISendContext.SetMessageType(string messageType)
+            {
+                return SetMessageType(messageType);
+            }
+
+            ISendContext ISendContext.SetRetryCount(int retryCount)
+            {
+                return SetRetryCount(retryCount);
             }
 
         }
@@ -280,19 +318,28 @@ namespace Cogito.ServiceBus.MassTransit
                 get { return bus; }
             }
 
-            public void SetExpirationTime(DateTime value)
+            public IPublishContext SetExpirationTime(DateTime value)
             {
                 context.SetExpirationTime(value);
+                return this;
             }
 
-            public void SetHeader(string key, string value)
+            public IPublishContext SetHeader(string key, string value)
             {
                 context.SetHeader(key, value);
+                return this;
             }
 
-            public void SetMessageType(string messageType)
+            public IPublishContext SetMessageType(string messageType)
             {
                 context.SetMessageType(messageType);
+                return this;
+            }
+
+            public IPublishContext SetRetryCount(int retryCount)
+            {
+                context.SetRetryCount(retryCount);
+                return this;
             }
 
             public string ContentType
@@ -303,6 +350,26 @@ namespace Cogito.ServiceBus.MassTransit
             public DateTime? ExpirationTime
             {
                 get { return context.ExpirationTime; }
+            }
+
+            ISendContext ISendContext.SetExpirationTime(DateTime value)
+            {
+                return SetExpirationTime(value);
+            }
+
+            ISendContext ISendContext.SetHeader(string key, string value)
+            {
+                return SetHeader(key, value);
+            }
+
+            ISendContext ISendContext.SetMessageType(string messageType)
+            {
+                return SetMessageType(messageType);
+            }
+
+            ISendContext ISendContext.SetRetryCount(int retryCount)
+            {
+                return SetRetryCount(retryCount);
             }
 
         }
@@ -332,6 +399,70 @@ namespace Cogito.ServiceBus.MassTransit
             public T Message
             {
                 get { return context.Message; }
+            }
+
+            public new IPublishContext<T> SetExpirationTime(DateTime value)
+            {
+                base.SetExpirationTime(value);
+                return this;
+            }
+
+            public new IPublishContext<T> SetHeader(string key, string value)
+            {
+                base.SetHeader(key, value);
+                return this;
+            }
+
+            public new IPublishContext<T> SetMessageType(string messageType)
+            {
+                base.SetMessageType(messageType);
+                return this;
+            }
+
+            public new IPublishContext<T> SetRetryCount(int retryCount)
+            {
+                base.SetRetryCount(retryCount);
+                return this;
+            }
+
+            ISendContext ISendContext.SetExpirationTime(DateTime value)
+            {
+                return SetExpirationTime(value);
+            }
+
+            ISendContext ISendContext.SetHeader(string key, string value)
+            {
+                return SetHeader(key, value);
+            }
+
+            ISendContext ISendContext.SetMessageType(string messageType)
+            {
+                return SetMessageType(messageType);
+            }
+
+            ISendContext ISendContext.SetRetryCount(int retryCount)
+            {
+                return SetRetryCount(retryCount);
+            }
+
+            ISendContext<T> ISendContext<T>.SetExpirationTime(DateTime value)
+            {
+                return SetExpirationTime(value);
+            }
+
+            ISendContext<T> ISendContext<T>.SetHeader(string key, string value)
+            {
+                return SetHeader(key, value);
+            }
+
+            ISendContext<T> ISendContext<T>.SetMessageType(string messageType)
+            {
+                return SetMessageType(messageType);
+            }
+
+            ISendContext<T> ISendContext<T>.SetRetryCount(int retryCount)
+            {
+                return SetRetryCount(retryCount);
             }
 
         }

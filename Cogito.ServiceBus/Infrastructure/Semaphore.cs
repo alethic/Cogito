@@ -129,15 +129,22 @@ namespace Cogito.ServiceBus.Infrastructure
                     // cease publishing messages
                     timer.Stop();
 
-                    // signal that we are no longer interested in a resource
-                    bus.Publish<SemaphoreMessage>(new SemaphoreMessage()
+                    try
                     {
-                        SemaphoreId = semaphoreId,
-                        InstanceId = id,
-                        Timestamp = DateTime.UtcNow,
-                        Sort = sort,
-                        Status = SemaphoreStatus.Release,
-                    }, x => x.SetExpirationTime(DateTime.UtcNow.AddSeconds(5)));
+                        // signal that we are no longer interested in a resource
+                        bus.Publish<SemaphoreMessage>(new SemaphoreMessage()
+                        {
+                            SemaphoreId = semaphoreId,
+                            InstanceId = id,
+                            Timestamp = DateTime.UtcNow,
+                            Sort = sort,
+                            Status = SemaphoreStatus.Release,
+                        }, x => x.SetExpirationTime(DateTime.UtcNow.AddSeconds(5)).SetRetryCount(0));
+                    }
+                    catch (Exception e)
+                    {
+                        e.Trace();
+                    }
 
                     // cease our subscription
                     if (subscription != null)
@@ -180,7 +187,7 @@ namespace Cogito.ServiceBus.Infrastructure
                             Timestamp = DateTime.UtcNow,
                             Sort = sort,
                             Status = SemaphoreStatus.Acquire,
-                        }, x => x.SetExpirationTime(DateTime.UtcNow.AddSeconds(5)));
+                        }, x => x.SetExpirationTime(DateTime.UtcNow.AddSeconds(5)).SetRetryCount(0));
                     }
                 }
             }
