@@ -37,7 +37,8 @@ namespace Cogito.Components.Server
             x.Service<ServiceHost>(() => new ServiceHost());
             x.SetServiceName("Cogito.Components.Server");
             x.StartAutomatically();
-            x.EnableServiceRecovery(c => c.RestartService(5));
+            x.EnableServiceRecovery(c => c.RestartService(5).SetResetPeriod(0));
+            x.EnableShutdown();
             x.RunAsNetworkService();
         }
 
