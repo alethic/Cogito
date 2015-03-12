@@ -237,7 +237,7 @@ namespace Cogito.ServiceBus.Infrastructure
                         nodes.Remove(node.Id);
 
                     // remove stale nodes
-                    foreach (var i in nodes.Where(i => i.Value.Timestamp < DateTime.UtcNow.AddSeconds(-30)).Select(i => i.Key).ToArray())
+                    foreach (var i in nodes.Where(i => i.Value.Timestamp < DateTime.UtcNow.AddMinutes(-1)).Select(i => i.Key).ToArray())
                         nodes.Remove(i);
 
                     // order nodes by age
@@ -253,8 +253,8 @@ namespace Cogito.ServiceBus.Infrastructure
                     var running = ordered.Take(resources).ToArray();
                     var self = running.Where(i => i.Id == id).FirstOrDefault();
 
-                    // is our own record at least 15 seconds old?
-                    if (self != null && self.Sort <= DateTime.UtcNow.AddSeconds(-15))
+                    // is our own record at least 30 seconds old?
+                    if (self != null && self.Sort <= DateTime.UtcNow.AddSeconds(-30))
                     {
                         // we acquired the semaphore
                         SetAcquire();
