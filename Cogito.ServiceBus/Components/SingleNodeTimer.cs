@@ -1,8 +1,8 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.Threading;
 using System.Timers;
-
 using Cogito.Components;
 
 namespace Cogito.ServiceBus.Components
@@ -93,7 +93,9 @@ namespace Cogito.ServiceBus.Components
             {
                 try
                 {
+                    Trace.TraceInformation("{0}: OnTimer (entered)", GetType().Name);
                     OnTimer(cts.Token);
+                    Trace.TraceInformation("{0}: OnTimer (exit)", GetType().Name);
                 }
                 catch (OperationCanceledException)
                 {
@@ -101,6 +103,7 @@ namespace Cogito.ServiceBus.Components
                 }
                 catch (Exception e)
                 {
+                    Trace.TraceInformation("{0}: OnTimer (error)", GetType().Name, e);
                     OnException(e);
                 }
             }
