@@ -7,6 +7,9 @@ using System.Linq;
 using System.Reflection;
 using System.Security.Policy;
 using System.Timers;
+using System.Reactive.Linq;
+using System.Reactive.Concurrency;
+using System.Reactive;
 
 namespace Cogito.Components.Server
 {
@@ -25,6 +28,7 @@ namespace Cogito.Components.Server
         AppDomain domain;
         AppDomainLoaderPeer peer;
         FileSystemWatcher watcher;
+        IDisposable watcherRx;
         volatile Timer timer;
 
         /// <summary>
@@ -146,12 +150,26 @@ namespace Cogito.Components.Server
                 // configure FileSystemWatcher if it does not exist
                 if (watcher == null)
                 {
-                    watcher = new FileSystemWatcher(basePath.FullName);
-                    watcher.Created += watcher_Event;
-                    watcher.Deleted += watcher_Event;
-                    watcher.Changed += watcher_Event;
-                    watcher.Renamed += watcher_Event;
-                    watcher.EnableRaisingEvents = true;
+                    // generate new watcher (w is local to prevent closures from grabbing new instance)
+                    var w = watcher = new FileSystemWatcher(basePath.FullName);
+                    w.EnableRaisingEvents = true;
+
+                    // merge event sequences and throttle output
+                    watcherRx = Observable.Merge<EventPattern<FileSystemEventArgs>>(
+                        Observable.FromEventPattern<FileSystemEventHandler, FileSystemEventArgs>(
+                            h => w.Created += h,
+                            h => w.Created -= h),
+                        Observable.FromEventPattern<FileSystemEventHandler, FileSystemEventArgs>(
+                            h => w.Deleted += h,
+                            h => w.Deleted -= h),
+                        Observable.FromEventPattern<FileSystemEventHandler, FileSystemEventArgs>(
+                            h => w.Changed += h,
+                            h => w.Changed -= h),
+                        Observable.FromEventPattern<RenamedEventHandler, FileSystemEventArgs>(
+                            h => w.Renamed += h,
+                            h => w.Renamed -= h))
+                        .Throttle(TimeSpan.FromSeconds(5))
+                        .Subscribe(i => OnFileSystemChanged(w));
                 }
             }
         }
@@ -161,13 +179,13 @@ namespace Cogito.Components.Server
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="args"></param>
-        void watcher_Event(object sender, FileSystemEventArgs args)
+        void OnFileSystemChanged(FileSystemWatcher sender)
         {
-            Contract.Requires<ArgumentNullException>(args != null);
+            Contract.Requires<ArgumentNullException>(sender != null);
 
             lock (sync)
             {
-                // only proceed if watcher has not been altered
+                // event for old watcher
                 if (sender != watcher)
                     return;
 
@@ -236,6 +254,12 @@ namespace Cogito.Components.Server
 
             lock (sync)
             {
+                if (watcherRx != null)
+                {
+                    watcherRx.Dispose();
+                    watcherRx = null;
+                }
+
                 if (watcher != null)
                 {
                     watcher.Dispose();
