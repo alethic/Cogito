@@ -19,7 +19,7 @@ namespace Cogito.ServiceBus.Infrastructure
         /// <summary>
         /// Unique identifier of the semaphore instance.
         /// </summary>
-        public string InstanceId { get; set; }
+        public Guid InstanceId { get; set; }
 
         /// <summary>
         /// Message time.
@@ -27,9 +27,14 @@ namespace Cogito.ServiceBus.Infrastructure
         public DateTime Timestamp { get; set; }
 
         /// <summary>
-        /// Sort order of the node instance.
+        /// Time the node was activated.
         /// </summary>
-        public DateTime Sort { get; set; }
+        public DateTime StartTime { get; set; }
+
+        /// <summary>
+        /// Priority of the instance. Randomly selected by the instance.
+        /// </summary>
+        public int Priority { get; set; }
 
         /// <summary>
         /// Current status of the semaphore node.

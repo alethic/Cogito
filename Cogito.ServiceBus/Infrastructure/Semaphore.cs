@@ -18,26 +18,44 @@ namespace Cogito.ServiceBus.Infrastructure
         IDisposable
     {
 
+        /// <summary>
+        /// Describes a known running instance.
+        /// </summary>
         class Node
         {
 
-            public string Id { get; set; }
+            /// <summary>
+            /// Unique identifier of the node.
+            /// </summary>
+            public Guid Id { get; set; }
 
+            /// <summary>
+            /// Last update time of the node.
+            /// </summary>
             public DateTime Timestamp { get; set; }
 
-            public DateTime Sort { get; set; }
+            /// <summary>
+            /// Time the node was first initialized.
+            /// </summary>
+            public DateTime StartTime { get; set; }
+
+            /// <summary>
+            /// Used in order to decide which node to select.
+            /// </summary>
+            public int Priority { get; set; }
 
         }
 
         readonly object sync = new object();
         readonly string semaphoreId;
-        readonly string id;
+        readonly Guid id;
         readonly IServiceBus bus;
 
-        Dictionary<string, Node> nodes = new Dictionary<string, Node>();
+        Dictionary<Guid, Node> nodes = new Dictionary<Guid, Node>();
         IDisposable subscription;
         Timer timer;
-        DateTime sort;
+        DateTime startTime;
+        int priority;
         int resources;
         int peers;
         int consumed;
@@ -54,8 +72,9 @@ namespace Cogito.ServiceBus.Infrastructure
             Contract.Requires<ArgumentOutOfRangeException>(!string.IsNullOrWhiteSpace(semaphoreId));
 
             this.semaphoreId = semaphoreId;
-            this.id = Guid.NewGuid().ToString();
-            this.sort = DateTime.UtcNow;
+            this.id = Guid.NewGuid();
+            this.priority = Guid.NewGuid().GetHashCode();
+            this.startTime = DateTime.UtcNow;
             this.bus = bus;
             this.resources = resources;
 
@@ -116,8 +135,9 @@ namespace Cogito.ServiceBus.Infrastructure
                     subscription = bus.Subscribe<SemaphoreMessage>(OnMessage, i => i.SemaphoreId == semaphoreId);
 
                 // begin attempting to acquire resource
-                sort = DateTime.UtcNow;
-                nodes = new Dictionary<string, Node>();
+                startTime = DateTime.UtcNow;
+                priority = Guid.NewGuid().GetHashCode();
+                nodes.Remove(id);
                 timer.Start();
             }
         }
@@ -150,7 +170,8 @@ namespace Cogito.ServiceBus.Infrastructure
                             SemaphoreId = semaphoreId,
                             InstanceId = id,
                             Timestamp = DateTime.UtcNow,
-                            Sort = sort,
+                            StartTime = startTime,
+                            Priority = priority,
                             Status = SemaphoreStatus.Release,
                         }, x => x.SetExpirationTime(DateTime.Now.AddMinutes(1)).SetRetryCount(0));
                     }
@@ -199,7 +220,8 @@ namespace Cogito.ServiceBus.Infrastructure
                                 SemaphoreId = semaphoreId,
                                 InstanceId = id,
                                 Timestamp = DateTime.UtcNow,
-                                Sort = sort,
+                                StartTime = startTime,
+                                Priority = priority,
                                 Status = SemaphoreStatus.Acquire,
                             }, x => x.SetExpirationTime(DateTime.Now.AddMinutes(1)).SetRetryCount(0));
                         }
@@ -230,7 +252,8 @@ namespace Cogito.ServiceBus.Infrastructure
                     // insert or update node
                     var node = nodes.GetOrAdd(message.InstanceId, _ => new Node() { Id = message.InstanceId });
                     node.Timestamp = message.Timestamp;
-                    node.Sort = message.Sort;
+                    node.StartTime = message.StartTime;
+                    node.Priority = message.Priority;
 
                     // remote semaphore node is not seeking to acquire a resource
                     if (message.Status == SemaphoreStatus.Release)
@@ -242,7 +265,7 @@ namespace Cogito.ServiceBus.Infrastructure
 
                     // order nodes by age
                     var ordered = nodes.Values
-                        .OrderBy(i => i.Sort)
+                        .OrderByDescending(i => i.Priority)
                         .ToArray();
 
                     // update counts
@@ -253,8 +276,8 @@ namespace Cogito.ServiceBus.Infrastructure
                     var running = ordered.Take(resources).ToArray();
                     var self = running.Where(i => i.Id == id).FirstOrDefault();
 
-                    // is our own record at least 30 seconds old?
-                    if (self != null && self.Sort <= DateTime.UtcNow.AddSeconds(-30))
+                    // is our own record at least 15 seconds old?
+                    if (self != null && self.StartTime <= DateTime.UtcNow.AddSeconds(-15))
                     {
                         // we acquired the semaphore
                         SetAcquire();
