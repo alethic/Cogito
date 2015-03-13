@@ -165,7 +165,7 @@ namespace Cogito.ServiceBus.Infrastructure
                     // signal that we are no longer interested in a resource
                     if (bus != null)
                     {
-                        bus.Publish<SemaphoreMessage>(new SemaphoreMessage()
+                        bus.Publish(new SemaphoreMessage()
                         {
                             SemaphoreId = semaphoreId,
                             InstanceId = id,
