@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.IO;
 using System.Linq;
@@ -29,15 +30,25 @@ namespace Cogito.Components.Server
 
             this.parentBasePath = parentBasePath;
             this.cache = new ConcurrentDictionary<FileInfo, Assembly>();
-            this.assemblies = Directory.EnumerateFiles(parentBasePath)
+            this.assemblies = Enumerable.Concat(GetAssemblies(AppDomain.CurrentDomain.BaseDirectory), GetAssemblies(parentBasePath)).ToArray();
+
+            AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
+        }
+
+        /// <summary>
+        /// Gets a set of assembly data from the given path.
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        IEnumerable<Tuple<FileInfo, AssemblyName>> GetAssemblies(string path)
+        {
+            return Directory.EnumerateFiles(path)
                 .Select(i => new { Path = i, Extension = Path.GetExtension(i) })
                 .Where(i => i.Extension.Equals(".dll", StringComparison.InvariantCultureIgnoreCase) || i.Extension.Equals(".exe", StringComparison.InvariantCultureIgnoreCase))
                 .Select(i => new { Path = i.Path, Name = TryGetAssemblyName(i.Path) })
                 .Where(i => i.Name != null)
                 .Select(i => Tuple.Create(new FileInfo(i.Path), i.Name))
                 .ToArray();
-
-            AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
         }
 
         /// <summary>
@@ -56,7 +67,7 @@ namespace Cogito.Components.Server
 
             // resolve assembly from cache or from disk
             return assemblies
-                .Where(i => AssemblyName.ReferenceMatchesDefinition(name , i.Item2))
+                .Where(i => AssemblyName.ReferenceMatchesDefinition(name, i.Item2))
                 .Select(i => cache.GetOrAdd(i.Item1, _ => TryLoadAssemblyFrom(_.FullName)))
                 .FirstOrDefault(i => i != null);
         }

@@ -14,7 +14,7 @@ namespace Cogito.Composition.Hosting
     public static class ContainerManager
     {
 
-
+        readonly static object sync = new object();
         readonly static ConcurrentDictionary<string, CompositionContainer> containers;
         readonly static string defaultContainerName;
         static CompositionContainer defaultContainer;
@@ -103,9 +103,8 @@ namespace Cogito.Composition.Hosting
         {
             Contract.Ensures(Contract.Result<CompositionContainer>() != null);
 
-            return
-                defaultContainer ??
-                (defaultContainer = new DefaultCompositionContainer());
+            lock (sync)
+                return defaultContainer ?? (defaultContainer = new DefaultCompositionContainer());
         }
 
         /// <summary>

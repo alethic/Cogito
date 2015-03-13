@@ -30,7 +30,7 @@ namespace Cogito.ServiceBus.MassTransit
             Contract.Requires<ArgumentNullException>(factories.Length > 0);
 
             this.factories = factories;
-            this.bus = new Lazy<IServiceBus>(() => factories.Select(i => i.CreateBus()).FirstOrDefault(i => i != null));
+            this.bus = new Lazy<IServiceBus>(() => factories.Select(i => i.CreateBus()).FirstOrDefault(i => i != null), true);
         }
 
         [Export(typeof(IServiceBus))]

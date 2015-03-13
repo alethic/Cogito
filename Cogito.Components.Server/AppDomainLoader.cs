@@ -26,8 +26,8 @@ namespace Cogito.Components.Server
         readonly DirectoryInfo tempPath;
         AppDomain domain;
         AppDomainLoaderPeer peer;
-        FileSystemWatcher watcher;
-        IDisposable watcherRx;
+        volatile FileSystemWatcher watcher;
+        volatile IDisposable watcherRx;
         volatile Timer timer;
 
         /// <summary>

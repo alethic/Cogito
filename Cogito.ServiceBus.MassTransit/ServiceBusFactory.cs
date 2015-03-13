@@ -2,6 +2,7 @@
 using System.ComponentModel.Composition;
 using System.Diagnostics;
 using System.Diagnostics.Contracts;
+
 using MassTransit;
 using MassTransit.BusConfigurators;
 
@@ -19,8 +20,10 @@ namespace Cogito.ServiceBus.MassTransit
 
         public IServiceBus CreateBus()
         {
+            var uri = base.BuildQueueUri(Guid.NewGuid().ToString("N"), true);
+
             // each global bus obtains it's own unique ID
-            return new ServiceBus(new Lazy<global::MassTransit.IServiceBus>(() => base.CreateBus(Guid.NewGuid().ToString("N"), true)));
+            return new ServiceBus(new Lazy<global::MassTransit.IServiceBus>(() => base.CreateBus(uri), true), uri);
         }
 
     }
@@ -37,7 +40,9 @@ namespace Cogito.ServiceBus.MassTransit
 
         public IServiceBus<TScope> CreateBus()
         {
-            return new ServiceBus<TScope>(new Lazy<global::MassTransit.IServiceBus>(() => base.CreateBus(typeof(TScope).FullName, false), true));
+            var uri = base.BuildQueueUri(typeof(TScope).FullName, false);
+
+            return new ServiceBus<TScope>(new Lazy<global::MassTransit.IServiceBus>(() => base.CreateBus(uri), true), uri);
         }
 
     }
@@ -49,10 +54,10 @@ namespace Cogito.ServiceBus.MassTransit
     {
 
         static readonly ConfigurationSection cfg = ConfigurationSection.GetDefaultSection();
-        static readonly string VHOST = cfg.VHost ?? "";
-        static readonly string USERNAME = cfg.Username ?? "guest";
-        static readonly string PASSWORD = cfg.Password ?? "guest";
-        static readonly string BASE_URI = @"rabbitmq://localhost/";
+        static readonly string HOST = cfg.Host.TrimOrNull() ?? "localhost";
+        static readonly string VHOST = cfg.VHost.TrimOrNull() ?? "";
+        static readonly string USERNAME = cfg.Username.TrimOrNull() ?? "guest";
+        static readonly string PASSWORD = cfg.Password.TrimOrNull() ?? "guest";
 
         /// <summary>
         /// Initializes a new instance.
@@ -65,15 +70,31 @@ namespace Cogito.ServiceBus.MassTransit
         /// <summary>
         /// Builds a service bus queue URI.
         /// </summary>
+        /// <param name="queue"></param>
+        /// <param name="temporary"></param>
+        /// <returns></returns>
+        protected Uri BuildQueueUri(string queue, bool temporary)
+        {
+            return BuildQueueUri(HOST, VHOST, queue, temporary);
+        }
+
+        /// <summary>
+        /// Builds a service bus queue URI.
+        /// </summary>
+        /// <param name="host"></param>
         /// <param name="vhost"></param>
         /// <param name="queue"></param>
+        /// <param name="temporary"></param>
         /// <returns></returns>
-        Uri BuildQueueUri(string vhost, string queue, bool temporary)
+        protected Uri BuildQueueUri(string host, string vhost, string queue, bool temporary)
         {
+            Contract.Requires<ArgumentNullException>(host != null);
             Contract.Requires<ArgumentNullException>(vhost != null);
             Contract.Requires<ArgumentNullException>(queue != null);
+            Contract.Requires<ArgumentOutOfRangeException>(!string.IsNullOrWhiteSpace(host));
+            Contract.Requires<ArgumentOutOfRangeException>(!string.IsNullOrWhiteSpace(queue));
 
-            var b = new UriBuilder(new Uri(new Uri(new Uri(BASE_URI, UriKind.Absolute), vhost + "/"), queue));
+            var b = new UriBuilder(new Uri(new Uri(new Uri(string.Format(@"rabbitmq://{0}/", host), UriKind.Absolute), vhost + "/"), queue));
             if (temporary) b.Query = "temporary=true";
             return b.Uri;
         }
@@ -82,38 +103,31 @@ namespace Cogito.ServiceBus.MassTransit
         /// Applies default configuration.
         /// </summary>
         /// <param name="configurator"></param>
-        /// <param name="queue"></param>
-        /// <param name="temporary"></param>
-        void Configure(ServiceBusConfigurator configurator, string queue, bool temporary = true)
+        /// <param name="uri"></param>
+        protected void Configure(ServiceBusConfigurator configurator, Uri uri)
         {
             Contract.Requires<ArgumentNullException>(configurator != null);
-            Contract.Requires<ArgumentNullException>(queue != null);
-
-            var uri = BuildQueueUri(VHOST, queue, temporary);
-            Trace.TraceInformation("ServiceBusFactory: Uri=\"{0}\"", uri);
+            Contract.Requires<ArgumentNullException>(uri != null);
+            Trace.TraceInformation(@"{0}: [Uri=""{1}""]", GetType().FullName, uri);
 
             configurator.UseRabbitMq(x => x.ConfigureHost(uri, c => { c.SetUsername(USERNAME); c.SetPassword(PASSWORD); }));
             configurator.SetCreateMissingQueues(true);
             configurator.DisablePerformanceCounters();
             configurator.UseBinarySerializer();
             configurator.ReceiveFrom(uri);
-            configurator.SetConcurrentConsumerLimit(1);
+            configurator.SetConcurrentConsumerLimit(4);
         }
 
         /// <summary>
         /// Gets a <see cref="IServiceBus"/> instance.
         /// </summary>
-        /// <param name="queue"></param>
-        /// <param name="temporary"></param>
+        /// <param name="uri"></param>
         /// <returns></returns>
-        protected global::MassTransit.IServiceBus CreateBus(string queue, bool temporary)
+        protected global::MassTransit.IServiceBus CreateBus(Uri uri)
         {
-            Contract.Requires<ArgumentNullException>(queue != null);
+            Contract.Requires<ArgumentNullException>(uri != null);
 
-            return global::MassTransit.ServiceBusFactory.New(sbc =>
-            {
-                Configure(sbc, queue, temporary);
-            });
+            return global::MassTransit.ServiceBusFactory.New(sbc => Configure(sbc, uri));
         }
 
     }

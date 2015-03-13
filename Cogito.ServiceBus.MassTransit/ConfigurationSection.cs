@@ -16,6 +16,13 @@ namespace Cogito.ServiceBus.MassTransit
             return (ConfigurationSection)ConfigurationManager.GetSection("cogito.serviceBus.massTransit") ?? new ConfigurationSection();
         }
 
+        [ConfigurationProperty("host")]
+        public string Host
+        {
+            get { return (string)this["host"]; }
+            set { this["host"] = value; }
+        }
+
         [ConfigurationProperty("vhost")]
         public string VHost
         {

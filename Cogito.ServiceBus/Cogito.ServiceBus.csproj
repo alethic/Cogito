@@ -133,6 +133,7 @@
     <Compile Include="Components\MessageConsumer.cs" />
     <Compile Include="Components\SingleNodeTimer.cs" />
     <Compile Include="Components\SingleNodeTimerManager.cs" />
+    <Compile Include="IFault.cs" />
     <Compile Include="IBusContext.cs" />
     <Compile Include="IConsumeContext.cs" />
     <Compile Include="IMessageContext.cs" />
@@ -143,6 +144,7 @@
     <Compile Include="Infrastructure\SemaphoreProvider.cs" />
     <Compile Include="Infrastructure\SemaphoreStatus.cs" />
     <Compile Include="IPublishContext.cs" />
+    <Compile Include="IRequestContext.cs" />
     <Compile Include="ISendContext.cs" />
     <Compile Include="IServiceBus.cs" />
     <Compile Include="IServiceBusFactory.cs" />

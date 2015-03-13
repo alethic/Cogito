@@ -40,7 +40,7 @@ namespace Cogito.ServiceBus.Components
                 subscription = null;
             }
 
-            subscription = bus.Subscribe<TMessage>(OnMessage);
+            subscription = bus.Subscribe<TMessage>(MessageHandler);
         }
 
         public override void Stop()
@@ -49,6 +49,23 @@ namespace Cogito.ServiceBus.Components
             {
                 subscription.Dispose();
                 subscription = null;
+            }
+        }
+
+        /// <summary>
+        /// Attempts to process the message and ensures any exceptions are logged.
+        /// </summary>
+        /// <param name="context"></param>
+        void MessageHandler(IConsumeContext<TMessage> context)
+        {
+            try
+            {
+                OnMessage(context);
+            }
+            catch (Exception e)
+            {
+                e.Trace();
+                throw e;
             }
         }
 

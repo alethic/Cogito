@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Diagnostics.Contracts;
+using System.Runtime.Serialization;
 
 namespace Cogito
 {
@@ -8,10 +9,17 @@ namespace Cogito
     /// <summary>
     /// RFC 6648 media type.
     /// </summary>
+    [Serializable]
     public class MediaType :
-        IEquatable<MediaType>
+        IEquatable<MediaType>,
+        ISerializable
     {
 
+        /// <summary>
+        /// Converts a <see cref="MediaType"/> to a <see cref="String"/>.
+        /// </summary>
+        /// <param name="mediaType"></param>
+        /// <returns></returns>
         public static implicit operator string(MediaType mediaType)
         {
             Contract.Requires<ArgumentNullException>(mediaType != null);
@@ -19,6 +27,11 @@ namespace Cogito
             return mediaType.ToString();
         }
 
+        /// <summary>
+        /// Converts a <see cref="String"/> to a <see cref="MediaType"/>.
+        /// </summary>
+        /// <param name="mediaType"></param>
+        /// <returns></returns>
         public static implicit operator MediaType(string mediaType)
         {
             Contract.Requires<ArgumentNullException>(mediaType != null);
@@ -38,8 +51,8 @@ namespace Cogito
             return new MediaType(mediaType);
         }
 
-        string type;
-        string subtype;
+        readonly string type;
+        readonly string subtype;
 
         [ContractInvariantMethod]
         [SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic", Justification = "Required for code contracts.")]
@@ -69,12 +82,22 @@ namespace Cogito
         }
 
         /// <summary>
+        /// Initializes a new instance.
+        /// </summary>
+        /// <param name="info"></param>
+        /// <param name="context"></param>
+        public MediaType(SerializationInfo info, StreamingContext context)
+            : this(info.GetString("MediaType"))
+        {
+            Contract.Requires<ArgumentNullException>(info != null);
+        }
+
+        /// <summary>
         /// Gets the type component.
         /// </summary>
         public string Type
         {
             get { return type; }
-            set { type = value; }
         }
 
         /// <summary>
@@ -83,7 +106,6 @@ namespace Cogito
         public string Subtype
         {
             get { return subtype; }
-            set { subtype = value; }
         }
 
         /// <summary>
@@ -119,6 +141,11 @@ namespace Cogito
         public override int GetHashCode()
         {
             return type.GetHashCode() ^ subtype.GetHashCode();
+        }
+
+        void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue("MediaType", ToString());
         }
 
     }
