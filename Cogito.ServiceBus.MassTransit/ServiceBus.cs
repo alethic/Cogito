@@ -255,6 +255,12 @@ namespace Cogito.ServiceBus.MassTransit
                 get { return bus; }
             }
 
+            public void Respond<T>(T message)
+                where T : class
+            {
+                context.Respond<T>(message, _ => { });
+            }
+
             public void Respond<T>(T message, Action<ISendContext<T>> contextCallback)
                 where T : class
             {

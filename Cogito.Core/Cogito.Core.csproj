@@ -148,6 +148,7 @@
     <Compile Include="IDisposable.cs" />
     <Compile Include="IO\BlockingStream.cs" />
     <Compile Include="IO\DelayedFileSystemWatcher.cs" />
+    <Compile Include="IO\StreamExtensions.cs" />
     <Compile Include="Linq\Expressions\RedundantConvertExpressionTransformer.cs" />
     <Compile Include="Runtime\Caching\ObjectCacheExtensions.cs" />
     <Compile Include="Ref.cs" />
