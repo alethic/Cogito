@@ -150,9 +150,12 @@
     <Compile Include="IO\DelayedFileSystemWatcher.cs" />
     <Compile Include="IO\StreamExtensions.cs" />
     <Compile Include="Linq\Expressions\RedundantConvertExpressionTransformer.cs" />
+    <Compile Include="MediaRange.cs" />
+    <Compile Include="MediaRangeParameters.cs" />
     <Compile Include="Runtime\Caching\ObjectCacheExtensions.cs" />
     <Compile Include="Ref.cs" />
     <Compile Include="RefManager.cs" />
+    <Compile Include="Serialization\SerializationInfoExtensions.cs" />
     <Compile Include="TextMediaTypeProvider.cs" />
     <Compile Include="ImageMediaTypeProvider.cs" />
     <Compile Include="DefaultMediaTypeResolver.cs" />

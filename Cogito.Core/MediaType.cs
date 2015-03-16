@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics.CodeAnalysis;
 using System.Diagnostics.Contracts;
 using System.Runtime.Serialization;
 
@@ -7,82 +6,49 @@ namespace Cogito
 {
 
     /// <summary>
-    /// RFC 6648 media type.
+    /// Represents a media type or subtype in a <see cref="MediaRange"/>.
     /// </summary>
     [Serializable]
-    public class MediaType :
-        IEquatable<MediaType>,
+    public struct MediaType :
         ISerializable
     {
 
         /// <summary>
-        /// Converts a <see cref="MediaType"/> to a <see cref="String"/>.
-        /// </summary>
-        /// <param name="mediaType"></param>
-        /// <returns></returns>
-        public static implicit operator string(MediaType mediaType)
-        {
-            Contract.Requires<ArgumentNullException>(mediaType != null);
-
-            return mediaType.ToString();
-        }
-
-        /// <summary>
         /// Converts a <see cref="String"/> to a <see cref="MediaType"/>.
         /// </summary>
-        /// <param name="mediaType"></param>
+        /// <param name="value"></param>
         /// <returns></returns>
-        public static implicit operator MediaType(string mediaType)
+        public static implicit operator MediaType(string value)
         {
-            Contract.Requires<ArgumentNullException>(mediaType != null);
-
-            return new MediaType(mediaType);
+            return new MediaType(value);
         }
 
         /// <summary>
-        /// Parses the RFC 6648 media type into a new <see cref="MediaType"/> value.
+        /// Converts a <see cref="MediaType"/> to a <see cref="String"/>.
         /// </summary>
-        /// <param name="mediaType"></param>
+        /// <param name="type"></param>
         /// <returns></returns>
-        public static MediaType Parse(string mediaType)
+        public static implicit operator string(MediaType type)
         {
-            Contract.Requires<ArgumentNullException>(mediaType != null);
-
-            return new MediaType(mediaType);
+            return type.ToString();
         }
 
-        readonly string type;
-        readonly string subtype;
 
-        [ContractInvariantMethod]
-        [SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic", Justification = "Required for code contracts.")]
-        void ObjectInvariant()
-        {
-            Contract.Invariant(!string.IsNullOrWhiteSpace(type));
-            Contract.Invariant(!string.IsNullOrWhiteSpace(subtype));
-        }
+        readonly string value;
 
         /// <summary>
-        /// Initializes a new instance.
+        /// Initializes a new instance of the <see cref="MediaType"/> class for the media type part.
         /// </summary>
         /// <param name="value"></param>
-        public MediaType(string value)
+        MediaType(string value)
         {
-            Contract.Requires<ArgumentNullException>(value != null);
-            Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(value));
-            Contract.Requires<FormatException>(value.Split(new[] { '/' }).Length == 2);
+            Contract.Requires<ArgumentNullException>(!string.IsNullOrEmpty(value));
 
-            // parse into components
-            var a = value.Split(new[] { '/' });
-            if (a.Length != 2)
-                throw new FormatException();
-
-            type = a[0];
-            subtype = a[1];
+            this.value = value;
         }
 
         /// <summary>
-        /// Initializes a new instance.
+        /// Deserializes an instance of <see cref="MediaType"/> class.
         /// </summary>
         /// <param name="info"></param>
         /// <param name="context"></param>
@@ -93,59 +59,42 @@ namespace Cogito
         }
 
         /// <summary>
-        /// Gets the type component.
+        /// Gets a value indicating whether the media type is a wildcard or not.
         /// </summary>
-        public string Type
+        /// <value><see langword="true" /> if the media type is a wildcard, otherwise <see langword="false" />.</value>
+        public bool IsWildcard
         {
-            get { return type; }
+            get { return value != null && string.Equals(value, "*", StringComparison.Ordinal); }
         }
 
         /// <summary>
-        /// Gets the subtype component.
+        /// Matched the media type with another media type.
         /// </summary>
-        public string Subtype
+        /// <param name="other">The media type that should be matched against.</param>
+        /// <returns><see langword="true" /> if the media types match, otherwise <see langword="false" />.</returns>
+        public bool Matches(MediaType other)
         {
-            get { return subtype; }
-        }
-
-        /// <summary>
-        /// Determines whether this instance or another specified instance are equal.
-        /// </summary>
-        /// <param name="other"></param>
-        /// <returns></returns>
-        public bool Equals(MediaType other)
-        {
-            return
-                object.Equals(type, other.type) &&
-                object.Equals(subtype, other.subtype);
+            return IsWildcard || other.IsWildcard || value.Equals(other.value, StringComparison.InvariantCultureIgnoreCase);
         }
 
         public override string ToString()
         {
-            return type + "/" + subtype;
+            return value;
         }
 
-        /// <summary>
-        /// Determines whether this instance or another specified instance are equal.
-        /// </summary>
-        /// <param name="other"></param>
-        /// <returns></returns>
-        public override bool Equals(object obj)
+        public override bool Equals(object other)
         {
-            if (obj == null)
-                return false;
-
-            return Equals((MediaType)obj);
+            return other is MediaType ? Matches((MediaType)other) : false;
         }
 
         public override int GetHashCode()
         {
-            return type.GetHashCode() ^ subtype.GetHashCode();
+            return value.GetHashCode();
         }
 
         void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            info.AddValue("MediaType", ToString());
+            info.AddValue("MediaType", value);
         }
 
     }
