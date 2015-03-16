@@ -778,7 +778,7 @@ namespace Cogito.ServiceBus.MassTransit
         public virtual void Request<T>(T message, Action<IRequestContext<T>> contextCallback)
             where T : class
         {
-            Task.Run(() => global::MassTransit.RequestResponseExtensions.PublishRequest<T>(bus.Value, message, _ => contextCallback(new RequestContext<T>(this, _)))).Wait();
+            global::MassTransit.RequestResponseExtensions.PublishRequest<T>(bus.Value, message, _ => contextCallback(new RequestContext<T>(this, _)));
         }
 
         protected virtual void Dispose(bool disposing)
