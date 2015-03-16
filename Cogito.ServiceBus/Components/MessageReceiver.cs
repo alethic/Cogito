@@ -11,7 +11,7 @@ namespace Cogito.ServiceBus.Components
     /// </summary>
     /// <typeparam name="TIdentity"></typeparam>
     /// <typeparam name="TMessage"></typeparam>
-    public abstract class MessageConsumer<TIdentity, TMessage> :
+    public abstract class MessageReceiver<TIdentity, TMessage> :
         Component
         where TIdentity : class, IComponent
         where TMessage : class
@@ -24,7 +24,7 @@ namespace Cogito.ServiceBus.Components
         /// Initializes a new instance.
         /// </summary>
         /// <param name="bus"></param>
-        public MessageConsumer(
+        public MessageReceiver(
             IServiceBus<TIdentity> bus)
         {
             Contract.Requires<ArgumentNullException>(bus != null);
