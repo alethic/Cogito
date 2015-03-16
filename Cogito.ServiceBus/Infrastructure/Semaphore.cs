@@ -123,7 +123,7 @@ namespace Cogito.ServiceBus.Infrastructure
         /// </summary>
         public void Acquire()
         {
-            Trace.TraceInformation("Semaphore: ({0}) Acquire", semaphoreId);
+            Trace.TraceInformation("{0}: ({1}) Acquire", typeof(Semaphore).FullName, semaphoreId);
 
             lock (sync)
             {
@@ -147,7 +147,7 @@ namespace Cogito.ServiceBus.Infrastructure
         /// </summary>
         public void Release()
         {
-            Trace.TraceInformation("Semaphore: ({0}) Release", semaphoreId);
+            Trace.TraceInformation("{0}: ({1}) Release", typeof(Semaphore).FullName, semaphoreId);
 
             // cease publishing messages immediately
             timer.Stop();
@@ -331,7 +331,7 @@ namespace Cogito.ServiceBus.Infrastructure
         protected void OnAcquired(EventArgs args)
         {
             Contract.Requires<ArgumentNullException>(args != null);
-            Trace.TraceInformation("Semaphore: ({0}) OnAcquired", semaphoreId);
+            Trace.TraceInformation("{0}: ({1}) OnAcquired", typeof(Semaphore).FullName, semaphoreId);
 
             if (Acquired != null)
                 Acquired(this, args);
@@ -349,7 +349,7 @@ namespace Cogito.ServiceBus.Infrastructure
         protected void OnReleased(EventArgs args)
         {
             Contract.Requires<ArgumentNullException>(args != null);
-            Trace.TraceInformation("Semaphore: ({0}) OnReleased", semaphoreId);
+            Trace.TraceInformation("{0}: ({1}) OnReleased", typeof(Semaphore).FullName, semaphoreId);
 
             if (Released != null)
                 Released(this, args);
