@@ -128,6 +128,7 @@
     <Reference Include="System.Xml.Serialization" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ExportOrderAttribute.cs" />
     <Compile Include="ExportProviderExtensions.cs" />
     <Compile Include="Hosting\CompositionContainer.cs" />
     <Compile Include="Hosting\ContainerExport.cs" />
@@ -137,6 +138,8 @@
     <Compile Include="Hosting\InitImportCollection.cs" />
     <Compile Include="Hosting\NonRecomposableExportProvider.cs" />
     <Compile Include="IExportResolver.cs" />
+    <Compile Include="IOrderedExportMetadata.cs" />
+    <Compile Include="OrderedManyImport.cs" />
     <Compile Include="Scoping\IScopeTypeResolver.cs" />
     <Compile Include="Scoping\IScopeService.cs" />
     <Compile Include="Scoping\ScopeCatalog.cs" />
