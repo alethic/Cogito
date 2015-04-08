@@ -66,6 +66,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cogito.ServiceBus.MassTrans
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cogito.Web.Tests.Site", "Cogito.Web.Tests.Site\Cogito.Web.Tests.Site.csproj", "{A7693853-2941-4181-9D06-BAF57B86A350}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cogito.Components.Server", "Cogito.Components.Server\Cogito.Components.Server.csproj", "{7EFE63CB-4688-45C8-8A6C-FAB86891DFD0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -184,6 +186,10 @@ Global
 		{A7693853-2941-4181-9D06-BAF57B86A350}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A7693853-2941-4181-9D06-BAF57B86A350}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A7693853-2941-4181-9D06-BAF57B86A350}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7EFE63CB-4688-45C8-8A6C-FAB86891DFD0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7EFE63CB-4688-45C8-8A6C-FAB86891DFD0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7EFE63CB-4688-45C8-8A6C-FAB86891DFD0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7EFE63CB-4688-45C8-8A6C-FAB86891DFD0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.Composition;
+﻿using System;
+using System.ComponentModel.Composition;
+using System.Diagnostics.Contracts;
 
 namespace Cogito.ServiceBus.Infrastructure
 {
@@ -17,6 +19,8 @@ namespace Cogito.ServiceBus.Infrastructure
         [ImportingConstructor]
         public SemaphoreFactory(IServiceBus bus)
         {
+            Contract.Requires<ArgumentNullException>(bus != null);
+
             this.bus = bus;
         }
 

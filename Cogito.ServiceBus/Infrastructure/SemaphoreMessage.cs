@@ -8,23 +8,33 @@ namespace Cogito.ServiceBus.Infrastructure
     /// </summary>
     /// <typeparam name="T"></typeparam>
     [Serializable]
-    public class SemaphoreMessage<T>
+    public class SemaphoreMessage
     {
+
+        /// <summary>
+        /// Unique identifier of the semaphore.
+        /// </summary>
+        public string SemaphoreId { get; set; }
 
         /// <summary>
         /// Unique identifier of the semaphore instance.
         /// </summary>
-        public Guid Id { get; set; }
+        public Guid InstanceId { get; set; }
 
         /// <summary>
         /// Message time.
         /// </summary>
-        public DateTime Ping { get; set; }
+        public DateTime Timestamp { get; set; }
 
         /// <summary>
-        /// Sort order of the node instance.
+        /// Time the node was activated.
         /// </summary>
-        public DateTime Sort { get; set; }
+        public DateTime StartTime { get; set; }
+
+        /// <summary>
+        /// Priority of the instance. Randomly selected by the instance.
+        /// </summary>
+        public int Priority { get; set; }
 
         /// <summary>
         /// Current status of the semaphore node.

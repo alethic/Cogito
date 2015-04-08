@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.ComponentModel.Composition.Primitives;
+using System.Diagnostics.Contracts;
 using System.Linq;
-
 using Cogito.Composition.Hosting;
 using Cogito.Composition.Scoping;
 
@@ -29,6 +29,8 @@ namespace Cogito.Composition
         [ImportingConstructor]
         public TypeResolver(IContainerProvider provider)
         {
+            Contract.Requires<ArgumentNullException>(provider != null);
+
             this.provider = provider;
         }
 

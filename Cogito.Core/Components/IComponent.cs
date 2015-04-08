@@ -4,17 +4,33 @@ namespace Cogito.Components
 {
 
     /// <summary>
-    /// Describes a component with lifetime management.
+    /// Describes a class that has a defined start and stop state.
     /// </summary>
     public interface IComponent :
         IDisposable
     {
 
         /// <summary>
-        /// Adds a <see cref="IDisposable"/> to be disposed when the component is disposed.
+        /// Starts the service.
         /// </summary>
-        /// <param name="disposable"></param>
-        void Attach(IDisposable disposable);
+        void Start();
+
+        /// <summary>
+        /// Stops the service.
+        /// </summary>
+        void Stop();
+
+    }
+
+    /// <summary>
+    /// Describes a class that has a defined start and stop state.
+    /// </summary>
+    /// <typeparam name="TIdentity"></typeparam>
+    public interface IComponent<TIdentity> :
+        IComponent
+    {
+
+
 
     }
 

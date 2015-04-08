@@ -3,7 +3,6 @@ using System.ComponentModel.Composition;
 using System.ComponentModel.Composition.Hosting;
 using System.ComponentModel.Composition.Primitives;
 using System.Diagnostics.Contracts;
-using System.Linq;
 using System.Reflection;
 
 using Cogito.Composition.Scoping;
@@ -23,6 +22,7 @@ namespace Cogito.Composition.Hosting
         readonly ComposablePartCatalog rootCatalog;
         readonly AggregateCatalog aggregateCatalog;
         readonly Type scopeType;
+        bool disposed;
 
         /// <summary>
         /// Initializes a new instance.
@@ -103,9 +103,16 @@ namespace Cogito.Composition.Hosting
         /// <param name="disposing"></param>
         protected override void Dispose(bool disposing)
         {
-            // invoke any disposal routines
-            foreach (var init in GetExportedValues<IOnDisposeInvoke>())
-                init.Invoke();
+            if (disposed)
+                return;
+
+            if (disposing)
+            {
+                foreach (var dispose in GetExportedValues<IOnDisposeInvoke>())
+                    dispose.Invoke();
+            }
+            
+            disposed = true;
 
             base.Dispose(disposing);
         }

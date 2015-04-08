@@ -14,7 +14,7 @@ namespace Cogito.Composition.Hosting
     public static class ContainerManager
     {
 
-
+        readonly static object sync = new object();
         readonly static ConcurrentDictionary<string, CompositionContainer> containers;
         readonly static string defaultContainerName;
         static CompositionContainer defaultContainer;
@@ -30,6 +30,39 @@ namespace Cogito.Composition.Hosting
             var s = ConfigurationSection.GetDefaultSection();
             if (s != null)
                 defaultContainerName = s.Containers.Default ?? defaultContainerName;
+
+            // static container instances need to be disposed of when AppDomain shutdown
+            AppDomain.CurrentDomain.DomainUnload += CurrentDomain_DomainUnload;
+        }
+
+        /// <summary>
+        /// Invoked when the <see cref="AppDomain"/> is being unloaded.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
+        static void CurrentDomain_DomainUnload(object sender, EventArgs args)
+        {
+            // dispose of named containers
+            foreach (var container in containers)
+                TryDispose(container.Value);
+
+            // dispose of default container
+            if (defaultContainer != null)
+                TryDispose(defaultContainer);
+        }
+
+        static void TryDispose(IDisposable disposable)
+        {
+            Contract.Requires<ArgumentNullException>(disposable != null);
+
+            try
+            {
+                disposable.Dispose();
+            }
+            catch (Exception e)
+            {
+                e.Trace();
+            }
         }
 
         /// <summary>
@@ -70,9 +103,8 @@ namespace Cogito.Composition.Hosting
         {
             Contract.Ensures(Contract.Result<CompositionContainer>() != null);
 
-            return
-                defaultContainer ??
-                (defaultContainer = new DefaultCompositionContainer());
+            lock (sync)
+                return defaultContainer ?? (defaultContainer = new DefaultCompositionContainer());
         }
 
         /// <summary>

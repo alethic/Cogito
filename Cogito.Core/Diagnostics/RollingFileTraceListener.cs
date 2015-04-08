@@ -17,7 +17,7 @@ namespace Cogito.Diagnostics
         readonly string filePath;
 
         DateTime today;
-        StreamWriter writer;
+        FileInfo output;
 
         /// <summary>
         /// Initializes a new instance.
@@ -75,28 +75,21 @@ namespace Cogito.Diagnostics
 
         void Rollover()
         {
-            // dispose of current writer
-            if (writer != null)
-            {
-                writer.Close();
-                writer = null;
-            }
-
             // ensure directory path exists
             var file = GetCurrentFilePath();
             if (Directory.Exists(Path.GetDirectoryName(file)) == false)
                 Directory.CreateDirectory(Path.GetDirectoryName(file));
 
             // generate new writer
-            writer = new StreamWriter(file, true);
+            output = new FileInfo(file);
         }
 
         /// <summary>
         /// Checks the current date and rolls the writer over if required.
         /// </summary>
-        void CheckWriter()
+        void CheckRollover()
         {
-            if (writer == null || today.CompareTo(DateTime.Today) != 0)
+            if (output == null || today.CompareTo(DateTime.Today) != 0)
             {
                 Rollover();
             }
@@ -108,9 +101,10 @@ namespace Cogito.Diagnostics
         /// <param name="value"></param>
         public override void Write(string value)
         {
-            CheckWriter();
+            CheckRollover();
 
-            writer.Write(value);
+            using (var writer = output.AppendText())
+                writer.Write(value);
         }
 
         /// <summary>
@@ -119,9 +113,10 @@ namespace Cogito.Diagnostics
         /// <param name="value"></param>
         public override void WriteLine(string value)
         {
-            CheckWriter();
+            CheckRollover();
 
-            writer.WriteLine(value);
+            using (var writer = output.AppendText())
+                writer.WriteLine(value);
         }
 
         /// <summary>
@@ -129,10 +124,7 @@ namespace Cogito.Diagnostics
         /// </summary>
         public override void Flush()
         {
-            if (writer != null)
-            {
-                writer.Flush();
-            }
+
         }
 
         /// <summary>
@@ -143,11 +135,7 @@ namespace Cogito.Diagnostics
         {
             if (disposing)
             {
-                if (writer != null)
-                {
-                    writer.Close();
-                    writer = null;
-                }
+
             }
         }
 

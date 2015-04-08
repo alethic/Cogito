@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.Composition;
+using System.Diagnostics.Contracts;
 
 namespace Cogito.ServiceBus
 {
@@ -21,6 +22,8 @@ namespace Cogito.ServiceBus
         [ImportingConstructor]
         public ServiceObservable(IServiceBus<TService> bus)
         {
+            Contract.Requires<ArgumentNullException>(bus != null);
+
             this.bus = bus;
         }
 

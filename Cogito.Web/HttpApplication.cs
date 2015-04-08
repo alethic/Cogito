@@ -77,6 +77,10 @@ namespace Cogito.Web
             if (e == null)
                 return;
 
+            // log error
+            e.Trace();
+
+            // save error away for next page
             if (HttpContext.Current != null &&
                 HttpContext.Current.Session != null)
                 HttpContext.Current.Session["LastError"] = e;

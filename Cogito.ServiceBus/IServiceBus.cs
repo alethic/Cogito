@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq.Expressions;
 
 namespace Cogito.ServiceBus
 {
@@ -7,13 +8,14 @@ namespace Cogito.ServiceBus
     /// General service bus interface. Inject an instance of this type when you want to obtain the application
     /// specific service bus, for broadcast notifications.
     /// </summary>
-    public interface IServiceBus
+    public interface IServiceBus :
+        IDisposable
     {
 
         IDisposable Subscribe<T>(Action<T> handler)
             where T : class;
 
-        IDisposable Subscribe<T>(Action<T> handler, Predicate<T> condition)
+        IDisposable Subscribe<T>(Action<T> handler, Expression<Func<T, bool>> filter)
             where T : class;
 
         IDisposable Subscribe<T>(Action<IConsumeContext<T>> handler)
@@ -37,13 +39,16 @@ namespace Cogito.ServiceBus
         void Publish<T>(T message)
             where T : class;
 
+        void Request<T>(T message, Action<IRequestContext<T>> contextCallback)
+            where T : class;
+
     }
 
     /// <summary>
     /// Scope-specific service bus. Use this to listen to identified worker queues.
     /// </summary>
-    /// <typeparam name="TScope"></typeparam>
-    public interface IServiceBus<TScope> :
+    /// <typeparam name="TIdentity"></typeparam>
+    public interface IServiceBus<TIdentity> :
         IServiceBus
     {
 

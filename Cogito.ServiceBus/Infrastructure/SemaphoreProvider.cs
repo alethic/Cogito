@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.Composition;
+using System.Diagnostics.Contracts;
 
 namespace Cogito.ServiceBus.Infrastructure
 {
@@ -17,9 +18,13 @@ namespace Cogito.ServiceBus.Infrastructure
         /// Initializes a new instance.
         /// </summary>
         /// <param name="bus"></param>
+        /// <param name="factory"></param>
         [ImportingConstructor]
         public SemaphoreProvider(IServiceBus bus, ISemaphoreFactory<TIdentity> factory)
         {
+            Contract.Requires<ArgumentNullException>(bus != null);
+            Contract.Requires<ArgumentNullException>(factory != null);
+
             this.semaphore = new Lazy<Semaphore<TIdentity>>(() => factory.Create());
         }
 
