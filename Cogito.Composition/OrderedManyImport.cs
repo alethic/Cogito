@@ -5,6 +5,7 @@ using System.ComponentModel.Composition;
 using System.Diagnostics.Contracts;
 using System.Linq;
 
+using Cogito.Collections;
 using Cogito.Linq;
 
 namespace Cogito.Composition
@@ -19,7 +20,7 @@ namespace Cogito.Composition
         IEnumerable<T>
     {
 
-        readonly IEnumerable<Lazy<T, IOrderedExportMetadata>> imports;
+        readonly IEnumerable<Lazy<T>> imports;
 
         /// <summary>
         /// Initializes a new instance.
@@ -27,11 +28,13 @@ namespace Cogito.Composition
         /// <param name="imports"></param>
         [ImportingConstructor]
         public OrderedImportMany(
-            [ImportMany] IEnumerable<Lazy<T, IOrderedExportMetadata>> imports)
+            [ImportMany] IEnumerable<Lazy<T, Dictionary<string, object>>> imports)
         {
             Contract.Requires<ArgumentNullException>(imports != null);
 
-            this.imports = imports.OrderBy(i => i.Metadata.Order).Tee();
+            this.imports = imports
+                .OrderBy(i => (int?)i.Metadata.GetOrDefault("Order") ?? 0)
+                .Tee();
         }
 
         public IEnumerator<T> GetEnumerator()
