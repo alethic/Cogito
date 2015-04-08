@@ -9,10 +9,9 @@ namespace Cogito.Composition
     /// </summary>
     [MetadataAttribute]
     public class ExportOrderAttribute :
-        Attribute
+        Attribute,
+        IOrderedExportMetadata
     {
-
-        readonly int order;
 
         /// <summary>
         /// Initializes a new instance.
@@ -21,10 +20,10 @@ namespace Cogito.Composition
         /// <returns></returns>
         public ExportOrderAttribute(int order)
         {
-            Priority = order;
+            Order = order;
         }
 
-        public int Priority { get; set; }
+        public int Order { get; set; }
 
     }
 
