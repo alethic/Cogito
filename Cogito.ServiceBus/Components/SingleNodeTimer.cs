@@ -55,7 +55,7 @@ namespace Cogito.ServiceBus.Components
                 cts = new CancellationTokenSource();
                 timer = new System.Timers.Timer();
                 timer.Interval = interval.TotalMilliseconds;
-                timer.AutoReset = true;
+                timer.AutoReset = false;
                 timer.Elapsed += timer_Elapsed;
                 timer.Start();
             }
@@ -105,6 +105,12 @@ namespace Cogito.ServiceBus.Components
                 {
                     Trace.TraceInformation("{0}: OnTimer (error)", GetType().Name, e);
                     OnException(e);
+                }
+                finally
+                {
+                    // resume timer
+                    if (timer != null)
+                        timer.Start();
                 }
             }
         }
