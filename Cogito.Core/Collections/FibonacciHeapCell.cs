@@ -11,7 +11,7 @@ namespace Cogito.Collections
         TPriority priority;
         TValue value;
         bool removed;
-        FibonacciHeapLinkedList<TPriority, TValue> children;
+        readonly FibonacciHeapLinkedList<TPriority, TValue> children;
         FibonacciHeapCell<TPriority, TValue> parent;
         FibonacciHeapCell<TPriority, TValue> next;
         FibonacciHeapCell<TPriority, TValue> previous;
