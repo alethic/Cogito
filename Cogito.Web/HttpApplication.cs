@@ -2,7 +2,6 @@
 using System.Web;
 
 using Cogito.Composition.Hosting;
-using Cogito.Core;
 
 namespace Cogito.Web
 {
