@@ -653,6 +653,12 @@ namespace Cogito.ServiceBus.MassTransit
                 return this;
             }
 
+            public IRequestContext<T> HandleTimeout(TimeSpan timeout, Action<T> handler)
+            {
+                configurator.HandleTimeout(timeout, handler);
+                return this;
+            }
+
             public IRequestContext<T> SetTimeout(TimeSpan timeout)
             {
                 configurator.SetTimeout(timeout);
@@ -668,6 +674,11 @@ namespace Cogito.ServiceBus.MassTransit
             IRequestContext IRequestContext.Handle<TResponse>(Action<TResponse> handler)
             {
                 return Handle(handler);
+            }
+
+            IRequestContext IRequestContext.HandleTimeout(TimeSpan timeout, Action handler)
+            {
+                return HandleTimeout(timeout, i => handler());
             }
 
             IRequestContext IRequestContext.SetTimeout(TimeSpan timeout)

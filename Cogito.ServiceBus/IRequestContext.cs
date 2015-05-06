@@ -17,6 +17,14 @@ namespace Cogito.ServiceBus
             where TResponse : class;
 
         /// <summary>
+        /// Specifies a timeout period after which a request should be canceled.
+        /// </summary>
+        /// <param name="timeout"></param>
+        /// <param name="handler"></param>
+        /// <returns></returns>
+        IRequestContext HandleTimeout(TimeSpan timeout, Action handler);
+
+        /// <summary>
         /// Sets how long the caller should wait for a response.
         /// </summary>
         /// <param name="timeout"></param>
@@ -59,6 +67,14 @@ namespace Cogito.ServiceBus
         /// <param name="handler"></param>
         /// <returns></returns>
         IRequestContext<TRequest> HandleFault(Action<IConsumeContext<IFault<TRequest>>> handler);
+
+        /// <summary>
+        /// Handles a timeout.
+        /// </summary>
+        /// <param name="timeout"></param>
+        /// <param name="handler"></param>
+        /// <returns></returns>
+        IRequestContext<TRequest> HandleTimeout(TimeSpan timeout, Action<TRequest> handler);
 
         /// <summary>
         /// Sets how long the caller should wait for a response.

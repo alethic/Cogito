@@ -1,4 +1,7 @@
-﻿using Topshelf;
+﻿using System;
+using System.Diagnostics.Contracts;
+
+using Topshelf;
 using Topshelf.HostConfigurators;
 
 namespace Cogito.Components.Server
@@ -34,6 +37,9 @@ namespace Cogito.Components.Server
         /// <param name="x"></param>
         public static void ConfigureHostFactory(string[] args, HostConfigurator x)
         {
+            Contract.Requires<ArgumentNullException>(args != null);
+            Contract.Requires<ArgumentNullException>(x != null);
+
             x.Service<ServiceHost>(() => new ServiceHost());
             x.SetServiceName("Cogito.Components.Server");
             x.StartAutomatically();
