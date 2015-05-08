@@ -344,8 +344,6 @@ namespace Cogito.ServiceBus.MassTransit
                         contextCallback(new SendContext<T>(bus, _));
                     });
                 }
-
-
             }
 
         }
