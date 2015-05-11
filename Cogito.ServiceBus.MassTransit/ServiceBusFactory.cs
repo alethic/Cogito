@@ -58,6 +58,7 @@ namespace Cogito.ServiceBus.MassTransit
         static readonly string VHOST = cfg.VHost.TrimOrNull() ?? "";
         static readonly string USERNAME = cfg.Username.TrimOrNull() ?? "guest";
         static readonly string PASSWORD = cfg.Password.TrimOrNull() ?? "guest";
+        static readonly int PREFETCH = cfg.Prefetch;
 
         /// <summary>
         /// Initializes a new instance.
@@ -75,7 +76,7 @@ namespace Cogito.ServiceBus.MassTransit
         /// <returns></returns>
         protected Uri BuildQueueUri(string queue, bool temporary)
         {
-            return BuildQueueUri(HOST, VHOST, queue, temporary);
+            return BuildQueueUri(HOST, VHOST, queue, temporary, PREFETCH);
         }
 
         /// <summary>
@@ -85,17 +86,20 @@ namespace Cogito.ServiceBus.MassTransit
         /// <param name="vhost"></param>
         /// <param name="queue"></param>
         /// <param name="temporary"></param>
+        /// <param name="prefetch"></param>
         /// <returns></returns>
-        protected Uri BuildQueueUri(string host, string vhost, string queue, bool temporary)
+        protected Uri BuildQueueUri(string host, string vhost, string queue, bool temporary, int prefetch = 0)
         {
             Contract.Requires<ArgumentNullException>(host != null);
             Contract.Requires<ArgumentNullException>(vhost != null);
             Contract.Requires<ArgumentNullException>(queue != null);
             Contract.Requires<ArgumentOutOfRangeException>(!string.IsNullOrWhiteSpace(host));
             Contract.Requires<ArgumentOutOfRangeException>(!string.IsNullOrWhiteSpace(queue));
+            Contract.Requires<ArgumentOutOfRangeException>(prefetch >= 0);
 
             var b = new UriBuilder(new Uri(new Uri(new Uri(string.Format(@"rabbitmq://{0}/", host), UriKind.Absolute), vhost + "/"), queue));
-            if (temporary) b.Query = "temporary=true";
+            if (temporary) b.AppendQuery("temporary", "true");
+            if (prefetch > 0) b.AppendQuery("prefetch", prefetch.ToString());
             return b.Uri;
         }
 
@@ -115,7 +119,6 @@ namespace Cogito.ServiceBus.MassTransit
             configurator.DisablePerformanceCounters();
             configurator.UseBinarySerializer();
             configurator.ReceiveFrom(uri);
-            configurator.SetConcurrentConsumerLimit(4);
         }
 
         /// <summary>

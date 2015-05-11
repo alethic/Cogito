@@ -44,6 +44,14 @@ namespace Cogito.ServiceBus.MassTransit
             set { this["password"] = value; }
         }
 
+        [ConfigurationProperty("prefetch")]
+        [DefaultSettingValue("0")]
+        public int Prefetch
+        {
+            get { return (int)this["prefetch"]; }
+            set { this["prefetch"] = value; }
+        }
+
     }
 
 }
