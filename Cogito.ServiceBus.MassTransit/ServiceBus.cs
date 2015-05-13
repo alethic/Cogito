@@ -735,14 +735,16 @@ namespace Cogito.ServiceBus.MassTransit
             var c = predicate.Compile();
 
             lock (sync)
-                return new Subscription(global::MassTransit.HandlerSubscriptionExtensions.SubscribeHandler<T>(bus.Value, handler, _ => c(_)));
+                return new Subscription(global::MassTransit.HandlerSubscriptionExtensions.SubscribeHandler<T>(bus.Value, handler,
+                    _ => c(_)));
         }
 
         public IDisposable Subscribe<T>(Action<IConsumeContext<T>> handler)
             where T : class
         {
             lock (sync)
-                return new Subscription(global::MassTransit.HandlerSubscriptionExtensions.SubscribeContextHandler<T>(bus.Value, _ => handler(new ConsumeContext<T>(this, _))));
+                return new Subscription(global::MassTransit.HandlerSubscriptionExtensions.SubscribeContextHandler<T>(bus.Value,
+                    _ => handler(new ConsumeContext<T>(this, _))));
         }
 
         public virtual void Publish<T>(object values, Action<IPublishContext<T>> contextCallback)
@@ -784,10 +786,27 @@ namespace Cogito.ServiceBus.MassTransit
             bus.Value.Publish<T>(message);
         }
 
-        public virtual void Request<T>(T message, Action<IRequestContext<T>> contextCallback)
+        public virtual void PublishRequest<T>(T message, Action<IRequestContext<T>> requestCallback, Action<IPublishContext<T>> publishCallback)
             where T : class
         {
-            global::MassTransit.RequestResponseExtensions.PublishRequest<T>(bus.Value, message, _ => contextCallback(new RequestContext<T>(this, _)));
+            global::MassTransit.RequestResponseExtensions.PublishRequest<T>(bus.Value, message,
+                _ => requestCallback(new RequestContext<T>(this, _)),
+                _ => publishCallback(new PublishContext<T>(this, _)));
+        }
+
+        public virtual void PublishRequest<T>(T message, Action<IRequestContext<T>> requestCallback)
+            where T : class
+        {
+            global::MassTransit.RequestResponseExtensions.PublishRequest<T>(bus.Value, message,
+                _ => requestCallback(new RequestContext<T>(this, _)));
+        }
+
+        public virtual void PublishRequest<T>(T message, Action<IPublishContext<T>> publishCallback)
+            where T : class
+        {
+            global::MassTransit.RequestResponseExtensions.PublishRequest<T>(bus.Value, message,
+                _ => { },
+                _ => publishCallback(new PublishContext<T>(this, _)));
         }
 
         protected virtual void Dispose(bool disposing)

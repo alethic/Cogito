@@ -21,25 +21,31 @@ namespace Cogito.ServiceBus
         IDisposable Subscribe<T>(Action<IConsumeContext<T>> handler)
             where T : class;
 
-        void Publish<T>(object values, Action<IPublishContext<T>> contextCallback)
+        void Publish<T>(object values, Action<IPublishContext<T>> publishCallback)
             where T : class;
 
         void Publish<T>(object values)
             where T : class;
 
-        void Publish(object message, Type messageType, Action<IPublishContext> contextCallback);
+        void Publish(object message, Type messageType, Action<IPublishContext> publishCallback);
 
         void Publish(object message, Type messageType);
 
         void Publish(object message);
 
-        void Publish<T>(T message, Action<IPublishContext<T>> contextCallback)
+        void Publish<T>(T message, Action<IPublishContext<T>> publishCallback)
             where T : class;
 
         void Publish<T>(T message)
             where T : class;
 
-        void Request<T>(T message, Action<IRequestContext<T>> contextCallback)
+        void PublishRequest<T>(T message, Action<IRequestContext<T>> requestCallback, Action<IPublishContext<T>> publishCallback)
+            where T : class;
+
+        void PublishRequest<T>(T message, Action<IRequestContext<T>> requestCallback)
+            where T : class;
+
+        void PublishRequest<T>(T message, Action<IPublishContext<T>> publishCallback)
             where T : class;
 
     }
