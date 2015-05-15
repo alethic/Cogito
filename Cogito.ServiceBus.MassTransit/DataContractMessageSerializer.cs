@@ -16,7 +16,7 @@ namespace Cogito.ServiceBus.MassTransit
         IMessageSerializer
     {
 
-        const string ContentTypeHeaderValue = "application/vnd.masstransit+xml+datacontract";
+        const string ContentTypeHeaderValue = "application/vnd.cogito.masstransit+datacontract+xml";
         static readonly XNamespace EnvelopeNamespace = "http://schemas.cogito.cx/Cogito.ServiceBus.MassTransit";
 
 
