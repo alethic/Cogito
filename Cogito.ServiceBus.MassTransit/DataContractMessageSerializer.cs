@@ -122,8 +122,8 @@ namespace Cogito.ServiceBus.MassTransit
         {
             try
             {
-                context.SetContentType(ContentTypeHeaderValue);
                 WriteEnvelope(output, global::MassTransit.Serialization.Envelope.Create(context));
+                context.SetContentType(ContentTypeHeaderValue);
             }
             catch (SerializationException)
             {
@@ -139,7 +139,10 @@ namespace Cogito.ServiceBus.MassTransit
         {
             try
             {
-                context.SetUsingEnvelope(ReadEnvelope(context.BodyStream));
+                var envelope = ReadEnvelope(context.BodyStream);
+                context.SetContentType(ContentTypeHeaderValue);
+                context.SetUsingEnvelope(envelope);
+                context.SetMessageTypeConverter(new StaticMessageTypeConverter(envelope.Message));
             }
             catch (SerializationException)
             {
