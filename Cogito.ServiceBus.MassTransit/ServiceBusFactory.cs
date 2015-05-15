@@ -117,7 +117,10 @@ namespace Cogito.ServiceBus.MassTransit
             configurator.UseRabbitMq(x => x.ConfigureHost(uri, c => { c.SetUsername(USERNAME); c.SetPassword(PASSWORD); }));
             configurator.SetCreateMissingQueues(true);
             configurator.DisablePerformanceCounters();
-            configurator.UseBinarySerializer();
+            configurator.SetDefaultSerializer<DataContractMessageSerializer>();
+            configurator.SupportBinarySerializer();
+            configurator.SupportJsonSerializer();
+            configurator.SupportXmlSerializer();
             configurator.ReceiveFrom(uri);
         }
 

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Diagnostics.Contracts;
 using System.Linq.Expressions;
-using System.Threading.Tasks;
 
 namespace Cogito.ServiceBus.MassTransit
 {
