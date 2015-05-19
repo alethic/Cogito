@@ -58,6 +58,8 @@ namespace Cogito.ServiceBus.Components
         /// <param name="context"></param>
         void MessageHandler(IConsumeContext<TMessage> context)
         {
+            Contract.Requires<ArgumentNullException>(context != null);
+
             try
             {
                 OnMessage(context);
