@@ -111,10 +111,10 @@ namespace Cogito.Web.Razor
         /// </summary>
         /// <param name="assemblies"></param>
         /// <returns></returns>
-        static IEnumerable<Assembly> ReflectionOnlyLoadAssemblies(IEnumerable<string> assemblies)
+        static IEnumerable<Assembly> LoadAssembly(IEnumerable<string> assemblies)
         {
             return ToLocalPaths(assemblies)
-                .Select(i => Assembly.ReflectionOnlyLoadFrom(i));
+                .Select(i => Assembly.LoadFrom(i));
         }
 
         /// <summary>
@@ -130,7 +130,7 @@ namespace Cogito.Web.Razor
         /// <param name="host"></param>
         /// <returns></returns>
         static string AugmentCodeCore(
-            Func<TextReader> source,
+            string source,
             string defaultNamespace,
             string defaultClassName,
             Type defaultBaseClass,
@@ -145,7 +145,7 @@ namespace Cogito.Web.Razor
             Contract.Requires<ArgumentNullException>(host != null);
             Contract.Ensures(Contract.Result<string>() != null);
 
-            var builder = new StringBuilder(source().ReadToEnd())
+            var builder = new StringBuilder(source)
                 .AppendLine()
                 .AppendLine("@**")
                 .Append(" * ").Append(typeof(RazorTemplateBuilder).AssemblyQualifiedName).AppendLine()
@@ -181,8 +181,8 @@ namespace Cogito.Web.Razor
         /// <param name="referencedAssemblies"></param>
         /// <param name="importedNamespaces"></param>
         /// <param name="innerTemplateType"></param>
-        static Func<TextReader> AugmentCode(
-            Func<TextReader> source,
+        static string AugmentCode(
+            string source,
             string defaultNamespace,
             string defaultClassName,
             Type defaultBaseClass,
@@ -194,19 +194,18 @@ namespace Cogito.Web.Razor
             Contract.Requires<ArgumentNullException>(source != null);
             Contract.Requires<ArgumentNullException>(referencedAssemblies != null);
             Contract.Requires<ArgumentNullException>(importedNamespaces != null);
-            Contract.Ensures(Contract.Result<Func<TextReader>>() != null);
+            Contract.Ensures(Contract.Result<string>() != null);
 
             // replace 
-            return () =>
-                new StringReader(AugmentCodeCore(
-                    source,
-                    defaultNamespace,
-                    defaultClassName,
-                    defaultBaseClass,
-                    referencedAssemblies,
-                    importedNamespaces,
-                    innerTemplateType,
-                    host));
+            return AugmentCodeCore(
+                source,
+                defaultNamespace,
+                defaultClassName,
+                defaultBaseClass,
+                referencedAssemblies,
+                importedNamespaces,
+                innerTemplateType,
+                host);
         }
 
         /// <summary>
@@ -221,7 +220,7 @@ namespace Cogito.Web.Razor
         /// <param name="cacheKey"></param>
         /// <returns></returns>
         static void CheckParameters(
-            ref Func<TextReader> source,
+            ref string source,
             ref string defaultNamespace,
             ref string defaultClassName,
             ref Type defaultBaseClass,
@@ -297,7 +296,7 @@ namespace Cogito.Web.Razor
         /// <param name="innerTemplateType"></param>
         /// <param name="cacheKey"></param>
         static void CheckParameters(
-            ref Func<TextReader> source,
+            ref string source,
             ref string defaultNamespace,
             ref string defaultClassName,
             ref Type defaultBaseClass,
@@ -321,7 +320,7 @@ namespace Cogito.Web.Razor
 
             // and we use the augmented source as the cache key itself
             if (cacheKey == null)
-                cacheKey = source().ReadToEnd();
+                cacheKey = source;
         }
 
         /// <summary>
@@ -380,7 +379,7 @@ namespace Cogito.Web.Razor
         /// <param name="host"></param>
         /// <returns></returns>
         static GeneratorResults RazorGenerate(
-            Func<TextReader> source,
+            string source,
             string defaultNamespace,
             string defaultClassName,
             Type defaultBaseClass,
@@ -405,11 +404,11 @@ namespace Cogito.Web.Razor
                 host);
 
             // parse template into code unit
-            var result = engine.GenerateCode(source());
+            var result = engine.GenerateCode(new StringReader(source));
 
             // check for errors
             if (result.ParserErrors.Count > 0)
-                throw new ParserErrorException(result, source());
+                throw new ParserErrorException(result, new StringReader(source));
 
             // find generated type and imports
             var typeDeclaration = result.GeneratedCode.Namespaces
@@ -432,7 +431,7 @@ namespace Cogito.Web.Razor
                 .Cast<CodeTypeReference>()
                 .Select(i => CSharpTypeNameResolver.ResolveType(
                     codeProvider.GetTypeOutput(i),
-                    ReflectionOnlyLoadAssemblies(referencedAssemblies).ToList(), 
+                    LoadAssembly(referencedAssemblies).ToList(), 
                     typeDeclaration.Namespaces))
                 .Where(i => i.IsClass)
                 .FirstOrDefault();
@@ -476,7 +475,7 @@ namespace Cogito.Web.Razor
         /// <param name="host"></param>
         /// <returns></returns>
         static CodeCompileUnit Generate(
-            Func<TextReader> source,
+            string source,
             string defaultNamespace,
             string defaultClassName,
             Type defaultBaseClass,
@@ -518,7 +517,7 @@ namespace Cogito.Web.Razor
         /// <param name="host"></param>
         public static void WriteTo(
             TextWriter writer,
-            Func<TextReader> source,
+            string source,
             string defaultNamespace = null,
             string defaultClassName = null,
             Type defaultBaseClass = null,
@@ -570,7 +569,7 @@ namespace Cogito.Web.Razor
         /// <param name="templateType"></param>
         /// <returns></returns>
         public static string ToCode(
-            Func<TextReader> source,
+            string source,
             string defaultNamespace = null,
             string defaultClassName = null,
             Type defaultBaseClass = null,
@@ -657,7 +656,7 @@ namespace Cogito.Web.Razor
         /// <param name="host"></param>
         /// <returns></returns>
         static Assembly BuildAssembly(
-            Func<TextReader> source,
+            string source,
             string defaultNamespace,
             string defaultClassName,
             Type defaultBaseClass,
@@ -700,7 +699,7 @@ namespace Cogito.Web.Razor
         /// <param name="importedNamespaces"></param>
         /// <returns></returns>
         static Type BuildType(
-            Func<TextReader> source,
+            string source,
             string defaultNamespace,
             string defaultClassName,
             Type defaultBaseClass,
@@ -744,7 +743,7 @@ namespace Cogito.Web.Razor
         /// <param name="cacheKey"></param>
         /// <returns></returns>
         public static Type GetOrBuildType(
-            Func<TextReader> source,
+            string source,
             string defaultNamespace = null,
             string defaultClassName = null,
             Type defaultBaseClass = null,
@@ -793,7 +792,7 @@ namespace Cogito.Web.Razor
         /// <param name="cacheKey"></param>
         /// <returns></returns>
         public static Type GetOrBuildType(
-            Func<TextReader> source,
+            string source,
             string defaultNamespace = null,
             string defaultClassName = null,
             Type defaultBaseClass = null,
