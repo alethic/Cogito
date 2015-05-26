@@ -82,11 +82,11 @@ namespace Cogito.Web.UI.Razor
         /// </summary>
         /// <param name="type"></param>
         /// <returns></returns>
-        static TextReader FindTemplateRecursive(Type type)
+        static string FindTemplateRecursive(Type type)
         {
             return type
                 .Recurse(i => i.BaseType)
-                .Select(i => ReadTemplate(i))
+                .Select(i => ReadTemplate(i).ReadToEnd())
                 .FirstOrDefault(i => i != null);
         }
 
@@ -95,7 +95,7 @@ namespace Cogito.Web.UI.Razor
         /// </summary>
         /// <param name="type"></param>
         /// <returns></returns>
-        static TextReader FindTemplate(Type type)
+        static string FindTemplate(Type type)
         {
             var template = FindTemplateRecursive(type);
             if (template == null)
@@ -134,7 +134,7 @@ namespace Cogito.Web.UI.Razor
 
                 // obtain or create the Razor template for the given control
                 var type = RazorTemplateBuilder.GetOrBuildType(
-                    () => FindTemplate(typeof(T)),
+                    FindTemplate(typeof(T)),
                     defaultBaseClass: typeof(RazorControlTemplate<T>),
                     referencedAssemblies: referencedAssemblyPaths,
                     importedNamespaces: new[] { typeof(CogitoControl).Namespace },
