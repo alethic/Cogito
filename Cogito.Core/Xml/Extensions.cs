@@ -30,6 +30,18 @@ namespace Cogito.Xml
         }
 
         /// <summary>
+        /// Returns a <see cref="XmlElement"/> from the given <see cref="XElement"/>.
+        /// </summary>
+        /// <param name="element"></param>
+        /// <returns></returns>
+        public static XmlElement ToXmlNode(this XElement element)
+        {
+            var xml = new XmlDocument();
+            xml.Load(new XDocument(element).CreateReader());
+            return xml.DocumentElement;
+        }
+
+        /// <summary>
         /// Returns an XLinq node from the given <see cref="XmlNode"/>.
         /// </summary>
         /// <param name="document"></param>
