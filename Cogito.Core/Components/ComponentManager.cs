@@ -17,6 +17,7 @@ namespace Cogito.Components
     {
 
         readonly IEnumerable<IComponent> components;
+        readonly Type[] startTypes;
 
         /// <summary>
         /// Initializes a new instance.
@@ -29,6 +30,16 @@ namespace Cogito.Components
             Contract.Requires<ArgumentNullException>(components != null);
 
             this.components = components;
+
+            // extract enabled types from configuration
+            this.startTypes = ComponentConfigurationSection.GetDefaultSection().Start
+                .Cast<ComponentTypeConfigurationElement>()
+                .Select(i => i.Type)
+                .Select(i => i.TrimOrNull())
+                .Where(i => i != null)
+                .Select(i => Type.GetType(i))
+                .Where(i => i != null)
+                .ToArray();
         }
 
         public void Start()
@@ -58,7 +69,8 @@ namespace Cogito.Components
 
             try
             {
-                component.Start();
+                if (IsComponentEnabled(component))
+                    component.Start();
                 return null;
             }
             catch (Exception e)
@@ -75,7 +87,8 @@ namespace Cogito.Components
 
             try
             {
-                component.Stop();
+                if (IsComponentEnabled(component))
+                    component.Stop();
                 return null;
             }
             catch (Exception e)
@@ -83,6 +96,24 @@ namespace Cogito.Components
                 e.Trace();
                 return e;
             }
+        }
+
+        /// <summary>
+        /// Returns <c>true</c> if the given <see cref="IComponent"/> is enabled.
+        /// </summary>
+        /// <param name="component"></param>
+        /// <returns></returns>
+        bool IsComponentEnabled(IComponent component)
+        {
+            Contract.Requires<ArgumentNullException>(component != null);
+
+            if (startTypes.Length == 0)
+                return true;
+
+            if (startTypes.Any(i => i == component.GetType()))
+                return true;
+
+            return false;
         }
 
     }

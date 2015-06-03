@@ -114,6 +114,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Reflection.Context" />
@@ -137,6 +138,9 @@
     <Compile Include="Collections\LinkedListExtensions.cs" />
     <Compile Include="Collections\MergedDictionary.cs" />
     <Compile Include="Collections\NameValueCollectionExtensions.cs" />
+    <Compile Include="Components\ComponentConfigurationSection.cs" />
+    <Compile Include="Components\ComponentTypeConfigurationElementCollection.cs" />
+    <Compile Include="Components\ComponentTypeConfigurationElement.cs" />
     <Compile Include="Components\IComponent.cs" />
     <Compile Include="Components\IComponentManager.cs" />
     <Compile Include="Components\Component.cs" />
@@ -152,6 +156,7 @@
     <Compile Include="Linq\Expressions\RedundantConvertExpressionTransformer.cs" />
     <Compile Include="MediaRange.cs" />
     <Compile Include="MediaRangeParameters.cs" />
+    <Compile Include="Reflection\MethodInfoExtensions.cs" />
     <Compile Include="Runtime\Caching\ObjectCacheExtensions.cs" />
     <Compile Include="Ref.cs" />
     <Compile Include="RefManager.cs" />
