@@ -35,22 +35,24 @@ namespace Cogito.Reflection
             Contract.Requires<ArgumentNullException>(method != null);
             Contract.Requires<ArgumentNullException>(parameters != null);
 
-            var argn = method.GetParameters().Select(p => p.Name).ToArray();
-            var args = new object[argn.Length];
+            var argp = method.GetParameters();
+            var argn = argp.Select(i => i.Name).ToArray();
+            var argv = new object[argp.Length];
 
-            // set all parameters to missing
-            for (int i = 0; i < args.Length; ++i)
-                args[i] = Type.Missing;
+            // set all parameters to default
+            for (int i = 0; i < argv.Length; ++i)
+                argv[i] = argp[i].ParameterType.IsValueType ? Activator.CreateInstance(argp[i].ParameterType) : null;
 
+            // update parameters from dictionary
             foreach (var item in parameters)
             {
                 var name = item.Key;
                 var indx = Array.IndexOf(argn, name);
                 if (indx > -1)
-                    args[indx] = item.Value;
+                    argv[indx] = item.Value;
             }
 
-            return args;
+            return argv;
         }
 
     }
