@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.Threading;
 using System.Timers;
+
 using Cogito.Components;
 
 namespace Cogito.ServiceBus.Components
