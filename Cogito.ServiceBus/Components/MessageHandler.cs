@@ -7,25 +7,25 @@ namespace Cogito.ServiceBus.Components
 {
 
     /// <summary>
-    /// Base class for a <see cref="IComponent"/> that consumes messages from a named service bus.
+    /// Base class for a <see cref="IComponent"/> that consumes messages from a unique service bus.
     /// </summary>
-    /// <typeparam name="TIdentity"></typeparam>
+    /// <typeparam name="TComponent"></typeparam>
     /// <typeparam name="TMessage"></typeparam>
-    public abstract class MessageReceiver<TIdentity, TMessage> :
+    public abstract class MessageHandler<TComponent, TMessage> :
         Component
-        where TIdentity : class, IComponent
+        where TComponent : class, IComponent
         where TMessage : class
     {
 
-        readonly IServiceBus<TIdentity> bus;
+        readonly IServiceBus<TComponent> bus;
         IDisposable subscription;
 
         /// <summary>
         /// Initializes a new instance.
         /// </summary>
         /// <param name="bus"></param>
-        public MessageReceiver(
-            IServiceBus<TIdentity> bus)
+        public MessageHandler(
+            IServiceBus<TComponent> bus)
         {
             Contract.Requires<ArgumentNullException>(bus != null);
 
@@ -40,7 +40,7 @@ namespace Cogito.ServiceBus.Components
                 subscription = null;
             }
 
-            subscription = bus.Subscribe<TMessage>(MessageHandler);
+            subscription = bus.Subscribe<TMessage>(OnMessageHandler);
         }
 
         public override void Stop()
@@ -56,7 +56,7 @@ namespace Cogito.ServiceBus.Components
         /// Attempts to process the message and ensures any exceptions are logged.
         /// </summary>
         /// <param name="context"></param>
-        void MessageHandler(IConsumeContext<TMessage> context)
+        void OnMessageHandler(IConsumeContext<TMessage> context)
         {
             Contract.Requires<ArgumentNullException>(context != null);
 

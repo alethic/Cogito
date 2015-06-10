@@ -131,8 +131,10 @@
   <ItemGroup>
     <Compile Include="Components\DistributedComponent.cs" />
     <Compile Include="Components\DistributedComponentManager.cs" />
-    <Compile Include="Components\MessageReceiver.cs" />
+    <Compile Include="Components\SingleNodeMessageHandler.cs" />
+    <Compile Include="Components\MessageHandler.cs" />
     <Compile Include="Components\SingleNodeTimer.cs" />
+    <Compile Include="Components\SingleNodeMessageHandlerManager.cs" />
     <Compile Include="Components\SingleNodeTimerManager.cs" />
     <Compile Include="IFault.cs" />
     <Compile Include="IBusContext.cs" />
