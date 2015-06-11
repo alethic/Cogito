@@ -173,7 +173,7 @@ namespace Cogito.ServiceBus.Infrastructure
                             StartTime = startTime,
                             Priority = priority,
                             Status = SemaphoreStatus.Release,
-                        }, x => x.SetExpirationTime(DateTime.Now.AddMinutes(1)).SetRetryCount(0));
+                        }, x => x.SetExpirationTime(DateTime.Now.AddSeconds(15)).SetRetryCount(0));
                     }
                 }
                 catch (Exception e)
@@ -223,7 +223,7 @@ namespace Cogito.ServiceBus.Infrastructure
                                 StartTime = startTime,
                                 Priority = priority,
                                 Status = SemaphoreStatus.Acquire,
-                            }, x => x.SetExpirationTime(DateTime.Now.AddMinutes(1)).SetRetryCount(0));
+                            }, x => x.SetExpirationTime(DateTime.Now.AddSeconds(15)).SetRetryCount(0));
                         }
                     }
                     catch (Exception e)
