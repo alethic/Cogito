@@ -72,7 +72,7 @@ namespace Cogito.Web.UI.Razor
             // open discovered resource and wrap with reader
             var stm = OpenResourceStream(asm, res);
             if (stm != null)
-                return new StreamReader(stm);;
+                return new StreamReader(stm); ;
 
             return null;
         }
@@ -86,8 +86,11 @@ namespace Cogito.Web.UI.Razor
         {
             return type
                 .Recurse(i => i.BaseType)
-                .Select(i => ReadTemplate(i).ReadToEnd())
-                .FirstOrDefault(i => i != null);
+                .Select(i => ReadTemplate(i))
+                .Where(i => i != null)
+                .Select(i => i.ReadToEnd())
+                .Where(i => i != null)
+                .FirstOrDefault();
         }
 
         /// <summary>
