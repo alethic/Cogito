@@ -22,16 +22,4 @@ namespace Cogito.Components
 
     }
 
-    /// <summary>
-    /// Describes a class that has a defined start and stop state.
-    /// </summary>
-    /// <typeparam name="TIdentity"></typeparam>
-    public interface IComponent<TIdentity> :
-        IComponent
-    {
-
-
-
-    }
-
 }

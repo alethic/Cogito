@@ -146,10 +146,7 @@
     <Compile Include="Hosting\TypeCatalog.cs" />
     <Compile Include="Hosting\ApplicationCatalog.cs" />
     <Compile Include="Hosting\DynamicFilteredCatalog.cs" />
-    <Compile Include="InheritedPartCreationPolicyAttribute.cs" />
     <Compile Include="ITypeResolver.cs" />
-    <Compile Include="Reflection\DefaultReflectionContext.cs" />
-    <Compile Include="Reflection\InheritedPartCreationPolicyReflectionContext.cs" />
     <Compile Include="Scoping\IEveryScope.cs" />
     <Compile Include="Scoping\ScopeService.cs" />
     <Compile Include="Scoping\ScopeMetadataServices.cs" />
@@ -166,7 +163,6 @@
     <Compile Include="Configuration\ContainerElement.cs" />
     <Compile Include="Configuration\ConfigurationSection.cs" />
     <Compile Include="Configuration\ContainersCollection.cs" />
-    <Compile Include="Hosting\ConcreteTypeExportProvider.cs" />
     <Compile Include="Hosting\FilteredExportProvider.cs" />
     <Compile Include="ImportCollectionChangedEventHandler.cs" />
     <Compile Include="ImportChangedEventHandler.cs" />
@@ -188,7 +184,6 @@
     <Compile Include="Services\IOnInitInvoke.cs" />
     <Compile Include="Metadata\ContractTypeServices.cs" />
     <Compile Include="Metadata\PartMetadataServices.cs" />
-    <Compile Include="Reflection\ConcreteTypeReflectionContext.cs" />
     <Compile Include="Metadata\IMetadata.cs" />
     <Compile Include="Metadata\Metadata.cs" />
     <Compile Include="Metadata\ExportMetadataServices.cs" />

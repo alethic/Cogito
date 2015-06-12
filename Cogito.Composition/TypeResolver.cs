@@ -4,6 +4,7 @@ using System.ComponentModel.Composition;
 using System.ComponentModel.Composition.Primitives;
 using System.Diagnostics.Contracts;
 using System.Linq;
+using System.Text;
 using Cogito.Composition.Hosting;
 using Cogito.Composition.Scoping;
 
@@ -72,7 +73,8 @@ namespace Cogito.Composition
                     ImportCardinality.ZeroOrMore,
                     false,
                     false,
-                    CreationPolicy.Any))
+                    CreationPolicy.Any,
+                    CreateMetadata(typeof(T))))
                 .Select(i => new Lazy<T, IDictionary<string, object>>(() => (T)i.Value, i.Metadata));
         }
 
@@ -91,8 +93,59 @@ namespace Cogito.Composition
                     ImportCardinality.ZeroOrMore,
                     false,
                     false,
-                    CreationPolicy.Any))
+                    CreationPolicy.Any,
+                    CreateMetadata(type)))
                 .Select(i => new Lazy<object, IDictionary<string, object>>(() => i.Value, i.Metadata));
+        }
+
+        IDictionary<string, object> CreateMetadata(Type type)
+        {
+            if (type.IsGenericType)
+            {
+                var d = new Dictionary<string, object>();
+                d[System.ComponentModel.Composition.Hosting.CompositionConstants.GenericContractMetadataName] = CreateGenericTypeContractName(type);
+                d[System.ComponentModel.Composition.Hosting.CompositionConstants.GenericParametersMetadataName] = CreateGenericParametersMetadata(type);
+                return d;
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Creates the generic contract name metadata;
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        string CreateGenericTypeContractName(Type type)
+        {
+            var t = type.GetGenericArguments();
+            var s = new StringBuilder();
+            s.Append(type.Namespace);
+            s.Append(".");
+            s.Append(type.Name.Substring(0, type.Name.LastIndexOf("`")));
+
+            s.Append("(");
+
+            for (int i = 0; i < t.Length; i++)
+            {
+                s.Append("{").Append(i).Append("}");
+                if (i < t.Length - 1)
+                    s.Append(",");
+            }
+
+            s.Append(")");
+
+            return s.ToString();
+        }
+
+        /// <summary>
+        /// Creates the generic parameters metadata.
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        Type[] CreateGenericParametersMetadata(Type type)
+        {
+            return type.GetGenericArguments();
         }
 
     }

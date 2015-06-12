@@ -2,8 +2,6 @@
 using System.Diagnostics.Contracts;
 using System.Reflection;
 
-using Cogito.Composition.Reflection;
-
 namespace Cogito.Composition.Hosting
 {
 
@@ -18,7 +16,7 @@ namespace Cogito.Composition.Hosting
         /// Initializes a new instance.
         /// </summary>
         public ApplicationCatalog()
-            : base(new DefaultReflectionContext())
+            : base()
         {
 
         }
@@ -28,7 +26,7 @@ namespace Cogito.Composition.Hosting
         /// </summary>
         /// <param name="reflectionContext"></param>
         public ApplicationCatalog(ReflectionContext reflectionContext)
-            : base(new DefaultReflectionContext(reflectionContext))
+            : base(reflectionContext)
         {
             Contract.Requires<ArgumentNullException>(reflectionContext != null);
         }

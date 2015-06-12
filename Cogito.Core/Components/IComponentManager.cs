@@ -19,16 +19,4 @@
 
     }
 
-    /// <summary>
-    /// Manages the lifecycle of <see cref="IComponent{TIdentity}"/> implementations.
-    /// </summary>
-    /// <typeparam name="TIdentity"></typeparam>
-    public interface IComponentManager<TIdentity> :
-        IComponentManager
-    {
-
-
-
-    }
-
 }

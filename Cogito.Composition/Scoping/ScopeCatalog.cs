@@ -45,6 +45,8 @@ namespace Cogito.Composition.Scoping
         public ScopeCatalog(ComposablePartCatalog parent, Type scopeType)
             : this(parent)
         {
+            Contract.Requires<ArgumentNullException>(parent != null);
+
             // include specified scope
             if (scopeType != null)
                 foreach (var i in GetScopeTypes(scopeType))

@@ -16,6 +16,7 @@ namespace Cogito.Components
         IComponentManager
     {
 
+        readonly IEnumerable<IComponentProvider> providers;
         readonly IEnumerable<IComponent> components;
         readonly Type[] startTypes;
 
@@ -25,11 +26,12 @@ namespace Cogito.Components
         /// <param name="components"></param>
         [ImportingConstructor]
         public ComponentManager(
-            [ImportMany] IEnumerable<IComponent> components)
+            [ImportMany] IEnumerable<IComponentProvider> providers)
         {
-            Contract.Requires<ArgumentNullException>(components != null);
+            Contract.Requires<ArgumentNullException>(providers != null);
 
-            this.components = components;
+            this.providers = providers;
+            this.components = providers.SelectMany(i => i.Components).ToArray();
 
             // extract enabled types from configuration
             this.startTypes = ComponentConfigurationSection.GetDefaultSection().Start
@@ -114,29 +116,6 @@ namespace Cogito.Components
                 return true;
 
             return false;
-        }
-
-    }
-
-    /// <summary>
-    /// Manages the lifecycle of <see cref="IComponent{TIdentity}"/> instances.
-    /// </summary>
-    /// <typeparam name="TIdentity"></typeparam>
-    public class ComponentManager<TIdentity> :
-        ComponentManager,
-        IComponentManager<TIdentity>
-    {
-
-        /// <summary>
-        /// Initializes a new instance.
-        /// </summary>
-        /// <param name="components"></param>
-        [ImportingConstructor]
-        public ComponentManager(
-            [ImportMany] IEnumerable<IComponent<TIdentity>> components)
-            : base(components)
-        {
-            Contract.Requires<ArgumentNullException>(components != null);
         }
 
     }

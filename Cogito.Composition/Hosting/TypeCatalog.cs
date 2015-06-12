@@ -4,8 +4,6 @@ using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Reflection;
 
-using Cogito.Composition.Reflection;
-
 namespace Cogito.Composition.Hosting
 {
 
@@ -20,7 +18,7 @@ namespace Cogito.Composition.Hosting
         /// Initializes a new instance.
         /// </summary>
         public TypeCatalog(IEnumerable<Type> types)
-            : base(types, new DefaultReflectionContext())
+            : base(types)
         {
             Contract.Requires<ArgumentNullException>(types != null);
         }
@@ -30,7 +28,7 @@ namespace Cogito.Composition.Hosting
         /// </summary>
         /// <param name="reflectionContext"></param>
         public TypeCatalog(IEnumerable<Type> types, ReflectionContext reflectionContext)
-            : base(types, new DefaultReflectionContext(reflectionContext))
+            : base(types, reflectionContext)
         {
             Contract.Requires<ArgumentNullException>(types != null);
             Contract.Requires<ArgumentNullException>(reflectionContext != null);
