@@ -20,7 +20,9 @@ namespace Cogito.ServiceBus.Infrastructure
         /// <param name="bus"></param>
         /// <param name="factory"></param>
         [ImportingConstructor]
-        public SemaphoreProvider(IServiceBus bus, ISemaphoreFactory<TIdentity> factory)
+        public SemaphoreProvider(
+            IServiceBus bus, 
+            ISemaphoreFactory<TIdentity> factory)
         {
             Contract.Requires<ArgumentNullException>(bus != null);
             Contract.Requires<ArgumentNullException>(factory != null);
