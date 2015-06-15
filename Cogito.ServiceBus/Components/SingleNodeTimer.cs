@@ -115,9 +115,9 @@ namespace Cogito.ServiceBus.Components
 
                 try
                 {
-                    Trace.TraceInformation("{0}: OnTimer (entered)", GetType().Name);
+                    Trace.TraceInformation("{0}: OnTimer (entered)", GetType().FullName);
                     OnTimer(cts.Token);
-                    Trace.TraceInformation("{0}: OnTimer (exit)", GetType().Name);
+                    Trace.TraceInformation("{0}: OnTimer (exit)", GetType().FullName);
                 }
                 catch (OperationCanceledException)
                 {
