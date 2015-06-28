@@ -21,7 +21,8 @@ namespace Cogito.Web
         /// </summary>
         public HttpApplication()
         {
-            this.composition = new Lazy<Ref<CompositionContainer>>(() => ContainerManager.GetDefaultContainer().GetExportedValue<Func<Ref<CompositionContainer>>>()());
+            this.composition = new Lazy<Ref<CompositionContainer>>(() => 
+                ContainerManager.GetDefaultContainer().GetExportedValue<Func<Ref<CompositionContainer>>>()());
         }
 
         /// <summary>
