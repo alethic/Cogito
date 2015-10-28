@@ -15,14 +15,14 @@ namespace Cogito.Components.Server
     {
 
         readonly object sync = new object();
-        readonly dynamic manager;
+        readonly Lazy<dynamic> manager;
 
         /// <summary>
         /// Initializes a new instance.
         /// </summary>
         public AppDomainLoaderPeer()
         {
-            manager = GetComponentManager();
+            this.manager = new Lazy<dynamic>(() => GetComponentManager());
         }
 
         /// <summary>
@@ -36,23 +36,38 @@ namespace Cogito.Components.Server
 
             var assembly = TryLoadAssembly("Cogito.Composition");
             if (assembly == null)
-                throw new TypeLoadException("Unable to load assembly 'Cogito.Composition'.");
+            {
+                Trace.TraceError("Unable to load assembly 'Cogito.Composition' from '{0}'.", AppDomain.CurrentDomain.BaseDirectory);
+                return null;
+            }
 
             var type = assembly.GetType("Cogito.Composition.Hosting.ContainerManager");
             if (type == null)
-                throw new TypeLoadException("Unable to load type 'Cogito.Composition.Hosting.ContainerManager'.");
+            {
+                Trace.TraceError("Unable to load type 'Cogito.Composition.Hosting.ContainerManager' from '{0}'.", AppDomain.CurrentDomain.BaseDirectory);
+                return null;
+            }
 
             var method = type.GetMethod("GetDefaultTypeResolver", BindingFlags.Public | BindingFlags.Static);
             if (method == null)
-                throw new TypeLoadException("Unable to find 'GetDefaultTypeResolver' method.");
+            {
+                Trace.TraceError("Unable to find 'GetDefaultTypeResolver' method.");
+                return null;
+            }
 
             var resolver = (dynamic)method.Invoke(null, new object[0]);
             if (resolver == null)
-                throw new TypeLoadException("Unable to find default type resolver.");
+            {
+                Trace.TraceError("Unable to find default type resolver.");
+                return null;
+            }
 
             var manager = resolver.Resolve<IComponentManager>();
             if (manager == null)
-                throw new NullReferenceException("Unable to resolve 'Cogito.Components.IComponentManager'.");
+            {
+                Trace.TraceError("Unable to resolve 'Cogito.Components.IComponentManager'.");
+                return null;
+            }
 
             return manager;
         }
@@ -89,7 +104,10 @@ namespace Cogito.Components.Server
             {
                 try
                 {
-                    manager.Start();
+                    if (manager.Value != null)
+                        manager.Value.Start();
+                    else
+                        return false;
                 }
                 catch (Exception e)
                 {
@@ -112,7 +130,10 @@ namespace Cogito.Components.Server
             {
                 try
                 {
-                    manager.Stop();
+                    if (manager.Value != null)
+                        manager.Value.Stop();
+                    else
+                        return false;
                 }
                 catch (Exception e)
                 {

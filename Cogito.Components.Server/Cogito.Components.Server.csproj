@@ -124,10 +124,6 @@
     <StartupObject>Cogito.Components.Server.Program</StartupObject>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
@@ -151,9 +147,7 @@
       <HintPath>..\packages\Rx-PlatformServices.2.2.5\lib\net45\System.Reactive.PlatformServices.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="System.Xml.Linq" />
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Xml" />
     <Reference Include="Topshelf, Version=3.2.150.0, Culture=neutral, PublicKeyToken=b800c4cfcdeea87b, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Topshelf.3.2.0\lib\net40-full\Topshelf.dll</HintPath>
@@ -176,10 +170,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Cogito.Composition\Cogito.Composition.csproj">
-      <Project>{7bc455c8-108c-4b5a-bf25-f20eee0a8140}</Project>
-      <Name>Cogito.Composition</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Cogito.Core\Cogito.Core.csproj">
       <Project>{133c2d12-bda9-4806-ba0a-70ec83bec9bd}</Project>
       <Name>Cogito.Core</Name>
