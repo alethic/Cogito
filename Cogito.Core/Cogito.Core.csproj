@@ -198,6 +198,5 @@
     <Compile Include="Version.cs" />
     <Compile Include="Xml\Extensions.cs" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
