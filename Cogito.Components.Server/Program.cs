@@ -16,7 +16,7 @@ namespace Cogito.Components.Server
         readonly static string DEFAULT_SERVICE_NAME = "Cogito.Components.Server";
 
         /// <summary>
-        /// Main application entry point.
+        /// Main application entry point. Do not invoke this method from extended classes. Instead, implement your own Main method and invoke Run.
         /// </summary>
         /// <param name="args"></param>
         /// <returns></returns>
