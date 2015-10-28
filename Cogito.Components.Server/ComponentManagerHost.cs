@@ -91,7 +91,7 @@ namespace Cogito.Components.Server
         /// </summary>
         public bool Load()
         {
-            Debug.WriteLine("{0}: Load", new[] { typeof(ComponentManagerHost).Name });
+            Debug.WriteLine("{0}: Load BEGINNING", new[] { typeof(ComponentManagerHost).Name });
 
             lock (sync)
             {
@@ -107,9 +107,11 @@ namespace Cogito.Components.Server
                     e.Trace();
                     return false;
                 }
-
-                return true;
             }
+
+            Debug.WriteLine("{0}: Load COMPLETED", new[] { typeof(ComponentManagerHost).Name });
+
+            return true;
         }
 
         /// <summary>
@@ -117,7 +119,7 @@ namespace Cogito.Components.Server
         /// </summary>
         public bool Unload()
         {
-            Debug.WriteLine("{0}: Unload", new[] { typeof(ComponentManagerHost).Name });
+            Debug.WriteLine("{0}: Unload BEGINNING", new[] { typeof(ComponentManagerHost).Name });
 
             lock (sync)
             {
@@ -133,9 +135,11 @@ namespace Cogito.Components.Server
                     e.Trace();
                     return false;
                 }
-
-                return true;
             }
+
+            Debug.WriteLine("{0}: Unload COMPLETED", new[] { typeof(ComponentManagerHost).Name });
+
+            return true;
         }
 
     }

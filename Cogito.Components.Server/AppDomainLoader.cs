@@ -44,16 +44,6 @@ namespace Cogito.Components.Server
         }
 
         /// <summary>
-        /// Yields the possible configuration file paths.
-        /// </summary>
-        /// <returns></returns>
-        IEnumerable<string> GetConfigurationFiles()
-        {
-            yield return info.ConfigurationFilePath;
-            yield return Path.Combine(info.Path, "Components.config");
-        }
-
-        /// <summary>
         /// Starts the <see cref="AppDomainLoader"/>.
         /// </summary>
         public bool Load()
@@ -82,22 +72,37 @@ namespace Cogito.Components.Server
             Contract.Requires(peer == null);
             Debug.WriteLine("{0}: {1}: OnLoad", info.Name, typeof(AppDomainLoader).Name);
 
-            // attempt to create empty directory if not present
-            if (!Directory.Exists(info.Path))
-                Directory.CreateDirectory(info.Path);
-
             lock (sync)
             {
+                var path = Path.GetFullPath(info.Path);
+                var configPath = Path.GetFullPath(info.ConfigurationFilePath);
+
+                // try again later if no directory
+                if (!Directory.Exists(path))
+                {
+                    Trace.TraceError("{0}: {1}: Application directory not found: {2}", info.Name, typeof(AppDomainLoader).Name, path);
+                    ScheduleTimer(TimeSpan.FromMinutes(rnd.Next(5, 10)));
+                    return;
+                }
+
+                // try again later if no configuration file
+                if (!File.Exists(configPath))
+                {
+                    Trace.TraceError("{0}: {1}: Configuration file not found: {2}", info.Name, typeof(AppDomainLoader).Name, configPath);
+                    ScheduleTimer(TimeSpan.FromMinutes(rnd.Next(5, 10)));
+                    return;
+                }
+
                 // configure new AppDomain
                 var cfg = new AppDomainSetup();
-                cfg.ApplicationBase = info.Path;
+                cfg.ApplicationBase = path;
+                cfg.ConfigurationFile = configPath;
                 cfg.ShadowCopyFiles = "true";
-                cfg.ConfigurationFile = GetConfigurationFiles().Where(i => File.Exists(i)).FirstOrDefault() ?? "Components.config";
 
                 // create new AppDomain
                 domain = AppDomain.CreateDomain(info.Name, new Evidence(AppDomain.CurrentDomain.Evidence), cfg);
-                Trace.TraceInformation("ApplicationBase: {0}", domain.SetupInformation.ApplicationBase);
-                Trace.TraceInformation("ConfigurationFile: {0}", domain.SetupInformation.ConfigurationFile);
+                Debug.WriteLine("{0}: ApplicationBase: {1}", info.Name, domain.SetupInformation.ApplicationBase);
+                Debug.WriteLine("{0}: ConfigurationFile: {1}", info.Name, domain.SetupInformation.ConfigurationFile);
 
                 // provides assistance in assembly resolution to the remote domain
                 domain.CreateInstanceFromAndUnwrap(
@@ -127,20 +132,8 @@ namespace Cogito.Components.Server
                 // attempt to load peer
                 if (!peer.Load())
                 {
-                    // cancel existing timer
-                    if (timer != null)
-                    {
-                        timer.Stop();
-                        timer.Dispose();
-                        timer = null;
-                    }
-
-                    // schedule next attempt
-                    timer = new Timer();
-                    timer.AutoReset = false;
-                    timer.Interval = TimeSpan.FromSeconds(rnd.Next(30, 60)).TotalMilliseconds;
-                    timer.Elapsed += timer_Elapsed;
-                    timer.Start();
+                    ScheduleTimer(TimeSpan.FromSeconds(rnd.Next(30, 60)));
+                    return;
                 }
 
                 // configure FileSystemWatcher if it does not exist
@@ -167,6 +160,31 @@ namespace Cogito.Components.Server
                         .Throttle(TimeSpan.FromSeconds(5))
                         .Subscribe(i => OnFileSystemChanged(w));
                 }
+            }
+        }
+
+        /// <summary>
+        /// Reschedules the timer.
+        /// </summary>
+        /// <param name="time"></param>
+        void ScheduleTimer(TimeSpan time)
+        {
+            lock (sync)
+            {
+                // cancel existing timer
+                if (timer != null)
+                {
+                    timer.Stop();
+                    timer.Dispose();
+                    timer = null;
+                }
+
+                // schedule next attempt
+                timer = new Timer();
+                timer.AutoReset = false;
+                timer.Interval = time.TotalMilliseconds;
+                timer.Elapsed += timer_Elapsed;
+                timer.Start();
             }
         }
 
