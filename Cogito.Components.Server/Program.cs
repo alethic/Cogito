@@ -46,7 +46,7 @@ namespace Cogito.Components.Server
         {
             Contract.Requires<ArgumentNullException>(args != null);
 
-            return HostFactory.New(x => ConfigureHostFactory(args, x));
+            return HostFactory.New(x => ConfigureHost(args, x));
         }
 
         /// <summary>
@@ -54,7 +54,7 @@ namespace Cogito.Components.Server
         /// </summary>
         /// <param name="args"></param>
         /// <param name="x"></param>
-        protected virtual void ConfigureHostFactory(string[] args, HostConfigurator x)
+        protected virtual void ConfigureHost(string[] args, HostConfigurator x)
         {
             Contract.Requires<ArgumentNullException>(args != null);
             Contract.Requires<ArgumentNullException>(x != null);
