@@ -10,25 +10,6 @@ namespace Cogito.Components.Server
         ServiceControl
     {
 
-        readonly string binPath = ConfigurationSection.GetDefaultSection().BinPath.TrimOrNull();
-        readonly string tmpPath = ConfigurationSection.GetDefaultSection().TmpPath.TrimOrNull();
-
-        /// <summary>
-        /// Gets the bin path.
-        /// </summary>
-        public string BinPath
-        {
-            get { return binPath; }
-        }
-
-        /// <summary>
-        /// Gets the temporary path.
-        /// </summary>
-        public string TmpPath
-        {
-            get { return tmpPath; }
-        }
-
         /// <summary>
         /// Starts the service.
         /// </summary>

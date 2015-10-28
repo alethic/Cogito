@@ -13,15 +13,17 @@ namespace Cogito.Components.Server
         MarshalByRefObject
     {
 
+
+
         /// <summary>
         /// Attaches to the remote diagnostics pipeline and forwards messages to the current <see cref="AppDomain"/>.
         /// </summary>
         /// <param name="domain"></param>
-        public static void Inject(AppDomain domain)
+        public static void ListenTo(AppDomain domain)
         {
             Contract.Requires<ArgumentNullException>(domain != null);
 
-            var receiver = new AppDomainTraceReceiver();
+            var receiver = new AppDomainTraceReceiver(domain);
             var listener = (AppDomainTraceListener)domain.CreateInstanceFromAndUnwrap(
                     typeof(AppDomainTraceListener).Assembly.Location,
                     typeof(AppDomainTraceListener).FullName,
@@ -36,6 +38,20 @@ namespace Cogito.Components.Server
             listener.ForwardTo(receiver);
         }
 
+
+        readonly AppDomain domain;
+
+        /// <summary>
+        /// Initializes a new instance.
+        /// </summary>
+        /// <param name="domain"></param>
+        public AppDomainTraceReceiver(AppDomain domain)
+        {
+            Contract.Requires<ArgumentNullException>(domain != null);
+
+            this.domain = domain;
+        }
+
         /// <summary>
         /// Invoked on the local <see cref="AppDomain"/> to write a message.
         /// </summary>
@@ -44,7 +60,7 @@ namespace Cogito.Components.Server
         {
             Contract.Requires<ArgumentNullException>(message != null);
 
-            Trace.Write(message);
+            Trace.Write(domain.FriendlyName + ": " + message);
         }
 
         /// <summary>
@@ -55,7 +71,7 @@ namespace Cogito.Components.Server
         {
             Contract.Requires<ArgumentNullException>(message != null);
 
-            Trace.WriteLine(message);
+            Trace.WriteLine(domain.FriendlyName + ": " + message);
         }
 
         public override object InitializeLifetimeService()

@@ -21,9 +21,10 @@ namespace Cogito.Components.Server
     {
 
         readonly static Random rnd = new Random();
+
         readonly object sync = new object();
-        readonly DirectoryInfo basePath;
-        readonly DirectoryInfo tempPath;
+        readonly ApplicationInfo info;
+
         AppDomain domain;
         AppDomainLoaderPeer peer;
         volatile FileSystemWatcher watcher;
@@ -33,20 +34,13 @@ namespace Cogito.Components.Server
         /// <summary>
         /// Initializes a new instance.
         /// </summary>
-        /// <param name="basePath"></param>
-        /// <param name="tempPath"></param>
-        public AppDomainLoader(string basePath = null, string tempPath = null)
+        /// <param name="info"></param>
+        public AppDomainLoader(ApplicationInfo info)
         {
-            this.basePath = new DirectoryInfo(basePath ?? AppDomain.CurrentDomain.BaseDirectory);
-            this.tempPath = new DirectoryInfo(tempPath ?? Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString("N")));
+            Contract.Requires<ArgumentNullException>(info != null);
+            Contract.Requires<ArgumentOutOfRangeException>(!string.IsNullOrWhiteSpace(info.Path));
 
-            // directory must exist
-            if (!this.basePath.Exists)
-                throw new DirectoryNotFoundException(basePath);
-
-            // create temp path
-            if (!this.tempPath.Exists)
-                this.tempPath.Create();
+            this.info = info;
         }
 
         /// <summary>
@@ -55,8 +49,8 @@ namespace Cogito.Components.Server
         /// <returns></returns>
         IEnumerable<string> GetConfigurationFiles()
         {
-            yield return Path.Combine(basePath.FullName, "Components.config");
-            yield return Path.Combine(basePath.FullName, "Service.config");
+            yield return info.ConfigurationFilePath;
+            yield return Path.Combine(info.Path, "Components.config");
         }
 
         /// <summary>
@@ -86,18 +80,22 @@ namespace Cogito.Components.Server
         {
             Contract.Requires(domain == null);
             Contract.Requires(peer == null);
-            Debug.WriteLine("{0}: OnLoad", new[] { typeof(AppDomainLoader).Name });
+            Debug.WriteLine("{0}: {1}: OnLoad", info.Name, typeof(AppDomainLoader).Name);
+
+            // attempt to create empty directory if not present
+            if (!Directory.Exists(info.Path))
+                Directory.CreateDirectory(info.Path);
 
             lock (sync)
             {
                 // configure new AppDomain
                 var cfg = new AppDomainSetup();
-                cfg.ApplicationBase = basePath.FullName;
+                cfg.ApplicationBase = info.Path;
                 cfg.ShadowCopyFiles = "true";
                 cfg.ConfigurationFile = GetConfigurationFiles().Where(i => File.Exists(i)).FirstOrDefault() ?? "Components.config";
 
                 // create new AppDomain
-                domain = AppDomain.CreateDomain("Cogito.Components.Server", new Evidence(AppDomain.CurrentDomain.Evidence), cfg);
+                domain = AppDomain.CreateDomain(info.Name, new Evidence(AppDomain.CurrentDomain.Evidence), cfg);
                 Trace.TraceInformation("ApplicationBase: {0}", domain.SetupInformation.ApplicationBase);
                 Trace.TraceInformation("ConfigurationFile: {0}", domain.SetupInformation.ConfigurationFile);
 
@@ -113,7 +111,7 @@ namespace Cogito.Components.Server
                     null);
 
                 // relays diagnostic messages from the remote domain
-                AppDomainTraceReceiver.Inject(domain);
+                AppDomainTraceReceiver.ListenTo(domain);
 
                 // configure and start new AppDomainPeer
                 peer = (AppDomainLoaderPeer)domain.CreateInstanceFromAndUnwrap(
@@ -149,7 +147,7 @@ namespace Cogito.Components.Server
                 if (watcher == null)
                 {
                     // generate new watcher (w is local to prevent closures from grabbing new instance)
-                    var w = watcher = new FileSystemWatcher(basePath.FullName);
+                    var w = watcher = new FileSystemWatcher(info.Path);
                     w.EnableRaisingEvents = true;
 
                     // merge event sequences and throttle output
@@ -202,7 +200,7 @@ namespace Cogito.Components.Server
                 timer.Elapsed += timer_Elapsed;
                 timer.Start();
 
-                Trace.TraceInformation("{0}: reload in {1}...", typeof(AppDomainLoader).Name, TimeSpan.FromMilliseconds(timer.Interval));
+                Trace.TraceInformation("{0}: {1}: reload in {2}...", info.Name, typeof(AppDomainLoader).Name, TimeSpan.FromMilliseconds(timer.Interval));
             }
         }
 
@@ -248,7 +246,7 @@ namespace Cogito.Components.Server
         /// </summary>
         public bool Unload()
         {
-            Debug.WriteLine("{0}: Unload", new[] { typeof(AppDomainLoader).Name });
+            Debug.WriteLine("{0}: {1}: Unload", info.Name, typeof(AppDomainLoader).Name);
 
             lock (sync)
             {
@@ -282,7 +280,7 @@ namespace Cogito.Components.Server
                     // attempt unload three more times
                     for (var i = 0; i < 3; i++)
                     {
-                        Trace.TraceInformation("{0}: Unload attempt #{1}", typeof(AppDomainLoader).Name, i + 1);
+                        Trace.TraceInformation("{0}: {1}: Unload attempt #{2}", info.Name, typeof(AppDomainLoader).Name, i + 1);
 
                         try
                         {
@@ -300,7 +298,7 @@ namespace Cogito.Components.Server
                         }
                     }
 
-                    Trace.TraceInformation("{0}: Unload successful", typeof(AppDomainLoader).Name);
+                    Trace.TraceInformation("{0}: {1}: Unload successful", info.Name, typeof(AppDomainLoader).Name);
 
                     // clear domain variable
                     domain = null;

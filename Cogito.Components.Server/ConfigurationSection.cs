@@ -17,23 +17,13 @@ namespace Cogito.Components.Server
         }
 
         /// <summary>
-        /// Path to the directory from which to load the components.
+        /// Describes the applications to be started.
         /// </summary>
-        [ConfigurationProperty("binPath")]
-        public string BinPath
+        [ConfigurationProperty("applications")]
+        public ApplicationConfigurationElementCollection Applications
         {
-            get { return (string)this["binPath"]; }
-            set { this["binPath"] = value; }
-        }
-
-        /// <summary>
-        /// Path to the temporary directory for the loaded components.
-        /// </summary>
-        [ConfigurationProperty("tmpPath")]
-        public string TmpPath
-        {
-            get { return (string)this["tmpPath"]; }
-            set { this["tmpPath"] = value; }
+            get { return (ApplicationConfigurationElementCollection)this["applications"]; }
+            set { this["applications"] = value; }
         }
 
         public override bool IsReadOnly()
