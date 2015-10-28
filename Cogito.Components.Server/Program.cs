@@ -13,6 +13,8 @@ namespace Cogito.Components.Server
     public class Program
     {
 
+        readonly static string DEFAULT_SERVICE_NAME = "Cogito.Components.Server";
+
         /// <summary>
         /// Main application entry point.
         /// </summary>
@@ -73,7 +75,7 @@ namespace Cogito.Components.Server
         /// <returns></returns>
         protected virtual string GetServiceName()
         {
-            return "Cogito.Components.Server";
+            return DEFAULT_SERVICE_NAME;
         }
 
         /// <summary>
