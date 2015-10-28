@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Web.UI;
 
 using Cogito.Composition;
@@ -15,14 +16,14 @@ namespace Cogito.Web.UI
         Control
     {
 
-        ITypeResolver typeResolver;
+        readonly Lazy<ITypeResolver> typeResolver;
 
         /// <summary>
         /// Initializes a new instance.
         /// </summary>
         public CogitoControl()
         {
-
+            this.typeResolver = new Lazy<ITypeResolver>(() => ContainerManager.GetDefaultContainer().GetExportedValue<IScopeTypeResolver>().Resolve<ITypeResolver, IWebRequestScope>(), true);
         }
 
         /// <summary>
@@ -30,7 +31,7 @@ namespace Cogito.Web.UI
         /// </summary>
         public ITypeResolver TypeResolver
         {
-            get { return typeResolver ?? (typeResolver = ContainerManager.GetDefaultContainer().GetExportedValue<IScopeTypeResolver>().Resolve<ITypeResolver, IWebRequestScope>()); }
+            get { return typeResolver.Value; }
         }
 
         /// <summary>
