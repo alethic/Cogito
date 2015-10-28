@@ -59,7 +59,7 @@ namespace Cogito.Components.Server
             Contract.Requires<ArgumentNullException>(args != null);
             Contract.Requires<ArgumentNullException>(x != null);
 
-            x.Service<ServiceHost>(() => CreateServiceHost());
+            x.Service(CreateServiceHost);
             x.SetServiceName("Cogito.Components.Server");
             x.StartAutomatically();
             x.EnableServiceRecovery(c => c.RestartService(5).SetResetPeriod(0));
