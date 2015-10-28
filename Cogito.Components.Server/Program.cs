@@ -60,11 +60,20 @@ namespace Cogito.Components.Server
             Contract.Requires<ArgumentNullException>(x != null);
 
             x.Service(CreateServiceHost);
-            x.SetServiceName("Cogito.Components.Server");
+            x.SetServiceName(GetServiceName());
             x.StartAutomatically();
             x.EnableServiceRecovery(c => c.RestartService(5).SetResetPeriod(0));
             x.EnableShutdown();
             x.RunAsNetworkService();
+        }
+
+        /// <summary>
+        /// Gets the name of the service.
+        /// </summary>
+        /// <returns></returns>
+        protected virtual string GetServiceName()
+        {
+            return "Cogito.Components.Server";
         }
 
         /// <summary>
