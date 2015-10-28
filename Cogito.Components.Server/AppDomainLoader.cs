@@ -27,7 +27,7 @@ namespace Cogito.Components.Server
         AppDomainLoaderPeer peer;
         volatile FileSystemWatcher watcher;
         volatile IDisposable watcherRx;
-        volatile Timer timer;
+        volatile System.Timers.Timer timer;
 
         /// <summary>
         /// Initializes a new instance.
@@ -52,7 +52,7 @@ namespace Cogito.Components.Server
                 throw new InvalidOperationException("AppDomainLoader is already started");
 
             // schedule reload
-            timer = new Timer();
+            timer = new System.Timers.Timer();
             timer.AutoReset = false;
             timer.Interval = TimeSpan.FromSeconds(1).TotalMilliseconds;
             timer.Elapsed += timer_Elapsed;
@@ -178,7 +178,7 @@ namespace Cogito.Components.Server
                 }
 
                 // schedule next attempt
-                timer = new Timer();
+                timer = new System.Timers.Timer();
                 timer.AutoReset = false;
                 timer.Interval = time.TotalMilliseconds;
                 timer.Elapsed += timer_Elapsed;
@@ -210,7 +210,7 @@ namespace Cogito.Components.Server
                 }
 
                 // schedule reload
-                timer = new Timer();
+                timer = new System.Timers.Timer();
                 timer.AutoReset = false;
                 timer.Interval = TimeSpan.FromSeconds(rnd.Next(30, 60)).TotalMilliseconds;
                 timer.Elapsed += timer_Elapsed;
@@ -248,7 +248,7 @@ namespace Cogito.Components.Server
                     }
 
                     // restart timer to attempt loading again
-                    timer = new Timer();
+                    timer = new System.Timers.Timer();
                     timer.AutoReset = false;
                     timer.Interval = TimeSpan.FromSeconds(rnd.Next(30, 60)).TotalMilliseconds;
                     timer.Elapsed += timer_Elapsed;

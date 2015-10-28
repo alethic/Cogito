@@ -4,24 +4,20 @@ using System.Diagnostics.Contracts;
 using System.Threading;
 using System.Timers;
 
-using Cogito.Components;
-
-namespace Cogito.ServiceBus.Components
+namespace Cogito.Components
 {
 
     /// <summary>
-    /// Extend this class to implement a component which runs on a single node and periodically raises a timer event.
+    /// Extend this class to implement a component which periodically raises a timer event.
     /// </summary>
-    /// <typeparam name="TComponent"></typeparam>
-    public abstract class SingleNodeTimer<TComponent> :
-        DistributedComponent<TComponent>
-        where TComponent : IComponent
+    public abstract class Timer :
+        Component
     {
 
-        static readonly TimeSpan DEFAULT_INTERVAL = Cogito.Components.Timer.DEFAULT_INTERVAL;
-        static readonly TimeSpan DEFAULT_INITIAL_INTERVAL = Cogito.Components.Timer.DEFAULT_INITIAL_INTERVAL;
-        static readonly TimeSpan DEFAULT_RETRY_INTERVAL = Cogito.Components.Timer.DEFAULT_RETRY_INTERVAL;
-        static readonly TimeSpan DEFAULT_REPEAT_INTERVAL = Cogito.Components.Timer.DEFAULT_REPEAT_INTERVAL;
+        public static readonly TimeSpan DEFAULT_INTERVAL = TimeSpan.FromMinutes(5);
+        public static readonly TimeSpan DEFAULT_INITIAL_INTERVAL = TimeSpan.FromSeconds(5);
+        public static readonly TimeSpan DEFAULT_RETRY_INTERVAL = TimeSpan.FromMinutes(1);
+        public static readonly TimeSpan DEFAULT_REPEAT_INTERVAL = TimeSpan.FromSeconds(2);
 
         readonly object sync = new object();
         TimeSpan initialInterval;
@@ -37,28 +33,23 @@ namespace Cogito.ServiceBus.Components
         /// <summary>
         /// Initializes a new instance.
         /// </summary>
-        /// <param name="manager"></param>
         /// <param name="interval"></param>
         /// <param name="initialInterval"></param>
         /// <param name="retryInterval"></param>
         /// <param name="repeatInterval"></param>
-        public SingleNodeTimer(
-            SingleNodeTimerManager<TComponent> manager,
+        public Timer(
             TimeSpan? interval = null,
             TimeSpan? initialInterval = null,
             TimeSpan? retryInterval = null,
             TimeSpan? repeatInterval = null)
-            : base(manager)
         {
-            Contract.Requires<ArgumentNullException>(manager != null);
-
             this.interval = interval ?? DEFAULT_INTERVAL;
             this.initialInterval = initialInterval ?? DEFAULT_INITIAL_INTERVAL;
             this.retryInterval = retryInterval ?? DEFAULT_RETRY_INTERVAL;
             this.repeatInterval = repeatInterval ?? DEFAULT_REPEAT_INTERVAL;
         }
 
-        protected override void OnStart()
+        public override void Start()
         {
             lock (sync)
             {
@@ -79,7 +70,7 @@ namespace Cogito.ServiceBus.Components
             }
         }
 
-        protected override void OnStop()
+        public override void Stop()
         {
             // signal any outstanding timer invocations to cancel
             if (cts != null)
