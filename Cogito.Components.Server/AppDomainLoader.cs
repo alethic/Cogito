@@ -57,7 +57,6 @@ namespace Cogito.Components.Server
         {
             yield return Path.Combine(basePath.FullName, "Components.config");
             yield return Path.Combine(basePath.FullName, "Service.config");
-            yield return AppDomain.CurrentDomain.SetupInformation.ConfigurationFile;
         }
 
         /// <summary>
@@ -95,7 +94,7 @@ namespace Cogito.Components.Server
                 var cfg = new AppDomainSetup();
                 cfg.ApplicationBase = basePath.FullName;
                 cfg.ShadowCopyFiles = "true";
-                cfg.ConfigurationFile = GetConfigurationFiles().Where(i => File.Exists(i)).FirstOrDefault();
+                cfg.ConfigurationFile = GetConfigurationFiles().Where(i => File.Exists(i)).FirstOrDefault() ?? "Components.config";
 
                 // create new AppDomain
                 domain = AppDomain.CreateDomain("Cogito.Components.Server", new Evidence(AppDomain.CurrentDomain.Evidence), cfg);
@@ -114,7 +113,7 @@ namespace Cogito.Components.Server
                     null);
 
                 // relays diagnostic messages from the remote domain
-                AppDomainTraceReceiver.ListenTo(domain);
+                AppDomainTraceReceiver.Inject(domain);
 
                 // configure and start new AppDomainPeer
                 peer = (AppDomainLoaderPeer)domain.CreateInstanceFromAndUnwrap(

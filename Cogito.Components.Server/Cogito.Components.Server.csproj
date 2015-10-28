@@ -160,9 +160,11 @@
     <Compile Include="AppDomainLoaderPeer.cs" />
     <Compile Include="AppDomainTraceListener.cs" />
     <Compile Include="AppDomainTraceReceiver.cs" />
+    <Compile Include="ComponentManagerHost.cs" />
     <Compile Include="ConfigurationSection.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ServiceHostBase.cs" />
     <Compile Include="ServiceHost.cs" />
   </ItemGroup>
   <ItemGroup>

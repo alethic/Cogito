@@ -26,6 +26,7 @@ namespace Cogito.Components.Server
             this.receiver = receiver;
 
             // listen for new trace messages
+            Trace.Listeners.Remove("Default");
             Trace.Listeners.Add(this);
         }
 

@@ -17,7 +17,7 @@ namespace Cogito.Components.Server
         /// Attaches to the remote diagnostics pipeline and forwards messages to the current <see cref="AppDomain"/>.
         /// </summary>
         /// <param name="domain"></param>
-        public static void ListenTo(AppDomain domain)
+        public static void Inject(AppDomain domain)
         {
             Contract.Requires<ArgumentNullException>(domain != null);
 

@@ -7,11 +7,9 @@ namespace Cogito.Components.Server
     /// Implements the Topshelf <see cref="ServiceControl"/> instance.
     /// </summary>
     public class ServiceHost :
-        ServiceControl
+        ServiceHostBase
     {
 
-        readonly string binPath = ConfigurationSection.GetDefaultSection().BinPath.TrimOrNull();
-        readonly string tmpPath = ConfigurationSection.GetDefaultSection().TmpPath.TrimOrNull();
         readonly AppDomainLoader loader;
 
         /// <summary>
@@ -19,15 +17,15 @@ namespace Cogito.Components.Server
         /// </summary>
         public ServiceHost()
         {
-            this.loader = new AppDomainLoader(binPath, tmpPath);
+            this.loader = new AppDomainLoader(BinPath, TmpPath);
         }
 
-        public bool Start(HostControl hostControl)
+        public override bool Start(HostControl hostControl)
         {
             return loader.Load();
         }
 
-        public bool Stop(HostControl hostControl)
+        public override bool Stop(HostControl hostControl)
         {
             return loader.Unload();
         }
