@@ -34,7 +34,7 @@ namespace Cogito.Components.Server
         {
             Contract.Requires<ArgumentNullException>(args != null);
 
-            return (int)BuildHost(args).Run();
+            return (int)CreateHost(args).Run();
         }
 
         /// <summary>
@@ -42,7 +42,7 @@ namespace Cogito.Components.Server
         /// </summary>
         /// <param name="args"></param>
         /// <returns></returns>
-        Host BuildHost(string[] args)
+        Host CreateHost(string[] args)
         {
             Contract.Requires<ArgumentNullException>(args != null);
 
