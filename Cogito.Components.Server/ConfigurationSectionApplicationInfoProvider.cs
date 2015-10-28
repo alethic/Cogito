@@ -22,7 +22,7 @@ namespace Cogito.Components.Server
         {
             this.applications = ConfigurationSection.GetDefaultSection().Applications
                 .OfType<ApplicationConfigurationElement>()
-                .Select(i => new ApplicationInfo(i.Name, i.Path))
+                .Select(i => new ApplicationInfo(i.Name, i.Path, null, i.Watch))
                 .ToArray();
         }
 

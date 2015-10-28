@@ -13,6 +13,7 @@ namespace Cogito.Components.Server
         readonly string name;
         readonly string path;
         readonly string configurationFilePath;
+        readonly bool watch;
 
         /// <summary>
         /// Initializes a new instance.
@@ -20,7 +21,8 @@ namespace Cogito.Components.Server
         /// <param name="name"></param>
         /// <param name="path"></param>
         /// <param name="configurationFilePath"></param>
-        public ApplicationInfo(string name, string path, string configurationFilePath = null)
+        /// <param name="watch"></param>
+        public ApplicationInfo(string name, string path, string configurationFilePath, bool watch)
         {
             Contract.Requires<ArgumentNullException>(name != null);
             Contract.Requires<ArgumentOutOfRangeException>(!string.IsNullOrWhiteSpace(name));
@@ -30,6 +32,7 @@ namespace Cogito.Components.Server
             this.name = name;
             this.path = path;
             this.configurationFilePath = configurationFilePath ?? System.IO.Path.Combine(path, "Components.config");
+            this.watch = watch;
         }
 
         /// <summary>
@@ -51,6 +54,14 @@ namespace Cogito.Components.Server
         public string ConfigurationFilePath
         {
             get { return configurationFilePath; }
+        }
+
+        /// <summary>
+        /// Gets whether or not changes should be watched for if possible.
+        /// </summary>
+        public bool Watch
+        {
+            get { return watch; }
         }
 
     }

@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.IO;
-using System.Linq;
 using System.Reactive;
 using System.Reactive.Linq;
 using System.Reflection;
@@ -137,7 +135,7 @@ namespace Cogito.Components.Server
                 }
 
                 // configure FileSystemWatcher if it does not exist
-                if (watcher == null)
+                if (watcher == null && info.Watch)
                 {
                     // generate new watcher (w is local to prevent closures from grabbing new instance)
                     var w = watcher = new FileSystemWatcher(info.Path);

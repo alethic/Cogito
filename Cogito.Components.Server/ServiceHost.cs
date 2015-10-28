@@ -1,6 +1,4 @@
-﻿using System.Linq;
-
-using Cogito.Composition.Hosting;
+﻿using Cogito.Composition.Hosting;
 
 using Topshelf;
 
@@ -14,28 +12,24 @@ namespace Cogito.Components.Server
         ServiceHostBase
     {
 
-        readonly AppDomainLoader[] loaders;
+        readonly ServiceLoader loader;
 
         /// <summary>
         /// Initializes a new instance.
         /// </summary>
         public ServiceHost()
         {
-            this.loaders = ContainerManager.GetDefaultTypeResolver()
-                .ResolveMany<IApplicationInfoProvider>()
-                .SelectMany(i => i.GetApplications())
-                .Select(i => new AppDomainLoader(i))
-                .ToArray();
+            this.loader = ContainerManager.GetDefaultTypeResolver().Resolve<ServiceLoader>();
         }
 
         public override bool Start(HostControl hostControl)
         {
-            return loaders.All(i => i.Load());
+            return loader.Load();
         }
 
         public override bool Stop(HostControl hostControl)
         {
-            return loaders.All(i => i.Unload());
+            return loader.Unload();
         }
 
     }
