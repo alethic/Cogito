@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cogito.Composition", "Cogito.Composition\Cogito.Composition.csproj", "{7BC455C8-108C-4B5A-BF25-F20EEE0A8140}"
 EndProject
@@ -10,8 +10,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cogito.Application", "Cogito.Application\Cogito.Application.csproj", "{D3391C9B-9587-4CED-9A66-EB88B189E169}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cogito.Web", "Cogito.Web\Cogito.Web.csproj", "{8C490862-8A00-4F54-9BAF-3FB1C6C1D66D}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cogito.Build", "Cogito.Build\Cogito.Build.csproj", "{943E311A-79AE-47EA-B5B3-EE0AFD4C4E3B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cogito.PowerShell", "Cogito.PowerShell\Cogito.PowerShell.csproj", "{9CEFDE98-4BC9-4C20-B671-7C1BB6D015BA}"
 EndProject
@@ -90,10 +88,6 @@ Global
 		{8C490862-8A00-4F54-9BAF-3FB1C6C1D66D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8C490862-8A00-4F54-9BAF-3FB1C6C1D66D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8C490862-8A00-4F54-9BAF-3FB1C6C1D66D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{943E311A-79AE-47EA-B5B3-EE0AFD4C4E3B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{943E311A-79AE-47EA-B5B3-EE0AFD4C4E3B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{943E311A-79AE-47EA-B5B3-EE0AFD4C4E3B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{943E311A-79AE-47EA-B5B3-EE0AFD4C4E3B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{9CEFDE98-4BC9-4C20-B671-7C1BB6D015BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{9CEFDE98-4BC9-4C20-B671-7C1BB6D015BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9CEFDE98-4BC9-4C20-B671-7C1BB6D015BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
