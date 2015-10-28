@@ -22,7 +22,7 @@ namespace Cogito.Components.Server
         /// </summary>
         public AppDomainLoaderPeer()
         {
-            this.manager = new Lazy<dynamic>(() => GetComponentManager());
+            this.manager = new Lazy<dynamic>(GetComponentManager);
         }
 
         /// <summary>
@@ -32,8 +32,6 @@ namespace Cogito.Components.Server
         /// <returns></returns>
         dynamic GetComponentManager()
         {
-            Contract.Ensures(Contract.Result<object>() != null);
-
             var assembly = TryLoadAssembly("Cogito.Composition");
             if (assembly == null)
             {
