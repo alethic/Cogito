@@ -7,7 +7,10 @@ using Topshelf.HostConfigurators;
 namespace Cogito.Components.Server
 {
 
-    public static class Program
+    /// <summary>
+    /// Entry point for the Cogito Server application. This class can be extended if desired.
+    /// </summary>
+    public class Program
     {
 
         /// <summary>
@@ -17,6 +20,20 @@ namespace Cogito.Components.Server
         /// <returns></returns>
         public static int Main(string[] args)
         {
+            Contract.Requires<ArgumentNullException>(args != null);
+
+            return new Program().Run(args);
+        }
+
+        /// <summary>
+        /// Runs the program.
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        public virtual int Run(string[] args)
+        {
+            Contract.Requires<ArgumentNullException>(args != null);
+
             return (int)BuildHost(args).Run();
         }
 
@@ -25,8 +42,10 @@ namespace Cogito.Components.Server
         /// </summary>
         /// <param name="args"></param>
         /// <returns></returns>
-        public static Host BuildHost(string[] args)
+        Host BuildHost(string[] args)
         {
+            Contract.Requires<ArgumentNullException>(args != null);
+
             return HostFactory.New(x => ConfigureHostFactory(args, x));
         }
 
@@ -35,17 +54,26 @@ namespace Cogito.Components.Server
         /// </summary>
         /// <param name="args"></param>
         /// <param name="x"></param>
-        public static void ConfigureHostFactory(string[] args, HostConfigurator x)
+        protected virtual void ConfigureHostFactory(string[] args, HostConfigurator x)
         {
             Contract.Requires<ArgumentNullException>(args != null);
             Contract.Requires<ArgumentNullException>(x != null);
 
-            x.Service<ServiceHost>(() => new ServiceHost());
+            x.Service<ServiceHost>(() => CreateServiceHost());
             x.SetServiceName("Cogito.Components.Server");
             x.StartAutomatically();
             x.EnableServiceRecovery(c => c.RestartService(5).SetResetPeriod(0));
             x.EnableShutdown();
             x.RunAsNetworkService();
+        }
+
+        /// <summary>
+        /// Creates the <see cref="ServiceHost"/> instance.
+        /// </summary>
+        /// <returns></returns>
+        protected virtual ServiceHost CreateServiceHost()
+        {
+            return new ServiceHost();
         }
 
     }
