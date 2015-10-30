@@ -53,6 +53,8 @@ namespace Cogito.Components
         {
             lock (sync)
             {
+                OnStarting();
+
                 // dispose of existing timer
                 if (timer != null)
                 {
@@ -93,6 +95,8 @@ namespace Cogito.Components
                     timer.Dispose();
                     timer = null;
                 }
+
+                OnStopped();
             }
         }
 
@@ -145,10 +149,26 @@ namespace Cogito.Components
         }
 
         /// <summary>
+        /// Invoked when the timer is starting.
+        /// </summary>
+        protected virtual void OnStarting()
+        {
+
+        }
+
+        /// <summary>
         /// Invoked when the timer elapses.
         /// </summary>
         /// <param name="cancellationToken"></param>
         protected virtual void OnTimer(CancellationToken cancellationToken)
+        {
+
+        }
+
+        /// <summary>
+        /// Invoked when the timer is stopped.
+        /// </summary>
+        protected virtual void OnStopped()
         {
 
         }
@@ -167,7 +187,7 @@ namespace Cogito.Components
         }
 
         /// <summary>
-        /// Invoked from with the timer method to cause the timer to repeat on the repeat interval.
+        /// Invoke from with the timer method to cause the timer to repeat on the repeat interval.
         /// </summary>
         protected void Repeat()
         {
@@ -175,7 +195,7 @@ namespace Cogito.Components
         }
 
         /// <summary>
-        /// Invoked from with the timer method to cause the timer to repeat on the retry interval.
+        /// Invoke from with the timer method to cause the timer to repeat on the retry interval.
         /// </summary>
         protected void Retry()
         {

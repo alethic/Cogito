@@ -41,7 +41,8 @@
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TestTimer.cs" />
+    <Compile Include="TestTimer2.cs" />
+    <Compile Include="TestTimer1.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Components.config">

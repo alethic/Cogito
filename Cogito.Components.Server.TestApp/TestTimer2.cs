@@ -6,14 +6,14 @@ namespace Cogito.Components.Server.TestApp
 {
 
     [Export(typeof(IComponent))]
-    public class TestTimer :
+    public class TestTimer2 :
         Cogito.Components.Timer
     {
 
         /// <summary>
         /// Initializes a new instance.
         /// </summary>
-        public TestTimer()
+        public TestTimer2()
             : base(interval: TimeSpan.FromSeconds(10))
         {
 
@@ -21,7 +21,7 @@ namespace Cogito.Components.Server.TestApp
 
         protected override void OnTimer(CancellationToken cancellationToken)
         {
-            Console.WriteLine("TestTimer invoked");
+            Console.WriteLine("TestTimer2 invoked");
         }
 
     }
