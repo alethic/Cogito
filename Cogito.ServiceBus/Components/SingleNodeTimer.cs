@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.Threading;
-using System.Timers;
 
 using Cogito.Components;
 
@@ -18,21 +16,7 @@ namespace Cogito.ServiceBus.Components
         where TComponent : IComponent
     {
 
-        static readonly TimeSpan DEFAULT_INTERVAL = Cogito.Components.Timer.DEFAULT_INTERVAL;
-        static readonly TimeSpan DEFAULT_INITIAL_INTERVAL = Cogito.Components.Timer.DEFAULT_INITIAL_INTERVAL;
-        static readonly TimeSpan DEFAULT_RETRY_INTERVAL = Cogito.Components.Timer.DEFAULT_RETRY_INTERVAL;
-        static readonly TimeSpan DEFAULT_REPEAT_INTERVAL = Cogito.Components.Timer.DEFAULT_REPEAT_INTERVAL;
-
-        readonly object sync = new object();
-        TimeSpan initialInterval;
-        TimeSpan interval;
-        TimeSpan retryInterval;
-        TimeSpan repeatInterval;
-        System.Timers.Timer timer;
-        CancellationTokenSource cts;
-        bool repeat;
-        bool retry;
-        bool disposed;
+        Cogito.Threading.Timer timer;
 
         /// <summary>
         /// Initializes a new instance.
@@ -52,125 +36,63 @@ namespace Cogito.ServiceBus.Components
         {
             Contract.Requires<ArgumentNullException>(manager != null);
 
-            this.interval = interval ?? DEFAULT_INTERVAL;
-            this.initialInterval = initialInterval ?? DEFAULT_INITIAL_INTERVAL;
-            this.retryInterval = retryInterval ?? DEFAULT_RETRY_INTERVAL;
-            this.repeatInterval = repeatInterval ?? DEFAULT_REPEAT_INTERVAL;
+            // initialize a new internal timer
+            timer = new Threading.Timer(
+                interval,
+                initialInterval,
+                retryInterval,
+                repeatInterval);
+
+            // subscribe to events of timer
+            timer.Starting += (s, a) => OnStarting();
+            timer.Stopped += (s, a) => OnStopped();
+            timer.Elapsed += (s, a) => OnElapsed(a.CancellationToken);
+            timer.Exception += (s, a) => OnException(a.Exception);
         }
 
         protected override void OnStart()
         {
-            lock (sync)
-            {
-                // dispose of existing timer
-                if (timer != null)
-                {
-                    timer.Stop();
-                    timer.Dispose();
-                    timer = null;
-                }
-
-                cts = new CancellationTokenSource();
-                timer = new System.Timers.Timer();
-                timer.Interval = initialInterval.TotalMilliseconds;
-                timer.AutoReset = false;
-                timer.Elapsed += timer_Elapsed;
-                timer.Start();
-            }
+            timer.Start();
         }
 
         protected override void OnStop()
         {
-            // signal any outstanding timer invocations to cancel
-            if (cts != null)
-            {
-                cts.Cancel();
-                cts = null;
-            }
-
-            lock (sync)
-            {
-                if (cts != null)
-                {
-                    cts.Cancel();
-                    cts = null;
-                }
-
-                if (timer != null)
-                {
-                    timer.Stop();
-                    timer.Dispose();
-                    timer = null;
-                }
-            }
-        }
-
-        void timer_Elapsed(object sender, ElapsedEventArgs args)
-        {
-            lock (sync)
-            {
-                // by default do not do fast repeat
-                repeat = false;
-                retry = false;
-
-                try
-                {
-                    Trace.TraceInformation("{0}: OnTimer (entered)", GetType().FullName);
-                    OnTimer(cts.Token);
-                    Trace.TraceInformation("{0}: OnTimer (exit)", GetType().FullName);
-                }
-                catch (OperationCanceledException)
-                {
-                    // ignore
-                }
-                catch (Exception e)
-                {
-                    OnException(e);
-                }
-                finally
-                {
-                    // resume timer
-                    if (timer != null)
-                    {
-                        timer.Interval = GetNextInterval().TotalMilliseconds;
-                        timer.Start();
-                    }
-                }
-            }
+            timer.Stop();
         }
 
         /// <summary>
-        /// Gets the appropriate <see cref="TimeSpan"/> for the next interval based on the current state.
+        /// Invoked when the timer is starting.
         /// </summary>
-        /// <returns></returns>
-        TimeSpan GetNextInterval()
+        protected virtual void OnStarting()
         {
-            if (repeat)
-                return repeatInterval;
-            else if (retry)
-                return retryInterval;
-            else
-                return interval;
+
         }
 
         /// <summary>
         /// Invoked when the timer elapses.
         /// </summary>
         /// <param name="cancellationToken"></param>
-        protected virtual void OnTimer(CancellationToken cancellationToken)
+        protected virtual void OnElapsed(CancellationToken cancellationToken)
         {
 
         }
 
         /// <summary>
-        /// Invoked when an <see cref="Exception"/> is thrown by the timer.
+        /// Invoked when the timer is stopped.
+        /// </summary>
+        protected virtual void OnStopped()
+        {
+
+        }
+
+        /// <summary>
+        /// Invoked when an <see cref="Exception"/> is thrown by the timer. By default this method schedules a retry
+        /// at the retry interval.
         /// </summary>
         /// <param name="exception"></param>
         protected virtual void OnException(Exception exception)
         {
             Contract.Requires<ArgumentNullException>(exception != null);
-
-            exception.Trace();
 
             Retry();
         }
@@ -180,7 +102,7 @@ namespace Cogito.ServiceBus.Components
         /// </summary>
         protected void Repeat()
         {
-            repeat = true;
+            timer.Repeat();
         }
 
         /// <summary>
@@ -188,7 +110,7 @@ namespace Cogito.ServiceBus.Components
         /// </summary>
         protected void Retry()
         {
-            retry = true;
+            timer.Retry();
         }
 
         /// <summary>
@@ -197,30 +119,13 @@ namespace Cogito.ServiceBus.Components
         /// <param name="disposing"></param>
         protected override void Dispose(bool disposing)
         {
-            lock (sync)
+            if (disposing)
             {
-                if (disposed)
-                    return;
-
-                if (disposing)
+                if (timer != null)
                 {
-                    if (cts != null)
-                    {
-                        cts.Cancel();
-                        cts = null;
-                    }
-
-                    if (timer != null)
-                    {
-                        timer.Stop();
-                        timer.Dispose();
-                        timer = null;
-                    }
+                    timer.Stop();
+                    timer = null;
                 }
-
-                base.Dispose(disposing);
-
-                disposed = true;
             }
         }
 

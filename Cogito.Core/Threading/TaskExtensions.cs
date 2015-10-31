@@ -1,15 +1,19 @@
 ﻿using System;
+using System.Diagnostics.Contracts;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace Cogito.Threading
 {
 
+    /// <summary>
+    /// Provides some extension methods for <see cref="Task"/> objects.
+    /// </summary>
     public static class TaskExtensions
     {
 
         /// <summary>
-        /// Implements the Being method of the Asynchronous Programming Model pattern for a Task. 
+        /// Implements the Begin method of the Asynchronous Programming Model pattern for a <see cref="Task"/>. 
         /// </summary>
         /// <typeparam name="TResult"></typeparam>
         /// <param name="task"></param>
@@ -18,6 +22,8 @@ namespace Cogito.Threading
         /// <returns></returns>
         public static Task<TResult> BeginToAsync<TResult>(this Task<TResult> task, AsyncCallback callback, object state)
         {
+            Contract.Requires<ArgumentNullException>(task != null);
+
             if (task.AsyncState == state)
             {
                 if (callback != null)
@@ -46,12 +52,14 @@ namespace Cogito.Threading
         }
 
         /// <summary>
-        /// Implements the End method of the Asynchronous Programming Model pattern for a Task. 
+        /// Implements the End method of the Asynchronous Programming Model pattern for a <see cref="Task"/>. 
         /// </summary>
-        /// <param name="asyncResult"></param>
+        /// <param name="task"></param>
         /// <returns></returns>
         public static TResult EndToAsync<TResult>(this Task<TResult> task)
         {
+            Contract.Requires<ArgumentNullException>(task != null);
+
             try
             {
                 return task.Result;

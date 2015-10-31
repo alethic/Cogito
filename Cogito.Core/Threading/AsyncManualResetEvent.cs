@@ -15,7 +15,7 @@ namespace Cogito.Threading
         /// <returns></returns>
         public Task WaitAsync()
         {
-            return  m_tcs.Task;
+            return m_tcs.Task;
         }
 
         /// <summary>

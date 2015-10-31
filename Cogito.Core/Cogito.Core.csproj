@@ -194,6 +194,13 @@
     <Compile Include="Threading\AsyncManualResetEvent.cs" />
     <Compile Include="Threading\CompletedAsyncResult.cs" />
     <Compile Include="Threading\TaskExtensions.cs" />
+    <Compile Include="Threading\Timer.cs" />
+    <Compile Include="Threading\TimerExceptionEventHandler.cs" />
+    <Compile Include="Threading\TimerExceptionEventArgs.cs" />
+    <Compile Include="Threading\TimerElapsedEventArgs.cs" />
+    <Compile Include="Threading\TimerEventArgs.cs" />
+    <Compile Include="Threading\TimerElapsedEventHandler.cs" />
+    <Compile Include="Threading\TimerEventHandler.cs" />
     <Compile Include="TryFunc.cs" />
     <Compile Include="UriBuilderExtensions.cs" />
     <Compile Include="UriExtensions.cs" />

@@ -19,7 +19,7 @@ namespace Cogito.Components.Server.TestApp
 
         }
 
-        protected override void OnTimer(CancellationToken cancellationToken)
+        protected override void OnElapsed(CancellationToken cancellationToken)
         {
             Console.WriteLine("TestTimer2 invoked");
         }

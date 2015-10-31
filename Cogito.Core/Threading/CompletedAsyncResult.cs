@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading;
 
-namespace ISIS.WorkForm.Core
+namespace Cogito.Threading
 {
 
     /// <summary>
