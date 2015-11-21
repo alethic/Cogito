@@ -163,6 +163,7 @@
     <Compile Include="IO\StreamExtensions.cs" />
     <Compile Include="Linq\Expressions\RedundantConvertExpressionTransformer.cs" />
     <Compile Include="MediaRange.cs" />
+    <Compile Include="MediaRangeJsonConverter.cs" />
     <Compile Include="MediaRangeParameters.cs" />
     <Compile Include="Reflection\MethodInfoExtensions.cs" />
     <Compile Include="Runtime\Caching\ObjectCacheExtensions.cs" />

@@ -5,6 +5,8 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Security.Permissions;
 
+using Newtonsoft.Json;
+
 namespace Cogito
 {
 
@@ -12,6 +14,7 @@ namespace Cogito
     /// Represents a mime type media range, possibly including wildcards.
     /// </summary>
     [Serializable]
+    [JsonConverter(typeof(MediaRangeJsonConverter))]
     public class MediaRange :
         ISerializable
     {
