@@ -160,6 +160,7 @@
     <Compile Include="IServiceObservable.cs" />
     <Compile Include="MessageException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ServiceBusExtensions.cs" />
     <Compile Include="ServiceBusProvider.cs" />
     <Compile Include="ServiceObservable.cs" />
   </ItemGroup>
