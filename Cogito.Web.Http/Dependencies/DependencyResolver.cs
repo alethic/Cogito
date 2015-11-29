@@ -7,13 +7,14 @@ using System.Web.Http.Dependencies;
 using Cogito.Composition;
 using Cogito.Composition.Hosting;
 using Cogito.Composition.Scoping;
-using Cogito.Core;
 
 namespace Cogito.Web.Http.Dependencies
 {
 
     [Export(typeof(IDependencyResolver))]
     [Export(typeof(IDependencyScope))]
+    [PartMetadata(CompositionConstants.ScopeMetadataKey, typeof(IEveryScope))]
+    [ExportMetadata(CompositionConstants.VisibilityMetadataKey, Visibility.Local)]
     public class DependencyResolver :
         IDependencyResolver
     {
@@ -27,17 +28,21 @@ namespace Cogito.Web.Http.Dependencies
         /// </summary>
         /// <param name="resolver"></param>
         [ImportingConstructor]
-        public DependencyResolver(ITypeResolver resolver)
+        public DependencyResolver(
+            ITypeResolver resolver,
+            IScopeService service)
         {
             Contract.Requires<ArgumentNullException>(resolver != null);
+            Contract.Requires<ArgumentNullException>(service != null);
 
             this.resolver = resolver;
-            this._ref = resolver.Resolve<Func<Ref<CompositionContainer>>>()();
+            this.service = service;
+            this._ref = resolver.Resolve<IContainerProvider>().GetContainerRef();
         }
 
         public IDependencyScope BeginScope()
         {
-            return new DependencyResolver(service.Resolve<IWebRequestScope>());
+            return service.Resolve<IWebRequestScope>().Resolve<IDependencyResolver>();
         }
 
         public object GetService(Type serviceType)

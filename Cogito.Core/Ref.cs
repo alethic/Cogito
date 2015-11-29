@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.Contracts;
 
 namespace Cogito
 {
@@ -12,7 +13,7 @@ namespace Cogito
         where T : class
     {
 
-        readonly RefManager<T> manager;
+        RefManager<T> manager;
 
         /// <summary>
         /// Initializes a new instance.
@@ -20,6 +21,8 @@ namespace Cogito
         /// <param name="manager"></param>
         internal Ref(RefManager<T> manager)
         {
+            Contract.Requires<ArgumentNullException>(manager != null);
+
             this.manager = manager;
             this.manager.Increment();
         }
@@ -34,7 +37,11 @@ namespace Cogito
 
         public void Dispose()
         {
-            manager.Decrement();
+            var m = manager;
+            manager = null;
+
+            if (m != null)
+                m.Decrement();
         }
 
     }
