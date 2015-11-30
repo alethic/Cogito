@@ -189,6 +189,10 @@ namespace Cogito
             return false;
         }
 
+        /// <summary>
+        /// Returns a string representation of this object.
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
             if (parameters.Any())
@@ -197,11 +201,20 @@ namespace Cogito
                 return string.Format("{0}/{1}", type, subtype);
         }
 
+        /// <summary>
+        /// Returns <c>true</c> if this <see cref="MediaRange"/> matches the passed object.
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
         public override bool Equals(object obj)
         {
             return obj is MediaRange ? MatchesWithParameters((MediaRange)obj) : false;
         }
 
+        /// <summary>
+        /// Returns a hashcode representation of this <see cref="MediaRange"/>.
+        /// </summary>
+        /// <returns></returns>
         public override int GetHashCode()
         {
             return type.GetHashCode() ^ subtype.GetHashCode() ^ parameters.GetHashCode();
