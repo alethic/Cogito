@@ -165,6 +165,7 @@
     <Compile Include="MediaRange.cs" />
     <Compile Include="MediaRangeJsonConverter.cs" />
     <Compile Include="MediaRangeParameters.cs" />
+    <Compile Include="RandomExtensions.cs" />
     <Compile Include="Reflection\MethodInfoExtensions.cs" />
     <Compile Include="Runtime\Caching\ObjectCacheExtensions.cs" />
     <Compile Include="Ref.cs" />
