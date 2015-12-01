@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.Contracts;
 
 namespace Cogito
 {
@@ -48,6 +49,8 @@ namespace Cogito
 
         static long PositiveModuloOrZero(long dividend, long divisor)
         {
+            Contract.Requires(divisor != 0L);
+
             long mod;
             Math.DivRem(dividend, divisor, out mod);
             if (mod < 0)
