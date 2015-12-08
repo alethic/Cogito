@@ -165,13 +165,29 @@ namespace Cogito.Threading
         }
 
         /// <summary>
+        /// Executes <paramref name="action"/> for each item in the collection, sequentially.
+        /// </summary>
+        /// <typeparam name="TSource"></typeparam>
+        /// <param name="source"></param>
+        /// <param name="action"></param>
+        /// <returns></returns>
+        public static async Task ForEachAsync<TSource>(this IEnumerable<TSource> source, Func<TSource, Task> action)
+        {
+            Contract.Requires<ArgumentNullException>(source != null);
+            Contract.Requires<ArgumentNullException>(action != null);
+
+            foreach (var i in source)
+                await action(i);
+        }
+
+        /// <summary>
         /// Executes <paramref name="action"/> for each item in the collection.
         /// </summary>
         /// <typeparam name="TSource"></typeparam>
         /// <param name="source"></param>
         /// <param name="action"></param>
         /// <returns></returns>
-        public static Task ForEachAsync<TSource>(this IEnumerable<TSource> source, Func<TSource, Task> action)
+        public static Task ForEachParallelAsync<TSource>(this IEnumerable<TSource> source, Func<TSource, Task> action)
         {
             Contract.Requires<ArgumentNullException>(source != null);
             Contract.Requires<ArgumentNullException>(action != null);
