@@ -10,24 +10,39 @@ namespace Cogito
         /// <summary>
         /// Appends the given name and value as query arguments to the <see cref="UriBuilder"/>.
         /// </summary>
-        /// <param name="b"></param>
+        /// <param name="self"></param>
         /// <param name="name"></param>
         /// <param name="value"></param>
         /// <returns></returns>
-        public static UriBuilder AppendQuery(this UriBuilder b, string name, string value)
+        public static UriBuilder AppendQuery(this UriBuilder self, string name, string value)
         {
-            Contract.Requires<ArgumentNullException>(b != null);
+            Contract.Requires<ArgumentNullException>(self != null);
             Contract.Requires<ArgumentNullException>(name != null);
 
             var p = Uri.EscapeDataString(name) + "=" + Uri.EscapeDataString(value ?? "");
 
-            if (b.Query != null &&
-                b.Query.Length > 1)
-                b.Query = b.Query.Substring(1) + "&" + p;
+            if (self.Query != null &&
+                self.Query.Length > 1)
+                self.Query = self.Query.Substring(1) + "&" + p;
             else
-                b.Query = p;
+                self.Query = p;
 
-            return b;
+            return self;
+        }
+
+        /// <summary>
+        /// Appends the given name and value query arguments to the <see cref="UriBuilder"/>.
+        /// </summary>
+        /// <param name="self"></param>
+        /// <param name="name"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static UriBuilder AppendQuery(this UriBuilder self, string name, object value)
+        {
+            Contract.Requires<ArgumentNullException>(self != null);
+            Contract.Requires<ArgumentNullException>(name != null);
+
+            return AppendQuery(self, name, value.ToString());
         }
 
     }

@@ -123,6 +123,7 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Reflection.Context" />
     <Reference Include="System.Runtime.Caching" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.XML" />
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
@@ -156,6 +157,8 @@
     <Compile Include="Diagnostics\DelegateTraceListener.cs" />
     <Compile Include="Diagnostics\RollingFileTraceListener.cs" />
     <Compile Include="DisposableExtensions.cs" />
+    <Compile Include="Dynamic\DynamicDataContract.cs" />
+    <Compile Include="Dynamic\DynamicDataContractMetaObject.cs" />
     <Compile Include="ExceptionExtensions.cs" />
     <Compile Include="IDisposable.cs" />
     <Compile Include="IO\BlockingStream.cs" />
