@@ -28,10 +28,11 @@ namespace Cogito.Dynamic
         {
             Contract.Requires<ArgumentNullException>(expression != null);
             Contract.Requires<ArgumentNullException>(restrictions != null);
+            Contract.Requires<ArgumentException>(value is DynamicDataContract);
 
             this.type = value.GetType();
-            this.getValueMethod = type.GetMethod("GetValue", BindingFlags.NonPublic | BindingFlags.Instance);
-            this.setValueMethod = type.GetMethod("SetValue", BindingFlags.NonPublic | BindingFlags.Instance);
+            this.getValueMethod = type.GetMethod(nameof(DynamicDataContract.GetValue), BindingFlags.NonPublic | BindingFlags.Instance);
+            this.setValueMethod = type.GetMethod(nameof(DynamicDataContract.SetValue), BindingFlags.NonPublic | BindingFlags.Instance);
             this.restrictions = BindingRestrictions.GetTypeRestriction(Expression, type);
         }
 
