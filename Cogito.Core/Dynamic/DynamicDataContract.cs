@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Dynamic;
 using System.Linq.Expressions;
 using System.Runtime.Serialization;
@@ -28,7 +30,7 @@ namespace Cogito.Dynamic
         public dynamic this[string name]
         {
             get { return dictionary.GetOrDefault(name); }
-            set { dictionary[name] = value; }
+            set { Contract.Requires<ArgumentNullException>(name != null); dictionary[name] = value; }
         }
 
         /// <summary>
