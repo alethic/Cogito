@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.23107.0
+VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cogito.Composition", "Cogito.Composition\Cogito.Composition.csproj", "{7BC455C8-108C-4B5A-BF25-F20EEE0A8140}"
 EndProject
@@ -12,11 +12,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cogito.Web", "Cogito.Web\Cogito.Web.csproj", "{8C490862-8A00-4F54-9BAF-3FB1C6C1D66D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cogito.PowerShell", "Cogito.PowerShell\Cogito.PowerShell.csproj", "{9CEFDE98-4BC9-4C20-B671-7C1BB6D015BA}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{CBF00857-08B7-46B9-AF36-D90F8506DD70}"
-	ProjectSection(SolutionItems) = preProject
-		.nuget\NuGet.config = .nuget\NuGet.config
-	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cogito.IO", "Cogito.IO\Cogito.IO.csproj", "{460F0507-8101-4D96-AE8E-42B57D703106}"
 EndProject

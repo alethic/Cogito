@@ -102,8 +102,7 @@
     <CodeContractsAnalysisWarningLevel>0</CodeContractsAnalysisWarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Irony, Version=1.0.0.0, Culture=neutral, PublicKeyToken=ca48ace7223ead47, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="Irony">
       <HintPath>..\packages\Irony.0.9.0\lib\net45\Irony.dll</HintPath>
       <Private>True</Private>
     </Reference>
