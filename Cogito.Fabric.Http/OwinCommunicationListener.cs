@@ -22,7 +22,7 @@ namespace Cogito.Fabric.Http
 
         readonly string endpointName;
         readonly string appRoot;
-        readonly Action<IAppBuilder> startup;
+        readonly Action<IAppBuilder> configure;
         readonly ServiceInitializationParameters serviceInitializationParameters;
         string listeningAddress;
         string publishAddress;
@@ -31,14 +31,14 @@ namespace Cogito.Fabric.Http
         /// <summary>
         /// Initializes a new instance.
         /// </summary>
-        /// <param name="startup"></param>
+        /// <param name="configure"></param>
         /// <param name="serviceInitializationParameters"></param>
         public OwinCommunicationListener(
-            Action<IAppBuilder> startup,
+            Action<IAppBuilder> configure,
             ServiceInitializationParameters serviceInitializationParameters)
-            : this(null, startup, serviceInitializationParameters)
+            : this(null, configure, serviceInitializationParameters)
         {
-            Contract.Requires<ArgumentNullException>(startup != null);
+            Contract.Requires<ArgumentNullException>(configure != null);
             Contract.Requires<ArgumentNullException>(serviceInitializationParameters != null);
         }
 
@@ -46,15 +46,15 @@ namespace Cogito.Fabric.Http
         /// Initializes a new instance.
         /// </summary>
         /// <param name="appRoot"></param>
-        /// <param name="startup"></param>
+        /// <param name="configure"></param>
         /// <param name="serviceInitializationParameters"></param>
         public OwinCommunicationListener(
             string appRoot,
-            Action<IAppBuilder> startup,
+            Action<IAppBuilder> configure,
             ServiceInitializationParameters serviceInitializationParameters)
-            : this("ServiceEndpoint", appRoot, startup, serviceInitializationParameters)
+            : this("HttpServiceEndpoint", appRoot, configure, serviceInitializationParameters)
         {
-            Contract.Requires<ArgumentNullException>(startup != null);
+            Contract.Requires<ArgumentNullException>(configure != null);
             Contract.Requires<ArgumentNullException>(serviceInitializationParameters != null);
         }
 
@@ -63,20 +63,20 @@ namespace Cogito.Fabric.Http
         /// </summary>
         /// <param name="endpointName"></param>
         /// <param name="appRoot"></param>
-        /// <param name="startup"></param>
+        /// <param name="configure"></param>
         /// <param name="serviceInitializationParameters"></param>
         public OwinCommunicationListener(
             string endpointName,
             string appRoot,
-            Action<IAppBuilder> startup,
+            Action<IAppBuilder> configure,
             ServiceInitializationParameters serviceInitializationParameters)
         {
             Contract.Requires<ArgumentNullException>(endpointName != null);
-            Contract.Requires<ArgumentNullException>(startup != null);
+            Contract.Requires<ArgumentNullException>(configure != null);
             Contract.Requires<ArgumentNullException>(serviceInitializationParameters != null);
 
             this.endpointName = endpointName;
-            this.startup = startup;
+            this.configure = configure;
             this.appRoot = appRoot;
             this.serviceInitializationParameters = serviceInitializationParameters;
         }
@@ -120,7 +120,7 @@ namespace Cogito.Fabric.Http
 
             try
             {
-                serverHandle = WebApp.Start(listeningAddress, startup);
+                serverHandle = WebApp.Start(listeningAddress, configure);
 
                 return Task.FromResult(publishAddress);
             }
