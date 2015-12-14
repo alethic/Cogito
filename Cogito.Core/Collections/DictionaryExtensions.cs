@@ -98,6 +98,32 @@ namespace Cogito.Collections
         }
 
         /// <summary>
+        /// Returns an empty <see cref="IDictionary{TKey, TValue}"/> if <paramref name="source"/> is null.
+        /// </summary>
+        /// <typeparam name="TDictionary"></typeparam>
+        /// <typeparam name="TKey"></typeparam>
+        /// <typeparam name="TValue"></typeparam>
+        /// <param name="source"></param>
+        /// <returns></returns>
+        public static IDictionary<TKey, TValue> EmptyIfNull<TKey, TValue>(this IDictionary<TKey, TValue> source)
+        {
+            return source ?? new Dictionary<TKey, TValue>();
+        }
+
+        /// <summary>
+        /// Returns an empty <see cref="IDictionary{TKey, TValue}"/> if <paramref name="source"/> is null.
+        /// </summary>
+        /// <typeparam name="TDictionary"></typeparam>
+        /// <typeparam name="TKey"></typeparam>
+        /// <typeparam name="TValue"></typeparam>
+        /// <param name="source"></param>
+        /// <returns></returns>
+        public static Dictionary<TKey, TValue> EmptyIfNull<TKey, TValue>(this Dictionary<TKey, TValue> source)
+        {
+            return source ?? new Dictionary<TKey, TValue>();
+        }
+
+        /// <summary>
         /// Transforms the given dictionary of strings to a <see cref="NameValueCollection"/>.
         /// </summary>
         /// <param name="source"></param>

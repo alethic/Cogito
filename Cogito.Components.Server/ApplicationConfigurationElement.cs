@@ -30,11 +30,21 @@ namespace Cogito.Components.Server
         /// <summary>
         /// Gets or sets whether changes to the application directory should initiate a reload.
         /// </summary>
-        [ConfigurationProperty("watch", IsRequired =  false, DefaultValue = true)]
+        [ConfigurationProperty("watch", IsRequired = false, DefaultValue = true)]
         public bool Watch
         {
             get { return (bool)this["watch"]; }
             set { this["watch"] = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets whether the application should be shadow copied.
+        /// </summary>
+        [ConfigurationProperty("shadowCopy", IsRequired = false, DefaultValue = true)]
+        public bool ShadowCopy
+        {
+            get { return (bool)this["shadowCopy"]; }
+            set { this["shadowCopy"] = value; }
         }
 
     }

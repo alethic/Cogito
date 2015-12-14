@@ -1,6 +1,6 @@
 ﻿using System;
 using System.ComponentModel.Composition;
-
+using System.Diagnostics.Contracts;
 using Cogito.Composition.Scoping;
 using Cogito.Core;
 
@@ -27,6 +27,8 @@ namespace Cogito.Composition.Hosting
         [ImportingConstructor]
         public ContainerProvider(Lazy<ContainerExport> export)
         {
+            Contract.Requires<ArgumentNullException>(export != null);
+
             this.export = export;
             this.manager = new RefManager<CompositionContainer>(() => export.Value.Item, () => export.Value.Item.Dispose());
         }

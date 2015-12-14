@@ -95,7 +95,7 @@ namespace Cogito.Components.Server
                 var cfg = new AppDomainSetup();
                 cfg.ApplicationBase = path;
                 cfg.ConfigurationFile = configPath;
-                cfg.ShadowCopyFiles = "true";
+                cfg.ShadowCopyFiles = info.ShadowCopy ? "true" : "false";
 
                 // create new AppDomain
                 domain = AppDomain.CreateDomain(info.Name, new Evidence(AppDomain.CurrentDomain.Evidence), cfg);

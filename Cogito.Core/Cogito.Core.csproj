@@ -15,7 +15,8 @@
     <RestorePackages>true</RestorePackages>
     <FodyPath>..\..\packages\Fody.1.17.4.0</FodyPath>
     <CodeContractsAssemblyMode>1</CodeContractsAssemblyMode>
-    <NuGetPackageImportStamp>284ed9af</NuGetPackageImportStamp>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -72,7 +73,7 @@
     <CodeContractsRuntimeThrowOnFailure>True</CodeContractsRuntimeThrowOnFailure>
     <CodeContractsRuntimeCallSiteRequires>False</CodeContractsRuntimeCallSiteRequires>
     <CodeContractsRuntimeSkipQuantifiers>False</CodeContractsRuntimeSkipQuantifiers>
-    <CodeContractsRunCodeAnalysis>True</CodeContractsRunCodeAnalysis>
+    <CodeContractsRunCodeAnalysis>False</CodeContractsRunCodeAnalysis>
     <CodeContractsNonNullObligations>True</CodeContractsNonNullObligations>
     <CodeContractsBoundsObligations>True</CodeContractsBoundsObligations>
     <CodeContractsArithmeticObligations>False</CodeContractsArithmeticObligations>
@@ -112,7 +113,8 @@
     <CodeContractsBeingOptimisticOnExternal>True</CodeContractsBeingOptimisticOnExternal>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json">
+    <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
@@ -123,6 +125,7 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Reflection.Context" />
     <Reference Include="System.Runtime.Caching" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.XML" />
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
@@ -142,6 +145,7 @@
     <Compile Include="Collections\LinkedListExtensions.cs" />
     <Compile Include="Collections\MergedDictionary.cs" />
     <Compile Include="Collections\NameValueCollectionExtensions.cs" />
+    <Compile Include="Components\ComponentAttribute.cs" />
     <Compile Include="Components\ComponentConfigurationSection.cs" />
     <Compile Include="Components\ComponentTypeConfigurationElementCollection.cs" />
     <Compile Include="Components\ComponentTypeConfigurationElement.cs" />
@@ -155,6 +159,8 @@
     <Compile Include="Diagnostics\DelegateTraceListener.cs" />
     <Compile Include="Diagnostics\RollingFileTraceListener.cs" />
     <Compile Include="DisposableExtensions.cs" />
+    <Compile Include="Dynamic\DynamicDataContract.cs" />
+    <Compile Include="Dynamic\DynamicDataContractMetaObject.cs" />
     <Compile Include="ExceptionExtensions.cs" />
     <Compile Include="IDisposable.cs" />
     <Compile Include="IO\BlockingStream.cs" />
@@ -162,7 +168,9 @@
     <Compile Include="IO\StreamExtensions.cs" />
     <Compile Include="Linq\Expressions\RedundantConvertExpressionTransformer.cs" />
     <Compile Include="MediaRange.cs" />
+    <Compile Include="MediaRangeJsonConverter.cs" />
     <Compile Include="MediaRangeParameters.cs" />
+    <Compile Include="RandomExtensions.cs" />
     <Compile Include="Reflection\MethodInfoExtensions.cs" />
     <Compile Include="Runtime\Caching\ObjectCacheExtensions.cs" />
     <Compile Include="Ref.cs" />
@@ -193,6 +201,7 @@
     <Compile Include="Threading\AsyncLock.cs" />
     <Compile Include="Threading\AsyncManualResetEvent.cs" />
     <Compile Include="Threading\CompletedAsyncResult.cs" />
+    <Compile Include="Threading\TaskEnumerableExtensions.cs" />
     <Compile Include="Threading\TaskExtensions.cs" />
     <Compile Include="Threading\Timer.cs" />
     <Compile Include="Threading\TimerExceptionEventHandler.cs" />
@@ -214,4 +223,13 @@
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets'))" />
+  </Target>
+  <Import Project="..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
 </Project>

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Cogito
 {
@@ -16,6 +17,18 @@ namespace Cogito
         {
             yield return self;
         }
+
+        /// <summary>
+        /// Returns the given object as a finished task.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="self"></param>
+        /// <returns></returns>
+        public static Task<T> AsTask<T>(this T self)
+        {
+            return Task.FromResult<T>(self);
+        }
+
 
     }
 

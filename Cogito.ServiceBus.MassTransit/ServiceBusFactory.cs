@@ -20,7 +20,7 @@ namespace Cogito.ServiceBus.MassTransit
 
         public IServiceBus CreateBus()
         {
-            var uri = base.BuildQueueUri(Guid.NewGuid().ToString("N"), true);
+            var uri = base.BuildQueueUri("ServiceBus." + Guid.NewGuid().ToString("N"), true);
 
             // each global bus obtains it's own unique ID
             return new ServiceBus(new Lazy<global::MassTransit.IServiceBus>(() => base.CreateBus(uri), true), uri);

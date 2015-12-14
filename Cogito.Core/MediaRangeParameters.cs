@@ -119,11 +119,20 @@ namespace Cogito
             get { Contract.Requires<ArgumentNullException>(!string.IsNullOrEmpty(name)); return (parameters.ContainsKey(name)) ? parameters[name] : null; }
         }
 
+        /// <summary>
+        /// Returns a string representation of this <see cref="MediaRangeParameters"/> set.
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
             return string.Join(";", parameters.Select(p => p.Key + "=" + p.Value));
         }
 
+        /// <summary>
+        /// Returns <c>true</c> if this parameter set matches the given object.
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
         public override bool Equals(object obj)
         {
             var other = obj as MediaRangeParameters;
@@ -133,6 +142,10 @@ namespace Cogito
             return Matches(other);
         }
 
+        /// <summary>
+        /// Returns a hascode representation of this object.
+        /// </summary>
+        /// <returns></returns>
         public override int GetHashCode()
         {
             return parameters.OrderBy(p => p.Key).Aggregate(0, (i, j) => i ^ j.Key.GetHashCode() ^ j.Value.GetHashCode());

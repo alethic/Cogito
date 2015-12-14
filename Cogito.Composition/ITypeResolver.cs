@@ -38,7 +38,7 @@ namespace Cogito.Composition
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        IEnumerable<Lazy<T,IDictionary<string,object>>> ResolveManyLazy<T>();
+        IEnumerable<Lazy<T, IDictionary<string, object>>> ResolveManyLazy<T>();
 
         /// <summary>
         /// Resolves an instance of the given <see cref="Type"/>.
@@ -71,7 +71,7 @@ namespace Cogito.Composition
     }
 
     [ContractClassFor(typeof(ITypeResolver))]
-    class ITypeResolver_Contract :
+    abstract class ITypeResolver_Contract :
         ITypeResolver
     {
 

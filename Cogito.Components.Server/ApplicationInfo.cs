@@ -14,6 +14,7 @@ namespace Cogito.Components.Server
         readonly string path;
         readonly string configurationFilePath;
         readonly bool watch;
+        readonly bool shadowCopy;
 
         /// <summary>
         /// Initializes a new instance.
@@ -22,7 +23,13 @@ namespace Cogito.Components.Server
         /// <param name="path"></param>
         /// <param name="configurationFilePath"></param>
         /// <param name="watch"></param>
-        public ApplicationInfo(string name, string path, string configurationFilePath, bool watch)
+        /// <param name="shadowCopy"></param>
+        public ApplicationInfo(
+            string name,
+            string path,
+            string configurationFilePath,
+            bool watch,
+            bool shadowCopy)
         {
             Contract.Requires<ArgumentNullException>(name != null);
             Contract.Requires<ArgumentOutOfRangeException>(!string.IsNullOrWhiteSpace(name));
@@ -33,6 +40,7 @@ namespace Cogito.Components.Server
             this.path = path;
             this.configurationFilePath = configurationFilePath ?? System.IO.Path.Combine(path, "Components.config");
             this.watch = watch;
+            this.shadowCopy = shadowCopy;
         }
 
         /// <summary>
@@ -51,6 +59,9 @@ namespace Cogito.Components.Server
             get { return path; }
         }
 
+        /// <summary>
+        /// Gets the path of the configuration file.
+        /// </summary>
         public string ConfigurationFilePath
         {
             get { return configurationFilePath; }
@@ -62,6 +73,14 @@ namespace Cogito.Components.Server
         public bool Watch
         {
             get { return watch; }
+        }
+
+        /// <summary>
+        /// Gets whether or not the application should be shadow copied.
+        /// </summary>
+        public bool ShadowCopy
+        {
+            get { return shadowCopy; }
         }
 
     }
