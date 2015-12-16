@@ -241,8 +241,8 @@ namespace Cogito.Fabric.Activities
             await func(await CreateAndLoadWorkflow(tcs));
             await tcs.Task;
 
-            // ensure reminders are set and state is saved.
-            await SetRemindersAsync();
+            // ensure reminders are set and state is saved
+            await SaveRemindersAsync();
             await SaveStateAsync();
             await OnStatusChanged(status, ActivityState.Status);
         }
@@ -251,7 +251,7 @@ namespace Cogito.Fabric.Activities
         /// Ensures a reminder is scheduled to signal a wake up based on the workflow's timers.
         /// </summary>
         /// <returns></returns>
-        async Task SetRemindersAsync()
+        async Task SaveRemindersAsync()
         {
             // no instance yet set
             if (ActivityState.InstanceId == null)
