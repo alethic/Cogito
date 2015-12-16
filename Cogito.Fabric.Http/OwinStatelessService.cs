@@ -44,12 +44,21 @@ namespace Cogito.Fabric.Http
         /// <returns></returns>
         protected override IEnumerable<ServiceInstanceListener> CreateServiceInstanceListeners()
         {
-            yield return new ServiceInstanceListener(p => 
+            yield return new ServiceInstanceListener(p =>
                 new OwinCommunicationListener(
-                    endpointName, 
-                    appRoot, 
-                    _ => _.Run(Run), 
-                    ServiceInitializationParameters));
+                    endpointName,
+                    appRoot,
+                    Configure,
+                    p));
+        }
+
+        /// <summary>
+        /// Configures the <see cref="IAppBuilder"/>.
+        /// </summary>
+        /// <param name="appBuilder"></param>
+        protected virtual void Configure(IAppBuilder appBuilder)
+        {
+            appBuilder.Run(Run);
         }
 
         /// <summary>
@@ -57,7 +66,10 @@ namespace Cogito.Fabric.Http
         /// </summary>
         /// <param name="context"></param>
         /// <returns></returns>
-        protected abstract Task Run(IOwinContext context);
+        protected virtual Task Run(IOwinContext context)
+        {
+            return Task.FromResult(true);
+        }
 
     }
 

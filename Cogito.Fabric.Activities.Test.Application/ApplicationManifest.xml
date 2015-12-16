@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ApplicationManifest xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ApplicationTypeName="Cogito.Fabric.Activities.Test.ApplicationType" ApplicationTypeVersion="1.0.0" xmlns="http://schemas.microsoft.com/2011/01/fabric">
+   <Parameters>
+      <Parameter Name="TestActorService_PartitionCount" DefaultValue="10" />
+      <Parameter Name="TestActorService_MinReplicaSetSize" DefaultValue="2" />
+      <Parameter Name="TestActorService_TargetReplicaSetSize" DefaultValue="3" />
+      <Parameter Name="TestWebService_InstanceCount" DefaultValue="-1" />
+   </Parameters>
+   <ServiceManifestImport>
+      <ServiceManifestRef ServiceManifestName="Cogito.Fabric.Activities.Test.TestActorPkg" ServiceManifestVersion="1.0.0" />
+   </ServiceManifestImport>
+   <ServiceManifestImport>
+      <ServiceManifestRef ServiceManifestName="Cogito.Fabric.Activities.Test.TestWebServicePkg" ServiceManifestVersion="1.0.0" />
+      <ConfigOverrides />
+   </ServiceManifestImport>
+   <DefaultServices>
+      <Service Name="TestActorService" GeneratedIdRef="bcda30a2-ade7-4b27-a899-9ff4bba4777a">
+         <StatefulService ServiceTypeName="TestActorServiceType" TargetReplicaSetSize="[TestActorService_TargetReplicaSetSize]" MinReplicaSetSize="[TestActorService_MinReplicaSetSize]">
+            <UniformInt64Partition PartitionCount="[TestActorService_PartitionCount]" LowKey="-9223372036854775808" HighKey="9223372036854775807" />
+         </StatefulService>
+      </Service>
+      <Service Name="TestWebService">
+         <StatelessService ServiceTypeName="TestWebServiceType" InstanceCount="[TestWebService_InstanceCount]">
+            <SingletonPartition />
+         </StatelessService>
+      </Service>
+   </DefaultServices>
+</ApplicationManifest>

@@ -12,7 +12,19 @@ namespace Cogito.Threading
         IAsyncResult
     {
 
+        /// <summary>
+        /// Implements an end operation.
+        /// </summary>
+        /// <param name="result"></param>
+        /// <returns></returns>
+        public static T End(IAsyncResult result)
+        {
+            return ((CompletedAsyncResult<T>)result).result;
+        }
+
+        readonly WaitHandle wh = new ManualResetEvent(true);
         readonly T result;
+        readonly AsyncCallback callback;
         readonly object state;
 
         /// <summary>
@@ -24,6 +36,7 @@ namespace Cogito.Threading
         public CompletedAsyncResult(T result, AsyncCallback callback, object state)
         {
             this.result = result;
+            this.callback = callback;
             this.state = state;
         }
 
@@ -39,7 +52,7 @@ namespace Cogito.Threading
 
         public WaitHandle AsyncWaitHandle
         {
-            get { throw new Exception("The method or operation is not implemented."); }
+            get { return wh; }
         }
 
         public bool CompletedSynchronously
@@ -50,6 +63,11 @@ namespace Cogito.Threading
         public bool IsCompleted
         {
             get { return true; }
+        }
+
+        public AsyncCallback AsyncCallback
+        {
+            get { return callback; }
         }
 
     }
