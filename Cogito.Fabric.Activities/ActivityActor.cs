@@ -237,14 +237,24 @@ namespace Cogito.Fabric.Activities
             var status = ActivityState.Status;
 
             // run workflow instance and wait for completion
-            var tcs = new TaskCompletionSource<bool>();
-            await func(await CreateAndLoadWorkflow(tcs));
-            await tcs.Task;
-
-            // ensure reminders are set and state is saved
-            await SaveRemindersAsync();
-            await SaveStateAsync();
-            await OnStatusChanged(status, ActivityState.Status);
+            try
+            {
+                var tcs = new TaskCompletionSource<bool>();
+                await func(await CreateAndLoadWorkflow(tcs));
+                await tcs.Task;
+            }
+            catch (Exception e)
+            {
+                // allow the user to clean up or trap any exceptions
+                await OnException(e);
+            }
+            finally
+            {
+                // ensure reminders are set and state is saved
+                await SaveRemindersAsync();
+                await SaveStateAsync();
+                await OnStatusChanged(status, ActivityState.Status);
+            }
         }
 
         /// <summary>
@@ -375,6 +385,16 @@ namespace Cogito.Fabric.Activities
                 default:
                     return;
             }
+        }
+
+        /// <summary>
+        /// Invoked when an <see cref="Exception"/> is thrown during the workflow operation.
+        /// </summary>
+        /// <param name="exception"></param>
+        /// <returns></returns>
+        protected virtual Task OnException(Exception exception)
+        {
+            return Task.FromResult(true);
         }
 
         /// <summary>
