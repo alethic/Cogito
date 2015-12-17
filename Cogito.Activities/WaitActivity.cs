@@ -13,6 +13,14 @@ namespace Cogito.Activities
         /// <summary>
         /// Initializes a new instance.
         /// </summary>
+        public WaitActivity()
+        {
+
+        }
+
+        /// <summary>
+        /// Initializes a new instance.
+        /// </summary>
         /// <param name="bookmarkName"></param>
         public WaitActivity(InArgument<string> bookmarkName)
         {
@@ -44,6 +52,14 @@ namespace Cogito.Activities
     public class WaitActivity<TResult> :
         NativeActivity<TResult>
     {
+
+        /// <summary>
+        /// Initializes a new instance.
+        /// </summary>
+        public WaitActivity()
+        {
+
+        }
 
         /// <summary>
         /// Initializes a new instance.

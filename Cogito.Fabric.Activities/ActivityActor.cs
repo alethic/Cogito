@@ -293,7 +293,7 @@ namespace Cogito.Fabric.Activities
         }
 
         /// <summary>
-        /// Begins the <see cref="ActivityActor{TActivity, TState}"/> with the given <paramref name="inputs"/> as input.
+        /// Runs the workflow.
         /// </summary>
         /// <returns></returns>
         protected async Task RunAsync()
@@ -307,9 +307,10 @@ namespace Cogito.Fabric.Activities
         /// <param name="bookmarkName"></param>
         /// <param name="value"></param>
         /// <returns></returns>
-        protected async Task ResumeBookmarkAsync(string bookmarkName, object value)
+        protected async Task ResumeAsync(string bookmarkName, object value)
         {
             Contract.Requires<ArgumentNullException>(bookmarkName != null);
+            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(bookmarkName));
 
             await WrapWorkflowInvoke(async _ => await _.ResumeBookmarkAsync(bookmarkName, value));
         }
@@ -319,11 +320,12 @@ namespace Cogito.Fabric.Activities
         /// </summary>
         /// <param name="bookmarkName"></param>
         /// <returns></returns>
-        protected async Task ResumeBookmarkAsync(string bookmarkName)
+        protected Task ResumeAsync(string bookmarkName)
         {
             Contract.Requires<ArgumentNullException>(bookmarkName != null);
+            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(bookmarkName));
 
-            await WrapWorkflowInvoke(async _ => await _.ResumeBookmarkAsync(bookmarkName, null));
+            return ResumeAsync(bookmarkName, null);
         }
 
         /// <summary>
