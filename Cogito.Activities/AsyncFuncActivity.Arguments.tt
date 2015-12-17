@@ -1,0 +1,107 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ output extension=".cs" #>
+
+using System;
+using System.Activities;
+using System.Diagnostics.Contracts;
+using System.Threading.Tasks;
+
+using Cogito.Threading;
+
+namespace Cogito.Activities
+{
+
+<#
+for (int i = 1; i <= 8; i++)
+{
+#>
+
+    /// <summary>
+    /// Provides an <see cref="Activity"/> that executes the given asynchronous function with <#= i #> arguments.
+    /// </summary>
+    public class AsyncFuncActivity<<#= Repeat("TArg{0}", i, ", ") #>, TResult> :
+        AsyncNativeActivity<TResult>
+    {
+
+        Func<NativeActivityContext, <#= Repeat("TArg{0}", i, ", ") #>, Task<TResult>> func;
+
+        /// <summary>
+        /// Initializes a new instance.
+        /// </summary>
+        public AsyncFuncActivity()
+        {
+
+        }
+
+        /// <summary>
+        /// Initializes a new instance.
+        /// </summary>
+        /// <param name="func"></param>
+        public AsyncFuncActivity(Func<NativeActivityContext, <#= Repeat("TArg{0}", i, ", ") #>, Task<TResult>> func)
+            : this()
+        {
+            Contract.Requires<ArgumentNullException>(func != null);
+
+            this.func = func;
+        }
+
+        /// <summary>
+        /// Gets or sets the action to be invoked.
+        /// </summary>
+        public Func<NativeActivityContext, <#= Repeat("TArg{0}", i, ", ") #>, Task<TResult>> Func
+        {
+            get { return func; }
+            set { func = value; }
+        }
+
+<#
+for (int j = 1; j <= i; j++)
+{
+#>
+        /// <summary>
+        /// Argument to send to action.
+        /// </summary>
+        [RequiredArgument]
+        public InArgument<TArg<#= j #>> Arg<#= j #> { get; set; }
+
+<#
+}
+#>
+        protected override IAsyncResult BeginExecute(NativeActivityContext context, AsyncCallback callback, object state)
+        {
+            return func(context, <#= Repeat("context.GetValue(Arg{0})", i, ", ") #>).BeginToAsync(callback, state);
+        }
+
+        protected override TResult EndExecute(NativeActivityContext context, IAsyncResult result)
+        {
+            return ((Task<TResult>)result).EndToAsync();
+        }
+
+        protected override void CacheMetadata(NativeActivityMetadata metadata)
+        {
+            base.CacheMetadata(metadata);
+
+            if (func == null)
+                metadata.AddValidationError("Func is required.");
+        }
+
+    }
+
+<#
+}
+#>
+
+}
+
+<#+
+
+string Repeat(string format, int count, string separator)
+{
+    return string.Join(separator, Enumerable.Range(1, count).Select(i => string.Format(format , i)));
+}
+
+#>

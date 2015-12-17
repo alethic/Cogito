@@ -1,0 +1,107 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ output extension=".cs" #>
+
+using System;
+using System.Activities;
+using System.Diagnostics.Contracts;
+using System.Threading.Tasks;
+
+using Cogito.Threading;
+
+namespace Cogito.Activities
+{
+
+<#
+for (int i = 1; i <= 8; i++)
+{
+#>
+
+    /// <summary>
+    /// Provides an <see cref="Activity"/> that executes the given asynchronous action with <#= i #> arguments.
+    /// </summary>
+    public class AsyncActionActivity<<#= Repeat("TArg{0}", i, ", ") #>> :
+        AsyncNativeActivity
+    {
+
+        Func<NativeActivityContext, <#= Repeat("TArg{0}", i, ", ") #>, Task> action;
+
+        /// <summary>
+        /// Initializes a new instance.
+        /// </summary>
+        public AsyncActionActivity()
+        {
+
+        }
+
+        /// <summary>
+        /// Initializes a new instance.
+        /// </summary>
+        /// <param name="action"></param>
+        public AsyncActionActivity(Func<NativeActivityContext, <#= Repeat("TArg{0}", i, ", ") #>, Task> action)
+            : this()
+        {
+            Contract.Requires<ArgumentNullException>(action != null);
+
+            this.action = action;
+        }
+
+        /// <summary>
+        /// Gets or sets the action to be invoked.
+        /// </summary>
+        public Func<NativeActivityContext, <#= Repeat("TArg{0}", i, ", ") #>, Task> Action
+        {
+            get { return action; }
+            set { action = value; }
+        }
+
+<#
+for (int j = 1; j <= i; j++)
+{
+#>
+        /// <summary>
+        /// Argument to send to action.
+        /// </summary>
+        [RequiredArgument]
+        public InArgument<TArg<#= j #>> Arg<#= j #> { get; set; }
+
+<#
+}
+#>
+        protected override IAsyncResult BeginExecute(NativeActivityContext context, AsyncCallback callback, object state)
+        {
+            return action(context, <#= Repeat("context.GetValue(Arg{0})", i, ", ") #>).BeginToAsync(callback, state);
+        }
+
+        protected override void EndExecute(NativeActivityContext context, IAsyncResult result)
+        {
+            ((Task)result).EndToAsync();
+        }
+
+        protected override void CacheMetadata(NativeActivityMetadata metadata)
+        {
+            base.CacheMetadata(metadata);
+
+            if (action == null)
+                metadata.AddValidationError("Action is required.");
+        }
+
+    }
+
+<#
+}
+#>
+
+}
+
+<#+
+
+string Repeat(string format, int count, string separator)
+{
+    return string.Join(separator, Enumerable.Range(1, count).Select(i => string.Format(format , i)));
+}
+
+#>
