@@ -1,24 +1,21 @@
 ﻿using System;
 using System.Activities;
-using System.Threading.Tasks;
-
-using Cogito.Threading;
 
 namespace Cogito.Activities
 {
 
 
     /// <summary>
-    /// Provides an <see cref="Activity"/> that executes the given asynchronous function.
+    /// Provides an <see cref="Activity"/> that executes the given function.
     /// </summary>
-    public class AsyncFuncActivity<TResult> :
-        AsyncNativeActivity<TResult>
+    public class FuncActivity<TResult> :
+        NativeActivity<TResult>
     {
 
         /// <summary>
         /// Initializes a new instance.
         /// </summary>
-        public AsyncFuncActivity()
+        public FuncActivity()
         {
 
         }
@@ -27,7 +24,7 @@ namespace Cogito.Activities
         /// Initializes a new instance.
         /// </summary>
         /// <param name="func"></param>
-        public AsyncFuncActivity(Func<Task<TResult>> func)
+        public FuncActivity(Func<TResult> func)
             : this()
         {
             Func = func;
@@ -36,16 +33,11 @@ namespace Cogito.Activities
         /// <summary>
         /// Gets or sets the action to be invoked.
         /// </summary>
-        public Func<Task<TResult>> Func { get; set; }
+        public Func<TResult> Func { get; set; }
 
-        protected override IAsyncResult BeginExecute(NativeActivityContext context, AsyncCallback callback, object state)
+        protected override void Execute(NativeActivityContext context)
         {
-            return Func().BeginToAsync(callback, state);
-        }
-
-        protected override TResult EndExecute(NativeActivityContext context, IAsyncResult result)
-        {
-            return ((Task<TResult>)result).EndToAsync();
+            Result.Set(context, Func());
         }
 
         protected override void CacheMetadata(NativeActivityMetadata metadata)

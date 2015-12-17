@@ -119,12 +119,15 @@
     <Compile Include="ActivityActorSerializedObject.cs" />
     <Compile Include="ActivityActorStatus.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="WorkflowApplicationExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Cogito.Activities\Cogito.Activities.csproj">
+      <Project>{828365a4-ab29-4692-a555-bc97c0e5a8d5}</Project>
+      <Name>Cogito.Activities</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Cogito.Core\Cogito.Core.csproj">
       <Project>{133c2d12-bda9-4806-ba0a-70ec83bec9bd}</Project>
       <Name>Cogito.Core</Name>

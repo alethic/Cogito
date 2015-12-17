@@ -7,7 +7,6 @@
 
 using System;
 using System.Activities;
-using System.Diagnostics.Contracts;
 using System.Threading.Tasks;
 
 using Cogito.Threading;
@@ -27,8 +26,6 @@ for (int i = 1; i <= 8; i++)
         AsyncNativeActivity<TResult>
     {
 
-        Func<NativeActivityContext, <#= Repeat("TArg{0}", i, ", ") #>, Task<TResult>> func;
-
         /// <summary>
         /// Initializes a new instance.
         /// </summary>
@@ -41,39 +38,73 @@ for (int i = 1; i <= 8; i++)
         /// Initializes a new instance.
         /// </summary>
         /// <param name="func"></param>
-        public AsyncFuncActivity(Func<NativeActivityContext, <#= Repeat("TArg{0}", i, ", ") #>, Task<TResult>> func)
-            : this()
+<#
+    for (int j = 1; j <= i; j++)
+    {
+#>
+        /// <param name="arg<#= j #>"></param>
+<#
+    }
+#>
+        public AsyncFuncActivity(Func<<#= Repeat("TArg{0}", i, ", ") #>, Task<TResult>> func = null, <#= Repeat("InArgument<TArg{0}> arg{0} = null", i, ", ") #>)
         {
-            Contract.Requires<ArgumentNullException>(func != null);
-
-            this.func = func;
+            Func = func;
+<#
+    for (int j = 1; j <= i; j++)
+    {
+#>
+            Argument<#= j #> = arg<#= j #> ?? new InArgument<TArg<#= j #>>(default(TArg<#= j #>));
+<#
+    }
+#>
         }
 
         /// <summary>
-        /// Gets or sets the action to be invoked.
+        /// Initializes a new instance.
         /// </summary>
-        public Func<NativeActivityContext, <#= Repeat("TArg{0}", i, ", ") #>, Task<TResult>> Func
+<#
+    for (int j = 1; j <= i; j++)
+    {
+#>
+        /// <param name="arg<#= j #>"></param>
+<#
+    }
+#>
+        /// <param name="func"></param>
+        public AsyncFuncActivity(<#= Repeat("InArgument<TArg{0}> arg{0} = null", i, ", ") #>, Func<<#= Repeat("TArg{0}", i, ", ") #>, Task<TResult>> func = null)
         {
-            get { return func; }
-            set { func = value; }
+<#
+    for (int j = 1; j <= i; j++)
+    {
+#>
+            Argument<#= j #> = arg<#= j #> ?? new InArgument<TArg<#= j #>>(default(TArg<#= j #>));
+<#
+    }
+#>
+            Func = func;
         }
+
+        /// <summary>
+        /// Gets or sets the function to be invoked.
+        /// </summary>
+        public Func<<#= Repeat("TArg{0}", i, ", ") #>, Task<TResult>> Func { get; set; }
 
 <#
 for (int j = 1; j <= i; j++)
 {
 #>
         /// <summary>
-        /// Argument to send to action.
+        /// Argument to send to function.
         /// </summary>
         [RequiredArgument]
-        public InArgument<TArg<#= j #>> Arg<#= j #> { get; set; }
+        public InArgument<TArg<#= j #>> Argument<#= j #> { get; set; }
 
 <#
 }
 #>
         protected override IAsyncResult BeginExecute(NativeActivityContext context, AsyncCallback callback, object state)
         {
-            return func(context, <#= Repeat("context.GetValue(Arg{0})", i, ", ") #>).BeginToAsync(callback, state);
+            return Func(<#= Repeat("context.GetValue(Argument{0})", i, ", ") #>).BeginToAsync(callback, state);
         }
 
         protected override TResult EndExecute(NativeActivityContext context, IAsyncResult result)
@@ -85,7 +116,7 @@ for (int j = 1; j <= i; j++)
         {
             base.CacheMetadata(metadata);
 
-            if (func == null)
+            if (Func == null)
                 metadata.AddValidationError("Func is required.");
         }
 

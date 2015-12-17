@@ -1,23 +1,20 @@
 ﻿using System;
 using System.Activities;
-using System.Threading.Tasks;
-
-using Cogito.Threading;
 
 namespace Cogito.Activities
 {
 
     /// <summary>
-    /// Provides an <see cref="Activity"/> that executes the given asynchronous function.
+    /// Provides an <see cref="Activity"/> that executes the given function.
     /// </summary>
-    public class AsyncActionActivity :
-        AsyncNativeActivity
+    public class ActionActivity :
+        NativeActivity
     {
 
         /// <summary>
         /// Initializes a new instance.
         /// </summary>
-        public AsyncActionActivity()
+        public ActionActivity()
         {
 
         }
@@ -26,7 +23,7 @@ namespace Cogito.Activities
         /// Initializes a new instance.
         /// </summary>
         /// <param name="action"></param>
-        public AsyncActionActivity(Func<Task> action)
+        public ActionActivity(Action action)
             : this()
         {
             Action = action;
@@ -35,16 +32,11 @@ namespace Cogito.Activities
         /// <summary>
         /// Gets or sets the action to be invoked.
         /// </summary>
-        public Func<Task> Action { get; set; }
+        public Action Action { get; set; }
 
-        protected override IAsyncResult BeginExecute(NativeActivityContext context, AsyncCallback callback, object state)
+        protected override void Execute(NativeActivityContext context)
         {
-            return Action().BeginToAsync(callback, state);
-        }
-
-        protected override void EndExecute(NativeActivityContext context, IAsyncResult result)
-        {
-            ((Task)result).EndToAsync();
+            Action();
         }
 
         protected override void CacheMetadata(NativeActivityMetadata metadata)

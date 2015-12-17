@@ -83,6 +83,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActionActivity.Arguments.cs">
+      <DependentUpon>ActionActivity.Arguments.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="ActionActivity.cs" />
+    <Compile Include="FuncActivity.Arguments.cs">
+      <DependentUpon>FuncActivity.Arguments.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="FuncActivity.cs" />
     <Compile Include="AsyncFuncActivity.Arguments.cs">
       <DependentUpon>AsyncFuncActivity.Arguments.tt</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -98,7 +110,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="AsyncActionActivity.cs" />
     <Compile Include="AsyncFuncActivity.cs" />
-    <Compile Include="WaitForResumeActivity.cs" />
+    <Compile Include="WaitActivity.cs" />
+    <Compile Include="WorkflowApplicationExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Cogito.Core\Cogito.Core.csproj">
@@ -107,6 +120,14 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="ActionActivity.Arguments.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ActionActivity.Arguments.cs</LastGenOutput>
+    </Content>
+    <Content Include="FuncActivity.Arguments.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>FuncActivity.Arguments.cs</LastGenOutput>
+    </Content>
     <Content Include="AsyncFuncActivity.Arguments.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>AsyncFuncActivity.Arguments.cs</LastGenOutput>

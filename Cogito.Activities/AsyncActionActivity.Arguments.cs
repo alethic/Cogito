@@ -1,7 +1,6 @@
 ﻿
 using System;
 using System.Activities;
-using System.Diagnostics.Contracts;
 using System.Threading.Tasks;
 
 using Cogito.Threading;
@@ -17,8 +16,6 @@ namespace Cogito.Activities
         AsyncNativeActivity
     {
 
-        Func<NativeActivityContext, TArg1, Task> action;
-
         /// <summary>
         /// Initializes a new instance.
         /// </summary>
@@ -31,32 +28,38 @@ namespace Cogito.Activities
         /// Initializes a new instance.
         /// </summary>
         /// <param name="action"></param>
-        public AsyncActionActivity(Func<NativeActivityContext, TArg1, Task> action)
-            : this()
+        /// <param name="arg1"></param>
+        public AsyncActionActivity(Func<TArg1, Task> action = null, InArgument<TArg1> arg1 = null)
         {
-            Contract.Requires<ArgumentNullException>(action != null);
+            Action = action;
+            Argument1 = arg1 ?? new InArgument<TArg1>(default(TArg1));
+        }
 
-            this.action = action;
+        /// <summary>
+        /// Initializes a new instance.
+        /// </summary>
+        /// <param name="action"></param>
+        /// <param name="arg1"></param>
+        public AsyncActionActivity(InArgument<TArg1> arg1 = null, Func<TArg1, Task> action = null)
+        {
+            Argument1 = arg1 ?? new InArgument<TArg1>(default(TArg1));
+            Action = action;
         }
 
         /// <summary>
         /// Gets or sets the action to be invoked.
         /// </summary>
-        public Func<NativeActivityContext, TArg1, Task> Action
-        {
-            get { return action; }
-            set { action = value; }
-        }
+        public Func<TArg1, Task> Action { get; set; }
 
         /// <summary>
         /// Argument to send to action.
         /// </summary>
         [RequiredArgument]
-        public InArgument<TArg1> Arg1 { get; set; }
+        public InArgument<TArg1> Argument1 { get; set; }
 
         protected override IAsyncResult BeginExecute(NativeActivityContext context, AsyncCallback callback, object state)
         {
-            return action(context, context.GetValue(Arg1)).BeginToAsync(callback, state);
+            return Action(context.GetValue(Argument1)).BeginToAsync(callback, state);
         }
 
         protected override void EndExecute(NativeActivityContext context, IAsyncResult result)
@@ -68,7 +71,7 @@ namespace Cogito.Activities
         {
             base.CacheMetadata(metadata);
 
-            if (action == null)
+            if (Action == null)
                 metadata.AddValidationError("Action is required.");
         }
 
@@ -82,8 +85,6 @@ namespace Cogito.Activities
         AsyncNativeActivity
     {
 
-        Func<NativeActivityContext, TArg1, TArg2, Task> action;
-
         /// <summary>
         /// Initializes a new instance.
         /// </summary>
@@ -96,38 +97,48 @@ namespace Cogito.Activities
         /// Initializes a new instance.
         /// </summary>
         /// <param name="action"></param>
-        public AsyncActionActivity(Func<NativeActivityContext, TArg1, TArg2, Task> action)
-            : this()
+        /// <param name="arg1"></param>
+        /// <param name="arg2"></param>
+        public AsyncActionActivity(Func<TArg1, TArg2, Task> action = null, InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null)
         {
-            Contract.Requires<ArgumentNullException>(action != null);
+            Action = action;
+            Argument1 = arg1 ?? new InArgument<TArg1>(default(TArg1));
+            Argument2 = arg2 ?? new InArgument<TArg2>(default(TArg2));
+        }
 
-            this.action = action;
+        /// <summary>
+        /// Initializes a new instance.
+        /// </summary>
+        /// <param name="action"></param>
+        /// <param name="arg1"></param>
+        /// <param name="arg2"></param>
+        public AsyncActionActivity(InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, Func<TArg1, TArg2, Task> action = null)
+        {
+            Argument1 = arg1 ?? new InArgument<TArg1>(default(TArg1));
+            Argument2 = arg2 ?? new InArgument<TArg2>(default(TArg2));
+            Action = action;
         }
 
         /// <summary>
         /// Gets or sets the action to be invoked.
         /// </summary>
-        public Func<NativeActivityContext, TArg1, TArg2, Task> Action
-        {
-            get { return action; }
-            set { action = value; }
-        }
+        public Func<TArg1, TArg2, Task> Action { get; set; }
 
         /// <summary>
         /// Argument to send to action.
         /// </summary>
         [RequiredArgument]
-        public InArgument<TArg1> Arg1 { get; set; }
+        public InArgument<TArg1> Argument1 { get; set; }
 
         /// <summary>
         /// Argument to send to action.
         /// </summary>
         [RequiredArgument]
-        public InArgument<TArg2> Arg2 { get; set; }
+        public InArgument<TArg2> Argument2 { get; set; }
 
         protected override IAsyncResult BeginExecute(NativeActivityContext context, AsyncCallback callback, object state)
         {
-            return action(context, context.GetValue(Arg1), context.GetValue(Arg2)).BeginToAsync(callback, state);
+            return Action(context.GetValue(Argument1), context.GetValue(Argument2)).BeginToAsync(callback, state);
         }
 
         protected override void EndExecute(NativeActivityContext context, IAsyncResult result)
@@ -139,7 +150,7 @@ namespace Cogito.Activities
         {
             base.CacheMetadata(metadata);
 
-            if (action == null)
+            if (Action == null)
                 metadata.AddValidationError("Action is required.");
         }
 
@@ -153,8 +164,6 @@ namespace Cogito.Activities
         AsyncNativeActivity
     {
 
-        Func<NativeActivityContext, TArg1, TArg2, TArg3, Task> action;
-
         /// <summary>
         /// Initializes a new instance.
         /// </summary>
@@ -167,44 +176,58 @@ namespace Cogito.Activities
         /// Initializes a new instance.
         /// </summary>
         /// <param name="action"></param>
-        public AsyncActionActivity(Func<NativeActivityContext, TArg1, TArg2, TArg3, Task> action)
-            : this()
+        /// <param name="arg1"></param>
+        /// <param name="arg2"></param>
+        /// <param name="arg3"></param>
+        public AsyncActionActivity(Func<TArg1, TArg2, TArg3, Task> action = null, InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, InArgument<TArg3> arg3 = null)
         {
-            Contract.Requires<ArgumentNullException>(action != null);
+            Action = action;
+            Argument1 = arg1 ?? new InArgument<TArg1>(default(TArg1));
+            Argument2 = arg2 ?? new InArgument<TArg2>(default(TArg2));
+            Argument3 = arg3 ?? new InArgument<TArg3>(default(TArg3));
+        }
 
-            this.action = action;
+        /// <summary>
+        /// Initializes a new instance.
+        /// </summary>
+        /// <param name="action"></param>
+        /// <param name="arg1"></param>
+        /// <param name="arg2"></param>
+        /// <param name="arg3"></param>
+        public AsyncActionActivity(InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, InArgument<TArg3> arg3 = null, Func<TArg1, TArg2, TArg3, Task> action = null)
+        {
+            Argument1 = arg1 ?? new InArgument<TArg1>(default(TArg1));
+            Argument2 = arg2 ?? new InArgument<TArg2>(default(TArg2));
+            Argument3 = arg3 ?? new InArgument<TArg3>(default(TArg3));
+            Action = action;
         }
 
         /// <summary>
         /// Gets or sets the action to be invoked.
         /// </summary>
-        public Func<NativeActivityContext, TArg1, TArg2, TArg3, Task> Action
-        {
-            get { return action; }
-            set { action = value; }
-        }
+        public Func<TArg1, TArg2, TArg3, Task> Action { get; set; }
 
         /// <summary>
         /// Argument to send to action.
         /// </summary>
         [RequiredArgument]
-        public InArgument<TArg1> Arg1 { get; set; }
+        public InArgument<TArg1> Argument1 { get; set; }
 
         /// <summary>
         /// Argument to send to action.
         /// </summary>
         [RequiredArgument]
-        public InArgument<TArg2> Arg2 { get; set; }
+        public InArgument<TArg2> Argument2 { get; set; }
 
         /// <summary>
         /// Argument to send to action.
         /// </summary>
         [RequiredArgument]
-        public InArgument<TArg3> Arg3 { get; set; }
+        public InArgument<TArg3> Argument3 { get; set; }
 
         protected override IAsyncResult BeginExecute(NativeActivityContext context, AsyncCallback callback, object state)
         {
-            return action(context, context.GetValue(Arg1), context.GetValue(Arg2), context.GetValue(Arg3)).BeginToAsync(callback, state);
+            return Action(context.GetValue(Argument1), context.GetValue(Argument2), context.GetValue(Argument3)).BeginToAsync(callback, state);
         }
 
         protected override void EndExecute(NativeActivityContext context, IAsyncResult result)
@@ -216,7 +239,7 @@ namespace Cogito.Activities
         {
             base.CacheMetadata(metadata);
 
-            if (action == null)
+            if (Action == null)
                 metadata.AddValidationError("Action is required.");
         }
 
@@ -230,8 +253,6 @@ namespace Cogito.Activities
         AsyncNativeActivity
     {
 
-        Func<NativeActivityContext, TArg1, TArg2, TArg3, TArg4, Task> action;
-
         /// <summary>
         /// Initializes a new instance.
         /// </summary>
@@ -244,50 +265,68 @@ namespace Cogito.Activities
         /// Initializes a new instance.
         /// </summary>
         /// <param name="action"></param>
-        public AsyncActionActivity(Func<NativeActivityContext, TArg1, TArg2, TArg3, TArg4, Task> action)
-            : this()
+        /// <param name="arg1"></param>
+        /// <param name="arg2"></param>
+        /// <param name="arg3"></param>
+        /// <param name="arg4"></param>
+        public AsyncActionActivity(Func<TArg1, TArg2, TArg3, TArg4, Task> action = null, InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, InArgument<TArg3> arg3 = null, InArgument<TArg4> arg4 = null)
         {
-            Contract.Requires<ArgumentNullException>(action != null);
+            Action = action;
+            Argument1 = arg1 ?? new InArgument<TArg1>(default(TArg1));
+            Argument2 = arg2 ?? new InArgument<TArg2>(default(TArg2));
+            Argument3 = arg3 ?? new InArgument<TArg3>(default(TArg3));
+            Argument4 = arg4 ?? new InArgument<TArg4>(default(TArg4));
+        }
 
-            this.action = action;
+        /// <summary>
+        /// Initializes a new instance.
+        /// </summary>
+        /// <param name="action"></param>
+        /// <param name="arg1"></param>
+        /// <param name="arg2"></param>
+        /// <param name="arg3"></param>
+        /// <param name="arg4"></param>
+        public AsyncActionActivity(InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, InArgument<TArg3> arg3 = null, InArgument<TArg4> arg4 = null, Func<TArg1, TArg2, TArg3, TArg4, Task> action = null)
+        {
+            Argument1 = arg1 ?? new InArgument<TArg1>(default(TArg1));
+            Argument2 = arg2 ?? new InArgument<TArg2>(default(TArg2));
+            Argument3 = arg3 ?? new InArgument<TArg3>(default(TArg3));
+            Argument4 = arg4 ?? new InArgument<TArg4>(default(TArg4));
+            Action = action;
         }
 
         /// <summary>
         /// Gets or sets the action to be invoked.
         /// </summary>
-        public Func<NativeActivityContext, TArg1, TArg2, TArg3, TArg4, Task> Action
-        {
-            get { return action; }
-            set { action = value; }
-        }
+        public Func<TArg1, TArg2, TArg3, TArg4, Task> Action { get; set; }
 
         /// <summary>
         /// Argument to send to action.
         /// </summary>
         [RequiredArgument]
-        public InArgument<TArg1> Arg1 { get; set; }
+        public InArgument<TArg1> Argument1 { get; set; }
 
         /// <summary>
         /// Argument to send to action.
         /// </summary>
         [RequiredArgument]
-        public InArgument<TArg2> Arg2 { get; set; }
+        public InArgument<TArg2> Argument2 { get; set; }
 
         /// <summary>
         /// Argument to send to action.
         /// </summary>
         [RequiredArgument]
-        public InArgument<TArg3> Arg3 { get; set; }
+        public InArgument<TArg3> Argument3 { get; set; }
 
         /// <summary>
         /// Argument to send to action.
         /// </summary>
         [RequiredArgument]
-        public InArgument<TArg4> Arg4 { get; set; }
+        public InArgument<TArg4> Argument4 { get; set; }
 
         protected override IAsyncResult BeginExecute(NativeActivityContext context, AsyncCallback callback, object state)
         {
-            return action(context, context.GetValue(Arg1), context.GetValue(Arg2), context.GetValue(Arg3), context.GetValue(Arg4)).BeginToAsync(callback, state);
+            return Action(context.GetValue(Argument1), context.GetValue(Argument2), context.GetValue(Argument3), context.GetValue(Argument4)).BeginToAsync(callback, state);
         }
 
         protected override void EndExecute(NativeActivityContext context, IAsyncResult result)
@@ -299,7 +338,7 @@ namespace Cogito.Activities
         {
             base.CacheMetadata(metadata);
 
-            if (action == null)
+            if (Action == null)
                 metadata.AddValidationError("Action is required.");
         }
 
@@ -313,8 +352,6 @@ namespace Cogito.Activities
         AsyncNativeActivity
     {
 
-        Func<NativeActivityContext, TArg1, TArg2, TArg3, TArg4, TArg5, Task> action;
-
         /// <summary>
         /// Initializes a new instance.
         /// </summary>
@@ -327,56 +364,78 @@ namespace Cogito.Activities
         /// Initializes a new instance.
         /// </summary>
         /// <param name="action"></param>
-        public AsyncActionActivity(Func<NativeActivityContext, TArg1, TArg2, TArg3, TArg4, TArg5, Task> action)
-            : this()
+        /// <param name="arg1"></param>
+        /// <param name="arg2"></param>
+        /// <param name="arg3"></param>
+        /// <param name="arg4"></param>
+        /// <param name="arg5"></param>
+        public AsyncActionActivity(Func<TArg1, TArg2, TArg3, TArg4, TArg5, Task> action = null, InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, InArgument<TArg3> arg3 = null, InArgument<TArg4> arg4 = null, InArgument<TArg5> arg5 = null)
         {
-            Contract.Requires<ArgumentNullException>(action != null);
+            Action = action;
+            Argument1 = arg1 ?? new InArgument<TArg1>(default(TArg1));
+            Argument2 = arg2 ?? new InArgument<TArg2>(default(TArg2));
+            Argument3 = arg3 ?? new InArgument<TArg3>(default(TArg3));
+            Argument4 = arg4 ?? new InArgument<TArg4>(default(TArg4));
+            Argument5 = arg5 ?? new InArgument<TArg5>(default(TArg5));
+        }
 
-            this.action = action;
+        /// <summary>
+        /// Initializes a new instance.
+        /// </summary>
+        /// <param name="action"></param>
+        /// <param name="arg1"></param>
+        /// <param name="arg2"></param>
+        /// <param name="arg3"></param>
+        /// <param name="arg4"></param>
+        /// <param name="arg5"></param>
+        public AsyncActionActivity(InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, InArgument<TArg3> arg3 = null, InArgument<TArg4> arg4 = null, InArgument<TArg5> arg5 = null, Func<TArg1, TArg2, TArg3, TArg4, TArg5, Task> action = null)
+        {
+            Argument1 = arg1 ?? new InArgument<TArg1>(default(TArg1));
+            Argument2 = arg2 ?? new InArgument<TArg2>(default(TArg2));
+            Argument3 = arg3 ?? new InArgument<TArg3>(default(TArg3));
+            Argument4 = arg4 ?? new InArgument<TArg4>(default(TArg4));
+            Argument5 = arg5 ?? new InArgument<TArg5>(default(TArg5));
+            Action = action;
         }
 
         /// <summary>
         /// Gets or sets the action to be invoked.
         /// </summary>
-        public Func<NativeActivityContext, TArg1, TArg2, TArg3, TArg4, TArg5, Task> Action
-        {
-            get { return action; }
-            set { action = value; }
-        }
+        public Func<TArg1, TArg2, TArg3, TArg4, TArg5, Task> Action { get; set; }
 
         /// <summary>
         /// Argument to send to action.
         /// </summary>
         [RequiredArgument]
-        public InArgument<TArg1> Arg1 { get; set; }
+        public InArgument<TArg1> Argument1 { get; set; }
 
         /// <summary>
         /// Argument to send to action.
         /// </summary>
         [RequiredArgument]
-        public InArgument<TArg2> Arg2 { get; set; }
+        public InArgument<TArg2> Argument2 { get; set; }
 
         /// <summary>
         /// Argument to send to action.
         /// </summary>
         [RequiredArgument]
-        public InArgument<TArg3> Arg3 { get; set; }
+        public InArgument<TArg3> Argument3 { get; set; }
 
         /// <summary>
         /// Argument to send to action.
         /// </summary>
         [RequiredArgument]
-        public InArgument<TArg4> Arg4 { get; set; }
+        public InArgument<TArg4> Argument4 { get; set; }
 
         /// <summary>
         /// Argument to send to action.
         /// </summary>
         [RequiredArgument]
-        public InArgument<TArg5> Arg5 { get; set; }
+        public InArgument<TArg5> Argument5 { get; set; }
 
         protected override IAsyncResult BeginExecute(NativeActivityContext context, AsyncCallback callback, object state)
         {
-            return action(context, context.GetValue(Arg1), context.GetValue(Arg2), context.GetValue(Arg3), context.GetValue(Arg4), context.GetValue(Arg5)).BeginToAsync(callback, state);
+            return Action(context.GetValue(Argument1), context.GetValue(Argument2), context.GetValue(Argument3), context.GetValue(Argument4), context.GetValue(Argument5)).BeginToAsync(callback, state);
         }
 
         protected override void EndExecute(NativeActivityContext context, IAsyncResult result)
@@ -388,7 +447,7 @@ namespace Cogito.Activities
         {
             base.CacheMetadata(metadata);
 
-            if (action == null)
+            if (Action == null)
                 metadata.AddValidationError("Action is required.");
         }
 
@@ -402,8 +461,6 @@ namespace Cogito.Activities
         AsyncNativeActivity
     {
 
-        Func<NativeActivityContext, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, Task> action;
-
         /// <summary>
         /// Initializes a new instance.
         /// </summary>
@@ -416,62 +473,88 @@ namespace Cogito.Activities
         /// Initializes a new instance.
         /// </summary>
         /// <param name="action"></param>
-        public AsyncActionActivity(Func<NativeActivityContext, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, Task> action)
-            : this()
+        /// <param name="arg1"></param>
+        /// <param name="arg2"></param>
+        /// <param name="arg3"></param>
+        /// <param name="arg4"></param>
+        /// <param name="arg5"></param>
+        /// <param name="arg6"></param>
+        public AsyncActionActivity(Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, Task> action = null, InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, InArgument<TArg3> arg3 = null, InArgument<TArg4> arg4 = null, InArgument<TArg5> arg5 = null, InArgument<TArg6> arg6 = null)
         {
-            Contract.Requires<ArgumentNullException>(action != null);
+            Action = action;
+            Argument1 = arg1 ?? new InArgument<TArg1>(default(TArg1));
+            Argument2 = arg2 ?? new InArgument<TArg2>(default(TArg2));
+            Argument3 = arg3 ?? new InArgument<TArg3>(default(TArg3));
+            Argument4 = arg4 ?? new InArgument<TArg4>(default(TArg4));
+            Argument5 = arg5 ?? new InArgument<TArg5>(default(TArg5));
+            Argument6 = arg6 ?? new InArgument<TArg6>(default(TArg6));
+        }
 
-            this.action = action;
+        /// <summary>
+        /// Initializes a new instance.
+        /// </summary>
+        /// <param name="action"></param>
+        /// <param name="arg1"></param>
+        /// <param name="arg2"></param>
+        /// <param name="arg3"></param>
+        /// <param name="arg4"></param>
+        /// <param name="arg5"></param>
+        /// <param name="arg6"></param>
+        public AsyncActionActivity(InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, InArgument<TArg3> arg3 = null, InArgument<TArg4> arg4 = null, InArgument<TArg5> arg5 = null, InArgument<TArg6> arg6 = null, Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, Task> action = null)
+        {
+            Argument1 = arg1 ?? new InArgument<TArg1>(default(TArg1));
+            Argument2 = arg2 ?? new InArgument<TArg2>(default(TArg2));
+            Argument3 = arg3 ?? new InArgument<TArg3>(default(TArg3));
+            Argument4 = arg4 ?? new InArgument<TArg4>(default(TArg4));
+            Argument5 = arg5 ?? new InArgument<TArg5>(default(TArg5));
+            Argument6 = arg6 ?? new InArgument<TArg6>(default(TArg6));
+            Action = action;
         }
 
         /// <summary>
         /// Gets or sets the action to be invoked.
         /// </summary>
-        public Func<NativeActivityContext, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, Task> Action
-        {
-            get { return action; }
-            set { action = value; }
-        }
+        public Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, Task> Action { get; set; }
 
         /// <summary>
         /// Argument to send to action.
         /// </summary>
         [RequiredArgument]
-        public InArgument<TArg1> Arg1 { get; set; }
+        public InArgument<TArg1> Argument1 { get; set; }
 
         /// <summary>
         /// Argument to send to action.
         /// </summary>
         [RequiredArgument]
-        public InArgument<TArg2> Arg2 { get; set; }
+        public InArgument<TArg2> Argument2 { get; set; }
 
         /// <summary>
         /// Argument to send to action.
         /// </summary>
         [RequiredArgument]
-        public InArgument<TArg3> Arg3 { get; set; }
+        public InArgument<TArg3> Argument3 { get; set; }
 
         /// <summary>
         /// Argument to send to action.
         /// </summary>
         [RequiredArgument]
-        public InArgument<TArg4> Arg4 { get; set; }
+        public InArgument<TArg4> Argument4 { get; set; }
 
         /// <summary>
         /// Argument to send to action.
         /// </summary>
         [RequiredArgument]
-        public InArgument<TArg5> Arg5 { get; set; }
+        public InArgument<TArg5> Argument5 { get; set; }
 
         /// <summary>
         /// Argument to send to action.
         /// </summary>
         [RequiredArgument]
-        public InArgument<TArg6> Arg6 { get; set; }
+        public InArgument<TArg6> Argument6 { get; set; }
 
         protected override IAsyncResult BeginExecute(NativeActivityContext context, AsyncCallback callback, object state)
         {
-            return action(context, context.GetValue(Arg1), context.GetValue(Arg2), context.GetValue(Arg3), context.GetValue(Arg4), context.GetValue(Arg5), context.GetValue(Arg6)).BeginToAsync(callback, state);
+            return Action(context.GetValue(Argument1), context.GetValue(Argument2), context.GetValue(Argument3), context.GetValue(Argument4), context.GetValue(Argument5), context.GetValue(Argument6)).BeginToAsync(callback, state);
         }
 
         protected override void EndExecute(NativeActivityContext context, IAsyncResult result)
@@ -483,7 +566,7 @@ namespace Cogito.Activities
         {
             base.CacheMetadata(metadata);
 
-            if (action == null)
+            if (Action == null)
                 metadata.AddValidationError("Action is required.");
         }
 
@@ -497,8 +580,6 @@ namespace Cogito.Activities
         AsyncNativeActivity
     {
 
-        Func<NativeActivityContext, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, Task> action;
-
         /// <summary>
         /// Initializes a new instance.
         /// </summary>
@@ -511,68 +592,98 @@ namespace Cogito.Activities
         /// Initializes a new instance.
         /// </summary>
         /// <param name="action"></param>
-        public AsyncActionActivity(Func<NativeActivityContext, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, Task> action)
-            : this()
+        /// <param name="arg1"></param>
+        /// <param name="arg2"></param>
+        /// <param name="arg3"></param>
+        /// <param name="arg4"></param>
+        /// <param name="arg5"></param>
+        /// <param name="arg6"></param>
+        /// <param name="arg7"></param>
+        public AsyncActionActivity(Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, Task> action = null, InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, InArgument<TArg3> arg3 = null, InArgument<TArg4> arg4 = null, InArgument<TArg5> arg5 = null, InArgument<TArg6> arg6 = null, InArgument<TArg7> arg7 = null)
         {
-            Contract.Requires<ArgumentNullException>(action != null);
+            Action = action;
+            Argument1 = arg1 ?? new InArgument<TArg1>(default(TArg1));
+            Argument2 = arg2 ?? new InArgument<TArg2>(default(TArg2));
+            Argument3 = arg3 ?? new InArgument<TArg3>(default(TArg3));
+            Argument4 = arg4 ?? new InArgument<TArg4>(default(TArg4));
+            Argument5 = arg5 ?? new InArgument<TArg5>(default(TArg5));
+            Argument6 = arg6 ?? new InArgument<TArg6>(default(TArg6));
+            Argument7 = arg7 ?? new InArgument<TArg7>(default(TArg7));
+        }
 
-            this.action = action;
+        /// <summary>
+        /// Initializes a new instance.
+        /// </summary>
+        /// <param name="action"></param>
+        /// <param name="arg1"></param>
+        /// <param name="arg2"></param>
+        /// <param name="arg3"></param>
+        /// <param name="arg4"></param>
+        /// <param name="arg5"></param>
+        /// <param name="arg6"></param>
+        /// <param name="arg7"></param>
+        public AsyncActionActivity(InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, InArgument<TArg3> arg3 = null, InArgument<TArg4> arg4 = null, InArgument<TArg5> arg5 = null, InArgument<TArg6> arg6 = null, InArgument<TArg7> arg7 = null, Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, Task> action = null)
+        {
+            Argument1 = arg1 ?? new InArgument<TArg1>(default(TArg1));
+            Argument2 = arg2 ?? new InArgument<TArg2>(default(TArg2));
+            Argument3 = arg3 ?? new InArgument<TArg3>(default(TArg3));
+            Argument4 = arg4 ?? new InArgument<TArg4>(default(TArg4));
+            Argument5 = arg5 ?? new InArgument<TArg5>(default(TArg5));
+            Argument6 = arg6 ?? new InArgument<TArg6>(default(TArg6));
+            Argument7 = arg7 ?? new InArgument<TArg7>(default(TArg7));
+            Action = action;
         }
 
         /// <summary>
         /// Gets or sets the action to be invoked.
         /// </summary>
-        public Func<NativeActivityContext, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, Task> Action
-        {
-            get { return action; }
-            set { action = value; }
-        }
+        public Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, Task> Action { get; set; }
 
         /// <summary>
         /// Argument to send to action.
         /// </summary>
         [RequiredArgument]
-        public InArgument<TArg1> Arg1 { get; set; }
+        public InArgument<TArg1> Argument1 { get; set; }
 
         /// <summary>
         /// Argument to send to action.
         /// </summary>
         [RequiredArgument]
-        public InArgument<TArg2> Arg2 { get; set; }
+        public InArgument<TArg2> Argument2 { get; set; }
 
         /// <summary>
         /// Argument to send to action.
         /// </summary>
         [RequiredArgument]
-        public InArgument<TArg3> Arg3 { get; set; }
+        public InArgument<TArg3> Argument3 { get; set; }
 
         /// <summary>
         /// Argument to send to action.
         /// </summary>
         [RequiredArgument]
-        public InArgument<TArg4> Arg4 { get; set; }
+        public InArgument<TArg4> Argument4 { get; set; }
 
         /// <summary>
         /// Argument to send to action.
         /// </summary>
         [RequiredArgument]
-        public InArgument<TArg5> Arg5 { get; set; }
+        public InArgument<TArg5> Argument5 { get; set; }
 
         /// <summary>
         /// Argument to send to action.
         /// </summary>
         [RequiredArgument]
-        public InArgument<TArg6> Arg6 { get; set; }
+        public InArgument<TArg6> Argument6 { get; set; }
 
         /// <summary>
         /// Argument to send to action.
         /// </summary>
         [RequiredArgument]
-        public InArgument<TArg7> Arg7 { get; set; }
+        public InArgument<TArg7> Argument7 { get; set; }
 
         protected override IAsyncResult BeginExecute(NativeActivityContext context, AsyncCallback callback, object state)
         {
-            return action(context, context.GetValue(Arg1), context.GetValue(Arg2), context.GetValue(Arg3), context.GetValue(Arg4), context.GetValue(Arg5), context.GetValue(Arg6), context.GetValue(Arg7)).BeginToAsync(callback, state);
+            return Action(context.GetValue(Argument1), context.GetValue(Argument2), context.GetValue(Argument3), context.GetValue(Argument4), context.GetValue(Argument5), context.GetValue(Argument6), context.GetValue(Argument7)).BeginToAsync(callback, state);
         }
 
         protected override void EndExecute(NativeActivityContext context, IAsyncResult result)
@@ -584,7 +695,7 @@ namespace Cogito.Activities
         {
             base.CacheMetadata(metadata);
 
-            if (action == null)
+            if (Action == null)
                 metadata.AddValidationError("Action is required.");
         }
 
@@ -598,8 +709,6 @@ namespace Cogito.Activities
         AsyncNativeActivity
     {
 
-        Func<NativeActivityContext, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, Task> action;
-
         /// <summary>
         /// Initializes a new instance.
         /// </summary>
@@ -612,74 +721,108 @@ namespace Cogito.Activities
         /// Initializes a new instance.
         /// </summary>
         /// <param name="action"></param>
-        public AsyncActionActivity(Func<NativeActivityContext, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, Task> action)
-            : this()
+        /// <param name="arg1"></param>
+        /// <param name="arg2"></param>
+        /// <param name="arg3"></param>
+        /// <param name="arg4"></param>
+        /// <param name="arg5"></param>
+        /// <param name="arg6"></param>
+        /// <param name="arg7"></param>
+        /// <param name="arg8"></param>
+        public AsyncActionActivity(Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, Task> action = null, InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, InArgument<TArg3> arg3 = null, InArgument<TArg4> arg4 = null, InArgument<TArg5> arg5 = null, InArgument<TArg6> arg6 = null, InArgument<TArg7> arg7 = null, InArgument<TArg8> arg8 = null)
         {
-            Contract.Requires<ArgumentNullException>(action != null);
+            Action = action;
+            Argument1 = arg1 ?? new InArgument<TArg1>(default(TArg1));
+            Argument2 = arg2 ?? new InArgument<TArg2>(default(TArg2));
+            Argument3 = arg3 ?? new InArgument<TArg3>(default(TArg3));
+            Argument4 = arg4 ?? new InArgument<TArg4>(default(TArg4));
+            Argument5 = arg5 ?? new InArgument<TArg5>(default(TArg5));
+            Argument6 = arg6 ?? new InArgument<TArg6>(default(TArg6));
+            Argument7 = arg7 ?? new InArgument<TArg7>(default(TArg7));
+            Argument8 = arg8 ?? new InArgument<TArg8>(default(TArg8));
+        }
 
-            this.action = action;
+        /// <summary>
+        /// Initializes a new instance.
+        /// </summary>
+        /// <param name="action"></param>
+        /// <param name="arg1"></param>
+        /// <param name="arg2"></param>
+        /// <param name="arg3"></param>
+        /// <param name="arg4"></param>
+        /// <param name="arg5"></param>
+        /// <param name="arg6"></param>
+        /// <param name="arg7"></param>
+        /// <param name="arg8"></param>
+        public AsyncActionActivity(InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, InArgument<TArg3> arg3 = null, InArgument<TArg4> arg4 = null, InArgument<TArg5> arg5 = null, InArgument<TArg6> arg6 = null, InArgument<TArg7> arg7 = null, InArgument<TArg8> arg8 = null, Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, Task> action = null)
+        {
+            Argument1 = arg1 ?? new InArgument<TArg1>(default(TArg1));
+            Argument2 = arg2 ?? new InArgument<TArg2>(default(TArg2));
+            Argument3 = arg3 ?? new InArgument<TArg3>(default(TArg3));
+            Argument4 = arg4 ?? new InArgument<TArg4>(default(TArg4));
+            Argument5 = arg5 ?? new InArgument<TArg5>(default(TArg5));
+            Argument6 = arg6 ?? new InArgument<TArg6>(default(TArg6));
+            Argument7 = arg7 ?? new InArgument<TArg7>(default(TArg7));
+            Argument8 = arg8 ?? new InArgument<TArg8>(default(TArg8));
+            Action = action;
         }
 
         /// <summary>
         /// Gets or sets the action to be invoked.
         /// </summary>
-        public Func<NativeActivityContext, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, Task> Action
-        {
-            get { return action; }
-            set { action = value; }
-        }
+        public Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, Task> Action { get; set; }
 
         /// <summary>
         /// Argument to send to action.
         /// </summary>
         [RequiredArgument]
-        public InArgument<TArg1> Arg1 { get; set; }
+        public InArgument<TArg1> Argument1 { get; set; }
 
         /// <summary>
         /// Argument to send to action.
         /// </summary>
         [RequiredArgument]
-        public InArgument<TArg2> Arg2 { get; set; }
+        public InArgument<TArg2> Argument2 { get; set; }
 
         /// <summary>
         /// Argument to send to action.
         /// </summary>
         [RequiredArgument]
-        public InArgument<TArg3> Arg3 { get; set; }
+        public InArgument<TArg3> Argument3 { get; set; }
 
         /// <summary>
         /// Argument to send to action.
         /// </summary>
         [RequiredArgument]
-        public InArgument<TArg4> Arg4 { get; set; }
+        public InArgument<TArg4> Argument4 { get; set; }
 
         /// <summary>
         /// Argument to send to action.
         /// </summary>
         [RequiredArgument]
-        public InArgument<TArg5> Arg5 { get; set; }
+        public InArgument<TArg5> Argument5 { get; set; }
 
         /// <summary>
         /// Argument to send to action.
         /// </summary>
         [RequiredArgument]
-        public InArgument<TArg6> Arg6 { get; set; }
+        public InArgument<TArg6> Argument6 { get; set; }
 
         /// <summary>
         /// Argument to send to action.
         /// </summary>
         [RequiredArgument]
-        public InArgument<TArg7> Arg7 { get; set; }
+        public InArgument<TArg7> Argument7 { get; set; }
 
         /// <summary>
         /// Argument to send to action.
         /// </summary>
         [RequiredArgument]
-        public InArgument<TArg8> Arg8 { get; set; }
+        public InArgument<TArg8> Argument8 { get; set; }
 
         protected override IAsyncResult BeginExecute(NativeActivityContext context, AsyncCallback callback, object state)
         {
-            return action(context, context.GetValue(Arg1), context.GetValue(Arg2), context.GetValue(Arg3), context.GetValue(Arg4), context.GetValue(Arg5), context.GetValue(Arg6), context.GetValue(Arg7), context.GetValue(Arg8)).BeginToAsync(callback, state);
+            return Action(context.GetValue(Argument1), context.GetValue(Argument2), context.GetValue(Argument3), context.GetValue(Argument4), context.GetValue(Argument5), context.GetValue(Argument6), context.GetValue(Argument7), context.GetValue(Argument8)).BeginToAsync(callback, state);
         }
 
         protected override void EndExecute(NativeActivityContext context, IAsyncResult result)
@@ -691,7 +834,7 @@ namespace Cogito.Activities
         {
             base.CacheMetadata(metadata);
 
-            if (action == null)
+            if (Action == null)
                 metadata.AddValidationError("Action is required.");
         }
 

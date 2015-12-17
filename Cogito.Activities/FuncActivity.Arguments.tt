@@ -7,7 +7,6 @@
 
 using System;
 using System.Activities;
-using System.Threading.Tasks;
 
 using Cogito.Threading;
 
@@ -20,16 +19,16 @@ for (int i = 1; i <= 8; i++)
 #>
 
     /// <summary>
-    /// Provides an <see cref="Activity"/> that executes the given asynchronous action with <#= i #> arguments.
+    /// Provides an <see cref="Activity"/> that executes the given function with <#= i #> arguments.
     /// </summary>
-    public class AsyncActionActivity<<#= Repeat("TArg{0}", i, ", ") #>> :
-        AsyncNativeActivity
+    public class FuncActivity<<#= Repeat("TArg{0}", i, ", ") #>, TResult> :
+        NativeActivity<TResult>
     {
 
         /// <summary>
         /// Initializes a new instance.
         /// </summary>
-        public AsyncActionActivity()
+        public FuncActivity()
         {
 
         }
@@ -37,7 +36,7 @@ for (int i = 1; i <= 8; i++)
         /// <summary>
         /// Initializes a new instance.
         /// </summary>
-        /// <param name="action"></param>
+        /// <param name="func"></param>
 <#
     for (int j = 1; j <= i; j++)
     {
@@ -46,9 +45,9 @@ for (int i = 1; i <= 8; i++)
 <#
     }
 #>
-        public AsyncActionActivity(Func<<#= Repeat("TArg{0}", i, ", ") #>, Task> action = null, <#= Repeat("InArgument<TArg{0}> arg{0} = null", i, ", ") #>)
+        public FuncActivity(Func<<#= Repeat("TArg{0}", i, ", ") #>, TResult> func = null, <#= Repeat("InArgument<TArg{0}> arg{0} = null", i, ", ") #>)
         {
-            Action = action;
+            Func = func;
 <#
     for (int j = 1; j <= i; j++)
     {
@@ -62,7 +61,6 @@ for (int i = 1; i <= 8; i++)
         /// <summary>
         /// Initializes a new instance.
         /// </summary>
-        /// <param name="action"></param>
 <#
     for (int j = 1; j <= i; j++)
     {
@@ -71,7 +69,8 @@ for (int i = 1; i <= 8; i++)
 <#
     }
 #>
-        public AsyncActionActivity(<#= Repeat("InArgument<TArg{0}> arg{0} = null", i, ", ") #>, Func<<#= Repeat("TArg{0}", i, ", ") #>, Task> action = null)
+        /// <param name="func"></param>
+        public FuncActivity(<#= Repeat("InArgument<TArg{0}> arg{0} = null", i, ", ") #>, Func<<#= Repeat("TArg{0}", i, ", ") #>, TResult> func = null)
         {
 <#
     for (int j = 1; j <= i; j++)
@@ -81,43 +80,38 @@ for (int i = 1; i <= 8; i++)
 <#
     }
 #>
-            Action = action;
+            Func = func;
         }
 
         /// <summary>
-        /// Gets or sets the action to be invoked.
+        /// Gets or sets the function to be invoked.
         /// </summary>
-        public Func<<#= Repeat("TArg{0}", i, ", ") #>, Task> Action { get; set; }
+        public Func<<#= Repeat("TArg{0}", i, ", ") #>, TResult> Func { get; set; }
 
 <#
-    for (int j = 1; j <= i; j++)
-    {
+for (int j = 1; j <= i; j++)
+{
 #>
         /// <summary>
-        /// Argument to send to action.
+        /// Argument to send to function.
         /// </summary>
         [RequiredArgument]
         public InArgument<TArg<#= j #>> Argument<#= j #> { get; set; }
 
 <#
-    }
+}
 #>
-        protected override IAsyncResult BeginExecute(NativeActivityContext context, AsyncCallback callback, object state)
+        protected override void Execute(NativeActivityContext context)
         {
-            return Action(<#= Repeat("context.GetValue(Argument{0})", i, ", ") #>).BeginToAsync(callback, state);
-        }
-
-        protected override void EndExecute(NativeActivityContext context, IAsyncResult result)
-        {
-            ((Task)result).EndToAsync();
+            Result.Set(context, Func(<#= Repeat("context.GetValue(Argument{0})", i, ", ") #>));
         }
 
         protected override void CacheMetadata(NativeActivityMetadata metadata)
         {
             base.CacheMetadata(metadata);
 
-            if (Action == null)
-                metadata.AddValidationError("Action is required.");
+            if (Func == null)
+                metadata.AddValidationError("Func is required.");
         }
 
     }

@@ -112,7 +112,7 @@ namespace Cogito.Fabric.Activities
         /// <param name="command"></param>
         void CreateWorkflowOwnerCommand(InstancePersistenceContext context, CreateWorkflowOwnerCommand command)
         {
-            context.BindInstanceOwner((Guid)actorState.InstanceOwnerId, Guid.NewGuid());
+            context.BindInstanceOwner(actorState.InstanceOwnerId, Guid.NewGuid());
         }
 
         /// <summary>

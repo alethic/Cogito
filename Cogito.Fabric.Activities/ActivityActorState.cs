@@ -22,7 +22,7 @@ namespace Cogito.Fabric.Activities
         /// Owner ID of this <see cref="ActivityActor{TActivity, TState}"/>.
         /// </summary>
         [DataMember]
-        public Guid? InstanceOwnerId { get; set; }
+        public Guid InstanceOwnerId { get; set; }
 
         /// <summary>
         /// State of the <see cref="ActivityActor{TActivity, TState}"/>.
@@ -31,16 +31,10 @@ namespace Cogito.Fabric.Activities
         public ActivityActorStatus Status { get; set; }
 
         /// <summary>
-        /// Set of inputs to be handed to the <see cref="Activity"/>.
-        /// </summary>
-        [DataMember]
-        public Dictionary<string, object> Inputs { get; set; }
-
-        /// <summary>
         /// Instance ID of the workflow associated with the <see cref="ActivityActor{TActivity, TState}"/>.
         /// </summary>
         [DataMember]
-        public Guid? InstanceId { get; set; }
+        public Guid InstanceId { get; set; }
 
         /// <summary>
         /// Set of outstanding bookmarks.
@@ -59,26 +53,6 @@ namespace Cogito.Fabric.Activities
         /// </summary>
         [DataMember]
         public Dictionary<Guid, Dictionary<XName, object>> InstanceMetadata { get; set; }
-
-        /// <summary>
-        /// Set of outputs returned by the <see cref="Activity"/>.
-        /// </summary>
-        [DataMember]
-        public Dictionary<string, object> Outputs { get; set; }
-
-        /// <summary>
-        /// Resets the activity state.
-        /// </summary>
-        public void Reset()
-        {
-            Status = ActivityActorStatus.Uninitialized;
-            Inputs = null;
-            InstanceId = null;
-            Bookmarks = null;
-            InstanceData = null;
-            InstanceMetadata = null;
-            Outputs = null;
-        }
 
     }
 

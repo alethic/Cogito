@@ -3,13 +3,13 @@ using System.Activities;
 using System.Diagnostics.Contracts;
 using System.Threading.Tasks;
 
-namespace Cogito.Fabric.Activities
+namespace Cogito.Activities
 {
 
     /// <summary>
     /// Various extension methods for working with a <see cref="WorkflowApplication"/>.
     /// </summary>
-    static class WorkflowApplicationExtensions
+    public static class WorkflowApplicationExtensions
     {
 
         /// <summary>
@@ -52,6 +52,30 @@ namespace Cogito.Fabric.Activities
             Contract.Requires<ArgumentNullException>(bookmarkName != null);
 
             return Task.Factory.FromAsync(self.BeginResumeBookmark, self.EndResumeBookmark, bookmarkName, value, null);
+        }
+
+        /// <summary>
+        /// Persists and a workflow instance to the instance store asychronously.
+        /// </summary>
+        /// <param name="self"></param>
+        /// <returns></returns>
+        public static Task PersistAsync(this WorkflowApplication self)
+        {
+            Contract.Requires<ArgumentNullException>(self != null);
+
+            return Task.Factory.FromAsync(self.BeginPersist, self.EndPersist, null);
+        }
+
+        /// <summary>
+        /// Persists and disposes a workflow instance asynchronously.
+        /// </summary>
+        /// <param name="self"></param>
+        /// <returns></returns>
+        public static Task UnloadAsync(this WorkflowApplication self)
+        {
+            Contract.Requires<ArgumentNullException>(self != null);
+
+            return Task.Factory.FromAsync(self.BeginUnload, self.EndUnload, null);
         }
 
     }
