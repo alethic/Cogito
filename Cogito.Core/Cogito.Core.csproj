@@ -200,6 +200,8 @@
     <Compile Include="Threading\AsyncLock.cs" />
     <Compile Include="Threading\AsyncManualResetEvent.cs" />
     <Compile Include="Threading\CompletedAsyncResult.cs" />
+    <Compile Include="Threading\QueuedSynchronizationContext.cs" />
+    <Compile Include="Threading\QueuedSynchronizationContextTask.cs" />
     <Compile Include="Threading\TaskEnumerableExtensions.cs" />
     <Compile Include="Threading\TaskExtensions.cs" />
     <Compile Include="Threading\Timer.cs" />

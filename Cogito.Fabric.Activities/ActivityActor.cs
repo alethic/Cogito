@@ -8,7 +8,9 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+
 using Cogito.Collections;
+using Cogito.Threading;
 
 using Microsoft.ServiceFabric.Actors;
 
@@ -84,25 +86,24 @@ namespace Cogito.Fabric.Activities
     }
 
     /// <summary>
-    /// Represents a <see cref="StatefulActor"/> that hosts a Windows Workflow Foundation <typeparamref name="TActivity"/>.
+    /// Represents a <see cref="StatefulActor"/> that hosts a Windows Workflow Foundation <see cref="Activity"/>.
     /// </summary>
-    /// <typeparam name="TActivity"></typeparam>
     /// <typeparam name="TState"></typeparam>
-    public abstract class ActivityActor<TActivity, TState> :
+    public abstract class ActivityActor<TState> :
         ActivityActorBase<TState>,
         IRemindable
-        where TActivity : Activity, new()
     {
 
         static readonly XName TimerExpirationTimeKey = XName.Get("TimerExpirationTime", "urn:schemas-microsoft-com:System.Activities/4.0/properties");
         static readonly string TimerExpirationReminderName = "Cogito.Fabric.Activities.TimerExpirationReminder";
 
-        TActivity activity;
+        Activity activity;
+        WorkflowApplication workflow;
 
         /// <summary>
         /// Gets a reference to the instance of <typeparamref name="TActivity"/>.
         /// </summary>
-        protected TActivity Activity
+        protected Activity Activity
         {
             get { return activity ?? (activity = CreateActivity()); }
         }
@@ -111,24 +112,31 @@ namespace Cogito.Fabric.Activities
         /// Creates a new instance of <see cref="TActivity"/>. Override this method to customize the instance.
         /// </summary>
         /// <returns></returns>
-        protected virtual TActivity CreateActivity()
+        protected abstract Activity CreateActivity();
+
+        /// <summary>
+        /// Gets a reference to the <see cref="WorkflowApplication"/>.
+        /// </summary>
+        protected WorkflowApplication Workflow
         {
-            return new TActivity();
+            get { return workflow ?? (workflow = CreateWorkflow()); }
         }
 
         /// <summary>
         /// Create a new <see cref="WorkflowApplication"/> instance.
         /// </summary>
         /// <param name="taskCompletionSource"></param>
+        /// <param name="synchronizationContext"></param>
         /// <returns></returns>
-        WorkflowApplication CreateWorkflow(TaskCompletionSource<bool> taskCompletionSource)
+        WorkflowApplication CreateWorkflow(TaskCompletionSource<bool> taskCompletionSource, QueuedSynchronizationContext synchronizationContext)
         {
             Contract.Requires<ArgumentNullException>(taskCompletionSource != null);
+            Contract.Requires<ArgumentNullException>(synchronizationContext != null);
 
             var workflow = ActivityState.Inputs != null ? new WorkflowApplication(Activity, ActivityState.Inputs) : new WorkflowApplication(Activity);
-            workflow.SynchronizationContext = SynchronizationContext.Current;
+            workflow.SynchronizationContext = synchronizationContext;
             workflow.InstanceStore = new ActivityActorInstanceStore<TState>(this);
-            workflow.Extensions.Add(new DurableTimerExtension());
+            workflow.Extensions.Add(new ActivityActorExtension(this));
 
             // to store exception that occurs during invoation
             Exception exception = null;
@@ -203,13 +211,15 @@ namespace Cogito.Fabric.Activities
         /// Gets or creates and loads a new <see cref="WorkflowApplication"/> instance.
         /// </summary>
         /// <param name="taskCompletionSource"></param>
+        /// <param name="synchronizationContext"></param>
         /// <returns></returns>
-        async Task<WorkflowApplication> CreateAndLoadWorkflow(TaskCompletionSource<bool> taskCompletionSource)
+        async Task<WorkflowApplication> CreateAndLoadWorkflow(TaskCompletionSource<bool> taskCompletionSource, QueuedSynchronizationContext synchronizationContext)
         {
             Contract.Requires<ArgumentNullException>(taskCompletionSource != null);
+            Contract.Requires<ArgumentNullException>(synchronizationContext != null);
 
             // create new workflow instance
-            var workflow = CreateWorkflow(taskCompletionSource);
+            var workflow = CreateWorkflow(taskCompletionSource, synchronizationContext);
             if (workflow == null)
                 throw new NullReferenceException();
 
@@ -239,8 +249,33 @@ namespace Cogito.Fabric.Activities
             // run workflow instance and wait for completion
             try
             {
+                var syn = new QueuedSynchronizationContext();
                 var tcs = new TaskCompletionSource<bool>();
-                await func(await CreateAndLoadWorkflow(tcs));
+
+                // execute user invocation
+                await func(await CreateAndLoadWorkflow(tcs, syn));
+
+                // run items scheduled in the queue until the workflow is complete
+                do
+                {
+                    var item = syn.Dequeue();
+                    if (item != null)
+                    {
+                        try
+                        {
+                            SynchronizationContext.SetSynchronizationContext(syn);
+                            item.Callback(item.State);
+                        }
+                        finally
+                        {
+                            SynchronizationContext.SetSynchronizationContext(null);
+                        }
+                    }
+                    else
+                        await Task.Delay(10);
+                }
+                while (!tcs.Task.IsCompleted && !tcs.Task.IsCanceled && !tcs.Task.IsFaulted);
+
                 await tcs.Task;
             }
             catch (Exception e)
@@ -436,12 +471,11 @@ namespace Cogito.Fabric.Activities
     }
 
     /// <summary>
-    /// Represents a <see cref="StatefulActor"/> that hosts a Windows Workflow Foundation <typeparamref name="TActivity"/>.
+    /// Represents a <see cref="StatefulActor"/> that hosts a Windows Workflow Foundation <see cref="Activity"/>.
     /// </summary>
     /// <typeparam name="TState"></typeparam>
-    public abstract class ActivityActor<TActivity> :
-        ActivityActor<TActivity, object>
-        where TActivity : Activity, new()
+    public abstract class ActivityActor :
+        ActivityActor<object>
     {
 
 

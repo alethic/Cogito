@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Activities;
 using System.Activities.Hosting;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -13,6 +12,7 @@ namespace Cogito.Fabric.Activities
     /// Describes the state persisted along with the actor.
     /// </summary>
     [DataContract]
+    [KnownType(typeof(XName))]
     [KnownType(typeof(ActivityActorSerializedObject))]
     [KnownType(typeof(ReadOnlyCollection<BookmarkInfo>))]
     public class ActivityActorState
