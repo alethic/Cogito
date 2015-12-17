@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics.Contracts;
-using System.Threading;
+using System.Runtime.ExceptionServices;
 using System.Threading.Tasks;
 
 namespace Cogito.Threading
@@ -21,14 +20,14 @@ namespace Cogito.Threading
         /// <param name="callback"></param>
         /// <param name="state"></param>
         /// <returns></returns>
-        public static Task<TResult> BeginToAsync<TResult>(this Task<TResult> task, AsyncCallback callback, object state)
+        public static IAsyncResult BeginToAsync<TResult>(this Task<TResult> task, AsyncCallback callback, object state)
         {
             Contract.Requires<ArgumentNullException>(task != null);
 
             if (task.AsyncState == state)
             {
                 if (callback != null)
-                    task.ContinueWith(_ => callback(task), CancellationToken.None, TaskContinuationOptions.None, TaskScheduler.Default);
+                    task.ContinueWith(_ => callback(task), TaskContinuationOptions.ExecuteSynchronously); // ensure ExecutionContext is preserved
 
                 return task;
             }
@@ -47,7 +46,45 @@ namespace Cogito.Threading
                 if (callback != null)
                     callback(tcs.Task);
 
-            }, CancellationToken.None, TaskContinuationOptions.None, TaskScheduler.Default);
+            }, TaskContinuationOptions.ExecuteSynchronously); // ensure ExecutionContext is preserved
+
+            return tcs.Task;
+        }
+
+        /// <summary>
+        /// Implements the Begin method of the Asynchronous Programming Model pattern for a <see cref="Task"/>. 
+        /// </summary>
+        /// <param name="task"></param>
+        /// <param name="callback"></param>
+        /// <param name="state"></param>
+        /// <returns></returns>
+        public static IAsyncResult BeginToAsync(this Task task, AsyncCallback callback, object state)
+        {
+            Contract.Requires<ArgumentNullException>(task != null);
+
+            if (task.AsyncState == state)
+            {
+                if (callback != null)
+                    task.ContinueWith(_ => callback(task), TaskContinuationOptions.ExecuteSynchronously); // ensure ExecutionContext is preserved
+
+                return task;
+            }
+
+            var tcs = new TaskCompletionSource<object>(state);
+
+            task.ContinueWith(_ =>
+            {
+                if (task.IsFaulted)
+                    tcs.TrySetException(task.Exception.InnerExceptions);
+                else if (task.IsCanceled)
+                    tcs.TrySetCanceled();
+                else
+                    tcs.TrySetResult(null);
+
+                if (callback != null)
+                    callback(tcs.Task);
+
+            }, TaskContinuationOptions.ExecuteSynchronously); // ensure ExecutionContext is preserved
 
             return tcs.Task;
         }
@@ -67,7 +104,28 @@ namespace Cogito.Threading
             }
             catch (AggregateException e) 
             {
-                throw e.InnerException; 
+                ExceptionDispatchInfo.Capture(e.InnerException).Throw();
+                throw e;
+            }
+        }
+
+        /// <summary>
+        /// Implements the End method of the Asynchronous Programming Model pattern for a <see cref="Task"/>. 
+        /// </summary>
+        /// <param name="task"></param>
+        /// <returns></returns>
+        public static void EndToAsync(this Task task)
+        {
+            Contract.Requires<ArgumentNullException>(task != null);
+
+            try
+            {
+                task.Wait();
+            }
+            catch (AggregateException e)
+            {
+                ExceptionDispatchInfo.Capture(e.InnerException).Throw();
+                throw e;
             }
         }
 
