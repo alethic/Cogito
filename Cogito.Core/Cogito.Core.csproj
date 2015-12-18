@@ -165,7 +165,9 @@
     <Compile Include="IO\BlockingStream.cs" />
     <Compile Include="IO\DelayedFileSystemWatcher.cs" />
     <Compile Include="IO\StreamExtensions.cs" />
+    <Compile Include="Json\Converters\TimeSpanFromSecondsJsonConverter.cs" />
     <Compile Include="Linq\Expressions\RedundantConvertExpressionTransformer.cs" />
+    <Compile Include="Linq\GroupOfAdjacent.cs" />
     <Compile Include="MediaRange.cs" />
     <Compile Include="MediaRangeJsonConverter.cs" />
     <Compile Include="MediaRangeParameters.cs" />

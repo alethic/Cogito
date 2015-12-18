@@ -27,9 +27,21 @@ namespace Cogito.Activities
         /// Initializes a new instance.
         /// </summary>
         /// <param name="func"></param>
-        public AsyncFuncActivity(Func<Task<TResult>> func)
-            : this()
+        /// <param name="result"></param>
+        public AsyncFuncActivity(Func<Task<TResult>> func = null, OutArgument<TResult> result = null)
         {
+            Func = func;
+            Result = result;
+        }
+
+        /// <summary>
+        /// Initializes a new instance.
+        /// </summary>
+        /// <param name="result"></param>
+        /// <param name="func"></param>
+        public AsyncFuncActivity(OutArgument<TResult> result = null, Func<Task<TResult>> func = null)
+        {
+            Result = result;
             Func = func;
         }
 

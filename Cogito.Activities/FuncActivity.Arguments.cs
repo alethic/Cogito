@@ -28,20 +28,24 @@ namespace Cogito.Activities
         /// </summary>
         /// <param name="func"></param>
         /// <param name="arg1"></param>
-        public FuncActivity(Func<TArg1, TResult> func = null, InArgument<TArg1> arg1 = null)
+        /// <param name="result"></param>
+        public FuncActivity(Func<TArg1, TResult> func = null, InArgument<TArg1> arg1 = null, OutArgument<TResult> result = null)
         {
             Func = func;
             Argument1 = arg1 ?? new InArgument<TArg1>(default(TArg1));
+            Result = result;
         }
 
         /// <summary>
         /// Initializes a new instance.
         /// </summary>
         /// <param name="arg1"></param>
+        /// <param name="result"></param>
         /// <param name="func"></param>
-        public FuncActivity(InArgument<TArg1> arg1 = null, Func<TArg1, TResult> func = null)
+        public FuncActivity(InArgument<TArg1> arg1 = null, OutArgument<TResult> result = null, Func<TArg1, TResult> func = null)
         {
             Argument1 = arg1 ?? new InArgument<TArg1>(default(TArg1));
+            Result = result;
             Func = func;
         }
 
@@ -92,24 +96,30 @@ namespace Cogito.Activities
         /// </summary>
         /// <param name="func"></param>
         /// <param name="arg1"></param>
+        /// <param name="result"></param>
         /// <param name="arg2"></param>
-        public FuncActivity(Func<TArg1, TArg2, TResult> func = null, InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null)
+        /// <param name="result"></param>
+        public FuncActivity(Func<TArg1, TArg2, TResult> func = null, InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, OutArgument<TResult> result = null)
         {
             Func = func;
             Argument1 = arg1 ?? new InArgument<TArg1>(default(TArg1));
             Argument2 = arg2 ?? new InArgument<TArg2>(default(TArg2));
+            Result = result;
         }
 
         /// <summary>
         /// Initializes a new instance.
         /// </summary>
         /// <param name="arg1"></param>
+        /// <param name="result"></param>
         /// <param name="arg2"></param>
+        /// <param name="result"></param>
         /// <param name="func"></param>
-        public FuncActivity(InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, Func<TArg1, TArg2, TResult> func = null)
+        public FuncActivity(InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, OutArgument<TResult> result = null, Func<TArg1, TArg2, TResult> func = null)
         {
             Argument1 = arg1 ?? new InArgument<TArg1>(default(TArg1));
             Argument2 = arg2 ?? new InArgument<TArg2>(default(TArg2));
+            Result = result;
             Func = func;
         }
 
@@ -166,28 +176,36 @@ namespace Cogito.Activities
         /// </summary>
         /// <param name="func"></param>
         /// <param name="arg1"></param>
+        /// <param name="result"></param>
         /// <param name="arg2"></param>
+        /// <param name="result"></param>
         /// <param name="arg3"></param>
-        public FuncActivity(Func<TArg1, TArg2, TArg3, TResult> func = null, InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, InArgument<TArg3> arg3 = null)
+        /// <param name="result"></param>
+        public FuncActivity(Func<TArg1, TArg2, TArg3, TResult> func = null, InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, InArgument<TArg3> arg3 = null, OutArgument<TResult> result = null)
         {
             Func = func;
             Argument1 = arg1 ?? new InArgument<TArg1>(default(TArg1));
             Argument2 = arg2 ?? new InArgument<TArg2>(default(TArg2));
             Argument3 = arg3 ?? new InArgument<TArg3>(default(TArg3));
+            Result = result;
         }
 
         /// <summary>
         /// Initializes a new instance.
         /// </summary>
         /// <param name="arg1"></param>
+        /// <param name="result"></param>
         /// <param name="arg2"></param>
+        /// <param name="result"></param>
         /// <param name="arg3"></param>
+        /// <param name="result"></param>
         /// <param name="func"></param>
-        public FuncActivity(InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, InArgument<TArg3> arg3 = null, Func<TArg1, TArg2, TArg3, TResult> func = null)
+        public FuncActivity(InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, InArgument<TArg3> arg3 = null, OutArgument<TResult> result = null, Func<TArg1, TArg2, TArg3, TResult> func = null)
         {
             Argument1 = arg1 ?? new InArgument<TArg1>(default(TArg1));
             Argument2 = arg2 ?? new InArgument<TArg2>(default(TArg2));
             Argument3 = arg3 ?? new InArgument<TArg3>(default(TArg3));
+            Result = result;
             Func = func;
         }
 
@@ -250,32 +268,42 @@ namespace Cogito.Activities
         /// </summary>
         /// <param name="func"></param>
         /// <param name="arg1"></param>
+        /// <param name="result"></param>
         /// <param name="arg2"></param>
+        /// <param name="result"></param>
         /// <param name="arg3"></param>
+        /// <param name="result"></param>
         /// <param name="arg4"></param>
-        public FuncActivity(Func<TArg1, TArg2, TArg3, TArg4, TResult> func = null, InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, InArgument<TArg3> arg3 = null, InArgument<TArg4> arg4 = null)
+        /// <param name="result"></param>
+        public FuncActivity(Func<TArg1, TArg2, TArg3, TArg4, TResult> func = null, InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, InArgument<TArg3> arg3 = null, InArgument<TArg4> arg4 = null, OutArgument<TResult> result = null)
         {
             Func = func;
             Argument1 = arg1 ?? new InArgument<TArg1>(default(TArg1));
             Argument2 = arg2 ?? new InArgument<TArg2>(default(TArg2));
             Argument3 = arg3 ?? new InArgument<TArg3>(default(TArg3));
             Argument4 = arg4 ?? new InArgument<TArg4>(default(TArg4));
+            Result = result;
         }
 
         /// <summary>
         /// Initializes a new instance.
         /// </summary>
         /// <param name="arg1"></param>
+        /// <param name="result"></param>
         /// <param name="arg2"></param>
+        /// <param name="result"></param>
         /// <param name="arg3"></param>
+        /// <param name="result"></param>
         /// <param name="arg4"></param>
+        /// <param name="result"></param>
         /// <param name="func"></param>
-        public FuncActivity(InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, InArgument<TArg3> arg3 = null, InArgument<TArg4> arg4 = null, Func<TArg1, TArg2, TArg3, TArg4, TResult> func = null)
+        public FuncActivity(InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, InArgument<TArg3> arg3 = null, InArgument<TArg4> arg4 = null, OutArgument<TResult> result = null, Func<TArg1, TArg2, TArg3, TArg4, TResult> func = null)
         {
             Argument1 = arg1 ?? new InArgument<TArg1>(default(TArg1));
             Argument2 = arg2 ?? new InArgument<TArg2>(default(TArg2));
             Argument3 = arg3 ?? new InArgument<TArg3>(default(TArg3));
             Argument4 = arg4 ?? new InArgument<TArg4>(default(TArg4));
+            Result = result;
             Func = func;
         }
 
@@ -344,11 +372,16 @@ namespace Cogito.Activities
         /// </summary>
         /// <param name="func"></param>
         /// <param name="arg1"></param>
+        /// <param name="result"></param>
         /// <param name="arg2"></param>
+        /// <param name="result"></param>
         /// <param name="arg3"></param>
+        /// <param name="result"></param>
         /// <param name="arg4"></param>
+        /// <param name="result"></param>
         /// <param name="arg5"></param>
-        public FuncActivity(Func<TArg1, TArg2, TArg3, TArg4, TArg5, TResult> func = null, InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, InArgument<TArg3> arg3 = null, InArgument<TArg4> arg4 = null, InArgument<TArg5> arg5 = null)
+        /// <param name="result"></param>
+        public FuncActivity(Func<TArg1, TArg2, TArg3, TArg4, TArg5, TResult> func = null, InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, InArgument<TArg3> arg3 = null, InArgument<TArg4> arg4 = null, InArgument<TArg5> arg5 = null, OutArgument<TResult> result = null)
         {
             Func = func;
             Argument1 = arg1 ?? new InArgument<TArg1>(default(TArg1));
@@ -356,24 +389,31 @@ namespace Cogito.Activities
             Argument3 = arg3 ?? new InArgument<TArg3>(default(TArg3));
             Argument4 = arg4 ?? new InArgument<TArg4>(default(TArg4));
             Argument5 = arg5 ?? new InArgument<TArg5>(default(TArg5));
+            Result = result;
         }
 
         /// <summary>
         /// Initializes a new instance.
         /// </summary>
         /// <param name="arg1"></param>
+        /// <param name="result"></param>
         /// <param name="arg2"></param>
+        /// <param name="result"></param>
         /// <param name="arg3"></param>
+        /// <param name="result"></param>
         /// <param name="arg4"></param>
+        /// <param name="result"></param>
         /// <param name="arg5"></param>
+        /// <param name="result"></param>
         /// <param name="func"></param>
-        public FuncActivity(InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, InArgument<TArg3> arg3 = null, InArgument<TArg4> arg4 = null, InArgument<TArg5> arg5 = null, Func<TArg1, TArg2, TArg3, TArg4, TArg5, TResult> func = null)
+        public FuncActivity(InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, InArgument<TArg3> arg3 = null, InArgument<TArg4> arg4 = null, InArgument<TArg5> arg5 = null, OutArgument<TResult> result = null, Func<TArg1, TArg2, TArg3, TArg4, TArg5, TResult> func = null)
         {
             Argument1 = arg1 ?? new InArgument<TArg1>(default(TArg1));
             Argument2 = arg2 ?? new InArgument<TArg2>(default(TArg2));
             Argument3 = arg3 ?? new InArgument<TArg3>(default(TArg3));
             Argument4 = arg4 ?? new InArgument<TArg4>(default(TArg4));
             Argument5 = arg5 ?? new InArgument<TArg5>(default(TArg5));
+            Result = result;
             Func = func;
         }
 
@@ -448,12 +488,18 @@ namespace Cogito.Activities
         /// </summary>
         /// <param name="func"></param>
         /// <param name="arg1"></param>
+        /// <param name="result"></param>
         /// <param name="arg2"></param>
+        /// <param name="result"></param>
         /// <param name="arg3"></param>
+        /// <param name="result"></param>
         /// <param name="arg4"></param>
+        /// <param name="result"></param>
         /// <param name="arg5"></param>
+        /// <param name="result"></param>
         /// <param name="arg6"></param>
-        public FuncActivity(Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TResult> func = null, InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, InArgument<TArg3> arg3 = null, InArgument<TArg4> arg4 = null, InArgument<TArg5> arg5 = null, InArgument<TArg6> arg6 = null)
+        /// <param name="result"></param>
+        public FuncActivity(Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TResult> func = null, InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, InArgument<TArg3> arg3 = null, InArgument<TArg4> arg4 = null, InArgument<TArg5> arg5 = null, InArgument<TArg6> arg6 = null, OutArgument<TResult> result = null)
         {
             Func = func;
             Argument1 = arg1 ?? new InArgument<TArg1>(default(TArg1));
@@ -462,19 +508,26 @@ namespace Cogito.Activities
             Argument4 = arg4 ?? new InArgument<TArg4>(default(TArg4));
             Argument5 = arg5 ?? new InArgument<TArg5>(default(TArg5));
             Argument6 = arg6 ?? new InArgument<TArg6>(default(TArg6));
+            Result = result;
         }
 
         /// <summary>
         /// Initializes a new instance.
         /// </summary>
         /// <param name="arg1"></param>
+        /// <param name="result"></param>
         /// <param name="arg2"></param>
+        /// <param name="result"></param>
         /// <param name="arg3"></param>
+        /// <param name="result"></param>
         /// <param name="arg4"></param>
+        /// <param name="result"></param>
         /// <param name="arg5"></param>
+        /// <param name="result"></param>
         /// <param name="arg6"></param>
+        /// <param name="result"></param>
         /// <param name="func"></param>
-        public FuncActivity(InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, InArgument<TArg3> arg3 = null, InArgument<TArg4> arg4 = null, InArgument<TArg5> arg5 = null, InArgument<TArg6> arg6 = null, Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TResult> func = null)
+        public FuncActivity(InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, InArgument<TArg3> arg3 = null, InArgument<TArg4> arg4 = null, InArgument<TArg5> arg5 = null, InArgument<TArg6> arg6 = null, OutArgument<TResult> result = null, Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TResult> func = null)
         {
             Argument1 = arg1 ?? new InArgument<TArg1>(default(TArg1));
             Argument2 = arg2 ?? new InArgument<TArg2>(default(TArg2));
@@ -482,6 +535,7 @@ namespace Cogito.Activities
             Argument4 = arg4 ?? new InArgument<TArg4>(default(TArg4));
             Argument5 = arg5 ?? new InArgument<TArg5>(default(TArg5));
             Argument6 = arg6 ?? new InArgument<TArg6>(default(TArg6));
+            Result = result;
             Func = func;
         }
 
@@ -562,13 +616,20 @@ namespace Cogito.Activities
         /// </summary>
         /// <param name="func"></param>
         /// <param name="arg1"></param>
+        /// <param name="result"></param>
         /// <param name="arg2"></param>
+        /// <param name="result"></param>
         /// <param name="arg3"></param>
+        /// <param name="result"></param>
         /// <param name="arg4"></param>
+        /// <param name="result"></param>
         /// <param name="arg5"></param>
+        /// <param name="result"></param>
         /// <param name="arg6"></param>
+        /// <param name="result"></param>
         /// <param name="arg7"></param>
-        public FuncActivity(Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TResult> func = null, InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, InArgument<TArg3> arg3 = null, InArgument<TArg4> arg4 = null, InArgument<TArg5> arg5 = null, InArgument<TArg6> arg6 = null, InArgument<TArg7> arg7 = null)
+        /// <param name="result"></param>
+        public FuncActivity(Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TResult> func = null, InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, InArgument<TArg3> arg3 = null, InArgument<TArg4> arg4 = null, InArgument<TArg5> arg5 = null, InArgument<TArg6> arg6 = null, InArgument<TArg7> arg7 = null, OutArgument<TResult> result = null)
         {
             Func = func;
             Argument1 = arg1 ?? new InArgument<TArg1>(default(TArg1));
@@ -578,20 +639,28 @@ namespace Cogito.Activities
             Argument5 = arg5 ?? new InArgument<TArg5>(default(TArg5));
             Argument6 = arg6 ?? new InArgument<TArg6>(default(TArg6));
             Argument7 = arg7 ?? new InArgument<TArg7>(default(TArg7));
+            Result = result;
         }
 
         /// <summary>
         /// Initializes a new instance.
         /// </summary>
         /// <param name="arg1"></param>
+        /// <param name="result"></param>
         /// <param name="arg2"></param>
+        /// <param name="result"></param>
         /// <param name="arg3"></param>
+        /// <param name="result"></param>
         /// <param name="arg4"></param>
+        /// <param name="result"></param>
         /// <param name="arg5"></param>
+        /// <param name="result"></param>
         /// <param name="arg6"></param>
+        /// <param name="result"></param>
         /// <param name="arg7"></param>
+        /// <param name="result"></param>
         /// <param name="func"></param>
-        public FuncActivity(InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, InArgument<TArg3> arg3 = null, InArgument<TArg4> arg4 = null, InArgument<TArg5> arg5 = null, InArgument<TArg6> arg6 = null, InArgument<TArg7> arg7 = null, Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TResult> func = null)
+        public FuncActivity(InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, InArgument<TArg3> arg3 = null, InArgument<TArg4> arg4 = null, InArgument<TArg5> arg5 = null, InArgument<TArg6> arg6 = null, InArgument<TArg7> arg7 = null, OutArgument<TResult> result = null, Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TResult> func = null)
         {
             Argument1 = arg1 ?? new InArgument<TArg1>(default(TArg1));
             Argument2 = arg2 ?? new InArgument<TArg2>(default(TArg2));
@@ -600,6 +669,7 @@ namespace Cogito.Activities
             Argument5 = arg5 ?? new InArgument<TArg5>(default(TArg5));
             Argument6 = arg6 ?? new InArgument<TArg6>(default(TArg6));
             Argument7 = arg7 ?? new InArgument<TArg7>(default(TArg7));
+            Result = result;
             Func = func;
         }
 
@@ -686,14 +756,22 @@ namespace Cogito.Activities
         /// </summary>
         /// <param name="func"></param>
         /// <param name="arg1"></param>
+        /// <param name="result"></param>
         /// <param name="arg2"></param>
+        /// <param name="result"></param>
         /// <param name="arg3"></param>
+        /// <param name="result"></param>
         /// <param name="arg4"></param>
+        /// <param name="result"></param>
         /// <param name="arg5"></param>
+        /// <param name="result"></param>
         /// <param name="arg6"></param>
+        /// <param name="result"></param>
         /// <param name="arg7"></param>
+        /// <param name="result"></param>
         /// <param name="arg8"></param>
-        public FuncActivity(Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TResult> func = null, InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, InArgument<TArg3> arg3 = null, InArgument<TArg4> arg4 = null, InArgument<TArg5> arg5 = null, InArgument<TArg6> arg6 = null, InArgument<TArg7> arg7 = null, InArgument<TArg8> arg8 = null)
+        /// <param name="result"></param>
+        public FuncActivity(Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TResult> func = null, InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, InArgument<TArg3> arg3 = null, InArgument<TArg4> arg4 = null, InArgument<TArg5> arg5 = null, InArgument<TArg6> arg6 = null, InArgument<TArg7> arg7 = null, InArgument<TArg8> arg8 = null, OutArgument<TResult> result = null)
         {
             Func = func;
             Argument1 = arg1 ?? new InArgument<TArg1>(default(TArg1));
@@ -704,21 +782,30 @@ namespace Cogito.Activities
             Argument6 = arg6 ?? new InArgument<TArg6>(default(TArg6));
             Argument7 = arg7 ?? new InArgument<TArg7>(default(TArg7));
             Argument8 = arg8 ?? new InArgument<TArg8>(default(TArg8));
+            Result = result;
         }
 
         /// <summary>
         /// Initializes a new instance.
         /// </summary>
         /// <param name="arg1"></param>
+        /// <param name="result"></param>
         /// <param name="arg2"></param>
+        /// <param name="result"></param>
         /// <param name="arg3"></param>
+        /// <param name="result"></param>
         /// <param name="arg4"></param>
+        /// <param name="result"></param>
         /// <param name="arg5"></param>
+        /// <param name="result"></param>
         /// <param name="arg6"></param>
+        /// <param name="result"></param>
         /// <param name="arg7"></param>
+        /// <param name="result"></param>
         /// <param name="arg8"></param>
+        /// <param name="result"></param>
         /// <param name="func"></param>
-        public FuncActivity(InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, InArgument<TArg3> arg3 = null, InArgument<TArg4> arg4 = null, InArgument<TArg5> arg5 = null, InArgument<TArg6> arg6 = null, InArgument<TArg7> arg7 = null, InArgument<TArg8> arg8 = null, Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TResult> func = null)
+        public FuncActivity(InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, InArgument<TArg3> arg3 = null, InArgument<TArg4> arg4 = null, InArgument<TArg5> arg5 = null, InArgument<TArg6> arg6 = null, InArgument<TArg7> arg7 = null, InArgument<TArg8> arg8 = null, OutArgument<TResult> result = null, Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TResult> func = null)
         {
             Argument1 = arg1 ?? new InArgument<TArg1>(default(TArg1));
             Argument2 = arg2 ?? new InArgument<TArg2>(default(TArg2));
@@ -728,6 +815,7 @@ namespace Cogito.Activities
             Argument6 = arg6 ?? new InArgument<TArg6>(default(TArg6));
             Argument7 = arg7 ?? new InArgument<TArg7>(default(TArg7));
             Argument8 = arg8 ?? new InArgument<TArg8>(default(TArg8));
+            Result = result;
             Func = func;
         }
 

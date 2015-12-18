@@ -173,6 +173,19 @@ namespace Cogito.Linq
         }
 
         /// <summary>
+        /// Initializes a new <see cref="LinkedList{T}"/> containing the specified source items.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="source"></param>
+        /// <returns></returns>
+        public static LinkedList<T> ToLinkedList<T>(this IEnumerable<T> source)
+        {
+            Contract.Requires<ArgumentNullException>(source != null);
+
+            return new LinkedList<T>(source);
+        }
+
+        /// <summary>
         /// Initializes a new <see cref="HashSet"/> containing the specified source items.
         /// </summary>
         /// <typeparam name="T"></typeparam>
@@ -324,6 +337,55 @@ namespace Cogito.Linq
             Contract.Requires<ArgumentNullException>(items != null);
 
             return !items.Except(source).Any();
+        }
+
+        /// <summary>
+        /// Groups the elements of a sequence according to a specified key selector function and projects the elements
+        /// for each group by using a specified function. Does not maintain groups across adjecent matches.
+        /// </summary>
+        /// <typeparam name="TElement"></typeparam>
+        /// <typeparam name="TKey"></typeparam>
+        /// <param name="source"></param>
+        /// <param name="keySelector"></param>
+        /// <returns></returns>
+        public static IEnumerable<IGrouping<TKey, TElement>> GroupAdjacent<TElement, TKey>(this IEnumerable<TElement> source, Func<TElement, TKey> keySelector)
+        {
+            Contract.Requires<ArgumentNullException>(source != null);
+            Contract.Requires<ArgumentNullException>(keySelector != null);
+
+            var last = default(TKey);
+            var haveLast = false;
+            var list = new LinkedList<TElement>();
+
+            foreach (var s in source)
+            {
+                var k = keySelector(s);
+                if (haveLast)
+                {
+                    if (!k.Equals(last))
+                    {
+                        yield return new GroupOfAdjacent<TKey, TElement>(last, list);
+
+                        list = new LinkedList<TElement>();
+                        list.AddLast(s);
+                        last = k;
+                    }
+                    else
+                    {
+                        list.AddLast(s);
+                        last = k;
+                    }
+                }
+                else
+                {
+                    list.AddLast(s);
+                    last = k;
+                    haveLast = true;
+                }
+            }
+
+            if (haveLast)
+                yield return new GroupOfAdjacent<TKey, TElement>(last, list);
         }
 
     }

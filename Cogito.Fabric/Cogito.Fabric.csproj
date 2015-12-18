@@ -113,7 +113,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IServiceReference.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ServiceProxyExtensions.cs" />
+    <Compile Include="ServiceReference.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

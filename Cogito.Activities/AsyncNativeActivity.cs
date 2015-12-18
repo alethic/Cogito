@@ -212,7 +212,7 @@ namespace Cogito.Activities
                 context.RemoveBookmark(bookmark);
 
                 // invoke user exeuction end
-                EndExecute(context, result1);
+                Result.Set(context, EndExecute(context, result1));
             }
         }
 
@@ -229,7 +229,7 @@ namespace Cogito.Activities
             noPersistHandle.Exit(context);
 
             // invoke user exeuction end
-            EndExecute(context, value as IAsyncResult);
+            Result.Set(context, EndExecute(context, value as IAsyncResult));
         }
 
     }

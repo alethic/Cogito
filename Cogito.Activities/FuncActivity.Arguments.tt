@@ -42,10 +42,11 @@ for (int i = 1; i <= 8; i++)
     {
 #>
         /// <param name="arg<#= j #>"></param>
+        /// <param name="result"></param>
 <#
     }
 #>
-        public FuncActivity(Func<<#= Repeat("TArg{0}", i, ", ") #>, TResult> func = null, <#= Repeat("InArgument<TArg{0}> arg{0} = null", i, ", ") #>)
+        public FuncActivity(Func<<#= Repeat("TArg{0}", i, ", ") #>, TResult> func = null, <#= Repeat("InArgument<TArg{0}> arg{0} = null", i, ", ") #>, OutArgument<TResult> result = null)
         {
             Func = func;
 <#
@@ -56,6 +57,7 @@ for (int i = 1; i <= 8; i++)
 <#
     }
 #>
+            Result = result;
         }
 
         /// <summary>
@@ -66,11 +68,12 @@ for (int i = 1; i <= 8; i++)
     {
 #>
         /// <param name="arg<#= j #>"></param>
+        /// <param name="result"></param>
 <#
     }
 #>
         /// <param name="func"></param>
-        public FuncActivity(<#= Repeat("InArgument<TArg{0}> arg{0} = null", i, ", ") #>, Func<<#= Repeat("TArg{0}", i, ", ") #>, TResult> func = null)
+        public FuncActivity(<#= Repeat("InArgument<TArg{0}> arg{0} = null", i, ", ") #>, OutArgument<TResult> result = null, Func<<#= Repeat("TArg{0}", i, ", ") #>, TResult> func = null)
         {
 <#
     for (int j = 1; j <= i; j++)
@@ -80,6 +83,7 @@ for (int i = 1; i <= 8; i++)
 <#
     }
 #>
+            Result = result;
             Func = func;
         }
 
