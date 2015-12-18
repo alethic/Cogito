@@ -165,11 +165,11 @@
     <Compile Include="IO\BlockingStream.cs" />
     <Compile Include="IO\DelayedFileSystemWatcher.cs" />
     <Compile Include="IO\StreamExtensions.cs" />
-    <Compile Include="Json\Converters\TimeSpanFromSecondsJsonConverter.cs" />
+    <Compile Include="Json\Converters\TimeSpanAsSecondsJsonConverter.cs" />
     <Compile Include="Linq\Expressions\RedundantConvertExpressionTransformer.cs" />
     <Compile Include="Linq\GroupOfAdjacent.cs" />
     <Compile Include="MediaRange.cs" />
-    <Compile Include="MediaRangeJsonConverter.cs" />
+    <Compile Include="Json\Converters\MediaRangeJsonConverter.cs" />
     <Compile Include="MediaRangeParameters.cs" />
     <Compile Include="RandomExtensions.cs" />
     <Compile Include="Reflection\MethodInfoExtensions.cs" />

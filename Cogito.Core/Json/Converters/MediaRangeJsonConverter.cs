@@ -2,11 +2,11 @@
 
 using Newtonsoft.Json;
 
-namespace Cogito
+namespace Cogito.Json.Converters
 {
 
     /// <summary>
-    /// Provides serialization for a <see cref="MediaRange"/>.
+    /// Provides JSON serialization for a <see cref="MediaRange"/>.
     /// </summary>
     public class MediaRangeJsonConverter :
          JsonConverter
@@ -19,7 +19,7 @@ namespace Cogito
 
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            writer.WriteValue((string)(MediaRange)value);
+            writer.WriteValue((MediaRange)value);
         }
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)

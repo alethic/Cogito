@@ -6,13 +6,12 @@ namespace Cogito.Fabric.Activities.Test.TestActor
 {
 
     class TestActor :
-        ActivityActor<TestActorActivity>,
+        ActivityActor<TestActorActivity, object>,
         ITestActor
     {
 
         async Task ITestActor.Run()
         {
-            await base.InitializeAsync(null);
             await base.RunAsync();
         }
 

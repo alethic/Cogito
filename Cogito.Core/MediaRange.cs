@@ -7,6 +7,8 @@ using System.Security.Permissions;
 
 using Newtonsoft.Json;
 
+using Cogito.Json.Converters;
+
 namespace Cogito
 {
 
