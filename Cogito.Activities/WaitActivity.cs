@@ -58,7 +58,7 @@ namespace Cogito.Activities
         /// </summary>
         public WaitActivity()
         {
-
+            
         }
 
         /// <summary>
