@@ -2,10 +2,56 @@
 using System.Activities;
 using System.Activities.Statements;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Cogito.Activities
 {
+
+    public static partial class Activities
+    {
+
+        public static ForEachAsyncActionActivity<TElement> ForEach<TElement>(InArgument<IEnumerable<TElement>> source, Func<TElement, Task> action)
+        {
+            return new ForEachAsyncActionActivity<TElement>(source, (context, arg) => action(arg));
+        }
+
+        public static ForEachAsyncActionActivity<TElement> ForEach<TElement>(InArgument<IEnumerable<TElement>> source, Func<ActivityContext, TElement, Task> action)
+        {
+            return new ForEachAsyncActionActivity<TElement>(source, action);
+        }
+
+        public static ForEachAsyncActionActivity<TElement> ForEach<TElement>(InArgument<TElement[]> source, Func<TElement, Task> action)
+        {
+            return new ForEachAsyncActionActivity<TElement>(Func(source, i => i.AsEnumerable()), (context, arg) => action(arg));
+        }
+
+        public static ForEachAsyncActionActivity<TElement> ForEach<TElement>(InArgument<TElement[]> source, Func<ActivityContext, TElement, Task> action)
+        {
+            return new ForEachAsyncActionActivity<TElement>(Func(source, i => i.AsEnumerable()), action);
+        }
+
+        public static ForEachAsyncActionActivity<TElement> ForEach<TElement>(Func<IEnumerable<TElement>> source, Func<TElement, Task> action)
+        {
+            return new ForEachAsyncActionActivity<TElement>(Func(source), (context, arg) => action(arg));
+        }
+
+        public static ForEachAsyncActionActivity<TElement> ForEach<TElement>(Func<IEnumerable<TElement>> source, Func<ActivityContext, TElement, Task> action)
+        {
+            return new ForEachAsyncActionActivity<TElement>(Func(source), action);
+        }
+
+        public static ForEachAsyncActionActivity<TElement> ForEach<TElement>(this Activity<IEnumerable<TElement>> source, Func<TElement, Task> action)
+        {
+            return new ForEachAsyncActionActivity<TElement>(source, (context, arg) => action(arg));
+        }
+
+        public static ForEachAsyncActionActivity<TElement> ForEach<TElement>(this Activity<IEnumerable<TElement>> source, Func<ActivityContext, TElement, Task> action)
+        {
+            return new ForEachAsyncActionActivity<TElement>(source, action);
+        }
+
+    }
 
     /// <summary>
     /// Executes the given <see cref="Action{T}"/> per element.
@@ -42,7 +88,7 @@ namespace Cogito.Activities
         /// </summary>
         /// <param name="source"></param>
         /// <param name="action"></param>
-        public ForEachAsyncActionActivity(InArgument<IEnumerable<TElement>> source, Func<TElement, Task> action)
+        public ForEachAsyncActionActivity(InArgument<IEnumerable<TElement>> source, Func<ActivityContext, TElement, Task> action)
         {
             Source = source;
             Action = action;
@@ -58,7 +104,7 @@ namespace Cogito.Activities
         /// The <see cref="Action"/> to invoke for each element.
         /// </summary>
         [RequiredArgument]
-        public Func<TElement, Task> Action
+        public Func<ActivityContext, TElement, Task> Action
         {
             get { return action.Action; }
             set { action.Action = value; }

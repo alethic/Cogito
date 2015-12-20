@@ -4,12 +4,27 @@ using System.Activities;
 namespace Cogito.Activities
 {
 
-    public static partial class FuncActivity
+    public static partial class Activities
     {
 
-        public static FuncActivity<TResult> Create<TResult>(Func<TResult> func)
+        public static FuncActivity<TResult> Func<TResult>(Func<TResult> func)
+        {
+            return new FuncActivity<TResult>(context => func());
+        }
+
+        public static FuncActivity<TResult> Func<TResult>(Func<ActivityContext, TResult> func)
         {
             return new FuncActivity<TResult>(func);
+        }
+
+        public static FuncActivity<TSource, TResult> ThenWith<TSource, TResult>(this Activity<TSource> activity, Func<TSource, TResult> func)
+        {
+            return new FuncActivity<TSource, TResult>((context, a) => func(a), activity);
+        }
+
+        public static FuncActivity<TSource, TResult> ThenWith<TSource, TResult>(this Activity<TSource> activity, Func<ActivityContext, TSource, TResult> func)
+        {
+            return new FuncActivity<TSource, TResult>(func, activity);
         }
 
     }
@@ -33,7 +48,7 @@ namespace Cogito.Activities
         /// Initializes a new instance.
         /// </summary>
         /// <param name="func"></param>
-        public FuncActivity(Func<TResult> func)
+        public FuncActivity(Func<ActivityContext, TResult> func)
             : this()
         {
             Func = func;
@@ -43,11 +58,11 @@ namespace Cogito.Activities
         /// Gets or sets the action to be invoked.
         /// </summary>
         [RequiredArgument]
-        public Func<TResult> Func { get; set; }
+        public Func<ActivityContext, TResult> Func { get; set; }
 
         protected override void Execute(NativeActivityContext context)
         {
-            Result.Set(context, Func());
+            Result.Set(context, Func(context));
         }
 
     }

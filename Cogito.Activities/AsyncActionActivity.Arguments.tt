@@ -18,34 +18,65 @@ namespace Cogito.Activities
     {
 
 <#
-for (int i = 1; i <= 16; i++)
+for (int i = 1; i <= 8; i++)
 {
 #>
         public static AsyncActionActivity<<#= Repeat("TArg{0}", i, ", ") #>> Action<<#= Repeat("TArg{0}", i, ", ") #>>(Func<<#= Repeat("TArg{0}", i, ", ") #>, Task> func, <#= Repeat("InArgument<TArg{0}> arg{0}", i, ", ") #>)
         {
-            return new AsyncActionActivity<<#= Repeat("TArg{0}", i, ", ") #>>(func, <#= Repeat("arg{0}", i, ", ") #>);
+            return new AsyncActionActivity<<#= Repeat("TArg{0}", i, ", ") #>>((context, <#= Repeat("_arg{0}", i, ", ") #>) => func(<#= Repeat("_arg{0}", i, ", ") #>), <#= Repeat("arg{0}", i, ", ") #>);
         }
 
         public static AsyncActionActivity<<#= Repeat("TArg{0}", i, ", ") #>> Action<<#= Repeat("TArg{0}", i, ", ") #>>(Func<<#= Repeat("TArg{0}", i, ", ") #>, Task> func, <#= Repeat("DelegateInArgument<TArg{0}> arg{0}", i, ", ") #>)
         {
-            return new AsyncActionActivity<<#= Repeat("TArg{0}", i, ", ") #>>(func, <#= Repeat("arg{0}", i, ", ") #>);
+            return new AsyncActionActivity<<#= Repeat("TArg{0}", i, ", ") #>>((context, <#= Repeat("_arg{0}", i, ", ") #>) => func(<#= Repeat("_arg{0}", i, ", ") #>), <#= Repeat("arg{0}", i, ", ") #>);
         }
+
         public static AsyncActionActivity<<#= Repeat("TArg{0}", i, ", ") #>> Action<<#= Repeat("TArg{0}", i, ", ") #>>(Func<<#= Repeat("TArg{0}", i, ", ") #>, Task> func, <#= Repeat("Activity<TArg{0}> arg{0}", i, ", ") #>)
         {
-            return new AsyncActionActivity<<#= Repeat("TArg{0}", i, ", ") #>>(func, <#= Repeat("arg{0}", i, ", ") #>);
+            return new AsyncActionActivity<<#= Repeat("TArg{0}", i, ", ") #>>((context, <#= Repeat("_arg{0}", i, ", ") #>) => func(<#= Repeat("_arg{0}", i, ", ") #>), <#= Repeat("arg{0}", i, ", ") #>);
         }
 
         public static AsyncActionActivity<<#= Repeat("TArg{0}", i, ", ") #>> Action<<#= Repeat("TArg{0}", i, ", ") #>>(<#= Repeat("InArgument<TArg{0}> arg{0}", i, ", ") #>, Func<<#= Repeat("TArg{0}", i, ", ") #>, Task> func)
         {
-            return new AsyncActionActivity<<#= Repeat("TArg{0}", i, ", ") #>>(func, <#= Repeat("arg{0}", i, ", ") #>);
+            return new AsyncActionActivity<<#= Repeat("TArg{0}", i, ", ") #>>((context, <#= Repeat("_arg{0}", i, ", ") #>) => func(<#= Repeat("_arg{0}", i, ", ") #>), <#= Repeat("arg{0}", i, ", ") #>);
         }
 
         public static AsyncActionActivity<<#= Repeat("TArg{0}", i, ", ") #>> Action<<#= Repeat("TArg{0}", i, ", ") #>>(<#= Repeat("DelegateInArgument<TArg{0}> arg{0}", i, ", ") #>, Func<<#= Repeat("TArg{0}", i, ", ") #>, Task> func)
         {
-            return new AsyncActionActivity<<#= Repeat("TArg{0}", i, ", ") #>>(func, <#= Repeat("arg{0}", i, ", ") #>);
+            return new AsyncActionActivity<<#= Repeat("TArg{0}", i, ", ") #>>((context, <#= Repeat("_arg{0}", i, ", ") #>) => func(<#= Repeat("_arg{0}", i, ", ") #>), <#= Repeat("arg{0}", i, ", ") #>);
         }
 
         public static AsyncActionActivity<<#= Repeat("TArg{0}", i, ", ") #>> Action<<#= Repeat("TArg{0}", i, ", ") #>>(<#= Repeat("Activity<TArg{0}> arg{0}", i, ", ") #>, Func<<#= Repeat("TArg{0}", i, ", ") #>, Task> func)
+        {
+            return new AsyncActionActivity<<#= Repeat("TArg{0}", i, ", ") #>>((context, <#= Repeat("_arg{0}", i, ", ") #>) => func(<#= Repeat("_arg{0}", i, ", ") #>), <#= Repeat("arg{0}", i, ", ") #>);
+        }
+
+        
+        public static AsyncActionActivity<<#= Repeat("TArg{0}", i, ", ") #>> Action<<#= Repeat("TArg{0}", i, ", ") #>>(Func<ActivityContext, <#= Repeat("TArg{0}", i, ", ") #>, Task> func, <#= Repeat("InArgument<TArg{0}> arg{0}", i, ", ") #>)
+        {
+            return new AsyncActionActivity<<#= Repeat("TArg{0}", i, ", ") #>>(func, <#= Repeat("arg{0}", i, ", ") #>);
+        }
+
+        public static AsyncActionActivity<<#= Repeat("TArg{0}", i, ", ") #>> Action<<#= Repeat("TArg{0}", i, ", ") #>>(Func<ActivityContext, <#= Repeat("TArg{0}", i, ", ") #>, Task> func, <#= Repeat("DelegateInArgument<TArg{0}> arg{0}", i, ", ") #>)
+        {
+            return new AsyncActionActivity<<#= Repeat("TArg{0}", i, ", ") #>>(func, <#= Repeat("arg{0}", i, ", ") #>);
+        }
+        public static AsyncActionActivity<<#= Repeat("TArg{0}", i, ", ") #>> Action<<#= Repeat("TArg{0}", i, ", ") #>>(Func<ActivityContext, <#= Repeat("TArg{0}", i, ", ") #>, Task> func, <#= Repeat("Activity<TArg{0}> arg{0}", i, ", ") #>)
+        {
+            return new AsyncActionActivity<<#= Repeat("TArg{0}", i, ", ") #>>(func, <#= Repeat("arg{0}", i, ", ") #>);
+        }
+
+        public static AsyncActionActivity<<#= Repeat("TArg{0}", i, ", ") #>> Action<<#= Repeat("TArg{0}", i, ", ") #>>(<#= Repeat("InArgument<TArg{0}> arg{0}", i, ", ") #>, Func<ActivityContext, <#= Repeat("TArg{0}", i, ", ") #>, Task> func)
+        {
+            return new AsyncActionActivity<<#= Repeat("TArg{0}", i, ", ") #>>(func, <#= Repeat("arg{0}", i, ", ") #>);
+        }
+
+        public static AsyncActionActivity<<#= Repeat("TArg{0}", i, ", ") #>> Action<<#= Repeat("TArg{0}", i, ", ") #>>(<#= Repeat("DelegateInArgument<TArg{0}> arg{0}", i, ", ") #>, Func<ActivityContext, <#= Repeat("TArg{0}", i, ", ") #>, Task> func)
+        {
+            return new AsyncActionActivity<<#= Repeat("TArg{0}", i, ", ") #>>(func, <#= Repeat("arg{0}", i, ", ") #>);
+        }
+
+        public static AsyncActionActivity<<#= Repeat("TArg{0}", i, ", ") #>> Action<<#= Repeat("TArg{0}", i, ", ") #>>(<#= Repeat("Activity<TArg{0}> arg{0}", i, ", ") #>, Func<ActivityContext, <#= Repeat("TArg{0}", i, ", ") #>, Task> func)
         {
             return new AsyncActionActivity<<#= Repeat("TArg{0}", i, ", ") #>>(func, <#= Repeat("arg{0}", i, ", ") #>);
         }
@@ -57,7 +88,7 @@ for (int i = 1; i <= 16; i++)
     }
 
 <#
-for (int i = 1; i <= 16; i++)
+for (int i = 1; i <= 8; i++)
 {
 #>
 
@@ -88,7 +119,7 @@ for (int i = 1; i <= 16; i++)
 <#
     }
 #>
-        public AsyncActionActivity(Func<<#= Repeat("TArg{0}", i, ", ") #>, Task> action = null, <#= Repeat("InArgument<TArg{0}> arg{0} = null", i, ", ") #>)
+        public AsyncActionActivity(Func<ActivityContext, <#= Repeat("TArg{0}", i, ", ") #>, Task> action = null, <#= Repeat("InArgument<TArg{0}> arg{0} = null", i, ", ") #>)
         {
             Action = action;
 <#
@@ -113,7 +144,7 @@ for (int i = 1; i <= 16; i++)
 <#
     }
 #>
-        public AsyncActionActivity(<#= Repeat("InArgument<TArg{0}> arg{0} = null", i, ", ") #>, Func<<#= Repeat("TArg{0}", i, ", ") #>, Task> action = null)
+        public AsyncActionActivity(<#= Repeat("InArgument<TArg{0}> arg{0} = null", i, ", ") #>, Func<ActivityContext, <#= Repeat("TArg{0}", i, ", ") #>, Task> action = null)
         {
 <#
     for (int j = 1; j <= i; j++)
@@ -130,7 +161,7 @@ for (int i = 1; i <= 16; i++)
         /// Gets or sets the action to be invoked.
         /// </summary>
         [RequiredArgument]
-        public Func<<#= Repeat("TArg{0}", i, ", ") #>, Task> Action { get; set; }
+        public Func<ActivityContext, <#= Repeat("TArg{0}", i, ", ") #>, Task> Action { get; set; }
 
 <#
     for (int j = 1; j <= i; j++)
@@ -147,7 +178,7 @@ for (int i = 1; i <= 16; i++)
 #>
         protected override IAsyncResult BeginExecute(NativeActivityContext context, AsyncCallback callback, object state)
         {
-            return Action(<#= Repeat("context.GetValue(Argument{0})", i, ", ") #>).BeginToAsync(callback, state);
+            return Action(context, <#= Repeat("context.GetValue(Argument{0})", i, ", ") #>).BeginToAsync(callback, state);
         }
 
         protected override void EndExecute(NativeActivityContext context, IAsyncResult result)

@@ -12,11 +12,26 @@ namespace Cogito.Activities
 
         public static AsyncFuncActivity<TResult> Func<TResult>(Func<Task<TResult>> func)
         {
+            return new AsyncFuncActivity<TResult>(context => func());
+        }
+
+        public static AsyncFuncActivity<TResult> Func<TResult>(Func<ActivityContext, Task<TResult>> func)
+        {
             return new AsyncFuncActivity<TResult>(func);
         }
 
+        public static AsyncFuncActivity<TValue1, TValue2> Then<TValue1, TValue2>(this Activity<TValue1> activity, Func<TValue1, Task<TValue2>> func)
+        {
+            return new AsyncFuncActivity<TValue1, TValue2>((context, result) => func(result), activity);
+        }
+
+        public static AsyncFuncActivity<TValue1, TValue2> Then<TValue1, TValue2>(this Activity<TValue1> activity, Func<ActivityContext, TValue1, Task<TValue2>> func)
+        {
+            return new AsyncFuncActivity<TValue1, TValue2>(func, activity);
+        }
+
     }
-    
+
     /// <summary>
     /// Provides an <see cref="Activity"/> that executes the given asynchronous function.
     /// </summary>
@@ -37,7 +52,7 @@ namespace Cogito.Activities
         /// </summary>
         /// <param name="func"></param>
         /// <param name="result"></param>
-        public AsyncFuncActivity(Func<Task<TResult>> func = null, OutArgument<TResult> result = null)
+        public AsyncFuncActivity(Func<ActivityContext, Task<TResult>> func = null, OutArgument<TResult> result = null)
         {
             Func = func;
             Result = result;
@@ -48,7 +63,7 @@ namespace Cogito.Activities
         /// </summary>
         /// <param name="result"></param>
         /// <param name="func"></param>
-        public AsyncFuncActivity(OutArgument<TResult> result = null, Func<Task<TResult>> func = null)
+        public AsyncFuncActivity(OutArgument<TResult> result = null, Func<ActivityContext, Task<TResult>> func = null)
         {
             Result = result;
             Func = func;
@@ -58,11 +73,11 @@ namespace Cogito.Activities
         /// Gets or sets the action to be invoked.
         /// </summary>
         [RequiredArgument]
-        public Func<Task<TResult>> Func { get; set; }
+        public Func<ActivityContext, Task<TResult>> Func { get; set; }
 
         protected override IAsyncResult BeginExecute(NativeActivityContext context, AsyncCallback callback, object state)
         {
-            return Func().BeginToAsync(callback, state);
+            return Func(context).BeginToAsync(callback, state);
         }
 
         protected override TResult EndExecute(NativeActivityContext context, IAsyncResult result)

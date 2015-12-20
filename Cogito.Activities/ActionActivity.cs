@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Activities;
+using System.Activities.Statements;
 
 namespace Cogito.Activities
 {
@@ -7,9 +8,29 @@ namespace Cogito.Activities
     public static partial class Activities
     {
 
-        public static ActionActivity Action(Action func)
+        public static ActionActivity Action(Action<ActivityContext> action)
         {
-            return new ActionActivity(func);
+            return new ActionActivity(action);
+        }
+
+        public static ActionActivity Action(Action action)
+        {
+            return new ActionActivity(context => action());
+        }
+
+        public static Sequence Then(this Activity activity, Action action)
+        {
+            return Then(activity, new ActionActivity(context => action()));
+        }
+
+        public static Sequence Then(this Activity activity, Action<ActivityContext> action)
+        {
+            return Then(activity, new ActionActivity(action));
+        }
+
+        public static ActionActivity<TValue> Then<TValue>(this Activity<TValue> activity, Action<TValue> action)
+        {
+            return new ActionActivity<TValue>((context, arg) => action(arg), activity);
         }
 
     }
@@ -33,7 +54,7 @@ namespace Cogito.Activities
         /// Initializes a new instance.
         /// </summary>
         /// <param name="action"></param>
-        public ActionActivity(Action action)
+        public ActionActivity(Action<ActivityContext> action)
             : this()
         {
             Action = action;
@@ -43,11 +64,11 @@ namespace Cogito.Activities
         /// Gets or sets the action to be invoked.
         /// </summary>
         [RequiredArgument]
-        public Action Action { get; set; }
+        public Action<ActivityContext> Action { get; set; }
 
         protected override void Execute(NativeActivityContext context)
         {
-            Action();
+            Action(context);
         }
 
     }

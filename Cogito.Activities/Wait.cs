@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Activities;
+using System.Activities.Statements;
 
 namespace Cogito.Activities
 {
@@ -19,12 +20,12 @@ namespace Cogito.Activities
 
         public static Wait Wait<TWith>(Func<TWith, string> bookmarkName, InArgument<TWith> arg)
         {
-            return new Wait(new FuncActivity<TWith, string>(bookmarkName, arg));
+            return new Wait(Func(bookmarkName, arg));
         }
 
         public static Wait<TResult> Wait<TWith, TResult>(Func<TWith, string> bookmarkName, InArgument<TWith> arg)
         {
-            return new Wait<TResult>(new FuncActivity<TWith, string>(bookmarkName, arg));
+            return new Wait<TResult>(Func(bookmarkName, arg));
         }
 
     }

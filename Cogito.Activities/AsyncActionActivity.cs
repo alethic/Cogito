@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Activities;
+using System.Activities.Statements;
 using System.Threading.Tasks;
 
 using Cogito.Threading;
@@ -12,7 +13,31 @@ namespace Cogito.Activities
 
         public static AsyncActionActivity Action(Func<Task> func)
         {
+            return new AsyncActionActivity(context => func());
+        }
+        public static AsyncActionActivity Action(Func<ActivityContext, Task> func)
+        {
             return new AsyncActionActivity(func);
+        }
+
+        public static Sequence Then(this Activity activity, Func<Task> action)
+        {
+            return Then(activity, new AsyncActionActivity(contxt => action()));
+        }
+
+        public static Sequence Then(this Activity activity, Func<ActivityContext, Task> action)
+        {
+            return Then(activity, new AsyncActionActivity(action));
+        }
+
+        public static AsyncActionActivity<TResult> Then<TResult>(this Activity<TResult> activity, Func<TResult, Task> action)
+        {
+            return new AsyncActionActivity<TResult>((context, arg) => action(arg), activity);
+        }
+
+        public static AsyncActionActivity<TResult> Then<TResult>(this Activity<TResult> activity, Func<ActivityContext, TResult, Task> action)
+        {
+            return new AsyncActionActivity<TResult>(action, activity);
         }
 
     }
@@ -36,7 +61,7 @@ namespace Cogito.Activities
         /// Initializes a new instance.
         /// </summary>
         /// <param name="action"></param>
-        public AsyncActionActivity(Func<Task> action)
+        public AsyncActionActivity(Func<ActivityContext, Task> action)
             : this()
         {
             Action = action;
@@ -46,11 +71,11 @@ namespace Cogito.Activities
         /// Gets or sets the action to be invoked.
         /// </summary>
         [RequiredArgument]
-        public Func<Task> Action { get; set; }
+        public Func<ActivityContext, Task> Action { get; set; }
 
         protected override IAsyncResult BeginExecute(NativeActivityContext context, AsyncCallback callback, object state)
         {
-            return Action().BeginToAsync(callback, state);
+            return Action(context).BeginToAsync(callback, state);
         }
 
         protected override void EndExecute(NativeActivityContext context, IAsyncResult result)

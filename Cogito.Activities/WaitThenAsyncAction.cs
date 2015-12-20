@@ -8,9 +8,14 @@ namespace Cogito.Activities
     public static partial class Activities
     {
 
-        public static WaitThenAsyncAction WaitThen(InArgument<string> bookmarkName, Func<Task> action)
+        public static WaitThenAsyncAction WaitThen(InArgument<string> bookmarkName, Func<ActivityContext, Task> action)
         {
             return new WaitThenAsyncAction(bookmarkName, action);
+        }
+
+        public static WaitThenAsyncAction WaitThen(InArgument<string> bookmarkName, Func<Task> action)
+        {
+            return new WaitThenAsyncAction(bookmarkName, context => action());
         }
 
     }
@@ -55,7 +60,7 @@ namespace Cogito.Activities
         /// </summary>
         /// <param name="bookmarkName"></param>
         /// <param name="then"></param>
-        public WaitThenAsyncAction(InArgument<string> bookmarkName, Func<Task> then)
+        public WaitThenAsyncAction(InArgument<string> bookmarkName, Func<ActivityContext, Task> then)
             : this(bookmarkName)
         {
             Then = then;
@@ -71,7 +76,7 @@ namespace Cogito.Activities
         /// Action to be executed.
         /// </summary>
         [RequiredArgument]
-        public Func<Task> Then
+        public Func<ActivityContext, Task> Then
         {
             get { return then.Action; }
             set { then.Action = value; }
@@ -139,7 +144,7 @@ namespace Cogito.Activities
         /// </summary>
         /// <param name="bookmarkName"></param>
         /// <param name="then"></param>
-        public WaitThenAsyncAction(InArgument<string> bookmarkName, Func<TWait, Task> then)
+        public WaitThenAsyncAction(InArgument<string> bookmarkName, Func<ActivityContext, TWait, Task> then)
             : this(bookmarkName)
         {
             Then = then;
@@ -155,7 +160,7 @@ namespace Cogito.Activities
         /// Action to be executed.
         /// </summary>
         [RequiredArgument]
-        public Func<TWait, Task> Then
+        public Func<ActivityContext, TWait, Task> Then
         {
             get { return then.Action; }
             set { then.Action = value; }

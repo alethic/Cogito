@@ -6,6 +6,21 @@ using System.Linq;
 namespace Cogito.Activities
 {
 
+    public static partial class Activities
+    {
+
+        public static SelectActivity<TSource, TResult> Select<TSource, TResult>(this Activity<IEnumerable<TSource>> source, ActivityFunc<TSource, TResult> select)
+        {
+            return new SelectActivity<TSource, TResult>(source, select);
+        }
+
+        public static SelectActivity<TSource, TResult> Select<TSource, TResult>(this Activity<TSource[]> source, ActivityFunc<TSource, TResult> select)
+        {
+            return new SelectActivity<TSource, TResult>(Func<TSource[], IEnumerable<TSource>>(source, i => i.AsEnumerable()), select);
+        }
+
+    }
+
     /// <summary>
     /// 
     /// </summary>
@@ -25,6 +40,18 @@ namespace Cogito.Activities
         {
             source = new Variable<IEnumerator<TSource>>();
             result = new Variable<LinkedList<TResult>>();
+        }
+
+        /// <summary>
+        /// Initializes a new instance.
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="select"></param>
+        public SelectActivity(InArgument<IEnumerable<TSource>> source, ActivityFunc<TSource, TResult> select)
+            : this()
+        {
+            Source = source;
+            Select = select;
         }
 
         /// <summary>

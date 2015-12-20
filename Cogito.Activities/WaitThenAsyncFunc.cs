@@ -8,9 +8,14 @@ namespace Cogito.Activities
     public static partial class Activities
     {
 
-        public static WaitThenAsyncFunc<TWait, TResult> WaitThen<TWait, TResult>(InArgument<string> bookmarkName, Func<TWait, Task<TResult>> func)
+        public static WaitThenAsyncFunc<TWait, TResult> WaitThen<TWait, TResult>(InArgument<string> bookmarkName, Func<ActivityContext, TWait, Task<TResult>> func)
         {
             return new WaitThenAsyncFunc<TWait, TResult>(bookmarkName, func);
+        }
+
+        public static WaitThenAsyncFunc<TWait, TResult> WaitThen<TWait, TResult>(InArgument<string> bookmarkName, Func<TWait, Task<TResult>> func)
+        {
+            return new WaitThenAsyncFunc<TWait, TResult>(bookmarkName, (context, arg) => func(arg));
         }
 
     }
@@ -62,7 +67,7 @@ namespace Cogito.Activities
         /// </summary>
         /// <param name="bookmarkName"></param>
         /// <param name="then"></param>
-        public WaitThenAsyncFunc(InArgument<string> bookmarkName, Func<TWait, Task<TResult>> then)
+        public WaitThenAsyncFunc(InArgument<string> bookmarkName, Func<ActivityContext, TWait, Task<TResult>> then)
             : this(bookmarkName)
         {
             Then = then;
@@ -78,7 +83,7 @@ namespace Cogito.Activities
         /// Action to be executed.
         /// </summary>
         [RequiredArgument]
-        public Func<TWait, Task<TResult>> Then
+        public Func<ActivityContext, TWait, Task<TResult>> Then
         {
             get { return then.Func; }
             set { then.Func = value; }
