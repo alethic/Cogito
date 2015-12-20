@@ -4,10 +4,20 @@ using System.Activities;
 namespace Cogito.Activities
 {
 
+    public static partial class Activities
+    {
+
+        public static ActionActivity Action(Action func)
+        {
+            return new ActionActivity(func);
+        }
+
+    }
+
     /// <summary>
     /// Provides an <see cref="Activity"/> that executes the given function.
     /// </summary>
-    public class ActionActivity :
+    public partial class ActionActivity :
         NativeActivity
     {
 
@@ -32,19 +42,12 @@ namespace Cogito.Activities
         /// <summary>
         /// Gets or sets the action to be invoked.
         /// </summary>
+        [RequiredArgument]
         public Action Action { get; set; }
 
         protected override void Execute(NativeActivityContext context)
         {
             Action();
-        }
-
-        protected override void CacheMetadata(NativeActivityMetadata metadata)
-        {
-            base.CacheMetadata(metadata);
-
-            if (Action == null)
-                metadata.AddValidationError("Action is required.");
         }
 
     }

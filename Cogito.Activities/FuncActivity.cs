@@ -4,6 +4,15 @@ using System.Activities;
 namespace Cogito.Activities
 {
 
+    public static partial class FuncActivity
+    {
+
+        public static FuncActivity<TResult> Create<TResult>(Func<TResult> func)
+        {
+            return new FuncActivity<TResult>(func);
+        }
+
+    }
 
     /// <summary>
     /// Provides an <see cref="Activity"/> that executes the given function.
@@ -33,19 +42,12 @@ namespace Cogito.Activities
         /// <summary>
         /// Gets or sets the action to be invoked.
         /// </summary>
+        [RequiredArgument]
         public Func<TResult> Func { get; set; }
 
         protected override void Execute(NativeActivityContext context)
         {
             Result.Set(context, Func());
-        }
-
-        protected override void CacheMetadata(NativeActivityMetadata metadata)
-        {
-            base.CacheMetadata(metadata);
-
-            if (Func == null)
-                metadata.AddValidationError("Func is required.");
         }
 
     }

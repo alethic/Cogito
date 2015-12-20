@@ -77,6 +77,10 @@
     <Reference Include="System" />
     <Reference Include="System.Activities" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.ServiceModel.Activities" />
+    <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Net.Http" />
@@ -89,6 +93,10 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="ActionActivity.cs" />
+    <Compile Include="ForEachActivity.cs" />
+    <Compile Include="ForEachAsyncActionActivity.cs" />
+    <Compile Include="ForEachActionActivity.cs" />
+    <Compile Include="FormatActivity.cs" />
     <Compile Include="FuncActivity.Arguments.cs">
       <DependentUpon>FuncActivity.Arguments.tt</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -110,7 +118,13 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="AsyncActionActivity.cs" />
     <Compile Include="AsyncFuncActivity.cs" />
-    <Compile Include="WaitActivity.cs" />
+    <Compile Include="SelectActivity.cs" />
+    <Compile Include="Wait.cs" />
+    <Compile Include="WaitThenAsyncFunc.cs" />
+    <Compile Include="WaitThenFunc.cs" />
+    <Compile Include="WaitThenAsyncAction.cs" />
+    <Compile Include="WaitThenAction.cs" />
+    <Compile Include="WaitThen.cs" />
     <Compile Include="WorkflowApplicationExtensions.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -7,7 +7,16 @@ using Cogito.Threading;
 namespace Cogito.Activities
 {
 
+    public static partial class Activities
+    {
 
+        public static AsyncFuncActivity<TResult> Func<TResult>(Func<Task<TResult>> func)
+        {
+            return new AsyncFuncActivity<TResult>(func);
+        }
+
+    }
+    
     /// <summary>
     /// Provides an <see cref="Activity"/> that executes the given asynchronous function.
     /// </summary>
@@ -48,6 +57,7 @@ namespace Cogito.Activities
         /// <summary>
         /// Gets or sets the action to be invoked.
         /// </summary>
+        [RequiredArgument]
         public Func<Task<TResult>> Func { get; set; }
 
         protected override IAsyncResult BeginExecute(NativeActivityContext context, AsyncCallback callback, object state)
@@ -58,14 +68,6 @@ namespace Cogito.Activities
         protected override TResult EndExecute(NativeActivityContext context, IAsyncResult result)
         {
             return ((Task<TResult>)result).EndToAsync();
-        }
-
-        protected override void CacheMetadata(NativeActivityMetadata metadata)
-        {
-            base.CacheMetadata(metadata);
-
-            if (Func == null)
-                metadata.AddValidationError("Func is required.");
         }
 
     }

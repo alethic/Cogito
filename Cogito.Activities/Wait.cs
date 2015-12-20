@@ -1,19 +1,45 @@
-﻿using System.Activities;
+﻿using System;
+using System.Activities;
 
 namespace Cogito.Activities
 {
 
+    public static partial class Activities
+    {
+
+        public static Wait Wait(InArgument<string> bookmarkName)
+        {
+            return new Wait(bookmarkName);
+        }
+
+        public static Wait<TResult> Wait<TResult>(InArgument<string> bookmarkName)
+        {
+            return new Wait<TResult>(bookmarkName);
+        }
+
+        public static Wait Wait<TWith>(Func<TWith, string> bookmarkName, InArgument<TWith> arg)
+        {
+            return new Wait(new FuncActivity<TWith, string>(bookmarkName, arg));
+        }
+
+        public static Wait<TResult> Wait<TWith, TResult>(Func<TWith, string> bookmarkName, InArgument<TWith> arg)
+        {
+            return new Wait<TResult>(new FuncActivity<TWith, string>(bookmarkName, arg));
+        }
+
+    }
+
     /// <summary>
     /// Pauses execution until the given bookmark name is resumed.
     /// </summary>
-    public class WaitActivity :
+    public class Wait :
         NativeActivity
     {
 
         /// <summary>
         /// Initializes a new instance.
         /// </summary>
-        public WaitActivity()
+        public Wait()
         {
 
         }
@@ -22,7 +48,7 @@ namespace Cogito.Activities
         /// Initializes a new instance.
         /// </summary>
         /// <param name="bookmarkName"></param>
-        public WaitActivity(InArgument<string> bookmarkName)
+        public Wait(InArgument<string> bookmarkName)
         {
             BookmarkName = bookmarkName;
         }
@@ -49,23 +75,23 @@ namespace Cogito.Activities
     /// Pauses execution until the given bookmark name is resumed.
     /// </summary>
     /// <typeparam name="TResult"></typeparam>
-    public class WaitActivity<TResult> :
+    public class Wait<TResult> :
         NativeActivity<TResult>
     {
 
         /// <summary>
         /// Initializes a new instance.
         /// </summary>
-        public WaitActivity()
+        public Wait()
         {
-            
+
         }
 
         /// <summary>
         /// Initializes a new instance.
         /// </summary>
         /// <param name="bookmarkName"></param>
-        public WaitActivity(InArgument<string> bookmarkName)
+        public Wait(InArgument<string> bookmarkName)
         {
             BookmarkName = bookmarkName;
         }
@@ -75,7 +101,7 @@ namespace Cogito.Activities
         /// </summary>
         /// <param name="bookmarkName"></param>
         /// <param name="result"></param>
-        public WaitActivity(InArgument<string> bookmarkName, OutArgument<TResult> result = null)
+        public Wait(InArgument<string> bookmarkName, OutArgument<TResult> result = null)
         {
             BookmarkName = bookmarkName;
             Result = result;

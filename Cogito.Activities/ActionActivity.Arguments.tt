@@ -11,8 +11,50 @@ using System.Activities;
 namespace Cogito.Activities
 {
 
+    public static partial class Activities
+    {
+
 <#
-for (int i = 1; i <= 8; i++)
+for (int i = 1; i <= 16; i++)
+{
+#>
+        public static ActionActivity<<#= Repeat("TArg{0}", i, ", ") #>> Action<<#= Repeat("TArg{0}", i, ", ") #>>(Action<<#= Repeat("TArg{0}", i, ", ") #>> func, <#= Repeat("InArgument<TArg{0}> arg{0}", i, ", ") #>)
+        {
+            return new ActionActivity<<#= Repeat("TArg{0}", i, ", ") #>>(func, <#= Repeat("arg{0}", i, ", ") #>);
+        }
+
+        public static ActionActivity<<#= Repeat("TArg{0}", i, ", ") #>> Action<<#= Repeat("TArg{0}", i, ", ") #>>(Action<<#= Repeat("TArg{0}", i, ", ") #>> func, <#= Repeat("DelegateInArgument<TArg{0}> arg{0}", i, ", ") #>)
+        {
+            return new ActionActivity<<#= Repeat("TArg{0}", i, ", ") #>>(func, <#= Repeat("arg{0}", i, ", ") #>);
+        }
+        public static ActionActivity<<#= Repeat("TArg{0}", i, ", ") #>> Action<<#= Repeat("TArg{0}", i, ", ") #>>(Action<<#= Repeat("TArg{0}", i, ", ") #>> func, <#= Repeat("Activity<TArg{0}> arg{0}", i, ", ") #>)
+        {
+            return new ActionActivity<<#= Repeat("TArg{0}", i, ", ") #>>(func, <#= Repeat("arg{0}", i, ", ") #>);
+        }
+
+        public static ActionActivity<<#= Repeat("TArg{0}", i, ", ") #>> Action<<#= Repeat("TArg{0}", i, ", ") #>>(<#= Repeat("InArgument<TArg{0}> arg{0}", i, ", ") #>, Action<<#= Repeat("TArg{0}", i, ", ") #>> func)
+        {
+            return new ActionActivity<<#= Repeat("TArg{0}", i, ", ") #>>(func, <#= Repeat("arg{0}", i, ", ") #>);
+        }
+
+        public static ActionActivity<<#= Repeat("TArg{0}", i, ", ") #>> Action<<#= Repeat("TArg{0}", i, ", ") #>>(<#= Repeat("DelegateInArgument<TArg{0}> arg{0}", i, ", ") #>, Action<<#= Repeat("TArg{0}", i, ", ") #>> func)
+        {
+            return new ActionActivity<<#= Repeat("TArg{0}", i, ", ") #>>(func, <#= Repeat("arg{0}", i, ", ") #>);
+        }
+
+        public static ActionActivity<<#= Repeat("TArg{0}", i, ", ") #>> Action<<#= Repeat("TArg{0}", i, ", ") #>>(<#= Repeat("Activity<TArg{0}> arg{0}", i, ", ") #>, Action<<#= Repeat("TArg{0}", i, ", ") #>> func)
+        {
+            return new ActionActivity<<#= Repeat("TArg{0}", i, ", ") #>>(func, <#= Repeat("arg{0}", i, ", ") #>);
+        }
+
+<#
+}
+#>
+
+    }
+
+<#
+for (int i = 1; i <= 16; i++)
 {
 #>
 
@@ -84,6 +126,7 @@ for (int i = 1; i <= 8; i++)
         /// <summary>
         /// Gets or sets the action to be invoked.
         /// </summary>
+        [RequiredArgument]
         public Action<<#= Repeat("TArg{0}", i, ", ") #>> Action { get; set; }
 
 <#
@@ -102,14 +145,6 @@ for (int i = 1; i <= 8; i++)
         protected override void Execute(NativeActivityContext context)
         {
             Action(<#= Repeat("context.GetValue(Argument{0})", i, ", ") #>);
-        }
-
-        protected override void CacheMetadata(NativeActivityMetadata metadata)
-        {
-            base.CacheMetadata(metadata);
-
-            if (Action == null)
-                metadata.AddValidationError("Action is required.");
         }
 
     }
