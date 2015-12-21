@@ -168,9 +168,9 @@ namespace Cogito.Fabric.Activities
                     ActivityState.Status = ToActivityStatus(args.CompletionState);
                 },
             };
-
-            // provides access to the Actor from within the workflow
+            
             workflow.Extensions.Add(() => new ActivityActorExtension(this));
+            workflow.Extensions.Add(() => new AsyncActivityExtension(workflow.SynchronizationContext));
 
             return workflow;
         }

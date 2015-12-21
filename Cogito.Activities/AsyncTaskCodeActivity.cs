@@ -1,31 +1,47 @@
 ﻿using System;
 using System.Activities;
 using System.Runtime.ExceptionServices;
+using System.Threading;
 using System.Threading.Tasks;
+
+using Cogito.Threading;
 
 namespace Cogito.Activities
 {
 
+    /// <summary>
+    /// Provides a <see cref="AsyncCodeActivity"/> that handles <see cref="Task"/>s.
+    /// </summary>
     public abstract class AsyncTaskCodeActivity :
         AsyncCodeActivity
     {
+
+        protected override void CacheMetadata(CodeActivityMetadata metadata)
+        {
+            base.CacheMetadata(metadata);
+            metadata.RequireExtension<AsyncActivityExtension>();
+            metadata.AddDefaultExtensionProvider(() => new AsyncActivityExtension(null));
+        }
 
         protected sealed override IAsyncResult BeginExecute(AsyncCodeActivityContext context, AsyncCallback callback, object state)
         {
             var tcs = new TaskCompletionSource<bool>(state);
 
-            ExecuteAsync(context).ContinueWith(t =>
+            using (new SynchronizationContextScope(context.GetExtension<AsyncActivityExtension>()?.SynchronizationContext ?? SynchronizationContext.Current))
             {
-                if (t.IsFaulted)
-                    tcs.TrySetException(t.Exception.InnerExceptions);
-                else if (t.IsCanceled)
-                    tcs.TrySetCanceled();
-                else
-                    tcs.TrySetResult(true);
+                ExecuteAsync(context).ContinueWith(t =>
+                {
+                    if (t.IsFaulted)
+                        tcs.TrySetException(t.Exception.InnerExceptions);
+                    else if (t.IsCanceled)
+                        tcs.TrySetCanceled();
+                    else
+                        tcs.TrySetResult(true);
 
-                if (callback != null)
-                    callback(tcs.Task);
-            });
+                    if (callback != null)
+                        callback(tcs.Task);
+                }, TaskContinuationOptions.ExecuteSynchronously);
+            }
 
             return tcs.Task;
         }
@@ -43,30 +59,49 @@ namespace Cogito.Activities
             }
         }
 
+        /// <summary>
+        /// Override this method to implement your asynchronous operation.
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
         protected abstract Task ExecuteAsync(AsyncCodeActivityContext context);
 
     }
 
+    /// <summary>
+    /// Provides a <see cref="AsyncCodeActivity"/> that handles <see cref="Task{TResult}"/>s.
+    /// </summary>
+    /// <typeparam name="TResult"></typeparam>
     public abstract class AsyncTaskCodeActivity<TResult> :
         AsyncCodeActivity<TResult>
     {
+
+        protected override void CacheMetadata(CodeActivityMetadata metadata)
+        {
+            base.CacheMetadata(metadata);
+            metadata.RequireExtension<AsyncActivityExtension>();
+            metadata.AddDefaultExtensionProvider(() => new AsyncActivityExtension(null));
+        }
 
         protected sealed override IAsyncResult BeginExecute(AsyncCodeActivityContext context, AsyncCallback callback, object state)
         {
             var tcs = new TaskCompletionSource<TResult>(state);
 
-            ExecuteAsync(context).ContinueWith(t =>
+            using (new SynchronizationContextScope(context.GetExtension<AsyncActivityExtension>()?.SynchronizationContext ?? SynchronizationContext.Current))
             {
-                if (t.IsFaulted)
-                    tcs.TrySetException(t.Exception.InnerExceptions);
-                else if (t.IsCanceled)
-                    tcs.TrySetCanceled();
-                else
-                    tcs.TrySetResult(t.Result);
+                ExecuteAsync(context).ContinueWith(t =>
+                {
+                    if (t.IsFaulted)
+                        tcs.TrySetException(t.Exception.InnerExceptions);
+                    else if (t.IsCanceled)
+                        tcs.TrySetCanceled();
+                    else
+                        tcs.TrySetResult(t.Result);
 
-                if (callback != null)
-                    callback(tcs.Task);
-            });
+                    if (callback != null)
+                        callback(tcs.Task);
+                }, TaskContinuationOptions.ExecuteSynchronously);
+            }
 
             return tcs.Task;
         }
@@ -84,6 +119,11 @@ namespace Cogito.Activities
             }
         }
 
+        /// <summary>
+        /// Override this method to implement your asynchronous operation.
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
         protected abstract Task<TResult> ExecuteAsync(AsyncCodeActivityContext context);
 
     }

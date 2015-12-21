@@ -34,8 +34,8 @@ namespace Cogito.Activities
             base.CacheMetadata(metadata);
             metadata.AddImplementationVariable(NoPersistHandle = new Variable<NoPersistHandle>());
             metadata.AddImplementationVariable(Bookmark = new Variable<Bookmark>());
-            metadata.AddDefaultExtensionProvider(() => new AsyncNativeActivityExtension());
-            metadata.RequireExtension<AsyncNativeActivityExtension>();
+            metadata.AddDefaultExtensionProvider(() => new AsyncActivityExtension(SynchronizationContext.Current));
+            metadata.RequireExtension<AsyncActivityExtension>();
         }
 
         /// <summary>
@@ -69,7 +69,7 @@ namespace Cogito.Activities
             Bookmark.Set(context, bookmark);
 
             // extension to help us resume bookmarks
-            var extension = context.GetExtension<AsyncNativeActivityExtension>();
+            var extension = context.GetExtension<AsyncActivityExtension>();
             if (extension == null)
                 throw new NullReferenceException();
 
@@ -157,8 +157,8 @@ namespace Cogito.Activities
             base.CacheMetadata(metadata);
             metadata.AddImplementationVariable(NoPersistHandle = new Variable<NoPersistHandle>());
             metadata.AddImplementationVariable(Bookmark = new Variable<Bookmark>());
-            metadata.AddDefaultExtensionProvider(() => new AsyncNativeActivityExtension());
-            metadata.RequireExtension<AsyncNativeActivityExtension>();
+            metadata.AddDefaultExtensionProvider(() => new AsyncActivityExtension(SynchronizationContext.Current));
+            metadata.RequireExtension<AsyncActivityExtension>();
         }
 
         /// <summary>
@@ -192,7 +192,7 @@ namespace Cogito.Activities
             Bookmark.Set(context, bookmark);
 
             // extension to help us resume bookmarks
-            var extension = context.GetExtension<AsyncNativeActivityExtension>();
+            var extension = context.GetExtension<AsyncActivityExtension>();
             if (extension == null)
                 throw new NullReferenceException();
 
