@@ -202,6 +202,9 @@
     <Compile Include="Threading\AsyncLock.cs" />
     <Compile Include="Threading\AsyncManualResetEvent.cs" />
     <Compile Include="Threading\CompletedAsyncResult.cs" />
+    <Compile Include="Threading\SynchronizationContextScope.cs" />
+    <Compile Include="Threading\SynchronizationContextWorkItem.cs" />
+    <Compile Include="Threading\RunnableSynchronizationContext.cs" />
     <Compile Include="Threading\SynchronousSynchronizationContext.cs" />
     <Compile Include="Threading\TaskEnumerableExtensions.cs" />
     <Compile Include="Threading\TaskExtensions.cs" />

@@ -10,14 +10,6 @@ namespace Cogito.Threading
          SynchronizationContext
     {
 
-        /// <summary>
-        /// Initializes a new instance.
-        /// </summary>
-        public SynchronousSynchronizationContext()
-        {
-
-        }
-
         public override void Post(SendOrPostCallback d, object state)
         {
             d(state);

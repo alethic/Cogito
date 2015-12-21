@@ -118,6 +118,8 @@
     <Compile Include="ActivityActorInstanceStore.cs" />
     <Compile Include="ActivityActorSerializedObject.cs" />
     <Compile Include="ActivityActorStatus.cs" />
+    <Compile Include="ActivityActorSynchronizationContext.cs" />
+    <Compile Include="IActivityActorInternal.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
