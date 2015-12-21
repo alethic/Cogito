@@ -94,6 +94,7 @@
     </Compile>
     <Compile Include="ActionActivity.cs" />
     <Compile Include="Activities.cs" />
+    <Compile Include="AsyncTaskCodeActivity.cs" />
     <Compile Include="ParallelForEachAsyncActionActivity.cs" />
     <Compile Include="ParallelForEachActionActivity.cs" />
     <Compile Include="SelectAsyncFuncActivity.cs" />

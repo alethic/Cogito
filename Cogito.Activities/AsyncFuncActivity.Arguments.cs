@@ -1,9 +1,6 @@
-﻿
-using System;
+﻿using System;
 using System.Activities;
 using System.Threading.Tasks;
-
-using Cogito.Threading;
 
 namespace Cogito.Activities
 {
@@ -491,7 +488,7 @@ namespace Cogito.Activities
     /// Provides an <see cref="Activity"/> that executes the given asynchronous function with 1 arguments.
     /// </summary>
     public class AsyncFuncActivity<TArg1, TResult> :
-        AsyncNativeActivity<TResult>
+        AsyncTaskCodeActivity<TResult>
     {
 
         /// <summary>
@@ -540,14 +537,9 @@ namespace Cogito.Activities
         [RequiredArgument]
         public InArgument<TArg1> Argument1 { get; set; }
 
-        protected override IAsyncResult BeginExecute(NativeActivityContext context, AsyncCallback callback, object state)
+        protected override Task<TResult> ExecuteAsync(AsyncCodeActivityContext context)
         {
-            return Func(context, context.GetValue(Argument1)).BeginToAsync(callback, state);
-        }
-
-        protected override TResult EndExecute(NativeActivityContext context, IAsyncResult result)
-        {
-            return ((Task<TResult>)result).EndToAsync();
+            return Func(context, context.GetValue(Argument1));
         }
 
     }
@@ -557,7 +549,7 @@ namespace Cogito.Activities
     /// Provides an <see cref="Activity"/> that executes the given asynchronous function with 2 arguments.
     /// </summary>
     public class AsyncFuncActivity<TArg1, TArg2, TResult> :
-        AsyncNativeActivity<TResult>
+        AsyncTaskCodeActivity<TResult>
     {
 
         /// <summary>
@@ -616,14 +608,9 @@ namespace Cogito.Activities
         [RequiredArgument]
         public InArgument<TArg2> Argument2 { get; set; }
 
-        protected override IAsyncResult BeginExecute(NativeActivityContext context, AsyncCallback callback, object state)
+        protected override Task<TResult> ExecuteAsync(AsyncCodeActivityContext context)
         {
-            return Func(context, context.GetValue(Argument1), context.GetValue(Argument2)).BeginToAsync(callback, state);
-        }
-
-        protected override TResult EndExecute(NativeActivityContext context, IAsyncResult result)
-        {
-            return ((Task<TResult>)result).EndToAsync();
+            return Func(context, context.GetValue(Argument1), context.GetValue(Argument2));
         }
 
     }
@@ -633,7 +620,7 @@ namespace Cogito.Activities
     /// Provides an <see cref="Activity"/> that executes the given asynchronous function with 3 arguments.
     /// </summary>
     public class AsyncFuncActivity<TArg1, TArg2, TArg3, TResult> :
-        AsyncNativeActivity<TResult>
+        AsyncTaskCodeActivity<TResult>
     {
 
         /// <summary>
@@ -702,14 +689,9 @@ namespace Cogito.Activities
         [RequiredArgument]
         public InArgument<TArg3> Argument3 { get; set; }
 
-        protected override IAsyncResult BeginExecute(NativeActivityContext context, AsyncCallback callback, object state)
+        protected override Task<TResult> ExecuteAsync(AsyncCodeActivityContext context)
         {
-            return Func(context, context.GetValue(Argument1), context.GetValue(Argument2), context.GetValue(Argument3)).BeginToAsync(callback, state);
-        }
-
-        protected override TResult EndExecute(NativeActivityContext context, IAsyncResult result)
-        {
-            return ((Task<TResult>)result).EndToAsync();
+            return Func(context, context.GetValue(Argument1), context.GetValue(Argument2), context.GetValue(Argument3));
         }
 
     }
@@ -719,7 +701,7 @@ namespace Cogito.Activities
     /// Provides an <see cref="Activity"/> that executes the given asynchronous function with 4 arguments.
     /// </summary>
     public class AsyncFuncActivity<TArg1, TArg2, TArg3, TArg4, TResult> :
-        AsyncNativeActivity<TResult>
+        AsyncTaskCodeActivity<TResult>
     {
 
         /// <summary>
@@ -798,14 +780,9 @@ namespace Cogito.Activities
         [RequiredArgument]
         public InArgument<TArg4> Argument4 { get; set; }
 
-        protected override IAsyncResult BeginExecute(NativeActivityContext context, AsyncCallback callback, object state)
+        protected override Task<TResult> ExecuteAsync(AsyncCodeActivityContext context)
         {
-            return Func(context, context.GetValue(Argument1), context.GetValue(Argument2), context.GetValue(Argument3), context.GetValue(Argument4)).BeginToAsync(callback, state);
-        }
-
-        protected override TResult EndExecute(NativeActivityContext context, IAsyncResult result)
-        {
-            return ((Task<TResult>)result).EndToAsync();
+            return Func(context, context.GetValue(Argument1), context.GetValue(Argument2), context.GetValue(Argument3), context.GetValue(Argument4));
         }
 
     }
@@ -815,7 +792,7 @@ namespace Cogito.Activities
     /// Provides an <see cref="Activity"/> that executes the given asynchronous function with 5 arguments.
     /// </summary>
     public class AsyncFuncActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TResult> :
-        AsyncNativeActivity<TResult>
+        AsyncTaskCodeActivity<TResult>
     {
 
         /// <summary>
@@ -904,14 +881,9 @@ namespace Cogito.Activities
         [RequiredArgument]
         public InArgument<TArg5> Argument5 { get; set; }
 
-        protected override IAsyncResult BeginExecute(NativeActivityContext context, AsyncCallback callback, object state)
+        protected override Task<TResult> ExecuteAsync(AsyncCodeActivityContext context)
         {
-            return Func(context, context.GetValue(Argument1), context.GetValue(Argument2), context.GetValue(Argument3), context.GetValue(Argument4), context.GetValue(Argument5)).BeginToAsync(callback, state);
-        }
-
-        protected override TResult EndExecute(NativeActivityContext context, IAsyncResult result)
-        {
-            return ((Task<TResult>)result).EndToAsync();
+            return Func(context, context.GetValue(Argument1), context.GetValue(Argument2), context.GetValue(Argument3), context.GetValue(Argument4), context.GetValue(Argument5));
         }
 
     }
@@ -921,7 +893,7 @@ namespace Cogito.Activities
     /// Provides an <see cref="Activity"/> that executes the given asynchronous function with 6 arguments.
     /// </summary>
     public class AsyncFuncActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TResult> :
-        AsyncNativeActivity<TResult>
+        AsyncTaskCodeActivity<TResult>
     {
 
         /// <summary>
@@ -1020,14 +992,9 @@ namespace Cogito.Activities
         [RequiredArgument]
         public InArgument<TArg6> Argument6 { get; set; }
 
-        protected override IAsyncResult BeginExecute(NativeActivityContext context, AsyncCallback callback, object state)
+        protected override Task<TResult> ExecuteAsync(AsyncCodeActivityContext context)
         {
-            return Func(context, context.GetValue(Argument1), context.GetValue(Argument2), context.GetValue(Argument3), context.GetValue(Argument4), context.GetValue(Argument5), context.GetValue(Argument6)).BeginToAsync(callback, state);
-        }
-
-        protected override TResult EndExecute(NativeActivityContext context, IAsyncResult result)
-        {
-            return ((Task<TResult>)result).EndToAsync();
+            return Func(context, context.GetValue(Argument1), context.GetValue(Argument2), context.GetValue(Argument3), context.GetValue(Argument4), context.GetValue(Argument5), context.GetValue(Argument6));
         }
 
     }
@@ -1037,7 +1004,7 @@ namespace Cogito.Activities
     /// Provides an <see cref="Activity"/> that executes the given asynchronous function with 7 arguments.
     /// </summary>
     public class AsyncFuncActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TResult> :
-        AsyncNativeActivity<TResult>
+        AsyncTaskCodeActivity<TResult>
     {
 
         /// <summary>
@@ -1146,14 +1113,9 @@ namespace Cogito.Activities
         [RequiredArgument]
         public InArgument<TArg7> Argument7 { get; set; }
 
-        protected override IAsyncResult BeginExecute(NativeActivityContext context, AsyncCallback callback, object state)
+        protected override Task<TResult> ExecuteAsync(AsyncCodeActivityContext context)
         {
-            return Func(context, context.GetValue(Argument1), context.GetValue(Argument2), context.GetValue(Argument3), context.GetValue(Argument4), context.GetValue(Argument5), context.GetValue(Argument6), context.GetValue(Argument7)).BeginToAsync(callback, state);
-        }
-
-        protected override TResult EndExecute(NativeActivityContext context, IAsyncResult result)
-        {
-            return ((Task<TResult>)result).EndToAsync();
+            return Func(context, context.GetValue(Argument1), context.GetValue(Argument2), context.GetValue(Argument3), context.GetValue(Argument4), context.GetValue(Argument5), context.GetValue(Argument6), context.GetValue(Argument7));
         }
 
     }
@@ -1163,7 +1125,7 @@ namespace Cogito.Activities
     /// Provides an <see cref="Activity"/> that executes the given asynchronous function with 8 arguments.
     /// </summary>
     public class AsyncFuncActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TResult> :
-        AsyncNativeActivity<TResult>
+        AsyncTaskCodeActivity<TResult>
     {
 
         /// <summary>
@@ -1282,14 +1244,9 @@ namespace Cogito.Activities
         [RequiredArgument]
         public InArgument<TArg8> Argument8 { get; set; }
 
-        protected override IAsyncResult BeginExecute(NativeActivityContext context, AsyncCallback callback, object state)
+        protected override Task<TResult> ExecuteAsync(AsyncCodeActivityContext context)
         {
-            return Func(context, context.GetValue(Argument1), context.GetValue(Argument2), context.GetValue(Argument3), context.GetValue(Argument4), context.GetValue(Argument5), context.GetValue(Argument6), context.GetValue(Argument7), context.GetValue(Argument8)).BeginToAsync(callback, state);
-        }
-
-        protected override TResult EndExecute(NativeActivityContext context, IAsyncResult result)
-        {
-            return ((Task<TResult>)result).EndToAsync();
+            return Func(context, context.GetValue(Argument1), context.GetValue(Argument2), context.GetValue(Argument3), context.GetValue(Argument4), context.GetValue(Argument5), context.GetValue(Argument6), context.GetValue(Argument7), context.GetValue(Argument8));
         }
 
     }

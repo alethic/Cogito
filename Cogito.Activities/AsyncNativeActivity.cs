@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Activities;
+using System.Threading;
 
 namespace Cogito.Activities
 {
@@ -73,22 +74,22 @@ namespace Cogito.Activities
                 throw new NullReferenceException();
 
             // begin user execution
-            var result1 = BeginExecute(context, result2 =>
+            var ar = BeginExecute(context, ar2 =>
             {
-                // result completed asychronously
-                if (!result2.CompletedSynchronously)
+                // bookmark removed below in sycnhronous pass
+                if (ar2.CompletedSynchronously)
+                    return;
+
+                // resume bookmark
+                extension.Instance.BeginResumeBookmark(bookmark, Tuple.Create(ar2, ExecutionContext.Capture()), ar3 =>
                 {
-                    // upon completion, resume the bookmark
-                    extension.Instance.BeginResumeBookmark(bookmark, result2, (result3) =>
-                    {
-                        // finish bookmark resume
-                        extension.Instance.EndResumeBookmark(result3);
-                    }, null);
-                }
+                    ExecutionContext.Run((ExecutionContext)ar3.AsyncState, _ => extension.Instance.EndResumeBookmark(ar3), null);
+                }, ExecutionContext.Capture());
+
             }, null);
 
             // execution was finished immediately
-            if (result1.CompletedSynchronously)
+            if (ar.CompletedSynchronously)
             {
                 // exit no persistence sope
                 noPersistHandle.Exit(context);
@@ -97,7 +98,7 @@ namespace Cogito.Activities
                 context.RemoveBookmark(bookmark);
 
                 // invoke user exeuction end
-                EndExecute(context, result1);
+                EndExecute(context, ar);
             }
         }
 
@@ -109,12 +110,20 @@ namespace Cogito.Activities
         /// <param name="value"></param>
         void BookmarkResumptionCallback(NativeActivityContext context, Bookmark bookmark, object value)
         {
-            // exit no persistence scope
-            var noPersistHandle = NoPersistHandle.Get(context);
-            noPersistHandle.Exit(context);
+            var tuple = value as Tuple<IAsyncResult, ExecutionContext>;
+            if (tuple != null)
+            {
+                ExecutionContext.Run(tuple.Item2, _ =>
+                {
+                    // exit no persistence scope
+                    var noPersistHandle = NoPersistHandle.Get(context);
+                    noPersistHandle.Exit(context);
 
-            // invoke user exeuction end
-            EndExecute(context, value as IAsyncResult);
+                    // invoke user exeuction end
+                    EndExecute(context, tuple.Item1);
+
+                }, null);
+            }
         }
 
     }

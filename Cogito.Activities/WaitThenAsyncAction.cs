@@ -18,6 +18,16 @@ namespace Cogito.Activities
             return new WaitThenAsyncAction(bookmarkName, context => action());
         }
 
+        public static WaitThenAsyncAction<TWait> WaitThen<TWait>(InArgument<string> bookmarkName, Func<ActivityContext, TWait, Task> action)
+        {
+            return new WaitThenAsyncAction<TWait>(bookmarkName, action);
+        }
+
+        public static WaitThenAsyncAction<TWait> WaitThen<TWait>(InArgument<string> bookmarkName, Func<TWait, Task> action)
+        {
+            return new WaitThenAsyncAction<TWait>(bookmarkName, (context, arg) => action(arg));
+        }
+
     }
 
     /// <summary>

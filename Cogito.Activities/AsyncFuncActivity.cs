@@ -36,7 +36,7 @@ namespace Cogito.Activities
     /// Provides an <see cref="Activity"/> that executes the given asynchronous function.
     /// </summary>
     public class AsyncFuncActivity<TResult> :
-        AsyncNativeActivity<TResult>
+        AsyncTaskCodeActivity<TResult>
     {
 
         /// <summary>
@@ -75,14 +75,9 @@ namespace Cogito.Activities
         [RequiredArgument]
         public Func<ActivityContext, Task<TResult>> Func { get; set; }
 
-        protected override IAsyncResult BeginExecute(NativeActivityContext context, AsyncCallback callback, object state)
+        protected override Task<TResult> ExecuteAsync(AsyncCodeActivityContext context)
         {
-            return Func(context).BeginToAsync(callback, state);
-        }
-
-        protected override TResult EndExecute(NativeActivityContext context, IAsyncResult result)
-        {
-            return ((Task<TResult>)result).EndToAsync();
+            return Func(context);
         }
 
     }

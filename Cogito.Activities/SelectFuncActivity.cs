@@ -71,6 +71,8 @@ namespace Cogito.Activities
 
         readonly Variable<IEnumerable<TSource>> source;
         readonly SelectActivity<TSource, TResult> select;
+        readonly ActivityFunc<TSource, TResult> selectFunc;
+        readonly DelegateInArgument<TSource> selectorArg;
         readonly FuncActivity<TSource, TResult> selector;
 
         /// <summary>
@@ -78,14 +80,12 @@ namespace Cogito.Activities
         /// </summary>
         public SelectFuncActivity()
         {
-            var arg = new DelegateInArgument<TSource>();
-
             select = new SelectActivity<TSource, TResult>()
             {
-                Select = new ActivityFunc<TSource, TResult>()
+                Select = selectFunc = new ActivityFunc<TSource, TResult>()
                 {
-                    Argument = arg,
-                    Handler = selector = new FuncActivity<TSource, TResult>(arg),
+                    Argument = selectorArg = new DelegateInArgument<TSource>(),
+                    Handler = selector = new FuncActivity<TSource, TResult>(new InArgument<TSource>(selectorArg)),
                 },
                 Source = source = new Variable<IEnumerable<TSource>>(),
             };
@@ -124,7 +124,6 @@ namespace Cogito.Activities
             base.CacheMetadata(metadata);
             metadata.AddImplementationVariable(source);
             metadata.AddImplementationChild(select);
-            metadata.AddImplementationChild(selector);
         }
 
         protected override void Execute(NativeActivityContext context)

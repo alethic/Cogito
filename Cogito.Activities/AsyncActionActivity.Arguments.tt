@@ -4,12 +4,9 @@
 <#@ import namespace="System.Text" #>
 <#@ import namespace="System.Collections.Generic" #>
 <#@ output extension=".cs" #>
-
 using System;
 using System.Activities;
 using System.Threading.Tasks;
-
-using Cogito.Threading;
 
 namespace Cogito.Activities
 {
@@ -96,7 +93,7 @@ for (int i = 1; i <= 8; i++)
     /// Provides an <see cref="Activity"/> that executes the given asynchronous action with <#= i #> arguments.
     /// </summary>
     public class AsyncActionActivity<<#= Repeat("TArg{0}", i, ", ") #>> :
-        AsyncNativeActivity
+        AsyncTaskCodeActivity
     {
 
         /// <summary>
@@ -176,14 +173,9 @@ for (int i = 1; i <= 8; i++)
 <#
     }
 #>
-        protected override IAsyncResult BeginExecute(NativeActivityContext context, AsyncCallback callback, object state)
+        protected override Task ExecuteAsync(AsyncCodeActivityContext context)
         {
-            return Action(context, <#= Repeat("context.GetValue(Argument{0})", i, ", ") #>).BeginToAsync(callback, state);
-        }
-
-        protected override void EndExecute(NativeActivityContext context, IAsyncResult result)
-        {
-            ((Task)result).EndToAsync();
+            return Action(context, <#= Repeat("context.GetValue(Argument{0})", i, ", ") #>);
         }
 
     }

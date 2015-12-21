@@ -3,8 +3,6 @@ using System.Activities;
 using System.Activities.Statements;
 using System.Threading.Tasks;
 
-using Cogito.Threading;
-
 namespace Cogito.Activities
 {
 
@@ -46,7 +44,7 @@ namespace Cogito.Activities
     /// Provides an <see cref="Activity"/> that executes the given asynchronous function.
     /// </summary>
     public class AsyncActionActivity :
-        AsyncNativeActivity
+        AsyncTaskCodeActivity
     {
 
         /// <summary>
@@ -73,14 +71,9 @@ namespace Cogito.Activities
         [RequiredArgument]
         public Func<ActivityContext, Task> Action { get; set; }
 
-        protected override IAsyncResult BeginExecute(NativeActivityContext context, AsyncCallback callback, object state)
+        protected override Task ExecuteAsync(AsyncCodeActivityContext context)
         {
-            return Action(context).BeginToAsync(callback, state);
-        }
-
-        protected override void EndExecute(NativeActivityContext context, IAsyncResult result)
-        {
-            ((Task)result).EndToAsync();
+            return Action(context);
         }
 
     }
