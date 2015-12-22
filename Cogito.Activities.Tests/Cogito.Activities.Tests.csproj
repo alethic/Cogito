@@ -53,6 +53,7 @@
   <ItemGroup>
     <Compile Include="AsyncActionActivityTests.cs" />
     <Compile Include="ActionActivityTests.cs" />
+    <Compile Include="RetryTests.cs" />
     <Compile Include="FuncActivityTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

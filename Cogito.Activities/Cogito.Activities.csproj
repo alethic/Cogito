@@ -109,6 +109,8 @@
     <Compile Include="AsyncTaskCodeActivity.cs" />
     <Compile Include="ParallelForEachAsyncActionActivity.cs" />
     <Compile Include="ParallelForEachActionActivity.cs" />
+    <Compile Include="Retry.cs" />
+    <Compile Include="RetryException.cs" />
     <Compile Include="SelectAsyncFuncActivity.cs" />
     <Compile Include="ForEachAsyncActionActivity.cs" />
     <Compile Include="ForEachActionActivity.cs" />
