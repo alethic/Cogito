@@ -20,17 +20,17 @@ namespace Cogito.Activities
 
         public static Wait Wait<TWith>(Func<TWith, string> bookmarkName, InArgument<TWith> arg)
         {
-            return new Wait(Func(bookmarkName, arg));
+            return new Wait(Invoke(bookmarkName, arg));
         }
 
         public static Wait Wait<TWith>(Func<TWith, string> bookmarkName, DelegateInArgument<TWith> arg)
         {
-            return new Wait(Func(bookmarkName, arg));
+            return new Wait(Invoke(bookmarkName, arg));
         }
 
         public static Wait<TResult> Wait<TWith, TResult>(Func<TWith, string> bookmarkName, InArgument<TWith> arg)
         {
-            return new Wait<TResult>(Func(bookmarkName, arg));
+            return new Wait<TResult>(Invoke(bookmarkName, arg));
         }
 
     }

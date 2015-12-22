@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Activities;
+using System.Activities.Statements;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 
 namespace Cogito.Activities
 {
@@ -10,8 +13,8 @@ namespace Cogito.Activities
         NativeActivity
     {
 
-        Variable<int> attempts;
-        Variable<List<Exception>> exceptions;
+        Variable<int> attempts = new Variable<int>();
+        Variable<List<Exception>> exceptions = new Variable<List<Exception>>();
 
         /// <summary>
         /// Number of tries to attempt.
@@ -36,9 +39,9 @@ namespace Cogito.Activities
         public OutArgument<IEnumerable<Exception>> Exceptions { get; set; }
 
         /// <summary>
-        /// Executed when an exception occurs.
+        /// Collection of <see cref="RetryCatch"/> elements used to handle exceptions.
         /// </summary>
-        public ActivityAction<Exception> OnException { get; set; }
+        public Collection<RetryCatch> Catches { get; } = new Collection<RetryCatch>();
 
         /// <summary>
         /// Creates and validates a description of the <see cref="Activity"/>.
@@ -47,8 +50,9 @@ namespace Cogito.Activities
         protected override void CacheMetadata(NativeActivityMetadata metadata)
         {
             base.CacheMetadata(metadata);
-            metadata.AddImplementationVariable(attempts = new Variable<int>());
-            metadata.AddImplementationVariable(exceptions = new Variable<List<Exception>>());
+            metadata.AddImplementationVariable(attempts);
+            metadata.AddImplementationVariable(exceptions);
+            metadata.SetDelegatesCollection(new Collection<ActivityDelegate>(Catches.Select(i => i.GetAction()).ToList()));
         }
 
         protected override bool CanInduceIdle
@@ -94,10 +98,11 @@ namespace Cogito.Activities
             exceptions.Get(context).Add(propagatedException);
 
             // if user wants to be notified upon an exception
-            if (OnException != null)
+            var c = FindCatch(propagatedException);
+            if (c != null)
             {
                 // dispatch to exception handler, which will handle, and then retry the body
-                context.ScheduleAction(OnException, propagatedException, OnExceptionCompleted);
+                c.ScheduleAction(context, propagatedException, OnCatchComplete, OnCatchFault);
                 return;
             }
 
@@ -110,9 +115,20 @@ namespace Cogito.Activities
         /// </summary>
         /// <param name="context"></param>
         /// <param name="completedInstance"></param>
-        void OnExceptionCompleted(NativeActivityContext context, ActivityInstance completedInstance)
+        void OnCatchComplete(NativeActivityContext context, ActivityInstance completedInstance)
         {
             TryScheduleBody(context);
+        }
+
+        /// <summary>
+        /// Invoked when a <see cref="RetryCatch"/> faultssss.
+        /// </summary>
+        /// <param name="faultContext"></param>
+        /// <param name="propagatedException"></param>
+        /// <param name="propagatedFrom"></param>
+        void OnCatchFault(NativeActivityFaultContext faultContext, Exception propagatedException, ActivityInstance propagatedFrom)
+        {
+
         }
 
         /// <summary>
@@ -147,15 +163,14 @@ namespace Cogito.Activities
             context.SetValue(Exceptions, exceptions.Get(context));
         }
 
-    }
-
-    public class Retry<TResult> :
-        NativeActivity<TResult>
-    {
-
-        protected override void Execute(NativeActivityContext context)
+        /// <summary>
+        /// Finds the <see cref="RetryCatch"/> object that will handle the given <see cref="Exception"/>.
+        /// </summary>
+        /// <param name="exception"></param>
+        /// <returns></returns>
+        RetryCatch FindCatch(Exception exception)
         {
-            throw new NotImplementedException();
+            return Catches.FirstOrDefault(i => i.ExceptionType == exception.GetType() || i.ExceptionType.IsAssignableFrom(exception.GetType()));
         }
 
     }

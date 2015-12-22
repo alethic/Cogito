@@ -9,11 +9,11 @@ namespace Cogito.Activities
     public static partial class Activities
     {
 
-        public static AsyncActionActivity Action(Func<Task> func)
+        public static AsyncActionActivity Invoke(Func<Task> func)
         {
             return new AsyncActionActivity(context => func());
         }
-        public static AsyncActionActivity Action(Func<ActivityContext, Task> func)
+        public static AsyncActionActivity Invoke(Func<ActivityContext, Task> func)
         {
             return new AsyncActionActivity(func);
         }

@@ -23,22 +23,22 @@ namespace Cogito.Activities
 
         public static ForEachAsyncActionActivity<TElement> ForEach<TElement>(InArgument<TElement[]> source, Func<TElement, Task> action)
         {
-            return new ForEachAsyncActionActivity<TElement>(Func(source, i => i.AsEnumerable()), (context, arg) => action(arg));
+            return new ForEachAsyncActionActivity<TElement>(Invoke(source, i => i.AsEnumerable()), (context, arg) => action(arg));
         }
 
         public static ForEachAsyncActionActivity<TElement> ForEach<TElement>(InArgument<TElement[]> source, Func<ActivityContext, TElement, Task> action)
         {
-            return new ForEachAsyncActionActivity<TElement>(Func(source, i => i.AsEnumerable()), action);
+            return new ForEachAsyncActionActivity<TElement>(Invoke(source, i => i.AsEnumerable()), action);
         }
 
         public static ForEachAsyncActionActivity<TElement> ForEach<TElement>(Func<IEnumerable<TElement>> source, Func<TElement, Task> action)
         {
-            return new ForEachAsyncActionActivity<TElement>(Func(source), (context, arg) => action(arg));
+            return new ForEachAsyncActionActivity<TElement>(Invoke(source), (context, arg) => action(arg));
         }
 
         public static ForEachAsyncActionActivity<TElement> ForEach<TElement>(Func<IEnumerable<TElement>> source, Func<ActivityContext, TElement, Task> action)
         {
-            return new ForEachAsyncActionActivity<TElement>(Func(source), action);
+            return new ForEachAsyncActionActivity<TElement>(Invoke(source), action);
         }
 
         public static ForEachAsyncActionActivity<TElement> ForEach<TElement>(this Activity<IEnumerable<TElement>> source, Func<TElement, Task> action)

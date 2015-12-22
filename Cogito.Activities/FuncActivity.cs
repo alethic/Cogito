@@ -7,12 +7,12 @@ namespace Cogito.Activities
     public static partial class Activities
     {
 
-        public static FuncActivity<TResult> Func<TResult>(Func<TResult> func)
+        public static FuncActivity<TResult> Invoke<TResult>(Func<TResult> func)
         {
             return new FuncActivity<TResult>(context => func());
         }
 
-        public static FuncActivity<TResult> Func<TResult>(Func<ActivityContext, TResult> func)
+        public static FuncActivity<TResult> Invoke<TResult>(Func<ActivityContext, TResult> func)
         {
             return new FuncActivity<TResult>(func);
         }

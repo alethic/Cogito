@@ -10,12 +10,12 @@ namespace Cogito.Activities
     public static partial class Activities
     {
 
-        public static AsyncFuncActivity<TResult> Func<TResult>(Func<Task<TResult>> func)
+        public static AsyncFuncActivity<TResult> Invoke<TResult>(Func<Task<TResult>> func)
         {
             return new AsyncFuncActivity<TResult>(context => func());
         }
 
-        public static AsyncFuncActivity<TResult> Func<TResult>(Func<ActivityContext, Task<TResult>> func)
+        public static AsyncFuncActivity<TResult> Invoke<TResult>(Func<ActivityContext, Task<TResult>> func)
         {
             return new AsyncFuncActivity<TResult>(func);
         }

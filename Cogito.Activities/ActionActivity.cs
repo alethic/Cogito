@@ -8,12 +8,12 @@ namespace Cogito.Activities
     public static partial class Activities
     {
 
-        public static ActionActivity Action(Action<ActivityContext> action)
+        public static ActionActivity Invoke(Action<ActivityContext> action)
         {
             return new ActionActivity(action);
         }
 
-        public static ActionActivity Action(Action action)
+        public static ActionActivity Invoke(Action action)
         {
             return new ActionActivity(context => action());
         }

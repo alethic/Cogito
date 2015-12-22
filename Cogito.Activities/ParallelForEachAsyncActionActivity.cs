@@ -18,12 +18,12 @@ namespace Cogito.Activities
 
         public static ParallelForEachAsyncActionActivity<TElement> ParallelForEach<TElement>(InArgument<TElement[]> source, Func<ActivityContext, TElement, Task> action)
         {
-            return new ParallelForEachAsyncActionActivity<TElement>(Func(source, i => i.AsEnumerable()), action);
+            return new ParallelForEachAsyncActionActivity<TElement>(Invoke(source, i => i.AsEnumerable()), action);
         }
 
         public static ParallelForEachAsyncActionActivity<TElement> ParallelForEach<TElement>(Func<IEnumerable<TElement>> source, Func<ActivityContext, TElement, Task> action)
         {
-            return new ParallelForEachAsyncActionActivity<TElement>(Func(source), action);
+            return new ParallelForEachAsyncActionActivity<TElement>(Invoke(source), action);
         }
 
         public static ParallelForEachAsyncActionActivity<TElement> ParallelForEach<TElement>(this Activity<IEnumerable<TElement>> source, Func<ActivityContext, TElement, Task> action)
@@ -38,12 +38,12 @@ namespace Cogito.Activities
 
         public static ParallelForEachAsyncActionActivity<TElement> ParallelForEach<TElement>(InArgument<TElement[]> source, Func<TElement, Task> action)
         {
-            return new ParallelForEachAsyncActionActivity<TElement>(Func(source, i => i.AsEnumerable()), (context, arg) => action(arg));
+            return new ParallelForEachAsyncActionActivity<TElement>(Invoke(source, i => i.AsEnumerable()), (context, arg) => action(arg));
         }
 
         public static ParallelForEachAsyncActionActivity<TElement> ParallelForEach<TElement>(Func<IEnumerable<TElement>> source, Func<TElement, Task> action)
         {
-            return new ParallelForEachAsyncActionActivity<TElement>(Func(source), (context, arg) => action(arg));
+            return new ParallelForEachAsyncActionActivity<TElement>(Invoke(source), (context, arg) => action(arg));
         }
 
         public static ParallelForEachAsyncActionActivity<TElement> ParallelForEach<TElement>(this Activity<IEnumerable<TElement>> source, Func<TElement, Task> action)

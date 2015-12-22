@@ -2,16 +2,39 @@
 using System.Activities;
 using System.Activities.Statements;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Diagnostics.Contracts;
-using System.Linq;
 
 namespace Cogito.Activities
 {
 
     public static partial class Activities
     {
-        
+
+        public static Retry Retry(this Activity activity, int maxAttempts)
+        {
+            return new Retry()
+            {
+                Body = activity,
+                MaxAttempts = maxAttempts,
+            };
+        }
+
+        public static Retry Retry(this Activity activity, int maxAttempts, ActivityAction<Exception> onException)
+        {
+            return new Retry()
+            {
+                Body = activity,
+                MaxAttempts = maxAttempts,
+                Catches =
+                {
+                    new RetryCatch<Exception>()
+                    {
+                        Action = onException,
+                    }
+                }
+            };
+        }
+
         public static Delay Delay(InArgument<TimeSpan> duration)
         {
             return new Delay()
@@ -197,7 +220,7 @@ namespace Cogito.Activities
         {
             Contract.Requires<ArgumentNullException>(source != null);
 
-            return Func<TSource, TResult>(source, i => i);
+            return Invoke<TSource, TResult>(source, i => i);
         }
 
         public static Parallel WithBranch(this Parallel parallel, Activity branch)

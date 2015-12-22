@@ -1,0 +1,138 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ output extension=".cs" #>
+using System;
+using System.Activities;
+
+namespace Cogito.Activities
+{
+
+    public static partial class Activities
+    {
+
+        public static ActivityAction ActivityAction(Func<Activity> create)
+        {
+            return new ActivityAction()
+            {
+                Handler = create(),
+            };
+        }
+
+        public static ActivityAction<TArg> ActivityAction<TArg>(Func<DelegateInArgument<TArg>, Activity> create)
+        {
+            var arg = new DelegateInArgument<TArg>();
+
+            return new ActivityAction<TArg>()
+            {
+                Argument = arg,
+                Handler = create(arg),
+            };
+        }
+
+<#
+for (int i = 2; i <= 8; i++)
+{
+#>
+        public static ActivityAction<<#= Repeat("TArg{0}", i, ", ") #>> ActivityAction<<#= Repeat("TArg{0}", i, ", ") #>>(Func<<#= Repeat("DelegateInArgument<TArg{0}>", i, ", ") #>, Activity> create)
+        {
+<#
+    for (int j = 1; j <= i; j++)
+    {
+#>
+            var <#= string.Format("arg{0}", j) #> = new DelegateInArgument<<#= string.Format("TArg{0}", j) #>>();
+<#
+    }
+#>
+
+            return new ActivityAction<<#= Repeat("TArg{0}", i, ", ") #>>()
+            {
+<#
+    for (int j = 1; j <= i; j++)
+    {
+#>
+                Argument<#= j #> = arg<#= j #>,
+<#
+    }
+#>
+                Handler = create(<#= Repeat("arg{0}", i, ", ") #>),
+            };
+        }
+
+<#
+}
+#>
+
+        public static ActivityFunc<TResult> ActivityFunc<TResult>(Func<DelegateOutArgument<TResult>, Activity> create)
+        {
+            var result = new DelegateOutArgument<TResult>();
+
+            return new ActivityFunc<TResult>()
+            {
+                Result = result,
+                Handler = create(result),
+            };
+        }
+
+        public static ActivityFunc<TArg, TResult> ActivityFunc<TArg, TResult>(Func<DelegateInArgument<TArg>, DelegateOutArgument<TResult>, Activity<TResult>> create)
+        {
+            var arg = new DelegateInArgument<TArg>();
+            var result = new DelegateOutArgument<TResult>();
+
+            return new ActivityFunc<TArg, TResult>()
+            {
+                Argument = arg,
+                Result = result,
+                Handler = create(arg, result),
+            };
+        }
+
+<#
+for (int i = 2; i <= 8; i++)
+{
+#>
+        public static ActivityFunc<<#= Repeat("TArg{0}", i, ", ") #>, TResult> ActivityFunc<<#= Repeat("TArg{0}", i, ", ") #>, TResult>(Func<<#= Repeat("DelegateInArgument<TArg{0}>", i, ", ") #>, DelegateOutArgument<TResult>, Activity<TResult>> create)
+        {
+<#
+    for (int j = 1; j <= i; j++)
+    {
+#>
+            var <#= string.Format("arg{0}", j) #> = new DelegateInArgument<<#= string.Format("TArg{0}", j) #>>();
+<#
+    }
+#>
+            var result = new DelegateOutArgument<TResult>();
+
+            return new ActivityFunc<<#= Repeat("TArg{0}", i, ", ") #>, TResult>()
+            {
+<#
+    for (int j = 1; j <= i; j++)
+    {
+#>
+                Argument<#= j #> = arg<#= j #>,
+<#
+    }
+#>
+                Result = result,
+                Handler = create(<#= Repeat("arg{0}", i, ", ") #>, result),
+            };
+        }
+
+<#
+}
+#>
+
+    }
+
+}
+
+<#+
+
+string Repeat(string format, int count, string separator)
+{
+    return string.Join(separator, Enumerable.Range(1, count).Select(i => string.Format(format , i)));
+}
+
+#>

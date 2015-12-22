@@ -105,12 +105,22 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="ActionActivity.cs" />
+    <Content Include="Activities.Delegate.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Activities.Delegate.cs</LastGenOutput>
+    </Content>
+    <Compile Include="Activities.Delegate.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Activities.Delegate.tt</DependentUpon>
+    </Compile>
     <Compile Include="Activities.cs" />
     <Compile Include="AsyncTaskCodeActivity.cs" />
     <Compile Include="ParallelForEachAsyncActionActivity.cs" />
     <Compile Include="ParallelForEachActionActivity.cs" />
     <Compile Include="Retry.cs" />
     <Compile Include="RetryException.cs" />
+    <Compile Include="RetryCatch.cs" />
     <Compile Include="SelectAsyncFuncActivity.cs" />
     <Compile Include="ForEachAsyncActionActivity.cs" />
     <Compile Include="ForEachActionActivity.cs" />

@@ -22,12 +22,12 @@ namespace Cogito.Activities
 
         public static ForEachActionActivity<TElement> ForEach<TElement>(InArgument<TElement[]> source, Action<TElement> action)
         {
-            return new ForEachActionActivity<TElement>(Func(source, i => i.AsEnumerable()), (context, arg) => action(arg));
+            return new ForEachActionActivity<TElement>(Invoke(source, i => i.AsEnumerable()), (context, arg) => action(arg));
         }
 
         public static ForEachActionActivity<TElement> ForEach<TElement>(InArgument<TElement[]> source, Action<ActivityContext, TElement> action)
         {
-            return new ForEachActionActivity<TElement>(Func(source, i => i.AsEnumerable()), action);
+            return new ForEachActionActivity<TElement>(Invoke(source, i => i.AsEnumerable()), action);
         }
 
         public static ForEachActionActivity<TElement> ForEach<TElement>(this Activity<IEnumerable<TElement>> source, Action<TElement> action)
