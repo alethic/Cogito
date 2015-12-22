@@ -1,15 +1,12 @@
 ﻿using System;
 using System.Activities;
-using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.Fabric;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
 using Cogito.Activities;
 using Cogito.Collections;
-using Cogito.Threading;
 
 using Microsoft.ServiceFabric.Actors;
 
@@ -168,7 +165,7 @@ namespace Cogito.Fabric.Activities
                     ActivityState.Status = ToActivityStatus(args.CompletionState);
                 },
             };
-            
+
             workflow.Extensions.Add(() => new ActivityActorExtension(this));
             workflow.Extensions.Add(() => new AsyncActivityExtension(workflow.SynchronizationContext));
 
@@ -239,16 +236,12 @@ namespace Cogito.Fabric.Activities
             if (ActivityState.InstanceOwnerId == Guid.Empty)
                 ActivityState.InstanceOwnerId = Guid.NewGuid();
 
+            // load workflow if instance ID present
             if (ActivityState.InstanceId != Guid.Empty)
-            {
-                // load existing workflow
                 await InvokeWithWorkflow(a => a.LoadAsync(ActivityState.InstanceId));
-            }
-            else
-            {
-                // persist new instance ID
-                ActivityState.InstanceId = workflow.Id;
-            }
+
+            // store instance ID
+            ActivityState.InstanceId = workflow.Id;
         }
 
         /// <summary>

@@ -3,9 +3,8 @@ using System.Diagnostics.Contracts;
 using System.Runtime.Remoting.Messaging;
 using System.Threading;
 using System.Threading.Tasks;
-using Cogito.Threading;
 
-using Microsoft.ServiceFabric.Actors;
+using Cogito.Threading;
 
 namespace Cogito.Fabric.Activities
 {

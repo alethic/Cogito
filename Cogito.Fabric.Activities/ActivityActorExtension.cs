@@ -8,6 +8,9 @@ using Microsoft.ServiceFabric.Actors;
 namespace Cogito.Fabric.Activities
 {
 
+    /// <summary>
+    /// Provides an extension for activities to access the <see cref="ActivityActor{TActivity, TState}"/>.
+    /// </summary>
     public class ActivityActorExtension :
         IWorkflowInstanceExtension
     {
