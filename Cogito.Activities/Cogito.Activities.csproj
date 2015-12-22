@@ -115,6 +115,8 @@
       <DependentUpon>Activities.Delegate.tt</DependentUpon>
     </Compile>
     <Compile Include="Activities.cs" />
+    <Compile Include="Activities.Throw.cs" />
+    <Compile Include="Activities.TryCatch.cs" />
     <Compile Include="AsyncTaskCodeActivity.cs" />
     <Compile Include="ParallelForEachAsyncActionActivity.cs" />
     <Compile Include="ParallelForEachActionActivity.cs" />
@@ -184,6 +186,7 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Activities.Pick.cs" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

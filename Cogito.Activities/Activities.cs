@@ -10,31 +10,6 @@ namespace Cogito.Activities
     public static partial class Activities
     {
 
-        public static Retry Retry(this Activity activity, int maxAttempts)
-        {
-            return new Retry()
-            {
-                Body = activity,
-                MaxAttempts = maxAttempts,
-            };
-        }
-
-        public static Retry Retry(this Activity activity, int maxAttempts, ActivityAction<Exception> onException)
-        {
-            return new Retry()
-            {
-                Body = activity,
-                MaxAttempts = maxAttempts,
-                Catches =
-                {
-                    new RetryCatch<Exception>()
-                    {
-                        Action = onException,
-                    }
-                }
-            };
-        }
-
         public static Delay Delay(InArgument<TimeSpan> duration)
         {
             return new Delay()

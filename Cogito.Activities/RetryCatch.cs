@@ -24,9 +24,10 @@ namespace Cogito.Activities
         /// </summary>
         /// <param name="context"></param>
         /// <param name="exception"></param>
+        /// <param name="attempts"></param>
         /// <param name="completionCallback"></param>
         /// <param name="faultCallback"></param>
-        internal abstract void ScheduleAction(NativeActivityContext context, Exception exception, CompletionCallback completionCallback, FaultCallback faultCallback);
+        internal abstract void ScheduleAction(NativeActivityContext context, Exception exception, int attempts, CompletionCallback completionCallback, FaultCallback faultCallback);
 
     }
 
@@ -45,7 +46,7 @@ namespace Cogito.Activities
         }
 
         /// <summary>
-        /// Gets a <see cref="ActivityDelegate"/> for this <see cref="RetryCatch"/>.
+        /// Gets a <see cref="ActivityAction"/> for this <see cref="RetryCatch"/>.
         /// </summary>
         /// <returns></returns>
         internal override ActivityDelegate GetAction()
@@ -56,18 +57,19 @@ namespace Cogito.Activities
         /// <summary>
         /// <see cref="ActivityAction{TException}"/> to be executed.
         /// </summary>
-        public ActivityAction<TException> Action { get; set; }
+        public ActivityAction<TException, int> Action { get; set; }
 
         /// <summary>
         /// Schedules the <see cref="ActivityAction{Exception}"/>.
         /// </summary>
         /// <param name="context"></param>
         /// <param name="exception"></param>
+        /// <param name="attempts"></param>
         /// <param name="completionCallback"></param>
         /// <param name="faultCallback"></param>
-        internal override void ScheduleAction(NativeActivityContext context, Exception exception, CompletionCallback completionCallback, FaultCallback faultCallback)
+        internal override void ScheduleAction(NativeActivityContext context, Exception exception, int attempts, CompletionCallback completionCallback, FaultCallback faultCallback)
         {
-            context.ScheduleAction(Action, (TException)exception, completionCallback, faultCallback);
+            context.ScheduleAction(Action, (TException)exception, attempts, completionCallback, faultCallback);
         }
 
     }
