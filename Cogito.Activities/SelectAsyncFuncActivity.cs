@@ -10,54 +10,54 @@ namespace Cogito.Activities
     public static partial class Activities
     {
 
-        public static SelectAsyncActionActivity<TSource, TResult> Select<TSource, TResult>(InArgument<IEnumerable<TSource>> source, Func<ActivityContext, TSource, Task<TResult>> select)
+        public static SelectAsyncActionActivity<TSource, TResult> Select<TSource, TResult>(InArgument<IEnumerable<TSource>> source, Func<TSource, ActivityContext, Task<TResult>> select)
         {
             return new SelectAsyncActionActivity<TSource, TResult>(source, select);
         }
 
-        public static SelectAsyncActionActivity<TSource, TResult> Select<TSource, TResult>(InArgument<TSource[]> source, Func<ActivityContext, TSource, Task<TResult>> select)
+        public static SelectAsyncActionActivity<TSource, TResult> Select<TSource, TResult>(InArgument<TSource[]> source, Func<TSource, ActivityContext, Task<TResult>> select)
         {
             return new SelectAsyncActionActivity<TSource, TResult>(Invoke(source, i => i.AsEnumerable()), select);
         }
 
-        public static SelectAsyncActionActivity<TSource, TResult> Select<TSource, TResult>(Func<IEnumerable<TSource>> source, Func<ActivityContext, TSource, Task<TResult>> select)
+        public static SelectAsyncActionActivity<TSource, TResult> Select<TSource, TResult>(Func<IEnumerable<TSource>> source, Func<TSource, ActivityContext, Task<TResult>> select)
         {
             return new SelectAsyncActionActivity<TSource, TResult>(Invoke(source), select);
         }
 
-        public static SelectAsyncActionActivity<TSource, TResult> Select<TSource, TResult>(this Activity<IEnumerable<TSource>> source, Func<ActivityContext, TSource, Task<TResult>> select)
+        public static SelectAsyncActionActivity<TSource, TResult> Select<TSource, TResult>(this Activity<IEnumerable<TSource>> source, Func<TSource, ActivityContext, Task<TResult>> select)
         {
             return new SelectAsyncActionActivity<TSource, TResult>(source, select);
         }
 
-        public static SelectAsyncActionActivity<TSource, TResult> Select<TSource, TResult>(this Activity<TSource[]> source, Func<ActivityContext, TSource, Task<TResult>> select)
+        public static SelectAsyncActionActivity<TSource, TResult> Select<TSource, TResult>(this Activity<TSource[]> source, Func<TSource, ActivityContext, Task<TResult>> select)
         {
             return new SelectAsyncActionActivity<TSource, TResult>(Invoke<TSource[], IEnumerable<TSource>>(source, i => i.AsEnumerable()), select);
         }
 
         public static SelectAsyncActionActivity<TSource, TResult> Select<TSource, TResult>(InArgument<IEnumerable<TSource>> source, Func<TSource, Task<TResult>> select)
         {
-            return new SelectAsyncActionActivity<TSource, TResult>(source, (context, arg) => select(arg));
+            return new SelectAsyncActionActivity<TSource, TResult>(source, (arg, context) => select(arg));
         }
 
         public static SelectAsyncActionActivity<TSource, TResult> Select<TSource, TResult>(InArgument<TSource[]> source, Func<TSource, Task<TResult>> select)
         {
-            return new SelectAsyncActionActivity<TSource, TResult>(Invoke(source, i => i.AsEnumerable()), (context, arg) => select(arg));
+            return new SelectAsyncActionActivity<TSource, TResult>(Invoke(source, i => i.AsEnumerable()), (arg, context) => select(arg));
         }
 
         public static SelectAsyncActionActivity<TSource, TResult> Select<TSource, TResult>(Func<IEnumerable<TSource>> source, Func<TSource, Task<TResult>> select)
         {
-            return new SelectAsyncActionActivity<TSource, TResult>(Invoke(source), (context, arg) => select(arg));
+            return new SelectAsyncActionActivity<TSource, TResult>(Invoke(source), (arg, context) => select(arg));
         }
 
         public static SelectAsyncActionActivity<TSource, TResult> Select<TSource, TResult>(this Activity<IEnumerable<TSource>> source, Func<TSource, Task<TResult>> select)
         {
-            return new SelectAsyncActionActivity<TSource, TResult>(source, (context, arg) => select(arg));
+            return new SelectAsyncActionActivity<TSource, TResult>(source, (arg, context) => select(arg));
         }
 
         public static SelectAsyncActionActivity<TSource, TResult> Select<TSource, TResult>(this Activity<TSource[]> source, Func<TSource, Task<TResult>> select)
         {
-            return new SelectAsyncActionActivity<TSource, TResult>(Invoke<TSource[], IEnumerable<TSource>>(source, i => i.AsEnumerable()), (context, arg) => select(arg));
+            return new SelectAsyncActionActivity<TSource, TResult>(Invoke<TSource[], IEnumerable<TSource>>(source, i => i.AsEnumerable()), (arg, context) => select(arg));
         }
 
     }
@@ -97,7 +97,7 @@ namespace Cogito.Activities
         /// </summary>
         /// <param name="source"></param>
         /// <param name="selector"></param>
-        public SelectAsyncActionActivity(InArgument<IEnumerable<TSource>> source, Func<ActivityContext, TSource, Task<TResult>> selector)
+        public SelectAsyncActionActivity(InArgument<IEnumerable<TSource>> source, Func<TSource, ActivityContext, Task<TResult>> selector)
         {
             Source = source;
             Selector = selector;
@@ -113,7 +113,7 @@ namespace Cogito.Activities
         /// The <see cref="Selector"/> to invoke for each element.
         /// </summary>
         [RequiredArgument]
-        public Func<ActivityContext, TSource, Task<TResult>> Selector
+        public Func<TSource, ActivityContext, Task<TResult>> Selector
         {
             get { return selector.Func; }
             set { selector.Func = value; }

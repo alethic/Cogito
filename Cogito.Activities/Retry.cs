@@ -207,7 +207,7 @@ namespace Cogito.Activities
             Contract.Requires<ArgumentNullException>(retry != null);
             Contract.Requires<ArgumentNullException>(@catch != null);
 
-            return Catch(retry, Delegate<Exception, int>((attempts, exception) => @catch));
+            return Catch(retry, Delegate<TException, int>((exception, attempts) => @catch));
         }
 
         /// <summary>
@@ -223,7 +223,7 @@ namespace Cogito.Activities
             Contract.Requires<ArgumentNullException>(retry != null);
             Contract.Requires<ArgumentNullException>(@catch != null);
 
-            return Catch(retry, Delegate<TException, int>((attempts, exception) => Invoke(@catch, exception)));
+            return Catch(retry, Delegate<TException, int>((exception, attempts) => Invoke(@catch, exception)));
         }
 
         /// <summary>
@@ -328,8 +328,9 @@ namespace Cogito.Activities
             base.CacheMetadata(metadata);
             metadata.AddImplementationVariable(attempts);
             metadata.AddImplementationVariable(exceptions);
-            metadata.SetDelegatesCollection(new Collection<ActivityDelegate>(Catches.Select(i => i.GetAction()).ToList()));
             metadata.AddImplementationChild(delay = new Delay() { Duration = new InArgument<TimeSpan>(ctx => ctx.GetValue(Delay)) });
+            metadata.SetDelegatesCollection(new Collection<ActivityDelegate>(Catches.Select(i => i.GetAction()).ToList()));
+            metadata.AddDelegate(Body);
         }
 
         protected override bool CanInduceIdle
@@ -518,8 +519,9 @@ namespace Cogito.Activities
             base.CacheMetadata(metadata);
             metadata.AddImplementationVariable(attempts);
             metadata.AddImplementationVariable(exceptions);
-            metadata.SetDelegatesCollection(new Collection<ActivityDelegate>(Catches.Select(i => i.GetAction()).ToList()));
             metadata.AddImplementationChild(delay = new Delay() { Duration = new InArgument<TimeSpan>(ctx => ctx.GetValue(Delay)) });
+            metadata.SetDelegatesCollection(new Collection<ActivityDelegate>(Catches.Select(i => i.GetAction()).ToList()));
+            metadata.AddDelegate(Body);
         }
 
         protected override bool CanInduceIdle

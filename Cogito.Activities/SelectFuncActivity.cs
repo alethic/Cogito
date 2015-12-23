@@ -9,54 +9,54 @@ namespace Cogito.Activities
     public static partial class Activities
     {
 
-        public static SelectFuncActivity<TSource, TResult> Select<TSource, TResult>(InArgument<IEnumerable<TSource>> source, Func<ActivityContext, TSource, TResult> select)
+        public static SelectFuncActivity<TSource, TResult> Select<TSource, TResult>(InArgument<IEnumerable<TSource>> source, Func<TSource, ActivityContext, TResult> select)
         {
             return new SelectFuncActivity<TSource, TResult>(source, select);
         }
 
-        public static SelectFuncActivity<TSource, TResult> Select<TSource, TResult>(InArgument<TSource[]> source, Func<ActivityContext, TSource, TResult> select)
+        public static SelectFuncActivity<TSource, TResult> Select<TSource, TResult>(InArgument<TSource[]> source, Func<TSource, ActivityContext, TResult> select)
         {
             return new SelectFuncActivity<TSource, TResult>(Invoke(source, i => i.AsEnumerable()), select);
         }
 
-        public static SelectFuncActivity<TSource, TResult> Select<TSource, TResult>(Func<IEnumerable<TSource>> source, Func<ActivityContext, TSource, TResult> select)
+        public static SelectFuncActivity<TSource, TResult> Select<TSource, TResult>(Func<IEnumerable<TSource>> source, Func<TSource, ActivityContext, TResult> select)
         {
             return new SelectFuncActivity<TSource, TResult>(Invoke(source), select);
         }
 
-        public static SelectFuncActivity<TSource, TResult> Select<TSource, TResult>(this Activity<IEnumerable<TSource>> source, Func<ActivityContext, TSource, TResult> select)
+        public static SelectFuncActivity<TSource, TResult> Select<TSource, TResult>(this Activity<IEnumerable<TSource>> source, Func<TSource, ActivityContext, TResult> select)
         {
             return new SelectFuncActivity<TSource, TResult>(source, select);
         }
 
-        public static SelectFuncActivity<TSource, TResult> Select<TSource, TResult>(this Activity<TSource[]> source, Func<ActivityContext, TSource, TResult> select)
+        public static SelectFuncActivity<TSource, TResult> Select<TSource, TResult>(this Activity<TSource[]> source, Func<TSource, ActivityContext, TResult> select)
         {
             return new SelectFuncActivity<TSource, TResult>(Invoke<TSource[], IEnumerable<TSource>>(source, i => i.AsEnumerable()), select);
         }
 
         public static SelectFuncActivity<TSource, TResult> Select<TSource, TResult>(InArgument<IEnumerable<TSource>> source, Func<TSource, TResult> select)
         {
-            return new SelectFuncActivity<TSource, TResult>(source, (context, arg) => select(arg));
+            return new SelectFuncActivity<TSource, TResult>(source, (arg, context) => select(arg));
         }
 
         public static SelectFuncActivity<TSource, TResult> Select<TSource, TResult>(InArgument<TSource[]> source, Func<TSource, TResult> select)
         {
-            return new SelectFuncActivity<TSource, TResult>(Invoke(source, i => i.AsEnumerable()), (context, arg) => select(arg));
+            return new SelectFuncActivity<TSource, TResult>(Invoke(source, i => i.AsEnumerable()), (arg, context) => select(arg));
         }
 
         public static SelectFuncActivity<TSource, TResult> Select<TSource, TResult>(Func<IEnumerable<TSource>> source, Func<TSource, TResult> select)
         {
-            return new SelectFuncActivity<TSource, TResult>(Invoke(source), (context, arg) => select(arg));
+            return new SelectFuncActivity<TSource, TResult>(Invoke(source), (arg, context) => select(arg));
         }
 
         public static SelectFuncActivity<TSource, TResult> Select<TSource, TResult>(this Activity<IEnumerable<TSource>> source, Func<TSource, TResult> select)
         {
-            return new SelectFuncActivity<TSource, TResult>(source, (context, arg) => select(arg));
+            return new SelectFuncActivity<TSource, TResult>(source, (arg, context) => select(arg));
         }
 
         public static SelectFuncActivity<TSource, TResult> Select<TSource, TResult>(this Activity<TSource[]> source, Func<TSource, TResult> select)
         {
-            return new SelectFuncActivity<TSource, TResult>(Invoke<TSource[], IEnumerable<TSource>>(source, i => i.AsEnumerable()), (context, arg) => select(arg));
+            return new SelectFuncActivity<TSource, TResult>(Invoke<TSource[], IEnumerable<TSource>>(source, i => i.AsEnumerable()), (arg, context) => select(arg));
         }
 
     }
@@ -96,7 +96,7 @@ namespace Cogito.Activities
         /// </summary>
         /// <param name="source"></param>
         /// <param name="selector"></param>
-        public SelectFuncActivity(InArgument<IEnumerable<TSource>> source, Func<ActivityContext, TSource, TResult> selector)
+        public SelectFuncActivity(InArgument<IEnumerable<TSource>> source, Func<TSource, ActivityContext, TResult> selector)
             : this()
         {
             Source = source;
@@ -113,7 +113,7 @@ namespace Cogito.Activities
         /// The <see cref="Selector"/> to invoke for each element.
         /// </summary>
         [RequiredArgument]
-        public Func<ActivityContext, TSource, TResult> Selector
+        public Func<TSource, ActivityContext, TResult> Selector
         {
             get { return selector.Func; }
             set { selector.Func = value; }

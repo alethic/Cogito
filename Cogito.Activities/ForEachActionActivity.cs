@@ -12,30 +12,30 @@ namespace Cogito.Activities
 
         public static ForEachActionActivity<TElement> ForEach<TElement>(InArgument<IEnumerable<TElement>> source, Action<TElement> action)
         {
-            return new ForEachActionActivity<TElement>(source, (context, arg) => action(arg));
+            return new ForEachActionActivity<TElement>(source, (arg, context) => action(arg));
         }
 
-        public static ForEachActionActivity<TElement> ForEach<TElement>(InArgument<IEnumerable<TElement>> source, Action<ActivityContext, TElement> action)
+        public static ForEachActionActivity<TElement> ForEach<TElement>(InArgument<IEnumerable<TElement>> source, Action<TElement, ActivityContext> action)
         {
             return new ForEachActionActivity<TElement>(source, action);
         }
 
         public static ForEachActionActivity<TElement> ForEach<TElement>(InArgument<TElement[]> source, Action<TElement> action)
         {
-            return new ForEachActionActivity<TElement>(Invoke(source, i => i.AsEnumerable()), (context, arg) => action(arg));
+            return new ForEachActionActivity<TElement>(Invoke(source, i => i.AsEnumerable()), (arg, context) => action(arg));
         }
 
-        public static ForEachActionActivity<TElement> ForEach<TElement>(InArgument<TElement[]> source, Action<ActivityContext, TElement> action)
+        public static ForEachActionActivity<TElement> ForEach<TElement>(InArgument<TElement[]> source, Action<TElement, ActivityContext> action)
         {
             return new ForEachActionActivity<TElement>(Invoke(source, i => i.AsEnumerable()), action);
         }
 
         public static ForEachActionActivity<TElement> ForEach<TElement>(this Activity<IEnumerable<TElement>> source, Action<TElement> action)
         {
-            return new ForEachActionActivity<TElement>(source, (context, arg) => action(arg));
+            return new ForEachActionActivity<TElement>(source, (arg, context) => action(arg));
         }
 
-        public static ForEachActionActivity<TElement> ForEach<TElement>(this Activity<IEnumerable<TElement>> source, Action<ActivityContext, TElement> action)
+        public static ForEachActionActivity<TElement> ForEach<TElement>(this Activity<IEnumerable<TElement>> source, Action<TElement, ActivityContext> action)
         {
             return new ForEachActionActivity<TElement>(source, action);
         }
@@ -77,7 +77,7 @@ namespace Cogito.Activities
         /// </summary>
         /// <param name="source"></param>
         /// <param name="action"></param>
-        public ForEachActionActivity(InArgument<IEnumerable<TElement>> source, Action<ActivityContext, TElement> action)
+        public ForEachActionActivity(InArgument<IEnumerable<TElement>> source, Action<TElement, ActivityContext> action)
         {
             Source = source;
             Action = action;
@@ -93,7 +93,7 @@ namespace Cogito.Activities
         /// The <see cref="Action"/> to invoke for each element.
         /// </summary>
         [RequiredArgument]
-        public Action<ActivityContext, TElement> Action
+        public Action<TElement, ActivityContext> Action
         {
             get { return action.Action; }
             set { action.Action = value; }

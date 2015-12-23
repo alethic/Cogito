@@ -2,8 +2,6 @@
 using System.Activities;
 using System.Threading.Tasks;
 
-using Cogito.Threading;
-
 namespace Cogito.Activities
 {
 
@@ -15,17 +13,17 @@ namespace Cogito.Activities
             return new AsyncFuncActivity<TResult>(context => func());
         }
 
-        public static AsyncFuncActivity<TResult> Invoke<TResult>(Func<ActivityContext, Task<TResult>> func)
+        public static AsyncFuncActivity<TResult> InvokeWithContext<TResult>(Func<ActivityContext, Task<TResult>> func)
         {
             return new AsyncFuncActivity<TResult>(func);
         }
 
         public static AsyncFuncActivity<TValue1, TValue2> Then<TValue1, TValue2>(this Activity<TValue1> activity, Func<TValue1, Task<TValue2>> func)
         {
-            return new AsyncFuncActivity<TValue1, TValue2>((context, result) => func(result), activity);
+            return new AsyncFuncActivity<TValue1, TValue2>((value, context) => func(value), activity);
         }
 
-        public static AsyncFuncActivity<TValue1, TValue2> Then<TValue1, TValue2>(this Activity<TValue1> activity, Func<ActivityContext, TValue1, Task<TValue2>> func)
+        public static AsyncFuncActivity<TValue1, TValue2> Then<TValue1, TValue2>(this Activity<TValue1> activity, Func<TValue1, ActivityContext, Task<TValue2>> func)
         {
             return new AsyncFuncActivity<TValue1, TValue2>(func, activity);
         }

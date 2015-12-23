@@ -17,44 +17,55 @@ namespace Cogito.Activities
 for (int i = 1; i <= 8; i++)
 {
 #>
-        public static FuncActivity<<#= Repeat("TArg{0}", i, ", ") #>, TResult> Invoke<<#= Repeat("TArg{0}", i, ", ") #>, TResult>(Func<ActivityContext, <#= Repeat("TArg{0}", i, ", ") #>, TResult> func, <#= Repeat("InArgument<TArg{0}> arg{0}", i, ", ") #>)
+
+        public static FuncActivity<<#= Repeat("TArg{0}", i, ", ") #>, TResult> Invoke<<#= Repeat("TArg{0}", i, ", ") #>, TResult>(Func<<#= Repeat("TArg{0}", i, ", ") #>, TResult> func)
         {
-            return new FuncActivity<<#= Repeat("TArg{0}", i, ", ") #>, TResult>(func, <#= Repeat("arg{0}", i, ", ") #>);
+            return new FuncActivity<<#= Repeat("TArg{0}", i, ", ") #>, TResult>((<#= Repeat("_arg{0}", i, ", ") #>, context) => func(<#= Repeat("_arg{0}", i, ", ") #>), <#= Repeat("null", i, ", ") #>);
         }
 
         public static FuncActivity<<#= Repeat("TArg{0}", i, ", ") #>, TResult> Invoke<<#= Repeat("TArg{0}", i, ", ") #>, TResult>(Func<<#= Repeat("TArg{0}", i, ", ") #>, TResult> func, <#= Repeat("InArgument<TArg{0}> arg{0}", i, ", ") #>)
         {
-            return new FuncActivity<<#= Repeat("TArg{0}", i, ", ") #>, TResult>((context, <#= Repeat("_arg{0}", i, ", ") #>) => func(<#= Repeat("_arg{0}", i, ", ") #>), <#= Repeat("arg{0}", i, ", ") #>);
-        }
-
-        public static FuncActivity<<#= Repeat("TArg{0}", i, ", ") #>, TResult> Invoke<<#= Repeat("TArg{0}", i, ", ") #>, TResult>(Func<ActivityContext, <#= Repeat("TArg{0}", i, ", ") #>, TResult> func, <#= Repeat("DelegateInArgument<TArg{0}> arg{0}", i, ", ") #>)
-        {
-            return new FuncActivity<<#= Repeat("TArg{0}", i, ", ") #>, TResult>(func, <#= Repeat("arg{0}", i, ", ") #>);
+            return new FuncActivity<<#= Repeat("TArg{0}", i, ", ") #>, TResult>((<#= Repeat("_arg{0}", i, ", ") #>, context) => func(<#= Repeat("_arg{0}", i, ", ") #>), <#= Repeat("arg{0}", i, ", ") #>);
         }
 
         public static FuncActivity<<#= Repeat("TArg{0}", i, ", ") #>, TResult> Invoke<<#= Repeat("TArg{0}", i, ", ") #>, TResult>(Func<<#= Repeat("TArg{0}", i, ", ") #>, TResult> func, <#= Repeat("DelegateInArgument<TArg{0}> arg{0}", i, ", ") #>)
         {
-            return new FuncActivity<<#= Repeat("TArg{0}", i, ", ") #>, TResult>((context, <#= Repeat("_arg{0}", i, ", ") #>) => func(<#= Repeat("_arg{0}", i, ", ") #>), <#= Repeat("arg{0}", i, ", ") #>);
-        }
-
-        public static FuncActivity<<#= Repeat("TArg{0}", i, ", ") #>, TResult> Invoke<<#= Repeat("TArg{0}", i, ", ") #>, TResult>(<#= Repeat("InArgument<TArg{0}> arg{0}", i, ", ") #>, Func<ActivityContext, <#= Repeat("TArg{0}", i, ", ") #>, TResult> func)
-        {
-            return new FuncActivity<<#= Repeat("TArg{0}", i, ", ") #>, TResult>(func, <#= Repeat("arg{0}", i, ", ") #>);
+            return new FuncActivity<<#= Repeat("TArg{0}", i, ", ") #>, TResult>((<#= Repeat("_arg{0}", i, ", ") #>, context) => func(<#= Repeat("_arg{0}", i, ", ") #>), <#= Repeat("arg{0}", i, ", ") #>);
         }
 
         public static FuncActivity<<#= Repeat("TArg{0}", i, ", ") #>, TResult> Invoke<<#= Repeat("TArg{0}", i, ", ") #>, TResult>(<#= Repeat("InArgument<TArg{0}> arg{0}", i, ", ") #>, Func<<#= Repeat("TArg{0}", i, ", ") #>, TResult> func)
         {
-            return new FuncActivity<<#= Repeat("TArg{0}", i, ", ") #>, TResult>((context, <#= Repeat("_arg{0}", i, ", ") #>) => func(<#= Repeat("_arg{0}", i, ", ") #>), <#= Repeat("arg{0}", i, ", ") #>);
-        }
-
-        public static FuncActivity<<#= Repeat("TArg{0}", i, ", ") #>, TResult> Invoke<<#= Repeat("TArg{0}", i, ", ") #>, TResult>(<#= Repeat("DelegateInArgument<TArg{0}> arg{0}", i, ", ") #>, Func<ActivityContext, <#= Repeat("TArg{0}", i, ", ") #>, TResult> func)
-        {
-            return new FuncActivity<<#= Repeat("TArg{0}", i, ", ") #>, TResult>(func, <#= Repeat("arg{0}", i, ", ") #>);
+            return new FuncActivity<<#= Repeat("TArg{0}", i, ", ") #>, TResult>((<#= Repeat("_arg{0}", i, ", ") #>, context) => func(<#= Repeat("_arg{0}", i, ", ") #>), <#= Repeat("arg{0}", i, ", ") #>);
         }
 
         public static FuncActivity<<#= Repeat("TArg{0}", i, ", ") #>, TResult> Invoke<<#= Repeat("TArg{0}", i, ", ") #>, TResult>(<#= Repeat("DelegateInArgument<TArg{0}> arg{0}", i, ", ") #>, Func<<#= Repeat("TArg{0}", i, ", ") #>, TResult> func)
         {
-            return new FuncActivity<<#= Repeat("TArg{0}", i, ", ") #>, TResult>((context, <#= Repeat("_arg{0}", i, ", ") #>) => func(<#= Repeat("_arg{0}", i, ", ") #>), <#= Repeat("arg{0}", i, ", ") #>);
+            return new FuncActivity<<#= Repeat("TArg{0}", i, ", ") #>, TResult>((<#= Repeat("_arg{0}", i, ", ") #>, context) => func(<#= Repeat("_arg{0}", i, ", ") #>), <#= Repeat("arg{0}", i, ", ") #>);
+        }
+
+        public static FuncActivity<<#= Repeat("TArg{0}", i, ", ") #>, TResult> InvokeWithContext<<#= Repeat("TArg{0}", i, ", ") #>, TResult>(Func<<#= Repeat("TArg{0}", i, ", ") #>, ActivityContext, TResult> func)
+        {
+            return new FuncActivity<<#= Repeat("TArg{0}", i, ", ") #>, TResult>(func, <#= Repeat("null", i, ", ") #>);
+        }
+
+        public static FuncActivity<<#= Repeat("TArg{0}", i, ", ") #>, TResult> InvokeWithContext<<#= Repeat("TArg{0}", i, ", ") #>, TResult>(Func<<#= Repeat("TArg{0}", i, ", ") #>, ActivityContext, TResult> func, <#= Repeat("InArgument<TArg{0}> arg{0}", i, ", ") #>)
+        {
+            return new FuncActivity<<#= Repeat("TArg{0}", i, ", ") #>, TResult>(func, <#= Repeat("arg{0}", i, ", ") #>);
+        }
+
+        public static FuncActivity<<#= Repeat("TArg{0}", i, ", ") #>, TResult> InvokeWithContext<<#= Repeat("TArg{0}", i, ", ") #>, TResult>(Func<<#= Repeat("TArg{0}", i, ", ") #>, ActivityContext, TResult> func, <#= Repeat("DelegateInArgument<TArg{0}> arg{0}", i, ", ") #>)
+        {
+            return new FuncActivity<<#= Repeat("TArg{0}", i, ", ") #>, TResult>(func, <#= Repeat("arg{0}", i, ", ") #>);
+        }
+
+        public static FuncActivity<<#= Repeat("TArg{0}", i, ", ") #>, TResult> InvokeWithContext<<#= Repeat("TArg{0}", i, ", ") #>, TResult>(<#= Repeat("InArgument<TArg{0}> arg{0}", i, ", ") #>, Func<<#= Repeat("TArg{0}", i, ", ") #>, ActivityContext, TResult> func)
+        {
+            return new FuncActivity<<#= Repeat("TArg{0}", i, ", ") #>, TResult>(func, <#= Repeat("arg{0}", i, ", ") #>);
+        }
+
+        public static FuncActivity<<#= Repeat("TArg{0}", i, ", ") #>, TResult> InvokeWithContext<<#= Repeat("TArg{0}", i, ", ") #>, TResult>(<#= Repeat("DelegateInArgument<TArg{0}> arg{0}", i, ", ") #>, Func<<#= Repeat("TArg{0}", i, ", ") #>, ActivityContext, TResult> func)
+        {
+            return new FuncActivity<<#= Repeat("TArg{0}", i, ", ") #>, TResult>(func, <#= Repeat("arg{0}", i, ", ") #>);
         }
 
 <#
@@ -66,13 +77,34 @@ for (int i = 1; i <= 8; i++)
 for (int i = 1; i <= 8; i++)
 {
 #>
-
     /// <summary>
     /// Provides an <see cref="Activity"/> that executes the given function with <#= i #> arguments.
     /// </summary>
     public class FuncActivity<<#= Repeat("TArg{0}", i, ", ") #>, TResult> :
         NativeActivity<TResult>
     {
+
+        public static implicit operator ActivityFunc<<#= Repeat("TArg{0}", i, ", ") #>, TResult>(FuncActivity<<#= Repeat("TArg{0}", i, ", ") #>, TResult> activity)
+        {
+            return Activities.Delegate<<#= Repeat("TArg{0}", i, ", ") #>, TResult>((<#= Repeat("arg{0}", i, ", ") #>, result) =>
+            {
+<#
+    for (int j = 1; j <= i; j++)
+    {
+#>
+                activity.Argument<#= j #> = arg<#= j #>;
+<#
+    }
+#>
+                activity.Result = result;
+                return activity;
+            });
+        }
+
+        public static implicit operator ActivityDelegate(FuncActivity<<#= Repeat("TArg{0}", i, ", ") #>, TResult> activity)
+        {
+            return activity;
+        }
 
         /// <summary>
         /// Initializes a new instance.
@@ -95,7 +127,7 @@ for (int i = 1; i <= 8; i++)
 <#
     }
 #>
-        public FuncActivity(Func<ActivityContext, <#= Repeat("TArg{0}", i, ", ") #>, TResult> func = null, <#= Repeat("InArgument<TArg{0}> arg{0} = null", i, ", ") #>, OutArgument<TResult> result = null)
+        public FuncActivity(Func<<#= Repeat("TArg{0}", i, ", ") #>, ActivityContext, TResult> func = null, <#= Repeat("InArgument<TArg{0}> arg{0} = null", i, ", ") #>, OutArgument<TResult> result = null)
         {
             Func = func;
 <#
@@ -122,7 +154,7 @@ for (int i = 1; i <= 8; i++)
     }
 #>
         /// <param name="func"></param>
-        public FuncActivity(<#= Repeat("InArgument<TArg{0}> arg{0} = null", i, ", ") #>, OutArgument<TResult> result = null, Func<ActivityContext, <#= Repeat("TArg{0}", i, ", ") #>, TResult> func = null)
+        public FuncActivity(<#= Repeat("InArgument<TArg{0}> arg{0} = null", i, ", ") #>, OutArgument<TResult> result = null, Func<<#= Repeat("TArg{0}", i, ", ") #>, ActivityContext, TResult> func = null)
         {
 <#
     for (int j = 1; j <= i; j++)
@@ -139,7 +171,7 @@ for (int i = 1; i <= 8; i++)
         /// <summary>
         /// Gets or sets the function to be invoked.
         /// </summary>
-        public Func<ActivityContext, <#= Repeat("TArg{0}", i, ", ") #>, TResult> Func { get; set; }
+        public Func<<#= Repeat("TArg{0}", i, ", ") #>, ActivityContext, TResult> Func { get; set; }
 
 <#
 for (int j = 1; j <= i; j++)
@@ -156,15 +188,7 @@ for (int j = 1; j <= i; j++)
 #>
         protected override void Execute(NativeActivityContext context)
         {
-            Result.Set(context, Func(context, <#= Repeat("context.GetValue(Argument{0})", i, ", ") #>));
-        }
-
-        protected override void CacheMetadata(NativeActivityMetadata metadata)
-        {
-            base.CacheMetadata(metadata);
-
-            if (Func == null)
-                metadata.AddValidationError("Func is required.");
+            Result.Set(context, Func(<#= Repeat("context.GetValue(Argument{0})", i, ", ") #>, context));
         }
 
     }

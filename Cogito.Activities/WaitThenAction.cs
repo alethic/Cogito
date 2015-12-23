@@ -9,10 +9,10 @@ namespace Cogito.Activities
 
         public static WaitThenAction<TWait> WaitThen<TWait>(InArgument<string> bookmarkName, Action<TWait> action)
         {
-            return new WaitThenAction<TWait>(bookmarkName, (context, arg) => action(arg));
+            return new WaitThenAction<TWait>(bookmarkName, (arg, context) => action(arg));
         }
 
-        public static WaitThenAction<TWait> WaitThen<TWait>(InArgument<string> bookmarkName, Action<ActivityContext, TWait> action)
+        public static WaitThenAction<TWait> WaitThen<TWait>(InArgument<string> bookmarkName, Action<TWait, ActivityContext> action)
         {
             return new WaitThenAction<TWait>(bookmarkName, action);
         }
@@ -144,7 +144,7 @@ namespace Cogito.Activities
         /// </summary>
         /// <param name="bookmarkName"></param>
         /// <param name="then"></param>
-        public WaitThenAction(InArgument<string> bookmarkName, Action<ActivityContext, TWait> then)
+        public WaitThenAction(InArgument<string> bookmarkName, Action<TWait, ActivityContext> then)
             : this(bookmarkName)
         {
             Then = then;
@@ -160,7 +160,7 @@ namespace Cogito.Activities
         /// Action to be executed.
         /// </summary>
         [RequiredArgument]
-        public Action<ActivityContext, TWait> Then
+        public Action<TWait, ActivityContext> Then
         {
             get { return then.Action; }
             set { then.Action = value; }

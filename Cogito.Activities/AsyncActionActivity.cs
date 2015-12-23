@@ -13,7 +13,7 @@ namespace Cogito.Activities
         {
             return new AsyncActionActivity(context => func());
         }
-        public static AsyncActionActivity Invoke(Func<ActivityContext, Task> func)
+        public static AsyncActionActivity InvokeWithContext(Func<ActivityContext, Task> func)
         {
             return new AsyncActionActivity(func);
         }
@@ -30,10 +30,10 @@ namespace Cogito.Activities
 
         public static AsyncActionActivity<TResult> Then<TResult>(this Activity<TResult> activity, Func<TResult, Task> action)
         {
-            return new AsyncActionActivity<TResult>((context, arg) => action(arg), activity);
+            return new AsyncActionActivity<TResult>((arg, context) => action(arg), activity);
         }
 
-        public static AsyncActionActivity<TResult> Then<TResult>(this Activity<TResult> activity, Func<ActivityContext, TResult, Task> action)
+        public static AsyncActionActivity<TResult> Then<TResult>(this Activity<TResult> activity, Func<TResult, ActivityContext, Task> action)
         {
             return new AsyncActionActivity<TResult>(action, activity);
         }
@@ -46,6 +46,11 @@ namespace Cogito.Activities
     public class AsyncActionActivity :
         AsyncTaskCodeActivity
     {
+
+        public static implicit operator ActivityAction(AsyncActionActivity activity)
+        {
+            return Activities.Delegate(() => activity);
+        }
 
         /// <summary>
         /// Initializes a new instance.

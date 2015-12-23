@@ -12,40 +12,40 @@ namespace Cogito.Activities
 
         public static ParallelForEachActionActivity<TElement> ParallelForEach<TElement>(InArgument<IEnumerable<TElement>> source, Action<TElement> action)
         {
-            return new ParallelForEachActionActivity<TElement>(source, (context, arg) => action(arg));
+            return new ParallelForEachActionActivity<TElement>(source, (arg, context) => action(arg));
         }
 
         public static ParallelForEachActionActivity<TElement> ParallelForEach<TElement>(InArgument<TElement[]> source, Action<TElement> action)
         {
-            return new ParallelForEachActionActivity<TElement>(Invoke(source, i => i.AsEnumerable()), (context, arg) => action(arg));
+            return new ParallelForEachActionActivity<TElement>(Invoke(source, i => i.AsEnumerable()), (arg, context) => action(arg));
         }
 
         public static ParallelForEachActionActivity<TElement> ParallelForEach<TElement>(Func<IEnumerable<TElement>> source, Action<TElement> action)
         {
-            return new ParallelForEachActionActivity<TElement>(Invoke(source), (context, arg) => action(arg));
+            return new ParallelForEachActionActivity<TElement>(Invoke(source), (arg, context) => action(arg));
         }
 
         public static ParallelForEachActionActivity<TElement> ParallelForEach<TElement>(this Activity<IEnumerable<TElement>> source, Action<TElement> action)
         {
-            return new ParallelForEachActionActivity<TElement>(source, (context, arg) => action(arg));
+            return new ParallelForEachActionActivity<TElement>(source, (arg, context) => action(arg));
         }
 
-        public static ParallelForEachActionActivity<TElement> ParallelForEach<TElement>(InArgument<IEnumerable<TElement>> source, Action<ActivityContext, TElement> action)
+        public static ParallelForEachActionActivity<TElement> ParallelForEach<TElement>(InArgument<IEnumerable<TElement>> source, Action<TElement, ActivityContext> action)
         {
             return new ParallelForEachActionActivity<TElement>(source, action);
         }
 
-        public static ParallelForEachActionActivity<TElement> ParallelForEach<TElement>(InArgument<TElement[]> source, Action<ActivityContext, TElement> action)
+        public static ParallelForEachActionActivity<TElement> ParallelForEach<TElement>(InArgument<TElement[]> source, Action<TElement, ActivityContext> action)
         {
             return new ParallelForEachActionActivity<TElement>(Invoke(source, i => i.AsEnumerable()), action);
         }
 
-        public static ParallelForEachActionActivity<TElement> ParallelForEach<TElement>(Func<IEnumerable<TElement>> source, Action<ActivityContext, TElement> action)
+        public static ParallelForEachActionActivity<TElement> ParallelForEach<TElement>(Func<IEnumerable<TElement>> source, Action<TElement, ActivityContext> action)
         {
             return new ParallelForEachActionActivity<TElement>(Invoke(source), action);
         }
 
-        public static ParallelForEachActionActivity<TElement> ParallelForEach<TElement>(this Activity<IEnumerable<TElement>> source, Action<ActivityContext, TElement> action)
+        public static ParallelForEachActionActivity<TElement> ParallelForEach<TElement>(this Activity<IEnumerable<TElement>> source, Action<TElement, ActivityContext> action)
         {
             return new ParallelForEachActionActivity<TElement>(source, action);
         }
@@ -87,7 +87,7 @@ namespace Cogito.Activities
         /// </summary>
         /// <param name="source"></param>
         /// <param name="action"></param>
-        public ParallelForEachActionActivity(InArgument<IEnumerable<TElement>> source, Action<ActivityContext, TElement> action)
+        public ParallelForEachActionActivity(InArgument<IEnumerable<TElement>> source, Action<TElement, ActivityContext> action)
         {
             Source = source;
             Action = action;
@@ -103,7 +103,7 @@ namespace Cogito.Activities
         /// The <see cref="Action"/> to invoke for each element.
         /// </summary>
         [RequiredArgument]
-        public Action<ActivityContext, TElement> Action
+        public Action<TElement, ActivityContext> Action
         {
             get { return action.Action; }
             set { action.Action = value; }

@@ -30,7 +30,7 @@ namespace Cogito.Activities
 
         public static ActionActivity<TValue> Then<TValue>(this Activity<TValue> activity, Action<TValue> action)
         {
-            return new ActionActivity<TValue>((context, arg) => action(arg), activity);
+            return new ActionActivity<TValue>((arg, context) => action(arg), activity);
         }
 
     }
@@ -41,6 +41,19 @@ namespace Cogito.Activities
     public partial class ActionActivity :
         NativeActivity
     {
+
+        public static implicit operator ActivityAction(ActionActivity activity)
+        {
+            return Activities.Delegate(() =>
+            {
+                return activity;
+            });
+        }
+
+        public static implicit operator ActivityDelegate(ActionActivity activity)
+        {
+            return activity;
+        }
 
         /// <summary>
         /// Initializes a new instance.

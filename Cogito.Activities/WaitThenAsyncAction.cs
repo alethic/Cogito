@@ -18,14 +18,14 @@ namespace Cogito.Activities
             return new WaitThenAsyncAction(bookmarkName, context => action());
         }
 
-        public static WaitThenAsyncAction<TWait> WaitThen<TWait>(InArgument<string> bookmarkName, Func<ActivityContext, TWait, Task> action)
+        public static WaitThenAsyncAction<TWait> WaitThen<TWait>(InArgument<string> bookmarkName, Func<TWait, ActivityContext, Task> action)
         {
             return new WaitThenAsyncAction<TWait>(bookmarkName, action);
         }
 
         public static WaitThenAsyncAction<TWait> WaitThen<TWait>(InArgument<string> bookmarkName, Func<TWait, Task> action)
         {
-            return new WaitThenAsyncAction<TWait>(bookmarkName, (context, arg) => action(arg));
+            return new WaitThenAsyncAction<TWait>(bookmarkName, (arg, context) => action(arg));
         }
 
     }
@@ -154,7 +154,7 @@ namespace Cogito.Activities
         /// </summary>
         /// <param name="bookmarkName"></param>
         /// <param name="then"></param>
-        public WaitThenAsyncAction(InArgument<string> bookmarkName, Func<ActivityContext, TWait, Task> then)
+        public WaitThenAsyncAction(InArgument<string> bookmarkName, Func<TWait, ActivityContext, Task> then)
             : this(bookmarkName)
         {
             Then = then;
@@ -170,7 +170,7 @@ namespace Cogito.Activities
         /// Action to be executed.
         /// </summary>
         [RequiredArgument]
-        public Func<ActivityContext, TWait, Task> Then
+        public Func<TWait, ActivityContext, Task> Then
         {
             get { return then.Action; }
             set { then.Action = value; }

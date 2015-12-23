@@ -7,14 +7,14 @@ namespace Cogito.Activities
     public static partial class Activities
     {
 
-        public static WaitThenFunc<TWaitFor, TResult> WaitThen<TWaitFor, TResult>(InArgument<string> bookmarkName, Func<ActivityContext, TWaitFor, TResult> action)
+        public static WaitThenFunc<TWaitFor, TResult> WaitThen<TWaitFor, TResult>(InArgument<string> bookmarkName, Func<TWaitFor, ActivityContext, TResult> action)
         {
             return new WaitThenFunc<TWaitFor, TResult>(bookmarkName, action);
         }
 
         public static WaitThenFunc<TWaitFor, TResult> WaitThen<TWaitFor, TResult>(InArgument<string> bookmarkName, Func<TWaitFor, TResult> action)
         {
-            return new WaitThenFunc<TWaitFor, TResult>(bookmarkName, (context, arg) => action(arg));
+            return new WaitThenFunc<TWaitFor, TResult>(bookmarkName, (arg, context) => action(arg));
         }
 
     }
@@ -66,7 +66,7 @@ namespace Cogito.Activities
         /// </summary>
         /// <param name="bookmarkName"></param>
         /// <param name="then"></param>
-        public WaitThenFunc(InArgument<string> bookmarkName, Func<ActivityContext, TWaitFor, TResult> then)
+        public WaitThenFunc(InArgument<string> bookmarkName, Func<TWaitFor, ActivityContext, TResult> then)
             : this(bookmarkName)
         {
             Then = then;
@@ -82,7 +82,7 @@ namespace Cogito.Activities
         /// Action to be executed.
         /// </summary>
         [RequiredArgument]
-        public Func<ActivityContext, TWaitFor, TResult> Then
+        public Func<TWaitFor, ActivityContext, TResult> Then
         {
             get { return then.Func; }
             set { then.Func = value; }
