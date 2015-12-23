@@ -25,7 +25,12 @@ namespace Cogito.Activities.Tests
                 WorkflowInvoker.Invoke(new Retry()
                 {
                     MaxAttempts = 5,
-                    Body = Activities.Action(() => { runCount++; throw new Exception("Exception"); }),
+                    Body = Activities.Invoke<int>(i =>
+                    {
+                        runCount++;
+                        throw new Exception("broke");
+                        return; // C# BUG!!!! YAY!!!
+                    }),
                 });
             }
             catch (RetryException e)
@@ -47,7 +52,7 @@ namespace Cogito.Activities.Tests
             var results = WorkflowInvoker.Invoke(new Retry()
             {
                 MaxAttempts = 5,
-                Body = Activities.Action(() => { if (++runCount < 3) throw new Exception("Exception"); }),
+                Body = Activities.Invoke<int>(i => { if (++runCount < 3) throw new Exception("Exception"); }),
             });
 
             Assert.AreEqual(3, runCount);
@@ -60,7 +65,7 @@ namespace Cogito.Activities.Tests
             var results = WorkflowInvoker.Invoke(new Retry()
             {
                 MaxAttempts = 5,
-                Body = Activities.Action(() => { }),
+                Body = Activities.Invoke<int>(i => { }),
             });
 
             Assert.AreEqual(1, (int)results["Attempts"]);
