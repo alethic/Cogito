@@ -113,7 +113,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ActivityActor.cs" />
+    <Compile Include="ActivityWorkflowHost.cs" />
+    <Compile Include="StatefulActivityActor.cs" />
+    <Compile Include="ActivityActorClosedException.cs" />
+    <Compile Include="ActivityActorException.cs" />
     <Compile Include="ActivityActorExtension.cs" />
     <Compile Include="ActivityActorState.cs" />
     <Compile Include="ActivityActorInstanceStore.cs" />
@@ -122,6 +125,7 @@
     <Compile Include="ActivityActorSynchronizationContext.cs" />
     <Compile Include="IActivityActorInternal.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StatelessActivityActor.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

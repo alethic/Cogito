@@ -22,7 +22,7 @@ namespace Cogito.Activities
         /// <param name="attempts"></param>
         /// <param name="innerExceptions"></param>
         public RetryException(int attempts, params Exception[] innerExceptions)
-            : base($"Permanent failure after {attempts}.", innerExceptions.FirstOrDefault())
+            : base($"Permanent failure after {attempts} attempts.", innerExceptions.FirstOrDefault())
         {
             Contract.Requires<ArgumentNullException>(attempts > 0);
             Contract.Requires<ArgumentNullException>(innerExceptions != null);

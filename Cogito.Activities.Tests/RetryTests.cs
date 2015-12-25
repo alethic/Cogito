@@ -29,7 +29,7 @@ namespace Cogito.Activities.Tests
                     {
                         runCount++;
                         throw new Exception("broke");
-                        return; // C# BUG!!!! YAY!!!
+                        return;
                     }),
                 });
             }
@@ -52,7 +52,11 @@ namespace Cogito.Activities.Tests
             var results = WorkflowInvoker.Invoke(new Retry()
             {
                 MaxAttempts = 5,
-                Body = Activities.Invoke<int>(i => { if (++runCount < 3) throw new Exception("Exception"); }),
+                Body = Activities.Invoke<int>(i =>
+                {
+                    if (++runCount < 3)
+                        throw new Exception("Exception");
+                }),
             });
 
             Assert.AreEqual(3, runCount);

@@ -19,19 +19,19 @@ namespace Cogito.Fabric.Activities
     {
 
         /// <summary>
-        /// Owner ID of this <see cref="ActivityActor{TActivity, TState}"/>.
+        /// Owner ID of this <see cref="StatefulActivityActor{TActivity, TState}"/>.
         /// </summary>
         [DataMember]
         public Guid InstanceOwnerId { get; set; }
 
         /// <summary>
-        /// State of the <see cref="ActivityActor{TActivity, TState}"/>.
+        /// State of the <see cref="StatefulActivityActor{TActivity, TState}"/>.
         /// </summary>
         [DataMember]
         public ActivityActorStatus Status { get; set; }
 
         /// <summary>
-        /// Instance ID of the workflow associated with the <see cref="ActivityActor{TActivity, TState}"/>.
+        /// Instance ID of the workflow associated with the <see cref="StatefulActivityActor{TActivity, TState}"/>.
         /// </summary>
         [DataMember]
         public Guid InstanceId { get; set; }
