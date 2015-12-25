@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Diagnostics.Contracts;
+using System.Threading.Tasks;
 
 namespace Cogito.Threading
 {
@@ -14,6 +16,9 @@ namespace Cogito.Threading
         /// <param name="task"></param>
         public static bool TrySetFrom<TResult>(this TaskCompletionSource<TResult> self, Task<TResult> task)
         {
+            Contract.Requires<ArgumentNullException>(self != null);
+            Contract.Requires<ArgumentNullException>(task != null);
+
             if (task.IsFaulted)
             {
                 if (!self.TrySetException(task.Exception.InnerExceptions))
@@ -41,6 +46,9 @@ namespace Cogito.Threading
         /// <param name="task"></param>
         public static bool TrySetFrom<TResult>(this TaskCompletionSource<TResult> self, Task task)
         {
+            Contract.Requires<ArgumentNullException>(self != null);
+            Contract.Requires<ArgumentNullException>(task != null);
+
             if (task.IsFaulted)
             {
                 if (!self.TrySetException(task.Exception.InnerExceptions))
