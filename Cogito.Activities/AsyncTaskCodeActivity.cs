@@ -3,7 +3,7 @@ using System.Activities;
 using System.Runtime.ExceptionServices;
 using System.Threading;
 using System.Threading.Tasks;
-using Cogito.Core.Threading;
+
 using Cogito.Threading;
 
 namespace Cogito.Activities
