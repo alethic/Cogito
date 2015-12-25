@@ -156,6 +156,7 @@
     <Compile Include="Components\IComponentProvider.cs" />
     <Compile Include="Components\Timer.cs" />
     <Compile Include="Diagnostics\DelegateTraceListener.cs" />
+    <Compile Include="Diagnostics\ProcessStartInfoExtensions.cs" />
     <Compile Include="Diagnostics\RollingFileTraceListener.cs" />
     <Compile Include="DisposableExtensions.cs" />
     <Compile Include="Dynamic\DynamicDataContract.cs" />
