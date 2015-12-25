@@ -9,9 +9,10 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Cogito.Activities</RootNamespace>
     <AssemblyName>Cogito.Activities</AssemblyName>
-    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <CodeContractsAssemblyMode>1</CodeContractsAssemblyMode>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -74,9 +75,25 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Nito.AsyncEx, Version=3.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Nito.AsyncEx.3.0.1\lib\net45\Nito.AsyncEx.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Nito.AsyncEx.Concurrent, Version=3.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Nito.AsyncEx.3.0.1\lib\net45\Nito.AsyncEx.Concurrent.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Nito.AsyncEx.Enlightenment, Version=3.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Nito.AsyncEx.3.0.1\lib\net45\Nito.AsyncEx.Enlightenment.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Activities" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.ServiceModel.Activities" />
+    <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Net.Http" />
@@ -89,6 +106,28 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="ActionActivity.cs" />
+    <Content Include="Activities.Delegate.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Activities.Delegate.cs</LastGenOutput>
+    </Content>
+    <Compile Include="Activities.Delegate.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Activities.Delegate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Activities.cs" />
+    <Compile Include="Activities.Throw.cs" />
+    <Compile Include="Activities.TryCatch.cs" />
+    <Compile Include="AsyncTaskCodeActivity.cs" />
+    <Compile Include="ParallelForEachAsyncActionActivity.cs" />
+    <Compile Include="ParallelForEachActionActivity.cs" />
+    <Compile Include="Retry.cs" />
+    <Compile Include="RetryException.cs" />
+    <Compile Include="RetryCatch.cs" />
+    <Compile Include="SelectAsyncFuncActivity.cs" />
+    <Compile Include="ForEachAsyncActionActivity.cs" />
+    <Compile Include="ForEachActionActivity.cs" />
+    <Compile Include="FormatActivity.cs" />
     <Compile Include="FuncActivity.Arguments.cs">
       <DependentUpon>FuncActivity.Arguments.tt</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -106,11 +145,18 @@
       <DependentUpon>AsyncActionActivity.Arguments.tt</DependentUpon>
     </Compile>
     <Compile Include="AsyncNativeActivity.cs" />
-    <Compile Include="AsyncNativeActivityExtension.cs" />
+    <Compile Include="AsyncActivityExtension.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="AsyncActionActivity.cs" />
     <Compile Include="AsyncFuncActivity.cs" />
-    <Compile Include="WaitActivity.cs" />
+    <Compile Include="SelectFuncActivity.cs" />
+    <Compile Include="SelectActivity.cs" />
+    <Compile Include="Wait.cs" />
+    <Compile Include="WaitThenAsyncFunc.cs" />
+    <Compile Include="WaitThenFunc.cs" />
+    <Compile Include="WaitThenAsyncAction.cs" />
+    <Compile Include="WaitThenAction.cs" />
+    <Compile Include="WaitThen.cs" />
     <Compile Include="WorkflowApplicationExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -139,6 +185,10 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Activities.Pick.cs" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

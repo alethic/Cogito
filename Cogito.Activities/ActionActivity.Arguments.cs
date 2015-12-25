@@ -1,10 +1,518 @@
-﻿
-using System;
+﻿using System;
 using System.Activities;
+using System.Diagnostics.Contracts;
 
 namespace Cogito.Activities
 {
 
+    public static partial class Activities
+    {
+
+        public static ActionActivity<TArg1> Invoke<TArg1>(Action<TArg1> action)
+        {
+            Contract.Requires<ArgumentNullException>(action != null);
+
+            return new ActionActivity<TArg1>((_arg1, context) => action(_arg1), null);
+        }
+
+        public static ActionActivity<TArg1> Invoke<TArg1>(Action<TArg1> action, InArgument<TArg1> arg1)
+        {
+            Contract.Requires<ArgumentNullException>(action != null);
+
+            return new ActionActivity<TArg1>((_arg1, context) => action(_arg1), arg1);
+        }
+
+        public static ActionActivity<TArg1> Invoke<TArg1>(Action<TArg1> action, DelegateInArgument<TArg1> arg1)
+        {
+            Contract.Requires<ArgumentNullException>(action != null);
+
+            return new ActionActivity<TArg1>((_arg1, context) => action(_arg1), arg1);
+        }
+
+        public static ActionActivity<TArg1> Invoke<TArg1>(InArgument<TArg1> arg1, Action<TArg1> action)
+        {
+            Contract.Requires<ArgumentNullException>(action != null);
+
+            return new ActionActivity<TArg1>((_arg1, context) => action(_arg1), arg1);
+        }
+
+        public static ActionActivity<TArg1> Invoke<TArg1>(DelegateInArgument<TArg1> arg1, Action<TArg1> action)
+        {
+            Contract.Requires<ArgumentNullException>(action != null);
+
+            return new ActionActivity<TArg1>((_arg1, context) => action(_arg1), arg1);
+        }
+                
+        public static ActionActivity<TArg1> InvokeWithContext<TArg1>(Action<TArg1, ActivityContext> action, InArgument<TArg1> arg1)
+        {
+            Contract.Requires<ArgumentNullException>(action != null);
+
+            return new ActionActivity<TArg1>(action, arg1);
+        }
+
+        public static ActionActivity<TArg1> InvokeWithContext<TArg1>(Action<TArg1, ActivityContext> action, DelegateInArgument<TArg1> arg1)
+        {
+            Contract.Requires<ArgumentNullException>(action != null);
+
+            return new ActionActivity<TArg1>(action, arg1);
+        }
+
+        public static ActionActivity<TArg1> InvokeWithContext<TArg1>(InArgument<TArg1> arg1, Action<TArg1, ActivityContext> action)
+        {
+            Contract.Requires<ArgumentNullException>(action != null);
+
+            return new ActionActivity<TArg1>(action, arg1);
+        }
+
+        public static ActionActivity<TArg1> InvokeWithContext<TArg1>(DelegateInArgument<TArg1> arg1, Action<TArg1, ActivityContext> action)
+        {
+            Contract.Requires<ArgumentNullException>(action != null);
+
+            return new ActionActivity<TArg1>(action, arg1);
+        }
+
+        public static ActionActivity<TArg1, TArg2> Invoke<TArg1, TArg2>(Action<TArg1, TArg2> action)
+        {
+            Contract.Requires<ArgumentNullException>(action != null);
+
+            return new ActionActivity<TArg1, TArg2>((_arg1, _arg2, context) => action(_arg1, _arg2), null, null);
+        }
+
+        public static ActionActivity<TArg1, TArg2> Invoke<TArg1, TArg2>(Action<TArg1, TArg2> action, InArgument<TArg1> arg1, InArgument<TArg2> arg2)
+        {
+            Contract.Requires<ArgumentNullException>(action != null);
+
+            return new ActionActivity<TArg1, TArg2>((_arg1, _arg2, context) => action(_arg1, _arg2), arg1, arg2);
+        }
+
+        public static ActionActivity<TArg1, TArg2> Invoke<TArg1, TArg2>(Action<TArg1, TArg2> action, DelegateInArgument<TArg1> arg1, DelegateInArgument<TArg2> arg2)
+        {
+            Contract.Requires<ArgumentNullException>(action != null);
+
+            return new ActionActivity<TArg1, TArg2>((_arg1, _arg2, context) => action(_arg1, _arg2), arg1, arg2);
+        }
+
+        public static ActionActivity<TArg1, TArg2> Invoke<TArg1, TArg2>(InArgument<TArg1> arg1, InArgument<TArg2> arg2, Action<TArg1, TArg2> action)
+        {
+            Contract.Requires<ArgumentNullException>(action != null);
+
+            return new ActionActivity<TArg1, TArg2>((_arg1, _arg2, context) => action(_arg1, _arg2), arg1, arg2);
+        }
+
+        public static ActionActivity<TArg1, TArg2> Invoke<TArg1, TArg2>(DelegateInArgument<TArg1> arg1, DelegateInArgument<TArg2> arg2, Action<TArg1, TArg2> action)
+        {
+            Contract.Requires<ArgumentNullException>(action != null);
+
+            return new ActionActivity<TArg1, TArg2>((_arg1, _arg2, context) => action(_arg1, _arg2), arg1, arg2);
+        }
+                
+        public static ActionActivity<TArg1, TArg2> InvokeWithContext<TArg1, TArg2>(Action<TArg1, TArg2, ActivityContext> action, InArgument<TArg1> arg1, InArgument<TArg2> arg2)
+        {
+            Contract.Requires<ArgumentNullException>(action != null);
+
+            return new ActionActivity<TArg1, TArg2>(action, arg1, arg2);
+        }
+
+        public static ActionActivity<TArg1, TArg2> InvokeWithContext<TArg1, TArg2>(Action<TArg1, TArg2, ActivityContext> action, DelegateInArgument<TArg1> arg1, DelegateInArgument<TArg2> arg2)
+        {
+            Contract.Requires<ArgumentNullException>(action != null);
+
+            return new ActionActivity<TArg1, TArg2>(action, arg1, arg2);
+        }
+
+        public static ActionActivity<TArg1, TArg2> InvokeWithContext<TArg1, TArg2>(InArgument<TArg1> arg1, InArgument<TArg2> arg2, Action<TArg1, TArg2, ActivityContext> action)
+        {
+            Contract.Requires<ArgumentNullException>(action != null);
+
+            return new ActionActivity<TArg1, TArg2>(action, arg1, arg2);
+        }
+
+        public static ActionActivity<TArg1, TArg2> InvokeWithContext<TArg1, TArg2>(DelegateInArgument<TArg1> arg1, DelegateInArgument<TArg2> arg2, Action<TArg1, TArg2, ActivityContext> action)
+        {
+            Contract.Requires<ArgumentNullException>(action != null);
+
+            return new ActionActivity<TArg1, TArg2>(action, arg1, arg2);
+        }
+
+        public static ActionActivity<TArg1, TArg2, TArg3> Invoke<TArg1, TArg2, TArg3>(Action<TArg1, TArg2, TArg3> action)
+        {
+            Contract.Requires<ArgumentNullException>(action != null);
+
+            return new ActionActivity<TArg1, TArg2, TArg3>((_arg1, _arg2, _arg3, context) => action(_arg1, _arg2, _arg3), null, null, null);
+        }
+
+        public static ActionActivity<TArg1, TArg2, TArg3> Invoke<TArg1, TArg2, TArg3>(Action<TArg1, TArg2, TArg3> action, InArgument<TArg1> arg1, InArgument<TArg2> arg2, InArgument<TArg3> arg3)
+        {
+            Contract.Requires<ArgumentNullException>(action != null);
+
+            return new ActionActivity<TArg1, TArg2, TArg3>((_arg1, _arg2, _arg3, context) => action(_arg1, _arg2, _arg3), arg1, arg2, arg3);
+        }
+
+        public static ActionActivity<TArg1, TArg2, TArg3> Invoke<TArg1, TArg2, TArg3>(Action<TArg1, TArg2, TArg3> action, DelegateInArgument<TArg1> arg1, DelegateInArgument<TArg2> arg2, DelegateInArgument<TArg3> arg3)
+        {
+            Contract.Requires<ArgumentNullException>(action != null);
+
+            return new ActionActivity<TArg1, TArg2, TArg3>((_arg1, _arg2, _arg3, context) => action(_arg1, _arg2, _arg3), arg1, arg2, arg3);
+        }
+
+        public static ActionActivity<TArg1, TArg2, TArg3> Invoke<TArg1, TArg2, TArg3>(InArgument<TArg1> arg1, InArgument<TArg2> arg2, InArgument<TArg3> arg3, Action<TArg1, TArg2, TArg3> action)
+        {
+            Contract.Requires<ArgumentNullException>(action != null);
+
+            return new ActionActivity<TArg1, TArg2, TArg3>((_arg1, _arg2, _arg3, context) => action(_arg1, _arg2, _arg3), arg1, arg2, arg3);
+        }
+
+        public static ActionActivity<TArg1, TArg2, TArg3> Invoke<TArg1, TArg2, TArg3>(DelegateInArgument<TArg1> arg1, DelegateInArgument<TArg2> arg2, DelegateInArgument<TArg3> arg3, Action<TArg1, TArg2, TArg3> action)
+        {
+            Contract.Requires<ArgumentNullException>(action != null);
+
+            return new ActionActivity<TArg1, TArg2, TArg3>((_arg1, _arg2, _arg3, context) => action(_arg1, _arg2, _arg3), arg1, arg2, arg3);
+        }
+                
+        public static ActionActivity<TArg1, TArg2, TArg3> InvokeWithContext<TArg1, TArg2, TArg3>(Action<TArg1, TArg2, TArg3, ActivityContext> action, InArgument<TArg1> arg1, InArgument<TArg2> arg2, InArgument<TArg3> arg3)
+        {
+            Contract.Requires<ArgumentNullException>(action != null);
+
+            return new ActionActivity<TArg1, TArg2, TArg3>(action, arg1, arg2, arg3);
+        }
+
+        public static ActionActivity<TArg1, TArg2, TArg3> InvokeWithContext<TArg1, TArg2, TArg3>(Action<TArg1, TArg2, TArg3, ActivityContext> action, DelegateInArgument<TArg1> arg1, DelegateInArgument<TArg2> arg2, DelegateInArgument<TArg3> arg3)
+        {
+            Contract.Requires<ArgumentNullException>(action != null);
+
+            return new ActionActivity<TArg1, TArg2, TArg3>(action, arg1, arg2, arg3);
+        }
+
+        public static ActionActivity<TArg1, TArg2, TArg3> InvokeWithContext<TArg1, TArg2, TArg3>(InArgument<TArg1> arg1, InArgument<TArg2> arg2, InArgument<TArg3> arg3, Action<TArg1, TArg2, TArg3, ActivityContext> action)
+        {
+            Contract.Requires<ArgumentNullException>(action != null);
+
+            return new ActionActivity<TArg1, TArg2, TArg3>(action, arg1, arg2, arg3);
+        }
+
+        public static ActionActivity<TArg1, TArg2, TArg3> InvokeWithContext<TArg1, TArg2, TArg3>(DelegateInArgument<TArg1> arg1, DelegateInArgument<TArg2> arg2, DelegateInArgument<TArg3> arg3, Action<TArg1, TArg2, TArg3, ActivityContext> action)
+        {
+            Contract.Requires<ArgumentNullException>(action != null);
+
+            return new ActionActivity<TArg1, TArg2, TArg3>(action, arg1, arg2, arg3);
+        }
+
+        public static ActionActivity<TArg1, TArg2, TArg3, TArg4> Invoke<TArg1, TArg2, TArg3, TArg4>(Action<TArg1, TArg2, TArg3, TArg4> action)
+        {
+            Contract.Requires<ArgumentNullException>(action != null);
+
+            return new ActionActivity<TArg1, TArg2, TArg3, TArg4>((_arg1, _arg2, _arg3, _arg4, context) => action(_arg1, _arg2, _arg3, _arg4), null, null, null, null);
+        }
+
+        public static ActionActivity<TArg1, TArg2, TArg3, TArg4> Invoke<TArg1, TArg2, TArg3, TArg4>(Action<TArg1, TArg2, TArg3, TArg4> action, InArgument<TArg1> arg1, InArgument<TArg2> arg2, InArgument<TArg3> arg3, InArgument<TArg4> arg4)
+        {
+            Contract.Requires<ArgumentNullException>(action != null);
+
+            return new ActionActivity<TArg1, TArg2, TArg3, TArg4>((_arg1, _arg2, _arg3, _arg4, context) => action(_arg1, _arg2, _arg3, _arg4), arg1, arg2, arg3, arg4);
+        }
+
+        public static ActionActivity<TArg1, TArg2, TArg3, TArg4> Invoke<TArg1, TArg2, TArg3, TArg4>(Action<TArg1, TArg2, TArg3, TArg4> action, DelegateInArgument<TArg1> arg1, DelegateInArgument<TArg2> arg2, DelegateInArgument<TArg3> arg3, DelegateInArgument<TArg4> arg4)
+        {
+            Contract.Requires<ArgumentNullException>(action != null);
+
+            return new ActionActivity<TArg1, TArg2, TArg3, TArg4>((_arg1, _arg2, _arg3, _arg4, context) => action(_arg1, _arg2, _arg3, _arg4), arg1, arg2, arg3, arg4);
+        }
+
+        public static ActionActivity<TArg1, TArg2, TArg3, TArg4> Invoke<TArg1, TArg2, TArg3, TArg4>(InArgument<TArg1> arg1, InArgument<TArg2> arg2, InArgument<TArg3> arg3, InArgument<TArg4> arg4, Action<TArg1, TArg2, TArg3, TArg4> action)
+        {
+            Contract.Requires<ArgumentNullException>(action != null);
+
+            return new ActionActivity<TArg1, TArg2, TArg3, TArg4>((_arg1, _arg2, _arg3, _arg4, context) => action(_arg1, _arg2, _arg3, _arg4), arg1, arg2, arg3, arg4);
+        }
+
+        public static ActionActivity<TArg1, TArg2, TArg3, TArg4> Invoke<TArg1, TArg2, TArg3, TArg4>(DelegateInArgument<TArg1> arg1, DelegateInArgument<TArg2> arg2, DelegateInArgument<TArg3> arg3, DelegateInArgument<TArg4> arg4, Action<TArg1, TArg2, TArg3, TArg4> action)
+        {
+            Contract.Requires<ArgumentNullException>(action != null);
+
+            return new ActionActivity<TArg1, TArg2, TArg3, TArg4>((_arg1, _arg2, _arg3, _arg4, context) => action(_arg1, _arg2, _arg3, _arg4), arg1, arg2, arg3, arg4);
+        }
+                
+        public static ActionActivity<TArg1, TArg2, TArg3, TArg4> InvokeWithContext<TArg1, TArg2, TArg3, TArg4>(Action<TArg1, TArg2, TArg3, TArg4, ActivityContext> action, InArgument<TArg1> arg1, InArgument<TArg2> arg2, InArgument<TArg3> arg3, InArgument<TArg4> arg4)
+        {
+            Contract.Requires<ArgumentNullException>(action != null);
+
+            return new ActionActivity<TArg1, TArg2, TArg3, TArg4>(action, arg1, arg2, arg3, arg4);
+        }
+
+        public static ActionActivity<TArg1, TArg2, TArg3, TArg4> InvokeWithContext<TArg1, TArg2, TArg3, TArg4>(Action<TArg1, TArg2, TArg3, TArg4, ActivityContext> action, DelegateInArgument<TArg1> arg1, DelegateInArgument<TArg2> arg2, DelegateInArgument<TArg3> arg3, DelegateInArgument<TArg4> arg4)
+        {
+            Contract.Requires<ArgumentNullException>(action != null);
+
+            return new ActionActivity<TArg1, TArg2, TArg3, TArg4>(action, arg1, arg2, arg3, arg4);
+        }
+
+        public static ActionActivity<TArg1, TArg2, TArg3, TArg4> InvokeWithContext<TArg1, TArg2, TArg3, TArg4>(InArgument<TArg1> arg1, InArgument<TArg2> arg2, InArgument<TArg3> arg3, InArgument<TArg4> arg4, Action<TArg1, TArg2, TArg3, TArg4, ActivityContext> action)
+        {
+            Contract.Requires<ArgumentNullException>(action != null);
+
+            return new ActionActivity<TArg1, TArg2, TArg3, TArg4>(action, arg1, arg2, arg3, arg4);
+        }
+
+        public static ActionActivity<TArg1, TArg2, TArg3, TArg4> InvokeWithContext<TArg1, TArg2, TArg3, TArg4>(DelegateInArgument<TArg1> arg1, DelegateInArgument<TArg2> arg2, DelegateInArgument<TArg3> arg3, DelegateInArgument<TArg4> arg4, Action<TArg1, TArg2, TArg3, TArg4, ActivityContext> action)
+        {
+            Contract.Requires<ArgumentNullException>(action != null);
+
+            return new ActionActivity<TArg1, TArg2, TArg3, TArg4>(action, arg1, arg2, arg3, arg4);
+        }
+
+        public static ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5> Invoke<TArg1, TArg2, TArg3, TArg4, TArg5>(Action<TArg1, TArg2, TArg3, TArg4, TArg5> action)
+        {
+            Contract.Requires<ArgumentNullException>(action != null);
+
+            return new ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5>((_arg1, _arg2, _arg3, _arg4, _arg5, context) => action(_arg1, _arg2, _arg3, _arg4, _arg5), null, null, null, null, null);
+        }
+
+        public static ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5> Invoke<TArg1, TArg2, TArg3, TArg4, TArg5>(Action<TArg1, TArg2, TArg3, TArg4, TArg5> action, InArgument<TArg1> arg1, InArgument<TArg2> arg2, InArgument<TArg3> arg3, InArgument<TArg4> arg4, InArgument<TArg5> arg5)
+        {
+            Contract.Requires<ArgumentNullException>(action != null);
+
+            return new ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5>((_arg1, _arg2, _arg3, _arg4, _arg5, context) => action(_arg1, _arg2, _arg3, _arg4, _arg5), arg1, arg2, arg3, arg4, arg5);
+        }
+
+        public static ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5> Invoke<TArg1, TArg2, TArg3, TArg4, TArg5>(Action<TArg1, TArg2, TArg3, TArg4, TArg5> action, DelegateInArgument<TArg1> arg1, DelegateInArgument<TArg2> arg2, DelegateInArgument<TArg3> arg3, DelegateInArgument<TArg4> arg4, DelegateInArgument<TArg5> arg5)
+        {
+            Contract.Requires<ArgumentNullException>(action != null);
+
+            return new ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5>((_arg1, _arg2, _arg3, _arg4, _arg5, context) => action(_arg1, _arg2, _arg3, _arg4, _arg5), arg1, arg2, arg3, arg4, arg5);
+        }
+
+        public static ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5> Invoke<TArg1, TArg2, TArg3, TArg4, TArg5>(InArgument<TArg1> arg1, InArgument<TArg2> arg2, InArgument<TArg3> arg3, InArgument<TArg4> arg4, InArgument<TArg5> arg5, Action<TArg1, TArg2, TArg3, TArg4, TArg5> action)
+        {
+            Contract.Requires<ArgumentNullException>(action != null);
+
+            return new ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5>((_arg1, _arg2, _arg3, _arg4, _arg5, context) => action(_arg1, _arg2, _arg3, _arg4, _arg5), arg1, arg2, arg3, arg4, arg5);
+        }
+
+        public static ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5> Invoke<TArg1, TArg2, TArg3, TArg4, TArg5>(DelegateInArgument<TArg1> arg1, DelegateInArgument<TArg2> arg2, DelegateInArgument<TArg3> arg3, DelegateInArgument<TArg4> arg4, DelegateInArgument<TArg5> arg5, Action<TArg1, TArg2, TArg3, TArg4, TArg5> action)
+        {
+            Contract.Requires<ArgumentNullException>(action != null);
+
+            return new ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5>((_arg1, _arg2, _arg3, _arg4, _arg5, context) => action(_arg1, _arg2, _arg3, _arg4, _arg5), arg1, arg2, arg3, arg4, arg5);
+        }
+                
+        public static ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5> InvokeWithContext<TArg1, TArg2, TArg3, TArg4, TArg5>(Action<TArg1, TArg2, TArg3, TArg4, TArg5, ActivityContext> action, InArgument<TArg1> arg1, InArgument<TArg2> arg2, InArgument<TArg3> arg3, InArgument<TArg4> arg4, InArgument<TArg5> arg5)
+        {
+            Contract.Requires<ArgumentNullException>(action != null);
+
+            return new ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5>(action, arg1, arg2, arg3, arg4, arg5);
+        }
+
+        public static ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5> InvokeWithContext<TArg1, TArg2, TArg3, TArg4, TArg5>(Action<TArg1, TArg2, TArg3, TArg4, TArg5, ActivityContext> action, DelegateInArgument<TArg1> arg1, DelegateInArgument<TArg2> arg2, DelegateInArgument<TArg3> arg3, DelegateInArgument<TArg4> arg4, DelegateInArgument<TArg5> arg5)
+        {
+            Contract.Requires<ArgumentNullException>(action != null);
+
+            return new ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5>(action, arg1, arg2, arg3, arg4, arg5);
+        }
+
+        public static ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5> InvokeWithContext<TArg1, TArg2, TArg3, TArg4, TArg5>(InArgument<TArg1> arg1, InArgument<TArg2> arg2, InArgument<TArg3> arg3, InArgument<TArg4> arg4, InArgument<TArg5> arg5, Action<TArg1, TArg2, TArg3, TArg4, TArg5, ActivityContext> action)
+        {
+            Contract.Requires<ArgumentNullException>(action != null);
+
+            return new ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5>(action, arg1, arg2, arg3, arg4, arg5);
+        }
+
+        public static ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5> InvokeWithContext<TArg1, TArg2, TArg3, TArg4, TArg5>(DelegateInArgument<TArg1> arg1, DelegateInArgument<TArg2> arg2, DelegateInArgument<TArg3> arg3, DelegateInArgument<TArg4> arg4, DelegateInArgument<TArg5> arg5, Action<TArg1, TArg2, TArg3, TArg4, TArg5, ActivityContext> action)
+        {
+            Contract.Requires<ArgumentNullException>(action != null);
+
+            return new ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5>(action, arg1, arg2, arg3, arg4, arg5);
+        }
+
+        public static ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6> Invoke<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6> action)
+        {
+            Contract.Requires<ArgumentNullException>(action != null);
+
+            return new ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>((_arg1, _arg2, _arg3, _arg4, _arg5, _arg6, context) => action(_arg1, _arg2, _arg3, _arg4, _arg5, _arg6), null, null, null, null, null, null);
+        }
+
+        public static ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6> Invoke<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6> action, InArgument<TArg1> arg1, InArgument<TArg2> arg2, InArgument<TArg3> arg3, InArgument<TArg4> arg4, InArgument<TArg5> arg5, InArgument<TArg6> arg6)
+        {
+            Contract.Requires<ArgumentNullException>(action != null);
+
+            return new ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>((_arg1, _arg2, _arg3, _arg4, _arg5, _arg6, context) => action(_arg1, _arg2, _arg3, _arg4, _arg5, _arg6), arg1, arg2, arg3, arg4, arg5, arg6);
+        }
+
+        public static ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6> Invoke<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6> action, DelegateInArgument<TArg1> arg1, DelegateInArgument<TArg2> arg2, DelegateInArgument<TArg3> arg3, DelegateInArgument<TArg4> arg4, DelegateInArgument<TArg5> arg5, DelegateInArgument<TArg6> arg6)
+        {
+            Contract.Requires<ArgumentNullException>(action != null);
+
+            return new ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>((_arg1, _arg2, _arg3, _arg4, _arg5, _arg6, context) => action(_arg1, _arg2, _arg3, _arg4, _arg5, _arg6), arg1, arg2, arg3, arg4, arg5, arg6);
+        }
+
+        public static ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6> Invoke<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(InArgument<TArg1> arg1, InArgument<TArg2> arg2, InArgument<TArg3> arg3, InArgument<TArg4> arg4, InArgument<TArg5> arg5, InArgument<TArg6> arg6, Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6> action)
+        {
+            Contract.Requires<ArgumentNullException>(action != null);
+
+            return new ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>((_arg1, _arg2, _arg3, _arg4, _arg5, _arg6, context) => action(_arg1, _arg2, _arg3, _arg4, _arg5, _arg6), arg1, arg2, arg3, arg4, arg5, arg6);
+        }
+
+        public static ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6> Invoke<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(DelegateInArgument<TArg1> arg1, DelegateInArgument<TArg2> arg2, DelegateInArgument<TArg3> arg3, DelegateInArgument<TArg4> arg4, DelegateInArgument<TArg5> arg5, DelegateInArgument<TArg6> arg6, Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6> action)
+        {
+            Contract.Requires<ArgumentNullException>(action != null);
+
+            return new ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>((_arg1, _arg2, _arg3, _arg4, _arg5, _arg6, context) => action(_arg1, _arg2, _arg3, _arg4, _arg5, _arg6), arg1, arg2, arg3, arg4, arg5, arg6);
+        }
+                
+        public static ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6> InvokeWithContext<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, ActivityContext> action, InArgument<TArg1> arg1, InArgument<TArg2> arg2, InArgument<TArg3> arg3, InArgument<TArg4> arg4, InArgument<TArg5> arg5, InArgument<TArg6> arg6)
+        {
+            Contract.Requires<ArgumentNullException>(action != null);
+
+            return new ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(action, arg1, arg2, arg3, arg4, arg5, arg6);
+        }
+
+        public static ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6> InvokeWithContext<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, ActivityContext> action, DelegateInArgument<TArg1> arg1, DelegateInArgument<TArg2> arg2, DelegateInArgument<TArg3> arg3, DelegateInArgument<TArg4> arg4, DelegateInArgument<TArg5> arg5, DelegateInArgument<TArg6> arg6)
+        {
+            Contract.Requires<ArgumentNullException>(action != null);
+
+            return new ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(action, arg1, arg2, arg3, arg4, arg5, arg6);
+        }
+
+        public static ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6> InvokeWithContext<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(InArgument<TArg1> arg1, InArgument<TArg2> arg2, InArgument<TArg3> arg3, InArgument<TArg4> arg4, InArgument<TArg5> arg5, InArgument<TArg6> arg6, Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, ActivityContext> action)
+        {
+            Contract.Requires<ArgumentNullException>(action != null);
+
+            return new ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(action, arg1, arg2, arg3, arg4, arg5, arg6);
+        }
+
+        public static ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6> InvokeWithContext<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(DelegateInArgument<TArg1> arg1, DelegateInArgument<TArg2> arg2, DelegateInArgument<TArg3> arg3, DelegateInArgument<TArg4> arg4, DelegateInArgument<TArg5> arg5, DelegateInArgument<TArg6> arg6, Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, ActivityContext> action)
+        {
+            Contract.Requires<ArgumentNullException>(action != null);
+
+            return new ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(action, arg1, arg2, arg3, arg4, arg5, arg6);
+        }
+
+        public static ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7> Invoke<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7> action)
+        {
+            Contract.Requires<ArgumentNullException>(action != null);
+
+            return new ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>((_arg1, _arg2, _arg3, _arg4, _arg5, _arg6, _arg7, context) => action(_arg1, _arg2, _arg3, _arg4, _arg5, _arg6, _arg7), null, null, null, null, null, null, null);
+        }
+
+        public static ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7> Invoke<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7> action, InArgument<TArg1> arg1, InArgument<TArg2> arg2, InArgument<TArg3> arg3, InArgument<TArg4> arg4, InArgument<TArg5> arg5, InArgument<TArg6> arg6, InArgument<TArg7> arg7)
+        {
+            Contract.Requires<ArgumentNullException>(action != null);
+
+            return new ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>((_arg1, _arg2, _arg3, _arg4, _arg5, _arg6, _arg7, context) => action(_arg1, _arg2, _arg3, _arg4, _arg5, _arg6, _arg7), arg1, arg2, arg3, arg4, arg5, arg6, arg7);
+        }
+
+        public static ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7> Invoke<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7> action, DelegateInArgument<TArg1> arg1, DelegateInArgument<TArg2> arg2, DelegateInArgument<TArg3> arg3, DelegateInArgument<TArg4> arg4, DelegateInArgument<TArg5> arg5, DelegateInArgument<TArg6> arg6, DelegateInArgument<TArg7> arg7)
+        {
+            Contract.Requires<ArgumentNullException>(action != null);
+
+            return new ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>((_arg1, _arg2, _arg3, _arg4, _arg5, _arg6, _arg7, context) => action(_arg1, _arg2, _arg3, _arg4, _arg5, _arg6, _arg7), arg1, arg2, arg3, arg4, arg5, arg6, arg7);
+        }
+
+        public static ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7> Invoke<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(InArgument<TArg1> arg1, InArgument<TArg2> arg2, InArgument<TArg3> arg3, InArgument<TArg4> arg4, InArgument<TArg5> arg5, InArgument<TArg6> arg6, InArgument<TArg7> arg7, Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7> action)
+        {
+            Contract.Requires<ArgumentNullException>(action != null);
+
+            return new ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>((_arg1, _arg2, _arg3, _arg4, _arg5, _arg6, _arg7, context) => action(_arg1, _arg2, _arg3, _arg4, _arg5, _arg6, _arg7), arg1, arg2, arg3, arg4, arg5, arg6, arg7);
+        }
+
+        public static ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7> Invoke<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(DelegateInArgument<TArg1> arg1, DelegateInArgument<TArg2> arg2, DelegateInArgument<TArg3> arg3, DelegateInArgument<TArg4> arg4, DelegateInArgument<TArg5> arg5, DelegateInArgument<TArg6> arg6, DelegateInArgument<TArg7> arg7, Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7> action)
+        {
+            Contract.Requires<ArgumentNullException>(action != null);
+
+            return new ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>((_arg1, _arg2, _arg3, _arg4, _arg5, _arg6, _arg7, context) => action(_arg1, _arg2, _arg3, _arg4, _arg5, _arg6, _arg7), arg1, arg2, arg3, arg4, arg5, arg6, arg7);
+        }
+                
+        public static ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7> InvokeWithContext<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, ActivityContext> action, InArgument<TArg1> arg1, InArgument<TArg2> arg2, InArgument<TArg3> arg3, InArgument<TArg4> arg4, InArgument<TArg5> arg5, InArgument<TArg6> arg6, InArgument<TArg7> arg7)
+        {
+            Contract.Requires<ArgumentNullException>(action != null);
+
+            return new ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(action, arg1, arg2, arg3, arg4, arg5, arg6, arg7);
+        }
+
+        public static ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7> InvokeWithContext<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, ActivityContext> action, DelegateInArgument<TArg1> arg1, DelegateInArgument<TArg2> arg2, DelegateInArgument<TArg3> arg3, DelegateInArgument<TArg4> arg4, DelegateInArgument<TArg5> arg5, DelegateInArgument<TArg6> arg6, DelegateInArgument<TArg7> arg7)
+        {
+            Contract.Requires<ArgumentNullException>(action != null);
+
+            return new ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(action, arg1, arg2, arg3, arg4, arg5, arg6, arg7);
+        }
+
+        public static ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7> InvokeWithContext<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(InArgument<TArg1> arg1, InArgument<TArg2> arg2, InArgument<TArg3> arg3, InArgument<TArg4> arg4, InArgument<TArg5> arg5, InArgument<TArg6> arg6, InArgument<TArg7> arg7, Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, ActivityContext> action)
+        {
+            Contract.Requires<ArgumentNullException>(action != null);
+
+            return new ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(action, arg1, arg2, arg3, arg4, arg5, arg6, arg7);
+        }
+
+        public static ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7> InvokeWithContext<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(DelegateInArgument<TArg1> arg1, DelegateInArgument<TArg2> arg2, DelegateInArgument<TArg3> arg3, DelegateInArgument<TArg4> arg4, DelegateInArgument<TArg5> arg5, DelegateInArgument<TArg6> arg6, DelegateInArgument<TArg7> arg7, Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, ActivityContext> action)
+        {
+            Contract.Requires<ArgumentNullException>(action != null);
+
+            return new ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(action, arg1, arg2, arg3, arg4, arg5, arg6, arg7);
+        }
+
+        public static ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8> Invoke<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8> action)
+        {
+            Contract.Requires<ArgumentNullException>(action != null);
+
+            return new ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>((_arg1, _arg2, _arg3, _arg4, _arg5, _arg6, _arg7, _arg8, context) => action(_arg1, _arg2, _arg3, _arg4, _arg5, _arg6, _arg7, _arg8), null, null, null, null, null, null, null, null);
+        }
+
+        public static ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8> Invoke<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8> action, InArgument<TArg1> arg1, InArgument<TArg2> arg2, InArgument<TArg3> arg3, InArgument<TArg4> arg4, InArgument<TArg5> arg5, InArgument<TArg6> arg6, InArgument<TArg7> arg7, InArgument<TArg8> arg8)
+        {
+            Contract.Requires<ArgumentNullException>(action != null);
+
+            return new ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>((_arg1, _arg2, _arg3, _arg4, _arg5, _arg6, _arg7, _arg8, context) => action(_arg1, _arg2, _arg3, _arg4, _arg5, _arg6, _arg7, _arg8), arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
+        }
+
+        public static ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8> Invoke<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8> action, DelegateInArgument<TArg1> arg1, DelegateInArgument<TArg2> arg2, DelegateInArgument<TArg3> arg3, DelegateInArgument<TArg4> arg4, DelegateInArgument<TArg5> arg5, DelegateInArgument<TArg6> arg6, DelegateInArgument<TArg7> arg7, DelegateInArgument<TArg8> arg8)
+        {
+            Contract.Requires<ArgumentNullException>(action != null);
+
+            return new ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>((_arg1, _arg2, _arg3, _arg4, _arg5, _arg6, _arg7, _arg8, context) => action(_arg1, _arg2, _arg3, _arg4, _arg5, _arg6, _arg7, _arg8), arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
+        }
+
+        public static ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8> Invoke<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(InArgument<TArg1> arg1, InArgument<TArg2> arg2, InArgument<TArg3> arg3, InArgument<TArg4> arg4, InArgument<TArg5> arg5, InArgument<TArg6> arg6, InArgument<TArg7> arg7, InArgument<TArg8> arg8, Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8> action)
+        {
+            Contract.Requires<ArgumentNullException>(action != null);
+
+            return new ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>((_arg1, _arg2, _arg3, _arg4, _arg5, _arg6, _arg7, _arg8, context) => action(_arg1, _arg2, _arg3, _arg4, _arg5, _arg6, _arg7, _arg8), arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
+        }
+
+        public static ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8> Invoke<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(DelegateInArgument<TArg1> arg1, DelegateInArgument<TArg2> arg2, DelegateInArgument<TArg3> arg3, DelegateInArgument<TArg4> arg4, DelegateInArgument<TArg5> arg5, DelegateInArgument<TArg6> arg6, DelegateInArgument<TArg7> arg7, DelegateInArgument<TArg8> arg8, Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8> action)
+        {
+            Contract.Requires<ArgumentNullException>(action != null);
+
+            return new ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>((_arg1, _arg2, _arg3, _arg4, _arg5, _arg6, _arg7, _arg8, context) => action(_arg1, _arg2, _arg3, _arg4, _arg5, _arg6, _arg7, _arg8), arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
+        }
+                
+        public static ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8> InvokeWithContext<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, ActivityContext> action, InArgument<TArg1> arg1, InArgument<TArg2> arg2, InArgument<TArg3> arg3, InArgument<TArg4> arg4, InArgument<TArg5> arg5, InArgument<TArg6> arg6, InArgument<TArg7> arg7, InArgument<TArg8> arg8)
+        {
+            Contract.Requires<ArgumentNullException>(action != null);
+
+            return new ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(action, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
+        }
+
+        public static ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8> InvokeWithContext<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, ActivityContext> action, DelegateInArgument<TArg1> arg1, DelegateInArgument<TArg2> arg2, DelegateInArgument<TArg3> arg3, DelegateInArgument<TArg4> arg4, DelegateInArgument<TArg5> arg5, DelegateInArgument<TArg6> arg6, DelegateInArgument<TArg7> arg7, DelegateInArgument<TArg8> arg8)
+        {
+            Contract.Requires<ArgumentNullException>(action != null);
+
+            return new ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(action, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
+        }
+
+        public static ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8> InvokeWithContext<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(InArgument<TArg1> arg1, InArgument<TArg2> arg2, InArgument<TArg3> arg3, InArgument<TArg4> arg4, InArgument<TArg5> arg5, InArgument<TArg6> arg6, InArgument<TArg7> arg7, InArgument<TArg8> arg8, Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, ActivityContext> action)
+        {
+            Contract.Requires<ArgumentNullException>(action != null);
+
+            return new ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(action, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
+        }
+
+        public static ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8> InvokeWithContext<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(DelegateInArgument<TArg1> arg1, DelegateInArgument<TArg2> arg2, DelegateInArgument<TArg3> arg3, DelegateInArgument<TArg4> arg4, DelegateInArgument<TArg5> arg5, DelegateInArgument<TArg6> arg6, DelegateInArgument<TArg7> arg7, DelegateInArgument<TArg8> arg8, Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, ActivityContext> action)
+        {
+            Contract.Requires<ArgumentNullException>(action != null);
+
+            return new ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(action, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
+        }
+
+    }
 
     /// <summary>
     /// Provides an <see cref="Activity"/> that executes the given action with 1 arguments.
@@ -12,6 +520,24 @@ namespace Cogito.Activities
     public class ActionActivity<TArg1> :
         NativeActivity
     {
+
+        public static implicit operator ActivityAction<TArg1>(ActionActivity<TArg1> activity)
+        {
+            return Activities.Delegate<TArg1>((arg1) =>
+            {
+                activity.Argument1 = arg1;
+                return activity;
+            });
+        }
+
+        public static implicit operator ActivityDelegate(ActionActivity<TArg1> activity)
+        {
+            return Activities.Delegate<TArg1>((arg1) =>
+            {
+                activity.Argument1 = arg1;
+                return activity;
+            });
+        }
 
         /// <summary>
         /// Initializes a new instance.
@@ -26,10 +552,10 @@ namespace Cogito.Activities
         /// </summary>
         /// <param name="action"></param>
         /// <param name="arg1"></param>
-        public ActionActivity(Action<TArg1> action = null, InArgument<TArg1> arg1 = null)
+        public ActionActivity(Action<TArg1, ActivityContext> action = null, InArgument<TArg1> arg1 = null)
         {
             Action = action;
-            Argument1 = arg1 ?? new InArgument<TArg1>(default(TArg1));
+            Argument1 = arg1;
         }
 
         /// <summary>
@@ -37,16 +563,17 @@ namespace Cogito.Activities
         /// </summary>
         /// <param name="action"></param>
         /// <param name="arg1"></param>
-        public ActionActivity(InArgument<TArg1> arg1 = null, Action<TArg1> action = null)
+        public ActionActivity(InArgument<TArg1> arg1 = null, Action<TArg1, ActivityContext> action = null)
         {
-            Argument1 = arg1 ?? new InArgument<TArg1>(default(TArg1));
+            Argument1 = arg1;
             Action = action;
         }
 
         /// <summary>
         /// Gets or sets the action to be invoked.
         /// </summary>
-        public Action<TArg1> Action { get; set; }
+        [RequiredArgument]
+        public Action<TArg1, ActivityContext> Action { get; set; }
 
         /// <summary>
         /// Argument to send to action.
@@ -56,19 +583,10 @@ namespace Cogito.Activities
 
         protected override void Execute(NativeActivityContext context)
         {
-            Action(context.GetValue(Argument1));
-        }
-
-        protected override void CacheMetadata(NativeActivityMetadata metadata)
-        {
-            base.CacheMetadata(metadata);
-
-            if (Action == null)
-                metadata.AddValidationError("Action is required.");
+            Action(context.GetValue(Argument1), context);
         }
 
     }
-
 
     /// <summary>
     /// Provides an <see cref="Activity"/> that executes the given action with 2 arguments.
@@ -76,6 +594,26 @@ namespace Cogito.Activities
     public class ActionActivity<TArg1, TArg2> :
         NativeActivity
     {
+
+        public static implicit operator ActivityAction<TArg1, TArg2>(ActionActivity<TArg1, TArg2> activity)
+        {
+            return Activities.Delegate<TArg1, TArg2>((arg1, arg2) =>
+            {
+                activity.Argument1 = arg1;
+                activity.Argument2 = arg2;
+                return activity;
+            });
+        }
+
+        public static implicit operator ActivityDelegate(ActionActivity<TArg1, TArg2> activity)
+        {
+            return Activities.Delegate<TArg1, TArg2>((arg1, arg2) =>
+            {
+                activity.Argument1 = arg1;
+                activity.Argument2 = arg2;
+                return activity;
+            });
+        }
 
         /// <summary>
         /// Initializes a new instance.
@@ -91,11 +629,11 @@ namespace Cogito.Activities
         /// <param name="action"></param>
         /// <param name="arg1"></param>
         /// <param name="arg2"></param>
-        public ActionActivity(Action<TArg1, TArg2> action = null, InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null)
+        public ActionActivity(Action<TArg1, TArg2, ActivityContext> action = null, InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null)
         {
             Action = action;
-            Argument1 = arg1 ?? new InArgument<TArg1>(default(TArg1));
-            Argument2 = arg2 ?? new InArgument<TArg2>(default(TArg2));
+            Argument1 = arg1;
+            Argument2 = arg2;
         }
 
         /// <summary>
@@ -104,17 +642,18 @@ namespace Cogito.Activities
         /// <param name="action"></param>
         /// <param name="arg1"></param>
         /// <param name="arg2"></param>
-        public ActionActivity(InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, Action<TArg1, TArg2> action = null)
+        public ActionActivity(InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, Action<TArg1, TArg2, ActivityContext> action = null)
         {
-            Argument1 = arg1 ?? new InArgument<TArg1>(default(TArg1));
-            Argument2 = arg2 ?? new InArgument<TArg2>(default(TArg2));
+            Argument1 = arg1;
+            Argument2 = arg2;
             Action = action;
         }
 
         /// <summary>
         /// Gets or sets the action to be invoked.
         /// </summary>
-        public Action<TArg1, TArg2> Action { get; set; }
+        [RequiredArgument]
+        public Action<TArg1, TArg2, ActivityContext> Action { get; set; }
 
         /// <summary>
         /// Argument to send to action.
@@ -130,19 +669,10 @@ namespace Cogito.Activities
 
         protected override void Execute(NativeActivityContext context)
         {
-            Action(context.GetValue(Argument1), context.GetValue(Argument2));
-        }
-
-        protected override void CacheMetadata(NativeActivityMetadata metadata)
-        {
-            base.CacheMetadata(metadata);
-
-            if (Action == null)
-                metadata.AddValidationError("Action is required.");
+            Action(context.GetValue(Argument1), context.GetValue(Argument2), context);
         }
 
     }
-
 
     /// <summary>
     /// Provides an <see cref="Activity"/> that executes the given action with 3 arguments.
@@ -150,6 +680,28 @@ namespace Cogito.Activities
     public class ActionActivity<TArg1, TArg2, TArg3> :
         NativeActivity
     {
+
+        public static implicit operator ActivityAction<TArg1, TArg2, TArg3>(ActionActivity<TArg1, TArg2, TArg3> activity)
+        {
+            return Activities.Delegate<TArg1, TArg2, TArg3>((arg1, arg2, arg3) =>
+            {
+                activity.Argument1 = arg1;
+                activity.Argument2 = arg2;
+                activity.Argument3 = arg3;
+                return activity;
+            });
+        }
+
+        public static implicit operator ActivityDelegate(ActionActivity<TArg1, TArg2, TArg3> activity)
+        {
+            return Activities.Delegate<TArg1, TArg2, TArg3>((arg1, arg2, arg3) =>
+            {
+                activity.Argument1 = arg1;
+                activity.Argument2 = arg2;
+                activity.Argument3 = arg3;
+                return activity;
+            });
+        }
 
         /// <summary>
         /// Initializes a new instance.
@@ -166,12 +718,12 @@ namespace Cogito.Activities
         /// <param name="arg1"></param>
         /// <param name="arg2"></param>
         /// <param name="arg3"></param>
-        public ActionActivity(Action<TArg1, TArg2, TArg3> action = null, InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, InArgument<TArg3> arg3 = null)
+        public ActionActivity(Action<TArg1, TArg2, TArg3, ActivityContext> action = null, InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, InArgument<TArg3> arg3 = null)
         {
             Action = action;
-            Argument1 = arg1 ?? new InArgument<TArg1>(default(TArg1));
-            Argument2 = arg2 ?? new InArgument<TArg2>(default(TArg2));
-            Argument3 = arg3 ?? new InArgument<TArg3>(default(TArg3));
+            Argument1 = arg1;
+            Argument2 = arg2;
+            Argument3 = arg3;
         }
 
         /// <summary>
@@ -181,18 +733,19 @@ namespace Cogito.Activities
         /// <param name="arg1"></param>
         /// <param name="arg2"></param>
         /// <param name="arg3"></param>
-        public ActionActivity(InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, InArgument<TArg3> arg3 = null, Action<TArg1, TArg2, TArg3> action = null)
+        public ActionActivity(InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, InArgument<TArg3> arg3 = null, Action<TArg1, TArg2, TArg3, ActivityContext> action = null)
         {
-            Argument1 = arg1 ?? new InArgument<TArg1>(default(TArg1));
-            Argument2 = arg2 ?? new InArgument<TArg2>(default(TArg2));
-            Argument3 = arg3 ?? new InArgument<TArg3>(default(TArg3));
+            Argument1 = arg1;
+            Argument2 = arg2;
+            Argument3 = arg3;
             Action = action;
         }
 
         /// <summary>
         /// Gets or sets the action to be invoked.
         /// </summary>
-        public Action<TArg1, TArg2, TArg3> Action { get; set; }
+        [RequiredArgument]
+        public Action<TArg1, TArg2, TArg3, ActivityContext> Action { get; set; }
 
         /// <summary>
         /// Argument to send to action.
@@ -214,19 +767,10 @@ namespace Cogito.Activities
 
         protected override void Execute(NativeActivityContext context)
         {
-            Action(context.GetValue(Argument1), context.GetValue(Argument2), context.GetValue(Argument3));
-        }
-
-        protected override void CacheMetadata(NativeActivityMetadata metadata)
-        {
-            base.CacheMetadata(metadata);
-
-            if (Action == null)
-                metadata.AddValidationError("Action is required.");
+            Action(context.GetValue(Argument1), context.GetValue(Argument2), context.GetValue(Argument3), context);
         }
 
     }
-
 
     /// <summary>
     /// Provides an <see cref="Activity"/> that executes the given action with 4 arguments.
@@ -234,6 +778,30 @@ namespace Cogito.Activities
     public class ActionActivity<TArg1, TArg2, TArg3, TArg4> :
         NativeActivity
     {
+
+        public static implicit operator ActivityAction<TArg1, TArg2, TArg3, TArg4>(ActionActivity<TArg1, TArg2, TArg3, TArg4> activity)
+        {
+            return Activities.Delegate<TArg1, TArg2, TArg3, TArg4>((arg1, arg2, arg3, arg4) =>
+            {
+                activity.Argument1 = arg1;
+                activity.Argument2 = arg2;
+                activity.Argument3 = arg3;
+                activity.Argument4 = arg4;
+                return activity;
+            });
+        }
+
+        public static implicit operator ActivityDelegate(ActionActivity<TArg1, TArg2, TArg3, TArg4> activity)
+        {
+            return Activities.Delegate<TArg1, TArg2, TArg3, TArg4>((arg1, arg2, arg3, arg4) =>
+            {
+                activity.Argument1 = arg1;
+                activity.Argument2 = arg2;
+                activity.Argument3 = arg3;
+                activity.Argument4 = arg4;
+                return activity;
+            });
+        }
 
         /// <summary>
         /// Initializes a new instance.
@@ -251,13 +819,13 @@ namespace Cogito.Activities
         /// <param name="arg2"></param>
         /// <param name="arg3"></param>
         /// <param name="arg4"></param>
-        public ActionActivity(Action<TArg1, TArg2, TArg3, TArg4> action = null, InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, InArgument<TArg3> arg3 = null, InArgument<TArg4> arg4 = null)
+        public ActionActivity(Action<TArg1, TArg2, TArg3, TArg4, ActivityContext> action = null, InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, InArgument<TArg3> arg3 = null, InArgument<TArg4> arg4 = null)
         {
             Action = action;
-            Argument1 = arg1 ?? new InArgument<TArg1>(default(TArg1));
-            Argument2 = arg2 ?? new InArgument<TArg2>(default(TArg2));
-            Argument3 = arg3 ?? new InArgument<TArg3>(default(TArg3));
-            Argument4 = arg4 ?? new InArgument<TArg4>(default(TArg4));
+            Argument1 = arg1;
+            Argument2 = arg2;
+            Argument3 = arg3;
+            Argument4 = arg4;
         }
 
         /// <summary>
@@ -268,19 +836,20 @@ namespace Cogito.Activities
         /// <param name="arg2"></param>
         /// <param name="arg3"></param>
         /// <param name="arg4"></param>
-        public ActionActivity(InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, InArgument<TArg3> arg3 = null, InArgument<TArg4> arg4 = null, Action<TArg1, TArg2, TArg3, TArg4> action = null)
+        public ActionActivity(InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, InArgument<TArg3> arg3 = null, InArgument<TArg4> arg4 = null, Action<TArg1, TArg2, TArg3, TArg4, ActivityContext> action = null)
         {
-            Argument1 = arg1 ?? new InArgument<TArg1>(default(TArg1));
-            Argument2 = arg2 ?? new InArgument<TArg2>(default(TArg2));
-            Argument3 = arg3 ?? new InArgument<TArg3>(default(TArg3));
-            Argument4 = arg4 ?? new InArgument<TArg4>(default(TArg4));
+            Argument1 = arg1;
+            Argument2 = arg2;
+            Argument3 = arg3;
+            Argument4 = arg4;
             Action = action;
         }
 
         /// <summary>
         /// Gets or sets the action to be invoked.
         /// </summary>
-        public Action<TArg1, TArg2, TArg3, TArg4> Action { get; set; }
+        [RequiredArgument]
+        public Action<TArg1, TArg2, TArg3, TArg4, ActivityContext> Action { get; set; }
 
         /// <summary>
         /// Argument to send to action.
@@ -308,19 +877,10 @@ namespace Cogito.Activities
 
         protected override void Execute(NativeActivityContext context)
         {
-            Action(context.GetValue(Argument1), context.GetValue(Argument2), context.GetValue(Argument3), context.GetValue(Argument4));
-        }
-
-        protected override void CacheMetadata(NativeActivityMetadata metadata)
-        {
-            base.CacheMetadata(metadata);
-
-            if (Action == null)
-                metadata.AddValidationError("Action is required.");
+            Action(context.GetValue(Argument1), context.GetValue(Argument2), context.GetValue(Argument3), context.GetValue(Argument4), context);
         }
 
     }
-
 
     /// <summary>
     /// Provides an <see cref="Activity"/> that executes the given action with 5 arguments.
@@ -328,6 +888,32 @@ namespace Cogito.Activities
     public class ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5> :
         NativeActivity
     {
+
+        public static implicit operator ActivityAction<TArg1, TArg2, TArg3, TArg4, TArg5>(ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5> activity)
+        {
+            return Activities.Delegate<TArg1, TArg2, TArg3, TArg4, TArg5>((arg1, arg2, arg3, arg4, arg5) =>
+            {
+                activity.Argument1 = arg1;
+                activity.Argument2 = arg2;
+                activity.Argument3 = arg3;
+                activity.Argument4 = arg4;
+                activity.Argument5 = arg5;
+                return activity;
+            });
+        }
+
+        public static implicit operator ActivityDelegate(ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5> activity)
+        {
+            return Activities.Delegate<TArg1, TArg2, TArg3, TArg4, TArg5>((arg1, arg2, arg3, arg4, arg5) =>
+            {
+                activity.Argument1 = arg1;
+                activity.Argument2 = arg2;
+                activity.Argument3 = arg3;
+                activity.Argument4 = arg4;
+                activity.Argument5 = arg5;
+                return activity;
+            });
+        }
 
         /// <summary>
         /// Initializes a new instance.
@@ -346,14 +932,14 @@ namespace Cogito.Activities
         /// <param name="arg3"></param>
         /// <param name="arg4"></param>
         /// <param name="arg5"></param>
-        public ActionActivity(Action<TArg1, TArg2, TArg3, TArg4, TArg5> action = null, InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, InArgument<TArg3> arg3 = null, InArgument<TArg4> arg4 = null, InArgument<TArg5> arg5 = null)
+        public ActionActivity(Action<TArg1, TArg2, TArg3, TArg4, TArg5, ActivityContext> action = null, InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, InArgument<TArg3> arg3 = null, InArgument<TArg4> arg4 = null, InArgument<TArg5> arg5 = null)
         {
             Action = action;
-            Argument1 = arg1 ?? new InArgument<TArg1>(default(TArg1));
-            Argument2 = arg2 ?? new InArgument<TArg2>(default(TArg2));
-            Argument3 = arg3 ?? new InArgument<TArg3>(default(TArg3));
-            Argument4 = arg4 ?? new InArgument<TArg4>(default(TArg4));
-            Argument5 = arg5 ?? new InArgument<TArg5>(default(TArg5));
+            Argument1 = arg1;
+            Argument2 = arg2;
+            Argument3 = arg3;
+            Argument4 = arg4;
+            Argument5 = arg5;
         }
 
         /// <summary>
@@ -365,20 +951,21 @@ namespace Cogito.Activities
         /// <param name="arg3"></param>
         /// <param name="arg4"></param>
         /// <param name="arg5"></param>
-        public ActionActivity(InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, InArgument<TArg3> arg3 = null, InArgument<TArg4> arg4 = null, InArgument<TArg5> arg5 = null, Action<TArg1, TArg2, TArg3, TArg4, TArg5> action = null)
+        public ActionActivity(InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, InArgument<TArg3> arg3 = null, InArgument<TArg4> arg4 = null, InArgument<TArg5> arg5 = null, Action<TArg1, TArg2, TArg3, TArg4, TArg5, ActivityContext> action = null)
         {
-            Argument1 = arg1 ?? new InArgument<TArg1>(default(TArg1));
-            Argument2 = arg2 ?? new InArgument<TArg2>(default(TArg2));
-            Argument3 = arg3 ?? new InArgument<TArg3>(default(TArg3));
-            Argument4 = arg4 ?? new InArgument<TArg4>(default(TArg4));
-            Argument5 = arg5 ?? new InArgument<TArg5>(default(TArg5));
+            Argument1 = arg1;
+            Argument2 = arg2;
+            Argument3 = arg3;
+            Argument4 = arg4;
+            Argument5 = arg5;
             Action = action;
         }
 
         /// <summary>
         /// Gets or sets the action to be invoked.
         /// </summary>
-        public Action<TArg1, TArg2, TArg3, TArg4, TArg5> Action { get; set; }
+        [RequiredArgument]
+        public Action<TArg1, TArg2, TArg3, TArg4, TArg5, ActivityContext> Action { get; set; }
 
         /// <summary>
         /// Argument to send to action.
@@ -412,19 +999,10 @@ namespace Cogito.Activities
 
         protected override void Execute(NativeActivityContext context)
         {
-            Action(context.GetValue(Argument1), context.GetValue(Argument2), context.GetValue(Argument3), context.GetValue(Argument4), context.GetValue(Argument5));
-        }
-
-        protected override void CacheMetadata(NativeActivityMetadata metadata)
-        {
-            base.CacheMetadata(metadata);
-
-            if (Action == null)
-                metadata.AddValidationError("Action is required.");
+            Action(context.GetValue(Argument1), context.GetValue(Argument2), context.GetValue(Argument3), context.GetValue(Argument4), context.GetValue(Argument5), context);
         }
 
     }
-
 
     /// <summary>
     /// Provides an <see cref="Activity"/> that executes the given action with 6 arguments.
@@ -432,6 +1010,34 @@ namespace Cogito.Activities
     public class ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6> :
         NativeActivity
     {
+
+        public static implicit operator ActivityAction<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6> activity)
+        {
+            return Activities.Delegate<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>((arg1, arg2, arg3, arg4, arg5, arg6) =>
+            {
+                activity.Argument1 = arg1;
+                activity.Argument2 = arg2;
+                activity.Argument3 = arg3;
+                activity.Argument4 = arg4;
+                activity.Argument5 = arg5;
+                activity.Argument6 = arg6;
+                return activity;
+            });
+        }
+
+        public static implicit operator ActivityDelegate(ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6> activity)
+        {
+            return Activities.Delegate<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>((arg1, arg2, arg3, arg4, arg5, arg6) =>
+            {
+                activity.Argument1 = arg1;
+                activity.Argument2 = arg2;
+                activity.Argument3 = arg3;
+                activity.Argument4 = arg4;
+                activity.Argument5 = arg5;
+                activity.Argument6 = arg6;
+                return activity;
+            });
+        }
 
         /// <summary>
         /// Initializes a new instance.
@@ -451,15 +1057,15 @@ namespace Cogito.Activities
         /// <param name="arg4"></param>
         /// <param name="arg5"></param>
         /// <param name="arg6"></param>
-        public ActionActivity(Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6> action = null, InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, InArgument<TArg3> arg3 = null, InArgument<TArg4> arg4 = null, InArgument<TArg5> arg5 = null, InArgument<TArg6> arg6 = null)
+        public ActionActivity(Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, ActivityContext> action = null, InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, InArgument<TArg3> arg3 = null, InArgument<TArg4> arg4 = null, InArgument<TArg5> arg5 = null, InArgument<TArg6> arg6 = null)
         {
             Action = action;
-            Argument1 = arg1 ?? new InArgument<TArg1>(default(TArg1));
-            Argument2 = arg2 ?? new InArgument<TArg2>(default(TArg2));
-            Argument3 = arg3 ?? new InArgument<TArg3>(default(TArg3));
-            Argument4 = arg4 ?? new InArgument<TArg4>(default(TArg4));
-            Argument5 = arg5 ?? new InArgument<TArg5>(default(TArg5));
-            Argument6 = arg6 ?? new InArgument<TArg6>(default(TArg6));
+            Argument1 = arg1;
+            Argument2 = arg2;
+            Argument3 = arg3;
+            Argument4 = arg4;
+            Argument5 = arg5;
+            Argument6 = arg6;
         }
 
         /// <summary>
@@ -472,21 +1078,22 @@ namespace Cogito.Activities
         /// <param name="arg4"></param>
         /// <param name="arg5"></param>
         /// <param name="arg6"></param>
-        public ActionActivity(InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, InArgument<TArg3> arg3 = null, InArgument<TArg4> arg4 = null, InArgument<TArg5> arg5 = null, InArgument<TArg6> arg6 = null, Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6> action = null)
+        public ActionActivity(InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, InArgument<TArg3> arg3 = null, InArgument<TArg4> arg4 = null, InArgument<TArg5> arg5 = null, InArgument<TArg6> arg6 = null, Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, ActivityContext> action = null)
         {
-            Argument1 = arg1 ?? new InArgument<TArg1>(default(TArg1));
-            Argument2 = arg2 ?? new InArgument<TArg2>(default(TArg2));
-            Argument3 = arg3 ?? new InArgument<TArg3>(default(TArg3));
-            Argument4 = arg4 ?? new InArgument<TArg4>(default(TArg4));
-            Argument5 = arg5 ?? new InArgument<TArg5>(default(TArg5));
-            Argument6 = arg6 ?? new InArgument<TArg6>(default(TArg6));
+            Argument1 = arg1;
+            Argument2 = arg2;
+            Argument3 = arg3;
+            Argument4 = arg4;
+            Argument5 = arg5;
+            Argument6 = arg6;
             Action = action;
         }
 
         /// <summary>
         /// Gets or sets the action to be invoked.
         /// </summary>
-        public Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6> Action { get; set; }
+        [RequiredArgument]
+        public Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, ActivityContext> Action { get; set; }
 
         /// <summary>
         /// Argument to send to action.
@@ -526,19 +1133,10 @@ namespace Cogito.Activities
 
         protected override void Execute(NativeActivityContext context)
         {
-            Action(context.GetValue(Argument1), context.GetValue(Argument2), context.GetValue(Argument3), context.GetValue(Argument4), context.GetValue(Argument5), context.GetValue(Argument6));
-        }
-
-        protected override void CacheMetadata(NativeActivityMetadata metadata)
-        {
-            base.CacheMetadata(metadata);
-
-            if (Action == null)
-                metadata.AddValidationError("Action is required.");
+            Action(context.GetValue(Argument1), context.GetValue(Argument2), context.GetValue(Argument3), context.GetValue(Argument4), context.GetValue(Argument5), context.GetValue(Argument6), context);
         }
 
     }
-
 
     /// <summary>
     /// Provides an <see cref="Activity"/> that executes the given action with 7 arguments.
@@ -546,6 +1144,36 @@ namespace Cogito.Activities
     public class ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7> :
         NativeActivity
     {
+
+        public static implicit operator ActivityAction<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7> activity)
+        {
+            return Activities.Delegate<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>((arg1, arg2, arg3, arg4, arg5, arg6, arg7) =>
+            {
+                activity.Argument1 = arg1;
+                activity.Argument2 = arg2;
+                activity.Argument3 = arg3;
+                activity.Argument4 = arg4;
+                activity.Argument5 = arg5;
+                activity.Argument6 = arg6;
+                activity.Argument7 = arg7;
+                return activity;
+            });
+        }
+
+        public static implicit operator ActivityDelegate(ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7> activity)
+        {
+            return Activities.Delegate<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>((arg1, arg2, arg3, arg4, arg5, arg6, arg7) =>
+            {
+                activity.Argument1 = arg1;
+                activity.Argument2 = arg2;
+                activity.Argument3 = arg3;
+                activity.Argument4 = arg4;
+                activity.Argument5 = arg5;
+                activity.Argument6 = arg6;
+                activity.Argument7 = arg7;
+                return activity;
+            });
+        }
 
         /// <summary>
         /// Initializes a new instance.
@@ -566,16 +1194,16 @@ namespace Cogito.Activities
         /// <param name="arg5"></param>
         /// <param name="arg6"></param>
         /// <param name="arg7"></param>
-        public ActionActivity(Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7> action = null, InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, InArgument<TArg3> arg3 = null, InArgument<TArg4> arg4 = null, InArgument<TArg5> arg5 = null, InArgument<TArg6> arg6 = null, InArgument<TArg7> arg7 = null)
+        public ActionActivity(Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, ActivityContext> action = null, InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, InArgument<TArg3> arg3 = null, InArgument<TArg4> arg4 = null, InArgument<TArg5> arg5 = null, InArgument<TArg6> arg6 = null, InArgument<TArg7> arg7 = null)
         {
             Action = action;
-            Argument1 = arg1 ?? new InArgument<TArg1>(default(TArg1));
-            Argument2 = arg2 ?? new InArgument<TArg2>(default(TArg2));
-            Argument3 = arg3 ?? new InArgument<TArg3>(default(TArg3));
-            Argument4 = arg4 ?? new InArgument<TArg4>(default(TArg4));
-            Argument5 = arg5 ?? new InArgument<TArg5>(default(TArg5));
-            Argument6 = arg6 ?? new InArgument<TArg6>(default(TArg6));
-            Argument7 = arg7 ?? new InArgument<TArg7>(default(TArg7));
+            Argument1 = arg1;
+            Argument2 = arg2;
+            Argument3 = arg3;
+            Argument4 = arg4;
+            Argument5 = arg5;
+            Argument6 = arg6;
+            Argument7 = arg7;
         }
 
         /// <summary>
@@ -589,22 +1217,23 @@ namespace Cogito.Activities
         /// <param name="arg5"></param>
         /// <param name="arg6"></param>
         /// <param name="arg7"></param>
-        public ActionActivity(InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, InArgument<TArg3> arg3 = null, InArgument<TArg4> arg4 = null, InArgument<TArg5> arg5 = null, InArgument<TArg6> arg6 = null, InArgument<TArg7> arg7 = null, Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7> action = null)
+        public ActionActivity(InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, InArgument<TArg3> arg3 = null, InArgument<TArg4> arg4 = null, InArgument<TArg5> arg5 = null, InArgument<TArg6> arg6 = null, InArgument<TArg7> arg7 = null, Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, ActivityContext> action = null)
         {
-            Argument1 = arg1 ?? new InArgument<TArg1>(default(TArg1));
-            Argument2 = arg2 ?? new InArgument<TArg2>(default(TArg2));
-            Argument3 = arg3 ?? new InArgument<TArg3>(default(TArg3));
-            Argument4 = arg4 ?? new InArgument<TArg4>(default(TArg4));
-            Argument5 = arg5 ?? new InArgument<TArg5>(default(TArg5));
-            Argument6 = arg6 ?? new InArgument<TArg6>(default(TArg6));
-            Argument7 = arg7 ?? new InArgument<TArg7>(default(TArg7));
+            Argument1 = arg1;
+            Argument2 = arg2;
+            Argument3 = arg3;
+            Argument4 = arg4;
+            Argument5 = arg5;
+            Argument6 = arg6;
+            Argument7 = arg7;
             Action = action;
         }
 
         /// <summary>
         /// Gets or sets the action to be invoked.
         /// </summary>
-        public Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7> Action { get; set; }
+        [RequiredArgument]
+        public Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, ActivityContext> Action { get; set; }
 
         /// <summary>
         /// Argument to send to action.
@@ -650,19 +1279,10 @@ namespace Cogito.Activities
 
         protected override void Execute(NativeActivityContext context)
         {
-            Action(context.GetValue(Argument1), context.GetValue(Argument2), context.GetValue(Argument3), context.GetValue(Argument4), context.GetValue(Argument5), context.GetValue(Argument6), context.GetValue(Argument7));
-        }
-
-        protected override void CacheMetadata(NativeActivityMetadata metadata)
-        {
-            base.CacheMetadata(metadata);
-
-            if (Action == null)
-                metadata.AddValidationError("Action is required.");
+            Action(context.GetValue(Argument1), context.GetValue(Argument2), context.GetValue(Argument3), context.GetValue(Argument4), context.GetValue(Argument5), context.GetValue(Argument6), context.GetValue(Argument7), context);
         }
 
     }
-
 
     /// <summary>
     /// Provides an <see cref="Activity"/> that executes the given action with 8 arguments.
@@ -670,6 +1290,38 @@ namespace Cogito.Activities
     public class ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8> :
         NativeActivity
     {
+
+        public static implicit operator ActivityAction<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8> activity)
+        {
+            return Activities.Delegate<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>((arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8) =>
+            {
+                activity.Argument1 = arg1;
+                activity.Argument2 = arg2;
+                activity.Argument3 = arg3;
+                activity.Argument4 = arg4;
+                activity.Argument5 = arg5;
+                activity.Argument6 = arg6;
+                activity.Argument7 = arg7;
+                activity.Argument8 = arg8;
+                return activity;
+            });
+        }
+
+        public static implicit operator ActivityDelegate(ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8> activity)
+        {
+            return Activities.Delegate<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>((arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8) =>
+            {
+                activity.Argument1 = arg1;
+                activity.Argument2 = arg2;
+                activity.Argument3 = arg3;
+                activity.Argument4 = arg4;
+                activity.Argument5 = arg5;
+                activity.Argument6 = arg6;
+                activity.Argument7 = arg7;
+                activity.Argument8 = arg8;
+                return activity;
+            });
+        }
 
         /// <summary>
         /// Initializes a new instance.
@@ -691,17 +1343,17 @@ namespace Cogito.Activities
         /// <param name="arg6"></param>
         /// <param name="arg7"></param>
         /// <param name="arg8"></param>
-        public ActionActivity(Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8> action = null, InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, InArgument<TArg3> arg3 = null, InArgument<TArg4> arg4 = null, InArgument<TArg5> arg5 = null, InArgument<TArg6> arg6 = null, InArgument<TArg7> arg7 = null, InArgument<TArg8> arg8 = null)
+        public ActionActivity(Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, ActivityContext> action = null, InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, InArgument<TArg3> arg3 = null, InArgument<TArg4> arg4 = null, InArgument<TArg5> arg5 = null, InArgument<TArg6> arg6 = null, InArgument<TArg7> arg7 = null, InArgument<TArg8> arg8 = null)
         {
             Action = action;
-            Argument1 = arg1 ?? new InArgument<TArg1>(default(TArg1));
-            Argument2 = arg2 ?? new InArgument<TArg2>(default(TArg2));
-            Argument3 = arg3 ?? new InArgument<TArg3>(default(TArg3));
-            Argument4 = arg4 ?? new InArgument<TArg4>(default(TArg4));
-            Argument5 = arg5 ?? new InArgument<TArg5>(default(TArg5));
-            Argument6 = arg6 ?? new InArgument<TArg6>(default(TArg6));
-            Argument7 = arg7 ?? new InArgument<TArg7>(default(TArg7));
-            Argument8 = arg8 ?? new InArgument<TArg8>(default(TArg8));
+            Argument1 = arg1;
+            Argument2 = arg2;
+            Argument3 = arg3;
+            Argument4 = arg4;
+            Argument5 = arg5;
+            Argument6 = arg6;
+            Argument7 = arg7;
+            Argument8 = arg8;
         }
 
         /// <summary>
@@ -716,23 +1368,24 @@ namespace Cogito.Activities
         /// <param name="arg6"></param>
         /// <param name="arg7"></param>
         /// <param name="arg8"></param>
-        public ActionActivity(InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, InArgument<TArg3> arg3 = null, InArgument<TArg4> arg4 = null, InArgument<TArg5> arg5 = null, InArgument<TArg6> arg6 = null, InArgument<TArg7> arg7 = null, InArgument<TArg8> arg8 = null, Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8> action = null)
+        public ActionActivity(InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, InArgument<TArg3> arg3 = null, InArgument<TArg4> arg4 = null, InArgument<TArg5> arg5 = null, InArgument<TArg6> arg6 = null, InArgument<TArg7> arg7 = null, InArgument<TArg8> arg8 = null, Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, ActivityContext> action = null)
         {
-            Argument1 = arg1 ?? new InArgument<TArg1>(default(TArg1));
-            Argument2 = arg2 ?? new InArgument<TArg2>(default(TArg2));
-            Argument3 = arg3 ?? new InArgument<TArg3>(default(TArg3));
-            Argument4 = arg4 ?? new InArgument<TArg4>(default(TArg4));
-            Argument5 = arg5 ?? new InArgument<TArg5>(default(TArg5));
-            Argument6 = arg6 ?? new InArgument<TArg6>(default(TArg6));
-            Argument7 = arg7 ?? new InArgument<TArg7>(default(TArg7));
-            Argument8 = arg8 ?? new InArgument<TArg8>(default(TArg8));
+            Argument1 = arg1;
+            Argument2 = arg2;
+            Argument3 = arg3;
+            Argument4 = arg4;
+            Argument5 = arg5;
+            Argument6 = arg6;
+            Argument7 = arg7;
+            Argument8 = arg8;
             Action = action;
         }
 
         /// <summary>
         /// Gets or sets the action to be invoked.
         /// </summary>
-        public Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8> Action { get; set; }
+        [RequiredArgument]
+        public Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, ActivityContext> Action { get; set; }
 
         /// <summary>
         /// Argument to send to action.
@@ -784,15 +1437,7 @@ namespace Cogito.Activities
 
         protected override void Execute(NativeActivityContext context)
         {
-            Action(context.GetValue(Argument1), context.GetValue(Argument2), context.GetValue(Argument3), context.GetValue(Argument4), context.GetValue(Argument5), context.GetValue(Argument6), context.GetValue(Argument7), context.GetValue(Argument8));
-        }
-
-        protected override void CacheMetadata(NativeActivityMetadata metadata)
-        {
-            base.CacheMetadata(metadata);
-
-            if (Action == null)
-                metadata.AddValidationError("Action is required.");
+            Action(context.GetValue(Argument1), context.GetValue(Argument2), context.GetValue(Argument3), context.GetValue(Argument4), context.GetValue(Argument5), context.GetValue(Argument6), context.GetValue(Argument7), context.GetValue(Argument8), context);
         }
 
     }

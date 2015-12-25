@@ -2,17 +2,39 @@
 using System.Activities;
 using System.Threading.Tasks;
 
-using Cogito.Threading;
-
 namespace Cogito.Activities
 {
 
+    public static partial class Activities
+    {
+
+        public static AsyncFuncActivity<TResult> Invoke<TResult>(Func<Task<TResult>> func)
+        {
+            return new AsyncFuncActivity<TResult>(context => func());
+        }
+
+        public static AsyncFuncActivity<TResult> InvokeWithContext<TResult>(Func<ActivityContext, Task<TResult>> func)
+        {
+            return new AsyncFuncActivity<TResult>(func);
+        }
+
+        public static AsyncFuncActivity<TValue1, TValue2> Then<TValue1, TValue2>(this Activity<TValue1> activity, Func<TValue1, Task<TValue2>> func)
+        {
+            return new AsyncFuncActivity<TValue1, TValue2>((value, context) => func(value), activity);
+        }
+
+        public static AsyncFuncActivity<TValue1, TValue2> Then<TValue1, TValue2>(this Activity<TValue1> activity, Func<TValue1, ActivityContext, Task<TValue2>> func)
+        {
+            return new AsyncFuncActivity<TValue1, TValue2>(func, activity);
+        }
+
+    }
 
     /// <summary>
     /// Provides an <see cref="Activity"/> that executes the given asynchronous function.
     /// </summary>
     public class AsyncFuncActivity<TResult> :
-        AsyncNativeActivity<TResult>
+        AsyncTaskCodeActivity<TResult>
     {
 
         /// <summary>
@@ -28,7 +50,7 @@ namespace Cogito.Activities
         /// </summary>
         /// <param name="func"></param>
         /// <param name="result"></param>
-        public AsyncFuncActivity(Func<Task<TResult>> func = null, OutArgument<TResult> result = null)
+        public AsyncFuncActivity(Func<ActivityContext, Task<TResult>> func = null, OutArgument<TResult> result = null)
         {
             Func = func;
             Result = result;
@@ -39,7 +61,7 @@ namespace Cogito.Activities
         /// </summary>
         /// <param name="result"></param>
         /// <param name="func"></param>
-        public AsyncFuncActivity(OutArgument<TResult> result = null, Func<Task<TResult>> func = null)
+        public AsyncFuncActivity(OutArgument<TResult> result = null, Func<ActivityContext, Task<TResult>> func = null)
         {
             Result = result;
             Func = func;
@@ -48,24 +70,12 @@ namespace Cogito.Activities
         /// <summary>
         /// Gets or sets the action to be invoked.
         /// </summary>
-        public Func<Task<TResult>> Func { get; set; }
+        [RequiredArgument]
+        public Func<ActivityContext, Task<TResult>> Func { get; set; }
 
-        protected override IAsyncResult BeginExecute(NativeActivityContext context, AsyncCallback callback, object state)
+        protected override Task<TResult> ExecuteAsync(AsyncCodeActivityContext context)
         {
-            return Func().BeginToAsync(callback, state);
-        }
-
-        protected override TResult EndExecute(NativeActivityContext context, IAsyncResult result)
-        {
-            return ((Task<TResult>)result).EndToAsync();
-        }
-
-        protected override void CacheMetadata(NativeActivityMetadata metadata)
-        {
-            base.CacheMetadata(metadata);
-
-            if (Func == null)
-                metadata.AddValidationError("Func is required.");
+            return Func(context);
         }
 
     }

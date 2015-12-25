@@ -10,6 +10,9 @@ namespace Cogito.Fabric.Activities
     public class ActivityActorSerializedObject
     {
 
+        /// <summary>
+        /// Serialized data as XML.
+        /// </summary>
         [DataMember]
         public string Data { get; set; }
 

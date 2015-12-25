@@ -20,11 +20,10 @@ namespace Cogito.Fabric.Activities
     /// <summary>
     /// Provides a Durable Instancing store for saving objects into a <see cref="ActivityActorState"/>.
     /// </summary>
-    class ActivityActorInstanceStore<TState> :
+    class ActivityActorInstanceStore :
         InstanceStore
     {
-
-        readonly ActivityActorBase<TState> actor;
+        
         readonly ActivityActorState actorState;
         readonly NetDataContractSerializer serializer;
 
@@ -32,12 +31,11 @@ namespace Cogito.Fabric.Activities
         /// Initializes a new instance.
         /// </summary>
         /// <param name="activityState"></param>
-        internal ActivityActorInstanceStore(ActivityActorBase<TState> actor)
+        internal ActivityActorInstanceStore(IActivityActorInternal actor)
         {
             Contract.Requires<ArgumentNullException>(actor != null);
-
-            this.actor = actor;
-            this.actorState = actor.ActivityStateInternal;
+            
+            this.actorState = actor.State;
             this.serializer = new NetDataContractSerializer();
 
             // initialize activity state
