@@ -3,7 +3,7 @@ using System.Activities;
 using System.Runtime.ExceptionServices;
 using System.Threading;
 using System.Threading.Tasks;
-
+using Cogito.Core.Threading;
 using Cogito.Threading;
 
 namespace Cogito.Activities
@@ -32,12 +32,7 @@ namespace Cogito.Activities
                 (ExecuteAsync(context) ?? Task.FromResult(true))
                     .ContinueWith(t =>
                     {
-                        if (t.IsFaulted)
-                            tcs.TrySetException(t.Exception.InnerExceptions);
-                        else if (t.IsCanceled)
-                            tcs.TrySetCanceled();
-                        else
-                            tcs.TrySetResult(true);
+                        tcs.TrySetFrom(t);
 
                         if (callback != null)
                             callback(tcs.Task);
@@ -93,12 +88,7 @@ namespace Cogito.Activities
                 (ExecuteAsync(context) ?? Task.FromResult(default(TResult)))
                     .ContinueWith(t =>
                     {
-                        if (t.IsFaulted)
-                            tcs.TrySetException(t.Exception.InnerExceptions);
-                        else if (t.IsCanceled)
-                            tcs.TrySetCanceled();
-                        else
-                            tcs.TrySetResult(t.Result);
+                        tcs.TrySetFrom(t);
 
                         if (callback != null)
                             callback(tcs.Task);

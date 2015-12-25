@@ -207,6 +207,7 @@
     <Compile Include="Threading\SynchronizationContextWorkItem.cs" />
     <Compile Include="Threading\RunnableSynchronizationContext.cs" />
     <Compile Include="Threading\SynchronousSynchronizationContext.cs" />
+    <Compile Include="Threading\TaskCompletionSourceExtensions.cs" />
     <Compile Include="Threading\TaskEnumerableExtensions.cs" />
     <Compile Include="Threading\TaskExtensions.cs" />
     <Compile Include="Threading\Timer.cs" />
