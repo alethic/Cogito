@@ -204,6 +204,23 @@ namespace Cogito.Activities
             return parallel;
         }
 
+        public static If If(Activity<bool> condition, Activity then, Activity @else)
+        {
+            return new If(condition)
+            {
+                Then = then,
+                Else = @else,
+            };
+        }
+
+        public static If If(Activity<bool> condition, Activity then)
+        {
+            return new If(condition)
+            {
+                Then = then,
+            };
+        }
+
     }
 
 }
