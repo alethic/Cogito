@@ -213,7 +213,6 @@ namespace Cogito.Fabric.Activities
             return GetReminder(reminderName);
         }
 
-        /// <returns></returns>
         Task<IActorReminder> IActivityActorInternal.RegisterReminderAsync(string reminderName, byte[] state, TimeSpan dueTime, TimeSpan period, ActorReminderAttributes attribute)
         {
             return RegisterReminderAsync(reminderName, state, dueTime, period, attribute);

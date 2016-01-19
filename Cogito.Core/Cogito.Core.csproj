@@ -130,6 +130,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CodeDom\Compiler\CodeDomProviderExtensions.cs" />
+    <Compile Include="Collections\CollectionExtensions.cs" />
     <Compile Include="Collections\DelegateEqualityComparer.cs" />
     <Compile Include="Collections\DemandDictionary.cs" />
     <Compile Include="Collections\DictionaryExtensions.cs" />
