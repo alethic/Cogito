@@ -157,27 +157,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="ActivityActorEventSource.ActivityScheduledRecord.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>ActivityActorEventSource.ActivityScheduledRecord.cs</LastGenOutput>
-    </Content>
-    <Compile Include="ActivityActorEventSource.ActivityScheduledRecord.cs">
+    <Compile Include="ActivityActorEventSource.TrackingRecord.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>ActivityActorEventSource.ActivityScheduledRecord.tt</DependentUpon>
+      <DependentUpon>ActivityActorEventSource.TrackingRecord.tt</DependentUpon>
     </Compile>
-    <Compile Include="ActivityActorEventSource.CustomTrackingRecord.cs" />
-    <Compile Include="ActivityActorEventSource.CancelRequestedRecord.cs" />
-    <Compile Include="ActivityActorEventSource.BookmarkResumptionRecord.cs" />
-    <Compile Include="ActivityActorEventSource.FaultPropagationRecord.cs" />
-    <Compile Include="ActivityActorEventSource.WorkflowInstanceRecord.cs" />
-    <Compile Include="ActivityActorEventSource.WorkflowInstanceUpdatedRecord.cs" />
-    <Compile Include="ActivityActorEventSource.WorkflowInstanceUnhandledExceptionRecord.cs" />
-    <Compile Include="ActivityActorEventSource.WorkflowInstanceTerminatedRecord.cs" />
-    <Compile Include="ActivityActorEventSource.WorkflowInstanceSuspendedRecord.cs" />
-    <Compile Include="ActivityActorEventSource.WorkflowInstanceAbortedRecord.cs" />
-    <Compile Include="ActivityActorEventSource.ActivityStateRecord.cs" />
     <Compile Include="ActivityActorTrackingParticipant.cs" />
+    <Compile Include="ActivityActorTrackingParticipant.TrackingRecord.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ActivityActorTrackingParticipant.TrackingRecord.tt</DependentUpon>
+    </Compile>
     <Compile Include="ActivityWorkflowHost.cs" />
     <Compile Include="ActivityActorEventSource.cs" />
     <Compile Include="IStatelessActivityActorInternal.cs" />
@@ -194,6 +184,14 @@
     <Compile Include="IActivityActorInternal.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StatelessActivityActor.cs" />
+    <Content Include="ActivityActorEventSource.TrackingRecord.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ActivityActorEventSource.TrackingRecord.cs</LastGenOutput>
+    </Content>
+    <Content Include="ActivityActorTrackingParticipant.TrackingRecord.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ActivityActorTrackingParticipant.TrackingRecord.cs</LastGenOutput>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <None Include="ActivityActorEventSource.t4" />

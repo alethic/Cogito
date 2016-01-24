@@ -47,18 +47,18 @@ namespace Cogito.Fabric.Activities
         public static class Keywords
         {
 
-            public const EventKeywords ActivityScheduledRecord = (EventKeywords)1;
-            public const EventKeywords ActivityStateRecord = (EventKeywords)2;
-            public const EventKeywords BookmarkResumptionRecord = (EventKeywords)4;
-            public const EventKeywords CancelRequestedRecord = (EventKeywords)8;
-            public const EventKeywords FaultPropagationRecord = (EventKeywords)16;
-            public const EventKeywords WorkflowInstanceRecord = (EventKeywords)32;
-            public const EventKeywords WorkflowInstanceAbortedRecord = (EventKeywords)64;
-            public const EventKeywords WorkflowInstanceSuspendedRecord = (EventKeywords)128;
-            public const EventKeywords WorkflowInstanceTerminatedRecord = (EventKeywords)256;
-            public const EventKeywords WorkflowInstanceUnhandledExceptionRecord = (EventKeywords)512;
-            public const EventKeywords WorkflowInstanceUpdatedRecord = (EventKeywords)1024;
-            public const EventKeywords CustomTrackingRecord = (EventKeywords)2048;
+            public const EventKeywords ActivityScheduled = (EventKeywords)1;
+            public const EventKeywords ActivityState = (EventKeywords)2;
+            public const EventKeywords BookmarkResumption = (EventKeywords)4;
+            public const EventKeywords CancelRequested = (EventKeywords)8;
+            public const EventKeywords FaultPropagation = (EventKeywords)16;
+            public const EventKeywords WorkflowInstance = (EventKeywords)32;
+            public const EventKeywords WorkflowInstanceAborted = (EventKeywords)64;
+            public const EventKeywords WorkflowInstanceSuspended = (EventKeywords)128;
+            public const EventKeywords WorkflowInstanceTerminated = (EventKeywords)256;
+            public const EventKeywords WorkflowInstanceUnhandledException = (EventKeywords)512;
+            public const EventKeywords WorkflowInstanceUpdated = (EventKeywords)1024;
+            public const EventKeywords CustomTracking = (EventKeywords)2048;
 
         }
 
@@ -66,18 +66,6 @@ namespace Cogito.Fabric.Activities
 
         const int MessageEventId = 1;
         const int ActorMessageEventId = 2;
-        const int ActivityScheduledRecordEventId = 3;
-        const int ActivityStateRecordEventId = 4;
-        const int BookmarkResumptionRecordEventId = 5;
-        const int CancelRequestedRecordEventId = 6;
-        const int FaultPropagationRecordEventId = 7;
-        const int WorkflowInstanceRecordEventId = 8;
-        const int WorkflowInstanceAbortedRecordEventId = 9;
-        const int WorkflowInstanceSuspendedRecordEventId = 10;
-        const int WorkflowInstanceTerminatedRecordEventId = 11;
-        const int WorkflowInstanceUnhandledExceptionRecordEventId = 12;
-        const int WorkflowInstanceUpdatedRecordEventId = 13;
-        const int CustomTrackingRecordEventId = 14;
 
         #region Events
 
