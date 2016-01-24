@@ -11,7 +11,7 @@ namespace Cogito.Fabric.Activities
     {
 
         const int ActivityScheduledVerboseEventId = 10;
-        const int ActivityScheduledInformationalEventId = 11;
+        const int ActivityScheduledInfoEventId = 11;
         const int ActivityScheduledWarningEventId = 12;
         const int ActivityScheduledErrorEventId = 13;
         
@@ -46,7 +46,7 @@ namespace Cogito.Fabric.Activities
 
                 if (record.Level == TraceLevel.Info && IsEnabled(EventLevel.Informational, Keywords.ActivityScheduled))
                 {
-                    ActivityScheduledInformational(
+                    ActivityScheduledInfo(
                         actor.GetType().ToString(),
                         actor.Id.ToString(),
                         actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationTypeName,
@@ -150,7 +150,7 @@ namespace Cogito.Fabric.Activities
 
                 if (record.Level == TraceLevel.Info && IsEnabled(EventLevel.Informational, Keywords.ActivityScheduled))
                 {
-                    ActivityScheduledInformational(
+                    ActivityScheduledInfo(
                         actor.GetType().ToString(),
                         actor.Id.ToString(),
                         actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationTypeName,
@@ -224,7 +224,11 @@ namespace Cogito.Fabric.Activities
         }
 
 
-        [Event(ActivityScheduledVerboseEventId, Level = EventLevel.Verbose, Message = "{17}")]
+        [Event(
+            ActivityScheduledVerboseEventId, 
+            Level = EventLevel.Verbose, 
+            Message = "{17}", 
+            Keywords = Keywords.ActivityScheduled)]
         public void ActivityScheduledVerbose(
             string actorType,
             string actorId,
@@ -268,8 +272,12 @@ namespace Cogito.Fabric.Activities
         }
 
 
-        [Event(ActivityScheduledInformationalEventId, Level = EventLevel.Informational, Message = "{17}")]
-        public void ActivityScheduledInformational(
+        [Event(
+            ActivityScheduledInfoEventId, 
+            Level = EventLevel.Informational, 
+            Message = "{17}", 
+            Keywords = Keywords.ActivityScheduled)]
+        public void ActivityScheduledInfo(
             string actorType,
             string actorId,
             string applicationTypeName,
@@ -290,7 +298,7 @@ namespace Cogito.Fabric.Activities
             string message)
         {
             WriteEvent(
-                ActivityScheduledInformationalEventId,
+                ActivityScheduledInfoEventId,
                 actorType,
                 actorId,
                 applicationTypeName,
@@ -312,7 +320,11 @@ namespace Cogito.Fabric.Activities
         }
 
 
-        [Event(ActivityScheduledWarningEventId, Level = EventLevel.Warning, Message = "{17}")]
+        [Event(
+            ActivityScheduledWarningEventId, 
+            Level = EventLevel.Warning, 
+            Message = "{17}", 
+            Keywords = Keywords.ActivityScheduled)]
         public void ActivityScheduledWarning(
             string actorType,
             string actorId,
@@ -356,7 +368,11 @@ namespace Cogito.Fabric.Activities
         }
 
 
-        [Event(ActivityScheduledErrorEventId, Level = EventLevel.Error, Message = "{17}")]
+        [Event(
+            ActivityScheduledErrorEventId, 
+            Level = EventLevel.Error, 
+            Message = "{17}", 
+            Keywords = Keywords.ActivityScheduled)]
         public void ActivityScheduledError(
             string actorType,
             string actorId,
@@ -406,7 +422,7 @@ namespace Cogito.Fabric.Activities
     {
 
         const int ActivityStateVerboseEventId = 20;
-        const int ActivityStateInformationalEventId = 21;
+        const int ActivityStateInfoEventId = 21;
         const int ActivityStateWarningEventId = 22;
         const int ActivityStateErrorEventId = 23;
         
@@ -444,7 +460,7 @@ namespace Cogito.Fabric.Activities
 
                 if (record.Level == TraceLevel.Info && IsEnabled(EventLevel.Informational, Keywords.ActivityState))
                 {
-                    ActivityStateInformational(
+                    ActivityStateInfo(
                         actor.GetType().ToString(),
                         actor.Id.ToString(),
                         actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationTypeName,
@@ -560,7 +576,7 @@ namespace Cogito.Fabric.Activities
 
                 if (record.Level == TraceLevel.Info && IsEnabled(EventLevel.Informational, Keywords.ActivityState))
                 {
-                    ActivityStateInformational(
+                    ActivityStateInfo(
                         actor.GetType().ToString(),
                         actor.Id.ToString(),
                         actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationTypeName,
@@ -643,7 +659,11 @@ namespace Cogito.Fabric.Activities
         }
 
 
-        [Event(ActivityStateVerboseEventId, Level = EventLevel.Verbose, Message = "{20}")]
+        [Event(
+            ActivityStateVerboseEventId, 
+            Level = EventLevel.Verbose, 
+            Message = "{20}", 
+            Keywords = Keywords.ActivityState)]
         public void ActivityStateVerbose(
             string actorType,
             string actorId,
@@ -693,8 +713,12 @@ namespace Cogito.Fabric.Activities
         }
 
 
-        [Event(ActivityStateInformationalEventId, Level = EventLevel.Informational, Message = "{20}")]
-        public void ActivityStateInformational(
+        [Event(
+            ActivityStateInfoEventId, 
+            Level = EventLevel.Informational, 
+            Message = "{20}", 
+            Keywords = Keywords.ActivityState)]
+        public void ActivityStateInfo(
             string actorType,
             string actorId,
             string applicationTypeName,
@@ -718,7 +742,7 @@ namespace Cogito.Fabric.Activities
             string message)
         {
             WriteEvent(
-                ActivityStateInformationalEventId,
+                ActivityStateInfoEventId,
                 actorType,
                 actorId,
                 applicationTypeName,
@@ -743,7 +767,11 @@ namespace Cogito.Fabric.Activities
         }
 
 
-        [Event(ActivityStateWarningEventId, Level = EventLevel.Warning, Message = "{20}")]
+        [Event(
+            ActivityStateWarningEventId, 
+            Level = EventLevel.Warning, 
+            Message = "{20}", 
+            Keywords = Keywords.ActivityState)]
         public void ActivityStateWarning(
             string actorType,
             string actorId,
@@ -793,7 +821,11 @@ namespace Cogito.Fabric.Activities
         }
 
 
-        [Event(ActivityStateErrorEventId, Level = EventLevel.Error, Message = "{20}")]
+        [Event(
+            ActivityStateErrorEventId, 
+            Level = EventLevel.Error, 
+            Message = "{20}", 
+            Keywords = Keywords.ActivityState)]
         public void ActivityStateError(
             string actorType,
             string actorId,
@@ -849,7 +881,7 @@ namespace Cogito.Fabric.Activities
     {
 
         const int BookmarkResumptionVerboseEventId = 30;
-        const int BookmarkResumptionInformationalEventId = 31;
+        const int BookmarkResumptionInfoEventId = 31;
         const int BookmarkResumptionWarningEventId = 32;
         const int BookmarkResumptionErrorEventId = 33;
         
@@ -883,7 +915,7 @@ namespace Cogito.Fabric.Activities
 
                 if (record.Level == TraceLevel.Info && IsEnabled(EventLevel.Informational, Keywords.BookmarkResumption))
                 {
-                    BookmarkResumptionInformational(
+                    BookmarkResumptionInfo(
                         actor.GetType().ToString(),
                         actor.Id.ToString(),
                         actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationTypeName,
@@ -983,7 +1015,7 @@ namespace Cogito.Fabric.Activities
 
                 if (record.Level == TraceLevel.Info && IsEnabled(EventLevel.Informational, Keywords.BookmarkResumption))
                 {
-                    BookmarkResumptionInformational(
+                    BookmarkResumptionInfo(
                         actor.GetType().ToString(),
                         actor.Id.ToString(),
                         actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationTypeName,
@@ -1054,7 +1086,11 @@ namespace Cogito.Fabric.Activities
         }
 
 
-        [Event(BookmarkResumptionVerboseEventId, Level = EventLevel.Verbose, Message = "{16}")]
+        [Event(
+            BookmarkResumptionVerboseEventId, 
+            Level = EventLevel.Verbose, 
+            Message = "{16}", 
+            Keywords = Keywords.BookmarkResumption)]
         public void BookmarkResumptionVerbose(
             string actorType,
             string actorId,
@@ -1096,8 +1132,12 @@ namespace Cogito.Fabric.Activities
         }
 
 
-        [Event(BookmarkResumptionInformationalEventId, Level = EventLevel.Informational, Message = "{16}")]
-        public void BookmarkResumptionInformational(
+        [Event(
+            BookmarkResumptionInfoEventId, 
+            Level = EventLevel.Informational, 
+            Message = "{16}", 
+            Keywords = Keywords.BookmarkResumption)]
+        public void BookmarkResumptionInfo(
             string actorType,
             string actorId,
             string applicationTypeName,
@@ -1117,7 +1157,7 @@ namespace Cogito.Fabric.Activities
             string message)
         {
             WriteEvent(
-                BookmarkResumptionInformationalEventId,
+                BookmarkResumptionInfoEventId,
                 actorType,
                 actorId,
                 applicationTypeName,
@@ -1138,7 +1178,11 @@ namespace Cogito.Fabric.Activities
         }
 
 
-        [Event(BookmarkResumptionWarningEventId, Level = EventLevel.Warning, Message = "{16}")]
+        [Event(
+            BookmarkResumptionWarningEventId, 
+            Level = EventLevel.Warning, 
+            Message = "{16}", 
+            Keywords = Keywords.BookmarkResumption)]
         public void BookmarkResumptionWarning(
             string actorType,
             string actorId,
@@ -1180,7 +1224,11 @@ namespace Cogito.Fabric.Activities
         }
 
 
-        [Event(BookmarkResumptionErrorEventId, Level = EventLevel.Error, Message = "{16}")]
+        [Event(
+            BookmarkResumptionErrorEventId, 
+            Level = EventLevel.Error, 
+            Message = "{16}", 
+            Keywords = Keywords.BookmarkResumption)]
         public void BookmarkResumptionError(
             string actorType,
             string actorId,
@@ -1228,7 +1276,7 @@ namespace Cogito.Fabric.Activities
     {
 
         const int CancelRequestedVerboseEventId = 40;
-        const int CancelRequestedInformationalEventId = 41;
+        const int CancelRequestedInfoEventId = 41;
         const int CancelRequestedWarningEventId = 42;
         const int CancelRequestedErrorEventId = 43;
         
@@ -1263,7 +1311,7 @@ namespace Cogito.Fabric.Activities
 
                 if (record.Level == TraceLevel.Info && IsEnabled(EventLevel.Informational, Keywords.CancelRequested))
                 {
-                    CancelRequestedInformational(
+                    CancelRequestedInfo(
                         actor.GetType().ToString(),
                         actor.Id.ToString(),
                         actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationTypeName,
@@ -1367,7 +1415,7 @@ namespace Cogito.Fabric.Activities
 
                 if (record.Level == TraceLevel.Info && IsEnabled(EventLevel.Informational, Keywords.CancelRequested))
                 {
-                    CancelRequestedInformational(
+                    CancelRequestedInfo(
                         actor.GetType().ToString(),
                         actor.Id.ToString(),
                         actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationTypeName,
@@ -1441,7 +1489,11 @@ namespace Cogito.Fabric.Activities
         }
 
 
-        [Event(CancelRequestedVerboseEventId, Level = EventLevel.Verbose, Message = "{17}")]
+        [Event(
+            CancelRequestedVerboseEventId, 
+            Level = EventLevel.Verbose, 
+            Message = "{17}", 
+            Keywords = Keywords.CancelRequested)]
         public void CancelRequestedVerbose(
             string actorType,
             string actorId,
@@ -1485,8 +1537,12 @@ namespace Cogito.Fabric.Activities
         }
 
 
-        [Event(CancelRequestedInformationalEventId, Level = EventLevel.Informational, Message = "{17}")]
-        public void CancelRequestedInformational(
+        [Event(
+            CancelRequestedInfoEventId, 
+            Level = EventLevel.Informational, 
+            Message = "{17}", 
+            Keywords = Keywords.CancelRequested)]
+        public void CancelRequestedInfo(
             string actorType,
             string actorId,
             string applicationTypeName,
@@ -1507,7 +1563,7 @@ namespace Cogito.Fabric.Activities
             string message)
         {
             WriteEvent(
-                CancelRequestedInformationalEventId,
+                CancelRequestedInfoEventId,
                 actorType,
                 actorId,
                 applicationTypeName,
@@ -1529,7 +1585,11 @@ namespace Cogito.Fabric.Activities
         }
 
 
-        [Event(CancelRequestedWarningEventId, Level = EventLevel.Warning, Message = "{17}")]
+        [Event(
+            CancelRequestedWarningEventId, 
+            Level = EventLevel.Warning, 
+            Message = "{17}", 
+            Keywords = Keywords.CancelRequested)]
         public void CancelRequestedWarning(
             string actorType,
             string actorId,
@@ -1573,7 +1633,11 @@ namespace Cogito.Fabric.Activities
         }
 
 
-        [Event(CancelRequestedErrorEventId, Level = EventLevel.Error, Message = "{17}")]
+        [Event(
+            CancelRequestedErrorEventId, 
+            Level = EventLevel.Error, 
+            Message = "{17}", 
+            Keywords = Keywords.CancelRequested)]
         public void CancelRequestedError(
             string actorType,
             string actorId,
@@ -1623,7 +1687,7 @@ namespace Cogito.Fabric.Activities
     {
 
         const int FaultPropagationVerboseEventId = 50;
-        const int FaultPropagationInformationalEventId = 51;
+        const int FaultPropagationInfoEventId = 51;
         const int FaultPropagationWarningEventId = 52;
         const int FaultPropagationErrorEventId = 53;
         
@@ -1663,7 +1727,7 @@ namespace Cogito.Fabric.Activities
 
                 if (record.Level == TraceLevel.Info && IsEnabled(EventLevel.Informational, Keywords.FaultPropagation))
                 {
-                    FaultPropagationInformational(
+                    FaultPropagationInfo(
                         actor.GetType().ToString(),
                         actor.Id.ToString(),
                         actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationTypeName,
@@ -1787,7 +1851,7 @@ namespace Cogito.Fabric.Activities
 
                 if (record.Level == TraceLevel.Info && IsEnabled(EventLevel.Informational, Keywords.FaultPropagation))
                 {
-                    FaultPropagationInformational(
+                    FaultPropagationInfo(
                         actor.GetType().ToString(),
                         actor.Id.ToString(),
                         actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationTypeName,
@@ -1876,7 +1940,11 @@ namespace Cogito.Fabric.Activities
         }
 
 
-        [Event(FaultPropagationVerboseEventId, Level = EventLevel.Verbose, Message = "{22}")]
+        [Event(
+            FaultPropagationVerboseEventId, 
+            Level = EventLevel.Verbose, 
+            Message = "{22}", 
+            Keywords = Keywords.FaultPropagation)]
         public void FaultPropagationVerbose(
             string actorType,
             string actorId,
@@ -1930,8 +1998,12 @@ namespace Cogito.Fabric.Activities
         }
 
 
-        [Event(FaultPropagationInformationalEventId, Level = EventLevel.Informational, Message = "{22}")]
-        public void FaultPropagationInformational(
+        [Event(
+            FaultPropagationInfoEventId, 
+            Level = EventLevel.Informational, 
+            Message = "{22}", 
+            Keywords = Keywords.FaultPropagation)]
+        public void FaultPropagationInfo(
             string actorType,
             string actorId,
             string applicationTypeName,
@@ -1957,7 +2029,7 @@ namespace Cogito.Fabric.Activities
             string message)
         {
             WriteEvent(
-                FaultPropagationInformationalEventId,
+                FaultPropagationInfoEventId,
                 actorType,
                 actorId,
                 applicationTypeName,
@@ -1984,7 +2056,11 @@ namespace Cogito.Fabric.Activities
         }
 
 
-        [Event(FaultPropagationWarningEventId, Level = EventLevel.Warning, Message = "{22}")]
+        [Event(
+            FaultPropagationWarningEventId, 
+            Level = EventLevel.Warning, 
+            Message = "{22}", 
+            Keywords = Keywords.FaultPropagation)]
         public void FaultPropagationWarning(
             string actorType,
             string actorId,
@@ -2038,7 +2114,11 @@ namespace Cogito.Fabric.Activities
         }
 
 
-        [Event(FaultPropagationErrorEventId, Level = EventLevel.Error, Message = "{22}")]
+        [Event(
+            FaultPropagationErrorEventId, 
+            Level = EventLevel.Error, 
+            Message = "{22}", 
+            Keywords = Keywords.FaultPropagation)]
         public void FaultPropagationError(
             string actorType,
             string actorId,
@@ -2098,7 +2178,7 @@ namespace Cogito.Fabric.Activities
     {
 
         const int WorkflowInstanceVerboseEventId = 60;
-        const int WorkflowInstanceInformationalEventId = 61;
+        const int WorkflowInstanceInfoEventId = 61;
         const int WorkflowInstanceWarningEventId = 62;
         const int WorkflowInstanceErrorEventId = 63;
         
@@ -2132,7 +2212,7 @@ namespace Cogito.Fabric.Activities
 
                 if (record.Level == TraceLevel.Info && IsEnabled(EventLevel.Informational, Keywords.WorkflowInstance))
                 {
-                    WorkflowInstanceInformational(
+                    WorkflowInstanceInfo(
                         actor.GetType().ToString(),
                         actor.Id.ToString(),
                         actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationTypeName,
@@ -2232,7 +2312,7 @@ namespace Cogito.Fabric.Activities
 
                 if (record.Level == TraceLevel.Info && IsEnabled(EventLevel.Informational, Keywords.WorkflowInstance))
                 {
-                    WorkflowInstanceInformational(
+                    WorkflowInstanceInfo(
                         actor.GetType().ToString(),
                         actor.Id.ToString(),
                         actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationTypeName,
@@ -2303,7 +2383,11 @@ namespace Cogito.Fabric.Activities
         }
 
 
-        [Event(WorkflowInstanceVerboseEventId, Level = EventLevel.Verbose, Message = "{16}")]
+        [Event(
+            WorkflowInstanceVerboseEventId, 
+            Level = EventLevel.Verbose, 
+            Message = "{16}", 
+            Keywords = Keywords.WorkflowInstance)]
         public void WorkflowInstanceVerbose(
             string actorType,
             string actorId,
@@ -2345,8 +2429,12 @@ namespace Cogito.Fabric.Activities
         }
 
 
-        [Event(WorkflowInstanceInformationalEventId, Level = EventLevel.Informational, Message = "{16}")]
-        public void WorkflowInstanceInformational(
+        [Event(
+            WorkflowInstanceInfoEventId, 
+            Level = EventLevel.Informational, 
+            Message = "{16}", 
+            Keywords = Keywords.WorkflowInstance)]
+        public void WorkflowInstanceInfo(
             string actorType,
             string actorId,
             string applicationTypeName,
@@ -2366,7 +2454,7 @@ namespace Cogito.Fabric.Activities
             string message)
         {
             WriteEvent(
-                WorkflowInstanceInformationalEventId,
+                WorkflowInstanceInfoEventId,
                 actorType,
                 actorId,
                 applicationTypeName,
@@ -2387,7 +2475,11 @@ namespace Cogito.Fabric.Activities
         }
 
 
-        [Event(WorkflowInstanceWarningEventId, Level = EventLevel.Warning, Message = "{16}")]
+        [Event(
+            WorkflowInstanceWarningEventId, 
+            Level = EventLevel.Warning, 
+            Message = "{16}", 
+            Keywords = Keywords.WorkflowInstance)]
         public void WorkflowInstanceWarning(
             string actorType,
             string actorId,
@@ -2429,7 +2521,11 @@ namespace Cogito.Fabric.Activities
         }
 
 
-        [Event(WorkflowInstanceErrorEventId, Level = EventLevel.Error, Message = "{16}")]
+        [Event(
+            WorkflowInstanceErrorEventId, 
+            Level = EventLevel.Error, 
+            Message = "{16}", 
+            Keywords = Keywords.WorkflowInstance)]
         public void WorkflowInstanceError(
             string actorType,
             string actorId,
@@ -2477,7 +2573,7 @@ namespace Cogito.Fabric.Activities
     {
 
         const int WorkflowInstanceAbortedVerboseEventId = 70;
-        const int WorkflowInstanceAbortedInformationalEventId = 71;
+        const int WorkflowInstanceAbortedInfoEventId = 71;
         const int WorkflowInstanceAbortedWarningEventId = 72;
         const int WorkflowInstanceAbortedErrorEventId = 73;
         
@@ -2512,7 +2608,7 @@ namespace Cogito.Fabric.Activities
 
                 if (record.Level == TraceLevel.Info && IsEnabled(EventLevel.Informational, Keywords.WorkflowInstance | Keywords.WorkflowInstanceAborted))
                 {
-                    WorkflowInstanceAbortedInformational(
+                    WorkflowInstanceAbortedInfo(
                         actor.GetType().ToString(),
                         actor.Id.ToString(),
                         actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationTypeName,
@@ -2616,7 +2712,7 @@ namespace Cogito.Fabric.Activities
 
                 if (record.Level == TraceLevel.Info && IsEnabled(EventLevel.Informational, Keywords.WorkflowInstance | Keywords.WorkflowInstanceAborted))
                 {
-                    WorkflowInstanceAbortedInformational(
+                    WorkflowInstanceAbortedInfo(
                         actor.GetType().ToString(),
                         actor.Id.ToString(),
                         actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationTypeName,
@@ -2690,7 +2786,11 @@ namespace Cogito.Fabric.Activities
         }
 
 
-        [Event(WorkflowInstanceAbortedVerboseEventId, Level = EventLevel.Verbose, Message = "{17}")]
+        [Event(
+            WorkflowInstanceAbortedVerboseEventId, 
+            Level = EventLevel.Verbose, 
+            Message = "{17}", 
+            Keywords = Keywords.WorkflowInstance | Keywords.WorkflowInstanceAborted)]
         public void WorkflowInstanceAbortedVerbose(
             string actorType,
             string actorId,
@@ -2734,8 +2834,12 @@ namespace Cogito.Fabric.Activities
         }
 
 
-        [Event(WorkflowInstanceAbortedInformationalEventId, Level = EventLevel.Informational, Message = "{17}")]
-        public void WorkflowInstanceAbortedInformational(
+        [Event(
+            WorkflowInstanceAbortedInfoEventId, 
+            Level = EventLevel.Informational, 
+            Message = "{17}", 
+            Keywords = Keywords.WorkflowInstance | Keywords.WorkflowInstanceAborted)]
+        public void WorkflowInstanceAbortedInfo(
             string actorType,
             string actorId,
             string applicationTypeName,
@@ -2756,7 +2860,7 @@ namespace Cogito.Fabric.Activities
             string message)
         {
             WriteEvent(
-                WorkflowInstanceAbortedInformationalEventId,
+                WorkflowInstanceAbortedInfoEventId,
                 actorType,
                 actorId,
                 applicationTypeName,
@@ -2778,7 +2882,11 @@ namespace Cogito.Fabric.Activities
         }
 
 
-        [Event(WorkflowInstanceAbortedWarningEventId, Level = EventLevel.Warning, Message = "{17}")]
+        [Event(
+            WorkflowInstanceAbortedWarningEventId, 
+            Level = EventLevel.Warning, 
+            Message = "{17}", 
+            Keywords = Keywords.WorkflowInstance | Keywords.WorkflowInstanceAborted)]
         public void WorkflowInstanceAbortedWarning(
             string actorType,
             string actorId,
@@ -2822,7 +2930,11 @@ namespace Cogito.Fabric.Activities
         }
 
 
-        [Event(WorkflowInstanceAbortedErrorEventId, Level = EventLevel.Error, Message = "{17}")]
+        [Event(
+            WorkflowInstanceAbortedErrorEventId, 
+            Level = EventLevel.Error, 
+            Message = "{17}", 
+            Keywords = Keywords.WorkflowInstance | Keywords.WorkflowInstanceAborted)]
         public void WorkflowInstanceAbortedError(
             string actorType,
             string actorId,
@@ -2872,7 +2984,7 @@ namespace Cogito.Fabric.Activities
     {
 
         const int WorkflowInstanceSuspendedVerboseEventId = 80;
-        const int WorkflowInstanceSuspendedInformationalEventId = 81;
+        const int WorkflowInstanceSuspendedInfoEventId = 81;
         const int WorkflowInstanceSuspendedWarningEventId = 82;
         const int WorkflowInstanceSuspendedErrorEventId = 83;
         
@@ -2907,7 +3019,7 @@ namespace Cogito.Fabric.Activities
 
                 if (record.Level == TraceLevel.Info && IsEnabled(EventLevel.Informational, Keywords.WorkflowInstance | Keywords.WorkflowInstanceSuspended))
                 {
-                    WorkflowInstanceSuspendedInformational(
+                    WorkflowInstanceSuspendedInfo(
                         actor.GetType().ToString(),
                         actor.Id.ToString(),
                         actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationTypeName,
@@ -3011,7 +3123,7 @@ namespace Cogito.Fabric.Activities
 
                 if (record.Level == TraceLevel.Info && IsEnabled(EventLevel.Informational, Keywords.WorkflowInstance | Keywords.WorkflowInstanceSuspended))
                 {
-                    WorkflowInstanceSuspendedInformational(
+                    WorkflowInstanceSuspendedInfo(
                         actor.GetType().ToString(),
                         actor.Id.ToString(),
                         actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationTypeName,
@@ -3085,7 +3197,11 @@ namespace Cogito.Fabric.Activities
         }
 
 
-        [Event(WorkflowInstanceSuspendedVerboseEventId, Level = EventLevel.Verbose, Message = "{17}")]
+        [Event(
+            WorkflowInstanceSuspendedVerboseEventId, 
+            Level = EventLevel.Verbose, 
+            Message = "{17}", 
+            Keywords = Keywords.WorkflowInstance | Keywords.WorkflowInstanceSuspended)]
         public void WorkflowInstanceSuspendedVerbose(
             string actorType,
             string actorId,
@@ -3129,8 +3245,12 @@ namespace Cogito.Fabric.Activities
         }
 
 
-        [Event(WorkflowInstanceSuspendedInformationalEventId, Level = EventLevel.Informational, Message = "{17}")]
-        public void WorkflowInstanceSuspendedInformational(
+        [Event(
+            WorkflowInstanceSuspendedInfoEventId, 
+            Level = EventLevel.Informational, 
+            Message = "{17}", 
+            Keywords = Keywords.WorkflowInstance | Keywords.WorkflowInstanceSuspended)]
+        public void WorkflowInstanceSuspendedInfo(
             string actorType,
             string actorId,
             string applicationTypeName,
@@ -3151,7 +3271,7 @@ namespace Cogito.Fabric.Activities
             string message)
         {
             WriteEvent(
-                WorkflowInstanceSuspendedInformationalEventId,
+                WorkflowInstanceSuspendedInfoEventId,
                 actorType,
                 actorId,
                 applicationTypeName,
@@ -3173,7 +3293,11 @@ namespace Cogito.Fabric.Activities
         }
 
 
-        [Event(WorkflowInstanceSuspendedWarningEventId, Level = EventLevel.Warning, Message = "{17}")]
+        [Event(
+            WorkflowInstanceSuspendedWarningEventId, 
+            Level = EventLevel.Warning, 
+            Message = "{17}", 
+            Keywords = Keywords.WorkflowInstance | Keywords.WorkflowInstanceSuspended)]
         public void WorkflowInstanceSuspendedWarning(
             string actorType,
             string actorId,
@@ -3217,7 +3341,11 @@ namespace Cogito.Fabric.Activities
         }
 
 
-        [Event(WorkflowInstanceSuspendedErrorEventId, Level = EventLevel.Error, Message = "{17}")]
+        [Event(
+            WorkflowInstanceSuspendedErrorEventId, 
+            Level = EventLevel.Error, 
+            Message = "{17}", 
+            Keywords = Keywords.WorkflowInstance | Keywords.WorkflowInstanceSuspended)]
         public void WorkflowInstanceSuspendedError(
             string actorType,
             string actorId,
@@ -3267,7 +3395,7 @@ namespace Cogito.Fabric.Activities
     {
 
         const int WorkflowInstanceTerminatedVerboseEventId = 90;
-        const int WorkflowInstanceTerminatedInformationalEventId = 91;
+        const int WorkflowInstanceTerminatedInfoEventId = 91;
         const int WorkflowInstanceTerminatedWarningEventId = 92;
         const int WorkflowInstanceTerminatedErrorEventId = 93;
         
@@ -3302,7 +3430,7 @@ namespace Cogito.Fabric.Activities
 
                 if (record.Level == TraceLevel.Info && IsEnabled(EventLevel.Informational, Keywords.WorkflowInstance | Keywords.WorkflowInstanceTerminated))
                 {
-                    WorkflowInstanceTerminatedInformational(
+                    WorkflowInstanceTerminatedInfo(
                         actor.GetType().ToString(),
                         actor.Id.ToString(),
                         actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationTypeName,
@@ -3406,7 +3534,7 @@ namespace Cogito.Fabric.Activities
 
                 if (record.Level == TraceLevel.Info && IsEnabled(EventLevel.Informational, Keywords.WorkflowInstance | Keywords.WorkflowInstanceTerminated))
                 {
-                    WorkflowInstanceTerminatedInformational(
+                    WorkflowInstanceTerminatedInfo(
                         actor.GetType().ToString(),
                         actor.Id.ToString(),
                         actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationTypeName,
@@ -3480,7 +3608,11 @@ namespace Cogito.Fabric.Activities
         }
 
 
-        [Event(WorkflowInstanceTerminatedVerboseEventId, Level = EventLevel.Verbose, Message = "{17}")]
+        [Event(
+            WorkflowInstanceTerminatedVerboseEventId, 
+            Level = EventLevel.Verbose, 
+            Message = "{17}", 
+            Keywords = Keywords.WorkflowInstance | Keywords.WorkflowInstanceTerminated)]
         public void WorkflowInstanceTerminatedVerbose(
             string actorType,
             string actorId,
@@ -3524,8 +3656,12 @@ namespace Cogito.Fabric.Activities
         }
 
 
-        [Event(WorkflowInstanceTerminatedInformationalEventId, Level = EventLevel.Informational, Message = "{17}")]
-        public void WorkflowInstanceTerminatedInformational(
+        [Event(
+            WorkflowInstanceTerminatedInfoEventId, 
+            Level = EventLevel.Informational, 
+            Message = "{17}", 
+            Keywords = Keywords.WorkflowInstance | Keywords.WorkflowInstanceTerminated)]
+        public void WorkflowInstanceTerminatedInfo(
             string actorType,
             string actorId,
             string applicationTypeName,
@@ -3546,7 +3682,7 @@ namespace Cogito.Fabric.Activities
             string message)
         {
             WriteEvent(
-                WorkflowInstanceTerminatedInformationalEventId,
+                WorkflowInstanceTerminatedInfoEventId,
                 actorType,
                 actorId,
                 applicationTypeName,
@@ -3568,7 +3704,11 @@ namespace Cogito.Fabric.Activities
         }
 
 
-        [Event(WorkflowInstanceTerminatedWarningEventId, Level = EventLevel.Warning, Message = "{17}")]
+        [Event(
+            WorkflowInstanceTerminatedWarningEventId, 
+            Level = EventLevel.Warning, 
+            Message = "{17}", 
+            Keywords = Keywords.WorkflowInstance | Keywords.WorkflowInstanceTerminated)]
         public void WorkflowInstanceTerminatedWarning(
             string actorType,
             string actorId,
@@ -3612,7 +3752,11 @@ namespace Cogito.Fabric.Activities
         }
 
 
-        [Event(WorkflowInstanceTerminatedErrorEventId, Level = EventLevel.Error, Message = "{17}")]
+        [Event(
+            WorkflowInstanceTerminatedErrorEventId, 
+            Level = EventLevel.Error, 
+            Message = "{17}", 
+            Keywords = Keywords.WorkflowInstance | Keywords.WorkflowInstanceTerminated)]
         public void WorkflowInstanceTerminatedError(
             string actorType,
             string actorId,
@@ -3662,7 +3806,7 @@ namespace Cogito.Fabric.Activities
     {
 
         const int WorkflowInstanceUnhandledExceptionVerboseEventId = 100;
-        const int WorkflowInstanceUnhandledExceptionInformationalEventId = 101;
+        const int WorkflowInstanceUnhandledExceptionInfoEventId = 101;
         const int WorkflowInstanceUnhandledExceptionWarningEventId = 102;
         const int WorkflowInstanceUnhandledExceptionErrorEventId = 103;
         
@@ -3691,6 +3835,9 @@ namespace Cogito.Fabric.Activities
                         (record.WorkflowDefinitionIdentity?.Name) ?? string.Empty,
                         (record.ActivityDefinitionId) ?? string.Empty,
                         (record.FaultSource?.Name) ?? string.Empty,
+                        (record.FaultSource?.Id) ?? string.Empty,
+                        (record.FaultSource?.InstanceId) ?? string.Empty,
+                        (record.FaultSource?.TypeName) ?? string.Empty,
                         (record.UnhandledException?.Message) ?? string.Empty,
                         string.Format(message, args));
                     return;
@@ -3698,7 +3845,7 @@ namespace Cogito.Fabric.Activities
 
                 if (record.Level == TraceLevel.Info && IsEnabled(EventLevel.Informational, Keywords.WorkflowInstance | Keywords.WorkflowInstanceUnhandledException))
                 {
-                    WorkflowInstanceUnhandledExceptionInformational(
+                    WorkflowInstanceUnhandledExceptionInfo(
                         actor.GetType().ToString(),
                         actor.Id.ToString(),
                         actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationTypeName,
@@ -3716,6 +3863,9 @@ namespace Cogito.Fabric.Activities
                         (record.WorkflowDefinitionIdentity?.Name) ?? string.Empty,
                         (record.ActivityDefinitionId) ?? string.Empty,
                         (record.FaultSource?.Name) ?? string.Empty,
+                        (record.FaultSource?.Id) ?? string.Empty,
+                        (record.FaultSource?.InstanceId) ?? string.Empty,
+                        (record.FaultSource?.TypeName) ?? string.Empty,
                         (record.UnhandledException?.Message) ?? string.Empty,
                         string.Format(message, args));
                     return;
@@ -3741,6 +3891,9 @@ namespace Cogito.Fabric.Activities
                         (record.WorkflowDefinitionIdentity?.Name) ?? string.Empty,
                         (record.ActivityDefinitionId) ?? string.Empty,
                         (record.FaultSource?.Name) ?? string.Empty,
+                        (record.FaultSource?.Id) ?? string.Empty,
+                        (record.FaultSource?.InstanceId) ?? string.Empty,
+                        (record.FaultSource?.TypeName) ?? string.Empty,
                         (record.UnhandledException?.Message) ?? string.Empty,
                         string.Format(message, args));
                     return;
@@ -3766,6 +3919,9 @@ namespace Cogito.Fabric.Activities
                         (record.WorkflowDefinitionIdentity?.Name) ?? string.Empty,
                         (record.ActivityDefinitionId) ?? string.Empty,
                         (record.FaultSource?.Name) ?? string.Empty,
+                        (record.FaultSource?.Id) ?? string.Empty,
+                        (record.FaultSource?.InstanceId) ?? string.Empty,
+                        (record.FaultSource?.TypeName) ?? string.Empty,
                         (record.UnhandledException?.Message) ?? string.Empty,
                         string.Format(message, args));
                     return;
@@ -3799,6 +3955,9 @@ namespace Cogito.Fabric.Activities
                         (record.WorkflowDefinitionIdentity?.Name) ?? string.Empty,
                         (record.ActivityDefinitionId) ?? string.Empty,
                         (record.FaultSource?.Name) ?? string.Empty,
+                        (record.FaultSource?.Id) ?? string.Empty,
+                        (record.FaultSource?.InstanceId) ?? string.Empty,
+                        (record.FaultSource?.TypeName) ?? string.Empty,
                         (record.UnhandledException?.Message) ?? string.Empty,
                         string.Format(message, args));
                     return;
@@ -3806,7 +3965,7 @@ namespace Cogito.Fabric.Activities
 
                 if (record.Level == TraceLevel.Info && IsEnabled(EventLevel.Informational, Keywords.WorkflowInstance | Keywords.WorkflowInstanceUnhandledException))
                 {
-                    WorkflowInstanceUnhandledExceptionInformational(
+                    WorkflowInstanceUnhandledExceptionInfo(
                         actor.GetType().ToString(),
                         actor.Id.ToString(),
                         actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationTypeName,
@@ -3824,6 +3983,9 @@ namespace Cogito.Fabric.Activities
                         (record.WorkflowDefinitionIdentity?.Name) ?? string.Empty,
                         (record.ActivityDefinitionId) ?? string.Empty,
                         (record.FaultSource?.Name) ?? string.Empty,
+                        (record.FaultSource?.Id) ?? string.Empty,
+                        (record.FaultSource?.InstanceId) ?? string.Empty,
+                        (record.FaultSource?.TypeName) ?? string.Empty,
                         (record.UnhandledException?.Message) ?? string.Empty,
                         string.Format(message, args));
                     return;
@@ -3849,6 +4011,9 @@ namespace Cogito.Fabric.Activities
                         (record.WorkflowDefinitionIdentity?.Name) ?? string.Empty,
                         (record.ActivityDefinitionId) ?? string.Empty,
                         (record.FaultSource?.Name) ?? string.Empty,
+                        (record.FaultSource?.Id) ?? string.Empty,
+                        (record.FaultSource?.InstanceId) ?? string.Empty,
+                        (record.FaultSource?.TypeName) ?? string.Empty,
                         (record.UnhandledException?.Message) ?? string.Empty,
                         string.Format(message, args));
                     return;
@@ -3874,6 +4039,9 @@ namespace Cogito.Fabric.Activities
                         (record.WorkflowDefinitionIdentity?.Name) ?? string.Empty,
                         (record.ActivityDefinitionId) ?? string.Empty,
                         (record.FaultSource?.Name) ?? string.Empty,
+                        (record.FaultSource?.Id) ?? string.Empty,
+                        (record.FaultSource?.InstanceId) ?? string.Empty,
+                        (record.FaultSource?.TypeName) ?? string.Empty,
                         (record.UnhandledException?.Message) ?? string.Empty,
                         string.Format(message, args));
                     return;
@@ -3883,7 +4051,11 @@ namespace Cogito.Fabric.Activities
         }
 
 
-        [Event(WorkflowInstanceUnhandledExceptionVerboseEventId, Level = EventLevel.Verbose, Message = "{18}")]
+        [Event(
+            WorkflowInstanceUnhandledExceptionVerboseEventId, 
+            Level = EventLevel.Verbose, 
+            Message = "{21}", 
+            Keywords = Keywords.WorkflowInstance | Keywords.WorkflowInstanceUnhandledException)]
         public void WorkflowInstanceUnhandledExceptionVerbose(
             string actorType,
             string actorId,
@@ -3902,6 +4074,9 @@ namespace Cogito.Fabric.Activities
             string workflowDefinitionIdentityName,
             string activityDefinitionId,
             string faultSourceName,
+            string faultSourceId,
+            string faultSourceInstanceId,
+            string faultSourceTypeName,
             string exception,
             string message)
         {
@@ -3924,13 +4099,20 @@ namespace Cogito.Fabric.Activities
                 workflowDefinitionIdentityName,
                 activityDefinitionId,
                 faultSourceName,
+                faultSourceId,
+                faultSourceInstanceId,
+                faultSourceTypeName,
                 exception,
                 message);
         }
 
 
-        [Event(WorkflowInstanceUnhandledExceptionInformationalEventId, Level = EventLevel.Informational, Message = "{18}")]
-        public void WorkflowInstanceUnhandledExceptionInformational(
+        [Event(
+            WorkflowInstanceUnhandledExceptionInfoEventId, 
+            Level = EventLevel.Informational, 
+            Message = "{21}", 
+            Keywords = Keywords.WorkflowInstance | Keywords.WorkflowInstanceUnhandledException)]
+        public void WorkflowInstanceUnhandledExceptionInfo(
             string actorType,
             string actorId,
             string applicationTypeName,
@@ -3948,11 +4130,14 @@ namespace Cogito.Fabric.Activities
             string workflowDefinitionIdentityName,
             string activityDefinitionId,
             string faultSourceName,
+            string faultSourceId,
+            string faultSourceInstanceId,
+            string faultSourceTypeName,
             string exception,
             string message)
         {
             WriteEvent(
-                WorkflowInstanceUnhandledExceptionInformationalEventId,
+                WorkflowInstanceUnhandledExceptionInfoEventId,
                 actorType,
                 actorId,
                 applicationTypeName,
@@ -3970,12 +4155,19 @@ namespace Cogito.Fabric.Activities
                 workflowDefinitionIdentityName,
                 activityDefinitionId,
                 faultSourceName,
+                faultSourceId,
+                faultSourceInstanceId,
+                faultSourceTypeName,
                 exception,
                 message);
         }
 
 
-        [Event(WorkflowInstanceUnhandledExceptionWarningEventId, Level = EventLevel.Warning, Message = "{18}")]
+        [Event(
+            WorkflowInstanceUnhandledExceptionWarningEventId, 
+            Level = EventLevel.Warning, 
+            Message = "{21}", 
+            Keywords = Keywords.WorkflowInstance | Keywords.WorkflowInstanceUnhandledException)]
         public void WorkflowInstanceUnhandledExceptionWarning(
             string actorType,
             string actorId,
@@ -3994,6 +4186,9 @@ namespace Cogito.Fabric.Activities
             string workflowDefinitionIdentityName,
             string activityDefinitionId,
             string faultSourceName,
+            string faultSourceId,
+            string faultSourceInstanceId,
+            string faultSourceTypeName,
             string exception,
             string message)
         {
@@ -4016,12 +4211,19 @@ namespace Cogito.Fabric.Activities
                 workflowDefinitionIdentityName,
                 activityDefinitionId,
                 faultSourceName,
+                faultSourceId,
+                faultSourceInstanceId,
+                faultSourceTypeName,
                 exception,
                 message);
         }
 
 
-        [Event(WorkflowInstanceUnhandledExceptionErrorEventId, Level = EventLevel.Error, Message = "{18}")]
+        [Event(
+            WorkflowInstanceUnhandledExceptionErrorEventId, 
+            Level = EventLevel.Error, 
+            Message = "{21}", 
+            Keywords = Keywords.WorkflowInstance | Keywords.WorkflowInstanceUnhandledException)]
         public void WorkflowInstanceUnhandledExceptionError(
             string actorType,
             string actorId,
@@ -4040,6 +4242,9 @@ namespace Cogito.Fabric.Activities
             string workflowDefinitionIdentityName,
             string activityDefinitionId,
             string faultSourceName,
+            string faultSourceId,
+            string faultSourceInstanceId,
+            string faultSourceTypeName,
             string exception,
             string message)
         {
@@ -4062,6 +4267,9 @@ namespace Cogito.Fabric.Activities
                 workflowDefinitionIdentityName,
                 activityDefinitionId,
                 faultSourceName,
+                faultSourceId,
+                faultSourceInstanceId,
+                faultSourceTypeName,
                 exception,
                 message);
         }
@@ -4073,7 +4281,7 @@ namespace Cogito.Fabric.Activities
     {
 
         const int WorkflowInstanceUpdatedVerboseEventId = 110;
-        const int WorkflowInstanceUpdatedInformationalEventId = 111;
+        const int WorkflowInstanceUpdatedInfoEventId = 111;
         const int WorkflowInstanceUpdatedWarningEventId = 112;
         const int WorkflowInstanceUpdatedErrorEventId = 113;
         
@@ -4108,7 +4316,7 @@ namespace Cogito.Fabric.Activities
 
                 if (record.Level == TraceLevel.Info && IsEnabled(EventLevel.Informational, Keywords.WorkflowInstance | Keywords.WorkflowInstanceUpdated))
                 {
-                    WorkflowInstanceUpdatedInformational(
+                    WorkflowInstanceUpdatedInfo(
                         actor.GetType().ToString(),
                         actor.Id.ToString(),
                         actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationTypeName,
@@ -4212,7 +4420,7 @@ namespace Cogito.Fabric.Activities
 
                 if (record.Level == TraceLevel.Info && IsEnabled(EventLevel.Informational, Keywords.WorkflowInstance | Keywords.WorkflowInstanceUpdated))
                 {
-                    WorkflowInstanceUpdatedInformational(
+                    WorkflowInstanceUpdatedInfo(
                         actor.GetType().ToString(),
                         actor.Id.ToString(),
                         actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationTypeName,
@@ -4286,7 +4494,11 @@ namespace Cogito.Fabric.Activities
         }
 
 
-        [Event(WorkflowInstanceUpdatedVerboseEventId, Level = EventLevel.Verbose, Message = "{17}")]
+        [Event(
+            WorkflowInstanceUpdatedVerboseEventId, 
+            Level = EventLevel.Verbose, 
+            Message = "{17}", 
+            Keywords = Keywords.WorkflowInstance | Keywords.WorkflowInstanceUpdated)]
         public void WorkflowInstanceUpdatedVerbose(
             string actorType,
             string actorId,
@@ -4330,8 +4542,12 @@ namespace Cogito.Fabric.Activities
         }
 
 
-        [Event(WorkflowInstanceUpdatedInformationalEventId, Level = EventLevel.Informational, Message = "{17}")]
-        public void WorkflowInstanceUpdatedInformational(
+        [Event(
+            WorkflowInstanceUpdatedInfoEventId, 
+            Level = EventLevel.Informational, 
+            Message = "{17}", 
+            Keywords = Keywords.WorkflowInstance | Keywords.WorkflowInstanceUpdated)]
+        public void WorkflowInstanceUpdatedInfo(
             string actorType,
             string actorId,
             string applicationTypeName,
@@ -4352,7 +4568,7 @@ namespace Cogito.Fabric.Activities
             string message)
         {
             WriteEvent(
-                WorkflowInstanceUpdatedInformationalEventId,
+                WorkflowInstanceUpdatedInfoEventId,
                 actorType,
                 actorId,
                 applicationTypeName,
@@ -4374,7 +4590,11 @@ namespace Cogito.Fabric.Activities
         }
 
 
-        [Event(WorkflowInstanceUpdatedWarningEventId, Level = EventLevel.Warning, Message = "{17}")]
+        [Event(
+            WorkflowInstanceUpdatedWarningEventId, 
+            Level = EventLevel.Warning, 
+            Message = "{17}", 
+            Keywords = Keywords.WorkflowInstance | Keywords.WorkflowInstanceUpdated)]
         public void WorkflowInstanceUpdatedWarning(
             string actorType,
             string actorId,
@@ -4418,7 +4638,11 @@ namespace Cogito.Fabric.Activities
         }
 
 
-        [Event(WorkflowInstanceUpdatedErrorEventId, Level = EventLevel.Error, Message = "{17}")]
+        [Event(
+            WorkflowInstanceUpdatedErrorEventId, 
+            Level = EventLevel.Error, 
+            Message = "{17}", 
+            Keywords = Keywords.WorkflowInstance | Keywords.WorkflowInstanceUpdated)]
         public void WorkflowInstanceUpdatedError(
             string actorType,
             string actorId,
@@ -4468,7 +4692,7 @@ namespace Cogito.Fabric.Activities
     {
 
         const int CustomTrackingVerboseEventId = 200;
-        const int CustomTrackingInformationalEventId = 201;
+        const int CustomTrackingInfoEventId = 201;
         const int CustomTrackingWarningEventId = 202;
         const int CustomTrackingErrorEventId = 203;
         
@@ -4505,7 +4729,7 @@ namespace Cogito.Fabric.Activities
 
                 if (record.Level == TraceLevel.Info && IsEnabled(EventLevel.Informational, Keywords.CustomTracking))
                 {
-                    CustomTrackingInformational(
+                    CustomTrackingInfo(
                         actor.GetType().ToString(),
                         actor.Id.ToString(),
                         actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationTypeName,
@@ -4617,7 +4841,7 @@ namespace Cogito.Fabric.Activities
 
                 if (record.Level == TraceLevel.Info && IsEnabled(EventLevel.Informational, Keywords.CustomTracking))
                 {
-                    CustomTrackingInformational(
+                    CustomTrackingInfo(
                         actor.GetType().ToString(),
                         actor.Id.ToString(),
                         actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationTypeName,
@@ -4697,7 +4921,11 @@ namespace Cogito.Fabric.Activities
         }
 
 
-        [Event(CustomTrackingVerboseEventId, Level = EventLevel.Verbose, Message = "{19}")]
+        [Event(
+            CustomTrackingVerboseEventId, 
+            Level = EventLevel.Verbose, 
+            Message = "{19}", 
+            Keywords = Keywords.CustomTracking)]
         public void CustomTrackingVerbose(
             string actorType,
             string actorId,
@@ -4745,8 +4973,12 @@ namespace Cogito.Fabric.Activities
         }
 
 
-        [Event(CustomTrackingInformationalEventId, Level = EventLevel.Informational, Message = "{19}")]
-        public void CustomTrackingInformational(
+        [Event(
+            CustomTrackingInfoEventId, 
+            Level = EventLevel.Informational, 
+            Message = "{19}", 
+            Keywords = Keywords.CustomTracking)]
+        public void CustomTrackingInfo(
             string actorType,
             string actorId,
             string applicationTypeName,
@@ -4769,7 +5001,7 @@ namespace Cogito.Fabric.Activities
             string message)
         {
             WriteEvent(
-                CustomTrackingInformationalEventId,
+                CustomTrackingInfoEventId,
                 actorType,
                 actorId,
                 applicationTypeName,
@@ -4793,7 +5025,11 @@ namespace Cogito.Fabric.Activities
         }
 
 
-        [Event(CustomTrackingWarningEventId, Level = EventLevel.Warning, Message = "{19}")]
+        [Event(
+            CustomTrackingWarningEventId, 
+            Level = EventLevel.Warning, 
+            Message = "{19}", 
+            Keywords = Keywords.CustomTracking)]
         public void CustomTrackingWarning(
             string actorType,
             string actorId,
@@ -4841,7 +5077,11 @@ namespace Cogito.Fabric.Activities
         }
 
 
-        [Event(CustomTrackingErrorEventId, Level = EventLevel.Error, Message = "{19}")]
+        [Event(
+            CustomTrackingErrorEventId, 
+            Level = EventLevel.Error, 
+            Message = "{19}", 
+            Keywords = Keywords.CustomTracking)]
         public void CustomTrackingError(
             string actorType,
             string actorId,

@@ -125,6 +125,9 @@ RecordType[] recordTypes = new[]
         new Arg("string", "workflowDefinitionIdentityName", "record.WorkflowDefinitionIdentity?.Name"),
         new Arg("string", "activityDefinitionId", "record.ActivityDefinitionId"),
         new Arg("string", "faultSourceName", "record.FaultSource?.Name"),
+        new Arg("string", "faultSourceId", "record.FaultSource?.Id"),
+        new Arg("string", "faultSourceInstanceId", "record.FaultSource?.InstanceId"),
+        new Arg("string", "faultSourceTypeName", "record.FaultSource?.TypeName"),
         new Arg("string", "exception", "record.UnhandledException?.Message"),
     }),
     new RecordType(110, typeof(WorkflowInstanceUpdatedRecord), "WorkflowInstanceUpdated", new[] { "WorkflowInstance", "WorkflowInstanceUpdated" }, new[]
@@ -159,7 +162,7 @@ void GenerateRecord(RecordType recordType)
     for (int l = 0; l < eLevels.Length; l++)
     {
 #>
-        const int <#= recordType.Name #><#= eLevels[l] #>EventId = <#= recordType.EventIdBase + l #>;
+        const int <#= recordType.Name #><#= tLevels[l] #>EventId = <#= recordType.EventIdBase + l #>;
 <#+
     }
 #>
@@ -190,7 +193,7 @@ for (int i = 0; i < tLevels.Length; i++)
 #>
                 if (record.Level == TraceLevel.<#= tLevels[i] #> && IsEnabled(EventLevel.<#= eLevels[i] #>, <#= string.Join(" | ", recordType.Keywords.Select(k => "Keywords." + k)) #>))
                 {
-                    <#= recordType.Name #><#= eLevels[i] #>(
+                    <#= recordType.Name #><#= tLevels[i] #>(
                         actor.GetType().ToString(),
                         actor.Id.ToString(),
                         actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationTypeName,
@@ -250,7 +253,7 @@ for (int i = 0; i < tLevels.Length; i++)
 #>
                 if (record.Level == TraceLevel.<#= tLevels[i] #> && IsEnabled(EventLevel.<#= eLevels[i] #>, <#= string.Join(" | ", recordType.Keywords.Select(k => "Keywords." + k)) #>))
                 {
-                    <#= recordType.Name #><#= eLevels[i] #>(
+                    <#= recordType.Name #><#= tLevels[i] #>(
                         actor.GetType().ToString(),
                         actor.Id.ToString(),
                         actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationTypeName,
@@ -298,12 +301,16 @@ for (int i = 0; i < tLevels.Length; i++)
 <#+
 void GenerateEventMethods(RecordType recordType)
 {
-    foreach (var level in eLevels)
+    for (int l = 0; l < eLevels.Length; l++)
     {
 #>
 
-        [Event(<#= recordType.Name #><#= level #>EventId, Level = EventLevel.<#= level #>, Message = "{<#= recordType.Args.Length + 13 #>}")]
-        public void <#= recordType.Name #><#= level #>(
+        [Event(
+            <#= recordType.Name #><#= tLevels[l] #>EventId, 
+            Level = EventLevel.<#= eLevels[l] #>, 
+            Message = "{<#= recordType.Args.Length + 13 #>}", 
+            Keywords = <#= string.Join(" | ", recordType.Keywords.Select(k => "Keywords." + k)) #>)]
+        public void <#= recordType.Name #><#= tLevels[l] #>(
             string actorType,
             string actorId,
             string applicationTypeName,
@@ -328,7 +335,7 @@ void GenerateEventMethods(RecordType recordType)
             string message)
         {
             WriteEvent(
-                <#= recordType.Name #><#= level #>EventId,
+                <#= recordType.Name #><#= tLevels[l] #>EventId,
                 actorType,
                 actorId,
                 applicationTypeName,
