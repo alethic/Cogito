@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Activities;
+using System.Activities.Tracking;
 using System.Diagnostics.Contracts;
 using System.Fabric;
 using System.Threading.Tasks;
@@ -83,6 +84,7 @@ namespace Cogito.Fabric.Activities
                 }
             };
 
+            workflow.Extensions.Add(() => new ActivityActorTrackingParticipant(actor));
             workflow.Extensions.Add(() => new ActivityActorExtension(actor));
             workflow.Extensions.Add(() => new AsyncActivityExtension(workflow.SynchronizationContext));
 
@@ -132,7 +134,7 @@ namespace Cogito.Fabric.Activities
             await OnStatusChanged(status, actor.State.Status);
 
             // save reminder to resume bookmarks
-                await SaveRemindersAsync();
+            await SaveRemindersAsync();
         }
 
         /// <summary>

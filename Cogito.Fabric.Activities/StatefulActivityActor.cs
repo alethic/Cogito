@@ -15,7 +15,7 @@ namespace Cogito.Fabric.Activities
     /// <typeparam name="TState"></typeparam>
     public abstract class StatefulActivityActor<TState> :
         StatefulActor<ActivityActorState<TState>>,
-        IActivityActorInternal,
+        IStatefulActivityActorInternal,
         IRemindable
     {
 

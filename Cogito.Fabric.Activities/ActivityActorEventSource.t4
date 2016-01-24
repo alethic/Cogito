@@ -1,0 +1,189 @@
+﻿<#+
+string[] eLevels = new[] { "Verbose", "Informational", "Warning", "Error" };
+string[] tLevels = new[] { "Verbose", "Info", "Warning", "Error" };
+#>
+
+<#+
+
+class Arg
+{
+
+    public Arg(string type, string name, string expr)
+    {
+        Type = type;
+        Name = name;
+        Expr = expr;
+    }
+
+    public string Type { get; set; }
+
+    public string Name { get; set; }
+
+    public string Expr { get; set; }
+
+}
+
+#>
+
+<#+
+void GenerateStatefulRecordMethod(string recordName, string[] keywords, Arg[] args)
+{
+#>
+        [NonEvent]
+        public void <#= recordName #>(IStatefulActivityActorInternal actor, <#= recordName #> record, string message = "", params object[] args)
+        {
+            if (IsEnabled())
+            {
+<#+
+for (int i = 0; i < tLevels.Length; i++)
+{
+#>
+                if (record.Level == TraceLevel.<#= tLevels[i] #> && IsEnabled(EventLevel.<#= eLevels[i] #>, <#= string.Join(" | ", keywords.Select(k => "Keywords." + k)) #>))
+                {
+                    <#= recordName #><#= eLevels[i] #>(
+                        actor.GetType().ToString(),
+                        actor.Id.ToString(),
+                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationTypeName,
+                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationName,
+                        actor.ActorService.ServiceInitializationParameters.ServiceTypeName,
+                        actor.ActorService.ServiceInitializationParameters.ServiceName.ToString(),
+                        actor.ActorService.ServiceInitializationParameters.PartitionId,
+                        actor.ActorService.ServiceInitializationParameters.ReplicaId,
+                        FabricRuntime.GetNodeContext().NodeName,
+                        record.InstanceId,
+                        record.RecordNumber,
+                        record.EventTime.ToFileTimeUtc(),
+                        record.Annotations != null ? PrepareAnnotations(record.Annotations) : null,
+<#+
+    foreach (var arg in args)
+    {
+#>
+                        <#= arg.Expr #>,
+<#+
+    }
+#>
+                        string.Format(message, args));
+                    return;
+                }
+
+<#+
+}
+#>
+            }
+        }
+<#+
+}
+#>
+
+<#+
+void GenerateStatelessRecordMethod(string recordName, string[] keywords, Arg[] args)
+{
+#>
+        [NonEvent]
+        public void <#= recordName #>(IStatelessActivityActorInternal actor, <#= recordName #> record, string message = "", params object[] args)
+        {
+            if (IsEnabled())
+            {
+<#+
+for (int i = 0; i < tLevels.Length; i++)
+{
+#>
+                if (record.Level == TraceLevel.<#= tLevels[i] #> && IsEnabled(EventLevel.<#= eLevels[i] #>, <#= string.Join(" | ", keywords.Select(k => "Keywords." + k)) #>))
+                {
+                    <#= recordName #><#= eLevels[i] #>(
+                        actor.GetType().ToString(),
+                        actor.Id.ToString(),
+                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationTypeName,
+                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationName,
+                        actor.ActorService.ServiceInitializationParameters.ServiceTypeName,
+                        actor.ActorService.ServiceInitializationParameters.ServiceName.ToString(),
+                        actor.ActorService.ServiceInitializationParameters.PartitionId,
+                        actor.ActorService.ServiceInitializationParameters.InstanceId,
+                        FabricRuntime.GetNodeContext().NodeName,
+                        record.InstanceId,
+                        record.RecordNumber,
+                        record.EventTime.ToFileTimeUtc(),
+                        record.Annotations != null ? PrepareAnnotations(record.Annotations) : null,
+<#+
+    foreach (var arg in args)
+    {
+#>
+                        <#= arg.Expr #>,
+<#+
+    }
+#>
+                        string.Format(message, args));
+                    return;
+                }
+
+<#+
+}
+#>
+            }
+        }
+<#+
+}
+#>
+
+<#+
+void GenerateEventMethods(string recordName, Arg[] args)
+{
+    foreach (var level in eLevels)
+    {
+#>
+
+        [Event(<#= recordName #>EventId, Level = EventLevel.<#= level #>, Message = "{<#= args.Length + 13 #>}")]
+        public void <#= recordName #><#= level #>(
+            string actorType,
+            string actorId,
+            string applicationTypeName,
+            string applicationName,
+            string serviceTypeName,
+            string serviceName,
+            Guid partitionId,
+            long replicaOrInstanceId,
+            string nodeName,
+            Guid instanceId,
+            long recordNumber,
+            long eventTime,
+            string annotations,
+<#+
+        foreach (var arg in args)
+        {
+#>
+            <#= arg.Type #> <#= arg.Name #>,
+<#+
+        }
+#>
+            string message)
+        {
+            WriteEvent(
+                <#= recordName #>EventId,
+                actorType,
+                actorId,
+                applicationTypeName,
+                applicationName,
+                serviceTypeName,
+                serviceName,
+                partitionId,
+                replicaOrInstanceId,
+                nodeName,
+                instanceId,
+                recordNumber,
+                eventTime,
+                annotations,
+<#+
+        foreach (var arg in args)
+        {
+#>
+                <#= arg.Name #>,
+<#+
+        }
+#>
+                message);
+        }
+
+<#+
+    }
+}
+#>

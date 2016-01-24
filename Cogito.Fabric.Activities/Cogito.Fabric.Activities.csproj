@@ -67,6 +67,7 @@
     <CodeContractsRuntimeCheckingLevel>Full</CodeContractsRuntimeCheckingLevel>
     <CodeContractsReferenceAssembly>%28none%29</CodeContractsReferenceAssembly>
     <CodeContractsAnalysisWarningLevel>0</CodeContractsAnalysisWarningLevel>
+    <PlatformTarget>x64</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -156,7 +157,31 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="ActivityActorEventSource.ActivityScheduledRecord.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ActivityActorEventSource.ActivityScheduledRecord.cs</LastGenOutput>
+    </Content>
+    <Compile Include="ActivityActorEventSource.ActivityScheduledRecord.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ActivityActorEventSource.ActivityScheduledRecord.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ActivityActorEventSource.CustomTrackingRecord.cs" />
+    <Compile Include="ActivityActorEventSource.CancelRequestedRecord.cs" />
+    <Compile Include="ActivityActorEventSource.BookmarkResumptionRecord.cs" />
+    <Compile Include="ActivityActorEventSource.FaultPropagationRecord.cs" />
+    <Compile Include="ActivityActorEventSource.WorkflowInstanceRecord.cs" />
+    <Compile Include="ActivityActorEventSource.WorkflowInstanceUpdatedRecord.cs" />
+    <Compile Include="ActivityActorEventSource.WorkflowInstanceUnhandledExceptionRecord.cs" />
+    <Compile Include="ActivityActorEventSource.WorkflowInstanceTerminatedRecord.cs" />
+    <Compile Include="ActivityActorEventSource.WorkflowInstanceSuspendedRecord.cs" />
+    <Compile Include="ActivityActorEventSource.WorkflowInstanceAbortedRecord.cs" />
+    <Compile Include="ActivityActorEventSource.ActivityStateRecord.cs" />
+    <Compile Include="ActivityActorTrackingParticipant.cs" />
     <Compile Include="ActivityWorkflowHost.cs" />
+    <Compile Include="ActivityActorEventSource.cs" />
+    <Compile Include="IStatelessActivityActorInternal.cs" />
+    <Compile Include="IStatefulActivityActorInternal.cs" />
     <Compile Include="StatefulActivityActor.cs" />
     <Compile Include="ActivityActorClosedException.cs" />
     <Compile Include="ActivityActorException.cs" />
@@ -171,6 +196,7 @@
     <Compile Include="StatelessActivityActor.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="ActivityActorEventSource.t4" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -182,6 +208,9 @@
       <Project>{133c2d12-bda9-4806-ba0a-70ec83bec9bd}</Project>
       <Name>Cogito.Core</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Microsoft.ServiceFabric.Actors.1.4.87-preview\build\Microsoft.ServiceFabric.Actors.targets" Condition="Exists('..\packages\Microsoft.ServiceFabric.Actors.1.4.87-preview\build\Microsoft.ServiceFabric.Actors.targets')" />
