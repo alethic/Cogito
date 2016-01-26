@@ -80,6 +80,15 @@ namespace Cogito.Fabric.Activities
         }
 
         /// <summary>
+        /// Resets the workflow.
+        /// </summary>
+        /// <returns></returns>
+        protected Task ResetAsync()
+        {
+            return host.ResetAsync();
+        }
+
+        /// <summary>
         /// Runs the workflow.
         /// </summary>
         /// <returns></returns>

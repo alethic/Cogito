@@ -260,6 +260,31 @@ namespace Cogito.Fabric.Activities
         }
 
         /// <summary>
+        /// Resets the workflow.
+        /// </summary>
+        /// <returns></returns>
+        internal async Task ResetAsync()
+        {
+            // unload existing workflow
+            if (workflow != null)
+            {
+                await workflow.UnloadAsync();
+                workflow = null;
+            }
+
+            // create new workflow and activity
+            workflow = CreateWorkflow(actor.CreateActivity());
+            Contract.Assert(workflow != null);
+
+            // generate new owner ID
+            if (actor.State.InstanceOwnerId == Guid.Empty)
+                actor.State.InstanceOwnerId = Guid.NewGuid();
+
+            // store instance ID
+            actor.State.InstanceId = workflow.Id;
+        }
+
+        /// <summary>
         /// Runs the workflow.
         /// </summary>
         /// <returns></returns>
