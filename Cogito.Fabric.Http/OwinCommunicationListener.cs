@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 using Microsoft.Owin.Hosting;
 using Microsoft.ServiceFabric.Services.Communication.Runtime;
+
 using Owin;
 
 namespace Cogito.Fabric.Http

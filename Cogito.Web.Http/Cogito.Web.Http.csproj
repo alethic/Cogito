@@ -135,6 +135,7 @@
   <ItemGroup>
     <Compile Include="Dependencies\DependencyResolverSetup.cs" />
     <Compile Include="Dependencies\DependencyResolver.cs" />
+    <Compile Include="FromHeaderAttribute.cs" />
     <Compile Include="WebApiLifecycleListener.cs" />
     <Compile Include="IWebApiModule.cs" />
     <Compile Include="Internal\WebApiModule.cs" />
