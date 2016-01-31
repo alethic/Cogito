@@ -15,8 +15,6 @@ namespace Cogito.Fabric.Activities
         EventSource
     {
 
-        const string truncatedItemsTag = "<items>...</items>";
-        const string emptyItemsTag = "<items />";
         const string itemsTag = "items";
         const string itemTag = "item";
         const string nameAttribute = "name";

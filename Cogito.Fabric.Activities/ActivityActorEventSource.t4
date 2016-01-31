@@ -185,6 +185,11 @@ void GenerateStatefulRecordMethod(RecordType recordType)
         [NonEvent]
         public void <#= recordType.Name #>(IStatefulActivityActorInternal actor, <#= recordType.Type.Name #> record, string message = "", params object[] args)
         {
+            Contract.Requires<ArgumentNullException>(actor != null);
+            Contract.Requires<ArgumentNullException>(record != null);
+            Contract.Requires<ArgumentNullException>(message != null);
+            Contract.Requires<ArgumentNullException>(args != null);
+
             if (IsEnabled())
             {
 <#+
@@ -245,6 +250,11 @@ void GenerateStatelessRecordMethod(RecordType recordType)
         [NonEvent]
         public void <#= recordType.Name #>(IStatelessActivityActorInternal actor, <#= recordType.Type.Name #> record, string message = "", params object[] args)
         {
+            Contract.Requires<ArgumentNullException>(actor != null);
+            Contract.Requires<ArgumentNullException>(record != null);
+            Contract.Requires<ArgumentNullException>(message != null);
+            Contract.Requires<ArgumentNullException>(args != null);
+
             if (IsEnabled())
             {
 <#+

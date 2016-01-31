@@ -11,6 +11,7 @@
 using System;
 using System.Activities.Tracking;
 using System.Diagnostics;
+using System.Diagnostics.Contracts;
 using System.Diagnostics.Tracing;
 using System.Fabric;
 

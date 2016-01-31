@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Activities.Tracking;
 using System.Diagnostics;
+using System.Diagnostics.Contracts;
 using System.Diagnostics.Tracing;
 using System.Fabric;
 
@@ -18,6 +19,11 @@ namespace Cogito.Fabric.Activities
         [NonEvent]
         public void ActivityScheduled(IStatefulActivityActorInternal actor, ActivityScheduledRecord record, string message = "", params object[] args)
         {
+            Contract.Requires<ArgumentNullException>(actor != null);
+            Contract.Requires<ArgumentNullException>(record != null);
+            Contract.Requires<ArgumentNullException>(message != null);
+            Contract.Requires<ArgumentNullException>(args != null);
+
             if (IsEnabled())
             {
                 if (record.Level == TraceLevel.Verbose && IsEnabled(EventLevel.Verbose, Keywords.ActivityScheduled))
@@ -122,6 +128,11 @@ namespace Cogito.Fabric.Activities
         [NonEvent]
         public void ActivityScheduled(IStatelessActivityActorInternal actor, ActivityScheduledRecord record, string message = "", params object[] args)
         {
+            Contract.Requires<ArgumentNullException>(actor != null);
+            Contract.Requires<ArgumentNullException>(record != null);
+            Contract.Requires<ArgumentNullException>(message != null);
+            Contract.Requires<ArgumentNullException>(args != null);
+
             if (IsEnabled())
             {
                 if (record.Level == TraceLevel.Verbose && IsEnabled(EventLevel.Verbose, Keywords.ActivityScheduled))
@@ -429,6 +440,11 @@ namespace Cogito.Fabric.Activities
         [NonEvent]
         public void ActivityState(IStatefulActivityActorInternal actor, ActivityStateRecord record, string message = "", params object[] args)
         {
+            Contract.Requires<ArgumentNullException>(actor != null);
+            Contract.Requires<ArgumentNullException>(record != null);
+            Contract.Requires<ArgumentNullException>(message != null);
+            Contract.Requires<ArgumentNullException>(args != null);
+
             if (IsEnabled())
             {
                 if (record.Level == TraceLevel.Verbose && IsEnabled(EventLevel.Verbose, Keywords.ActivityState))
@@ -545,6 +561,11 @@ namespace Cogito.Fabric.Activities
         [NonEvent]
         public void ActivityState(IStatelessActivityActorInternal actor, ActivityStateRecord record, string message = "", params object[] args)
         {
+            Contract.Requires<ArgumentNullException>(actor != null);
+            Contract.Requires<ArgumentNullException>(record != null);
+            Contract.Requires<ArgumentNullException>(message != null);
+            Contract.Requires<ArgumentNullException>(args != null);
+
             if (IsEnabled())
             {
                 if (record.Level == TraceLevel.Verbose && IsEnabled(EventLevel.Verbose, Keywords.ActivityState))
@@ -888,6 +909,11 @@ namespace Cogito.Fabric.Activities
         [NonEvent]
         public void BookmarkResumption(IStatefulActivityActorInternal actor, BookmarkResumptionRecord record, string message = "", params object[] args)
         {
+            Contract.Requires<ArgumentNullException>(actor != null);
+            Contract.Requires<ArgumentNullException>(record != null);
+            Contract.Requires<ArgumentNullException>(message != null);
+            Contract.Requires<ArgumentNullException>(args != null);
+
             if (IsEnabled())
             {
                 if (record.Level == TraceLevel.Verbose && IsEnabled(EventLevel.Verbose, Keywords.BookmarkResumption))
@@ -988,6 +1014,11 @@ namespace Cogito.Fabric.Activities
         [NonEvent]
         public void BookmarkResumption(IStatelessActivityActorInternal actor, BookmarkResumptionRecord record, string message = "", params object[] args)
         {
+            Contract.Requires<ArgumentNullException>(actor != null);
+            Contract.Requires<ArgumentNullException>(record != null);
+            Contract.Requires<ArgumentNullException>(message != null);
+            Contract.Requires<ArgumentNullException>(args != null);
+
             if (IsEnabled())
             {
                 if (record.Level == TraceLevel.Verbose && IsEnabled(EventLevel.Verbose, Keywords.BookmarkResumption))
@@ -1283,6 +1314,11 @@ namespace Cogito.Fabric.Activities
         [NonEvent]
         public void CancelRequested(IStatefulActivityActorInternal actor, CancelRequestedRecord record, string message = "", params object[] args)
         {
+            Contract.Requires<ArgumentNullException>(actor != null);
+            Contract.Requires<ArgumentNullException>(record != null);
+            Contract.Requires<ArgumentNullException>(message != null);
+            Contract.Requires<ArgumentNullException>(args != null);
+
             if (IsEnabled())
             {
                 if (record.Level == TraceLevel.Verbose && IsEnabled(EventLevel.Verbose, Keywords.CancelRequested))
@@ -1387,6 +1423,11 @@ namespace Cogito.Fabric.Activities
         [NonEvent]
         public void CancelRequested(IStatelessActivityActorInternal actor, CancelRequestedRecord record, string message = "", params object[] args)
         {
+            Contract.Requires<ArgumentNullException>(actor != null);
+            Contract.Requires<ArgumentNullException>(record != null);
+            Contract.Requires<ArgumentNullException>(message != null);
+            Contract.Requires<ArgumentNullException>(args != null);
+
             if (IsEnabled())
             {
                 if (record.Level == TraceLevel.Verbose && IsEnabled(EventLevel.Verbose, Keywords.CancelRequested))
@@ -1694,6 +1735,11 @@ namespace Cogito.Fabric.Activities
         [NonEvent]
         public void FaultPropagation(IStatefulActivityActorInternal actor, FaultPropagationRecord record, string message = "", params object[] args)
         {
+            Contract.Requires<ArgumentNullException>(actor != null);
+            Contract.Requires<ArgumentNullException>(record != null);
+            Contract.Requires<ArgumentNullException>(message != null);
+            Contract.Requires<ArgumentNullException>(args != null);
+
             if (IsEnabled())
             {
                 if (record.Level == TraceLevel.Verbose && IsEnabled(EventLevel.Verbose, Keywords.FaultPropagation))
@@ -1818,6 +1864,11 @@ namespace Cogito.Fabric.Activities
         [NonEvent]
         public void FaultPropagation(IStatelessActivityActorInternal actor, FaultPropagationRecord record, string message = "", params object[] args)
         {
+            Contract.Requires<ArgumentNullException>(actor != null);
+            Contract.Requires<ArgumentNullException>(record != null);
+            Contract.Requires<ArgumentNullException>(message != null);
+            Contract.Requires<ArgumentNullException>(args != null);
+
             if (IsEnabled())
             {
                 if (record.Level == TraceLevel.Verbose && IsEnabled(EventLevel.Verbose, Keywords.FaultPropagation))
@@ -2185,6 +2236,11 @@ namespace Cogito.Fabric.Activities
         [NonEvent]
         public void WorkflowInstance(IStatefulActivityActorInternal actor, WorkflowInstanceRecord record, string message = "", params object[] args)
         {
+            Contract.Requires<ArgumentNullException>(actor != null);
+            Contract.Requires<ArgumentNullException>(record != null);
+            Contract.Requires<ArgumentNullException>(message != null);
+            Contract.Requires<ArgumentNullException>(args != null);
+
             if (IsEnabled())
             {
                 if (record.Level == TraceLevel.Verbose && IsEnabled(EventLevel.Verbose, Keywords.WorkflowInstance))
@@ -2285,6 +2341,11 @@ namespace Cogito.Fabric.Activities
         [NonEvent]
         public void WorkflowInstance(IStatelessActivityActorInternal actor, WorkflowInstanceRecord record, string message = "", params object[] args)
         {
+            Contract.Requires<ArgumentNullException>(actor != null);
+            Contract.Requires<ArgumentNullException>(record != null);
+            Contract.Requires<ArgumentNullException>(message != null);
+            Contract.Requires<ArgumentNullException>(args != null);
+
             if (IsEnabled())
             {
                 if (record.Level == TraceLevel.Verbose && IsEnabled(EventLevel.Verbose, Keywords.WorkflowInstance))
@@ -2580,6 +2641,11 @@ namespace Cogito.Fabric.Activities
         [NonEvent]
         public void WorkflowInstanceAborted(IStatefulActivityActorInternal actor, WorkflowInstanceAbortedRecord record, string message = "", params object[] args)
         {
+            Contract.Requires<ArgumentNullException>(actor != null);
+            Contract.Requires<ArgumentNullException>(record != null);
+            Contract.Requires<ArgumentNullException>(message != null);
+            Contract.Requires<ArgumentNullException>(args != null);
+
             if (IsEnabled())
             {
                 if (record.Level == TraceLevel.Verbose && IsEnabled(EventLevel.Verbose, Keywords.WorkflowInstance | Keywords.WorkflowInstanceAborted))
@@ -2684,6 +2750,11 @@ namespace Cogito.Fabric.Activities
         [NonEvent]
         public void WorkflowInstanceAborted(IStatelessActivityActorInternal actor, WorkflowInstanceAbortedRecord record, string message = "", params object[] args)
         {
+            Contract.Requires<ArgumentNullException>(actor != null);
+            Contract.Requires<ArgumentNullException>(record != null);
+            Contract.Requires<ArgumentNullException>(message != null);
+            Contract.Requires<ArgumentNullException>(args != null);
+
             if (IsEnabled())
             {
                 if (record.Level == TraceLevel.Verbose && IsEnabled(EventLevel.Verbose, Keywords.WorkflowInstance | Keywords.WorkflowInstanceAborted))
@@ -2991,6 +3062,11 @@ namespace Cogito.Fabric.Activities
         [NonEvent]
         public void WorkflowInstanceSuspended(IStatefulActivityActorInternal actor, WorkflowInstanceSuspendedRecord record, string message = "", params object[] args)
         {
+            Contract.Requires<ArgumentNullException>(actor != null);
+            Contract.Requires<ArgumentNullException>(record != null);
+            Contract.Requires<ArgumentNullException>(message != null);
+            Contract.Requires<ArgumentNullException>(args != null);
+
             if (IsEnabled())
             {
                 if (record.Level == TraceLevel.Verbose && IsEnabled(EventLevel.Verbose, Keywords.WorkflowInstance | Keywords.WorkflowInstanceSuspended))
@@ -3095,6 +3171,11 @@ namespace Cogito.Fabric.Activities
         [NonEvent]
         public void WorkflowInstanceSuspended(IStatelessActivityActorInternal actor, WorkflowInstanceSuspendedRecord record, string message = "", params object[] args)
         {
+            Contract.Requires<ArgumentNullException>(actor != null);
+            Contract.Requires<ArgumentNullException>(record != null);
+            Contract.Requires<ArgumentNullException>(message != null);
+            Contract.Requires<ArgumentNullException>(args != null);
+
             if (IsEnabled())
             {
                 if (record.Level == TraceLevel.Verbose && IsEnabled(EventLevel.Verbose, Keywords.WorkflowInstance | Keywords.WorkflowInstanceSuspended))
@@ -3402,6 +3483,11 @@ namespace Cogito.Fabric.Activities
         [NonEvent]
         public void WorkflowInstanceTerminated(IStatefulActivityActorInternal actor, WorkflowInstanceTerminatedRecord record, string message = "", params object[] args)
         {
+            Contract.Requires<ArgumentNullException>(actor != null);
+            Contract.Requires<ArgumentNullException>(record != null);
+            Contract.Requires<ArgumentNullException>(message != null);
+            Contract.Requires<ArgumentNullException>(args != null);
+
             if (IsEnabled())
             {
                 if (record.Level == TraceLevel.Verbose && IsEnabled(EventLevel.Verbose, Keywords.WorkflowInstance | Keywords.WorkflowInstanceTerminated))
@@ -3506,6 +3592,11 @@ namespace Cogito.Fabric.Activities
         [NonEvent]
         public void WorkflowInstanceTerminated(IStatelessActivityActorInternal actor, WorkflowInstanceTerminatedRecord record, string message = "", params object[] args)
         {
+            Contract.Requires<ArgumentNullException>(actor != null);
+            Contract.Requires<ArgumentNullException>(record != null);
+            Contract.Requires<ArgumentNullException>(message != null);
+            Contract.Requires<ArgumentNullException>(args != null);
+
             if (IsEnabled())
             {
                 if (record.Level == TraceLevel.Verbose && IsEnabled(EventLevel.Verbose, Keywords.WorkflowInstance | Keywords.WorkflowInstanceTerminated))
@@ -3813,6 +3904,11 @@ namespace Cogito.Fabric.Activities
         [NonEvent]
         public void WorkflowInstanceUnhandledException(IStatefulActivityActorInternal actor, WorkflowInstanceUnhandledExceptionRecord record, string message = "", params object[] args)
         {
+            Contract.Requires<ArgumentNullException>(actor != null);
+            Contract.Requires<ArgumentNullException>(record != null);
+            Contract.Requires<ArgumentNullException>(message != null);
+            Contract.Requires<ArgumentNullException>(args != null);
+
             if (IsEnabled())
             {
                 if (record.Level == TraceLevel.Verbose && IsEnabled(EventLevel.Verbose, Keywords.WorkflowInstance | Keywords.WorkflowInstanceUnhandledException))
@@ -3933,6 +4029,11 @@ namespace Cogito.Fabric.Activities
         [NonEvent]
         public void WorkflowInstanceUnhandledException(IStatelessActivityActorInternal actor, WorkflowInstanceUnhandledExceptionRecord record, string message = "", params object[] args)
         {
+            Contract.Requires<ArgumentNullException>(actor != null);
+            Contract.Requires<ArgumentNullException>(record != null);
+            Contract.Requires<ArgumentNullException>(message != null);
+            Contract.Requires<ArgumentNullException>(args != null);
+
             if (IsEnabled())
             {
                 if (record.Level == TraceLevel.Verbose && IsEnabled(EventLevel.Verbose, Keywords.WorkflowInstance | Keywords.WorkflowInstanceUnhandledException))
@@ -4288,6 +4389,11 @@ namespace Cogito.Fabric.Activities
         [NonEvent]
         public void WorkflowInstanceUpdated(IStatefulActivityActorInternal actor, WorkflowInstanceUpdatedRecord record, string message = "", params object[] args)
         {
+            Contract.Requires<ArgumentNullException>(actor != null);
+            Contract.Requires<ArgumentNullException>(record != null);
+            Contract.Requires<ArgumentNullException>(message != null);
+            Contract.Requires<ArgumentNullException>(args != null);
+
             if (IsEnabled())
             {
                 if (record.Level == TraceLevel.Verbose && IsEnabled(EventLevel.Verbose, Keywords.WorkflowInstance | Keywords.WorkflowInstanceUpdated))
@@ -4392,6 +4498,11 @@ namespace Cogito.Fabric.Activities
         [NonEvent]
         public void WorkflowInstanceUpdated(IStatelessActivityActorInternal actor, WorkflowInstanceUpdatedRecord record, string message = "", params object[] args)
         {
+            Contract.Requires<ArgumentNullException>(actor != null);
+            Contract.Requires<ArgumentNullException>(record != null);
+            Contract.Requires<ArgumentNullException>(message != null);
+            Contract.Requires<ArgumentNullException>(args != null);
+
             if (IsEnabled())
             {
                 if (record.Level == TraceLevel.Verbose && IsEnabled(EventLevel.Verbose, Keywords.WorkflowInstance | Keywords.WorkflowInstanceUpdated))
@@ -4699,6 +4810,11 @@ namespace Cogito.Fabric.Activities
         [NonEvent]
         public void CustomTracking(IStatefulActivityActorInternal actor, CustomTrackingRecord record, string message = "", params object[] args)
         {
+            Contract.Requires<ArgumentNullException>(actor != null);
+            Contract.Requires<ArgumentNullException>(record != null);
+            Contract.Requires<ArgumentNullException>(message != null);
+            Contract.Requires<ArgumentNullException>(args != null);
+
             if (IsEnabled())
             {
                 if (record.Level == TraceLevel.Verbose && IsEnabled(EventLevel.Verbose, Keywords.CustomTracking))
@@ -4811,6 +4927,11 @@ namespace Cogito.Fabric.Activities
         [NonEvent]
         public void CustomTracking(IStatelessActivityActorInternal actor, CustomTrackingRecord record, string message = "", params object[] args)
         {
+            Contract.Requires<ArgumentNullException>(actor != null);
+            Contract.Requires<ArgumentNullException>(record != null);
+            Contract.Requires<ArgumentNullException>(message != null);
+            Contract.Requires<ArgumentNullException>(args != null);
+
             if (IsEnabled())
             {
                 if (record.Level == TraceLevel.Verbose && IsEnabled(EventLevel.Verbose, Keywords.CustomTracking))
