@@ -7,7 +7,7 @@ namespace Cogito.Fabric.Activities.Test.TestActor
 {
 
     class TestActor :
-        ActivityActor<TestActorActivity>,
+        StatefulActivityActor<TestActorActivity>,
         ITestActor
     {
 
