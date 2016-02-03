@@ -190,7 +190,7 @@
       <Name>Cogito.Fabric.Activities.Test.Activities</Name>
     </ProjectReference>
     <ProjectReference Include="..\Cogito.Fabric.Activities.Test.TestActor.Interfaces\Cogito.Fabric.Activities.Test.TestActor.Interfaces.csproj">
-      <Project>{F86DB8EA-DA52-40D6-B5AF-2ACFF7DE4892}</Project>
+      <Project>{f86db8ea-da52-40d6-b5af-2acff7de4892}</Project>
       <Name>Cogito.Fabric.Activities.Test.TestActor.Interfaces</Name>
     </ProjectReference>
     <ProjectReference Include="..\Cogito.Fabric.Activities.Tests\Cogito.Fabric.Activities.Tests.csproj">
