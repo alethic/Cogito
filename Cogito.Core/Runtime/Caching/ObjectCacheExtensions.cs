@@ -112,7 +112,7 @@ namespace Cogito.Runtime.Caching
             Contract.Requires<ArgumentNullException>(self != null);
             Contract.Requires<ArgumentNullException>(func != null);
             Contract.Requires<ArgumentNullException>(keys != null);
-            Contract.Requires<ArgumentOutOfRangeException>(keys.Length > 1 != null);
+            Contract.Requires<ArgumentOutOfRangeException>(keys.Length > 0);
 
             // generate unique key for keys
             var k = string.Join("##", Enumerable.Empty<object>()

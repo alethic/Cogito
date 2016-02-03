@@ -14,6 +14,11 @@ namespace Cogito.Fabric.Activities
     {
 
         /// <summary>
+        /// Gets the ID of the actor.
+        /// </summary>
+        ActorId Id { get; }
+
+        /// <summary>
         /// Gets whether the actor supports state.
         /// </summary>
         bool HasState { get; }
