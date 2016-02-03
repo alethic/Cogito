@@ -164,6 +164,7 @@
     <Compile Include="ServiceReference.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Cogito.Fabric.nuspec" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

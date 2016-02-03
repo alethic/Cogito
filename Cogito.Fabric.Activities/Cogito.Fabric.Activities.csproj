@@ -195,6 +195,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="ActivityActorEventSource.t4" />
+    <None Include="Cogito.Fabric.Activities.nuspec" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

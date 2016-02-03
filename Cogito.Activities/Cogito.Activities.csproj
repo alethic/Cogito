@@ -245,6 +245,7 @@
     <Compile Include="Activities.Pick.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Cogito.Activities.nuspec" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
