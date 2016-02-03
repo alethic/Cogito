@@ -161,10 +161,10 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="ActionActivity.cs" />
-    <Content Include="Activities.Delegate.tt">
+    <None Include="Activities.Delegate.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Activities.Delegate.cs</LastGenOutput>
-    </Content>
+    </None>
     <Compile Include="Activities.Delegate.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -221,22 +221,22 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="ActionActivity.Arguments.tt">
+    <None Include="ActionActivity.Arguments.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>ActionActivity.Arguments.cs</LastGenOutput>
-    </Content>
-    <Content Include="FuncActivity.Arguments.tt">
+    </None>
+    <None Include="FuncActivity.Arguments.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>FuncActivity.Arguments.cs</LastGenOutput>
-    </Content>
-    <Content Include="AsyncFuncActivity.Arguments.tt">
+    </None>
+    <None Include="AsyncFuncActivity.Arguments.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>AsyncFuncActivity.Arguments.cs</LastGenOutput>
-    </Content>
-    <Content Include="AsyncActionActivity.Arguments.tt">
+    </None>
+    <None Include="AsyncActionActivity.Arguments.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>AsyncActionActivity.Arguments.cs</LastGenOutput>
-    </Content>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
