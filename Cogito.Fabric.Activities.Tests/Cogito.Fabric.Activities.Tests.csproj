@@ -110,7 +110,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Cogito.Fabric.Activities.Test.Activities\Cogito.Fabric.Activities.Test.Activities.csproj">
-      <Project>{58B7FC57-2117-4BEE-A7D5-69CA21398199}</Project>
+      <Project>{58b7fc57-2117-4bee-a7d5-69ca21398199}</Project>
       <Name>Cogito.Fabric.Activities.Test.Activities</Name>
     </ProjectReference>
     <ProjectReference Include="..\Cogito.Fabric.Activities\Cogito.Fabric.Activities.csproj">

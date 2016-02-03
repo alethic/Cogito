@@ -115,9 +115,25 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Cogito.Fabric.Activities.Test.Activities\Cogito.Fabric.Activities.Test.Activities.csproj">
+      <Project>{58b7fc57-2117-4bee-a7d5-69ca21398199}</Project>
+      <Name>Cogito.Fabric.Activities.Test.Activities</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Cogito.Fabric.Activities.Test.TestActor.Interfaces\Cogito.Fabric.Activities.Test.TestActor.Interfaces.csproj">
       <Project>{f86db8ea-da52-40d6-b5af-2acff7de4892}</Project>
       <Name>Cogito.Fabric.Activities.Test.TestActor.Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Cogito.Fabric.Activities.Test.TestActor\Cogito.Fabric.Activities.Test.TestActor.csproj">
+      <Project>{d2de259f-760a-42ef-8075-888fd50eab18}</Project>
+      <Name>Cogito.Fabric.Activities.Test.TestActor</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Cogito.Fabric.Activities.Tests\Cogito.Fabric.Activities.Tests.csproj">
+      <Project>{0ecbda32-f6f2-4316-9511-ef78e7038e83}</Project>
+      <Name>Cogito.Fabric.Activities.Tests</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Cogito.Fabric.Activities\Cogito.Fabric.Activities.csproj">
+      <Project>{a37ad75b-3315-4e60-98b2-137eb68ce303}</Project>
+      <Name>Cogito.Fabric.Activities</Name>
     </ProjectReference>
     <ProjectReference Include="..\Cogito.Fabric.Http\Cogito.Fabric.Http.csproj">
       <Project>{9ad67bf7-8707-4388-ad34-545ce9eaadea}</Project>
