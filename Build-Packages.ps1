@@ -7,6 +7,9 @@ param(
     [string]$BuildSourceDirectory,
     
     [Parameter(Mandatory=$true)]
+    [string]$BuildConfiguration,
+    
+    [Parameter(Mandatory=$true)]
     [string]$BuildNumber,
 
     [Parameter]
@@ -72,6 +75,6 @@ foreach ($i in $NuSpecFiles)
     $f = [System.IO.Path]::ChangeExtension($i.FullName, ".csproj")
     if (Test-Path $f)
     {
-	    & $NuGetExePath pack -OutputDirectory `"$OutputDirectory`" -Version `"$Version`" `"$f`"
+	    & $NuGetExePath pack -OutputDirectory `"$OutputDirectory`" -Version `"$Version`" -Props Configuration=$BuildConfiguration `"$f`"
     }
 }
