@@ -16,12 +16,12 @@ param(
     [string]$NuGetExe,
 
     [Paramter]
-    [string]$NuGetVersion
+    [string]$Version
 
 )
 
 # import specified version
-$Version = $NuGetVersion
+$Version = $Version
 
 # discover version from build number
 if ([string]::IsNullOrWhiteSpace($Version))
