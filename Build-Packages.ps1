@@ -12,16 +12,11 @@ param(
     [Parameter(Mandatory=$true)]
     [string]$BuildNumber,
 
-    [Parameter]
     [string]$NuGetExe,
 
-    [Paramter]
     [string]$Version
 
 )
-
-# import specified version
-$Version = $Version
 
 # discover version from build number
 if ([string]::IsNullOrWhiteSpace($Version))
@@ -65,17 +60,14 @@ foreach ($NuSpecFile in $NuSpecFiles)
     Write-Host "--File: `"$NuSpecFile`""
 }
 
-# import from parameter
-$NuGetExePath = $NuGetExe
-
 # discover location of NuGet.exe from agent if not specified
-if ([string]::IsNullOrWhiteSpace($NuGetExePath))
+if ([string]::IsNullOrWhiteSpace($NuGetExe))
 {
-    $NuGetExePath = "$($env:AGENT_HOMEDIRECTORY)\agent\Worker\tools\NuGet.exe"
+    $NuGetExe = "$($env:AGENT_HOMEDIRECTORY)\agent\Worker\tools\NuGet.exe"
 }
 
 # test nuget
-if (!(Test-Path $NuGetExePath))
+if (!(Test-Path $NuGetExe))
 {
     Write-Error "Could not locate NuGet.exe"
     exit 1
@@ -87,6 +79,6 @@ foreach ($i in $NuSpecFiles)
     $f = [System.IO.Path]::ChangeExtension($i.FullName, ".csproj")
     if (Test-Path $f)
     {
-	    & $NuGetExePath pack -OutputDirectory `"$OutputDirectory`" -Version `"$Version`" -Prop Configuration=$BuildConfiguration `"$f`"
+	    & $NuGetExe pack -OutputDirectory `"$OutputDirectory`" -Version `"$Version`" -Prop Configuration=$BuildConfiguration `"$f`"
     }
 }
