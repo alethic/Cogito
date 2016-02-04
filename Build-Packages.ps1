@@ -14,7 +14,9 @@ param(
 
     [string]$NuGetExe,
 
-    [string]$Version
+    [string]$Version,
+
+    [string]$PreVersion
 
 )
 
@@ -39,6 +41,12 @@ if ([string]::IsNullOrWhiteSpace($Version))
             }
     }
     $Version = $VersionData[0]
+}
+
+# append any prerelease version string
+if (![string]::IsNullOrWhiteSpace($PreVersion))
+{
+    $Version = $Version + "-" + $PreVersion
 }
 
 # output version
