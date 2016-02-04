@@ -13,28 +13,40 @@ param(
     [string]$BuildNumber,
 
     [Parameter]
-    [string]$NuGetExe
+    [string]$NuGetExe,
+
+    [Paramter]
+    [string]$NuGetVersion
 
 )
-    
-# get and validate the version data
-$VersionData = [regex]::Matches($BuildNumber, "\d+\.\d+\.\d+\.\d+")
 
-switch($VersionData.Count)
+# import specified version
+$Version = $NuGetVersion
+
+# discover version from build number
+if ([string]::IsNullOrWhiteSpace($Version))
 {
-    0        
-        { 
-            Write-Error "Could not find version number data in BUILD_BUILDNUMBER."
-            exit 1
-        }
-    1 {}
-    default 
-        { 
-            Write-Warning "Found more than instance of version data in BUILD_BUILDNUMBER." 
-            Write-Warning "Will assume first instance is version."
-        }
+    # get and validate the version data
+    $VersionData = [regex]::Matches($BuildNumber, "\d+\.\d+\.\d+\.\d+")
+
+    switch($VersionData.Count)
+    {
+        0        
+            { 
+                Write-Error "Could not find version number data in BUILD_BUILDNUMBER."
+                exit 1
+            }
+        1 {}
+        default 
+            { 
+                Write-Warning "Found more than instance of version data in BUILD_BUILDNUMBER." 
+                Write-Warning "Will assume first instance is version."
+            }
+    }
+    $Version = $VersionData[0]
 }
-$Version = $VersionData[0]
+
+# output version
 Write-Host "Version: $Version"
 
 if ($OutputDirectory -and !(Test-Path $OutputDirectory))
