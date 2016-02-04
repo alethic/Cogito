@@ -195,6 +195,26 @@ namespace Cogito.Threading
             return source.Select(action).WaitAllAsync();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="TSource"></typeparam>
+        /// <typeparam name="TKey"></typeparam>
+        /// <typeparam name="TValue"></typeparam>
+        /// <param name="source"></param>
+        /// <param name="keySelector"></param>
+        /// <param name="elementSelector"></param>
+        /// <returns></returns>
+        public static async Task<Dictionary<TKey, TValue>> ToDictionaryAsync<TSource,TKey,TValue>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector, Func<TSource, Task<TValue>> elementSelector)
+        {
+            var d = new Dictionary<TKey, TValue>();
+            var l = source.ToDictionary(keySelector, elementSelector);
+            foreach (var i in l)
+                d[i.Key] = await i.Value;
+
+            return d;
+        }
+
     }
 
 }

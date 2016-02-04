@@ -8,7 +8,7 @@ namespace Cogito
     {
 
         /// <summary>
-        /// Navigates the absolute URL to the specified relative path.
+        /// Combines the given path with the URI.
         /// </summary>
         /// <param name="self"></param>
         /// <param name="path"></param>
@@ -23,6 +23,24 @@ namespace Cogito
                 self = new Uri(self.ToString() + "/");
 
             return new Uri(self, path);
+        }
+
+        /// <summary>
+        /// Combines the given paths with the URI.
+        /// </summary>
+        /// <param name="self"></param>
+        /// <param name="paths"></param>
+        /// <returns></returns>
+        public static Uri Combine(this Uri self, params string[] paths)
+        {
+            Contract.Requires<ArgumentNullException>(self != null);
+            Contract.Requires<ArgumentOutOfRangeException>(self.IsAbsoluteUri);
+            Contract.Requires<ArgumentNullException>(paths != null);
+
+            foreach (var p in paths)
+                self = self.Combine(p);
+
+            return self;
         }
 
     }

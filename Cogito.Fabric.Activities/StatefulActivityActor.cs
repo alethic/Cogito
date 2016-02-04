@@ -15,7 +15,7 @@ namespace Cogito.Fabric.Activities
     /// <typeparam name="TState"></typeparam>
     public abstract class StatefulActivityActor<TState> :
         StatefulActor<ActivityActorState<TState>>,
-        IActivityActorInternal,
+        IStatefulActivityActorInternal,
         IRemindable
     {
 
@@ -77,6 +77,15 @@ namespace Cogito.Fabric.Activities
         protected override Task OnDeactivateAsync()
         {
             return host.OnDeactivateAsync();
+        }
+
+        /// <summary>
+        /// Resets the workflow.
+        /// </summary>
+        /// <returns></returns>
+        protected Task ResetAsync()
+        {
+            return host.ResetAsync();
         }
 
         /// <summary>
@@ -213,7 +222,6 @@ namespace Cogito.Fabric.Activities
             return GetReminder(reminderName);
         }
 
-        /// <returns></returns>
         Task<IActorReminder> IActivityActorInternal.RegisterReminderAsync(string reminderName, byte[] state, TimeSpan dueTime, TimeSpan period, ActorReminderAttributes attribute)
         {
             return RegisterReminderAsync(reminderName, state, dueTime, period, attribute);

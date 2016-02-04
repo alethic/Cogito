@@ -10,7 +10,7 @@ namespace Cogito.Fabric.Activities
 
     public abstract class StatelessActivityActor :
         StatelessActor,
-        IActivityActorInternal
+        IStatelessActivityActorInternal
     {
 
         protected readonly ActivityWorkflowHost host;

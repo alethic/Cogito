@@ -29,18 +29,14 @@ namespace Cogito.Activities
 
             using (new SynchronizationContextScope(context.GetExtension<AsyncActivityExtension>()?.SynchronizationContext ?? SynchronizationContext.Current))
             {
-                ExecuteAsync(context).ContinueWith(t =>
-                {
-                    if (t.IsFaulted)
-                        tcs.TrySetException(t.Exception.InnerExceptions);
-                    else if (t.IsCanceled)
-                        tcs.TrySetCanceled();
-                    else
-                        tcs.TrySetResult(true);
+                (ExecuteAsync(context) ?? Task.FromResult(true))
+                    .ContinueWith(t =>
+                    {
+                        tcs.TrySetFrom(t);
 
-                    if (callback != null)
-                        callback(tcs.Task);
-                }, TaskContinuationOptions.ExecuteSynchronously);
+                        if (callback != null)
+                            callback(tcs.Task);
+                    }, TaskContinuationOptions.ExecuteSynchronously);
             }
 
             return tcs.Task;
@@ -89,18 +85,14 @@ namespace Cogito.Activities
 
             using (new SynchronizationContextScope(context.GetExtension<AsyncActivityExtension>()?.SynchronizationContext ?? SynchronizationContext.Current))
             {
-                ExecuteAsync(context).ContinueWith(t =>
-                {
-                    if (t.IsFaulted)
-                        tcs.TrySetException(t.Exception.InnerExceptions);
-                    else if (t.IsCanceled)
-                        tcs.TrySetCanceled();
-                    else
-                        tcs.TrySetResult(t.Result);
+                (ExecuteAsync(context) ?? Task.FromResult(default(TResult)))
+                    .ContinueWith(t =>
+                    {
+                        tcs.TrySetFrom(t);
 
-                    if (callback != null)
-                        callback(tcs.Task);
-                }, TaskContinuationOptions.ExecuteSynchronously);
+                        if (callback != null)
+                            callback(tcs.Task);
+                    }, TaskContinuationOptions.ExecuteSynchronously);
             }
 
             return tcs.Task;

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Activities;
+using System.Activities.Tracking;
 using System.Diagnostics.Contracts;
 using System.Fabric;
 using System.Threading.Tasks;
@@ -83,6 +84,7 @@ namespace Cogito.Fabric.Activities
                 }
             };
 
+            workflow.Extensions.Add(() => new ActivityActorTrackingParticipant(actor));
             workflow.Extensions.Add(() => new ActivityActorExtension(actor));
             workflow.Extensions.Add(() => new AsyncActivityExtension(workflow.SynchronizationContext));
 
@@ -132,7 +134,7 @@ namespace Cogito.Fabric.Activities
             await OnStatusChanged(status, actor.State.Status);
 
             // save reminder to resume bookmarks
-                await SaveRemindersAsync();
+            await SaveRemindersAsync();
         }
 
         /// <summary>
@@ -163,7 +165,7 @@ namespace Cogito.Fabric.Activities
 
             // store instance ID
             actor.State.InstanceId = workflow.Id;
-        }
+            }
 
         /// <summary>
         /// Invoked when the actor is deactiviated.
@@ -175,9 +177,9 @@ namespace Cogito.Fabric.Activities
 
             if (workflow != null)
             {
-                await workflow.UnloadAsync();
-                workflow = null;
-            }
+            await workflow.UnloadAsync();
+            workflow = null;
+        }
         }
 
         /// <summary>
@@ -255,6 +257,31 @@ namespace Cogito.Fabric.Activities
             }
 
             return null;
+        }
+
+        /// <summary>
+        /// Resets the workflow.
+        /// </summary>
+        /// <returns></returns>
+        internal async Task ResetAsync()
+        {
+            // unload existing workflow
+            if (workflow != null)
+        {
+                await workflow.UnloadAsync();
+                workflow = null;
+            }
+
+            // create new workflow and activity
+            workflow = CreateWorkflow(actor.CreateActivity());
+            Contract.Assert(workflow != null);
+
+            // generate new owner ID
+            if (actor.State.InstanceOwnerId == Guid.Empty)
+                actor.State.InstanceOwnerId = Guid.NewGuid();
+
+            // store instance ID
+            actor.State.InstanceId = workflow.Id;
         }
 
         /// <summary>

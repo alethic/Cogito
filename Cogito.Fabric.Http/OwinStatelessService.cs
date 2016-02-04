@@ -30,9 +30,7 @@ namespace Cogito.Fabric.Http
         public OwinStatelessService(string appRoot, string endpointName = "HttpServiceEndpoint")
         {
             Contract.Requires<ArgumentNullException>(appRoot != null);
-            Contract.Requires<ArgumentOutOfRangeException>(!string.IsNullOrWhiteSpace(appRoot));
             Contract.Requires<ArgumentNullException>(endpointName != null);
-            Contract.Requires<ArgumentOutOfRangeException>(!string.IsNullOrWhiteSpace(endpointName));
 
             this.appRoot = appRoot;
             this.endpointName = endpointName;

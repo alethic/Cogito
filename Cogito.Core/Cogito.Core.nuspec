@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<package
+    xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+    <metadata>
+        <id>Cogito.Core</id>
+        <version>$version$</version>
+        <authors>Jerome Haltom</authors>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>Library of various utilities and extension methods.</description>
+        <summary></summary>
+        <language>en-US</language>
+        <copyright>Jerome Haltom</copyright>
+        <licenseUrl>https://raw.github.com/wasabii/Cogito/master/LICENSE</licenseUrl>
+        <projectUrl>https://github.com/wasabii/Cogito</projectUrl>
+        <tags>cogito</tags>
+    </metadata>
+</package>
