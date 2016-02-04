@@ -160,6 +160,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Cogito.Web.UI.nuspec">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
