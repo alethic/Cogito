@@ -231,6 +231,7 @@
     <Compile Include="Xml\Extensions.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Cogito.Core.nuspec" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
