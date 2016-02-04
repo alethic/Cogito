@@ -15,7 +15,9 @@
         <projectUrl>https://github.com/wasabii/Cogito</projectUrl>
         <tags>mef</tags>
         <dependencies>
-            <dependency id="Cogito.Core" />
+            <dependency
+                id="Cogito.Core"
+                version="$version$" />
         </dependencies>
     </metadata>
 </package>
