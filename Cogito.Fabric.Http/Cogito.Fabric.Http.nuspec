@@ -5,21 +5,15 @@
     xmlns:xsd="http://www.w3.org/2001/XMLSchema">
     <metadata
         xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
-        <id>Cogito.Web.Http</id>
+        <id>Cogito.Fabric.Http</id>
         <version>$version$</version>
         <authors>Jerome Haltom</authors>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
-        <description>Set of libraries for HTTP hosting.</description>
+        <description>Service Fabric services for HTTP</description>
         <summary></summary>
         <language>en-US</language>
         <copyright>Jerome Haltom</copyright>
         <licenseUrl>https://raw.github.com/wasabii/Cogito/master/LICENSE</licenseUrl>
         <projectUrl>https://github.com/wasabii/Cogito</projectUrl>
     </metadata>
-    <dependencies>
-        <dependency id="Cogito.Application" />
-        <dependency id="Cogito.Composition" />
-        <dependency id="Cogito.Core" />
-        <dependency id="Cogito.Web.Core" />
-    </dependencies>
 </package>

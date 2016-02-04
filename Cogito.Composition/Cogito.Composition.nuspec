@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<package xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<package
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 
-    <metadata xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+    <metadata
+        xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
         <id>Cogito.Composition</id>
         <version>$version$</version>
         <authors>Jerome Haltom</authors>
@@ -16,4 +18,7 @@
         <projectUrl>https://github.com/wasabii/Cogito</projectUrl>
         <tags>mef</tags>
     </metadata>
+    <dependencies>
+        <dependency id="Cogito.Core" />
+    </dependencies>
 </package>

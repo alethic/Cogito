@@ -14,4 +14,8 @@
         <licenseUrl>https://raw.github.com/wasabii/Cogito/master/LICENSE</licenseUrl>
         <projectUrl>https://github.com/wasabii/Cogito</projectUrl>
     </metadata>
+    <dependencies>
+        <dependency id="Cogito.Activities" />
+        <dependency id="Cogito.Core" />
+    </dependencies>
 </package>
