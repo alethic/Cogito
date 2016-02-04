@@ -15,12 +15,12 @@
         <copyright>Jerome Haltom</copyright>
         <licenseUrl>https://raw.github.com/wasabii/Cogito/master/LICENSE</licenseUrl>
         <projectUrl>https://github.com/wasabii/Cogito</projectUrl>
+        <dependencies>
+            <dependency id="Cogito.Composition" />
+            <dependency id="Cogito.Core" />
+            <dependency id="Cogito.IO" />
+            <dependency id="Cogito.Web.Razor" />
+            <dependency id="Cogito.Web.UI" />
+        </dependencies>
     </metadata>
-    <dependencies>
-        <dependency id="Cogito.Composition" />
-        <dependency id="Cogito.Core" />
-        <dependency id="Cogito.IO" />
-        <dependency id="Cogito.Web.Razor" />
-        <dependency id="Cogito.Web.UI" />
-    </dependencies>
 </package>

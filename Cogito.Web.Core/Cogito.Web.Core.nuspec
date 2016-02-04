@@ -15,9 +15,9 @@
         <copyright>Jerome Haltom</copyright>
         <licenseUrl>https://raw.github.com/wasabii/Cogito/master/LICENSE</licenseUrl>
         <projectUrl>https://github.com/wasabii/Cogito</projectUrl>
+        <dependencies>
+            <dependency id="Cogito.Composition" />
+            <dependency id="Cogito.Core" />
+        </dependencies>
     </metadata>
-    <dependencies>
-        <dependency id="Cogito.Composition" />
-        <dependency id="Cogito.Core" />
-    </dependencies>
 </package>
