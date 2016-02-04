@@ -14,21 +14,11 @@
         <licenseUrl>https://raw.github.com/wasabii/Cogito/master/LICENSE</licenseUrl>
         <projectUrl>https://github.com/wasabii/Cogito</projectUrl>
         <dependencies>
-            <dependency
-                id="Cogito.Application"
-                version="$version$" />
-            <dependency
-                id="Cogito.Composition"
-                version="$version$"  />
-            <dependency
-                id="Cogito.Core"
-                version="$version$" />
-            <dependency
-                id="Cogito.Web"
-                version="$version$"  />
-            <dependency
-                id="Cogito.Web.Core"
-                version="$version$"  />
+            <dependency id="Cogito.Application"/>
+            <dependency id="Cogito.Composition"  />
+            <dependency id="Cogito.Core" />
+            <dependency id="Cogito.Web"  />
+            <dependency id="Cogito.Web.Core"  />
         </dependencies>
     </metadata>
 </package>
