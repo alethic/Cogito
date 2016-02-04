@@ -8,46 +8,13 @@ param(
     
     [Parameter(Mandatory=$true)]
     [string]$BuildConfiguration,
-    
+
     [Parameter(Mandatory=$true)]
-    [string]$BuildNumber,
-
-    [string]$NuGetExe,
-
     [string]$Version,
 
-    [string]$PreVersion
+    [string]$NuGetExe
 
 )
-
-# discover version from build number
-if ([string]::IsNullOrWhiteSpace($Version))
-{
-    # get and validate the version data
-    $VersionData = [regex]::Matches($BuildNumber, "\d+\.\d+\.\d+\.\d+")
-
-    switch($VersionData.Count)
-    {
-        0        
-            { 
-                Write-Error "Could not find version number data in BUILD_BUILDNUMBER."
-                exit 1
-            }
-        1 {}
-        default 
-            { 
-                Write-Warning "Found more than instance of version data in BUILD_BUILDNUMBER." 
-                Write-Warning "Will assume first instance is version."
-            }
-    }
-    $Version = $VersionData[0]
-}
-
-# append any prerelease version string
-if (![string]::IsNullOrWhiteSpace($PreVersion))
-{
-    $Version = $Version + "-" + $PreVersion
-}
 
 # output version
 Write-Host "Version: $Version"
