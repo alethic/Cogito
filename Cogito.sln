@@ -38,6 +38,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cogito.Web.UI.Razor.Tests", "Cogito.Web.UI.Razor.Tests\Cogito.Web.UI.Razor.Tests.csproj", "{D9745B2F-41D9-48ED-A976-C570B7663DC5}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{87130765-A579-4878-B462-70139F28B475}"
+	ProjectSection(SolutionItems) = preProject
+		Cogito.runsettings = Cogito.runsettings
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cogito.Negotiation", "Cogito.Negotiation\Cogito.Negotiation.csproj", "{DCF6AAB4-F221-459F-9887-8A87CF2866DD}"
 EndProject

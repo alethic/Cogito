@@ -1,6 +1,4 @@
-﻿using System;
-using Cogito.Reflection;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Cogito.Core.Tests.Reflection
 {
