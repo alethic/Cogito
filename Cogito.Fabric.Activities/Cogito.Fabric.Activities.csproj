@@ -184,14 +184,14 @@
     <Compile Include="IActivityActorInternal.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StatelessActivityActor.cs" />
-    <Content Include="ActivityActorEventSource.TrackingRecord.tt">
+    <None Include="ActivityActorEventSource.TrackingRecord.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>ActivityActorEventSource.TrackingRecord.cs</LastGenOutput>
-    </Content>
-    <Content Include="ActivityActorTrackingParticipant.TrackingRecord.tt">
+    </None>
+    <None Include="ActivityActorTrackingParticipant.TrackingRecord.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>ActivityActorTrackingParticipant.TrackingRecord.cs</LastGenOutput>
-    </Content>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="ActivityActorEventSource.t4" />
