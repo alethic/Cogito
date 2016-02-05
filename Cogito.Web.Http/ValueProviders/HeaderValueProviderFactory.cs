@@ -5,7 +5,7 @@ using System.Web.Http.ValueProviders;
 
 using Cogito.Collections;
 
-namespace Cogito.Web.Http
+namespace Cogito.Web.Http.ValueProviders
 {
 
     [Export(typeof(ValueProviderFactory))]

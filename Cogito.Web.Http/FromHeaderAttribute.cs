@@ -4,6 +4,8 @@ using System.Web.Http;
 using System.Web.Http.ModelBinding;
 using System.Web.Http.ValueProviders;
 
+using Cogito.Web.Http.ValueProviders;
+
 namespace Cogito.Web.Http
 {
 

@@ -7,7 +7,7 @@ using System.Linq;
 using System.Net.Http.Headers;
 using System.Web.Http.ValueProviders.Providers;
 
-namespace Cogito.Web.Http
+namespace Cogito.Web.Http.ValueProviders
 {
 
     public class HeaderValueProvider :
