@@ -137,7 +137,9 @@
     <Compile Include="Dependencies\DependencyResolverSetup.cs" />
     <Compile Include="Dependencies\DependencyResolver.cs" />
     <Compile Include="FromHeaderAttribute.cs" />
-    <Compile Include="FromHeaderBinding.cs" />
+    <Compile Include="HeaderValueProvider.cs" />
+    <Compile Include="HeaderValueProviderFactory.cs" />
+    <Compile Include="IHeaderValueProviderFactory.cs" />
     <Compile Include="WebApiLifecycleListener.cs" />
     <Compile Include="IWebApiModule.cs" />
     <Compile Include="Internal\WebApiModule.cs" />

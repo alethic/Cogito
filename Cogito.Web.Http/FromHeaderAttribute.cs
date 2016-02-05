@@ -1,5 +1,8 @@
-﻿using System.Web.Http;
-using System.Web.Http.Controllers;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Web.Http;
+using System.Web.Http.ModelBinding;
+using System.Web.Http.ValueProviders;
 
 namespace Cogito.Web.Http
 {
@@ -8,7 +11,7 @@ namespace Cogito.Web.Http
     /// An attribute that specifies that an action parameter comes only from the a header of the incoming <see cref="System.Net.Http.HttpRequestMessage"/>.
     /// </summary>
     public class FromHeaderAttribute :
-        ParameterBindingAttribute
+        ModelBinderAttribute
     {
 
         /// <summary>
@@ -28,15 +31,10 @@ namespace Cogito.Web.Http
             Name = name;
         }
 
-        public override HttpParameterBinding GetBinding(HttpParameterDescriptor parameter)
+        public override IEnumerable<ValueProviderFactory> GetValueProviderFactories(HttpConfiguration configuration)
         {
-            return new FromHeaderBinding(parameter, Name);
+            return base.GetValueProviderFactories(configuration).OfType<IHeaderValueProviderFactory>().Cast<ValueProviderFactory>();
         }
-
-        /// <summary>
-        /// Gets or sets the header name.
-        /// </summary>
-        public string Name { get; set; }
 
     }
 
