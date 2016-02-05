@@ -31,7 +31,7 @@ namespace Cogito.Web.Http
         {
             Contract.Requires<ArgumentNullException>(parameter != null);
 
-            this.name = headerName ?? MakeHeaderName(parameter.ParameterName);
+            this.name = headerName ?? parameter.ParameterName;
         }
 
         public override Task ExecuteBindingAsync(ModelMetadataProvider metadataProvider, HttpActionContext actionContext, CancellationToken cancellationToken)
@@ -52,26 +52,6 @@ namespace Cogito.Web.Http
             IEnumerable<string> values;
             headers.TryGetValues(name, out values);
             return values != null ? values.FirstOrDefault() : null;
-        }
-
-        /// <summary>
-        /// Attempts to convert a raw parameter name into a header name.
-        /// </summary>
-        /// <param name="key"></param>
-        /// <returns></returns>
-        static string MakeHeaderName(string key)
-        {
-            var headerBuilder = new StringBuilder();
-
-            for (int i = 0; i < key.Length; i++)
-            {
-                if (char.IsUpper(key[i]) && i > 0)
-                    headerBuilder.Append('-');
-
-                headerBuilder.Append(key[i]);
-            }
-
-            return headerBuilder.ToString();
         }
     }
 

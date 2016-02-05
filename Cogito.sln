@@ -88,6 +88,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cogito.Fabric.Activities.Te
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cogito.Fabric.Activities.Tests", "Cogito.Fabric.Activities.Tests\Cogito.Fabric.Activities.Tests.csproj", "{0ECBDA32-F6F2-4316-9511-EF78E7038E83}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cogito.Web.Http.Tests.Web.Site", "Cogito.Web.Http.Tests.Web.Site\Cogito.Web.Http.Tests.Web.Site.csproj", "{17C1E98F-4DD0-4D59-80AA-DE58077D9D18}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -254,6 +256,10 @@ Global
 		{0ECBDA32-F6F2-4316-9511-EF78E7038E83}.Debug|Any CPU.Build.0 = Debug|x64
 		{0ECBDA32-F6F2-4316-9511-EF78E7038E83}.Release|Any CPU.ActiveCfg = Release|x64
 		{0ECBDA32-F6F2-4316-9511-EF78E7038E83}.Release|Any CPU.Build.0 = Release|x64
+		{17C1E98F-4DD0-4D59-80AA-DE58077D9D18}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{17C1E98F-4DD0-4D59-80AA-DE58077D9D18}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{17C1E98F-4DD0-4D59-80AA-DE58077D9D18}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{17C1E98F-4DD0-4D59-80AA-DE58077D9D18}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -278,5 +284,6 @@ Global
 		{F86DB8EA-DA52-40D6-B5AF-2ACFF7DE4892} = {87130765-A579-4878-B462-70139F28B475}
 		{35F3823E-7FAD-4273-A641-BD8C25A867A9} = {87130765-A579-4878-B462-70139F28B475}
 		{0ECBDA32-F6F2-4316-9511-EF78E7038E83} = {87130765-A579-4878-B462-70139F28B475}
+		{17C1E98F-4DD0-4D59-80AA-DE58077D9D18} = {87130765-A579-4878-B462-70139F28B475}
 	EndGlobalSection
 EndGlobal
