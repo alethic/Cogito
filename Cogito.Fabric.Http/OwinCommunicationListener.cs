@@ -25,6 +25,7 @@ namespace Cogito.Fabric.Http
         readonly string appRoot;
         readonly Action<IAppBuilder> configure;
         readonly ServiceInitializationParameters serviceInitializationParameters;
+
         string listeningAddress;
         string publishAddress;
         IDisposable serverHandle;
@@ -77,8 +78,8 @@ namespace Cogito.Fabric.Http
             Contract.Requires<ArgumentNullException>(serviceInitializationParameters != null);
 
             this.endpointName = endpointName;
-            this.configure = configure;
             this.appRoot = appRoot;
+            this.configure = configure;
             this.serviceInitializationParameters = serviceInitializationParameters;
         }
 
@@ -89,38 +90,13 @@ namespace Cogito.Fabric.Http
         /// <returns></returns>
         public Task<string> OpenAsync(CancellationToken cancellationToken)
         {
-            var serviceEndpoint = serviceInitializationParameters.CodePackageActivationContext.GetEndpoint(endpointName);
-            int port = serviceEndpoint.Port;
-
-            if (serviceInitializationParameters is StatefulServiceInitializationParameters)
-            {
-                var statefulInitParams = (StatefulServiceInitializationParameters)serviceInitializationParameters;
-
-                listeningAddress = string.Format(
-                    CultureInfo.InvariantCulture,
-                    "http://+:{0}/{1}/{2}/{3}",
-                    port,
-                    statefulInitParams.PartitionId,
-                    statefulInitParams.ReplicaId,
-                    Guid.NewGuid());
-            }
-            else if (serviceInitializationParameters is StatelessServiceInitializationParameters)
-            {
-                listeningAddress = string.Format(
-                    CultureInfo.InvariantCulture,
-                    "http://+:{0}/{1}",
-                    port,
-                    string.IsNullOrWhiteSpace(appRoot) ? string.Empty : appRoot.TrimEnd('/') + '/');
-            }
-            else
-            {
-                throw new InvalidOperationException();
-            }
-
+            // build addresses
+            listeningAddress = BuildListeningAddress();
             publishAddress = listeningAddress.Replace("+", FabricRuntime.GetNodeContext().IPAddressOrFQDN);
 
             try
             {
+                // start listening
                 serverHandle = WebApp.Start(listeningAddress, configure);
 
                 return Task.FromResult(publishAddress);
@@ -133,6 +109,38 @@ namespace Cogito.Fabric.Http
 
                 throw;
             }
+        }
+
+        /// <summary>
+        /// Builds the listening address.
+        /// </summary>
+        /// <returns></returns>
+        string BuildListeningAddress()
+        {
+            var serviceEndpoint = serviceInitializationParameters.CodePackageActivationContext.GetEndpoint(endpointName);
+
+            if (serviceInitializationParameters is StatefulServiceInitializationParameters)
+            {
+                var p = (StatefulServiceInitializationParameters)serviceInitializationParameters;
+                return string.Format(
+                    CultureInfo.InvariantCulture,
+                    "http://+:{0}/{1}/{2}/{3}",
+                    serviceEndpoint.Port,
+                    p.PartitionId,
+                    p.ReplicaId,
+                    Guid.NewGuid());
+            }
+
+            if (serviceInitializationParameters is StatelessServiceInitializationParameters)
+            {
+                return string.Format(
+                    CultureInfo.InvariantCulture,
+                    "http://+:{0}/{1}",
+                    serviceEndpoint.Port,
+                    string.IsNullOrWhiteSpace(appRoot) ? string.Empty : appRoot.TrimEnd('/') + '/');
+            }
+
+            throw new InvalidOperationException();
         }
 
         /// <summary>
