@@ -9,7 +9,7 @@ namespace Cogito.Fabric.Activities
 {
 
     public abstract class StatelessActivityActor :
-        StatelessActor,
+        Cogito.Fabric.StatelessActor,
         IStatelessActivityActorInternal
     {
 

@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Cogito.Fabric.Activities</RootNamespace>
     <AssemblyName>Cogito.Fabric.Activities</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
@@ -206,6 +206,10 @@
     <ProjectReference Include="..\Cogito.Core\Cogito.Core.csproj">
       <Project>{133c2d12-bda9-4806-ba0a-70ec83bec9bd}</Project>
       <Name>Cogito.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Cogito.Fabric\Cogito.Fabric.csproj">
+      <Project>{45c4e98f-c300-4869-a3a3-531b56bdc3d9}</Project>
+      <Name>Cogito.Fabric</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

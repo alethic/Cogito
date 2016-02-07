@@ -16,6 +16,7 @@
         <dependencies>
             <dependency id="Cogito.Activities" />
             <dependency id="Cogito.Core" />
+            <dependency id="Cogito.Fabric" />
         </dependencies>
     </metadata>
 </package>
