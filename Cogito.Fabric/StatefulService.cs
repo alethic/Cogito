@@ -80,7 +80,7 @@ namespace Cogito.Fabric
         {
             // subscribe to configuration package changes
             CodePackageActivationContext.ConfigurationPackageModifiedEvent += CodePackageActivationContext_ConfigurationPackageModifiedEvent;
-            ConfigurationPackageValueAvailable();
+            ConfigurationPackageAvailableOrModified();
 
             // enter method
             await RunEnterAsync(cancellationToken);
@@ -214,13 +214,13 @@ namespace Cogito.Fabric
         /// <param name="args"></param>
         void CodePackageActivationContext_ConfigurationPackageModifiedEvent(object sender, PackageModifiedEventArgs<ConfigurationPackage> args)
         {
-            ConfigurationPackageValueAvailable();
+            OnConfigurationPackageAvailableOrModified(args.NewPackage);
         }
 
         /// <summary>
         /// Invoked when the available configuration packages become available or changes.
         /// </summary>
-        protected virtual void ConfigurationPackageValueAvailable()
+        protected virtual void OnConfigurationPackageAvailableOrModified(ConfigurationPackage package)
         {
 
         }
