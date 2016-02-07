@@ -1,24 +1,21 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Fabric;
 using System.Fabric.Health;
-using System.Threading;
 using System.Threading.Tasks;
 
-using Microsoft.ServiceFabric.Services.Communication.Runtime;
-using Microsoft.ServiceFabric.Services.Remoting;
-using Microsoft.ServiceFabric.Services.Remoting.Runtime;
+using Microsoft.ServiceFabric.Actors;
 
 namespace Cogito.Fabric
 {
 
     /// <summary>
-    /// Reliable service base class which provides some additional utility methods.
+    /// Represents the base Clovelux StatefulActor type.
     /// </summary>
-    public abstract class StatelessService :
-        Microsoft.ServiceFabric.Services.Runtime.StatelessService,
-        IDisposable
+    /// <typeparam name="TState"></typeparam>
+    public abstract class StatefulActor<TState> :
+        Microsoft.ServiceFabric.Actors.StatefulActor<TState>
+        where TState : class, new()
     {
 
         readonly Lazy<FabricClient> fabric;
@@ -26,7 +23,7 @@ namespace Cogito.Fabric
         /// <summary>
         /// Initializes a new instance.
         /// </summary>
-        public StatelessService()
+        public StatefulActor()
         {
             this.fabric = new Lazy<FabricClient>(() => new FabricClient(), true);
         }
@@ -40,15 +37,31 @@ namespace Cogito.Fabric
         }
 
         /// <summary>
+        /// Gets the initialization parameters passed to the service replica.
+        /// </summary>
+        protected StatefulServiceInitializationParameters ServiceInitializationParameters
+        {
+            get { return ActorService.ServiceInitializationParameters; }
+        }
+
+        /// <summary>
+        /// Gets the code package activation context passed to the service replica.
+        /// </summary>
+        protected CodePackageActivationContext CodePackageActivationContext
+        {
+            get { return ServiceInitializationParameters.CodePackageActivationContext; }
+        }
+
+        /// <summary>
         /// Reports the given <see cref="HealthInformation"/>.
         /// </summary>
         /// <param name="healthInformation"></param>
         protected void ReportHealth(HealthInformation healthInformation)
         {
             Fabric.HealthManager.ReportHealth(
-                new StatelessServiceInstanceHealthReport(
+                new StatefulServiceReplicaHealthReport(
                     ServiceInitializationParameters.PartitionId,
-                    ServiceInitializationParameters.InstanceId,
+                    ServiceInitializationParameters.ReplicaId,
                     healthInformation));
         }
 
@@ -68,77 +81,6 @@ namespace Cogito.Fabric
             if (removeWhenExpired != null)
                 i.RemoveWhenExpired = (bool)removeWhenExpired;
             ReportHealth(i);
-        }
-
-        /// <summary>
-        /// Default implementation of RunAsync. Configures the service and dispatches to the RunTaskAsync method until
-        /// canceled.
-        /// </summary>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
-        protected sealed override async Task RunAsync(CancellationToken cancellationToken)
-        {
-            // subscribe to configuration package changes
-            CodePackageActivationContext.ConfigurationPackageModifiedEvent += CodePackageActivationContext_ConfigurationPackageModifiedEvent;
-
-            // enter method
-            await RunEnterAsync(cancellationToken);
-
-            // repeat run task until signaled to exit
-            while (!cancellationToken.IsCancellationRequested)
-                await RunLoopAsync(cancellationToken);
-
-            // exit method
-            await RunExitAsync(new CancellationTokenSource(TimeSpan.FromMinutes(5)).Token);
-            
-            // unsubscribe from configuration package changes
-            CodePackageActivationContext.ConfigurationPackageModifiedEvent -= CodePackageActivationContext_ConfigurationPackageModifiedEvent;
-        }
-
-        /// <summary>
-        /// Invoked when the service is run.
-        /// </summary>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
-        protected virtual Task RunEnterAsync(CancellationToken cancellationToken)
-        {
-            return Task.FromResult(true);
-        }
-
-        /// <summary>
-        /// Invoked when the service is exiting.
-        /// </summary>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
-        protected virtual Task RunExitAsync(CancellationToken cancellationToken)
-        {
-            return Task.FromResult(true);
-        }
-
-        /// <summary>
-        /// Override this method to implement the run loop.
-        /// </summary>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
-        protected virtual Task RunLoopAsync(CancellationToken cancellationToken)
-        {
-            return Task.Delay(TimeSpan.FromSeconds(1));
-        }
-
-        /// <summary>
-        /// <see cref="Uri"/> of the application this <see cref="StatelessService"/> is a part of.
-        /// </summary>
-        protected Uri ApplicationName
-        {
-            get { return new Uri(ServiceInitializationParameters.CodePackageActivationContext.ApplicationName + "/"); }
-        }
-
-        /// <summary>
-        /// Gets the code package activation context passed to the service replica.
-        /// </summary>
-        protected CodePackageActivationContext CodePackageActivationContext
-        {
-            get { return ServiceInitializationParameters.CodePackageActivationContext; }
         }
 
         /// <summary>
@@ -207,46 +149,44 @@ namespace Cogito.Fabric
         }
 
         /// <summary>
-        /// Invoked when the configuration packages are changed.
+        /// Initializes a new <see cref="TState"/> instance.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="args"></param>
-        void CodePackageActivationContext_ConfigurationPackageModifiedEvent(object sender, PackageModifiedEventArgs<ConfigurationPackage> args)
+        /// <returns></returns>
+        protected virtual TState CreateDefaultState()
         {
-            OnConfigurationPackageAvailableOrModified(args.NewPackage);
+            return new TState();
         }
 
         /// <summary>
-        /// Invoked when the available configuration packages become available or changes.
+        /// Override this method to initialize the members, initialize state or register timers. This method is called
+        /// right after the actor is activated and before any method call or reminders are dispatched on it.
         /// </summary>
-        protected virtual void OnConfigurationPackageAvailableOrModified(ConfigurationPackage package)
+        /// <returns></returns>
+        protected override async Task OnActivateAsync()
         {
+            await base.OnActivateAsync();
 
+            // initialize state to a default value
+            State = State ?? CreateDefaultState();
         }
 
         /// <summary>
-        /// Disposes of the instance.
+        /// Gets the reminder with the specific name or <c>null</c> if no such reminder is registered.
         /// </summary>
-        public void Dispose()
+        /// <returns></returns>
+        protected IActorReminder TryGetReminder(string reminderName)
         {
-            if (fabric.IsValueCreated)
-                fabric.Value.Dispose();
-        }
+            Contract.Requires<ArgumentNullException>(reminderName != null);
+            Contract.Requires<ArgumentNullException>(!string.IsNullOrEmpty(reminderName));
 
-    }
-
-    /// <summary>
-    /// Reliable service base class which provides some additional utility methods.
-    /// Automatically exposes the given <typeparam name="TService"/> type on a <see cref="ServiceInstanceListener"/>.
-    /// </summary>
-    public abstract class StatelessService<TService> :
-        StatelessService
-        where TService : class, IService
-    {
-
-        protected override IEnumerable<ServiceInstanceListener> CreateServiceInstanceListeners()
-        {
-            yield return new ServiceInstanceListener(p => new ServiceRemotingListener<TService>(p, (TService)(object)this));
+            try
+            {
+                return GetReminder(reminderName);
+            }
+            catch
+            {
+                return null;
+            }
         }
 
     }

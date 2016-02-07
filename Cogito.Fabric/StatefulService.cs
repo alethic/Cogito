@@ -81,10 +81,6 @@ namespace Cogito.Fabric
             // subscribe to configuration package changes
             CodePackageActivationContext.ConfigurationPackageModifiedEvent += CodePackageActivationContext_ConfigurationPackageModifiedEvent;
 
-            // notify of availability of all packages
-            foreach (var packageName in CodePackageActivationContext.GetConfigurationPackageNames())
-                OnConfigurationPackageAvailableOrModified(CodePackageActivationContext.GetConfigurationPackageObject(packageName));
-
             // enter method
             await RunEnterAsync(cancellationToken);
 
@@ -94,7 +90,7 @@ namespace Cogito.Fabric
 
             // exit method
             await RunExitAsync(new CancellationTokenSource(TimeSpan.FromMinutes(5)).Token);
-            
+
             // unsubscribe from configuration package changes
             CodePackageActivationContext.ConfigurationPackageModifiedEvent -= CodePackageActivationContext_ConfigurationPackageModifiedEvent;
         }

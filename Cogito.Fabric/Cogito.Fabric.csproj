@@ -162,6 +162,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServiceProxyExtensions.cs" />
     <Compile Include="ServiceReference.cs" />
+    <Compile Include="StatefulActor.cs" />
     <Compile Include="StatefulService.cs" />
     <Compile Include="StatelessService.cs" />
   </ItemGroup>
