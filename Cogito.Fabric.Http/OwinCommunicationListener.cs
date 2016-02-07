@@ -4,7 +4,6 @@ using System.Diagnostics.Contracts;
 using System.Fabric;
 using System.Fabric.Description;
 using System.Globalization;
-using System.ServiceModel;
 using System.Threading;
 using System.Threading.Tasks;
 

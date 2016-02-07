@@ -14,8 +14,8 @@ namespace Cogito.Fabric.Http
     /// <summary>
     /// Describes a service that exposes an OWIN endpoint.
     /// </summary>
-    public abstract class OwinStatelessService :
-        Cogito.Fabric.StatelessService
+    public abstract class OwinStatefulService :
+        Cogito.Fabric.StatefulService
     {
 
         readonly string appRoot;
@@ -26,7 +26,7 @@ namespace Cogito.Fabric.Http
         /// </summary>
         /// <param name="appRoot"></param>
         /// <param name="endpointName"></param>
-        public OwinStatelessService(string appRoot, string endpointName = "HttpServiceEndpoint")
+        public OwinStatefulService(string appRoot, string endpointName = "HttpServiceEndpoint")
         {
             Contract.Requires<ArgumentNullException>(appRoot != null);
             Contract.Requires<ArgumentNullException>(endpointName != null);
@@ -39,9 +39,9 @@ namespace Cogito.Fabric.Http
         /// Creates the communication listener to expose this service over HTTP.
         /// </summary>
         /// <returns></returns>
-        protected override IEnumerable<ServiceInstanceListener> CreateServiceInstanceListeners()
+        protected override IEnumerable<ServiceReplicaListener> CreateServiceReplicaListeners()
         {
-            yield return new ServiceInstanceListener(p => new OwinCommunicationListener(endpointName, appRoot, Configure, p));
+            yield return new ServiceReplicaListener(p => new OwinCommunicationListener(endpointName, appRoot, Configure, p));
         }
 
         /// <summary>

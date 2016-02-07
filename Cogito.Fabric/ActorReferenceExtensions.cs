@@ -8,6 +8,9 @@ using Microsoft.ServiceFabric.Actors;
 namespace Cogito.Fabric
 {
 
+    /// <summary>
+    /// Provides extension methods for working with <see cref="ActorReference"/> instances.
+    /// </summary>
     public static class ActorReferenceExtensions
     {
 

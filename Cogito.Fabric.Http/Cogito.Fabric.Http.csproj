@@ -170,12 +170,19 @@
     <Compile Include="HttpCommunicationClient.cs" />
     <Compile Include="HttpCommunicationClientFactory.cs" />
     <Compile Include="OwinCommunicationListener.cs" />
+    <Compile Include="OwinStatefulService.cs" />
     <Compile Include="OwinStatelessService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Cogito.Fabric.Http.nuspec" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Cogito.Fabric\Cogito.Fabric.csproj">
+      <Project>{45c4e98f-c300-4869-a3a3-531b56bdc3d9}</Project>
+      <Name>Cogito.Fabric</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />

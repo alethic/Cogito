@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ApplicationManifest xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ApplicationTypeName="Cogito.Fabric.Test" ApplicationTypeVersion="1.0.0" xmlns="http://schemas.microsoft.com/2011/01/fabric">
+   <Parameters>
+      <Parameter Name="Service_InstanceCount" DefaultValue="-1" />
+   </Parameters>
+   <ServiceManifestImport>
+      <ServiceManifestRef ServiceManifestName="Cogito.Fabric.Test.Web.ServicePkg" ServiceManifestVersion="1.0.0" />
+      <ConfigOverrides />
+   </ServiceManifestImport>
+   <DefaultServices>
+      <Service Name="OwinStatelessService">
+         <StatelessService ServiceTypeName="OwinStatelessServiceType" InstanceCount="[Service_InstanceCount]">
+            <SingletonPartition />
+         </StatelessService>
+      </Service>
+      <Service Name="OwinStatefulService">
+         <StatefulService ServiceTypeName="OwinStatefulServiceType">
+            <SingletonPartition />
+         </StatefulService>
+      </Service>
+   </DefaultServices>
+</ApplicationManifest>

@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Diagnostics.Contracts;
 using System.Fabric;
-using System.Fabric.Query;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.Serialization;
-using Microsoft.ServiceFabric.Actors;
+
 using Microsoft.ServiceFabric.Services.Remoting;
 using Microsoft.ServiceFabric.Services.Remoting.Client;
 using Microsoft.ServiceFabric.Services.Runtime;

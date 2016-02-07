@@ -6,6 +6,9 @@ using Microsoft.ServiceFabric.Services.Remoting;
 namespace Cogito.Fabric
 {
 
+    /// <summary>
+    /// Provides extension methods for working against service proxies.
+    /// </summary>
     public static class ServiceProxyExtensions
     {
 
