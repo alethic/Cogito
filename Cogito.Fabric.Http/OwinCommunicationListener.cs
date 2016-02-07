@@ -89,18 +89,26 @@ namespace Cogito.Fabric.Http
         /// </summary>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public Task<string> OpenAsync(CancellationToken cancellationToken)
+        public async Task<string> OpenAsync(CancellationToken cancellationToken)
         {
-            // build addresses
+            // obtain node context
+            var nodeContext = await FabricRuntime.GetNodeContextAsync(TimeSpan.FromSeconds(15), cancellationToken);
+            if (nodeContext == null)
+                throw new FabricServiceNotFoundException("Could not obtain node context.");
+
+            // listen address is that which we directly listen to
             listeningAddress = BuildListeningAddress();
-            publishAddress = listeningAddress.Replace("+", FabricRuntime.GetNodeContext().IPAddressOrFQDN);
+
+            // publish address is that which we are accessible to by other nodes
+            publishAddress = listeningAddress.Replace("+", nodeContext.IPAddressOrFQDN);
 
             try
             {
                 // start listening
                 serverHandle = WebApp.Start(listeningAddress, configure);
 
-                return Task.FromResult(publishAddress);
+                // allow clients to contact us
+                return publishAddress;
             }
             catch (Exception ex)
             {
