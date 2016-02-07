@@ -1,15 +1,20 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Fabric;
 using System.Fabric.Health;
 using System.Threading;
 using System.Threading.Tasks;
 
+using Microsoft.ServiceFabric.Services.Communication.Runtime;
+using Microsoft.ServiceFabric.Services.Remoting;
+using Microsoft.ServiceFabric.Services.Remoting.Runtime;
+
 namespace Cogito.Fabric
 {
 
     /// <summary>
-    /// Represents the base Clovelux StatelessService type.
+    /// Reliable service base class which provides an <see cref="Microsoft.ServiceFabric.Data.IReliableStateManager"/> and provides some additional utility methods.
     /// </summary>
     public abstract class StatefulService :
         Microsoft.ServiceFabric.Services.Runtime.StatefulService,
@@ -226,6 +231,22 @@ namespace Cogito.Fabric
         {
             if (fabric.IsValueCreated)
                 fabric.Value.Dispose();
+        }
+
+    }
+
+    /// <summary>
+    /// Reliable service base class which provides an <see cref="Microsoft.ServiceFabric.Data.IReliableStateManager"/> and provides some additional utility methods.
+    /// Automatically exposes the given <typeparam name="TService"/> type on a <see cref="ServiceInstanceListener"/>.
+    /// </summary>
+    public abstract class StatefulService<TService> :
+        StatefulService
+        where TService : class, IService
+    {
+
+        protected override IEnumerable<ServiceReplicaListener> CreateServiceReplicaListeners()
+        {
+            yield return new ServiceReplicaListener(p => new ServiceRemotingListener<TService>(p, (TService)(object)this));
         }
 
     }
