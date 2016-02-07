@@ -2,20 +2,15 @@
 using System.Diagnostics.Contracts;
 using System.Fabric;
 using System.Fabric.Health;
-using System.Threading.Tasks;
-
-using Microsoft.ServiceFabric.Actors;
 
 namespace Cogito.Fabric
 {
 
     /// <summary>
-    /// Represents a stateful actor with member <see cref="Microsoft.ServiceFabric.Actors.StatefulActor{TState}.State"/> containing it's reliable state.
+    /// Represents a stateless actor which does not have any state managed by the actors runtime.
     /// </summary>
-    /// <typeparam name="TState"></typeparam>
-    public abstract class StatefulActor<TState> :
-        Microsoft.ServiceFabric.Actors.StatefulActor<TState>
-        where TState : class, new()
+    public abstract class StatelessActor :
+        Microsoft.ServiceFabric.Actors.StatelessActor
     {
 
         readonly Lazy<FabricClient> fabric;
@@ -23,7 +18,7 @@ namespace Cogito.Fabric
         /// <summary>
         /// Initializes a new instance.
         /// </summary>
-        public StatefulActor()
+        public StatelessActor()
         {
             this.fabric = new Lazy<FabricClient>(() => new FabricClient(), true);
         }
@@ -39,7 +34,7 @@ namespace Cogito.Fabric
         /// <summary>
         /// Gets the initialization parameters passed to the service replica.
         /// </summary>
-        protected StatefulServiceInitializationParameters ServiceInitializationParameters
+        protected StatelessServiceInitializationParameters ServiceInitializationParameters
         {
             get { return ActorService.ServiceInitializationParameters; }
         }
@@ -59,9 +54,9 @@ namespace Cogito.Fabric
         protected void ReportHealth(HealthInformation healthInformation)
         {
             Fabric.HealthManager.ReportHealth(
-                new StatefulServiceReplicaHealthReport(
+                new StatelessServiceInstanceHealthReport(
                     ServiceInitializationParameters.PartitionId,
-                    ServiceInitializationParameters.ReplicaId,
+                    ServiceInitializationParameters.InstanceId,
                     healthInformation));
         }
 
@@ -99,10 +94,7 @@ namespace Cogito.Fabric
         /// <summary>
         /// Name of the default configuration package.
         /// </summary>
-        protected string DefaultConfigurationPackageName
-        {
-            get { return "Config"; }
-        }
+        protected string DefaultConfigurationPackageName { get; set; } = "Config";
 
         /// <summary>
         /// Gets the default config package object.
@@ -146,47 +138,6 @@ namespace Cogito.Fabric
             Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(parameterName));
 
             return DefaultConfigurationPackage?.Settings.Sections[sectionName]?.Parameters[parameterName]?.Value;
-        }
-
-        /// <summary>
-        /// Initializes a new <see cref="TState"/> instance.
-        /// </summary>
-        /// <returns></returns>
-        protected virtual TState CreateDefaultState()
-        {
-            return new TState();
-        }
-
-        /// <summary>
-        /// Override this method to initialize the members, initialize state or register timers. This method is called
-        /// right after the actor is activated and before any method call or reminders are dispatched on it.
-        /// </summary>
-        /// <returns></returns>
-        protected override async Task OnActivateAsync()
-        {
-            await base.OnActivateAsync();
-
-            // initialize state to a default value
-            State = State ?? CreateDefaultState();
-        }
-
-        /// <summary>
-        /// Gets the reminder with the specific name or <c>null</c> if no such reminder is registered.
-        /// </summary>
-        /// <returns></returns>
-        protected IActorReminder TryGetReminder(string reminderName)
-        {
-            Contract.Requires<ArgumentNullException>(reminderName != null);
-            Contract.Requires<ArgumentNullException>(!string.IsNullOrEmpty(reminderName));
-
-            try
-            {
-                return GetReminder(reminderName);
-            }
-            catch
-            {
-                return null;
-            }
         }
 
     }
