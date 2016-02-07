@@ -80,7 +80,10 @@ namespace Cogito.Fabric
         {
             // subscribe to configuration package changes
             CodePackageActivationContext.ConfigurationPackageModifiedEvent += CodePackageActivationContext_ConfigurationPackageModifiedEvent;
-            ConfigurationPackageAvailableOrModified();
+
+            // notify of availability of all packages
+            foreach (var packageName in CodePackageActivationContext.GetConfigurationPackageNames())
+                OnConfigurationPackageAvailableOrModified(CodePackageActivationContext.GetConfigurationPackageObject(packageName));
 
             // enter method
             await RunEnterAsync(cancellationToken);
