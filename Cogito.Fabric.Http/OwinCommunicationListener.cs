@@ -2,7 +2,9 @@
 using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.Fabric;
+using System.Fabric.Description;
 using System.Globalization;
+using System.ServiceModel;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -124,7 +126,8 @@ namespace Cogito.Fabric.Http
                 var p = (StatefulServiceInitializationParameters)serviceInitializationParameters;
                 return string.Format(
                     CultureInfo.InvariantCulture,
-                    "http://+:{0}/{1}/{2}/{3}",
+                    "{0}://+:{1}/{2}/{3}/{4}",
+                    GetSchema(serviceEndpoint),
                     serviceEndpoint.Port,
                     p.PartitionId,
                     p.ReplicaId,
@@ -135,12 +138,31 @@ namespace Cogito.Fabric.Http
             {
                 return string.Format(
                     CultureInfo.InvariantCulture,
-                    "http://+:{0}/{1}",
+                    "{0}://+:{1}/{2}",
+                    GetSchema(serviceEndpoint),
                     serviceEndpoint.Port,
                     string.IsNullOrWhiteSpace(appRoot) ? string.Empty : appRoot.TrimEnd('/') + '/');
             }
 
             throw new InvalidOperationException();
+        }
+
+        /// <summary>
+        /// Gets the schema for the given <see cref="EndpointResourceDescription"/>.
+        /// </summary>
+        /// <param name="endpoint"></param>
+        /// <returns></returns>
+        string GetSchema(EndpointResourceDescription endpoint)
+        {
+            switch (endpoint.Protocol)
+            {
+                case EndpointProtocol.Http:
+                    return "http";
+                case EndpointProtocol.Https:
+                    return "https";
+                default:
+                    throw new FabricEndpointNotFoundException("Unsupported endpoint protocol.");
+            }
         }
 
         /// <summary>
