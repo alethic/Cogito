@@ -60,13 +60,14 @@ namespace Cogito.Fabric
         /// <param name="state"></param>
         /// <param name="timeToLive"></param>
         /// <param name="removeWhenExpired"></param>
-        protected void ReportHealth(string sourceId, string property, HealthState state, TimeSpan timeToLive = default(TimeSpan), bool removeWhenExpired = true)
+        protected void ReportHealth(string sourceId, string property, HealthState state, TimeSpan? timeToLive = null, bool? removeWhenExpired = null)
         {
-            ReportHealth(new HealthInformation(sourceId, property, state)
-            {
-                TimeToLive = timeToLive,
-                RemoveWhenExpired = removeWhenExpired,
-            });
+            var i = new HealthInformation(sourceId, property, state);
+            if (timeToLive != null)
+                i.TimeToLive = (TimeSpan)timeToLive;
+            if (removeWhenExpired != null)
+                i.RemoveWhenExpired = (bool)removeWhenExpired;
+            ReportHealth(i);
         }
 
         /// <summary>
