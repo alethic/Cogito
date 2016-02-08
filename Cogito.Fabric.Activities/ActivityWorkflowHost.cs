@@ -302,7 +302,7 @@ namespace Cogito.Fabric.Activities
         internal async Task ResumeAsync(string bookmarkName, object value)
         {
             Contract.Requires<ArgumentNullException>(bookmarkName != null);
-            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(bookmarkName));
+            Contract.Requires<ArgumentException>(bookmarkName.Length > 0);
 
             await InvokeWithWorkflow(_ => _.ResumeBookmarkAsync(bookmarkName, value));
         }
@@ -315,7 +315,7 @@ namespace Cogito.Fabric.Activities
         internal Task ResumeAsync(string bookmarkName)
         {
             Contract.Requires<ArgumentNullException>(bookmarkName != null);
-            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(bookmarkName));
+            Contract.Requires<ArgumentException>(bookmarkName.Length > 0);
 
             return ResumeAsync(bookmarkName, null);
         }
