@@ -35,7 +35,13 @@ namespace Cogito.Fabric.Http
             Contract.Requires<ArgumentNullException>(service != null);
             Contract.Requires<ArgumentNullException>(path != null);
 
-            return UseFabricHealth(app, path, service.ServiceInitializationParameters.PartitionId, service.ServiceInitializationParameters.InstanceId);
+            return UseFabricHealth(
+                app, 
+                path,
+                new Uri(service.ServiceInitializationParameters.CodePackageActivationContext.ApplicationName),
+                service.ServiceInitializationParameters.ServiceName,
+                service.ServiceInitializationParameters.PartitionId, 
+                service.ServiceInitializationParameters.InstanceId);
         }
 
         /// <summary>
@@ -51,7 +57,13 @@ namespace Cogito.Fabric.Http
             Contract.Requires<ArgumentNullException>(service != null);
             Contract.Requires<ArgumentNullException>(path != null);
 
-            return UseFabricHealth(app, path, service.ServiceInitializationParameters.PartitionId, service.ServiceInitializationParameters.ReplicaId);
+            return UseFabricHealth(
+                app, 
+                path,
+                new Uri(service.ServiceInitializationParameters.CodePackageActivationContext.ApplicationName),
+                service.ServiceInitializationParameters.ServiceName,
+                service.ServiceInitializationParameters.PartitionId, 
+                service.ServiceInitializationParameters.ReplicaId);
         }
 
         /// <summary>
@@ -62,12 +74,14 @@ namespace Cogito.Fabric.Http
         /// <param name="partitionId"></param>
         /// <param name="replicaOrInstanceId"></param>
         /// <returns></returns>
-        static IAppBuilder UseFabricHealth(this IAppBuilder app, string path, Guid partitionId, long replicaOrInstanceId)
+        static IAppBuilder UseFabricHealth(this IAppBuilder app, string path, Uri applicationName, Uri serviceName, Guid partitionId, long replicaOrInstanceId)
         {
             Contract.Requires<ArgumentNullException>(app != null);
             Contract.Requires<ArgumentNullException>(path != null);
+            Contract.Requires<ArgumentNullException>(applicationName != null);
+            Contract.Requires<ArgumentNullException>(serviceName != null);
 
-            return UseFabricHealth(app, path, async () =>
+            return UseFabricHealth(app, path, applicationName, serviceName, async () =>
             {
                 using (var fabric = new FabricClient())
                     return await fabric.HealthManager.GetReplicaHealthAsync(partitionId, replicaOrInstanceId);
@@ -79,12 +93,16 @@ namespace Cogito.Fabric.Http
         /// </summary>
         /// <param name="app"></param>
         /// <param name="path"></param>
+        /// <param name="applicationName"></param>
+        /// <param name="serviceName"></param>
         /// <param name="health"></param>
         /// <returns></returns>
-        static IAppBuilder UseFabricHealth(this IAppBuilder app, string path, Func<Task<EntityHealth>> health)
+        static IAppBuilder UseFabricHealth(this IAppBuilder app, string path, Uri applicationName, Uri serviceName, Func<Task<EntityHealth>> health)
         {
             Contract.Requires<ArgumentNullException>(app != null);
             Contract.Requires<ArgumentNullException>(path != null);
+            Contract.Requires<ArgumentNullException>(applicationName != null);
+            Contract.Requires<ArgumentNullException>(serviceName != null);
             Contract.Requires<ArgumentNullException>(health != null);
 
             // attach service to context
@@ -93,6 +111,7 @@ namespace Cogito.Fabric.Http
                 // check for requests to health path
                 if (context.Request.Path.Value == path)
                 {
+                    // obtain health report
                     var h = await health();
                     if (h == null)
                         throw new NullReferenceException("EntityHealth was null");
@@ -108,13 +127,21 @@ namespace Cogito.Fabric.Http
                             break;
                     }
 
+                    // object to output
+                    var o = new
+                    {
+                        ApplicationName = applicationName,
+                        ServiceName = serviceName,
+                        Health = h,
+                    };
+
                     // to serialize object
                     var s = new JsonSerializer();
                     s.Converters.Add(new StringEnumConverter());
 
                     // write out health report
                     context.Response.ContentType = "application/json";
-                    context.Response.Write(JObject.FromObject(h, s).ToString(Formatting.Indented));
+                    context.Response.Write(JObject.FromObject(o, s).ToString(Formatting.Indented));
 
                     return;
                 }
