@@ -66,7 +66,7 @@ namespace Cogito.Fabric.Activities
         protected Task ResumeAsync(string bookmarkName, object value)
         {
             Contract.Requires<ArgumentNullException>(bookmarkName != null);
-            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(bookmarkName));
+            Contract.Requires<ArgumentException>(bookmarkName.Length > 0);
 
             return host.ResumeAsync(bookmarkName, value);
         }
@@ -79,7 +79,7 @@ namespace Cogito.Fabric.Activities
         protected Task ResumeAsync(string bookmarkName)
         {
             Contract.Requires<ArgumentNullException>(bookmarkName != null);
-            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(bookmarkName));
+            Contract.Requires<ArgumentException>(bookmarkName.Length > 0);
 
             return host.ResumeAsync(bookmarkName);
         }
