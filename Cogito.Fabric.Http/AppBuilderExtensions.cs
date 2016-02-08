@@ -38,7 +38,7 @@ namespace Cogito.Fabric.Http
             return UseFabricHealth(
                 app, 
                 path,
-                new Uri(service.ServiceInitializationParameters.CodePackageActivationContext.ApplicationName),
+                service.ServiceInitializationParameters.CodePackageActivationContext.ApplicationName,
                 service.ServiceInitializationParameters.ServiceName,
                 service.ServiceInitializationParameters.PartitionId, 
                 service.ServiceInitializationParameters.InstanceId);
@@ -60,7 +60,7 @@ namespace Cogito.Fabric.Http
             return UseFabricHealth(
                 app, 
                 path,
-                new Uri(service.ServiceInitializationParameters.CodePackageActivationContext.ApplicationName),
+                service.ServiceInitializationParameters.CodePackageActivationContext.ApplicationName,
                 service.ServiceInitializationParameters.ServiceName,
                 service.ServiceInitializationParameters.PartitionId, 
                 service.ServiceInitializationParameters.ReplicaId);
@@ -74,7 +74,7 @@ namespace Cogito.Fabric.Http
         /// <param name="partitionId"></param>
         /// <param name="replicaOrInstanceId"></param>
         /// <returns></returns>
-        static IAppBuilder UseFabricHealth(this IAppBuilder app, string path, Uri applicationName, Uri serviceName, Guid partitionId, long replicaOrInstanceId)
+        static IAppBuilder UseFabricHealth(this IAppBuilder app, string path, string applicationName, Uri serviceName, Guid partitionId, long replicaOrInstanceId)
         {
             Contract.Requires<ArgumentNullException>(app != null);
             Contract.Requires<ArgumentNullException>(path != null);
@@ -97,7 +97,7 @@ namespace Cogito.Fabric.Http
         /// <param name="serviceName"></param>
         /// <param name="health"></param>
         /// <returns></returns>
-        static IAppBuilder UseFabricHealth(this IAppBuilder app, string path, Uri applicationName, Uri serviceName, Func<Task<EntityHealth>> health)
+        static IAppBuilder UseFabricHealth(this IAppBuilder app, string path, string applicationName, Uri serviceName, Func<Task<EntityHealth>> health)
         {
             Contract.Requires<ArgumentNullException>(app != null);
             Contract.Requires<ArgumentNullException>(path != null);
