@@ -23,7 +23,7 @@ namespace Cogito.Fabric.Http
         const string DEFAULT_HEALTH_PATH = "/health";
 
         /// <summary>
-        /// Adds a middleware to your web application to service Service Fabric health checks for the specified service from the given path.
+        /// Adds a middleware to your web application to serve Service Fabric health checks for the specified service from the given path.
         /// </summary>
         /// <param name="app"></param>
         /// <param name="service"></param>
@@ -39,7 +39,7 @@ namespace Cogito.Fabric.Http
         }
 
         /// <summary>
-        /// Adds a middleware to your web application to service Service Fabric health checks for the specified service from the given path.
+        /// Adds a middleware to your web application to serve Service Fabric health checks for the specified service from the given path.
         /// </summary>
         /// <param name="app"></param>
         /// <param name="service"></param>
@@ -55,7 +55,7 @@ namespace Cogito.Fabric.Http
         }
 
         /// <summary>
-        /// Adds a middleware to your web application to service Service Fabric health checks for the specified replica from the given path.
+        /// Adds a middleware to your web application to serve Service Fabric health checks for the specified replica or instance from the given path.
         /// </summary>
         /// <param name="app"></param>
         /// <param name="path"></param>
@@ -75,7 +75,7 @@ namespace Cogito.Fabric.Http
         }
 
         /// <summary>
-        /// Adds a middleware to your web application to service Service Fabric health checks for the specified <see cref="HealthState"/> function.
+        /// Adds a middleware to your web application to serve Service Fabric health checks for the specified <see cref="EntityHealth"/> function.
         /// </summary>
         /// <param name="app"></param>
         /// <param name="path"></param>
