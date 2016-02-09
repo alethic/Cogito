@@ -183,6 +183,7 @@
     <Compile Include="ActivityActorSynchronizationContext.cs" />
     <Compile Include="IActivityActorInternal.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StatefulActivityActorBase.cs" />
     <Compile Include="StatelessActivityActor.cs" />
     <None Include="ActivityActorEventSource.TrackingRecord.tt">
       <Generator>TextTemplatingFileGenerator</Generator>

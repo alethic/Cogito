@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Activities;
+using System.ComponentModel;
 using System.Diagnostics.Contracts;
 using System.Threading.Tasks;
 
@@ -14,9 +15,9 @@ namespace Cogito.Fabric.Activities
     /// </summary>
     /// <typeparam name="TState"></typeparam>
     public abstract class StatefulActivityActor<TState> :
-        Cogito.Fabric.StatefulActor<ActivityActorState<TState>>,
-        IStatefulActivityActorInternal,
-        IRemindable
+        StatefulActivityActorBase<TState>,
+        IStatefulActivityActorInternal
+        where TState : class, new()
     {
 
         protected readonly ActivityWorkflowHost host;
@@ -31,21 +32,36 @@ namespace Cogito.Fabric.Activities
         }
 
         /// <summary>
-        /// Represents the state of the <see cref="StatefulActor"/>.
+        /// Creates the default activity state.
         /// </summary>
-        protected ActivityActorState<TState> ActivityState
+        /// <returns></returns>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        protected sealed override ActivityActorState<TState> CreateDefaultStateHidden()
         {
-            get { return base.State ?? (base.State = CreateActivityState()); }
+            return new ActivityActorState<TState>()
+            {
+                State = CreateDefaultState(),
+            };
         }
 
         /// <summary>
-        /// Creates an instance of <see cref="ActivityActorState{TState}"/>.
+        /// Initializes a new <see cref="TState"/> instance.
         /// </summary>
         /// <returns></returns>
-        ActivityActorState<TState> CreateActivityState()
+        protected new virtual TState CreateDefaultState()
         {
-            return new ActivityActorState<TState>();
+            return new TState();
         }
+
+        /// <summary>
+        /// Represents the user-defined reliable state of the <see cref="StatefulActor"/>.
+        /// </summary>
+        public new TState State
+        {
+            get { return base.State.State; }
+            set { base.State.State = value; }
+        }
+
         /// <summary>
         /// Creates a new instance of <see cref="Activity"/>. Override this method to customize the instance.
         /// </summary>
@@ -53,30 +69,43 @@ namespace Cogito.Fabric.Activities
         protected abstract Activity CreateActivity();
 
         /// <summary>
-        /// Represents the user-defined reliable state of the <see cref="StatefulActor"/>.
+        /// Invoked when the actor is activated.
         /// </summary>
-        public new TState State
+        /// <returns></returns>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        protected sealed override async Task OnActivateAsyncHidden()
         {
-            get { return ActivityState.State; }
-            set { ActivityState.State = value; }
+            await host.OnActivateAsync();
+            await OnActivateAsync();
         }
 
         /// <summary>
         /// Invoked when the actor is activated.
         /// </summary>
         /// <returns></returns>
-        protected override Task OnActivateAsync()
+        protected new virtual Task OnActivateAsync()
         {
-            return host.OnActivateAsync();
+            return Task.FromResult(true);
         }
 
         /// <summary>
         /// Invoked when the actor is deactiviated.
         /// </summary>
         /// <returns></returns>
-        protected override Task OnDeactivateAsync()
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        protected sealed override async Task OnDeactivateAsyncHidden()
         {
-            return host.OnDeactivateAsync();
+            await host.OnDeactivateAsync();
+            await OnDeactivateAsync();
+        }
+
+        /// <summary>
+        /// Invoked when the actor is deactiviated.
+        /// </summary>
+        /// <returns></returns>
+        protected new virtual Task OnDeactivateAsync()
+        {
+            return Task.FromResult(true);
         }
 
         /// <summary>
@@ -132,9 +161,24 @@ namespace Cogito.Fabric.Activities
         /// <param name="dueTime"></param>
         /// <param name="period"></param>
         /// <returns></returns>
-        public virtual Task ReceiveReminderAsync(string reminderName, byte[] context, TimeSpan dueTime, TimeSpan period)
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        protected override async Task ReceiveReminderAsyncHidden(string reminderName, byte[] context, TimeSpan dueTime, TimeSpan period)
         {
-            return host.ReceiveReminderAsync(reminderName, context, dueTime, period);
+            await host.ReceiveReminderAsync(reminderName, context, dueTime, period);
+            await ReceiveReminderAsync(reminderName, context, dueTime, period);
+        }
+
+        /// <summary>
+        /// Reminder call back invoked when an actor reminder is triggered.
+        /// </summary>
+        /// <param name="reminderName"></param>
+        /// <param name="context"></param>
+        /// <param name="dueTime"></param>
+        /// <param name="period"></param>
+        /// <returns></returns>
+        protected virtual Task ReceiveReminderAsync(string reminderName, byte[] context, TimeSpan dueTime, TimeSpan period)
+        {
+            return Task.FromResult(true);
         }
 
         /// <summary>
@@ -199,7 +243,7 @@ namespace Cogito.Fabric.Activities
 
         ActivityActorState IActivityActorInternal.State
         {
-            get { return ActivityState; }
+            get { return base.State; }
         }
 
         IActorTimer IActivityActorInternal.RegisterTimer(Func<object, Task> callback, object state, TimeSpan dueTime, TimeSpan period, bool isCallbackReadOnly)
@@ -271,6 +315,7 @@ namespace Cogito.Fabric.Activities
     public abstract class StatefulActivityActor<TActivity, TState> :
         StatefulActivityActor<TState>
         where TActivity : Activity, new()
+        where TState: class, new()
     {
 
         protected override Activity CreateActivity()
