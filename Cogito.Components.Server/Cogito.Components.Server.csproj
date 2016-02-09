@@ -121,6 +121,7 @@
     <CodeContractsReferenceAssembly>Build</CodeContractsReferenceAssembly>
     <CodeContractsAnalysisWarningLevel>0</CodeContractsAnalysisWarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
+    <DocumentationFile>bin\Release\Cogito.Components.Server.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject>
