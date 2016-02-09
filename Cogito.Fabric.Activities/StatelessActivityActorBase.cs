@@ -1,6 +1,5 @@
-﻿using System;
+﻿using System.ComponentModel;
 using System.Threading.Tasks;
-using Microsoft.ServiceFabric.Actors;
 
 namespace Cogito.Fabric.Activities
 {
@@ -9,6 +8,7 @@ namespace Cogito.Fabric.Activities
     /// Internal base implementation of <see cref="StatefulActivityActor"/>.
     /// </summary>
     /// <typeparam name="TState"></typeparam>
+    [EditorBrowsable(EditorBrowsableState.Never)]
     public abstract class StatelessActivityActorBase :
         Cogito.Fabric.StatelessActor
     {
