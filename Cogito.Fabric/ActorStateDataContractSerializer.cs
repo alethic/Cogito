@@ -29,7 +29,11 @@ namespace Cogito.Fabric
             {
                 MaxItemsInObjectGraph = int.MaxValue,
                 DataContractSurrogate = ActorDataContractSurrogate.Instance,
-                KnownTypes = new[] { typeof(ActorReference) }
+                KnownTypes = new[]
+                {
+                    typeof(ServiceReference),
+                    typeof(ActorReference),
+                }
             });
         }
 

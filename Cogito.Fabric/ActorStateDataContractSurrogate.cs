@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Runtime.Serialization;
 
 using Microsoft.ServiceFabric.Actors;
+using Microsoft.ServiceFabric.Services.Remoting;
 
 namespace Cogito.Fabric
 {
@@ -49,6 +50,11 @@ namespace Cogito.Fabric
         /// <returns></returns>
         public Type GetDataContractType(Type type)
         {
+            // IService types will be serialized as ServiceReference
+            if (typeof(IService).IsAssignableFrom(type))
+                return typeof(ServiceReference);
+
+            // IActor types will be serialized as ActorReference
             if (typeof(IActor).IsAssignableFrom(type))
                 return typeof(ActorReference);
 
@@ -65,6 +71,9 @@ namespace Cogito.Fabric
         {
             if (obj == null)
                 return null;
+
+            if (obj is IService)
+                return ServiceReference.Get(obj);
 
             if (obj is IActor)
                 return ActorReference.Get(obj);
@@ -83,7 +92,11 @@ namespace Cogito.Fabric
             if (obj == null)
                 return null;
 
-            // object is ActorReference, target is IActor, and target is not ActorReference
+            // object is ServiceReference, target is IService, and target is not ServiceReference (which is IService)
+            if (obj is ServiceReference && typeof(IService).IsAssignableFrom(targetType) && !typeof(ServiceReference).IsAssignableFrom(targetType))
+                return ((ServiceReference)obj).Bind(targetType);
+
+            // object is ActorReference, target is IActor, and target is not ActorReference (which is IActor)
             if (obj is ActorReference && typeof(IActor).IsAssignableFrom(targetType) && !typeof(ActorReference).IsAssignableFrom(targetType))
                 return ((ActorReference)obj).Bind(targetType);
 
