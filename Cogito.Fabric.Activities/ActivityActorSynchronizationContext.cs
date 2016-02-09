@@ -33,7 +33,10 @@ namespace Cogito.Fabric.Activities
         public override void Post(SendOrPostCallback d, object state)
         {
             if (IsInActorContext())
+            {
+                // directly execute callback
                 d(state);
+            }
             else
             {
                 // hoist timer so it can be unregistered
