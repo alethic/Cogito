@@ -132,6 +132,9 @@ namespace Cogito.Fabric.Activities
             // notify about status changes
             await OnStatusChanged(status, actor.State.Status);
 
+            // ensure instance ID is recorded
+            actor.State.InstanceId = workflow.Id;
+
             // save reminder to resume bookmarks
             await SaveRemindersAsync();
         }
@@ -164,9 +167,12 @@ namespace Cogito.Fabric.Activities
             if (actor.State.InstanceOwnerId == Guid.Empty)
                 actor.State.InstanceOwnerId = Guid.NewGuid();
 
-            // load workflow if instance ID present
+            // load existing instance
             if (actor.State.InstanceId != Guid.Empty)
-                await InvokeWithWorkflow(a => a.LoadAsync(actor.State.InstanceId));
+                await InvokeWithWorkflow(_ => _.LoadAsync(actor.State.InstanceId));
+
+            // run instance
+            await InvokeWithWorkflow(_ => _.RunAsync());
 
             // store instance ID
             actor.State.InstanceId = workflow.Id;
@@ -277,13 +283,22 @@ namespace Cogito.Fabric.Activities
                 workflow = null;
             }
 
-            // create new workflow and activity
-            workflow = CreateWorkflow(actor.CreateActivity());
-            Contract.Assert(workflow != null);
+            // create new activity
+            var activity = actor.CreateActivity();
+            if (activity == null)
+                throw new ActivityActorException("CreateActivity returned null.");
+
+            // create new workflow
+            workflow = CreateWorkflow(activity);
+            if (workflow == null)
+                throw new ActivityActorException("CreateWorkflow returned null.");
 
             // generate new owner ID
             if (actor.State.InstanceOwnerId == Guid.Empty)
                 actor.State.InstanceOwnerId = Guid.NewGuid();
+
+            // run instance
+            await InvokeWithWorkflow(_ => _.RunAsync());
 
             // store instance ID
             actor.State.InstanceId = workflow.Id;

@@ -1,6 +1,6 @@
 ﻿<Activity mc:Ignorable="sap sap2010 sads" x:Class="Cogito.Fabric.Activities.Test.TestActor.TestActorActivity" sap2010:ExpressionActivityEditor.ExpressionActivityEditor="C#" sap2010:WorkflowViewState.IdRef="Cogito.Fabric.Activities.Test.TestActor.TestActorActivity_1"
  xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities"
- xmlns:cfata="clr-namespace:Cogito.Fabric.Activities.Test.Activities;assembly=Cogito.Fabric.Activities.Test.Activities"
+ xmlns:ca="clr-namespace:Cogito.Activities;assembly=Cogito.Activities"
  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
  xmlns:mca="clr-namespace:Microsoft.CSharp.Activities;assembly=System.Activities"
  xmlns:sads="http://schemas.microsoft.com/netfx/2010/xaml/activities/debugger"
@@ -37,43 +37,43 @@
       <AssemblyReference>System.Xaml</AssemblyReference>
       <AssemblyReference>System.Xml</AssemblyReference>
       <AssemblyReference>System.Xml.Linq</AssemblyReference>
+      <AssemblyReference>Topshelf</AssemblyReference>
       <AssemblyReference>Cogito.Core</AssemblyReference>
+      <AssemblyReference>Cogito.Fabric.Activities.Test.Activities</AssemblyReference>
       <AssemblyReference>Cogito.Fabric.Activities.Test.TestActor.Interfaces</AssemblyReference>
+      <AssemblyReference>Cogito.Fabric.Activities.Tests</AssemblyReference>
       <AssemblyReference>Cogito.Fabric.Activities</AssemblyReference>
       <AssemblyReference>Cogito.Fabric</AssemblyReference>
-      <AssemblyReference>Cogito.Fabric.Activities.Test.Activities</AssemblyReference>
+      <AssemblyReference>Cogito.Activities</AssemblyReference>
       <AssemblyReference>mscorlib</AssemblyReference>
       <AssemblyReference>Cogito.Fabric.Activities.Test.TestActor</AssemblyReference>
     </sco:Collection>
   </TextExpression.ReferencesForImplementation>
   <Sequence sap2010:WorkflowViewState.IdRef="Sequence_1">
-    <cfata:WriteActivity sap2010:WorkflowViewState.IdRef="WriteActivity_1" />
+    <ca:Wait BookmarkName="Wait1" sap2010:WorkflowViewState.IdRef="Wait_1" />
     <Persist sap2010:WorkflowViewState.IdRef="Persist_1" />
-    <Delay>
+    <Delay sap2010:WorkflowViewState.IdRef="Delay_1">
       <InArgument x:TypeArguments="x:TimeSpan">
         <mca:CSharpValue x:TypeArguments="x:TimeSpan">TimeSpan.FromMinutes(2)</mca:CSharpValue>
       </InArgument>
-      <sap2010:WorkflowViewState.IdRef>Delay_1</sap2010:WorkflowViewState.IdRef>
     </Delay>
     <Persist sap2010:WorkflowViewState.IdRef="Persist_2" />
-    <cfata:WriteActivity sap2010:WorkflowViewState.IdRef="WriteActivity_2" />
-    <sads:DebugSymbol.Symbol>d2FDOlxVc2Vyc1x3YXNhYmlcRGV2ZWxvcG1lbnRcQ29naXRvXENvZ2l0by5GYWJyaWMuQWN0aXZpdGllcy5UZXN0LlRlc3RBY3RvclxUZXN0QWN0b3JBY3Rpdml0eS54YW1sBzEDPQ4CAQEyBTJOAgEHMwUzPAIBBjQFOQ0CAQQ6BTo8AgEDOwU7TgIBAjYJNmACAQU=</sads:DebugSymbol.Symbol>
+    <sads:DebugSymbol.Symbol>d2FDOlxVc2Vyc1x3YXNhYmlcRGV2ZWxvcG1lbnRcQ29naXRvXENvZ2l0by5GYWJyaWMuQWN0aXZpdGllcy5UZXN0LlRlc3RBY3RvclxUZXN0QWN0b3JBY3Rpdml0eS54YW1sBzQDPg4CAQE1BTVOAgEGNgU2PAIBBTcFOw0CAQM8BTw8AgECNRs1IgIBBzkJOWACAQQ=</sads:DebugSymbol.Symbol>
   </Sequence>
   <sap2010:WorkflowViewState.ViewStateManager>
     <sap2010:ViewStateManager>
-      <sap2010:ViewStateData Id="WriteActivity_1" sap:VirtualizedContainerService.HintSize="200,22" />
+      <sap2010:ViewStateData Id="Wait_1" sap:VirtualizedContainerService.HintSize="200,22" />
       <sap2010:ViewStateData Id="Persist_1" sap:VirtualizedContainerService.HintSize="200,22" />
       <sap2010:ViewStateData Id="Delay_1" sap:VirtualizedContainerService.HintSize="200,22" />
       <sap2010:ViewStateData Id="Persist_2" sap:VirtualizedContainerService.HintSize="200,22" />
-      <sap2010:ViewStateData Id="WriteActivity_2" sap:VirtualizedContainerService.HintSize="200,22" />
-      <sap2010:ViewStateData Id="Sequence_1" sap:VirtualizedContainerService.HintSize="222,394">
+      <sap2010:ViewStateData Id="Sequence_1" sap:VirtualizedContainerService.HintSize="222,332">
         <sap:WorkflowViewStateService.ViewState>
           <scg:Dictionary x:TypeArguments="x:String, x:Object">
             <x:Boolean x:Key="IsExpanded">True</x:Boolean>
           </scg:Dictionary>
         </sap:WorkflowViewStateService.ViewState>
       </sap2010:ViewStateData>
-      <sap2010:ViewStateData Id="Cogito.Fabric.Activities.Test.TestActor.TestActorActivity_1" sap:VirtualizedContainerService.HintSize="262,474" />
+      <sap2010:ViewStateData Id="Cogito.Fabric.Activities.Test.TestActor.TestActorActivity_1" sap:VirtualizedContainerService.HintSize="262,412" />
     </sap2010:ViewStateManager>
   </sap2010:WorkflowViewState.ViewStateManager>
 </Activity>

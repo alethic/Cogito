@@ -1,24 +1,18 @@
-﻿using System.Activities;
-using System.Activities.Statements;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+
 using Cogito.Fabric.Activities.Test.TestActor.Interfaces;
 
 namespace Cogito.Fabric.Activities.Test.TestActor
 {
 
     class TestActor :
-        StatefulActivityActor<TestActorActivity>,
+        StatefulActivityActor<TestActorActivity, object>,
         ITestActor
     {
 
         public Task Run()
         {
-            return RunAsync();
-        }
-
-        protected override Activity CreateActivity()
-        {
-            return new Sequence();
+            return ResumeAsync("Wait1");
         }
 
     }
