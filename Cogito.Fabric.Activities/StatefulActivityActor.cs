@@ -54,9 +54,18 @@ namespace Cogito.Fabric.Activities
         }
 
         /// <summary>
+        /// Represents the internal state of the <see cref="StatefulActivityActor{TState}"/>.
+        /// </summary>
+        protected ActivityActorState<TState> ActivityState
+        {
+            get { return base.State; }
+            set { base.State = value; }
+        }
+
+        /// <summary>
         /// Represents the user-defined reliable state of the <see cref="StatefulActor"/>.
         /// </summary>
-        public new TState State
+        protected new TState State
         {
             get { return base.State.State; }
             set { base.State.State = value; }
