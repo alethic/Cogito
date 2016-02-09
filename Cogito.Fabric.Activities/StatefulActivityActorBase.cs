@@ -18,7 +18,7 @@ namespace Cogito.Fabric.Activities
     {
 
         /// <summary>
-        /// Implements the <see cref="ReceiveReminderAsync(string, byte[], TimeSpan, TimeSpan)"/> method so it can be reimplemented above.
+        /// Implements the <see cref="IRemindable.ReceiveReminderAsync(string, byte[], TimeSpan, TimeSpan)"/> method so it can be reimplemented above.
         /// </summary>
         /// <param name="reminderName"></param>
         /// <param name="context"></param>
@@ -46,14 +46,14 @@ namespace Cogito.Fabric.Activities
         /// <returns></returns>
         protected sealed override Task<ActivityActorState<TState>> CreateDefaultState()
         {
-            return CreateDefaultStateHidden();
+            return CreateDefaultActivityState();
         }
 
         /// <summary>
         /// New implementation of <see cref="CreateDefaultState"/>.
         /// </summary>
         /// <returns></returns>
-        protected abstract Task<ActivityActorState<TState>> CreateDefaultStateHidden();
+        protected abstract Task<ActivityActorState<TState>> CreateDefaultActivityState();
 
         /// <summary>
         /// Overrides the <see cref="OnActivateAsync"/> method so it can be reimplemented above.

@@ -32,11 +32,10 @@ namespace Cogito.Fabric.Activities
         }
 
         /// <summary>
-        /// Creates the default activity state.
+        /// Creates the default activity state. Invokes <see cref="CreateDefaultState"/> to populate <see cref="ActivityActorState{TState}.State"/>.
         /// </summary>
         /// <returns></returns>
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        protected sealed override async Task<ActivityActorState<TState>> CreateDefaultStateHidden()
+        protected override async Task<ActivityActorState<TState>> CreateDefaultActivityState()
         {
             return new ActivityActorState<TState>()
             {
@@ -324,7 +323,7 @@ namespace Cogito.Fabric.Activities
     public abstract class StatefulActivityActor<TActivity, TState> :
         StatefulActivityActor<TState>
         where TActivity : Activity, new()
-        where TState: class, new()
+        where TState : class, new()
     {
 
         protected override Activity CreateActivity()
