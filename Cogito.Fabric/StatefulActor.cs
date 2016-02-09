@@ -152,9 +152,9 @@ namespace Cogito.Fabric
         /// Initializes a new <see cref="TState"/> instance.
         /// </summary>
         /// <returns></returns>
-        protected virtual TState CreateDefaultState()
+        protected virtual Task<TState> CreateDefaultState()
         {
-            return new TState();
+            return Task.FromResult(new TState());
         }
 
         /// <summary>
@@ -166,7 +166,7 @@ namespace Cogito.Fabric
         {
             // create default state if not available
             if (State == null)
-                State = CreateDefaultState();
+                State = await CreateDefaultState();
 
             await base.OnActivateAsync();
         }

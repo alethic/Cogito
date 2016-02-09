@@ -36,11 +36,11 @@ namespace Cogito.Fabric.Activities
         /// </summary>
         /// <returns></returns>
         [EditorBrowsable(EditorBrowsableState.Never)]
-        protected sealed override ActivityActorState<TState> CreateDefaultStateHidden()
+        protected sealed override async Task<ActivityActorState<TState>> CreateDefaultStateHidden()
         {
             return new ActivityActorState<TState>()
             {
-                State = CreateDefaultState(),
+                State = await CreateDefaultState(),
             };
         }
 
@@ -48,9 +48,9 @@ namespace Cogito.Fabric.Activities
         /// Initializes a new <see cref="TState"/> instance.
         /// </summary>
         /// <returns></returns>
-        protected new virtual TState CreateDefaultState()
+        protected new virtual Task<TState> CreateDefaultState()
         {
-            return new TState();
+            return Task.FromResult(new TState());
         }
 
         /// <summary>

@@ -132,9 +132,6 @@ namespace Cogito.Fabric.Activities
             // notify about status changes
             await OnStatusChanged(status, actor.State.Status);
 
-            // ensure instance ID is recorded
-            actor.State.InstanceId = workflow.Id;
-
             // save reminder to resume bookmarks
             await SaveRemindersAsync();
         }
@@ -163,7 +160,7 @@ namespace Cogito.Fabric.Activities
             if (workflow == null)
                 throw new ActivityActorException("CreateWorkflow returned null.");
 
-            // generate new owner ID
+            // generate owner ID
             if (actor.State.InstanceOwnerId == Guid.Empty)
                 actor.State.InstanceOwnerId = Guid.NewGuid();
 
@@ -171,11 +168,11 @@ namespace Cogito.Fabric.Activities
             if (actor.State.InstanceId != Guid.Empty)
                 await InvokeWithWorkflow(_ => _.LoadAsync(actor.State.InstanceId));
 
+            // ensure instance ID is known
+            actor.State.InstanceId = workflow.Id;
+
             // run instance
             await InvokeWithWorkflow(_ => _.RunAsync());
-
-            // store instance ID
-            actor.State.InstanceId = workflow.Id;
         }
 
         /// <summary>
@@ -200,11 +197,10 @@ namespace Cogito.Fabric.Activities
         async Task SaveRemindersAsync()
         {
             Contract.Requires(workflow != null);
-            Contract.Requires(actor.State.InstanceId != Guid.Empty);
 
             // next time at which the reminder should be invoked
             var time = (DateTime?)actor.State.InstanceData?
-                .GetOrDefault(actor.State.InstanceId)?
+                .GetOrDefault(workflow.Id)?
                 .GetOrDefault(ActivityTimerExpirationTimeKey);
 
             // check that this is supported
@@ -297,11 +293,11 @@ namespace Cogito.Fabric.Activities
             if (actor.State.InstanceOwnerId == Guid.Empty)
                 actor.State.InstanceOwnerId = Guid.NewGuid();
 
+            // ensure instance ID is known
+            actor.State.InstanceId = workflow.Id;
+
             // run instance
             await InvokeWithWorkflow(_ => _.RunAsync());
-
-            // store instance ID
-            actor.State.InstanceId = workflow.Id;
         }
 
         /// <summary>

@@ -44,7 +44,7 @@ namespace Cogito.Fabric.Activities
         /// Overrides the <see cref="CreateDefaultState"/> method so it can be reimplemented above.
         /// </summary>
         /// <returns></returns>
-        protected sealed override ActivityActorState<TState> CreateDefaultState()
+        protected sealed override Task<ActivityActorState<TState>> CreateDefaultState()
         {
             return CreateDefaultStateHidden();
         }
@@ -53,7 +53,7 @@ namespace Cogito.Fabric.Activities
         /// New implementation of <see cref="CreateDefaultState"/>.
         /// </summary>
         /// <returns></returns>
-        protected abstract ActivityActorState<TState> CreateDefaultStateHidden();
+        protected abstract Task<ActivityActorState<TState>> CreateDefaultStateHidden();
 
         /// <summary>
         /// Overrides the <see cref="OnActivateAsync"/> method so it can be reimplemented above.
