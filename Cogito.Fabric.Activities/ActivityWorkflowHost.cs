@@ -24,6 +24,7 @@ namespace Cogito.Fabric.Activities
 
         readonly IActivityActorInternal actor;
         WorkflowApplication workflow;
+        IActorTimer timer;
 
         /// <summary>
         /// Initializes a new instance.
@@ -134,7 +135,7 @@ namespace Cogito.Fabric.Activities
             await OnStatusChanged(status, actor.State.Status);
 
             // save reminder to resume bookmarks
-            await SaveRemindersAsync();
+            await SaveTimersAsync();
         }
 
         /// <summary>
@@ -192,21 +193,30 @@ namespace Cogito.Fabric.Activities
         }
 
         /// <summary>
+        /// Ensures workflow timers are registered for waking the instance up.
+        /// </summary>
+        /// <returns></returns>
+        async Task SaveTimersAsync()
+        {
+            if (actor.CanRegisterReminder)
+                await ScheduleResumeAsReminderAsync();
+            else
+                await ScheduleResumeAsTimerAsync();
+        }
+
+        /// <summary>
         /// Ensures a reminder is scheduled to signal a wake up based on the workflow's timers.
         /// </summary>
         /// <returns></returns>
-        async Task SaveRemindersAsync()
+        async Task ScheduleResumeAsReminderAsync()
         {
             Contract.Requires(workflow != null);
+            Contract.Requires(actor.CanRegisterReminder);
 
             // next time at which the reminder should be invoked
             var time = (DateTime?)actor.State.InstanceData?
                 .GetOrDefault(workflow.Id)?
                 .GetOrDefault(ActivityTimerExpirationTimeKey);
-
-            // check that this is supported
-            if (time != null && !actor.CanRegisterReminder)
-                throw new ActivityActorException($"Cannot persist reminder for {nameof(StatelessActor)}.");
 
             // get existing reminder if possible
             var reminder = TryGetReminder(ActivityTimerExpirationReminderName);
@@ -237,8 +247,6 @@ namespace Cogito.Fabric.Activities
                         dueTime,
                         TimeSpan.FromMilliseconds(-1),
                         ActorReminderAttributes.None);
-
-                return;
             }
             else
             {
@@ -246,6 +254,68 @@ namespace Cogito.Fabric.Activities
                 if (reminder != null)
                     await actor.UnregisterReminderAsync(reminder);
             }
+        }
+
+        /// <summary>
+        /// Ensures a timer is scheduled to signal a wake up based on the workflow's timers.
+        /// </summary>
+        /// <returns></returns>
+        Task ScheduleResumeAsTimerAsync()
+        {
+            Contract.Requires(workflow != null);
+            Contract.Requires(actor.CanRegisterReminder);
+
+            // next time at which the reminder should be invoked
+            var time = (DateTime?)actor.State.InstanceData?
+                .GetOrDefault(workflow.Id)?
+                .GetOrDefault(ActivityTimerExpirationTimeKey);
+
+            // a time is present
+            if (time != null)
+            {
+                // time at which the reminder should be fired, minimum 1 second from now
+                var dueTime = new TimeSpan(Math.Max(((DateTime)time - DateTime.UtcNow).Ticks, TimeSpan.FromSeconds(1).Ticks));
+
+                // unregister reminder if it the time has changed
+                if (timer != null)
+                {
+                    // allow a skew of 5 seconds
+                    if (Math.Abs((dueTime - timer.DueTime).TotalSeconds) > 5)
+                    {
+                        // timer is out of range, will reschedule below
+                        actor.UnregisterTimer(timer);
+                        timer = null;
+                    }
+                }
+
+                // schedule new reminder
+                if (timer == null)
+                    timer = actor.RegisterTimer(
+                        o =>
+                        {
+                            // scheduled function unregisters the existing timer
+                            actor.UnregisterTimer(timer);
+                            timer = null;
+
+                            // invoke run of workflow
+                            return RunAsync();
+                        },
+                        null,
+                        dueTime,
+                        TimeSpan.FromMilliseconds(-1),
+                        false);
+            }
+            else
+            {
+                // no reminder required, unregister existing reminder
+                if (timer != null)
+                {
+                    actor.UnregisterTimer(timer);
+                    timer = null;
+                }
+            }
+
+            return Task.FromResult(true);
         }
 
         /// <summary>
