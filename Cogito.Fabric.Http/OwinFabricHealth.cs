@@ -15,9 +15,9 @@ namespace Cogito.Fabric.Http
 {
 
     /// <summary>
-    /// Provides extension methods to the <see cref="IAppBuilder"/> instances.
+    /// Provides extension methods to the <see cref="IAppBuilder"/> instances for supporting Service Fabric health endpoints.
     /// </summary>
-    public static class AppBuilderExtensions
+    public static class OwinFabricHealth
     {
 
         const string DEFAULT_HEALTH_PATH = "/health";

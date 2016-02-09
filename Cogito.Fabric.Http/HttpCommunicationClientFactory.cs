@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics.Contracts;
+using System.Linq;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
@@ -11,9 +12,9 @@ namespace Cogito.Fabric.Http
 {
 
     /// <summary>
-    /// Factory that creates clients that know to communicate with the WordCount service.
-    /// Contains a service partition resolver that resolves a partition key
-    /// and sets BaseAddress to the address of the replica that should serve a request.
+    /// Factory that creates clients that known how to communicate with services with HTTP endpoints. Contains a
+    /// service partition resolver that resolves a partition key and sets BaseAddress to the address of the replica
+    /// that should serve a request.
     /// </summary>
     public class HttpCommunicationClientFactory :
         CommunicationClientFactoryBase<HttpCommunicationClient>
@@ -38,7 +39,7 @@ namespace Cogito.Fabric.Http
             get { return default_.Value; }
         }
 
-        static TimeSpan MaxRetryBackoffIntervalOnNonTransientErrors = TimeSpan.FromSeconds(3);
+        static readonly TimeSpan MaxRetryBackoffIntervalOnNonTransientErrors = TimeSpan.FromSeconds(3);
 
         /// <summary>
         /// Initializes a new instance.
@@ -49,6 +50,7 @@ namespace Cogito.Fabric.Http
             : base(resolver, null, null)
         {
             Contract.Requires<ArgumentNullException>(resolver != null);
+            Contract.Requires<ArgumentOutOfRangeException>(timeout.TotalSeconds > 0);
 
             Timeout = timeout;
         }
@@ -80,12 +82,12 @@ namespace Cogito.Fabric.Http
         }
 
         /// <summary>
-        /// 
+        /// Aborts the given client.
         /// </summary>
         /// <param name="client"></param>
         protected override void AbortClient(HttpCommunicationClient client)
         {
-            // HTTP  doesn't maintain a communication channel, so nothing to abort
+            // HTTP doesn't maintain a communication channel, so nothing to abort
         }
 
         /// <summary>
@@ -96,9 +98,10 @@ namespace Cogito.Fabric.Http
         /// <returns></returns>
         protected override Task<HttpCommunicationClient> CreateClientAsync(string endpoint, CancellationToken cancellationToken)
         {
-            if (string.IsNullOrEmpty(endpoint) || !endpoint.StartsWith("http"))
+            if (string.IsNullOrWhiteSpace(endpoint) || !endpoint.StartsWith("http"))
                 throw new InvalidOperationException("The endpoint address is not valid. Please resolve again.");
 
+            // normalize endpoint
             if (!endpoint.EndsWith("/"))
                 endpoint = endpoint + "/";
 
@@ -116,14 +119,20 @@ namespace Cogito.Fabric.Http
         /// <returns></returns>
         protected override bool OnHandleException(Exception e, out ExceptionHandlingResult result)
         {
-            if (e is TaskCanceledException)
+            // unpack any aggregate exceptions if possible
+            var s = e.Expand().ToList();
+            if (s.Count == 1)
+                e = s[0];
+
+            // exception represents a canceled operation
+            if (e is OperationCanceledException)
             {
                 return CreateExceptionHandlingResult(true, out result);
             }
 
+            // exception represents a HTTP request error
             if (e is HttpRequestException)
             {
-                var we = e as HttpRequestException;
                 return CreateExceptionHandlingResult(false, out result);
             }
 
