@@ -164,10 +164,11 @@ namespace Cogito.Fabric
         /// <returns></returns>
         protected override async Task OnActivateAsync()
         {
-            await base.OnActivateAsync();
+            // create default state if not available
+            if (State == null)
+                State = CreateDefaultState();
 
-            // initialize state to a default value
-            State = State ?? CreateDefaultState();
+            await base.OnActivateAsync();
         }
 
         /// <summary>

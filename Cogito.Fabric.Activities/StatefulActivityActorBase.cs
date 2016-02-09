@@ -59,9 +59,10 @@ namespace Cogito.Fabric.Activities
         /// Overrides the <see cref="OnActivateAsync"/> method so it can be reimplemented above.
         /// </summary>
         /// <returns></returns>
-        protected sealed override Task OnActivateAsync()
+        protected sealed override async Task OnActivateAsync()
         {
-            return OnActivateAsyncHidden();
+            await base.OnActivateAsync();
+            await OnActivateAsyncHidden();
         }
 
         /// <summary>
@@ -74,9 +75,10 @@ namespace Cogito.Fabric.Activities
         /// Overrides the <see cref="OnDeactivateAsync"/> method so it can be reimplemented above.
         /// </summary>
         /// <returns></returns>
-        protected sealed override Task OnDeactivateAsync()
+        protected sealed override async Task OnDeactivateAsync()
         {
-            return OnDeactivateAsyncHidden();
+            await base.OnDeactivateAsync();
+            await OnDeactivateAsyncHidden();
         }
 
         /// <summary>

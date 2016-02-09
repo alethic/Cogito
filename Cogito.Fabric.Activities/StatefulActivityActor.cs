@@ -67,8 +67,8 @@ namespace Cogito.Fabric.Activities
         /// </summary>
         protected new TState State
         {
-            get { return base.State.State; }
-            set { base.State.State = value; }
+            get { return ActivityState?.State; }
+            set { ActivityState.State = value; }
         }
 
         /// <summary>
