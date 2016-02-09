@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Activities;
+using System.ComponentModel;
 using System.Diagnostics.Contracts;
 using System.Threading.Tasks;
 
@@ -9,7 +10,7 @@ namespace Cogito.Fabric.Activities
 {
 
     public abstract class StatelessActivityActor :
-        Cogito.Fabric.StatelessActor,
+        StatelessActivityActorBase,
         IStatelessActivityActorInternal
     {
 
@@ -34,18 +35,40 @@ namespace Cogito.Fabric.Activities
         /// Invoked when the actor is activated.
         /// </summary>
         /// <returns></returns>
-        protected override Task OnActivateAsync()
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        protected sealed override async Task OnActivateAsyncHidden()
         {
-            return host.OnActivateAsync();
+            await host.OnActivateAsync();
+            await OnActivateAsync();
+        }
+
+        /// <summary>
+        /// Invoked when the actor is activated.
+        /// </summary>
+        /// <returns></returns>
+        protected new virtual Task OnActivateAsync()
+        {
+            return Task.FromResult(true);
         }
 
         /// <summary>
         /// Invoked when the actor is deactiviated.
         /// </summary>
         /// <returns></returns>
-        protected override Task OnDeactivateAsync()
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        protected override async Task OnDeactivateAsyncHidden()
         {
-            return host.OnDeactivateAsync();
+            await host.OnDeactivateAsync();
+            await OnDeactivateAsync();
+        }
+
+        /// <summary>
+        /// Invoked when the actor is deactiviated.
+        /// </summary>
+        /// <returns></returns>
+        protected new virtual Task OnDeactivateAsync()
+        {
+            return Task.FromResult(true);
         }
 
         /// <summary>
@@ -82,19 +105,6 @@ namespace Cogito.Fabric.Activities
             Contract.Requires<ArgumentException>(bookmarkName.Length > 0);
 
             return host.ResumeAsync(bookmarkName);
-        }
-
-        /// <summary>
-        /// Invoked when a reminder is fired.
-        /// </summary>
-        /// <param name="reminderName"></param>
-        /// <param name="context"></param>
-        /// <param name="dueTime"></param>
-        /// <param name="period"></param>
-        /// <returns></returns>
-        public virtual Task ReceiveReminderAsync(string reminderName, byte[] context, TimeSpan dueTime, TimeSpan period)
-        {
-            return host.ReceiveReminderAsync(reminderName, context, dueTime, period);
         }
 
         /// <summary>
