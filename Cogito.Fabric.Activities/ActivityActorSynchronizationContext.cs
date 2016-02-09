@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using Cogito.Threading;
+using Microsoft.ServiceFabric.Actors;
 
 namespace Cogito.Fabric.Activities
 {
@@ -34,19 +35,36 @@ namespace Cogito.Fabric.Activities
             if (IsInActorContext())
                 d(state);
             else
-                actor.RegisterTimer(InvokeFromTimer, new SynchronizationContextWorkItem(d, state), TimeSpan.FromMilliseconds(1), TimeSpan.FromMilliseconds(-1), false);
+            {
+                // hoist timer so it can be unregistered
+                IActorTimer timer = null;
+
+                // schedule timer
+                timer = actor.RegisterTimer(
+                    o =>
+                    {
+                        // unregister ourselve
+                        actor.UnregisterTimer(timer);
+
+                        // invoke workitem
+                        return InvokeFromTimer((SynchronizationContextWorkItem)o);
+                    },
+                    new SynchronizationContextWorkItem(d, state),
+                    TimeSpan.FromMilliseconds(1),
+                    TimeSpan.FromMilliseconds(-1),
+                    false);
+            }
         }
 
         /// <summary>
         /// When a scheduled callback is invoked by an actor timer.
         /// </summary>
-        Task InvokeFromTimer(object state)
+        Task InvokeFromTimer(SynchronizationContextWorkItem item)
         {
             // schedule further tasks as timers as well
             using (new SynchronizationContextScope(this))
             {
                 // invoke callback synchronously
-                var item = (SynchronizationContextWorkItem)state;
                 item.Callback(item.State);
                 return Task.FromResult(true);
             }
