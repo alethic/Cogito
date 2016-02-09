@@ -150,9 +150,15 @@ namespace Cogito.Fabric.Activities
             if (actor.State.Status == ActivityActorStatus.Closed)
                 return;
 
-            // create new workflow and activity
-            workflow = CreateWorkflow(actor.CreateActivity());
-            Contract.Assert(workflow != null);
+            // create new activity
+            var activity = actor.CreateActivity();
+            if (activity == null)
+                throw new ActivityActorException("CreateActivity returned null.");
+
+            // create new workflow
+            workflow = CreateWorkflow(activity);
+            if (workflow == null)
+                throw new ActivityActorException("CreateWorkflow returned null.");
 
             // generate new owner ID
             if (actor.State.InstanceOwnerId == Guid.Empty)
@@ -164,7 +170,7 @@ namespace Cogito.Fabric.Activities
 
             // store instance ID
             actor.State.InstanceId = workflow.Id;
-            }
+        }
 
         /// <summary>
         /// Invoked when the actor is deactiviated.
@@ -176,9 +182,9 @@ namespace Cogito.Fabric.Activities
 
             if (workflow != null)
             {
-            await workflow.UnloadAsync();
-            workflow = null;
-        }
+                await workflow.UnloadAsync();
+                workflow = null;
+            }
         }
 
         /// <summary>
@@ -266,7 +272,7 @@ namespace Cogito.Fabric.Activities
         {
             // unload existing workflow
             if (workflow != null)
-        {
+            {
                 await workflow.UnloadAsync();
                 workflow = null;
             }
