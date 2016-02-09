@@ -30,7 +30,7 @@ namespace Cogito.Fabric.Activities
         /// <summary>
         /// Initializes a new instance.
         /// </summary>
-        /// <param name="activityState"></param>
+        /// <param name="actor"></param>
         internal ActivityActorInstanceStore(IActivityActorInternal actor)
         {
             Contract.Requires<ArgumentNullException>(actor != null);
@@ -215,7 +215,7 @@ namespace Cogito.Fabric.Activities
         }
 
         /// <summary>
-        /// Returns an <see cref="ActorInstanceValue"/> for the given value.
+        /// Serializes the given serializable object.
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
@@ -272,7 +272,7 @@ namespace Cogito.Fabric.Activities
         }
 
         /// <summary>
-        /// Returns an instance value from a <see cref="ActorInstanceValue"/>.
+        /// Deserializes the given serializable object.
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>

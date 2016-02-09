@@ -155,7 +155,7 @@ void GenerateRecord(RecordType recordType)
 {
 #>
 
-    public partial class ActivityActorEventSource
+    partial class ActivityActorEventSource
     {
 
 <#+
@@ -182,8 +182,15 @@ void GenerateRecord(RecordType recordType)
 void GenerateStatefulRecordMethod(RecordType recordType)
 {
 #>
+        /// <summary>
+        /// Records an event.
+        /// </summary>
+        /// <param name="actor"></param>
+        /// <param name="record"></param>
+        /// <param name="message"></param>
+        /// <param name="args"></param>
         [NonEvent]
-        public void <#= recordType.Name #>(IStatefulActivityActorInternal actor, <#= recordType.Type.Name #> record, string message = "", params object[] args)
+        internal void <#= recordType.Name #>(IStatefulActivityActorInternal actor, <#= recordType.Type.Name #> record, string message = "", params object[] args)
         {
             Contract.Requires<ArgumentNullException>(actor != null);
             Contract.Requires<ArgumentNullException>(record != null);
@@ -247,8 +254,15 @@ for (int i = 0; i < tLevels.Length; i++)
 void GenerateStatelessRecordMethod(RecordType recordType)
 {
 #>
+        /// <summary>
+        /// Records an event.
+        /// </summary>
+        /// <param name="actor"></param>
+        /// <param name="record"></param>
+        /// <param name="message"></param>
+        /// <param name="args"></param>
         [NonEvent]
-        public void <#= recordType.Name #>(IStatelessActivityActorInternal actor, <#= recordType.Type.Name #> record, string message = "", params object[] args)
+        internal void <#= recordType.Name #>(IStatelessActivityActorInternal actor, <#= recordType.Type.Name #> record, string message = "", params object[] args)
         {
             Contract.Requires<ArgumentNullException>(actor != null);
             Contract.Requires<ArgumentNullException>(record != null);
@@ -315,12 +329,37 @@ void GenerateEventMethods(RecordType recordType)
     {
 #>
 
+        /// <summary>
+        /// Records an event.
+        /// </summary>
+        /// <param name="actorType"></param>
+        /// <param name="actorId"></param>
+        /// <param name="applicationTypeName"></param>
+        /// <param name="applicationName"></param>
+        /// <param name="serviceTypeName"></param>
+        /// <param name="serviceName"></param>
+        /// <param name="partitionId"></param>
+        /// <param name="replicaOrInstanceId"></param>
+        /// <param name="nodeName"></param>
+        /// <param name="instanceId"></param>
+        /// <param name="recordNumber"></param>
+        /// <param name="eventTime"></param>
+        /// <param name="annotations"></param>
+<#+
+        foreach (var arg in recordType.Args)
+        {
+#>
+        /// <param name="<#= arg.Name #>"></param>
+<#+
+        }
+#>
+        /// <param name="message"></param>
         [Event(
             <#= recordType.Name #><#= tLevels[l] #>EventId, 
             Level = EventLevel.<#= eLevels[l] #>, 
             Message = "{<#= recordType.Args.Length + 13 #>}", 
             Keywords = <#= string.Join(" | ", recordType.Keywords.Select(k => "Keywords." + k)) #>)]
-        public void <#= recordType.Name #><#= tLevels[l] #>(
+        internal void <#= recordType.Name #><#= tLevels[l] #>(
             string actorType,
             string actorId,
             string applicationTypeName,

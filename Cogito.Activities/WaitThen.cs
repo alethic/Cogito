@@ -1,4 +1,6 @@
-﻿using System.Activities;
+﻿using System;
+using System.Activities;
+using System.Diagnostics.Contracts;
 
 namespace Cogito.Activities
 {
@@ -6,26 +8,65 @@ namespace Cogito.Activities
     public static partial class Activities
     {
 
+        /// <summary>
+        /// Waits for the given bookmark, and then executes the <paramref name="then"/> <see cref="ActivityAction"/>.
+        /// </summary>
+        /// <param name="bookmarkName"></param>
+        /// <param name="then"></param>
+        /// <returns></returns>
         public static WaitThen WaitThen(InArgument<string> bookmarkName, ActivityAction then)
         {
+            Contract.Requires<ArgumentNullException>(bookmarkName != null);
+            Contract.Requires<ArgumentNullException>(then != null);
+
             return new WaitThen(bookmarkName, then);
         }
 
+        /// <summary>
+        /// Waits for the given bookmark, and then executes the <paramref name="then"/> <see cref="Activity"/>.
+        /// </summary>
+        /// <param name="bookmarkName"></param>
+        /// <param name="then"></param>
+        /// <returns></returns>
         public static WaitThen WaitThen(InArgument<string> bookmarkName, Activity then)
         {
+            Contract.Requires<ArgumentNullException>(bookmarkName != null);
+            Contract.Requires<ArgumentNullException>(then != null);
+
             return new WaitThen(bookmarkName, new ActivityAction()
             {
                 Handler = then,
             });
         }
 
+        /// <summary>
+        /// Waits for the given bookmark, and then executes the <paramref name="then"/> <see cref="ActivityAction{TWait}"/>.
+        /// </summary>
+        /// <typeparam name="TWait"></typeparam>
+        /// <param name="bookmarkName"></param>
+        /// <param name="then"></param>
+        /// <returns></returns>
         public static WaitThen<TWait> WaitThen<TWait>(InArgument<string> bookmarkName, ActivityAction<TWait> then)
         {
+            Contract.Requires<ArgumentNullException>(bookmarkName != null);
+            Contract.Requires<ArgumentNullException>(then != null);
+
             return new WaitThen<TWait>(bookmarkName, then);
         }
 
+        /// <summary>
+        /// Waits for the given bookmark, and then executes the <paramref name="then"/> <see cref="ActivityFunc{TWait, TResult}"/>.
+        /// </summary>
+        /// <typeparam name="TWait"></typeparam>
+        /// <typeparam name="TResult"></typeparam>
+        /// <param name="bookmarkName"></param>
+        /// <param name="then"></param>
+        /// <returns></returns>
         public static WaitForThen<TWait, TResult> WaitThen<TWait, TResult>(InArgument<string> bookmarkName, ActivityFunc<TWait, TResult> then)
         {
+            Contract.Requires<ArgumentNullException>(bookmarkName != null);
+            Contract.Requires<ArgumentNullException>(then != null);
+
             return new WaitForThen<TWait, TResult>(bookmarkName, then);
         }
 
@@ -89,6 +130,9 @@ namespace Cogito.Activities
 
         void WaitCompleted(NativeActivityContext context, ActivityInstance completedInstance)
         {
+            Contract.Requires<ArgumentNullException>(context != null);
+            Contract.Requires<ArgumentNullException>(completedInstance != null);
+
             context.ScheduleAction(Then);
         }
 
@@ -159,6 +203,9 @@ namespace Cogito.Activities
 
         void WaitCompleted(NativeActivityContext context, ActivityInstance completedInstance, TWait value)
         {
+            Contract.Requires<ArgumentNullException>(context != null);
+            Contract.Requires<ArgumentNullException>(completedInstance != null);
+
             context.ScheduleAction(Then, value);
         }
 
@@ -230,11 +277,17 @@ namespace Cogito.Activities
 
         void WaitCompleted(NativeActivityContext context, ActivityInstance completedInstance, TWaitFor value)
         {
+            Contract.Requires<ArgumentNullException>(context != null);
+            Contract.Requires<ArgumentNullException>(completedInstance != null);
+
             context.ScheduleFunc(Then, value, ThenCompleted);
         }
 
         void ThenCompleted(NativeActivityContext context, ActivityInstance completedInstance, TResult result)
         {
+            Contract.Requires<ArgumentNullException>(context != null);
+            Contract.Requires<ArgumentNullException>(completedInstance != null);
+
             context.SetValue(Result, result);
         }
 

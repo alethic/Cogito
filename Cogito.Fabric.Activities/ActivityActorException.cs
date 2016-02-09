@@ -3,6 +3,9 @@
 namespace Cogito.Fabric.Activities
 {
 
+    /// <summary>
+    /// Exception thrown when an Activity actor fails.
+    /// </summary>
     public class ActivityActorException :
         Exception
     {
@@ -12,7 +15,7 @@ namespace Cogito.Fabric.Activities
         /// </summary>
         /// <param name="message"></param>
         /// <param name="innerException"></param>
-        public ActivityActorException(string message, Exception innerException)
+        internal ActivityActorException(string message, Exception innerException)
             : base(message, innerException)
         {
 
@@ -22,7 +25,7 @@ namespace Cogito.Fabric.Activities
         /// Initializes a new instance.
         /// </summary>
         /// <param name="message"></param>
-        public ActivityActorException(string message)
+        internal ActivityActorException(string message)
             : base(message)
         {
 
@@ -31,7 +34,7 @@ namespace Cogito.Fabric.Activities
         /// <summary>
         /// Initializes a new instance.
         /// </summary>
-        public ActivityActorException()
+        internal ActivityActorException()
             : base()
         {
 

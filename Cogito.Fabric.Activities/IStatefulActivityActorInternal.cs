@@ -6,7 +6,7 @@ namespace Cogito.Fabric.Activities
 {
 
     [EditorBrowsable(EditorBrowsableState.Never)]
-    public interface IStatefulActivityActorInternal :
+    interface IStatefulActivityActorInternal :
         IActivityActorInternal
     {
 

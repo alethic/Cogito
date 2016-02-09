@@ -28,11 +28,19 @@ namespace Cogito.Fabric.Activities
             this.actor = actor;
         }
 
+        /// <summary>
+        /// When implemented, returns any additional extensions the implementing class requires.
+        /// </summary>
+        /// <returns></returns>
         public IEnumerable<object> GetAdditionalExtensions()
         {
             yield break;
         }
 
+        /// <summary>
+        /// Sets the specified target <see cref="WorkflowInstanceProxy"/>.
+        /// </summary>
+        /// <param name="instance"></param>
         public void SetInstance(WorkflowInstanceProxy instance)
         {
             this.instance = instance;

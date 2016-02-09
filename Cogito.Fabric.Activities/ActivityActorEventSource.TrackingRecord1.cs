@@ -8,7 +8,7 @@ using System.Fabric;
 namespace Cogito.Fabric.Activities
 {
 
-    public partial class ActivityActorEventSource
+    partial class ActivityActorEventSource
     {
 
         const int ActivityScheduledVerboseEventId = 10;
@@ -16,8 +16,15 @@ namespace Cogito.Fabric.Activities
         const int ActivityScheduledWarningEventId = 12;
         const int ActivityScheduledErrorEventId = 13;
         
+        /// <summary>
+        /// Records an event.
+        /// </summary>
+        /// <param name="actor"></param>
+        /// <param name="record"></param>
+        /// <param name="message"></param>
+        /// <param name="args"></param>
         [NonEvent]
-        public void ActivityScheduled(IStatefulActivityActorInternal actor, ActivityScheduledRecord record, string message = "", params object[] args)
+        internal void ActivityScheduled(IStatefulActivityActorInternal actor, ActivityScheduledRecord record, string message = "", params object[] args)
         {
             Contract.Requires<ArgumentNullException>(actor != null);
             Contract.Requires<ArgumentNullException>(record != null);
@@ -125,8 +132,15 @@ namespace Cogito.Fabric.Activities
             }
         }
 
+        /// <summary>
+        /// Records an event.
+        /// </summary>
+        /// <param name="actor"></param>
+        /// <param name="record"></param>
+        /// <param name="message"></param>
+        /// <param name="args"></param>
         [NonEvent]
-        public void ActivityScheduled(IStatelessActivityActorInternal actor, ActivityScheduledRecord record, string message = "", params object[] args)
+        internal void ActivityScheduled(IStatelessActivityActorInternal actor, ActivityScheduledRecord record, string message = "", params object[] args)
         {
             Contract.Requires<ArgumentNullException>(actor != null);
             Contract.Requires<ArgumentNullException>(record != null);
@@ -235,12 +249,33 @@ namespace Cogito.Fabric.Activities
         }
 
 
+        /// <summary>
+        /// Records an event.
+        /// </summary>
+        /// <param name="actorType"></param>
+        /// <param name="actorId"></param>
+        /// <param name="applicationTypeName"></param>
+        /// <param name="applicationName"></param>
+        /// <param name="serviceTypeName"></param>
+        /// <param name="serviceName"></param>
+        /// <param name="partitionId"></param>
+        /// <param name="replicaOrInstanceId"></param>
+        /// <param name="nodeName"></param>
+        /// <param name="instanceId"></param>
+        /// <param name="recordNumber"></param>
+        /// <param name="eventTime"></param>
+        /// <param name="annotations"></param>
+        /// <param name="activityName"></param>
+        /// <param name="activityId"></param>
+        /// <param name="activityInstanceId"></param>
+        /// <param name="activityTypeName"></param>
+        /// <param name="message"></param>
         [Event(
             ActivityScheduledVerboseEventId, 
             Level = EventLevel.Verbose, 
             Message = "{17}", 
             Keywords = Keywords.ActivityScheduled)]
-        public void ActivityScheduledVerbose(
+        internal void ActivityScheduledVerbose(
             string actorType,
             string actorId,
             string applicationTypeName,
@@ -283,12 +318,33 @@ namespace Cogito.Fabric.Activities
         }
 
 
+        /// <summary>
+        /// Records an event.
+        /// </summary>
+        /// <param name="actorType"></param>
+        /// <param name="actorId"></param>
+        /// <param name="applicationTypeName"></param>
+        /// <param name="applicationName"></param>
+        /// <param name="serviceTypeName"></param>
+        /// <param name="serviceName"></param>
+        /// <param name="partitionId"></param>
+        /// <param name="replicaOrInstanceId"></param>
+        /// <param name="nodeName"></param>
+        /// <param name="instanceId"></param>
+        /// <param name="recordNumber"></param>
+        /// <param name="eventTime"></param>
+        /// <param name="annotations"></param>
+        /// <param name="activityName"></param>
+        /// <param name="activityId"></param>
+        /// <param name="activityInstanceId"></param>
+        /// <param name="activityTypeName"></param>
+        /// <param name="message"></param>
         [Event(
             ActivityScheduledInfoEventId, 
             Level = EventLevel.Informational, 
             Message = "{17}", 
             Keywords = Keywords.ActivityScheduled)]
-        public void ActivityScheduledInfo(
+        internal void ActivityScheduledInfo(
             string actorType,
             string actorId,
             string applicationTypeName,
@@ -331,12 +387,33 @@ namespace Cogito.Fabric.Activities
         }
 
 
+        /// <summary>
+        /// Records an event.
+        /// </summary>
+        /// <param name="actorType"></param>
+        /// <param name="actorId"></param>
+        /// <param name="applicationTypeName"></param>
+        /// <param name="applicationName"></param>
+        /// <param name="serviceTypeName"></param>
+        /// <param name="serviceName"></param>
+        /// <param name="partitionId"></param>
+        /// <param name="replicaOrInstanceId"></param>
+        /// <param name="nodeName"></param>
+        /// <param name="instanceId"></param>
+        /// <param name="recordNumber"></param>
+        /// <param name="eventTime"></param>
+        /// <param name="annotations"></param>
+        /// <param name="activityName"></param>
+        /// <param name="activityId"></param>
+        /// <param name="activityInstanceId"></param>
+        /// <param name="activityTypeName"></param>
+        /// <param name="message"></param>
         [Event(
             ActivityScheduledWarningEventId, 
             Level = EventLevel.Warning, 
             Message = "{17}", 
             Keywords = Keywords.ActivityScheduled)]
-        public void ActivityScheduledWarning(
+        internal void ActivityScheduledWarning(
             string actorType,
             string actorId,
             string applicationTypeName,
@@ -379,12 +456,33 @@ namespace Cogito.Fabric.Activities
         }
 
 
+        /// <summary>
+        /// Records an event.
+        /// </summary>
+        /// <param name="actorType"></param>
+        /// <param name="actorId"></param>
+        /// <param name="applicationTypeName"></param>
+        /// <param name="applicationName"></param>
+        /// <param name="serviceTypeName"></param>
+        /// <param name="serviceName"></param>
+        /// <param name="partitionId"></param>
+        /// <param name="replicaOrInstanceId"></param>
+        /// <param name="nodeName"></param>
+        /// <param name="instanceId"></param>
+        /// <param name="recordNumber"></param>
+        /// <param name="eventTime"></param>
+        /// <param name="annotations"></param>
+        /// <param name="activityName"></param>
+        /// <param name="activityId"></param>
+        /// <param name="activityInstanceId"></param>
+        /// <param name="activityTypeName"></param>
+        /// <param name="message"></param>
         [Event(
             ActivityScheduledErrorEventId, 
             Level = EventLevel.Error, 
             Message = "{17}", 
             Keywords = Keywords.ActivityScheduled)]
-        public void ActivityScheduledError(
+        internal void ActivityScheduledError(
             string actorType,
             string actorId,
             string applicationTypeName,
@@ -429,7 +527,7 @@ namespace Cogito.Fabric.Activities
 
     }
 
-    public partial class ActivityActorEventSource
+    partial class ActivityActorEventSource
     {
 
         const int ActivityStateVerboseEventId = 20;
@@ -437,8 +535,15 @@ namespace Cogito.Fabric.Activities
         const int ActivityStateWarningEventId = 22;
         const int ActivityStateErrorEventId = 23;
         
+        /// <summary>
+        /// Records an event.
+        /// </summary>
+        /// <param name="actor"></param>
+        /// <param name="record"></param>
+        /// <param name="message"></param>
+        /// <param name="args"></param>
         [NonEvent]
-        public void ActivityState(IStatefulActivityActorInternal actor, ActivityStateRecord record, string message = "", params object[] args)
+        internal void ActivityState(IStatefulActivityActorInternal actor, ActivityStateRecord record, string message = "", params object[] args)
         {
             Contract.Requires<ArgumentNullException>(actor != null);
             Contract.Requires<ArgumentNullException>(record != null);
@@ -558,8 +663,15 @@ namespace Cogito.Fabric.Activities
             }
         }
 
+        /// <summary>
+        /// Records an event.
+        /// </summary>
+        /// <param name="actor"></param>
+        /// <param name="record"></param>
+        /// <param name="message"></param>
+        /// <param name="args"></param>
         [NonEvent]
-        public void ActivityState(IStatelessActivityActorInternal actor, ActivityStateRecord record, string message = "", params object[] args)
+        internal void ActivityState(IStatelessActivityActorInternal actor, ActivityStateRecord record, string message = "", params object[] args)
         {
             Contract.Requires<ArgumentNullException>(actor != null);
             Contract.Requires<ArgumentNullException>(record != null);
@@ -680,12 +792,36 @@ namespace Cogito.Fabric.Activities
         }
 
 
+        /// <summary>
+        /// Records an event.
+        /// </summary>
+        /// <param name="actorType"></param>
+        /// <param name="actorId"></param>
+        /// <param name="applicationTypeName"></param>
+        /// <param name="applicationName"></param>
+        /// <param name="serviceTypeName"></param>
+        /// <param name="serviceName"></param>
+        /// <param name="partitionId"></param>
+        /// <param name="replicaOrInstanceId"></param>
+        /// <param name="nodeName"></param>
+        /// <param name="instanceId"></param>
+        /// <param name="recordNumber"></param>
+        /// <param name="eventTime"></param>
+        /// <param name="annotations"></param>
+        /// <param name="state"></param>
+        /// <param name="activityName"></param>
+        /// <param name="activityId"></param>
+        /// <param name="activityInstanceId"></param>
+        /// <param name="activityTypeName"></param>
+        /// <param name="arguments"></param>
+        /// <param name="variables"></param>
+        /// <param name="message"></param>
         [Event(
             ActivityStateVerboseEventId, 
             Level = EventLevel.Verbose, 
             Message = "{20}", 
             Keywords = Keywords.ActivityState)]
-        public void ActivityStateVerbose(
+        internal void ActivityStateVerbose(
             string actorType,
             string actorId,
             string applicationTypeName,
@@ -734,12 +870,36 @@ namespace Cogito.Fabric.Activities
         }
 
 
+        /// <summary>
+        /// Records an event.
+        /// </summary>
+        /// <param name="actorType"></param>
+        /// <param name="actorId"></param>
+        /// <param name="applicationTypeName"></param>
+        /// <param name="applicationName"></param>
+        /// <param name="serviceTypeName"></param>
+        /// <param name="serviceName"></param>
+        /// <param name="partitionId"></param>
+        /// <param name="replicaOrInstanceId"></param>
+        /// <param name="nodeName"></param>
+        /// <param name="instanceId"></param>
+        /// <param name="recordNumber"></param>
+        /// <param name="eventTime"></param>
+        /// <param name="annotations"></param>
+        /// <param name="state"></param>
+        /// <param name="activityName"></param>
+        /// <param name="activityId"></param>
+        /// <param name="activityInstanceId"></param>
+        /// <param name="activityTypeName"></param>
+        /// <param name="arguments"></param>
+        /// <param name="variables"></param>
+        /// <param name="message"></param>
         [Event(
             ActivityStateInfoEventId, 
             Level = EventLevel.Informational, 
             Message = "{20}", 
             Keywords = Keywords.ActivityState)]
-        public void ActivityStateInfo(
+        internal void ActivityStateInfo(
             string actorType,
             string actorId,
             string applicationTypeName,
@@ -788,12 +948,36 @@ namespace Cogito.Fabric.Activities
         }
 
 
+        /// <summary>
+        /// Records an event.
+        /// </summary>
+        /// <param name="actorType"></param>
+        /// <param name="actorId"></param>
+        /// <param name="applicationTypeName"></param>
+        /// <param name="applicationName"></param>
+        /// <param name="serviceTypeName"></param>
+        /// <param name="serviceName"></param>
+        /// <param name="partitionId"></param>
+        /// <param name="replicaOrInstanceId"></param>
+        /// <param name="nodeName"></param>
+        /// <param name="instanceId"></param>
+        /// <param name="recordNumber"></param>
+        /// <param name="eventTime"></param>
+        /// <param name="annotations"></param>
+        /// <param name="state"></param>
+        /// <param name="activityName"></param>
+        /// <param name="activityId"></param>
+        /// <param name="activityInstanceId"></param>
+        /// <param name="activityTypeName"></param>
+        /// <param name="arguments"></param>
+        /// <param name="variables"></param>
+        /// <param name="message"></param>
         [Event(
             ActivityStateWarningEventId, 
             Level = EventLevel.Warning, 
             Message = "{20}", 
             Keywords = Keywords.ActivityState)]
-        public void ActivityStateWarning(
+        internal void ActivityStateWarning(
             string actorType,
             string actorId,
             string applicationTypeName,
@@ -842,12 +1026,36 @@ namespace Cogito.Fabric.Activities
         }
 
 
+        /// <summary>
+        /// Records an event.
+        /// </summary>
+        /// <param name="actorType"></param>
+        /// <param name="actorId"></param>
+        /// <param name="applicationTypeName"></param>
+        /// <param name="applicationName"></param>
+        /// <param name="serviceTypeName"></param>
+        /// <param name="serviceName"></param>
+        /// <param name="partitionId"></param>
+        /// <param name="replicaOrInstanceId"></param>
+        /// <param name="nodeName"></param>
+        /// <param name="instanceId"></param>
+        /// <param name="recordNumber"></param>
+        /// <param name="eventTime"></param>
+        /// <param name="annotations"></param>
+        /// <param name="state"></param>
+        /// <param name="activityName"></param>
+        /// <param name="activityId"></param>
+        /// <param name="activityInstanceId"></param>
+        /// <param name="activityTypeName"></param>
+        /// <param name="arguments"></param>
+        /// <param name="variables"></param>
+        /// <param name="message"></param>
         [Event(
             ActivityStateErrorEventId, 
             Level = EventLevel.Error, 
             Message = "{20}", 
             Keywords = Keywords.ActivityState)]
-        public void ActivityStateError(
+        internal void ActivityStateError(
             string actorType,
             string actorId,
             string applicationTypeName,
@@ -898,7 +1106,7 @@ namespace Cogito.Fabric.Activities
 
     }
 
-    public partial class ActivityActorEventSource
+    partial class ActivityActorEventSource
     {
 
         const int BookmarkResumptionVerboseEventId = 30;
@@ -906,8 +1114,15 @@ namespace Cogito.Fabric.Activities
         const int BookmarkResumptionWarningEventId = 32;
         const int BookmarkResumptionErrorEventId = 33;
         
+        /// <summary>
+        /// Records an event.
+        /// </summary>
+        /// <param name="actor"></param>
+        /// <param name="record"></param>
+        /// <param name="message"></param>
+        /// <param name="args"></param>
         [NonEvent]
-        public void BookmarkResumption(IStatefulActivityActorInternal actor, BookmarkResumptionRecord record, string message = "", params object[] args)
+        internal void BookmarkResumption(IStatefulActivityActorInternal actor, BookmarkResumptionRecord record, string message = "", params object[] args)
         {
             Contract.Requires<ArgumentNullException>(actor != null);
             Contract.Requires<ArgumentNullException>(record != null);
@@ -1011,8 +1226,15 @@ namespace Cogito.Fabric.Activities
             }
         }
 
+        /// <summary>
+        /// Records an event.
+        /// </summary>
+        /// <param name="actor"></param>
+        /// <param name="record"></param>
+        /// <param name="message"></param>
+        /// <param name="args"></param>
         [NonEvent]
-        public void BookmarkResumption(IStatelessActivityActorInternal actor, BookmarkResumptionRecord record, string message = "", params object[] args)
+        internal void BookmarkResumption(IStatelessActivityActorInternal actor, BookmarkResumptionRecord record, string message = "", params object[] args)
         {
             Contract.Requires<ArgumentNullException>(actor != null);
             Contract.Requires<ArgumentNullException>(record != null);
@@ -1117,12 +1339,32 @@ namespace Cogito.Fabric.Activities
         }
 
 
+        /// <summary>
+        /// Records an event.
+        /// </summary>
+        /// <param name="actorType"></param>
+        /// <param name="actorId"></param>
+        /// <param name="applicationTypeName"></param>
+        /// <param name="applicationName"></param>
+        /// <param name="serviceTypeName"></param>
+        /// <param name="serviceName"></param>
+        /// <param name="partitionId"></param>
+        /// <param name="replicaOrInstanceId"></param>
+        /// <param name="nodeName"></param>
+        /// <param name="instanceId"></param>
+        /// <param name="recordNumber"></param>
+        /// <param name="eventTime"></param>
+        /// <param name="annotations"></param>
+        /// <param name="bookmarkName"></param>
+        /// <param name="bookmarkScope"></param>
+        /// <param name="payload"></param>
+        /// <param name="message"></param>
         [Event(
             BookmarkResumptionVerboseEventId, 
             Level = EventLevel.Verbose, 
             Message = "{16}", 
             Keywords = Keywords.BookmarkResumption)]
-        public void BookmarkResumptionVerbose(
+        internal void BookmarkResumptionVerbose(
             string actorType,
             string actorId,
             string applicationTypeName,
@@ -1163,12 +1405,32 @@ namespace Cogito.Fabric.Activities
         }
 
 
+        /// <summary>
+        /// Records an event.
+        /// </summary>
+        /// <param name="actorType"></param>
+        /// <param name="actorId"></param>
+        /// <param name="applicationTypeName"></param>
+        /// <param name="applicationName"></param>
+        /// <param name="serviceTypeName"></param>
+        /// <param name="serviceName"></param>
+        /// <param name="partitionId"></param>
+        /// <param name="replicaOrInstanceId"></param>
+        /// <param name="nodeName"></param>
+        /// <param name="instanceId"></param>
+        /// <param name="recordNumber"></param>
+        /// <param name="eventTime"></param>
+        /// <param name="annotations"></param>
+        /// <param name="bookmarkName"></param>
+        /// <param name="bookmarkScope"></param>
+        /// <param name="payload"></param>
+        /// <param name="message"></param>
         [Event(
             BookmarkResumptionInfoEventId, 
             Level = EventLevel.Informational, 
             Message = "{16}", 
             Keywords = Keywords.BookmarkResumption)]
-        public void BookmarkResumptionInfo(
+        internal void BookmarkResumptionInfo(
             string actorType,
             string actorId,
             string applicationTypeName,
@@ -1209,12 +1471,32 @@ namespace Cogito.Fabric.Activities
         }
 
 
+        /// <summary>
+        /// Records an event.
+        /// </summary>
+        /// <param name="actorType"></param>
+        /// <param name="actorId"></param>
+        /// <param name="applicationTypeName"></param>
+        /// <param name="applicationName"></param>
+        /// <param name="serviceTypeName"></param>
+        /// <param name="serviceName"></param>
+        /// <param name="partitionId"></param>
+        /// <param name="replicaOrInstanceId"></param>
+        /// <param name="nodeName"></param>
+        /// <param name="instanceId"></param>
+        /// <param name="recordNumber"></param>
+        /// <param name="eventTime"></param>
+        /// <param name="annotations"></param>
+        /// <param name="bookmarkName"></param>
+        /// <param name="bookmarkScope"></param>
+        /// <param name="payload"></param>
+        /// <param name="message"></param>
         [Event(
             BookmarkResumptionWarningEventId, 
             Level = EventLevel.Warning, 
             Message = "{16}", 
             Keywords = Keywords.BookmarkResumption)]
-        public void BookmarkResumptionWarning(
+        internal void BookmarkResumptionWarning(
             string actorType,
             string actorId,
             string applicationTypeName,
@@ -1255,12 +1537,32 @@ namespace Cogito.Fabric.Activities
         }
 
 
+        /// <summary>
+        /// Records an event.
+        /// </summary>
+        /// <param name="actorType"></param>
+        /// <param name="actorId"></param>
+        /// <param name="applicationTypeName"></param>
+        /// <param name="applicationName"></param>
+        /// <param name="serviceTypeName"></param>
+        /// <param name="serviceName"></param>
+        /// <param name="partitionId"></param>
+        /// <param name="replicaOrInstanceId"></param>
+        /// <param name="nodeName"></param>
+        /// <param name="instanceId"></param>
+        /// <param name="recordNumber"></param>
+        /// <param name="eventTime"></param>
+        /// <param name="annotations"></param>
+        /// <param name="bookmarkName"></param>
+        /// <param name="bookmarkScope"></param>
+        /// <param name="payload"></param>
+        /// <param name="message"></param>
         [Event(
             BookmarkResumptionErrorEventId, 
             Level = EventLevel.Error, 
             Message = "{16}", 
             Keywords = Keywords.BookmarkResumption)]
-        public void BookmarkResumptionError(
+        internal void BookmarkResumptionError(
             string actorType,
             string actorId,
             string applicationTypeName,
@@ -1303,7 +1605,7 @@ namespace Cogito.Fabric.Activities
 
     }
 
-    public partial class ActivityActorEventSource
+    partial class ActivityActorEventSource
     {
 
         const int CancelRequestedVerboseEventId = 40;
@@ -1311,8 +1613,15 @@ namespace Cogito.Fabric.Activities
         const int CancelRequestedWarningEventId = 42;
         const int CancelRequestedErrorEventId = 43;
         
+        /// <summary>
+        /// Records an event.
+        /// </summary>
+        /// <param name="actor"></param>
+        /// <param name="record"></param>
+        /// <param name="message"></param>
+        /// <param name="args"></param>
         [NonEvent]
-        public void CancelRequested(IStatefulActivityActorInternal actor, CancelRequestedRecord record, string message = "", params object[] args)
+        internal void CancelRequested(IStatefulActivityActorInternal actor, CancelRequestedRecord record, string message = "", params object[] args)
         {
             Contract.Requires<ArgumentNullException>(actor != null);
             Contract.Requires<ArgumentNullException>(record != null);
@@ -1420,8 +1729,15 @@ namespace Cogito.Fabric.Activities
             }
         }
 
+        /// <summary>
+        /// Records an event.
+        /// </summary>
+        /// <param name="actor"></param>
+        /// <param name="record"></param>
+        /// <param name="message"></param>
+        /// <param name="args"></param>
         [NonEvent]
-        public void CancelRequested(IStatelessActivityActorInternal actor, CancelRequestedRecord record, string message = "", params object[] args)
+        internal void CancelRequested(IStatelessActivityActorInternal actor, CancelRequestedRecord record, string message = "", params object[] args)
         {
             Contract.Requires<ArgumentNullException>(actor != null);
             Contract.Requires<ArgumentNullException>(record != null);
@@ -1530,12 +1846,33 @@ namespace Cogito.Fabric.Activities
         }
 
 
+        /// <summary>
+        /// Records an event.
+        /// </summary>
+        /// <param name="actorType"></param>
+        /// <param name="actorId"></param>
+        /// <param name="applicationTypeName"></param>
+        /// <param name="applicationName"></param>
+        /// <param name="serviceTypeName"></param>
+        /// <param name="serviceName"></param>
+        /// <param name="partitionId"></param>
+        /// <param name="replicaOrInstanceId"></param>
+        /// <param name="nodeName"></param>
+        /// <param name="instanceId"></param>
+        /// <param name="recordNumber"></param>
+        /// <param name="eventTime"></param>
+        /// <param name="annotations"></param>
+        /// <param name="activityName"></param>
+        /// <param name="activityId"></param>
+        /// <param name="activityInstanceId"></param>
+        /// <param name="activityTypeName"></param>
+        /// <param name="message"></param>
         [Event(
             CancelRequestedVerboseEventId, 
             Level = EventLevel.Verbose, 
             Message = "{17}", 
             Keywords = Keywords.CancelRequested)]
-        public void CancelRequestedVerbose(
+        internal void CancelRequestedVerbose(
             string actorType,
             string actorId,
             string applicationTypeName,
@@ -1578,12 +1915,33 @@ namespace Cogito.Fabric.Activities
         }
 
 
+        /// <summary>
+        /// Records an event.
+        /// </summary>
+        /// <param name="actorType"></param>
+        /// <param name="actorId"></param>
+        /// <param name="applicationTypeName"></param>
+        /// <param name="applicationName"></param>
+        /// <param name="serviceTypeName"></param>
+        /// <param name="serviceName"></param>
+        /// <param name="partitionId"></param>
+        /// <param name="replicaOrInstanceId"></param>
+        /// <param name="nodeName"></param>
+        /// <param name="instanceId"></param>
+        /// <param name="recordNumber"></param>
+        /// <param name="eventTime"></param>
+        /// <param name="annotations"></param>
+        /// <param name="activityName"></param>
+        /// <param name="activityId"></param>
+        /// <param name="activityInstanceId"></param>
+        /// <param name="activityTypeName"></param>
+        /// <param name="message"></param>
         [Event(
             CancelRequestedInfoEventId, 
             Level = EventLevel.Informational, 
             Message = "{17}", 
             Keywords = Keywords.CancelRequested)]
-        public void CancelRequestedInfo(
+        internal void CancelRequestedInfo(
             string actorType,
             string actorId,
             string applicationTypeName,
@@ -1626,12 +1984,33 @@ namespace Cogito.Fabric.Activities
         }
 
 
+        /// <summary>
+        /// Records an event.
+        /// </summary>
+        /// <param name="actorType"></param>
+        /// <param name="actorId"></param>
+        /// <param name="applicationTypeName"></param>
+        /// <param name="applicationName"></param>
+        /// <param name="serviceTypeName"></param>
+        /// <param name="serviceName"></param>
+        /// <param name="partitionId"></param>
+        /// <param name="replicaOrInstanceId"></param>
+        /// <param name="nodeName"></param>
+        /// <param name="instanceId"></param>
+        /// <param name="recordNumber"></param>
+        /// <param name="eventTime"></param>
+        /// <param name="annotations"></param>
+        /// <param name="activityName"></param>
+        /// <param name="activityId"></param>
+        /// <param name="activityInstanceId"></param>
+        /// <param name="activityTypeName"></param>
+        /// <param name="message"></param>
         [Event(
             CancelRequestedWarningEventId, 
             Level = EventLevel.Warning, 
             Message = "{17}", 
             Keywords = Keywords.CancelRequested)]
-        public void CancelRequestedWarning(
+        internal void CancelRequestedWarning(
             string actorType,
             string actorId,
             string applicationTypeName,
@@ -1674,12 +2053,33 @@ namespace Cogito.Fabric.Activities
         }
 
 
+        /// <summary>
+        /// Records an event.
+        /// </summary>
+        /// <param name="actorType"></param>
+        /// <param name="actorId"></param>
+        /// <param name="applicationTypeName"></param>
+        /// <param name="applicationName"></param>
+        /// <param name="serviceTypeName"></param>
+        /// <param name="serviceName"></param>
+        /// <param name="partitionId"></param>
+        /// <param name="replicaOrInstanceId"></param>
+        /// <param name="nodeName"></param>
+        /// <param name="instanceId"></param>
+        /// <param name="recordNumber"></param>
+        /// <param name="eventTime"></param>
+        /// <param name="annotations"></param>
+        /// <param name="activityName"></param>
+        /// <param name="activityId"></param>
+        /// <param name="activityInstanceId"></param>
+        /// <param name="activityTypeName"></param>
+        /// <param name="message"></param>
         [Event(
             CancelRequestedErrorEventId, 
             Level = EventLevel.Error, 
             Message = "{17}", 
             Keywords = Keywords.CancelRequested)]
-        public void CancelRequestedError(
+        internal void CancelRequestedError(
             string actorType,
             string actorId,
             string applicationTypeName,
@@ -1724,7 +2124,7 @@ namespace Cogito.Fabric.Activities
 
     }
 
-    public partial class ActivityActorEventSource
+    partial class ActivityActorEventSource
     {
 
         const int FaultPropagationVerboseEventId = 50;
@@ -1732,8 +2132,15 @@ namespace Cogito.Fabric.Activities
         const int FaultPropagationWarningEventId = 52;
         const int FaultPropagationErrorEventId = 53;
         
+        /// <summary>
+        /// Records an event.
+        /// </summary>
+        /// <param name="actor"></param>
+        /// <param name="record"></param>
+        /// <param name="message"></param>
+        /// <param name="args"></param>
         [NonEvent]
-        public void FaultPropagation(IStatefulActivityActorInternal actor, FaultPropagationRecord record, string message = "", params object[] args)
+        internal void FaultPropagation(IStatefulActivityActorInternal actor, FaultPropagationRecord record, string message = "", params object[] args)
         {
             Contract.Requires<ArgumentNullException>(actor != null);
             Contract.Requires<ArgumentNullException>(record != null);
@@ -1861,8 +2268,15 @@ namespace Cogito.Fabric.Activities
             }
         }
 
+        /// <summary>
+        /// Records an event.
+        /// </summary>
+        /// <param name="actor"></param>
+        /// <param name="record"></param>
+        /// <param name="message"></param>
+        /// <param name="args"></param>
         [NonEvent]
-        public void FaultPropagation(IStatelessActivityActorInternal actor, FaultPropagationRecord record, string message = "", params object[] args)
+        internal void FaultPropagation(IStatelessActivityActorInternal actor, FaultPropagationRecord record, string message = "", params object[] args)
         {
             Contract.Requires<ArgumentNullException>(actor != null);
             Contract.Requires<ArgumentNullException>(record != null);
@@ -1991,12 +2405,38 @@ namespace Cogito.Fabric.Activities
         }
 
 
+        /// <summary>
+        /// Records an event.
+        /// </summary>
+        /// <param name="actorType"></param>
+        /// <param name="actorId"></param>
+        /// <param name="applicationTypeName"></param>
+        /// <param name="applicationName"></param>
+        /// <param name="serviceTypeName"></param>
+        /// <param name="serviceName"></param>
+        /// <param name="partitionId"></param>
+        /// <param name="replicaOrInstanceId"></param>
+        /// <param name="nodeName"></param>
+        /// <param name="instanceId"></param>
+        /// <param name="recordNumber"></param>
+        /// <param name="eventTime"></param>
+        /// <param name="annotations"></param>
+        /// <param name="faultMessage"></param>
+        /// <param name="faultSourceName"></param>
+        /// <param name="faultSourceId"></param>
+        /// <param name="faultSourceInstanceId"></param>
+        /// <param name="faultSourceTypeName"></param>
+        /// <param name="faultHandlerName"></param>
+        /// <param name="faultHandlerId"></param>
+        /// <param name="faultHandlerInstanceId"></param>
+        /// <param name="faultHandlerTypeName"></param>
+        /// <param name="message"></param>
         [Event(
             FaultPropagationVerboseEventId, 
             Level = EventLevel.Verbose, 
             Message = "{22}", 
             Keywords = Keywords.FaultPropagation)]
-        public void FaultPropagationVerbose(
+        internal void FaultPropagationVerbose(
             string actorType,
             string actorId,
             string applicationTypeName,
@@ -2049,12 +2489,38 @@ namespace Cogito.Fabric.Activities
         }
 
 
+        /// <summary>
+        /// Records an event.
+        /// </summary>
+        /// <param name="actorType"></param>
+        /// <param name="actorId"></param>
+        /// <param name="applicationTypeName"></param>
+        /// <param name="applicationName"></param>
+        /// <param name="serviceTypeName"></param>
+        /// <param name="serviceName"></param>
+        /// <param name="partitionId"></param>
+        /// <param name="replicaOrInstanceId"></param>
+        /// <param name="nodeName"></param>
+        /// <param name="instanceId"></param>
+        /// <param name="recordNumber"></param>
+        /// <param name="eventTime"></param>
+        /// <param name="annotations"></param>
+        /// <param name="faultMessage"></param>
+        /// <param name="faultSourceName"></param>
+        /// <param name="faultSourceId"></param>
+        /// <param name="faultSourceInstanceId"></param>
+        /// <param name="faultSourceTypeName"></param>
+        /// <param name="faultHandlerName"></param>
+        /// <param name="faultHandlerId"></param>
+        /// <param name="faultHandlerInstanceId"></param>
+        /// <param name="faultHandlerTypeName"></param>
+        /// <param name="message"></param>
         [Event(
             FaultPropagationInfoEventId, 
             Level = EventLevel.Informational, 
             Message = "{22}", 
             Keywords = Keywords.FaultPropagation)]
-        public void FaultPropagationInfo(
+        internal void FaultPropagationInfo(
             string actorType,
             string actorId,
             string applicationTypeName,
@@ -2107,12 +2573,38 @@ namespace Cogito.Fabric.Activities
         }
 
 
+        /// <summary>
+        /// Records an event.
+        /// </summary>
+        /// <param name="actorType"></param>
+        /// <param name="actorId"></param>
+        /// <param name="applicationTypeName"></param>
+        /// <param name="applicationName"></param>
+        /// <param name="serviceTypeName"></param>
+        /// <param name="serviceName"></param>
+        /// <param name="partitionId"></param>
+        /// <param name="replicaOrInstanceId"></param>
+        /// <param name="nodeName"></param>
+        /// <param name="instanceId"></param>
+        /// <param name="recordNumber"></param>
+        /// <param name="eventTime"></param>
+        /// <param name="annotations"></param>
+        /// <param name="faultMessage"></param>
+        /// <param name="faultSourceName"></param>
+        /// <param name="faultSourceId"></param>
+        /// <param name="faultSourceInstanceId"></param>
+        /// <param name="faultSourceTypeName"></param>
+        /// <param name="faultHandlerName"></param>
+        /// <param name="faultHandlerId"></param>
+        /// <param name="faultHandlerInstanceId"></param>
+        /// <param name="faultHandlerTypeName"></param>
+        /// <param name="message"></param>
         [Event(
             FaultPropagationWarningEventId, 
             Level = EventLevel.Warning, 
             Message = "{22}", 
             Keywords = Keywords.FaultPropagation)]
-        public void FaultPropagationWarning(
+        internal void FaultPropagationWarning(
             string actorType,
             string actorId,
             string applicationTypeName,
@@ -2165,12 +2657,38 @@ namespace Cogito.Fabric.Activities
         }
 
 
+        /// <summary>
+        /// Records an event.
+        /// </summary>
+        /// <param name="actorType"></param>
+        /// <param name="actorId"></param>
+        /// <param name="applicationTypeName"></param>
+        /// <param name="applicationName"></param>
+        /// <param name="serviceTypeName"></param>
+        /// <param name="serviceName"></param>
+        /// <param name="partitionId"></param>
+        /// <param name="replicaOrInstanceId"></param>
+        /// <param name="nodeName"></param>
+        /// <param name="instanceId"></param>
+        /// <param name="recordNumber"></param>
+        /// <param name="eventTime"></param>
+        /// <param name="annotations"></param>
+        /// <param name="faultMessage"></param>
+        /// <param name="faultSourceName"></param>
+        /// <param name="faultSourceId"></param>
+        /// <param name="faultSourceInstanceId"></param>
+        /// <param name="faultSourceTypeName"></param>
+        /// <param name="faultHandlerName"></param>
+        /// <param name="faultHandlerId"></param>
+        /// <param name="faultHandlerInstanceId"></param>
+        /// <param name="faultHandlerTypeName"></param>
+        /// <param name="message"></param>
         [Event(
             FaultPropagationErrorEventId, 
             Level = EventLevel.Error, 
             Message = "{22}", 
             Keywords = Keywords.FaultPropagation)]
-        public void FaultPropagationError(
+        internal void FaultPropagationError(
             string actorType,
             string actorId,
             string applicationTypeName,
@@ -2225,7 +2743,7 @@ namespace Cogito.Fabric.Activities
 
     }
 
-    public partial class ActivityActorEventSource
+    partial class ActivityActorEventSource
     {
 
         const int WorkflowInstanceVerboseEventId = 60;
@@ -2233,8 +2751,15 @@ namespace Cogito.Fabric.Activities
         const int WorkflowInstanceWarningEventId = 62;
         const int WorkflowInstanceErrorEventId = 63;
         
+        /// <summary>
+        /// Records an event.
+        /// </summary>
+        /// <param name="actor"></param>
+        /// <param name="record"></param>
+        /// <param name="message"></param>
+        /// <param name="args"></param>
         [NonEvent]
-        public void WorkflowInstance(IStatefulActivityActorInternal actor, WorkflowInstanceRecord record, string message = "", params object[] args)
+        internal void WorkflowInstance(IStatefulActivityActorInternal actor, WorkflowInstanceRecord record, string message = "", params object[] args)
         {
             Contract.Requires<ArgumentNullException>(actor != null);
             Contract.Requires<ArgumentNullException>(record != null);
@@ -2338,8 +2863,15 @@ namespace Cogito.Fabric.Activities
             }
         }
 
+        /// <summary>
+        /// Records an event.
+        /// </summary>
+        /// <param name="actor"></param>
+        /// <param name="record"></param>
+        /// <param name="message"></param>
+        /// <param name="args"></param>
         [NonEvent]
-        public void WorkflowInstance(IStatelessActivityActorInternal actor, WorkflowInstanceRecord record, string message = "", params object[] args)
+        internal void WorkflowInstance(IStatelessActivityActorInternal actor, WorkflowInstanceRecord record, string message = "", params object[] args)
         {
             Contract.Requires<ArgumentNullException>(actor != null);
             Contract.Requires<ArgumentNullException>(record != null);
@@ -2444,12 +2976,32 @@ namespace Cogito.Fabric.Activities
         }
 
 
+        /// <summary>
+        /// Records an event.
+        /// </summary>
+        /// <param name="actorType"></param>
+        /// <param name="actorId"></param>
+        /// <param name="applicationTypeName"></param>
+        /// <param name="applicationName"></param>
+        /// <param name="serviceTypeName"></param>
+        /// <param name="serviceName"></param>
+        /// <param name="partitionId"></param>
+        /// <param name="replicaOrInstanceId"></param>
+        /// <param name="nodeName"></param>
+        /// <param name="instanceId"></param>
+        /// <param name="recordNumber"></param>
+        /// <param name="eventTime"></param>
+        /// <param name="annotations"></param>
+        /// <param name="state"></param>
+        /// <param name="workflowDefinitionIdentityName"></param>
+        /// <param name="activityDefinitionId"></param>
+        /// <param name="message"></param>
         [Event(
             WorkflowInstanceVerboseEventId, 
             Level = EventLevel.Verbose, 
             Message = "{16}", 
             Keywords = Keywords.WorkflowInstance)]
-        public void WorkflowInstanceVerbose(
+        internal void WorkflowInstanceVerbose(
             string actorType,
             string actorId,
             string applicationTypeName,
@@ -2490,12 +3042,32 @@ namespace Cogito.Fabric.Activities
         }
 
 
+        /// <summary>
+        /// Records an event.
+        /// </summary>
+        /// <param name="actorType"></param>
+        /// <param name="actorId"></param>
+        /// <param name="applicationTypeName"></param>
+        /// <param name="applicationName"></param>
+        /// <param name="serviceTypeName"></param>
+        /// <param name="serviceName"></param>
+        /// <param name="partitionId"></param>
+        /// <param name="replicaOrInstanceId"></param>
+        /// <param name="nodeName"></param>
+        /// <param name="instanceId"></param>
+        /// <param name="recordNumber"></param>
+        /// <param name="eventTime"></param>
+        /// <param name="annotations"></param>
+        /// <param name="state"></param>
+        /// <param name="workflowDefinitionIdentityName"></param>
+        /// <param name="activityDefinitionId"></param>
+        /// <param name="message"></param>
         [Event(
             WorkflowInstanceInfoEventId, 
             Level = EventLevel.Informational, 
             Message = "{16}", 
             Keywords = Keywords.WorkflowInstance)]
-        public void WorkflowInstanceInfo(
+        internal void WorkflowInstanceInfo(
             string actorType,
             string actorId,
             string applicationTypeName,
@@ -2536,12 +3108,32 @@ namespace Cogito.Fabric.Activities
         }
 
 
+        /// <summary>
+        /// Records an event.
+        /// </summary>
+        /// <param name="actorType"></param>
+        /// <param name="actorId"></param>
+        /// <param name="applicationTypeName"></param>
+        /// <param name="applicationName"></param>
+        /// <param name="serviceTypeName"></param>
+        /// <param name="serviceName"></param>
+        /// <param name="partitionId"></param>
+        /// <param name="replicaOrInstanceId"></param>
+        /// <param name="nodeName"></param>
+        /// <param name="instanceId"></param>
+        /// <param name="recordNumber"></param>
+        /// <param name="eventTime"></param>
+        /// <param name="annotations"></param>
+        /// <param name="state"></param>
+        /// <param name="workflowDefinitionIdentityName"></param>
+        /// <param name="activityDefinitionId"></param>
+        /// <param name="message"></param>
         [Event(
             WorkflowInstanceWarningEventId, 
             Level = EventLevel.Warning, 
             Message = "{16}", 
             Keywords = Keywords.WorkflowInstance)]
-        public void WorkflowInstanceWarning(
+        internal void WorkflowInstanceWarning(
             string actorType,
             string actorId,
             string applicationTypeName,
@@ -2582,12 +3174,32 @@ namespace Cogito.Fabric.Activities
         }
 
 
+        /// <summary>
+        /// Records an event.
+        /// </summary>
+        /// <param name="actorType"></param>
+        /// <param name="actorId"></param>
+        /// <param name="applicationTypeName"></param>
+        /// <param name="applicationName"></param>
+        /// <param name="serviceTypeName"></param>
+        /// <param name="serviceName"></param>
+        /// <param name="partitionId"></param>
+        /// <param name="replicaOrInstanceId"></param>
+        /// <param name="nodeName"></param>
+        /// <param name="instanceId"></param>
+        /// <param name="recordNumber"></param>
+        /// <param name="eventTime"></param>
+        /// <param name="annotations"></param>
+        /// <param name="state"></param>
+        /// <param name="workflowDefinitionIdentityName"></param>
+        /// <param name="activityDefinitionId"></param>
+        /// <param name="message"></param>
         [Event(
             WorkflowInstanceErrorEventId, 
             Level = EventLevel.Error, 
             Message = "{16}", 
             Keywords = Keywords.WorkflowInstance)]
-        public void WorkflowInstanceError(
+        internal void WorkflowInstanceError(
             string actorType,
             string actorId,
             string applicationTypeName,
@@ -2630,7 +3242,7 @@ namespace Cogito.Fabric.Activities
 
     }
 
-    public partial class ActivityActorEventSource
+    partial class ActivityActorEventSource
     {
 
         const int WorkflowInstanceAbortedVerboseEventId = 70;
@@ -2638,8 +3250,15 @@ namespace Cogito.Fabric.Activities
         const int WorkflowInstanceAbortedWarningEventId = 72;
         const int WorkflowInstanceAbortedErrorEventId = 73;
         
+        /// <summary>
+        /// Records an event.
+        /// </summary>
+        /// <param name="actor"></param>
+        /// <param name="record"></param>
+        /// <param name="message"></param>
+        /// <param name="args"></param>
         [NonEvent]
-        public void WorkflowInstanceAborted(IStatefulActivityActorInternal actor, WorkflowInstanceAbortedRecord record, string message = "", params object[] args)
+        internal void WorkflowInstanceAborted(IStatefulActivityActorInternal actor, WorkflowInstanceAbortedRecord record, string message = "", params object[] args)
         {
             Contract.Requires<ArgumentNullException>(actor != null);
             Contract.Requires<ArgumentNullException>(record != null);
@@ -2747,8 +3366,15 @@ namespace Cogito.Fabric.Activities
             }
         }
 
+        /// <summary>
+        /// Records an event.
+        /// </summary>
+        /// <param name="actor"></param>
+        /// <param name="record"></param>
+        /// <param name="message"></param>
+        /// <param name="args"></param>
         [NonEvent]
-        public void WorkflowInstanceAborted(IStatelessActivityActorInternal actor, WorkflowInstanceAbortedRecord record, string message = "", params object[] args)
+        internal void WorkflowInstanceAborted(IStatelessActivityActorInternal actor, WorkflowInstanceAbortedRecord record, string message = "", params object[] args)
         {
             Contract.Requires<ArgumentNullException>(actor != null);
             Contract.Requires<ArgumentNullException>(record != null);
@@ -2857,12 +3483,33 @@ namespace Cogito.Fabric.Activities
         }
 
 
+        /// <summary>
+        /// Records an event.
+        /// </summary>
+        /// <param name="actorType"></param>
+        /// <param name="actorId"></param>
+        /// <param name="applicationTypeName"></param>
+        /// <param name="applicationName"></param>
+        /// <param name="serviceTypeName"></param>
+        /// <param name="serviceName"></param>
+        /// <param name="partitionId"></param>
+        /// <param name="replicaOrInstanceId"></param>
+        /// <param name="nodeName"></param>
+        /// <param name="instanceId"></param>
+        /// <param name="recordNumber"></param>
+        /// <param name="eventTime"></param>
+        /// <param name="annotations"></param>
+        /// <param name="state"></param>
+        /// <param name="workflowDefinitionIdentityName"></param>
+        /// <param name="activityDefinitionId"></param>
+        /// <param name="reason"></param>
+        /// <param name="message"></param>
         [Event(
             WorkflowInstanceAbortedVerboseEventId, 
             Level = EventLevel.Verbose, 
             Message = "{17}", 
             Keywords = Keywords.WorkflowInstance | Keywords.WorkflowInstanceAborted)]
-        public void WorkflowInstanceAbortedVerbose(
+        internal void WorkflowInstanceAbortedVerbose(
             string actorType,
             string actorId,
             string applicationTypeName,
@@ -2905,12 +3552,33 @@ namespace Cogito.Fabric.Activities
         }
 
 
+        /// <summary>
+        /// Records an event.
+        /// </summary>
+        /// <param name="actorType"></param>
+        /// <param name="actorId"></param>
+        /// <param name="applicationTypeName"></param>
+        /// <param name="applicationName"></param>
+        /// <param name="serviceTypeName"></param>
+        /// <param name="serviceName"></param>
+        /// <param name="partitionId"></param>
+        /// <param name="replicaOrInstanceId"></param>
+        /// <param name="nodeName"></param>
+        /// <param name="instanceId"></param>
+        /// <param name="recordNumber"></param>
+        /// <param name="eventTime"></param>
+        /// <param name="annotations"></param>
+        /// <param name="state"></param>
+        /// <param name="workflowDefinitionIdentityName"></param>
+        /// <param name="activityDefinitionId"></param>
+        /// <param name="reason"></param>
+        /// <param name="message"></param>
         [Event(
             WorkflowInstanceAbortedInfoEventId, 
             Level = EventLevel.Informational, 
             Message = "{17}", 
             Keywords = Keywords.WorkflowInstance | Keywords.WorkflowInstanceAborted)]
-        public void WorkflowInstanceAbortedInfo(
+        internal void WorkflowInstanceAbortedInfo(
             string actorType,
             string actorId,
             string applicationTypeName,
@@ -2953,12 +3621,33 @@ namespace Cogito.Fabric.Activities
         }
 
 
+        /// <summary>
+        /// Records an event.
+        /// </summary>
+        /// <param name="actorType"></param>
+        /// <param name="actorId"></param>
+        /// <param name="applicationTypeName"></param>
+        /// <param name="applicationName"></param>
+        /// <param name="serviceTypeName"></param>
+        /// <param name="serviceName"></param>
+        /// <param name="partitionId"></param>
+        /// <param name="replicaOrInstanceId"></param>
+        /// <param name="nodeName"></param>
+        /// <param name="instanceId"></param>
+        /// <param name="recordNumber"></param>
+        /// <param name="eventTime"></param>
+        /// <param name="annotations"></param>
+        /// <param name="state"></param>
+        /// <param name="workflowDefinitionIdentityName"></param>
+        /// <param name="activityDefinitionId"></param>
+        /// <param name="reason"></param>
+        /// <param name="message"></param>
         [Event(
             WorkflowInstanceAbortedWarningEventId, 
             Level = EventLevel.Warning, 
             Message = "{17}", 
             Keywords = Keywords.WorkflowInstance | Keywords.WorkflowInstanceAborted)]
-        public void WorkflowInstanceAbortedWarning(
+        internal void WorkflowInstanceAbortedWarning(
             string actorType,
             string actorId,
             string applicationTypeName,
@@ -3001,12 +3690,33 @@ namespace Cogito.Fabric.Activities
         }
 
 
+        /// <summary>
+        /// Records an event.
+        /// </summary>
+        /// <param name="actorType"></param>
+        /// <param name="actorId"></param>
+        /// <param name="applicationTypeName"></param>
+        /// <param name="applicationName"></param>
+        /// <param name="serviceTypeName"></param>
+        /// <param name="serviceName"></param>
+        /// <param name="partitionId"></param>
+        /// <param name="replicaOrInstanceId"></param>
+        /// <param name="nodeName"></param>
+        /// <param name="instanceId"></param>
+        /// <param name="recordNumber"></param>
+        /// <param name="eventTime"></param>
+        /// <param name="annotations"></param>
+        /// <param name="state"></param>
+        /// <param name="workflowDefinitionIdentityName"></param>
+        /// <param name="activityDefinitionId"></param>
+        /// <param name="reason"></param>
+        /// <param name="message"></param>
         [Event(
             WorkflowInstanceAbortedErrorEventId, 
             Level = EventLevel.Error, 
             Message = "{17}", 
             Keywords = Keywords.WorkflowInstance | Keywords.WorkflowInstanceAborted)]
-        public void WorkflowInstanceAbortedError(
+        internal void WorkflowInstanceAbortedError(
             string actorType,
             string actorId,
             string applicationTypeName,
@@ -3051,7 +3761,7 @@ namespace Cogito.Fabric.Activities
 
     }
 
-    public partial class ActivityActorEventSource
+    partial class ActivityActorEventSource
     {
 
         const int WorkflowInstanceSuspendedVerboseEventId = 80;
@@ -3059,8 +3769,15 @@ namespace Cogito.Fabric.Activities
         const int WorkflowInstanceSuspendedWarningEventId = 82;
         const int WorkflowInstanceSuspendedErrorEventId = 83;
         
+        /// <summary>
+        /// Records an event.
+        /// </summary>
+        /// <param name="actor"></param>
+        /// <param name="record"></param>
+        /// <param name="message"></param>
+        /// <param name="args"></param>
         [NonEvent]
-        public void WorkflowInstanceSuspended(IStatefulActivityActorInternal actor, WorkflowInstanceSuspendedRecord record, string message = "", params object[] args)
+        internal void WorkflowInstanceSuspended(IStatefulActivityActorInternal actor, WorkflowInstanceSuspendedRecord record, string message = "", params object[] args)
         {
             Contract.Requires<ArgumentNullException>(actor != null);
             Contract.Requires<ArgumentNullException>(record != null);
@@ -3168,8 +3885,15 @@ namespace Cogito.Fabric.Activities
             }
         }
 
+        /// <summary>
+        /// Records an event.
+        /// </summary>
+        /// <param name="actor"></param>
+        /// <param name="record"></param>
+        /// <param name="message"></param>
+        /// <param name="args"></param>
         [NonEvent]
-        public void WorkflowInstanceSuspended(IStatelessActivityActorInternal actor, WorkflowInstanceSuspendedRecord record, string message = "", params object[] args)
+        internal void WorkflowInstanceSuspended(IStatelessActivityActorInternal actor, WorkflowInstanceSuspendedRecord record, string message = "", params object[] args)
         {
             Contract.Requires<ArgumentNullException>(actor != null);
             Contract.Requires<ArgumentNullException>(record != null);
@@ -3278,12 +4002,33 @@ namespace Cogito.Fabric.Activities
         }
 
 
+        /// <summary>
+        /// Records an event.
+        /// </summary>
+        /// <param name="actorType"></param>
+        /// <param name="actorId"></param>
+        /// <param name="applicationTypeName"></param>
+        /// <param name="applicationName"></param>
+        /// <param name="serviceTypeName"></param>
+        /// <param name="serviceName"></param>
+        /// <param name="partitionId"></param>
+        /// <param name="replicaOrInstanceId"></param>
+        /// <param name="nodeName"></param>
+        /// <param name="instanceId"></param>
+        /// <param name="recordNumber"></param>
+        /// <param name="eventTime"></param>
+        /// <param name="annotations"></param>
+        /// <param name="state"></param>
+        /// <param name="workflowDefinitionIdentityName"></param>
+        /// <param name="activityDefinitionId"></param>
+        /// <param name="reason"></param>
+        /// <param name="message"></param>
         [Event(
             WorkflowInstanceSuspendedVerboseEventId, 
             Level = EventLevel.Verbose, 
             Message = "{17}", 
             Keywords = Keywords.WorkflowInstance | Keywords.WorkflowInstanceSuspended)]
-        public void WorkflowInstanceSuspendedVerbose(
+        internal void WorkflowInstanceSuspendedVerbose(
             string actorType,
             string actorId,
             string applicationTypeName,
@@ -3326,12 +4071,33 @@ namespace Cogito.Fabric.Activities
         }
 
 
+        /// <summary>
+        /// Records an event.
+        /// </summary>
+        /// <param name="actorType"></param>
+        /// <param name="actorId"></param>
+        /// <param name="applicationTypeName"></param>
+        /// <param name="applicationName"></param>
+        /// <param name="serviceTypeName"></param>
+        /// <param name="serviceName"></param>
+        /// <param name="partitionId"></param>
+        /// <param name="replicaOrInstanceId"></param>
+        /// <param name="nodeName"></param>
+        /// <param name="instanceId"></param>
+        /// <param name="recordNumber"></param>
+        /// <param name="eventTime"></param>
+        /// <param name="annotations"></param>
+        /// <param name="state"></param>
+        /// <param name="workflowDefinitionIdentityName"></param>
+        /// <param name="activityDefinitionId"></param>
+        /// <param name="reason"></param>
+        /// <param name="message"></param>
         [Event(
             WorkflowInstanceSuspendedInfoEventId, 
             Level = EventLevel.Informational, 
             Message = "{17}", 
             Keywords = Keywords.WorkflowInstance | Keywords.WorkflowInstanceSuspended)]
-        public void WorkflowInstanceSuspendedInfo(
+        internal void WorkflowInstanceSuspendedInfo(
             string actorType,
             string actorId,
             string applicationTypeName,
@@ -3374,12 +4140,33 @@ namespace Cogito.Fabric.Activities
         }
 
 
+        /// <summary>
+        /// Records an event.
+        /// </summary>
+        /// <param name="actorType"></param>
+        /// <param name="actorId"></param>
+        /// <param name="applicationTypeName"></param>
+        /// <param name="applicationName"></param>
+        /// <param name="serviceTypeName"></param>
+        /// <param name="serviceName"></param>
+        /// <param name="partitionId"></param>
+        /// <param name="replicaOrInstanceId"></param>
+        /// <param name="nodeName"></param>
+        /// <param name="instanceId"></param>
+        /// <param name="recordNumber"></param>
+        /// <param name="eventTime"></param>
+        /// <param name="annotations"></param>
+        /// <param name="state"></param>
+        /// <param name="workflowDefinitionIdentityName"></param>
+        /// <param name="activityDefinitionId"></param>
+        /// <param name="reason"></param>
+        /// <param name="message"></param>
         [Event(
             WorkflowInstanceSuspendedWarningEventId, 
             Level = EventLevel.Warning, 
             Message = "{17}", 
             Keywords = Keywords.WorkflowInstance | Keywords.WorkflowInstanceSuspended)]
-        public void WorkflowInstanceSuspendedWarning(
+        internal void WorkflowInstanceSuspendedWarning(
             string actorType,
             string actorId,
             string applicationTypeName,
@@ -3422,12 +4209,33 @@ namespace Cogito.Fabric.Activities
         }
 
 
+        /// <summary>
+        /// Records an event.
+        /// </summary>
+        /// <param name="actorType"></param>
+        /// <param name="actorId"></param>
+        /// <param name="applicationTypeName"></param>
+        /// <param name="applicationName"></param>
+        /// <param name="serviceTypeName"></param>
+        /// <param name="serviceName"></param>
+        /// <param name="partitionId"></param>
+        /// <param name="replicaOrInstanceId"></param>
+        /// <param name="nodeName"></param>
+        /// <param name="instanceId"></param>
+        /// <param name="recordNumber"></param>
+        /// <param name="eventTime"></param>
+        /// <param name="annotations"></param>
+        /// <param name="state"></param>
+        /// <param name="workflowDefinitionIdentityName"></param>
+        /// <param name="activityDefinitionId"></param>
+        /// <param name="reason"></param>
+        /// <param name="message"></param>
         [Event(
             WorkflowInstanceSuspendedErrorEventId, 
             Level = EventLevel.Error, 
             Message = "{17}", 
             Keywords = Keywords.WorkflowInstance | Keywords.WorkflowInstanceSuspended)]
-        public void WorkflowInstanceSuspendedError(
+        internal void WorkflowInstanceSuspendedError(
             string actorType,
             string actorId,
             string applicationTypeName,
@@ -3472,7 +4280,7 @@ namespace Cogito.Fabric.Activities
 
     }
 
-    public partial class ActivityActorEventSource
+    partial class ActivityActorEventSource
     {
 
         const int WorkflowInstanceTerminatedVerboseEventId = 90;
@@ -3480,8 +4288,15 @@ namespace Cogito.Fabric.Activities
         const int WorkflowInstanceTerminatedWarningEventId = 92;
         const int WorkflowInstanceTerminatedErrorEventId = 93;
         
+        /// <summary>
+        /// Records an event.
+        /// </summary>
+        /// <param name="actor"></param>
+        /// <param name="record"></param>
+        /// <param name="message"></param>
+        /// <param name="args"></param>
         [NonEvent]
-        public void WorkflowInstanceTerminated(IStatefulActivityActorInternal actor, WorkflowInstanceTerminatedRecord record, string message = "", params object[] args)
+        internal void WorkflowInstanceTerminated(IStatefulActivityActorInternal actor, WorkflowInstanceTerminatedRecord record, string message = "", params object[] args)
         {
             Contract.Requires<ArgumentNullException>(actor != null);
             Contract.Requires<ArgumentNullException>(record != null);
@@ -3589,8 +4404,15 @@ namespace Cogito.Fabric.Activities
             }
         }
 
+        /// <summary>
+        /// Records an event.
+        /// </summary>
+        /// <param name="actor"></param>
+        /// <param name="record"></param>
+        /// <param name="message"></param>
+        /// <param name="args"></param>
         [NonEvent]
-        public void WorkflowInstanceTerminated(IStatelessActivityActorInternal actor, WorkflowInstanceTerminatedRecord record, string message = "", params object[] args)
+        internal void WorkflowInstanceTerminated(IStatelessActivityActorInternal actor, WorkflowInstanceTerminatedRecord record, string message = "", params object[] args)
         {
             Contract.Requires<ArgumentNullException>(actor != null);
             Contract.Requires<ArgumentNullException>(record != null);
@@ -3699,12 +4521,33 @@ namespace Cogito.Fabric.Activities
         }
 
 
+        /// <summary>
+        /// Records an event.
+        /// </summary>
+        /// <param name="actorType"></param>
+        /// <param name="actorId"></param>
+        /// <param name="applicationTypeName"></param>
+        /// <param name="applicationName"></param>
+        /// <param name="serviceTypeName"></param>
+        /// <param name="serviceName"></param>
+        /// <param name="partitionId"></param>
+        /// <param name="replicaOrInstanceId"></param>
+        /// <param name="nodeName"></param>
+        /// <param name="instanceId"></param>
+        /// <param name="recordNumber"></param>
+        /// <param name="eventTime"></param>
+        /// <param name="annotations"></param>
+        /// <param name="state"></param>
+        /// <param name="workflowDefinitionIdentityName"></param>
+        /// <param name="activityDefinitionId"></param>
+        /// <param name="reason"></param>
+        /// <param name="message"></param>
         [Event(
             WorkflowInstanceTerminatedVerboseEventId, 
             Level = EventLevel.Verbose, 
             Message = "{17}", 
             Keywords = Keywords.WorkflowInstance | Keywords.WorkflowInstanceTerminated)]
-        public void WorkflowInstanceTerminatedVerbose(
+        internal void WorkflowInstanceTerminatedVerbose(
             string actorType,
             string actorId,
             string applicationTypeName,
@@ -3747,12 +4590,33 @@ namespace Cogito.Fabric.Activities
         }
 
 
+        /// <summary>
+        /// Records an event.
+        /// </summary>
+        /// <param name="actorType"></param>
+        /// <param name="actorId"></param>
+        /// <param name="applicationTypeName"></param>
+        /// <param name="applicationName"></param>
+        /// <param name="serviceTypeName"></param>
+        /// <param name="serviceName"></param>
+        /// <param name="partitionId"></param>
+        /// <param name="replicaOrInstanceId"></param>
+        /// <param name="nodeName"></param>
+        /// <param name="instanceId"></param>
+        /// <param name="recordNumber"></param>
+        /// <param name="eventTime"></param>
+        /// <param name="annotations"></param>
+        /// <param name="state"></param>
+        /// <param name="workflowDefinitionIdentityName"></param>
+        /// <param name="activityDefinitionId"></param>
+        /// <param name="reason"></param>
+        /// <param name="message"></param>
         [Event(
             WorkflowInstanceTerminatedInfoEventId, 
             Level = EventLevel.Informational, 
             Message = "{17}", 
             Keywords = Keywords.WorkflowInstance | Keywords.WorkflowInstanceTerminated)]
-        public void WorkflowInstanceTerminatedInfo(
+        internal void WorkflowInstanceTerminatedInfo(
             string actorType,
             string actorId,
             string applicationTypeName,
@@ -3795,12 +4659,33 @@ namespace Cogito.Fabric.Activities
         }
 
 
+        /// <summary>
+        /// Records an event.
+        /// </summary>
+        /// <param name="actorType"></param>
+        /// <param name="actorId"></param>
+        /// <param name="applicationTypeName"></param>
+        /// <param name="applicationName"></param>
+        /// <param name="serviceTypeName"></param>
+        /// <param name="serviceName"></param>
+        /// <param name="partitionId"></param>
+        /// <param name="replicaOrInstanceId"></param>
+        /// <param name="nodeName"></param>
+        /// <param name="instanceId"></param>
+        /// <param name="recordNumber"></param>
+        /// <param name="eventTime"></param>
+        /// <param name="annotations"></param>
+        /// <param name="state"></param>
+        /// <param name="workflowDefinitionIdentityName"></param>
+        /// <param name="activityDefinitionId"></param>
+        /// <param name="reason"></param>
+        /// <param name="message"></param>
         [Event(
             WorkflowInstanceTerminatedWarningEventId, 
             Level = EventLevel.Warning, 
             Message = "{17}", 
             Keywords = Keywords.WorkflowInstance | Keywords.WorkflowInstanceTerminated)]
-        public void WorkflowInstanceTerminatedWarning(
+        internal void WorkflowInstanceTerminatedWarning(
             string actorType,
             string actorId,
             string applicationTypeName,
@@ -3843,12 +4728,33 @@ namespace Cogito.Fabric.Activities
         }
 
 
+        /// <summary>
+        /// Records an event.
+        /// </summary>
+        /// <param name="actorType"></param>
+        /// <param name="actorId"></param>
+        /// <param name="applicationTypeName"></param>
+        /// <param name="applicationName"></param>
+        /// <param name="serviceTypeName"></param>
+        /// <param name="serviceName"></param>
+        /// <param name="partitionId"></param>
+        /// <param name="replicaOrInstanceId"></param>
+        /// <param name="nodeName"></param>
+        /// <param name="instanceId"></param>
+        /// <param name="recordNumber"></param>
+        /// <param name="eventTime"></param>
+        /// <param name="annotations"></param>
+        /// <param name="state"></param>
+        /// <param name="workflowDefinitionIdentityName"></param>
+        /// <param name="activityDefinitionId"></param>
+        /// <param name="reason"></param>
+        /// <param name="message"></param>
         [Event(
             WorkflowInstanceTerminatedErrorEventId, 
             Level = EventLevel.Error, 
             Message = "{17}", 
             Keywords = Keywords.WorkflowInstance | Keywords.WorkflowInstanceTerminated)]
-        public void WorkflowInstanceTerminatedError(
+        internal void WorkflowInstanceTerminatedError(
             string actorType,
             string actorId,
             string applicationTypeName,
@@ -3893,7 +4799,7 @@ namespace Cogito.Fabric.Activities
 
     }
 
-    public partial class ActivityActorEventSource
+    partial class ActivityActorEventSource
     {
 
         const int WorkflowInstanceUnhandledExceptionVerboseEventId = 100;
@@ -3901,8 +4807,15 @@ namespace Cogito.Fabric.Activities
         const int WorkflowInstanceUnhandledExceptionWarningEventId = 102;
         const int WorkflowInstanceUnhandledExceptionErrorEventId = 103;
         
+        /// <summary>
+        /// Records an event.
+        /// </summary>
+        /// <param name="actor"></param>
+        /// <param name="record"></param>
+        /// <param name="message"></param>
+        /// <param name="args"></param>
         [NonEvent]
-        public void WorkflowInstanceUnhandledException(IStatefulActivityActorInternal actor, WorkflowInstanceUnhandledExceptionRecord record, string message = "", params object[] args)
+        internal void WorkflowInstanceUnhandledException(IStatefulActivityActorInternal actor, WorkflowInstanceUnhandledExceptionRecord record, string message = "", params object[] args)
         {
             Contract.Requires<ArgumentNullException>(actor != null);
             Contract.Requires<ArgumentNullException>(record != null);
@@ -4026,8 +4939,15 @@ namespace Cogito.Fabric.Activities
             }
         }
 
+        /// <summary>
+        /// Records an event.
+        /// </summary>
+        /// <param name="actor"></param>
+        /// <param name="record"></param>
+        /// <param name="message"></param>
+        /// <param name="args"></param>
         [NonEvent]
-        public void WorkflowInstanceUnhandledException(IStatelessActivityActorInternal actor, WorkflowInstanceUnhandledExceptionRecord record, string message = "", params object[] args)
+        internal void WorkflowInstanceUnhandledException(IStatelessActivityActorInternal actor, WorkflowInstanceUnhandledExceptionRecord record, string message = "", params object[] args)
         {
             Contract.Requires<ArgumentNullException>(actor != null);
             Contract.Requires<ArgumentNullException>(record != null);
@@ -4152,12 +5072,37 @@ namespace Cogito.Fabric.Activities
         }
 
 
+        /// <summary>
+        /// Records an event.
+        /// </summary>
+        /// <param name="actorType"></param>
+        /// <param name="actorId"></param>
+        /// <param name="applicationTypeName"></param>
+        /// <param name="applicationName"></param>
+        /// <param name="serviceTypeName"></param>
+        /// <param name="serviceName"></param>
+        /// <param name="partitionId"></param>
+        /// <param name="replicaOrInstanceId"></param>
+        /// <param name="nodeName"></param>
+        /// <param name="instanceId"></param>
+        /// <param name="recordNumber"></param>
+        /// <param name="eventTime"></param>
+        /// <param name="annotations"></param>
+        /// <param name="state"></param>
+        /// <param name="workflowDefinitionIdentityName"></param>
+        /// <param name="activityDefinitionId"></param>
+        /// <param name="faultSourceName"></param>
+        /// <param name="faultSourceId"></param>
+        /// <param name="faultSourceInstanceId"></param>
+        /// <param name="faultSourceTypeName"></param>
+        /// <param name="exception"></param>
+        /// <param name="message"></param>
         [Event(
             WorkflowInstanceUnhandledExceptionVerboseEventId, 
             Level = EventLevel.Verbose, 
             Message = "{21}", 
             Keywords = Keywords.WorkflowInstance | Keywords.WorkflowInstanceUnhandledException)]
-        public void WorkflowInstanceUnhandledExceptionVerbose(
+        internal void WorkflowInstanceUnhandledExceptionVerbose(
             string actorType,
             string actorId,
             string applicationTypeName,
@@ -4208,12 +5153,37 @@ namespace Cogito.Fabric.Activities
         }
 
 
+        /// <summary>
+        /// Records an event.
+        /// </summary>
+        /// <param name="actorType"></param>
+        /// <param name="actorId"></param>
+        /// <param name="applicationTypeName"></param>
+        /// <param name="applicationName"></param>
+        /// <param name="serviceTypeName"></param>
+        /// <param name="serviceName"></param>
+        /// <param name="partitionId"></param>
+        /// <param name="replicaOrInstanceId"></param>
+        /// <param name="nodeName"></param>
+        /// <param name="instanceId"></param>
+        /// <param name="recordNumber"></param>
+        /// <param name="eventTime"></param>
+        /// <param name="annotations"></param>
+        /// <param name="state"></param>
+        /// <param name="workflowDefinitionIdentityName"></param>
+        /// <param name="activityDefinitionId"></param>
+        /// <param name="faultSourceName"></param>
+        /// <param name="faultSourceId"></param>
+        /// <param name="faultSourceInstanceId"></param>
+        /// <param name="faultSourceTypeName"></param>
+        /// <param name="exception"></param>
+        /// <param name="message"></param>
         [Event(
             WorkflowInstanceUnhandledExceptionInfoEventId, 
             Level = EventLevel.Informational, 
             Message = "{21}", 
             Keywords = Keywords.WorkflowInstance | Keywords.WorkflowInstanceUnhandledException)]
-        public void WorkflowInstanceUnhandledExceptionInfo(
+        internal void WorkflowInstanceUnhandledExceptionInfo(
             string actorType,
             string actorId,
             string applicationTypeName,
@@ -4264,12 +5234,37 @@ namespace Cogito.Fabric.Activities
         }
 
 
+        /// <summary>
+        /// Records an event.
+        /// </summary>
+        /// <param name="actorType"></param>
+        /// <param name="actorId"></param>
+        /// <param name="applicationTypeName"></param>
+        /// <param name="applicationName"></param>
+        /// <param name="serviceTypeName"></param>
+        /// <param name="serviceName"></param>
+        /// <param name="partitionId"></param>
+        /// <param name="replicaOrInstanceId"></param>
+        /// <param name="nodeName"></param>
+        /// <param name="instanceId"></param>
+        /// <param name="recordNumber"></param>
+        /// <param name="eventTime"></param>
+        /// <param name="annotations"></param>
+        /// <param name="state"></param>
+        /// <param name="workflowDefinitionIdentityName"></param>
+        /// <param name="activityDefinitionId"></param>
+        /// <param name="faultSourceName"></param>
+        /// <param name="faultSourceId"></param>
+        /// <param name="faultSourceInstanceId"></param>
+        /// <param name="faultSourceTypeName"></param>
+        /// <param name="exception"></param>
+        /// <param name="message"></param>
         [Event(
             WorkflowInstanceUnhandledExceptionWarningEventId, 
             Level = EventLevel.Warning, 
             Message = "{21}", 
             Keywords = Keywords.WorkflowInstance | Keywords.WorkflowInstanceUnhandledException)]
-        public void WorkflowInstanceUnhandledExceptionWarning(
+        internal void WorkflowInstanceUnhandledExceptionWarning(
             string actorType,
             string actorId,
             string applicationTypeName,
@@ -4320,12 +5315,37 @@ namespace Cogito.Fabric.Activities
         }
 
 
+        /// <summary>
+        /// Records an event.
+        /// </summary>
+        /// <param name="actorType"></param>
+        /// <param name="actorId"></param>
+        /// <param name="applicationTypeName"></param>
+        /// <param name="applicationName"></param>
+        /// <param name="serviceTypeName"></param>
+        /// <param name="serviceName"></param>
+        /// <param name="partitionId"></param>
+        /// <param name="replicaOrInstanceId"></param>
+        /// <param name="nodeName"></param>
+        /// <param name="instanceId"></param>
+        /// <param name="recordNumber"></param>
+        /// <param name="eventTime"></param>
+        /// <param name="annotations"></param>
+        /// <param name="state"></param>
+        /// <param name="workflowDefinitionIdentityName"></param>
+        /// <param name="activityDefinitionId"></param>
+        /// <param name="faultSourceName"></param>
+        /// <param name="faultSourceId"></param>
+        /// <param name="faultSourceInstanceId"></param>
+        /// <param name="faultSourceTypeName"></param>
+        /// <param name="exception"></param>
+        /// <param name="message"></param>
         [Event(
             WorkflowInstanceUnhandledExceptionErrorEventId, 
             Level = EventLevel.Error, 
             Message = "{21}", 
             Keywords = Keywords.WorkflowInstance | Keywords.WorkflowInstanceUnhandledException)]
-        public void WorkflowInstanceUnhandledExceptionError(
+        internal void WorkflowInstanceUnhandledExceptionError(
             string actorType,
             string actorId,
             string applicationTypeName,
@@ -4378,7 +5398,7 @@ namespace Cogito.Fabric.Activities
 
     }
 
-    public partial class ActivityActorEventSource
+    partial class ActivityActorEventSource
     {
 
         const int WorkflowInstanceUpdatedVerboseEventId = 110;
@@ -4386,8 +5406,15 @@ namespace Cogito.Fabric.Activities
         const int WorkflowInstanceUpdatedWarningEventId = 112;
         const int WorkflowInstanceUpdatedErrorEventId = 113;
         
+        /// <summary>
+        /// Records an event.
+        /// </summary>
+        /// <param name="actor"></param>
+        /// <param name="record"></param>
+        /// <param name="message"></param>
+        /// <param name="args"></param>
         [NonEvent]
-        public void WorkflowInstanceUpdated(IStatefulActivityActorInternal actor, WorkflowInstanceUpdatedRecord record, string message = "", params object[] args)
+        internal void WorkflowInstanceUpdated(IStatefulActivityActorInternal actor, WorkflowInstanceUpdatedRecord record, string message = "", params object[] args)
         {
             Contract.Requires<ArgumentNullException>(actor != null);
             Contract.Requires<ArgumentNullException>(record != null);
@@ -4495,8 +5522,15 @@ namespace Cogito.Fabric.Activities
             }
         }
 
+        /// <summary>
+        /// Records an event.
+        /// </summary>
+        /// <param name="actor"></param>
+        /// <param name="record"></param>
+        /// <param name="message"></param>
+        /// <param name="args"></param>
         [NonEvent]
-        public void WorkflowInstanceUpdated(IStatelessActivityActorInternal actor, WorkflowInstanceUpdatedRecord record, string message = "", params object[] args)
+        internal void WorkflowInstanceUpdated(IStatelessActivityActorInternal actor, WorkflowInstanceUpdatedRecord record, string message = "", params object[] args)
         {
             Contract.Requires<ArgumentNullException>(actor != null);
             Contract.Requires<ArgumentNullException>(record != null);
@@ -4605,12 +5639,33 @@ namespace Cogito.Fabric.Activities
         }
 
 
+        /// <summary>
+        /// Records an event.
+        /// </summary>
+        /// <param name="actorType"></param>
+        /// <param name="actorId"></param>
+        /// <param name="applicationTypeName"></param>
+        /// <param name="applicationName"></param>
+        /// <param name="serviceTypeName"></param>
+        /// <param name="serviceName"></param>
+        /// <param name="partitionId"></param>
+        /// <param name="replicaOrInstanceId"></param>
+        /// <param name="nodeName"></param>
+        /// <param name="instanceId"></param>
+        /// <param name="recordNumber"></param>
+        /// <param name="eventTime"></param>
+        /// <param name="annotations"></param>
+        /// <param name="state"></param>
+        /// <param name="workflowDefinitionIdentityName"></param>
+        /// <param name="activityDefinitionId"></param>
+        /// <param name="isSuccessful"></param>
+        /// <param name="message"></param>
         [Event(
             WorkflowInstanceUpdatedVerboseEventId, 
             Level = EventLevel.Verbose, 
             Message = "{17}", 
             Keywords = Keywords.WorkflowInstance | Keywords.WorkflowInstanceUpdated)]
-        public void WorkflowInstanceUpdatedVerbose(
+        internal void WorkflowInstanceUpdatedVerbose(
             string actorType,
             string actorId,
             string applicationTypeName,
@@ -4653,12 +5708,33 @@ namespace Cogito.Fabric.Activities
         }
 
 
+        /// <summary>
+        /// Records an event.
+        /// </summary>
+        /// <param name="actorType"></param>
+        /// <param name="actorId"></param>
+        /// <param name="applicationTypeName"></param>
+        /// <param name="applicationName"></param>
+        /// <param name="serviceTypeName"></param>
+        /// <param name="serviceName"></param>
+        /// <param name="partitionId"></param>
+        /// <param name="replicaOrInstanceId"></param>
+        /// <param name="nodeName"></param>
+        /// <param name="instanceId"></param>
+        /// <param name="recordNumber"></param>
+        /// <param name="eventTime"></param>
+        /// <param name="annotations"></param>
+        /// <param name="state"></param>
+        /// <param name="workflowDefinitionIdentityName"></param>
+        /// <param name="activityDefinitionId"></param>
+        /// <param name="isSuccessful"></param>
+        /// <param name="message"></param>
         [Event(
             WorkflowInstanceUpdatedInfoEventId, 
             Level = EventLevel.Informational, 
             Message = "{17}", 
             Keywords = Keywords.WorkflowInstance | Keywords.WorkflowInstanceUpdated)]
-        public void WorkflowInstanceUpdatedInfo(
+        internal void WorkflowInstanceUpdatedInfo(
             string actorType,
             string actorId,
             string applicationTypeName,
@@ -4701,12 +5777,33 @@ namespace Cogito.Fabric.Activities
         }
 
 
+        /// <summary>
+        /// Records an event.
+        /// </summary>
+        /// <param name="actorType"></param>
+        /// <param name="actorId"></param>
+        /// <param name="applicationTypeName"></param>
+        /// <param name="applicationName"></param>
+        /// <param name="serviceTypeName"></param>
+        /// <param name="serviceName"></param>
+        /// <param name="partitionId"></param>
+        /// <param name="replicaOrInstanceId"></param>
+        /// <param name="nodeName"></param>
+        /// <param name="instanceId"></param>
+        /// <param name="recordNumber"></param>
+        /// <param name="eventTime"></param>
+        /// <param name="annotations"></param>
+        /// <param name="state"></param>
+        /// <param name="workflowDefinitionIdentityName"></param>
+        /// <param name="activityDefinitionId"></param>
+        /// <param name="isSuccessful"></param>
+        /// <param name="message"></param>
         [Event(
             WorkflowInstanceUpdatedWarningEventId, 
             Level = EventLevel.Warning, 
             Message = "{17}", 
             Keywords = Keywords.WorkflowInstance | Keywords.WorkflowInstanceUpdated)]
-        public void WorkflowInstanceUpdatedWarning(
+        internal void WorkflowInstanceUpdatedWarning(
             string actorType,
             string actorId,
             string applicationTypeName,
@@ -4749,12 +5846,33 @@ namespace Cogito.Fabric.Activities
         }
 
 
+        /// <summary>
+        /// Records an event.
+        /// </summary>
+        /// <param name="actorType"></param>
+        /// <param name="actorId"></param>
+        /// <param name="applicationTypeName"></param>
+        /// <param name="applicationName"></param>
+        /// <param name="serviceTypeName"></param>
+        /// <param name="serviceName"></param>
+        /// <param name="partitionId"></param>
+        /// <param name="replicaOrInstanceId"></param>
+        /// <param name="nodeName"></param>
+        /// <param name="instanceId"></param>
+        /// <param name="recordNumber"></param>
+        /// <param name="eventTime"></param>
+        /// <param name="annotations"></param>
+        /// <param name="state"></param>
+        /// <param name="workflowDefinitionIdentityName"></param>
+        /// <param name="activityDefinitionId"></param>
+        /// <param name="isSuccessful"></param>
+        /// <param name="message"></param>
         [Event(
             WorkflowInstanceUpdatedErrorEventId, 
             Level = EventLevel.Error, 
             Message = "{17}", 
             Keywords = Keywords.WorkflowInstance | Keywords.WorkflowInstanceUpdated)]
-        public void WorkflowInstanceUpdatedError(
+        internal void WorkflowInstanceUpdatedError(
             string actorType,
             string actorId,
             string applicationTypeName,
@@ -4799,7 +5917,7 @@ namespace Cogito.Fabric.Activities
 
     }
 
-    public partial class ActivityActorEventSource
+    partial class ActivityActorEventSource
     {
 
         const int CustomTrackingVerboseEventId = 200;
@@ -4807,8 +5925,15 @@ namespace Cogito.Fabric.Activities
         const int CustomTrackingWarningEventId = 202;
         const int CustomTrackingErrorEventId = 203;
         
+        /// <summary>
+        /// Records an event.
+        /// </summary>
+        /// <param name="actor"></param>
+        /// <param name="record"></param>
+        /// <param name="message"></param>
+        /// <param name="args"></param>
         [NonEvent]
-        public void CustomTracking(IStatefulActivityActorInternal actor, CustomTrackingRecord record, string message = "", params object[] args)
+        internal void CustomTracking(IStatefulActivityActorInternal actor, CustomTrackingRecord record, string message = "", params object[] args)
         {
             Contract.Requires<ArgumentNullException>(actor != null);
             Contract.Requires<ArgumentNullException>(record != null);
@@ -4924,8 +6049,15 @@ namespace Cogito.Fabric.Activities
             }
         }
 
+        /// <summary>
+        /// Records an event.
+        /// </summary>
+        /// <param name="actor"></param>
+        /// <param name="record"></param>
+        /// <param name="message"></param>
+        /// <param name="args"></param>
         [NonEvent]
-        public void CustomTracking(IStatelessActivityActorInternal actor, CustomTrackingRecord record, string message = "", params object[] args)
+        internal void CustomTracking(IStatelessActivityActorInternal actor, CustomTrackingRecord record, string message = "", params object[] args)
         {
             Contract.Requires<ArgumentNullException>(actor != null);
             Contract.Requires<ArgumentNullException>(record != null);
@@ -5042,12 +6174,35 @@ namespace Cogito.Fabric.Activities
         }
 
 
+        /// <summary>
+        /// Records an event.
+        /// </summary>
+        /// <param name="actorType"></param>
+        /// <param name="actorId"></param>
+        /// <param name="applicationTypeName"></param>
+        /// <param name="applicationName"></param>
+        /// <param name="serviceTypeName"></param>
+        /// <param name="serviceName"></param>
+        /// <param name="partitionId"></param>
+        /// <param name="replicaOrInstanceId"></param>
+        /// <param name="nodeName"></param>
+        /// <param name="instanceId"></param>
+        /// <param name="recordNumber"></param>
+        /// <param name="eventTime"></param>
+        /// <param name="annotations"></param>
+        /// <param name="name"></param>
+        /// <param name="activityName"></param>
+        /// <param name="activityId"></param>
+        /// <param name="activityInstanceId"></param>
+        /// <param name="activityTypeName"></param>
+        /// <param name="data"></param>
+        /// <param name="message"></param>
         [Event(
             CustomTrackingVerboseEventId, 
             Level = EventLevel.Verbose, 
             Message = "{19}", 
             Keywords = Keywords.CustomTracking)]
-        public void CustomTrackingVerbose(
+        internal void CustomTrackingVerbose(
             string actorType,
             string actorId,
             string applicationTypeName,
@@ -5094,12 +6249,35 @@ namespace Cogito.Fabric.Activities
         }
 
 
+        /// <summary>
+        /// Records an event.
+        /// </summary>
+        /// <param name="actorType"></param>
+        /// <param name="actorId"></param>
+        /// <param name="applicationTypeName"></param>
+        /// <param name="applicationName"></param>
+        /// <param name="serviceTypeName"></param>
+        /// <param name="serviceName"></param>
+        /// <param name="partitionId"></param>
+        /// <param name="replicaOrInstanceId"></param>
+        /// <param name="nodeName"></param>
+        /// <param name="instanceId"></param>
+        /// <param name="recordNumber"></param>
+        /// <param name="eventTime"></param>
+        /// <param name="annotations"></param>
+        /// <param name="name"></param>
+        /// <param name="activityName"></param>
+        /// <param name="activityId"></param>
+        /// <param name="activityInstanceId"></param>
+        /// <param name="activityTypeName"></param>
+        /// <param name="data"></param>
+        /// <param name="message"></param>
         [Event(
             CustomTrackingInfoEventId, 
             Level = EventLevel.Informational, 
             Message = "{19}", 
             Keywords = Keywords.CustomTracking)]
-        public void CustomTrackingInfo(
+        internal void CustomTrackingInfo(
             string actorType,
             string actorId,
             string applicationTypeName,
@@ -5146,12 +6324,35 @@ namespace Cogito.Fabric.Activities
         }
 
 
+        /// <summary>
+        /// Records an event.
+        /// </summary>
+        /// <param name="actorType"></param>
+        /// <param name="actorId"></param>
+        /// <param name="applicationTypeName"></param>
+        /// <param name="applicationName"></param>
+        /// <param name="serviceTypeName"></param>
+        /// <param name="serviceName"></param>
+        /// <param name="partitionId"></param>
+        /// <param name="replicaOrInstanceId"></param>
+        /// <param name="nodeName"></param>
+        /// <param name="instanceId"></param>
+        /// <param name="recordNumber"></param>
+        /// <param name="eventTime"></param>
+        /// <param name="annotations"></param>
+        /// <param name="name"></param>
+        /// <param name="activityName"></param>
+        /// <param name="activityId"></param>
+        /// <param name="activityInstanceId"></param>
+        /// <param name="activityTypeName"></param>
+        /// <param name="data"></param>
+        /// <param name="message"></param>
         [Event(
             CustomTrackingWarningEventId, 
             Level = EventLevel.Warning, 
             Message = "{19}", 
             Keywords = Keywords.CustomTracking)]
-        public void CustomTrackingWarning(
+        internal void CustomTrackingWarning(
             string actorType,
             string actorId,
             string applicationTypeName,
@@ -5198,12 +6399,35 @@ namespace Cogito.Fabric.Activities
         }
 
 
+        /// <summary>
+        /// Records an event.
+        /// </summary>
+        /// <param name="actorType"></param>
+        /// <param name="actorId"></param>
+        /// <param name="applicationTypeName"></param>
+        /// <param name="applicationName"></param>
+        /// <param name="serviceTypeName"></param>
+        /// <param name="serviceName"></param>
+        /// <param name="partitionId"></param>
+        /// <param name="replicaOrInstanceId"></param>
+        /// <param name="nodeName"></param>
+        /// <param name="instanceId"></param>
+        /// <param name="recordNumber"></param>
+        /// <param name="eventTime"></param>
+        /// <param name="annotations"></param>
+        /// <param name="name"></param>
+        /// <param name="activityName"></param>
+        /// <param name="activityId"></param>
+        /// <param name="activityInstanceId"></param>
+        /// <param name="activityTypeName"></param>
+        /// <param name="data"></param>
+        /// <param name="message"></param>
         [Event(
             CustomTrackingErrorEventId, 
             Level = EventLevel.Error, 
             Message = "{19}", 
             Keywords = Keywords.CustomTracking)]
-        public void CustomTrackingError(
+        internal void CustomTrackingError(
             string actorType,
             string actorId,
             string applicationTypeName,

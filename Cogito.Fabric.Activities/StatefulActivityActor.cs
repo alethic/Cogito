@@ -10,8 +10,7 @@ namespace Cogito.Fabric.Activities
 {
 
     /// <summary>
-    /// A <see cref="StatefulActor"/> that hosts a Windows Workflow Foundation <see cref="Activity"/>. The <see cref
-    /// "Activity"/> begins running as soon as the <see cref="StatefulActor"/> instance is activated.
+    /// Represents a <see cref="StatefulActor"/> that hosts a Windows Workflow Foundation <see cref="Activity"/>.
     /// </summary>
     /// <typeparam name="TState"></typeparam>
     public abstract class StatefulActivityActor<TState> :
@@ -20,7 +19,7 @@ namespace Cogito.Fabric.Activities
         where TState : class, new()
     {
 
-        protected readonly ActivityWorkflowHost host;
+        readonly ActivityWorkflowHost host;
 
         /// <summary>
         /// Initializes a new instance.
@@ -314,9 +313,7 @@ namespace Cogito.Fabric.Activities
     }
 
     /// <summary>
-    /// A <see cref="StatefulActor"/> that hosts a Windows Workflow Foundation <see cref="Activity"/> of type
-    /// <typeparamref name="TActivity"/>. The <see cref="Activity"/> begins running as soon as the <see
-    /// cref="StatefulActor"/> instance is activated.
+    /// Represents a <see cref="StatefulActor"/> that hosts a Windows Workflow Foundation <see cref="Activity"/>.
     /// </summary>
     /// <typeparam name="TActivity"></typeparam>
     /// <typeparam name="TState"></typeparam>
@@ -326,6 +323,10 @@ namespace Cogito.Fabric.Activities
         where TState : class, new()
     {
 
+        /// <summary>
+        /// Creates a new instance of the <see cref="Activity"/> type.
+        /// </summary>
+        /// <returns></returns>
         protected override Activity CreateActivity()
         {
             return new TActivity();
@@ -334,11 +335,8 @@ namespace Cogito.Fabric.Activities
     }
 
     /// <summary>
-    /// Represents a <see cref="StatefulActor"/> that hosts a Windows Workflow Foundation <see cref="Activity"/>. The 
-    /// <see cref="Activity"/> is specified by overriding the <see cref="CreateActivity"/> method. The <see cref="Activity"/>
-    /// begins running as soon as the <see cref="StatefulActor"/> instance is activated.
+    /// Represents a <see cref="StatefulActor"/> that hosts a Windows Workflow Foundation <see cref="Activity"/>.
     /// </summary>
-    /// <typeparam name="TState"></typeparam>
     public abstract class StatefulActivityActor :
         StatefulActivityActor<object>
     {

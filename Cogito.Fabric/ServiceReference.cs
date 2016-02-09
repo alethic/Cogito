@@ -13,7 +13,7 @@ namespace Cogito.Fabric
 {
 
     /// <summary>
-    //  Encapsulation of a reference to a service for serialization.
+    /// Encapsulation of a reference to a service for serialization.
     /// </summary>
     [DataContract]
     public class ServiceReference :

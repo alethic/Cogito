@@ -244,6 +244,10 @@ namespace Cogito.Fabric
         where TService : class, IService
     {
 
+        /// <summary>
+        /// Creates the default service replica listeners.
+        /// </summary>
+        /// <returns></returns>
         protected override IEnumerable<ServiceReplicaListener> CreateServiceReplicaListeners()
         {
             yield return new ServiceReplicaListener(p => new ServiceRemotingListener<TService>(p, (TService)(object)this));

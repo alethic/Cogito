@@ -227,6 +227,7 @@ namespace Cogito
         /// Initializes a new instance.
         /// </summary>
         /// <param name="version"></param>
+        /// <param name="strict"></param>
         public SemanticVersion(string version, bool strict = false)
         {
             Contract.Requires<ArgumentNullException>(version != null);

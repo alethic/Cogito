@@ -3,6 +3,9 @@
 namespace Cogito.Fabric.Activities
 {
 
+    /// <summary>
+    /// Thrown when an action against an activity actor occurs while the workflow is in a closed state.
+    /// </summary>
     public class ActivityActorClosedException :
         ActivityActorException
     {

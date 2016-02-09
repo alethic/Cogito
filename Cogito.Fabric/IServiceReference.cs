@@ -4,10 +4,18 @@ using System.Diagnostics.Contracts;
 namespace Cogito.Fabric
 {
 
+    /// <summary>
+    /// Describes a reference to a service.
+    /// </summary>
     [ContractClass(typeof(IServiceReference_Contract))]
     public interface IServiceReference
     {
 
+        /// <summary>
+        /// Converts the service reference into a service proxy.
+        /// </summary>
+        /// <param name="serviceInterfaceType"></param>
+        /// <returns></returns>
         object Bind(Type serviceInterfaceType);
 
     }

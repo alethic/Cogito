@@ -161,6 +161,8 @@ namespace Cogito.Fabric.Http
         /// <returns></returns>
         string GetSchema(EndpointResourceDescription endpoint)
         {
+            Contract.Requires<ArgumentNullException>(endpoint != null);
+
             switch (endpoint.Protocol)
             {
                 case EndpointProtocol.Http:

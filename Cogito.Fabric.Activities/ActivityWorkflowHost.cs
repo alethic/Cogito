@@ -39,6 +39,7 @@ namespace Cogito.Fabric.Activities
         /// <summary>
         /// Create a new <see cref="WorkflowApplication"/> instance.
         /// </summary>
+        /// <param name="activity"></param>
         /// <returns></returns>
         WorkflowApplication CreateWorkflow(Activity activity)
         {
@@ -359,7 +360,8 @@ namespace Cogito.Fabric.Activities
         /// <summary>
         /// Invoked when the status has changed.
         /// </summary>
-        /// <param name="status"></param>
+        /// <param name="from"></param>
+        /// <param name="to"></param>
         /// <returns></returns>
         protected virtual Task OnStatusChanged(ActivityActorStatus from, ActivityActorStatus to)
         {

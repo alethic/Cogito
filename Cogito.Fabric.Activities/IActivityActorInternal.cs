@@ -75,7 +75,7 @@ namespace Cogito.Fabric.Activities
         Task<IActorReminder> RegisterReminderAsync(string reminderName, byte[] state, TimeSpan dueTime, TimeSpan period, ActorReminderAttributes attribute);
 
         /// <summary>
-        //  Unregisters the specified reminder.
+        ///  Unregisters the specified reminder.
         /// </summary>
         /// <param name="reminder"></param>
         /// <returns></returns>

@@ -158,7 +158,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ActivityActorEventSource.TrackingRecord.cs">
+    <Compile Include="ActivityActorEventSource.TrackingRecord1.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>ActivityActorEventSource.TrackingRecord.tt</DependentUpon>
@@ -189,7 +189,7 @@
     <Compile Include="StatelessActivityActor.cs" />
     <None Include="ActivityActorEventSource.TrackingRecord.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>ActivityActorEventSource.TrackingRecord.cs</LastGenOutput>
+      <LastGenOutput>ActivityActorEventSource.TrackingRecord1.cs</LastGenOutput>
     </None>
     <None Include="ActivityActorTrackingParticipant.TrackingRecord.tt">
       <Generator>TextTemplatingFileGenerator</Generator>

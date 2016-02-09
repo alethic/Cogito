@@ -20,8 +20,12 @@ namespace Cogito.Net.Http
         EventSource
     {
 
-        public static readonly HttpMessageEventSource Current = new HttpMessageEventSource();
         const string MESSAGE_CORRELATION_KEY = "Cogito.Net.Http.HttpMessageEventSource.MessageId";
+
+        /// <summary>
+        /// Gets the current <see cref="HttpMessageEventSource"/>.
+        /// </summary>
+        public static readonly HttpMessageEventSource Current = new HttpMessageEventSource();
 
         /// <summary>
         /// Initializes the static instance.
@@ -130,7 +134,7 @@ namespace Cogito.Net.Http
         /// <param name="method"></param>
         /// <param name="requestUri"></param>
         /// <param name="version"></param>
-        /// <param name="requestHeaders">
+        /// <param name="requestHeaders"></param>
         /// <param name="statusCode"></param>
         /// <param name="reasonPhrase"></param>
         [Event(RequestEventId, Level = EventLevel.Verbose, Message = "[{0}] {1} {2} [{5} {6}]")]

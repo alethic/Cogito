@@ -10,8 +10,11 @@ using System.Xml;
 namespace Cogito.Fabric.Activities
 {
 
+    /// <summary>
+    /// Logs events for the Activity Actor framework.
+    /// </summary>
     [EventSource(Name = "Cogito-Fabric-Activities")]
-    public partial class ActivityActorEventSource :
+    partial class ActivityActorEventSource :
         EventSource
     {
 

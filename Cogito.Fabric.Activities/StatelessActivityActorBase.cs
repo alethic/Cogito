@@ -7,7 +7,6 @@ namespace Cogito.Fabric.Activities
     /// <summary>
     /// Internal base implementation of <see cref="StatefulActivityActor"/>.
     /// </summary>
-    /// <typeparam name="TState"></typeparam>
     [EditorBrowsable(EditorBrowsableState.Never)]
     public abstract class StatelessActivityActorBase :
         Cogito.Fabric.StatelessActor

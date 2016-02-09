@@ -9,12 +9,16 @@ using Microsoft.ServiceFabric.Actors;
 namespace Cogito.Fabric.Activities
 {
 
+    /// <summary>
+    /// Represents a <see cref="StatelessActor"/> that hosts a Windows Workflow Foundation <see cref="Activity"/>. The <see cref="Activity"/> 
+    /// begins running as soon as the <see cref="StatelessActor"/> instance is activated.
+    /// </summary>
     public abstract class StatelessActivityActor :
         StatelessActivityActorBase,
         IStatelessActivityActorInternal
     {
 
-        protected readonly ActivityWorkflowHost host;
+        readonly ActivityWorkflowHost host;
 
         /// <summary>
         /// Initializes a new instance.
