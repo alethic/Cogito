@@ -21,7 +21,7 @@ namespace Cogito.Fabric
         /// Initializes a new instance.
         /// </summary>
         /// <param name="actorStateType"></param>
-        internal ActorStateDataContractSerializer(Type actorStateType)
+        public ActorStateDataContractSerializer(Type actorStateType)
         {
             Contract.Requires<ArgumentNullException>(actorStateType != null);
 
