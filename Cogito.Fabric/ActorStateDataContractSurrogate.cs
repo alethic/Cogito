@@ -6,7 +6,7 @@ using System.Runtime.Serialization;
 
 using Microsoft.ServiceFabric.Actors;
 
-namespace Cloverlux.Media.Fabric
+namespace Cogito.Fabric
 {
 
     /// <summary>

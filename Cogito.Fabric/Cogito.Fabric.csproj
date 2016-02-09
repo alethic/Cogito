@@ -159,6 +159,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActorReferenceExtensions.cs" />
+    <Compile Include="ActorStateDataContractSerializer.cs" />
     <Compile Include="ActorStateDataContractSurrogate.cs" />
     <Compile Include="IServiceReference.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
