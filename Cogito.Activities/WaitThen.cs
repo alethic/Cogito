@@ -104,6 +104,7 @@ namespace Cogito.Activities
         /// Initializes a new instance.
         /// </summary>
         /// <param name="bookmarkName"></param>
+        /// <param name="then"></param>
         public WaitThen(InArgument<string> bookmarkName, ActivityAction then)
             : this(bookmarkName)
         {
@@ -177,6 +178,7 @@ namespace Cogito.Activities
         /// Initializes a new instance.
         /// </summary>
         /// <param name="bookmarkName"></param>
+        /// <param name="then"></param>
         public WaitThen(InArgument<string> bookmarkName, ActivityAction<TWait> then)
             : this(bookmarkName)
         {
@@ -250,6 +252,7 @@ namespace Cogito.Activities
         /// Initializes a new instance.
         /// </summary>
         /// <param name="bookmarkName"></param>
+        /// <param name="then"></param>
         public WaitForThen(InArgument<string> bookmarkName, ActivityFunc<TWaitFor, TResult> then)
             : this(bookmarkName)
         {

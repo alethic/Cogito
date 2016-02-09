@@ -8,26 +8,55 @@ namespace Cogito.Activities
     public static partial class Activities
     {
 
+        /// <summary>
+        /// Creates an <see cref="Activity"/> to invoke the specified <see cref="Action{ActivityContext}"/>.
+        /// </summary>
+        /// <param name="action"></param>
+        /// <returns></returns>
         public static ActionActivity Invoke(Action<ActivityContext> action)
         {
             return new ActionActivity(action);
         }
 
+        /// <summary>
+        /// Creates an <see cref="Activity"/> to invoke the specifed <see cref="Action"/>.
+        /// </summary>
+        /// <param name="action"></param>
+        /// <returns></returns>
         public static ActionActivity Invoke(Action action)
         {
             return new ActionActivity(context => action());
         }
 
+        /// <summary>
+        /// Appends <paramref name="action"/> to be executed after the <see cref="Activity"/>.
+        /// </summary>
+        /// <param name="activity"></param>
+        /// <param name="action"></param>
+        /// <returns></returns>
         public static Sequence Then(this Activity activity, Action action)
         {
             return Then(activity, new ActionActivity(context => action()));
         }
 
+        /// <summary>
+        /// Appends <paramref name="action"/> to be executed after the <see cref="Activity"/>.
+        /// </summary>
+        /// <param name="activity"></param>
+        /// <param name="action"></param>
+        /// <returns></returns>
         public static Sequence Then(this Activity activity, Action<ActivityContext> action)
         {
             return Then(activity, new ActionActivity(action));
         }
 
+        /// <summary>
+        /// Appends <paramref name="action"/> to be executed after the <see cref="Activity"/>.
+        /// </summary>
+        /// <typeparam name="TValue"></typeparam>
+        /// <param name="activity"></param>
+        /// <param name="action"></param>
+        /// <returns></returns>
         public static ActionActivity<TValue> Then<TValue>(this Activity<TValue> activity, Action<TValue> action)
         {
             return new ActionActivity<TValue>((arg, context) => action(arg), activity);
@@ -42,6 +71,10 @@ namespace Cogito.Activities
         NativeActivity
     {
 
+        /// <summary>
+        /// Converts a <see cref="ActionActivity"/> into an <see cref="ActivityAction"/>.
+        /// </summary>
+        /// <param name="activity"></param>
         public static implicit operator ActivityAction(ActionActivity activity)
         {
             return Activities.Delegate(() =>
@@ -50,6 +83,10 @@ namespace Cogito.Activities
             });
         }
 
+        /// <summary>
+        /// Convers a <see cref="ActionActivity"/> into a <see cref="ActivityDelegate"/>.
+        /// </summary>
+        /// <param name="activity"></param>
         public static implicit operator ActivityDelegate(ActionActivity activity)
         {
             return activity;
