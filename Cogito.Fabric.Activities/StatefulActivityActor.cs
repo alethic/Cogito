@@ -44,7 +44,7 @@ namespace Cogito.Fabric.Activities
         }
 
         /// <summary>
-        /// Initializes a new <see cref="TState"/> instance.
+        /// Initializes a new <typeparamref name="TState"/> instance.
         /// </summary>
         /// <returns></returns>
         protected new virtual Task<TState> CreateDefaultState()
