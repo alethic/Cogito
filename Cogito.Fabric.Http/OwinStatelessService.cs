@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 using Microsoft.Owin;
 using Microsoft.ServiceFabric.Services.Communication.Runtime;
-
+using Microsoft.ServiceFabric.Services.Remoting;
 using Owin;
 
 namespace Cogito.Fabric.Http
@@ -41,7 +41,26 @@ namespace Cogito.Fabric.Http
         /// <returns></returns>
         protected override IEnumerable<ServiceInstanceListener> CreateServiceInstanceListeners()
         {
-            yield return new ServiceInstanceListener(p => new OwinCommunicationListener(endpointName, appRoot, Configure, p));
+            yield return new ServiceInstanceListener(p => new OwinCommunicationListener(endpointName, appRoot, ConfigureInternal, p));
+        }
+
+        /// <summary>
+        /// Configures the <see cref="IAppBuilder"/>.
+        /// </summary>
+        /// <param name="app"></param>
+        void ConfigureInternal(IAppBuilder app)
+        {
+            Contract.Requires<ArgumentNullException>(app != null);
+
+            // attach service to context
+            app.Use(async (context, func) =>
+            {
+                context.SetService(this);
+                await func();
+            });
+
+            // begin user configuration
+            Configure(app);
         }
 
         /// <summary>
@@ -56,7 +75,7 @@ namespace Cogito.Fabric.Http
         }
 
         /// <summary>
-        /// Invoked when an incoming request is received.
+        /// Invoked when an incoming request is received unless the user has overridden the <see cref="Configure(IAppBuilder)"/> method.
         /// </summary>
         /// <param name="context"></param>
         /// <returns></returns>

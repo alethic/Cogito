@@ -172,6 +172,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="OwinContextExtensions.cs" />
     <Compile Include="OwinFabricHealth.cs" />
     <Compile Include="HttpCommunicationClient.cs" />
     <Compile Include="HttpCommunicationClientFactory.cs" />

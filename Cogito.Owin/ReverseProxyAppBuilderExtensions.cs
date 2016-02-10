@@ -6,6 +6,9 @@ using Owin;
 namespace Cogito.Owin
 {
 
+    /// <summary>
+    /// Provides an extension method for handling reverse proxies.
+    /// </summary>
     public static class ReverseProxyAppBuilderExtensions
     {
 

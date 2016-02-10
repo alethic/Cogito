@@ -46,7 +46,7 @@ namespace Cogito.Fabric.Activities
                 timer = actor.RegisterTimer(
                     o =>
                     {
-                        // unregister ourselve
+                        // unregister ourselves
                         actor.UnregisterTimer(timer);
 
                         // invoke workitem
