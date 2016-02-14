@@ -222,6 +222,7 @@
     <Compile Include="Threading\TimerEventArgs.cs" />
     <Compile Include="Threading\TimerElapsedEventHandler.cs" />
     <Compile Include="Threading\TimerEventHandler.cs" />
+    <Compile Include="Invoker.cs" />
     <Compile Include="TryFunc.cs" />
     <Compile Include="UriBuilderExtensions.cs" />
     <Compile Include="UriExtensions.cs" />
