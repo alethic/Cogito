@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Diagnostics.Contracts;
-
+using System.Fabric;
 using Microsoft.Owin;
 using Microsoft.ServiceFabric.Services.Remoting;
 
@@ -17,6 +17,11 @@ namespace Cogito.Fabric.Http
         /// Gets the OWIN environment key in which the <see cref="IService"/> instance can be retrieved.
         /// </summary>
         public const string OWIN_ENVIRONMENT_SERVICE_INSTANCE_KEY = "cogito.Service";
+
+        /// <summary>
+        /// Gets the OWIN environment key in which the <see cref="ServiceInitializationParameters"/> are stored.
+        /// </summary>
+        public const string OWIN_ENVIRONMENT_SERVICE_INIT_KEY = "cogito.ServiceInitializationParameters";
 
         /// <summary>
         /// Gets the <see cref="IService"/> instance from the context.
@@ -41,6 +46,7 @@ namespace Cogito.Fabric.Http
             Contract.Requires<ArgumentNullException>(service != null);
 
             context.Environment[OWIN_ENVIRONMENT_SERVICE_INSTANCE_KEY] = service;
+            context.Environment[OWIN_ENVIRONMENT_SERVICE_INIT_KEY] = service.ServiceInitializationParameters;
         }
 
         /// <summary>
@@ -66,6 +72,19 @@ namespace Cogito.Fabric.Http
             Contract.Requires<ArgumentNullException>(service != null);
 
             context.Environment[OWIN_ENVIRONMENT_SERVICE_INSTANCE_KEY] = service;
+            context.Environment[OWIN_ENVIRONMENT_SERVICE_INIT_KEY] = service.ServiceInitializationParameters;
+        }
+
+        /// <summary>
+        /// Gets the <see cref="ServiceInitializationParameters"/> instance from the context.
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        public static ServiceInitializationParameters GetServiceInitializationParameters(this IOwinContext context)
+        {
+            Contract.Requires<ArgumentNullException>(context != null);
+
+            return (ServiceInitializationParameters)context.Environment[OWIN_ENVIRONMENT_SERVICE_INIT_KEY];
         }
 
     }

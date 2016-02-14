@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 
 using Microsoft.Owin;
 using Microsoft.ServiceFabric.Services.Communication.Runtime;
-using Microsoft.ServiceFabric.Services.Remoting;
 
 using Owin;
 
