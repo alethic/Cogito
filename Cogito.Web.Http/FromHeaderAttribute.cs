@@ -35,7 +35,7 @@ namespace Cogito.Web.Http
 
         public override IEnumerable<ValueProviderFactory> GetValueProviderFactories(HttpConfiguration configuration)
         {
-            return base.GetValueProviderFactories(configuration).OfType<IHeaderValueProviderFactory>().Cast<ValueProviderFactory>();
+            return base.GetValueProviderFactories(configuration).OfType<IHeaderValueProviderFactory>().Cast<ValueProviderFactory>().DefaultIfEmpty(new HeaderValueProviderFactory());
         }
 
     }
