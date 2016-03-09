@@ -3,10 +3,9 @@
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Service Fabric Tools\Microsoft.VisualStudio.Azure.Fabric.ApplicationProject.props" />
   <PropertyGroup Label="Globals">
     <ProjectGuid>c91f9ac9-9b49-4b1e-bc77-32821380e219</ProjectGuid>
-    <ProjectVersion>0.11</ProjectVersion>
+    <ProjectVersion>0.12</ProjectVersion>
   </PropertyGroup>
   <ItemGroup>
-    <None Include="ApplicationManifest.xml" />
     <None Include="ApplicationParameters\Cloud.xml" />
     <None Include="ApplicationParameters\Local.xml" />
     <None Include="PublishProfiles\Cloud.xml" />
@@ -16,6 +15,9 @@
   <ItemGroup>
     <ProjectReference Include="..\Cogito.Fabric.Activities.Test.TestActor\Cogito.Fabric.Activities.Test.TestActor.csproj" />
     <ProjectReference Include="..\Cogito.Fabric.Activities.Test.TestWebService\Cogito.Fabric.Activities.Test.TestWebService.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ApplicationPackageRoot\ApplicationManifest.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Service Fabric Tools\Microsoft.VisualStudio.Azure.Fabric.ApplicationProject.targets" />
 </Project>
