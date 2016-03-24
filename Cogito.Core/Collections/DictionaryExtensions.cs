@@ -10,6 +10,9 @@ using System.Threading.Tasks;
 namespace Cogito.Collections
 {
 
+    /// <summary>
+    /// Provides extension methods for working with Dictionaries.
+    /// </summary>
     public static class DictionaryExtensions
     {
 
@@ -24,6 +27,7 @@ namespace Cogito.Collections
         public static TValue GetOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> self, TKey key)
         {
             Contract.Requires<ArgumentNullException>(self != null);
+            Contract.Requires<ArgumentNullException>(key != null);
 
             TValue v;
             return self.TryGetValue(key, out v) ? v : default(TValue);
@@ -67,7 +71,7 @@ namespace Cogito.Collections
         }
 
         /// <summary>
-        /// Gets the value for the specified key or creates it asynchronously.
+        /// Gets the value for the specified key or creates it asynchronously. This is not thread-safe.
         /// </summary>
         /// <typeparam name="TKey"></typeparam>
         /// <typeparam name="TValue"></typeparam>
@@ -138,7 +142,6 @@ namespace Cogito.Collections
         /// <summary>
         /// Returns an empty <see cref="IDictionary{TKey, TValue}"/> if <paramref name="source"/> is null.
         /// </summary>
-        /// <typeparam name="TDictionary"></typeparam>
         /// <typeparam name="TKey"></typeparam>
         /// <typeparam name="TValue"></typeparam>
         /// <param name="source"></param>
