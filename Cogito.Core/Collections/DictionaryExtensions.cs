@@ -102,7 +102,8 @@ namespace Cogito.Collections
 
             // merge keys from second into new copy
             foreach (var i in second)
-                d[i.Key] = i.Value;
+                if (i.Key != null)
+                    d[i.Key] = i.Value;
 
             return d;
         }
