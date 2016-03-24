@@ -13,7 +13,7 @@ namespace Cogito.Composition.Configuration
         /// <returns></returns>
         public static ConfigurationSection GetDefaultSection()
         {
-            return (ConfigurationSection)System.Configuration.ConfigurationManager.GetSection("cogito.composition");
+            return (ConfigurationSection)ConfigurationManager.GetSection("cogito.composition");
         }
 
         /// <summary>

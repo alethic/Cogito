@@ -152,6 +152,7 @@
     <Compile Include="Hosting\IContainerProvider.cs" />
     <Compile Include="Hosting\InitImportCollection.cs" />
     <Compile Include="Hosting\NonRecomposableExportProvider.cs" />
+    <Compile Include="Hosting\SafeDirectoryCatalog.cs" />
     <Compile Include="IExportResolver.cs" />
     <Compile Include="IOrderedExportMetadata.cs" />
     <Compile Include="OrderedManyImport.cs" />
