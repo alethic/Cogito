@@ -383,6 +383,73 @@ namespace Cogito.Fabric.Activities
         /// <summary>
         /// Resumes the <see cref="StatefulActivityActor{TActivity, TState}"/> with the given <paramref name="value"/>.
         /// </summary>
+        /// <param name="bookmark"></param>
+        /// <param name="value"></param>
+        /// <param name="timeout"></param>
+        /// <returns></returns>
+        internal async Task ResumeAsync(Bookmark bookmark, object value, TimeSpan timeout)
+        {
+            Contract.Requires<ArgumentNullException>(bookmark != null);
+
+            await InvokeWithWorkflow(_ => _.ResumeBookmarkAsync(bookmark, value, timeout));
+        }
+
+        /// <summary>
+        /// Resumes the <see cref="StatefulActivityActor{TActivity, TState}"/> with the given <paramref name="value"/>.
+        /// </summary>
+        /// <param name="bookmark"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        internal async Task ResumeAsync(Bookmark bookmark, object value)
+        {
+            Contract.Requires<ArgumentNullException>(bookmark != null);
+
+            await InvokeWithWorkflow(_ => _.ResumeBookmarkAsync(bookmark, value));
+        }
+
+        /// <summary>
+        /// Resumes the <see cref="StatefulActivityActor{TActivity, TState}"/>.
+        /// </summary>
+        /// <param name="bookmark"></param>
+        /// <param name="timeout"></param>
+        /// <returns></returns>
+        internal Task ResumeAsync(Bookmark bookmark, TimeSpan timeout)
+        {
+            Contract.Requires<ArgumentNullException>(bookmark != null);
+
+            return ResumeAsync(bookmark, null, timeout);
+        }
+
+        /// <summary>
+        /// Resumes the <see cref="StatefulActivityActor{TActivity, TState}"/>.
+        /// </summary>
+        /// <param name="bookmark"></param>
+        /// <returns></returns>
+        internal Task ResumeAsync(Bookmark bookmark)
+        {
+            Contract.Requires<ArgumentNullException>(bookmark != null);
+
+            return ResumeAsync(bookmark, null);
+        }
+
+        /// <summary>
+        /// Resumes the <see cref="StatefulActivityActor{TActivity, TState}"/> with the given <paramref name="value"/>.
+        /// </summary>
+        /// <param name="bookmarkName"></param>
+        /// <param name="value"></param>
+        /// <param name="timeout"></param>
+        /// <returns></returns>
+        internal async Task ResumeAsync(string bookmarkName, object value, TimeSpan timeout)
+        {
+            Contract.Requires<ArgumentNullException>(bookmarkName != null);
+            Contract.Requires<ArgumentException>(bookmarkName.Length > 0);
+
+            await InvokeWithWorkflow(_ => _.ResumeBookmarkAsync(bookmarkName, value, timeout));
+        }
+
+        /// <summary>
+        /// Resumes the <see cref="StatefulActivityActor{TActivity, TState}"/> with the given <paramref name="value"/>.
+        /// </summary>
         /// <param name="bookmarkName"></param>
         /// <param name="value"></param>
         /// <returns></returns>
@@ -392,6 +459,20 @@ namespace Cogito.Fabric.Activities
             Contract.Requires<ArgumentException>(bookmarkName.Length > 0);
 
             await InvokeWithWorkflow(_ => _.ResumeBookmarkAsync(bookmarkName, value));
+        }
+
+        /// <summary>
+        /// Resumes the <see cref="StatefulActivityActor{TActivity, TState}"/>.
+        /// </summary>
+        /// <param name="bookmarkName"></param>
+        /// <param name="timeout"></param>
+        /// <returns></returns>
+        internal Task ResumeAsync(string bookmarkName, TimeSpan timeout)
+        {
+            Contract.Requires<ArgumentNullException>(bookmarkName != null);
+            Contract.Requires<ArgumentException>(bookmarkName.Length > 0);
+
+            return ResumeAsync(bookmarkName, null, timeout);
         }
 
         /// <summary>

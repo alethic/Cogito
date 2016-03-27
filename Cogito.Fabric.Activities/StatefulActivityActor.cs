@@ -138,6 +138,21 @@ namespace Cogito.Fabric.Activities
         /// </summary>
         /// <param name="bookmarkName"></param>
         /// <param name="value"></param>
+        /// <param name="timeout"></param>
+        /// <returns></returns>
+        protected Task ResumeAsync(string bookmarkName, object value, TimeSpan timeout)
+        {
+            Contract.Requires<ArgumentNullException>(bookmarkName != null);
+            Contract.Requires<ArgumentException>(bookmarkName.Length > 0);
+
+            return host.ResumeAsync(bookmarkName, value, timeout);
+        }
+
+        /// <summary>
+        /// Resumes the <see cref="StatefulActivityActor{TState}"/> with the given <paramref name="value"/>.
+        /// </summary>
+        /// <param name="bookmarkName"></param>
+        /// <param name="value"></param>
         /// <returns></returns>
         protected Task ResumeAsync(string bookmarkName, object value)
         {
@@ -151,6 +166,20 @@ namespace Cogito.Fabric.Activities
         /// Resumes the <see cref="StatefulActivityActor{TState}"/>.
         /// </summary>
         /// <param name="bookmarkName"></param>
+        /// <param name="timeout"></param>
+        /// <returns></returns>
+        protected Task ResumeAsync(string bookmarkName, TimeSpan timeout)
+        {
+            Contract.Requires<ArgumentNullException>(bookmarkName != null);
+            Contract.Requires<ArgumentException>(bookmarkName.Length > 0);
+
+            return host.ResumeAsync(bookmarkName, timeout);
+        }
+
+        /// <summary>
+        /// Resumes the <see cref="StatefulActivityActor{TState}"/>.
+        /// </summary>
+        /// <param name="bookmarkName"></param>
         /// <returns></returns>
         protected Task ResumeAsync(string bookmarkName)
         {
@@ -158,6 +187,31 @@ namespace Cogito.Fabric.Activities
             Contract.Requires<ArgumentException>(bookmarkName.Length > 0);
 
             return host.ResumeAsync(bookmarkName);
+        }
+
+        /// <summary>
+        /// Resumes the <see cref="StatefulActivityActor{TState}"/>.
+        /// </summary>
+        /// <param name="bookmark"></param>
+        /// <param name="timeout"></param>
+        /// <returns></returns>
+        protected Task ResumeAsync(Bookmark bookmark, TimeSpan timeout)
+        {
+            Contract.Requires<ArgumentNullException>(bookmark != null);
+
+            return host.ResumeAsync(bookmark, timeout);
+        }
+
+        /// <summary>
+        /// Resumes the <see cref="StatefulActivityActor{TState}"/>.
+        /// </summary>
+        /// <param name="bookmark"></param>
+        /// <returns></returns>
+        protected Task ResumeAsync(Bookmark bookmark)
+        {
+            Contract.Requires<ArgumentNullException>(bookmark != null);
+
+            return host.ResumeAsync(bookmark);
         }
 
         /// <summary>

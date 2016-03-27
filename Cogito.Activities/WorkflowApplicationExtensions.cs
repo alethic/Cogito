@@ -78,10 +78,10 @@ namespace Cogito.Activities
         /// </summary>
         /// <param name="self"></param>
         /// <param name="bookmark"></param>
-        /// <param name="timeout"></param>
         /// <param name="value"></param>
+        /// <param name="timeout"></param>
         /// <returns></returns>
-        public static Task ResumeBookmarkAsync(this WorkflowApplication self, Bookmark bookmark, TimeSpan timeout, object value)
+        public static Task ResumeBookmarkAsync(this WorkflowApplication self, Bookmark bookmark, object value, TimeSpan timeout)
         {
             Contract.Requires<ArgumentNullException>(self != null);
             Contract.Requires<ArgumentNullException>(bookmark != null);
@@ -96,10 +96,10 @@ namespace Cogito.Activities
         /// </summary>
         /// <param name="self"></param>
         /// <param name="bookmarkName"></param>
-        /// <param name="timeout"></param>
         /// <param name="value"></param>
+        /// <param name="timeout"></param>
         /// <returns></returns>
-        public static Task ResumeBookmarkAsync(this WorkflowApplication self, string bookmarkName, TimeSpan timeout, object value)
+        public static Task ResumeBookmarkAsync(this WorkflowApplication self, string bookmarkName, object value, TimeSpan timeout)
         {
             Contract.Requires<ArgumentNullException>(self != null);
             Contract.Requires<ArgumentNullException>(bookmarkName != null);
