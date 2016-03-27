@@ -43,6 +43,23 @@ namespace Cogito.Activities
         /// the workflow instance.
         /// </summary>
         /// <param name="self"></param>
+        /// <param name="bookmark"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static Task ResumeBookmarkAsync(this WorkflowApplication self, Bookmark bookmark, object value)
+        {
+            Contract.Requires<ArgumentNullException>(self != null);
+            Contract.Requires<ArgumentNullException>(bookmark != null);
+
+            return Task.Factory.FromAsync(self.BeginResumeBookmark, self.EndResumeBookmark, bookmark, value, null);
+        }
+
+        /// <summary>
+        /// Initiates an asynchronous operation to resume the bookmark with the specified name, using the specified
+        /// value, callback method, and state. The bookmark to be resumed is previously created by an activity within
+        /// the workflow instance.
+        /// </summary>
+        /// <param name="self"></param>
         /// <param name="bookmarkName"></param>
         /// <param name="value"></param>
         /// <returns></returns>
@@ -52,6 +69,42 @@ namespace Cogito.Activities
             Contract.Requires<ArgumentNullException>(bookmarkName != null);
 
             return Task.Factory.FromAsync(self.BeginResumeBookmark, self.EndResumeBookmark, bookmarkName, value, null);
+        }
+
+        /// <summary>
+        /// Initiates an asynchronous operation to resume the bookmark with the specified name, using the specified
+        /// value, time-out interval, callback method, and state. The bookmark to be resumed is previously created by
+        /// an activity within the workflow instance.
+        /// </summary>
+        /// <param name="self"></param>
+        /// <param name="bookmark"></param>
+        /// <param name="timeout"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static Task ResumeBookmarkAsync(this WorkflowApplication self, Bookmark bookmark, TimeSpan timeout, object value)
+        {
+            Contract.Requires<ArgumentNullException>(self != null);
+            Contract.Requires<ArgumentNullException>(bookmark != null);
+
+            return Task.Factory.FromAsync(self.BeginResumeBookmark, self.EndResumeBookmark, bookmark, value, timeout, null);
+        }
+
+        /// <summary>
+        /// Initiates an asynchronous operation to resume the bookmark with the specified name, using the specified
+        /// value, time-out interval, callback method, and state. The bookmark to be resumed is previously created by
+        /// an activity within the workflow instance.
+        /// </summary>
+        /// <param name="self"></param>
+        /// <param name="bookmarkName"></param>
+        /// <param name="timeout"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static Task ResumeBookmarkAsync(this WorkflowApplication self, string bookmarkName, TimeSpan timeout, object value)
+        {
+            Contract.Requires<ArgumentNullException>(self != null);
+            Contract.Requires<ArgumentNullException>(bookmarkName != null);
+
+            return Task.Factory.FromAsync(self.BeginResumeBookmark, self.EndResumeBookmark, bookmarkName, value, timeout, null);
         }
 
         /// <summary>
