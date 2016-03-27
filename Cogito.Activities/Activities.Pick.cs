@@ -201,6 +201,20 @@ namespace Cogito.Activities
         }
 
         /// <summary>
+        /// Creates a new <see cref="PickBranch"/> that waits for the given bookmark.
+        /// </summary>
+        /// <param name="pick"></param>
+        /// <param name="bookmarkName"></param>
+        /// <returns></returns>
+        public static Pick BranchWait(this Pick pick, InArgument<string> bookmarkName)
+        {
+            Contract.Requires<ArgumentNullException>(pick != null);
+            Contract.Requires<ArgumentNullException>(bookmarkName != null);
+
+            return pick.Branch(Wait(bookmarkName));
+        }
+
+        /// <summary>
         /// Creates a new <see cref="PickBranch"/> that waits for the given bookmark before running <paramref name="action"/>.
         /// </summary>
         /// <param name="pick"></param>
