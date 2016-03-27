@@ -236,6 +236,27 @@ namespace Cogito.Threading
             return default(TSource);
         }
 
+        /// <summary>
+        /// Returns the first element of a sequence, or a default value if the sequence contains no elements.
+        /// </summary>
+        /// <typeparam name="TSource"></typeparam>
+        /// <param name="source"></param>
+        /// <param name="predicate"></param>
+        /// <returns></returns>
+        public static async Task<TSource> FirstOrDefaultAsync<TSource>(this IEnumerable<TSource> source, Func<TSource, Task<bool>> predicate)
+        {
+            Contract.Requires<ArgumentNullException>(source != null);
+            Contract.Requires<ArgumentNullException>(predicate != null);
+
+            // find first matching element
+            foreach (var t in source)
+                if (await predicate(t))
+                    return t;
+
+            // none found, return default
+            return default(TSource);
+        }
+
     }
 
 }
