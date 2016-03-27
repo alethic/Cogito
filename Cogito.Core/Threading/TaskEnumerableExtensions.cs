@@ -222,14 +222,14 @@ namespace Cogito.Threading
         /// <param name="source"></param>
         /// <param name="predicate"></param>
         /// <returns></returns>
-        public static async Task<TSource> FirstOrDefaultAsync<TSource>(this IEnumerable<Task<TSource>> source, Func<Task<TSource>, Task<bool>> predicate)
+        public static async Task<TSource> FirstOrDefaultAsync<TSource>(this IEnumerable<Task<TSource>> source, Func<TSource, Task<bool>> predicate)
         {
             Contract.Requires<ArgumentNullException>(source != null);
             Contract.Requires<ArgumentNullException>(predicate != null);
 
             // find first matching element
             foreach (var t in source)
-                if (await predicate(t))
+                if (await predicate(await t))
                     return await t;
 
             // none found, return default
