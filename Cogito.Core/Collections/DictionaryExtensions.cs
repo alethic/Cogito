@@ -129,7 +129,6 @@ namespace Cogito.Collections
         /// <summary>
         /// Returns an empty <see cref="IDictionary{TKey, TValue}"/> if <paramref name="source"/> is null.
         /// </summary>
-        /// <typeparam name="TDictionary"></typeparam>
         /// <typeparam name="TKey"></typeparam>
         /// <typeparam name="TValue"></typeparam>
         /// <param name="source"></param>
