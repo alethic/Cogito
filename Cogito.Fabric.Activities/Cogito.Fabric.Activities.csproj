@@ -158,7 +158,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ActivityActorEventSource.TrackingRecord1.cs">
+    <Compile Include="ActivityActorEventSource.TrackingRecord.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>ActivityActorEventSource.TrackingRecord.tt</DependentUpon>
@@ -187,10 +187,6 @@
     <Compile Include="StatelessActivityActorBase.cs" />
     <Compile Include="StatefulActivityActorBase.cs" />
     <Compile Include="StatelessActivityActor.cs" />
-    <None Include="ActivityActorEventSource.TrackingRecord.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>ActivityActorEventSource.TrackingRecord1.cs</LastGenOutput>
-    </None>
     <None Include="ActivityActorTrackingParticipant.TrackingRecord.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>ActivityActorTrackingParticipant.TrackingRecord.cs</LastGenOutput>
@@ -217,6 +213,12 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ActivityActorEventSource.TrackingRecord.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ActivityActorEventSource.TrackingRecord.cs</LastGenOutput>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

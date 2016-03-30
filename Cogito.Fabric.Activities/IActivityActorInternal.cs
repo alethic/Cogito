@@ -19,9 +19,9 @@ namespace Cogito.Fabric.Activities
         ActorId Id { get; }
 
         /// <summary>
-        /// Gets whether the actor supports state.
+        /// Gets whether the actor can persist state.
         /// </summary>
-        bool HasState { get; }
+        bool CanPersist { get; }
 
         /// <summary>
         /// Gets a reference to the <see cref="ActivityActorState"/>.

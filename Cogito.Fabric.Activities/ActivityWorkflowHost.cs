@@ -51,7 +51,7 @@ namespace Cogito.Fabric.Activities
             var workflow = new WorkflowApplication(activity)
             {
                 SynchronizationContext = new ActivityActorSynchronizationContext(actor),
-                InstanceStore = actor.HasState ? new ActivityActorInstanceStore(actor) : null,
+                InstanceStore = actor.CanPersist ? new ActivityActorInstanceStore(actor) : null,
 
                 OnUnhandledException = args =>
                 {
@@ -71,7 +71,7 @@ namespace Cogito.Fabric.Activities
 
                 PersistableIdle = args =>
                 {
-                    return actor.HasState ? PersistableIdleAction.Persist : PersistableIdleAction.None;
+                    return actor.CanPersist ? PersistableIdleAction.Persist : PersistableIdleAction.None;
                 },
 
                 Completed = args =>

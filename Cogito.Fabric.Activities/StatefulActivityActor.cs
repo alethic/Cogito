@@ -297,7 +297,7 @@ namespace Cogito.Fabric.Activities
             return CreateActivity();
         }
 
-        bool IActivityActorInternal.HasState
+        bool IActivityActorInternal.CanPersist
         {
             get { return true; }
         }

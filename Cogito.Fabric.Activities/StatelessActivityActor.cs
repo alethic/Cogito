@@ -19,6 +19,7 @@ namespace Cogito.Fabric.Activities
     {
 
         readonly ActivityWorkflowHost host;
+        readonly ActivityActorState state;
 
         /// <summary>
         /// Initializes a new instance.
@@ -27,6 +28,7 @@ namespace Cogito.Fabric.Activities
             : base()
         {
             host = new ActivityWorkflowHost(this);
+            state = new ActivityActorState();
         }
 
         /// <summary>
@@ -166,14 +168,14 @@ namespace Cogito.Fabric.Activities
             return CreateActivity();
         }
 
-        bool IActivityActorInternal.HasState
+        bool IActivityActorInternal.CanPersist
         {
             get { return false; }
         }
 
         ActivityActorState IActivityActorInternal.State
         {
-            get { throw new NotSupportedException(); }
+            get { return state; }
         }
 
         IActorTimer IActivityActorInternal.RegisterTimer(Func<object, Task> callback, object state, TimeSpan dueTime, TimeSpan period, bool isCallbackReadOnly)
