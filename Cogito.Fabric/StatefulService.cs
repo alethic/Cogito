@@ -1,14 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Fabric;
 using System.Fabric.Health;
 using System.Threading;
 using System.Threading.Tasks;
-
-using Microsoft.ServiceFabric.Services.Communication.Runtime;
-using Microsoft.ServiceFabric.Services.Remoting;
-using Microsoft.ServiceFabric.Services.Remoting.Runtime;
 
 namespace Cogito.Fabric
 {
@@ -26,7 +21,8 @@ namespace Cogito.Fabric
         /// <summary>
         /// Initializes a new instance.
         /// </summary>
-        public StatefulService()
+        public StatefulService(StatefulServiceContext context)
+            : base(context)
         {
             this.fabric = new Lazy<FabricClient>(() => new FabricClient(), true);
         }
@@ -47,8 +43,8 @@ namespace Cogito.Fabric
         {
             Fabric.HealthManager.ReportHealth(
                 new StatefulServiceReplicaHealthReport(
-                    ServiceInitializationParameters.PartitionId,
-                    ServiceInitializationParameters.ReplicaId,
+                    Context.PartitionId,
+                    Context.ReplicaId,
                     healthInformation));
         }
 
@@ -62,6 +58,9 @@ namespace Cogito.Fabric
         /// <param name="removeWhenExpired"></param>
         protected void ReportHealth(string sourceId, string property, HealthState state, TimeSpan? timeToLive = null, bool? removeWhenExpired = null)
         {
+            Contract.Requires<ArgumentNullException>(sourceId != null);
+            Contract.Requires<ArgumentNullException>(property != null);
+
             var i = new HealthInformation(sourceId, property, state);
             if (timeToLive != null)
                 i.TimeToLive = (TimeSpan)timeToLive;
@@ -130,15 +129,15 @@ namespace Cogito.Fabric
         /// </summary>
         protected Uri ApplicationName
         {
-            get { return new Uri(ServiceInitializationParameters.CodePackageActivationContext.ApplicationName + "/"); }
+            get { return new Uri(CodePackageActivationContext.ApplicationName + "/"); }
         }
 
         /// <summary>
         /// Gets the code package activation context passed to the service replica.
         /// </summary>
-        protected CodePackageActivationContext CodePackageActivationContext
+        protected ICodePackageActivationContext CodePackageActivationContext
         {
-            get { return ServiceInitializationParameters.CodePackageActivationContext; }
+            get { return Context.CodePackageActivationContext; }
         }
 
         /// <summary>
@@ -231,26 +230,6 @@ namespace Cogito.Fabric
         {
             if (fabric.IsValueCreated)
                 fabric.Value.Dispose();
-        }
-
-    }
-
-    /// <summary>
-    /// Reliable service base class which provides an <see cref="Microsoft.ServiceFabric.Data.IReliableStateManager"/> and provides some additional utility methods.
-    /// Automatically exposes the given <typeparam name="TService"/> type on a <see cref="ServiceInstanceListener"/>.
-    /// </summary>
-    public abstract class StatefulService<TService> :
-        StatefulService
-        where TService : class, IService
-    {
-
-        /// <summary>
-        /// Creates the default service replica listeners.
-        /// </summary>
-        /// <returns></returns>
-        protected override IEnumerable<ServiceReplicaListener> CreateServiceReplicaListeners()
-        {
-            yield return new ServiceReplicaListener(p => new ServiceRemotingListener<TService>(p, (TService)(object)this));
         }
 
     }

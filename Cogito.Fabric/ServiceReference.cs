@@ -4,10 +4,9 @@ using System.Fabric;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.Serialization;
-
+using Microsoft.ServiceFabric.Services.Client;
 using Microsoft.ServiceFabric.Services.Remoting;
 using Microsoft.ServiceFabric.Services.Remoting.Client;
-using Microsoft.ServiceFabric.Services.Runtime;
 
 namespace Cogito.Fabric
 {
@@ -34,11 +33,11 @@ namespace Cogito.Fabric
         {
             Contract.Requires<ArgumentNullException>(service != null);
 
-            if (service is StatelessServiceBase)
-                return Get((StatelessServiceBase)service);
+            if (service is Microsoft.ServiceFabric.Services.Runtime.StatelessService)
+                return Get((Microsoft.ServiceFabric.Services.Runtime.StatelessService)service);
 
-            if (service is StatefulServiceBase)
-                return Get((StatefulServiceBase)service);
+            if (service is Microsoft.ServiceFabric.Services.Runtime.StatefulService)
+                return Get((Microsoft.ServiceFabric.Services.Runtime.StatefulService)service);
 
             if (service is ServiceProxy)
                 return Get((ServiceProxy)service);
@@ -58,8 +57,8 @@ namespace Cogito.Fabric
             return new ServiceReference()
             {
                 ServiceUri = service.ServicePartitionClient.ServiceUri,
-                PartitionKind = service.ServicePartitionClient.PartitionKind,
-                PartitionKey = service.ServicePartitionClient.PartitionKey,
+                PartitionKind = service.ServicePartitionClient.PartitionKey.Kind,
+                PartitionKey = service.ServicePartitionClient.PartitionKey.Value,
                 ListenerName = service.ServicePartitionClient.ListenerName,
             };
         }
@@ -69,16 +68,11 @@ namespace Cogito.Fabric
         /// </summary>
         /// <param name="service"></param>
         /// <returns></returns>
-        static ServiceReference Get(StatelessServiceBase service)
+        static ServiceReference Get(Microsoft.ServiceFabric.Services.Runtime.StatelessService service)
         {
             Contract.Requires<ArgumentNullException>(service != null);
 
-            return new ServiceReference()
-            {
-                ServiceUri = service.ServiceInitializationParameters.ServiceName,
-                PartitionKind = service.ServicePartition.PartitionInfo.Kind,
-                PartitionKey = service.ServicePartition.PartitionInfo.Id,
-            };
+            throw new NotSupportedException();
         }
 
         /// <summary>
@@ -86,16 +80,11 @@ namespace Cogito.Fabric
         /// </summary>
         /// <param name="service"></param>
         /// <returns></returns>
-        static ServiceReference Get(StatefulServiceBase service)
+        static ServiceReference Get(Microsoft.ServiceFabric.Services.Runtime.StatefulService service)
         {
             Contract.Requires<ArgumentNullException>(service != null);
 
-            return new ServiceReference()
-            {
-                ServiceUri = service.ServiceInitializationParameters.ServiceName,
-                PartitionKind = service.ServicePartition.PartitionInfo.Kind,
-                PartitionKey = service.ServicePartition.PartitionInfo.Id,
-            };
+            throw new NotSupportedException();
         }
 
         /// <summary>
@@ -114,14 +103,14 @@ namespace Cogito.Fabric
         /// Gets the partition key. This can be casted to the right type based on the <see cref="PartitionKind"/> member.
         /// </summary>
         [DataMember]
-        public object PartitionKey { get;  set; }
+        public object PartitionKey { get; set; }
 
         /// <summary>
         /// If there are multiple communication listeners in the service, this property identifies the endpoint to which
         /// the communication client needs to connect to.
         /// </summary>
         [DataMember]
-        public string ListenerName { get;  set; }
+        public string ListenerName { get; set; }
 
         /// <summary>
         /// Creates a <see cref="ServiceProxy"/>.
@@ -145,10 +134,10 @@ namespace Cogito.Fabric
                 return ServiceProxy.Create<TService>(ServiceUri, listenerName: ListenerName);
 
             if (PartitionKind == ServicePartitionKind.Int64Range)
-                return ServiceProxy.Create<TService>((long)PartitionKey, ServiceUri, listenerName: ListenerName);
+                return ServiceProxy.Create<TService>(ServiceUri, new ServicePartitionKey((long)PartitionKey), listenerName: ListenerName);
 
             if (PartitionKind == ServicePartitionKind.Named)
-                return ServiceProxy.Create<TService>((string)PartitionKey, ServiceUri, listenerName: ListenerName);
+                return ServiceProxy.Create<TService>(ServiceUri, new ServicePartitionKey((string)PartitionKey), listenerName: ListenerName);
 
             throw new FabricException($"Unsupported PartitionKind '{PartitionKind}'.");
         }

@@ -2,15 +2,18 @@
 using System.Diagnostics.Contracts;
 using System.Fabric;
 using System.Fabric.Health;
+using System.Threading.Tasks;
+
+using Microsoft.ServiceFabric.Actors.Runtime;
 
 namespace Cogito.Fabric
 {
 
     /// <summary>
-    /// Represents a stateless actor which does not have any state managed by the actors runtime.
+    /// Represents an actor.
     /// </summary>
-    public abstract class StatelessActor :
-        Microsoft.ServiceFabric.Actors.StatelessActor
+    public abstract class Actor :
+        Microsoft.ServiceFabric.Actors.Runtime.Actor
     {
 
         readonly Lazy<FabricClient> fabric;
@@ -18,7 +21,7 @@ namespace Cogito.Fabric
         /// <summary>
         /// Initializes a new instance.
         /// </summary>
-        public StatelessActor()
+        public Actor()
         {
             this.fabric = new Lazy<FabricClient>(() => new FabricClient(), true);
         }
@@ -34,15 +37,15 @@ namespace Cogito.Fabric
         /// <summary>
         /// Gets the initialization parameters passed to the service replica.
         /// </summary>
-        protected StatelessServiceInitializationParameters ServiceInitializationParameters
+        protected StatefulServiceContext ServiceInitializationParameters
         {
-            get { return ActorService.ServiceInitializationParameters; }
+            get { return ActorService.Context; }
         }
 
         /// <summary>
         /// Gets the code package activation context passed to the service replica.
         /// </summary>
-        protected CodePackageActivationContext CodePackageActivationContext
+        protected ICodePackageActivationContext CodePackageActivationContext
         {
             get { return ServiceInitializationParameters.CodePackageActivationContext; }
         }
@@ -54,9 +57,9 @@ namespace Cogito.Fabric
         protected void ReportHealth(HealthInformation healthInformation)
         {
             Fabric.HealthManager.ReportHealth(
-                new StatelessServiceInstanceHealthReport(
+                new StatefulServiceReplicaHealthReport(
                     ServiceInitializationParameters.PartitionId,
-                    ServiceInitializationParameters.InstanceId,
+                    ServiceInitializationParameters.ReplicaId,
                     healthInformation));
         }
 
@@ -70,6 +73,9 @@ namespace Cogito.Fabric
         /// <param name="removeWhenExpired"></param>
         protected void ReportHealth(string sourceId, string property, HealthState state, TimeSpan? timeToLive = null, bool? removeWhenExpired = null)
         {
+            Contract.Requires<ArgumentNullException>(sourceId != null);
+            Contract.Requires<ArgumentNullException>(property != null);
+
             var i = new HealthInformation(sourceId, property, state);
             if (timeToLive != null)
                 i.TimeToLive = (TimeSpan)timeToLive;
@@ -94,7 +100,10 @@ namespace Cogito.Fabric
         /// <summary>
         /// Name of the default configuration package.
         /// </summary>
-        protected string DefaultConfigurationPackageName { get; set; } = "Config";
+        protected string DefaultConfigurationPackageName
+        {
+            get { return "Config"; }
+        }
 
         /// <summary>
         /// Gets the default config package object.
@@ -138,6 +147,67 @@ namespace Cogito.Fabric
             Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(parameterName));
 
             return DefaultConfigurationPackage?.Settings.Sections[sectionName]?.Parameters[parameterName]?.Value;
+        }
+
+        /// <summary>
+        /// Gets the reminder with the specific name or <c>null</c> if no such reminder is registered.
+        /// </summary>
+        /// <returns></returns>
+        protected IActorReminder TryGetReminder(string reminderName)
+        {
+            Contract.Requires<ArgumentNullException>(reminderName != null);
+            Contract.Requires<ArgumentNullException>(reminderName.Length > 0);
+
+            try
+            {
+                return GetReminder(reminderName);
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Executes the given function with the state object available.
+        /// </summary>
+        /// <param name="func"></param>
+        /// <returns></returns>
+        protected virtual async Task WithState<TState>(Func<TState, Task> func)
+            where TState : new()
+        {
+            // find existing state
+            var c = await StateManager.TryGetStateAsync<TState>("State");
+            var state = c.HasValue ? c.Value : new TState();
+
+            // execute func with state
+            await func(state);
+
+            // save modified state
+            await StateManager.SetStateAsync("State", state);
+        }
+
+        /// <summary>
+        /// Executes the given function with the state object available.
+        /// </summary>
+        /// <typeparam name="TResult"></typeparam>
+        /// <param name="func"></param>
+        /// <returns></returns>
+        protected virtual async Task<TResult> WithState<TState, TResult>(Func<TState, Task<TResult>> func)
+            where TState : new()
+        {
+            // find existing state
+            var c = await StateManager.TryGetStateAsync<TState>("State");
+            var state = c.HasValue ? c.Value : new TState();
+
+            // execute func with state
+            var result = await func(state);
+
+            // save modified state
+            await StateManager.SetStateAsync("State", state);
+
+            // return result
+            return result;
         }
 
     }
