@@ -1,32 +1,23 @@
 ﻿using System;
-using System.Diagnostics;
-using System.Fabric;
 using System.Threading;
+using Microsoft.ServiceFabric.Services.Runtime;
 
 namespace Cogito.Fabric.Test.Web.Service
 {
 
-    internal static class Program
+    static class Program
     {
 
-        /// <summary>
-        /// This is the entry point of the service host process.
-        /// </summary>
         static void Main()
         {
             try
             {
-                using (FabricRuntime fabricRuntime = FabricRuntime.Create())
-                {
-                    fabricRuntime.RegisterServiceType("OwinStatelessServiceType", typeof(OwinStatelessService));
-                    fabricRuntime.RegisterServiceType("OwinStatefulServiceType", typeof(OwinStatefulService));
-                    ServiceEventSource.Current.ServiceTypeRegistered(Process.GetCurrentProcess().Id, typeof(OwinStatelessService).Name);
-                    Thread.Sleep(Timeout.Infinite);
-                }
+                ServiceRuntime.RegisterServiceAsync("OwinStatelessServiceType", ctx => new OwinStatelessService(ctx));
+                ServiceRuntime.RegisterServiceAsync("OwinStatefulServiceType", ctx => new OwinStatefulService(ctx));
+                Thread.Sleep(Timeout.Infinite);
             }
             catch (Exception e)
             {
-                ServiceEventSource.Current.ServiceHostInitializationFailed(e.ToString());
                 throw;
             }
         }

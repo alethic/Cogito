@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Fabric;
+using System.Threading.Tasks;
 
 using Microsoft.Owin;
 
@@ -12,8 +13,9 @@ namespace Cogito.Fabric.Test.Web.Service
         /// <summary>
         /// Initializes a new instance.
         /// </summary>
-        public OwinStatefulService()
-            : base("OwinStatefulService")
+        /// <param name="context"></param>
+        public OwinStatefulService(StatefulServiceContext context)
+            : base(context, "OwinStatefulService")
         {
 
         }

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Diagnostics.Contracts;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading;
@@ -12,63 +11,44 @@ namespace Cogito.Fabric.Http
 {
 
     /// <summary>
-    /// Factory that creates clients that known how to communicate with services with HTTP endpoints. Contains a
-    /// service partition resolver that resolves a partition key and sets BaseAddress to the address of the replica
-    /// that should serve a request.
+    /// Factory that creates clients that know how to communicate with services with HTTP endpoints.
     /// </summary>
     public class HttpCommunicationClientFactory :
         CommunicationClientFactoryBase<HttpCommunicationClient>
     {
 
-        static readonly Lazy<HttpCommunicationClientFactory> default_ = new Lazy<HttpCommunicationClientFactory>(() => CreateDefault(), true);
-
         /// <summary>
-        /// Creates the default <see cref="HttpCommunicationClientFactory"/> instance.
+        /// Appends our custom exception handler.
         /// </summary>
+        /// <param name="additionalHandlers"></param>
         /// <returns></returns>
-        static HttpCommunicationClientFactory CreateDefault()
+        static IEnumerable<IExceptionHandler> CreateExceptionHandlers(IEnumerable<IExceptionHandler> additionalHandlers)
         {
-            return new HttpCommunicationClientFactory(ServicePartitionResolver.GetDefault(), TimeSpan.FromSeconds(30));
+            return new[] { new HttpExceptionHandler() }.Union(additionalHandlers ?? Enumerable.Empty<IExceptionHandler>());
         }
 
-        /// <summary>
-        /// Gets the default <see cref="HttpCommunicationClientFactory"/>.
-        /// </summary>
-        public static HttpCommunicationClientFactory Default
-        {
-            get { return default_.Value; }
-        }
-
-        static readonly TimeSpan MaxRetryBackoffIntervalOnNonTransientErrors = TimeSpan.FromSeconds(3);
+        readonly HttpClient httpClient;
 
         /// <summary>
         /// Initializes a new instance.
         /// </summary>
         /// <param name="resolver"></param>
-        /// <param name="timeout"></param>
-        public HttpCommunicationClientFactory(ServicePartitionResolver resolver, TimeSpan timeout)
-            : base(resolver, null, null)
+        /// <param name="exceptionHandlers"></param>
+        public HttpCommunicationClientFactory(IServicePartitionResolver resolver = null, IEnumerable<IExceptionHandler> exceptionHandlers = null)
+            : base(resolver, CreateExceptionHandlers(exceptionHandlers))
         {
-            Contract.Requires<ArgumentNullException>(resolver != null);
-            Contract.Requires<ArgumentOutOfRangeException>(timeout.TotalSeconds > 0);
-
-            Timeout = timeout;
+            this.httpClient = new HttpClient();
         }
 
         /// <summary>
-        /// Represents the value for operation timeout. Passed to clients.
-        /// </summary>
-        public TimeSpan Timeout { get; set; }
-
-        /// <summary>
-        /// Returns <c>true</c> if the client is still connected.
+        /// 
         /// </summary>
         /// <param name="endpoint"></param>
-        /// <param name="client"></param>
+        /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        protected override bool ValidateClient(string endpoint, HttpCommunicationClient client)
+        protected override Task<HttpCommunicationClient> CreateClientAsync(string endpoint, CancellationToken cancellationToken)
         {
-            return true;
+            return Task.FromResult(new HttpCommunicationClient(httpClient, endpoint));
         }
 
         /// <summary>
@@ -82,78 +62,23 @@ namespace Cogito.Fabric.Http
         }
 
         /// <summary>
+        /// Returns <c>true</c> if the client is still connected.
+        /// </summary>
+        /// <param name="endpoint"></param>
+        /// <param name="client"></param>
+        /// <returns></returns>
+        protected override bool ValidateClient(string endpoint, HttpCommunicationClient client)
+        {
+            return true;
+        }
+
+        /// <summary>
         /// Aborts the given client.
         /// </summary>
         /// <param name="client"></param>
         protected override void AbortClient(HttpCommunicationClient client)
         {
             // HTTP doesn't maintain a communication channel, so nothing to abort
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="endpoint"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
-        protected override Task<HttpCommunicationClient> CreateClientAsync(string endpoint, CancellationToken cancellationToken)
-        {
-            if (string.IsNullOrWhiteSpace(endpoint) || !endpoint.StartsWith("http"))
-                throw new InvalidOperationException("The endpoint address is not valid. Please resolve again.");
-
-            // normalize endpoint
-            if (!endpoint.EndsWith("/"))
-                endpoint = endpoint + "/";
-
-            // generate new communication client
-            return Task.FromResult(new HttpCommunicationClient(
-                new Uri(endpoint),
-                Timeout));
-        }
-
-        /// <summary>
-        /// Handles specified exceptions from the communication client.
-        /// </summary>
-        /// <param name="e"></param>
-        /// <param name="result"></param>
-        /// <returns></returns>
-        protected override bool OnHandleException(Exception e, out ExceptionHandlingResult result)
-        {
-            // unpack any aggregate exceptions if possible
-            var s = e.Expand().ToList();
-            if (s.Count == 1)
-                e = s[0];
-
-            // exception represents a canceled operation
-            if (e is OperationCanceledException)
-            {
-                return CreateExceptionHandlingResult(true, out result);
-            }
-
-            // exception represents a HTTP request error
-            if (e is HttpRequestException)
-            {
-                return CreateExceptionHandlingResult(false, out result);
-            }
-
-            return base.OnHandleException(e, out result);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="isTransient"></param>
-        /// <param name="result"></param>
-        /// <returns></returns>
-        bool CreateExceptionHandlingResult(bool isTransient, out ExceptionHandlingResult result)
-        {
-            result = new ExceptionHandlingRetryResult()
-            {
-                IsTransient = isTransient,
-                RetryDelay = TimeSpan.FromMilliseconds(MaxRetryBackoffIntervalOnNonTransientErrors.TotalMilliseconds),
-            };
-
-            return true;
         }
 
     }

@@ -38,10 +38,10 @@ namespace Cogito.Fabric.Http
             return UseFabricHealth(
                 app, 
                 path,
-                service.ServiceInitializationParameters.CodePackageActivationContext.ApplicationName,
-                service.ServiceInitializationParameters.ServiceName,
-                service.ServiceInitializationParameters.PartitionId, 
-                service.ServiceInitializationParameters.InstanceId);
+                service.Context.CodePackageActivationContext.ApplicationName,
+                service.Context.ServiceName,
+                service.Context.PartitionId, 
+                service.Context.InstanceId);
         }
 
         /// <summary>
@@ -60,10 +60,10 @@ namespace Cogito.Fabric.Http
             return UseFabricHealth(
                 app, 
                 path,
-                service.ServiceInitializationParameters.CodePackageActivationContext.ApplicationName,
-                service.ServiceInitializationParameters.ServiceName,
-                service.ServiceInitializationParameters.PartitionId, 
-                service.ServiceInitializationParameters.ReplicaId);
+                service.Context.CodePackageActivationContext.ApplicationName,
+                service.Context.ServiceName,
+                service.Context.PartitionId, 
+                service.Context.ReplicaId);
         }
 
         /// <summary>

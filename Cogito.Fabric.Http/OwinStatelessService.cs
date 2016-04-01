@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
+using System.Fabric;
 using System.Threading.Tasks;
 
 using Microsoft.Owin;
@@ -26,7 +27,8 @@ namespace Cogito.Fabric.Http
         /// </summary>
         /// <param name="appRoot"></param>
         /// <param name="endpointName"></param>
-        public OwinStatelessService(string appRoot, string endpointName = "HttpServiceEndpoint")
+        public OwinStatelessService(StatelessServiceContext context, string appRoot, string endpointName = "HttpServiceEndpoint")
+            : base(context)
         {
             Contract.Requires<ArgumentNullException>(appRoot != null);
             Contract.Requires<ArgumentNullException>(endpointName != null);

@@ -25,7 +25,7 @@ namespace Cogito.Fabric.Http
         readonly string endpointName;
         readonly string appRoot;
         readonly Action<IAppBuilder> configure;
-        readonly ServiceInitializationParameters serviceInitializationParameters;
+        readonly ServiceContext context;
 
         string listeningAddress;
         string publishAddress;
@@ -35,14 +35,14 @@ namespace Cogito.Fabric.Http
         /// Initializes a new instance.
         /// </summary>
         /// <param name="configure"></param>
-        /// <param name="serviceInitializationParameters"></param>
+        /// <param name="context"></param>
         public OwinCommunicationListener(
             Action<IAppBuilder> configure,
-            ServiceInitializationParameters serviceInitializationParameters)
-            : this(null, configure, serviceInitializationParameters)
+            ServiceContext context)
+            : this(null, configure, context)
         {
             Contract.Requires<ArgumentNullException>(configure != null);
-            Contract.Requires<ArgumentNullException>(serviceInitializationParameters != null);
+            Contract.Requires<ArgumentNullException>(context != null);
         }
 
         /// <summary>
@@ -50,15 +50,15 @@ namespace Cogito.Fabric.Http
         /// </summary>
         /// <param name="appRoot"></param>
         /// <param name="configure"></param>
-        /// <param name="serviceInitializationParameters"></param>
+        /// <param name="context"></param>
         public OwinCommunicationListener(
             string appRoot,
             Action<IAppBuilder> configure,
-            ServiceInitializationParameters serviceInitializationParameters)
-            : this("HttpServiceEndpoint", appRoot, configure, serviceInitializationParameters)
+            ServiceContext context)
+            : this("HttpServiceEndpoint", appRoot, configure, context)
         {
             Contract.Requires<ArgumentNullException>(configure != null);
-            Contract.Requires<ArgumentNullException>(serviceInitializationParameters != null);
+            Contract.Requires<ArgumentNullException>(context != null);
         }
 
         /// <summary>
@@ -67,21 +67,21 @@ namespace Cogito.Fabric.Http
         /// <param name="endpointName"></param>
         /// <param name="appRoot"></param>
         /// <param name="configure"></param>
-        /// <param name="serviceInitializationParameters"></param>
+        /// <param name="context"></param>
         public OwinCommunicationListener(
             string endpointName,
             string appRoot,
             Action<IAppBuilder> configure,
-            ServiceInitializationParameters serviceInitializationParameters)
+            ServiceContext context)
         {
             Contract.Requires<ArgumentNullException>(endpointName != null);
             Contract.Requires<ArgumentNullException>(configure != null);
-            Contract.Requires<ArgumentNullException>(serviceInitializationParameters != null);
+            Contract.Requires<ArgumentNullException>(context != null);
 
             this.endpointName = endpointName;
             this.appRoot = appRoot;
             this.configure = configure;
-            this.serviceInitializationParameters = serviceInitializationParameters;
+            this.context = context;
         }
 
         /// <summary>
@@ -97,7 +97,7 @@ namespace Cogito.Fabric.Http
                 throw new FabricServiceNotFoundException("Could not obtain node context.");
 
             // listen address is that which we directly listen to
-            listeningAddress = BuildListeningAddress();
+            listeningAddress = GetListenerUri();
 
             // publish address is that which we are accessible to by other nodes
             publishAddress = listeningAddress.Replace("+", nodeContext.IPAddressOrFQDN);
@@ -121,37 +121,58 @@ namespace Cogito.Fabric.Http
         }
 
         /// <summary>
-        /// Builds the listening address.
+        /// Gets the service listener URI.
         /// </summary>
         /// <returns></returns>
-        string BuildListeningAddress()
+        string GetListenerUri()
         {
-            var serviceEndpoint = serviceInitializationParameters.CodePackageActivationContext.GetEndpoint(endpointName);
+            if (context is StatefulServiceContext)
+                return GetListenerUri((StatefulServiceContext)context);
 
-            if (serviceInitializationParameters is StatefulServiceInitializationParameters)
-            {
-                var p = (StatefulServiceInitializationParameters)serviceInitializationParameters;
-                return string.Format(
-                    CultureInfo.InvariantCulture,
-                    "{0}://+:{1}/{2}/{3}/{4}",
-                    GetSchema(serviceEndpoint),
-                    serviceEndpoint.Port,
-                    p.PartitionId,
-                    p.ReplicaId,
-                    Guid.NewGuid());
-            }
-
-            if (serviceInitializationParameters is StatelessServiceInitializationParameters)
-            {
-                return string.Format(
-                    CultureInfo.InvariantCulture,
-                    "{0}://+:{1}/{2}",
-                    GetSchema(serviceEndpoint),
-                    serviceEndpoint.Port,
-                    string.IsNullOrWhiteSpace(appRoot) ? string.Empty : appRoot.TrimEnd('/') + '/');
-            }
+            if (context is StatelessServiceContext)
+                return GetListenerUri((StatelessServiceContext)context);
 
             throw new InvalidOperationException();
+        }
+
+        /// <summary>
+        /// Gets the service listener URI.
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        string GetListenerUri(StatefulServiceContext context)
+        {
+            var serviceEndpoint = context.CodePackageActivationContext.GetEndpoint(endpointName);
+            if (serviceEndpoint == null)
+                throw new NullReferenceException(endpointName);
+
+            return string.Format(
+                CultureInfo.InvariantCulture,
+                "{0}://+:{1}/{2}/{3}/{4}",
+                GetSchema(serviceEndpoint),
+                serviceEndpoint.Port,
+                context.PartitionId,
+                context.ReplicaId,
+                Guid.NewGuid());
+        }
+
+        /// <summary>
+        /// Gets the service listener URI.
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        string GetListenerUri(StatelessServiceContext context)
+        {
+            var serviceEndpoint = context.CodePackageActivationContext.GetEndpoint(endpointName);
+            if (serviceEndpoint == null)
+                throw new NullReferenceException(endpointName);
+
+            return string.Format(
+                CultureInfo.InvariantCulture,
+                "{0}://+:{1}/{2}",
+                GetSchema(serviceEndpoint),
+                serviceEndpoint.Port,
+                string.IsNullOrWhiteSpace(appRoot) ? string.Empty : appRoot.TrimEnd('/') + '/');
         }
 
         /// <summary>
