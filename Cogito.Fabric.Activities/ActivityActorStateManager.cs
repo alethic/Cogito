@@ -227,9 +227,10 @@ namespace Cogito.Fabric.Activities
         /// <summary>
         /// Raises the Persisted event.
         /// </summary>
-        public Task OnPersisted()
+        public async Task OnPersisted()
         {
-            return Persisted();
+            if (Persisted != null)
+                await Persisted();
         }
 
     }

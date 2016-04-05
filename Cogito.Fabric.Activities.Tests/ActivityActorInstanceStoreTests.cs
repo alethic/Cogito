@@ -66,14 +66,14 @@ namespace Cogito.Fabric.Activities.Tests
 
                 await workflow.RunAsync();
 
-                Assert.IsNotNull((DateTime?)await state.GetInstanceData(ActivityWorkflowHost.ActivityTimerExpirationTimeKey));
+                Assert.IsNotNull(await state.GetInstanceData<DateTime?>(ActivityWorkflowHost.ActivityTimerExpirationTimeKey));
 
                 await Task.Delay(TimeSpan.FromSeconds(7));
 
                 await workflow.RunAsync();
                 await workflow.PersistAsync();
 
-                Assert.IsNull((DateTime?)await state.GetInstanceData(ActivityWorkflowHost.ActivityTimerExpirationTimeKey));
+                Assert.IsNull(await state.GetInstanceData<DateTime?>(ActivityWorkflowHost.ActivityTimerExpirationTimeKey));
             }).Wait();
         }
 
