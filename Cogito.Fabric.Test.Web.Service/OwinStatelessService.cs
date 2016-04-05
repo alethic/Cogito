@@ -22,10 +22,11 @@ namespace Cogito.Fabric.Test.Web.Service
 
         }
 
-        protected override Task OnRequest(IOwinContext context)
+        protected override async Task OnRequest(IOwinContext context)
         {
             var actor = ActorProxy.Create<ITestActor>(new ActorId(123));
-            return actor.IncrementThing();
+            await actor.IncrementThing();
+            await actor.Connect();
         }
 
     }

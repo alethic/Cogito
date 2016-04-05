@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -47,8 +46,6 @@ namespace Cogito.Fabric.Http
             return new[] { new HttpExceptionHandler() }.Union(additionalHandlers ?? Enumerable.Empty<IExceptionHandler>());
         }
 
-        readonly HttpClient httpClient;
-
         /// <summary>
         /// Initializes a new instance.
         /// </summary>
@@ -57,7 +54,7 @@ namespace Cogito.Fabric.Http
         public HttpCommunicationClientFactory(IServicePartitionResolver resolver = null, IEnumerable<IExceptionHandler> exceptionHandlers = null)
             : base(resolver, CreateExceptionHandlers(exceptionHandlers))
         {
-            this.httpClient = new HttpClient();
+
         }
 
         /// <summary>
@@ -68,7 +65,7 @@ namespace Cogito.Fabric.Http
         /// <returns></returns>
         protected override Task<HttpCommunicationClient> CreateClientAsync(string endpoint, CancellationToken cancellationToken)
         {
-            return Task.FromResult(new HttpCommunicationClient(httpClient, endpoint));
+            return Task.FromResult(new HttpCommunicationClient(new Uri(endpoint)));
         }
 
         /// <summary>

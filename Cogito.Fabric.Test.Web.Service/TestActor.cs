@@ -1,5 +1,9 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
+using Cogito.Fabric.Http;
 using Microsoft.ServiceFabric.Actors.Runtime;
+using Microsoft.ServiceFabric.Services.Communication.Client;
+using Microsoft.ServiceFabric.Services.Remoting.Client;
 
 namespace Cogito.Fabric.Test.Web.Service
 {
@@ -24,6 +28,19 @@ namespace Cogito.Fabric.Test.Web.Service
             {
                 State.Thing++;
             });
+        }
+
+        public async Task Connect()
+        {
+            var client = new ServicePartitionClient<HttpCommunicationClient>(
+                HttpCommunicationClientFactory.Default,
+                new Uri(new Uri(ApplicationName + "/"), "OwinStatefulService"));
+            var o = await client.InvokeWithRetry(async c =>
+            {
+                return await c.Http.GetAsync(c.BaseAddress);
+            }
+            );
+            o.EnsureSuccessStatusCode();
         }
 
     }

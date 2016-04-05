@@ -10,6 +10,8 @@ namespace Cogito.Fabric.Test.Web.Service
 
         Task IncrementThing();
 
+        Task Connect();
+
     }
 
 }

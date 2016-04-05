@@ -1,4 +1,5 @@
-﻿using System.Fabric;
+﻿using System;
+using System.Fabric;
 using System.Threading.Tasks;
 
 using Microsoft.Owin;
@@ -7,7 +8,8 @@ namespace Cogito.Fabric.Test.Web.Service
 {
 
     internal sealed class OwinStatefulService :
-        Http.OwinStatefulService
+        Http.OwinStatefulService,
+        IOwinStatefulService
     {
 
         /// <summary>
@@ -20,9 +22,14 @@ namespace Cogito.Fabric.Test.Web.Service
 
         }
 
-        protected override Task RunRequest(IOwinContext context)
+        public Task<int> Ping()
         {
-            return base.RunRequest(context);
+            return Task.FromResult(0);
+        }
+
+        protected override Task OnRequest(IOwinContext context)
+        {
+            return base.OnRequest(context);
         }
 
     }
