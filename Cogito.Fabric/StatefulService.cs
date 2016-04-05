@@ -1,9 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Fabric;
 using System.Fabric.Health;
 using System.Threading;
 using System.Threading.Tasks;
+
+using Microsoft.ServiceFabric.Services.Communication.Runtime;
+using Microsoft.ServiceFabric.Services.Remoting;
+using Microsoft.ServiceFabric.Services.Remoting.FabricTransport.Runtime;
 
 namespace Cogito.Fabric
 {
@@ -33,6 +38,16 @@ namespace Cogito.Fabric
         protected FabricClient Fabric
         {
             get { return fabric.Value; }
+        }
+
+        /// <summary>
+        /// Override this method to supply the communication listeners for the service instance. By default this method
+        /// returns a <see cref="FabricTransportServiceRemotingListener"/>.
+        /// </summary>
+        /// <returns></returns>
+        protected override IEnumerable<ServiceReplicaListener> CreateServiceReplicaListeners()
+        {
+            yield return new ServiceReplicaListener(ctx => new FabricTransportServiceRemotingListener(ctx, (IService)this));
         }
 
         /// <summary>
