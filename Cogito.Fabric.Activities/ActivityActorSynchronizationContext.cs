@@ -5,25 +5,35 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using Cogito.Threading;
-using Microsoft.ServiceFabric.Actors;
+
+using Microsoft.ServiceFabric.Actors.Runtime;
 
 namespace Cogito.Fabric.Activities
 {
 
     /// <summary>
-    /// Provides a synchronization context linked to an <see cref="StatefulActivityActor"/> timer infrastructure.
+    /// Provides a synchronization context linked to an <see cref="ActivityActor"/> timer infrastructure.
     /// </summary>
-    class ActivityActorSynchronizationContext :
+    public class ActivityActorSynchronizationContext :
         SynchronizationContext
     {
 
-        readonly IActivityActorInternal actor;
+        /// <summary>
+        /// Returns <c>true</c> if we're present within the Actor context.
+        /// </summary>
+        /// <returns></returns>
+        public static bool IsInActorContext()
+        {
+            return CallContext.LogicalGetData("_FabActCallContext_") != null;
+        }
+
+        readonly IActivityActor actor;
 
         /// <summary>
         /// Initializes a new instance.
         /// </summary>
         /// <param name="actor"></param>
-        public ActivityActorSynchronizationContext(IActivityActorInternal actor)
+        public ActivityActorSynchronizationContext(IActivityActor actor)
         {
             Contract.Requires<ArgumentNullException>(actor != null);
 
@@ -33,30 +43,9 @@ namespace Cogito.Fabric.Activities
         public override void Post(SendOrPostCallback d, object state)
         {
             if (IsInActorContext())
-            {
-                // directly execute callback
                 d(state);
-            }
             else
-            {
-                // hoist timer so it can be unregistered
-                IActorTimer timer = null;
-
-                // schedule timer
-                timer = actor.RegisterTimer(
-                    o =>
-                    {
-                        // unregister ourselves
-                        actor.UnregisterTimer(timer);
-
-                        // invoke workitem
-                        return InvokeFromTimer((SynchronizationContextWorkItem)o);
-                    },
-                    new SynchronizationContextWorkItem(d, state),
-                    TimeSpan.FromMilliseconds(1),
-                    TimeSpan.FromMilliseconds(-1),
-                    false);
-            }
+                actor.ScheduleInvokeWithTimer(() => InvokeFromTimer(new SynchronizationContextWorkItem(d, state)));
         }
 
         /// <summary>
@@ -71,15 +60,6 @@ namespace Cogito.Fabric.Activities
                 item.Callback(item.State);
                 return Task.FromResult(true);
             }
-        }
-
-        /// <summary>
-        /// Returns <c>true</c> if we're present within the Actor context.
-        /// </summary>
-        /// <returns></returns>
-        bool IsInActorContext()
-        {
-            return CallContext.LogicalGetData("_FabActCallContext_") != null;
         }
 
     }

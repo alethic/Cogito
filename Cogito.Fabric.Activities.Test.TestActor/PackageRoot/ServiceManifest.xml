@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ServiceManifest xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Name="Cogito.Fabric.Activities.Test.TestActorPkg" Version="1.0.0" xmlns="http://schemas.microsoft.com/2011/01/fabric">
    <ServiceTypes>
-      <StatefulServiceType ServiceTypeName="TestActorServiceType" HasPersistedState="true">
+      <StatefulServiceType ServiceTypeName="TestActorServiceType">
          <Extensions>
-            <Extension Name="__GeneratedServiceType__" GeneratedId="bcda30a2-ade7-4b27-a899-9ff4bba4777a">
+            <Extension Name="__GeneratedServiceType__" GeneratedId="dae3a4bc-1cd0-435c-aa02-70b7fad3e868|None">
                <GeneratedNames xmlns="http://schemas.microsoft.com/2015/03/fabact-no-schema">
                   <DefaultService Name="TestActorService" />
                   <ServiceEndpoint Name="TestActorServiceEndpoint" />
@@ -11,6 +11,20 @@
                   <ReplicatorConfigSection Name="TestActorServiceReplicatorConfig" />
                   <ReplicatorSecurityConfigSection Name="TestActorServiceReplicatorSecurityConfig" />
                   <StoreConfigSection Name="TestActorServiceLocalStoreConfig" />
+               </GeneratedNames>
+            </Extension>
+         </Extensions>
+      </StatefulServiceType>
+      <StatefulServiceType ServiceTypeName="Test2ActorServiceType" HasPersistedState="true">
+         <Extensions>
+            <Extension Name="__GeneratedServiceType__" GeneratedId="4b2808c1-7c98-45db-9ed7-0f97cafef539|Persisted">
+               <GeneratedNames xmlns="http://schemas.microsoft.com/2015/03/fabact-no-schema">
+                  <DefaultService Name="Test2ActorService" />
+                  <ServiceEndpoint Name="Test2ActorServiceEndpoint" />
+                  <ReplicatorEndpoint Name="Test2ActorServiceReplicatorEndpoint" />
+                  <ReplicatorConfigSection Name="Test2ActorServiceReplicatorConfig" />
+                  <ReplicatorSecurityConfigSection Name="Test2ActorServiceReplicatorSecurityConfig" />
+                  <StoreConfigSection Name="Test2ActorServiceLocalStoreConfig" />
                </GeneratedNames>
             </Extension>
          </Extensions>
@@ -28,6 +42,8 @@
       <Endpoints>
          <Endpoint Name="TestActorServiceEndpoint" />
          <Endpoint Name="TestActorServiceReplicatorEndpoint" />
+         <Endpoint Name="Test2ActorServiceEndpoint" />
+         <Endpoint Name="Test2ActorServiceReplicatorEndpoint" />
       </Endpoints>
    </Resources>
 </ServiceManifest>

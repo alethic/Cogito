@@ -168,8 +168,7 @@ void GenerateRecord(RecordType recordType)
 #>
         
 <#+
-    GenerateStatefulRecordMethod(recordType);
-    GenerateStatelessRecordMethod(recordType);
+    GenerateRecordMethod(recordType);
     GenerateEventMethods(recordType);
 #>
 
@@ -179,7 +178,7 @@ void GenerateRecord(RecordType recordType)
 #>
 
 <#+
-void GenerateStatefulRecordMethod(RecordType recordType)
+void GenerateRecordMethod(RecordType recordType)
 {
 #>
         /// <summary>
@@ -190,7 +189,7 @@ void GenerateStatefulRecordMethod(RecordType recordType)
         /// <param name="message"></param>
         /// <param name="args"></param>
         [NonEvent]
-        internal void <#= recordType.Name #>(IStatefulActivityActorInternal actor, <#= recordType.Type.Name #> record, string message = "", params object[] args)
+        internal void <#= recordType.Name #>(IActivityActorInternal actor, <#= recordType.Type.Name #> record, string message = "", params object[] args)
         {
             Contract.Requires<ArgumentNullException>(actor != null);
             Contract.Requires<ArgumentNullException>(record != null);
@@ -208,84 +207,12 @@ for (int i = 0; i < tLevels.Length; i++)
                     <#= recordType.Name #><#= tLevels[i] #>(
                         actor.GetType().ToString(),
                         actor.Id.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationTypeName,
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceTypeName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceName.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.PartitionId,
-                        actor.ActorService.ServiceInitializationParameters.ReplicaId,
-                        FabricRuntime.GetNodeContext().NodeName,
-                        record.InstanceId,
-                        record.RecordNumber,
-                        record.EventTime.ToFileTimeUtc(),
-                        PrepareAnnotations(record.Annotations),
-<#+
-    foreach (var arg in recordType.Args)
-    {
-        if (arg.Type == "string")
-        {
-#>
-                        (<#= arg.Expr #>) ?? string.Empty,
-<#+
-        }
-        else
-        {
-#>
-                        <#= arg.Expr #>,
-<#+
-        }
-    }
-#>
-                        string.Format(message, args));
-                    return;
-                }
-
-<#+
-}
-#>
-            }
-        }
-
-<#+
-}
-#>
-
-<#+
-void GenerateStatelessRecordMethod(RecordType recordType)
-{
-#>
-        /// <summary>
-        /// Records an event.
-        /// </summary>
-        /// <param name="actor"></param>
-        /// <param name="record"></param>
-        /// <param name="message"></param>
-        /// <param name="args"></param>
-        [NonEvent]
-        internal void <#= recordType.Name #>(IStatelessActivityActorInternal actor, <#= recordType.Type.Name #> record, string message = "", params object[] args)
-        {
-            Contract.Requires<ArgumentNullException>(actor != null);
-            Contract.Requires<ArgumentNullException>(record != null);
-            Contract.Requires<ArgumentNullException>(message != null);
-            Contract.Requires<ArgumentNullException>(args != null);
-
-            if (IsEnabled())
-            {
-<#+
-for (int i = 0; i < tLevels.Length; i++)
-{
-#>
-                if (record.Level == TraceLevel.<#= tLevels[i] #> && IsEnabled(EventLevel.<#= eLevels[i] #>, <#= string.Join(" | ", recordType.Keywords.Select(k => "Keywords." + k)) #>))
-                {
-                    <#= recordType.Name #><#= tLevels[i] #>(
-                        actor.GetType().ToString(),
-                        actor.Id.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationTypeName,
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceTypeName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceName.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.PartitionId,
-                        actor.ActorService.ServiceInitializationParameters.InstanceId,
+                        actor.ActorService.Context.CodePackageActivationContext.ApplicationTypeName,
+                        actor.ActorService.Context.CodePackageActivationContext.ApplicationName,
+                        actor.ActorService.Context.ServiceTypeName,
+                        actor.ActorService.Context.ServiceName.ToString(),
+                        actor.ActorService.Context.PartitionId,
+                        actor.ActorService.Context.ReplicaId,
                         FabricRuntime.GetNodeContext().NodeName,
                         record.InstanceId,
                         record.RecordNumber,

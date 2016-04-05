@@ -5,46 +5,37 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics.Contracts;
 using System.IO;
-using System.Linq;
 using System.Runtime.DurableInstancing;
 using System.Runtime.Serialization;
+using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Linq;
 
-using Cogito.Collections;
 using Cogito.Threading;
 
 namespace Cogito.Fabric.Activities
 {
 
     /// <summary>
-    /// Provides a Durable Instancing store for saving objects into a <see cref="ActivityActorState"/>.
+    /// Provides a Durable Instancing store for saving objects into a <see cref="ActivityActorStateManager"/>.
     /// </summary>
-    class ActivityActorInstanceStore :
+    public class ActivityActorInstanceStore :
         InstanceStore
     {
-        
-        readonly ActivityActorState actorState;
+
+        readonly ActivityActorStateManager state;
         readonly NetDataContractSerializer serializer;
 
         /// <summary>
         /// Initializes a new instance.
         /// </summary>
         /// <param name="actor"></param>
-        internal ActivityActorInstanceStore(IActivityActorInternal actor)
+        public ActivityActorInstanceStore(ActivityActorStateManager state)
         {
-            Contract.Requires<ArgumentNullException>(actor != null);
-            
-            this.actorState = actor.State;
+            Contract.Requires<ArgumentNullException>(state != null);
+
+            this.state = state;
             this.serializer = new NetDataContractSerializer();
-
-            // initialize activity state
-            if (actorState.InstanceData == null)
-                actorState.InstanceData = new Dictionary<Guid, Dictionary<XName, object>>();
-
-            // initialize activity state
-            if (actorState.InstanceMetadata == null)
-                actorState.InstanceMetadata = new Dictionary<Guid, Dictionary<XName, object>>();
         }
 
         /// <summary>
@@ -72,23 +63,32 @@ namespace Cogito.Fabric.Activities
         {
             if (command is CreateWorkflowOwnerCommand)
             {
-                CreateWorkflowOwnerCommand(context, (CreateWorkflowOwnerCommand)command);
+                return CreateWorkflowOwnerCommand(context, (CreateWorkflowOwnerCommand)command).BeginToAsync(callback, state);
+            }
+            else if (command is QueryActivatableWorkflowsCommand)
+            {
+                return QueryActivatableWorkflowsCommand(context, (QueryActivatableWorkflowsCommand)command).BeginToAsync(callback, state);
             }
             else if (command is SaveWorkflowCommand)
             {
-                SaveWorkflowCommand(context, (SaveWorkflowCommand)command);
-
+                return SaveWorkflowCommand(context, (SaveWorkflowCommand)command).BeginToAsync(callback, state);
             }
             else if (command is LoadWorkflowCommand)
             {
-                LoadWorkflowCommand(context, (LoadWorkflowCommand)command);
+                return LoadWorkflowCommand(context, (LoadWorkflowCommand)command).BeginToAsync(callback, state);
+            }
+            else if (command is TryLoadRunnableWorkflowCommand)
+            {
+                return TryLoadRunnableWorkflowCommand(context, (TryLoadRunnableWorkflowCommand)command).BeginToAsync(callback, state);
             }
             else if (command is DeleteWorkflowOwnerCommand)
             {
-                DeleteWorkflowOwnerCommand(context, (DeleteWorkflowOwnerCommand)command);
+                return DeleteWorkflowOwnerCommand(context, (DeleteWorkflowOwnerCommand)command).BeginToAsync(callback, state);
             }
-
-            return new CompletedAsyncResult<bool>(true, callback, state);
+            else
+            {
+                return Task.FromResult(true).BeginToAsync(callback, state);
+            }
         }
 
         /// <summary>
@@ -98,7 +98,7 @@ namespace Cogito.Fabric.Activities
         /// <returns></returns>
         protected override bool EndTryCommand(IAsyncResult result)
         {
-            return CompletedAsyncResult<bool>.End(result);
+            return ((Task<bool>)result).EndToAsync();
         }
 
         #region Commands
@@ -108,9 +108,21 @@ namespace Cogito.Fabric.Activities
         /// </summary>
         /// <param name="context"></param>
         /// <param name="command"></param>
-        void CreateWorkflowOwnerCommand(InstancePersistenceContext context, CreateWorkflowOwnerCommand command)
+        async Task<bool> CreateWorkflowOwnerCommand(InstancePersistenceContext context, CreateWorkflowOwnerCommand command)
         {
-            context.BindInstanceOwner(actorState.InstanceOwnerId, Guid.NewGuid());
+            context.BindInstanceOwner(await state.GetInstanceOwnerId(), Guid.NewGuid());
+            return true;
+        }
+
+        /// <summary>
+        /// Handles a <see cref="QueryActivatableWorkflowsCommand"/>
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="command"></param>
+        /// <returns></returns>
+        async Task<bool> QueryActivatableWorkflowsCommand(InstancePersistenceContext context, QueryActivatableWorkflowsCommand command)
+        {
+            return false;
         }
 
         /// <summary>
@@ -118,15 +130,25 @@ namespace Cogito.Fabric.Activities
         /// </summary>
         /// <param name="context"></param>
         /// <param name="command"></param>
-        void SaveWorkflowCommand(InstancePersistenceContext context, SaveWorkflowCommand command)
+        async Task<bool> SaveWorkflowCommand(InstancePersistenceContext context, SaveWorkflowCommand command)
         {
             // save the instance data
-            SaveInstanceData(context.InstanceView.InstanceId, command.InstanceData);
-            SaveInstanceMetadata(context.InstanceView.InstanceId, command.InstanceMetadataChanges);
+            await state.SetInstanceState(InstanceState.Initialized);
+            await SaveInstanceData(context.InstanceView.InstanceId, command.InstanceData);
+            await SaveInstanceMetadata(context.InstanceView.InstanceId, command.InstanceMetadataChanges);
 
             // clear instance data when complete
             if (command.CompleteInstance)
-                actorState.InstanceData.Remove(context.InstanceView.InstanceId);
+            {
+                await state.SetInstanceState(InstanceState.Completed);
+                await state.ClearInstanceData();
+                await state.ClearInstanceMetadata();
+            }
+
+            // signal that we have been saved
+            await state.OnPersisted();
+
+            return true;
         }
 
         /// <summary>
@@ -134,14 +156,27 @@ namespace Cogito.Fabric.Activities
         /// </summary>
         /// <param name="context"></param>
         /// <param name="command"></param>
-        void LoadWorkflowCommand(InstancePersistenceContext context, LoadWorkflowCommand command)
+        async Task<bool> LoadWorkflowCommand(InstancePersistenceContext context, LoadWorkflowCommand command)
         {
             context.LoadedInstance(
                 InstanceState.Initialized,
-                LoadInstanceData(context.InstanceView.InstanceId),
-                LoadInstanceMetadata(context.InstanceView.InstanceId),
+                await LoadInstanceData(context.InstanceView.InstanceId),
+                await LoadInstanceMetadata(context.InstanceView.InstanceId),
                 null,
                 null);
+
+            return true;
+        }
+
+        /// <summary>
+        /// Handles a <see cref="TryLoadRunnableWorkflowCommand"/>.
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="command"></param>
+        /// <returns></returns>
+        async Task<bool> TryLoadRunnableWorkflowCommand(InstancePersistenceContext context, TryLoadRunnableWorkflowCommand command)
+        {
+            return false;
         }
 
         /// <summary>
@@ -149,9 +184,9 @@ namespace Cogito.Fabric.Activities
         /// </summary>
         /// <param name="context"></param>
         /// <param name="command"></param>
-        void DeleteWorkflowOwnerCommand(InstancePersistenceContext context, DeleteWorkflowOwnerCommand command)
+        Task<bool> DeleteWorkflowOwnerCommand(InstancePersistenceContext context, DeleteWorkflowOwnerCommand command)
         {
-
+            return Task.FromResult(true);
         }
 
         #endregion
@@ -163,14 +198,13 @@ namespace Cogito.Fabric.Activities
         /// </summary>
         /// <param name="instanceId"></param>
         /// <returns></returns>
-        IDictionary<XName, InstanceValue> LoadInstanceData(Guid instanceId)
+        async Task<IDictionary<XName, InstanceValue>> LoadInstanceData(Guid instanceId)
         {
-            var data = actorState.InstanceData.GetOrDefault(instanceId);
-            if (data == null)
-                return new Dictionary<XName, InstanceValue>();
+            if (await state.GetInstanceId() != instanceId)
+                throw new InvalidOperationException();
 
-            return data
-                .ToDictionary(i => i.Key, i => new InstanceValue(FromSerializableObject(i.Value)));
+            return await (await state.GetInstanceDataItems())
+                .ToDictionaryAsync(i => i, async i => new InstanceValue(FromSerializableObject(await state.GetInstanceData(i))));
         }
 
         /// <summary>
@@ -178,14 +212,13 @@ namespace Cogito.Fabric.Activities
         /// </summary>
         /// <param name="instanceId"></param>
         /// <returns></returns>
-        IDictionary<XName, InstanceValue> LoadInstanceMetadata(Guid instanceId)
+        async Task<IDictionary<XName, InstanceValue>> LoadInstanceMetadata(Guid instanceId)
         {
-            var metadata = actorState.InstanceMetadata.GetOrDefault(instanceId);
-            if (metadata == null)
-                return new Dictionary<XName, InstanceValue>();
+            if (await state.GetInstanceId() != instanceId)
+                throw new InvalidOperationException();
 
-            return metadata
-                .ToDictionary(i => i.Key, i => new InstanceValue(FromSerializableObject(i.Value)));
+            return await (await state.GetInstanceMetadataItems())
+                .ToDictionaryAsync(i => i, async i => new InstanceValue(FromSerializableObject(await state.GetInstanceMetadata(i))));
         }
 
         /// <summary>
@@ -193,12 +226,15 @@ namespace Cogito.Fabric.Activities
         /// </summary>
         /// <param name="instanceId"></param>
         /// <param name="data"></param>
-        void SaveInstanceData(Guid instanceId, IDictionary<XName, InstanceValue> data)
+        async Task SaveInstanceData(Guid instanceId, IDictionary<XName, InstanceValue> data)
         {
             Contract.Requires<ArgumentNullException>(data != null);
 
-            actorState.InstanceData[instanceId] = data
-                .ToDictionary(i => i.Key, i => ToSerializableObject(i.Value.Value));
+            if (await state.GetInstanceId() != instanceId)
+                throw new InvalidOperationException();
+
+            foreach (var kvp in data)
+                await state.SetInstanceData(kvp.Key, ToSerializableObject(kvp.Value.Value));
         }
 
         /// <summary>
@@ -206,12 +242,15 @@ namespace Cogito.Fabric.Activities
         /// </summary>
         /// <param name="instanceId"></param>
         /// <param name="metadata"></param>
-        void SaveInstanceMetadata(Guid instanceId, IDictionary<XName, InstanceValue> metadata)
+        async Task SaveInstanceMetadata(Guid instanceId, IDictionary<XName, InstanceValue> metadata)
         {
             Contract.Requires<ArgumentNullException>(metadata != null);
 
-            actorState.InstanceMetadata[instanceId] = metadata
-                .ToDictionary(i => i.Key, i => ToSerializableObject(i.Value.Value));
+            if (await state.GetInstanceId() != instanceId)
+                throw new InvalidOperationException();
+
+            foreach (var kvp in metadata)
+                await state.SetInstanceMetadata(kvp.Key, ToSerializableObject(kvp.Value.Value));
         }
 
         /// <summary>
@@ -250,7 +289,7 @@ namespace Cogito.Fabric.Activities
             else if (value is ReadOnlyCollection<BookmarkInfo>)
                 return value;
             else
-                return new ActivityActorSerializedObject() { Data = SerializeObject(value).ToString() };
+                return new ActivityActorInstanceValueAsString() { Data = SerializeObject(value).ToString() };
         }
 
         /// <summary>
@@ -278,8 +317,10 @@ namespace Cogito.Fabric.Activities
         /// <returns></returns>
         object FromSerializableObject(object value)
         {
-            if (value is ActivityActorSerializedObject)
-                return DeserializeObject(XElement.Parse(((ActivityActorSerializedObject)value).Data));
+            if (value is ActivityActorInstanceValue)
+                return ((ActivityActorInstanceValue)value).Value;
+            else if (value is ActivityActorInstanceValueAsString)
+                return DeserializeObject(XElement.Parse(((ActivityActorInstanceValueAsString)value).Data));
             else
                 return value;
         }

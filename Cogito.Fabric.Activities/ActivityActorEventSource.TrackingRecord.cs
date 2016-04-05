@@ -24,7 +24,7 @@ namespace Cogito.Fabric.Activities
         /// <param name="message"></param>
         /// <param name="args"></param>
         [NonEvent]
-        internal void ActivityScheduled(IStatefulActivityActorInternal actor, ActivityScheduledRecord record, string message = "", params object[] args)
+        internal void ActivityScheduled(IActivityActor actor, ActivityScheduledRecord record, string message = "", params object[] args)
         {
             Contract.Requires<ArgumentNullException>(actor != null);
             Contract.Requires<ArgumentNullException>(record != null);
@@ -38,12 +38,12 @@ namespace Cogito.Fabric.Activities
                     ActivityScheduledVerbose(
                         actor.GetType().ToString(),
                         actor.Id.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationTypeName,
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceTypeName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceName.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.PartitionId,
-                        actor.ActorService.ServiceInitializationParameters.ReplicaId,
+                        actor.ActorService.Context.CodePackageActivationContext.ApplicationTypeName,
+                        actor.ActorService.Context.CodePackageActivationContext.ApplicationName,
+                        actor.ActorService.Context.ServiceTypeName,
+                        actor.ActorService.Context.ServiceName.ToString(),
+                        actor.ActorService.Context.PartitionId,
+                        actor.ActorService.Context.ReplicaId,
                         FabricRuntime.GetNodeContext().NodeName,
                         record.InstanceId,
                         record.RecordNumber,
@@ -62,12 +62,12 @@ namespace Cogito.Fabric.Activities
                     ActivityScheduledInfo(
                         actor.GetType().ToString(),
                         actor.Id.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationTypeName,
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceTypeName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceName.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.PartitionId,
-                        actor.ActorService.ServiceInitializationParameters.ReplicaId,
+                        actor.ActorService.Context.CodePackageActivationContext.ApplicationTypeName,
+                        actor.ActorService.Context.CodePackageActivationContext.ApplicationName,
+                        actor.ActorService.Context.ServiceTypeName,
+                        actor.ActorService.Context.ServiceName.ToString(),
+                        actor.ActorService.Context.PartitionId,
+                        actor.ActorService.Context.ReplicaId,
                         FabricRuntime.GetNodeContext().NodeName,
                         record.InstanceId,
                         record.RecordNumber,
@@ -86,12 +86,12 @@ namespace Cogito.Fabric.Activities
                     ActivityScheduledWarning(
                         actor.GetType().ToString(),
                         actor.Id.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationTypeName,
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceTypeName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceName.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.PartitionId,
-                        actor.ActorService.ServiceInitializationParameters.ReplicaId,
+                        actor.ActorService.Context.CodePackageActivationContext.ApplicationTypeName,
+                        actor.ActorService.Context.CodePackageActivationContext.ApplicationName,
+                        actor.ActorService.Context.ServiceTypeName,
+                        actor.ActorService.Context.ServiceName.ToString(),
+                        actor.ActorService.Context.PartitionId,
+                        actor.ActorService.Context.ReplicaId,
                         FabricRuntime.GetNodeContext().NodeName,
                         record.InstanceId,
                         record.RecordNumber,
@@ -110,128 +110,12 @@ namespace Cogito.Fabric.Activities
                     ActivityScheduledError(
                         actor.GetType().ToString(),
                         actor.Id.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationTypeName,
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceTypeName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceName.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.PartitionId,
-                        actor.ActorService.ServiceInitializationParameters.ReplicaId,
-                        FabricRuntime.GetNodeContext().NodeName,
-                        record.InstanceId,
-                        record.RecordNumber,
-                        record.EventTime.ToFileTimeUtc(),
-                        PrepareAnnotations(record.Annotations),
-                        (record.Activity?.Name) ?? string.Empty,
-                        (record.Activity?.Id) ?? string.Empty,
-                        (record.Activity?.InstanceId) ?? string.Empty,
-                        (record.Activity?.TypeName) ?? string.Empty,
-                        string.Format(message, args));
-                    return;
-                }
-
-            }
-        }
-
-        /// <summary>
-        /// Records an event.
-        /// </summary>
-        /// <param name="actor"></param>
-        /// <param name="record"></param>
-        /// <param name="message"></param>
-        /// <param name="args"></param>
-        [NonEvent]
-        internal void ActivityScheduled(IStatelessActivityActorInternal actor, ActivityScheduledRecord record, string message = "", params object[] args)
-        {
-            Contract.Requires<ArgumentNullException>(actor != null);
-            Contract.Requires<ArgumentNullException>(record != null);
-            Contract.Requires<ArgumentNullException>(message != null);
-            Contract.Requires<ArgumentNullException>(args != null);
-
-            if (IsEnabled())
-            {
-                if (record.Level == TraceLevel.Verbose && IsEnabled(EventLevel.Verbose, Keywords.ActivityScheduled))
-                {
-                    ActivityScheduledVerbose(
-                        actor.GetType().ToString(),
-                        actor.Id.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationTypeName,
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceTypeName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceName.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.PartitionId,
-                        actor.ActorService.ServiceInitializationParameters.InstanceId,
-                        FabricRuntime.GetNodeContext().NodeName,
-                        record.InstanceId,
-                        record.RecordNumber,
-                        record.EventTime.ToFileTimeUtc(),
-                        PrepareAnnotations(record.Annotations),
-                        (record.Activity?.Name) ?? string.Empty,
-                        (record.Activity?.Id) ?? string.Empty,
-                        (record.Activity?.InstanceId) ?? string.Empty,
-                        (record.Activity?.TypeName) ?? string.Empty,
-                        string.Format(message, args));
-                    return;
-                }
-
-                if (record.Level == TraceLevel.Info && IsEnabled(EventLevel.Informational, Keywords.ActivityScheduled))
-                {
-                    ActivityScheduledInfo(
-                        actor.GetType().ToString(),
-                        actor.Id.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationTypeName,
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceTypeName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceName.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.PartitionId,
-                        actor.ActorService.ServiceInitializationParameters.InstanceId,
-                        FabricRuntime.GetNodeContext().NodeName,
-                        record.InstanceId,
-                        record.RecordNumber,
-                        record.EventTime.ToFileTimeUtc(),
-                        PrepareAnnotations(record.Annotations),
-                        (record.Activity?.Name) ?? string.Empty,
-                        (record.Activity?.Id) ?? string.Empty,
-                        (record.Activity?.InstanceId) ?? string.Empty,
-                        (record.Activity?.TypeName) ?? string.Empty,
-                        string.Format(message, args));
-                    return;
-                }
-
-                if (record.Level == TraceLevel.Warning && IsEnabled(EventLevel.Warning, Keywords.ActivityScheduled))
-                {
-                    ActivityScheduledWarning(
-                        actor.GetType().ToString(),
-                        actor.Id.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationTypeName,
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceTypeName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceName.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.PartitionId,
-                        actor.ActorService.ServiceInitializationParameters.InstanceId,
-                        FabricRuntime.GetNodeContext().NodeName,
-                        record.InstanceId,
-                        record.RecordNumber,
-                        record.EventTime.ToFileTimeUtc(),
-                        PrepareAnnotations(record.Annotations),
-                        (record.Activity?.Name) ?? string.Empty,
-                        (record.Activity?.Id) ?? string.Empty,
-                        (record.Activity?.InstanceId) ?? string.Empty,
-                        (record.Activity?.TypeName) ?? string.Empty,
-                        string.Format(message, args));
-                    return;
-                }
-
-                if (record.Level == TraceLevel.Error && IsEnabled(EventLevel.Error, Keywords.ActivityScheduled))
-                {
-                    ActivityScheduledError(
-                        actor.GetType().ToString(),
-                        actor.Id.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationTypeName,
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceTypeName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceName.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.PartitionId,
-                        actor.ActorService.ServiceInitializationParameters.InstanceId,
+                        actor.ActorService.Context.CodePackageActivationContext.ApplicationTypeName,
+                        actor.ActorService.Context.CodePackageActivationContext.ApplicationName,
+                        actor.ActorService.Context.ServiceTypeName,
+                        actor.ActorService.Context.ServiceName.ToString(),
+                        actor.ActorService.Context.PartitionId,
+                        actor.ActorService.Context.ReplicaId,
                         FabricRuntime.GetNodeContext().NodeName,
                         record.InstanceId,
                         record.RecordNumber,
@@ -543,7 +427,7 @@ namespace Cogito.Fabric.Activities
         /// <param name="message"></param>
         /// <param name="args"></param>
         [NonEvent]
-        internal void ActivityState(IStatefulActivityActorInternal actor, ActivityStateRecord record, string message = "", params object[] args)
+        internal void ActivityState(IActivityActor actor, ActivityStateRecord record, string message = "", params object[] args)
         {
             Contract.Requires<ArgumentNullException>(actor != null);
             Contract.Requires<ArgumentNullException>(record != null);
@@ -557,12 +441,12 @@ namespace Cogito.Fabric.Activities
                     ActivityStateVerbose(
                         actor.GetType().ToString(),
                         actor.Id.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationTypeName,
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceTypeName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceName.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.PartitionId,
-                        actor.ActorService.ServiceInitializationParameters.ReplicaId,
+                        actor.ActorService.Context.CodePackageActivationContext.ApplicationTypeName,
+                        actor.ActorService.Context.CodePackageActivationContext.ApplicationName,
+                        actor.ActorService.Context.ServiceTypeName,
+                        actor.ActorService.Context.ServiceName.ToString(),
+                        actor.ActorService.Context.PartitionId,
+                        actor.ActorService.Context.ReplicaId,
                         FabricRuntime.GetNodeContext().NodeName,
                         record.InstanceId,
                         record.RecordNumber,
@@ -584,12 +468,12 @@ namespace Cogito.Fabric.Activities
                     ActivityStateInfo(
                         actor.GetType().ToString(),
                         actor.Id.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationTypeName,
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceTypeName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceName.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.PartitionId,
-                        actor.ActorService.ServiceInitializationParameters.ReplicaId,
+                        actor.ActorService.Context.CodePackageActivationContext.ApplicationTypeName,
+                        actor.ActorService.Context.CodePackageActivationContext.ApplicationName,
+                        actor.ActorService.Context.ServiceTypeName,
+                        actor.ActorService.Context.ServiceName.ToString(),
+                        actor.ActorService.Context.PartitionId,
+                        actor.ActorService.Context.ReplicaId,
                         FabricRuntime.GetNodeContext().NodeName,
                         record.InstanceId,
                         record.RecordNumber,
@@ -611,12 +495,12 @@ namespace Cogito.Fabric.Activities
                     ActivityStateWarning(
                         actor.GetType().ToString(),
                         actor.Id.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationTypeName,
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceTypeName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceName.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.PartitionId,
-                        actor.ActorService.ServiceInitializationParameters.ReplicaId,
+                        actor.ActorService.Context.CodePackageActivationContext.ApplicationTypeName,
+                        actor.ActorService.Context.CodePackageActivationContext.ApplicationName,
+                        actor.ActorService.Context.ServiceTypeName,
+                        actor.ActorService.Context.ServiceName.ToString(),
+                        actor.ActorService.Context.PartitionId,
+                        actor.ActorService.Context.ReplicaId,
                         FabricRuntime.GetNodeContext().NodeName,
                         record.InstanceId,
                         record.RecordNumber,
@@ -638,140 +522,12 @@ namespace Cogito.Fabric.Activities
                     ActivityStateError(
                         actor.GetType().ToString(),
                         actor.Id.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationTypeName,
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceTypeName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceName.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.PartitionId,
-                        actor.ActorService.ServiceInitializationParameters.ReplicaId,
-                        FabricRuntime.GetNodeContext().NodeName,
-                        record.InstanceId,
-                        record.RecordNumber,
-                        record.EventTime.ToFileTimeUtc(),
-                        PrepareAnnotations(record.Annotations),
-                        (record.State) ?? string.Empty,
-                        (record.Activity?.Name) ?? string.Empty,
-                        (record.Activity?.Id) ?? string.Empty,
-                        (record.Activity?.InstanceId) ?? string.Empty,
-                        (record.Activity?.TypeName) ?? string.Empty,
-                        (PrepareDictionary(record.Arguments)) ?? string.Empty,
-                        (PrepareDictionary(record.Variables)) ?? string.Empty,
-                        string.Format(message, args));
-                    return;
-                }
-
-            }
-        }
-
-        /// <summary>
-        /// Records an event.
-        /// </summary>
-        /// <param name="actor"></param>
-        /// <param name="record"></param>
-        /// <param name="message"></param>
-        /// <param name="args"></param>
-        [NonEvent]
-        internal void ActivityState(IStatelessActivityActorInternal actor, ActivityStateRecord record, string message = "", params object[] args)
-        {
-            Contract.Requires<ArgumentNullException>(actor != null);
-            Contract.Requires<ArgumentNullException>(record != null);
-            Contract.Requires<ArgumentNullException>(message != null);
-            Contract.Requires<ArgumentNullException>(args != null);
-
-            if (IsEnabled())
-            {
-                if (record.Level == TraceLevel.Verbose && IsEnabled(EventLevel.Verbose, Keywords.ActivityState))
-                {
-                    ActivityStateVerbose(
-                        actor.GetType().ToString(),
-                        actor.Id.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationTypeName,
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceTypeName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceName.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.PartitionId,
-                        actor.ActorService.ServiceInitializationParameters.InstanceId,
-                        FabricRuntime.GetNodeContext().NodeName,
-                        record.InstanceId,
-                        record.RecordNumber,
-                        record.EventTime.ToFileTimeUtc(),
-                        PrepareAnnotations(record.Annotations),
-                        (record.State) ?? string.Empty,
-                        (record.Activity?.Name) ?? string.Empty,
-                        (record.Activity?.Id) ?? string.Empty,
-                        (record.Activity?.InstanceId) ?? string.Empty,
-                        (record.Activity?.TypeName) ?? string.Empty,
-                        (PrepareDictionary(record.Arguments)) ?? string.Empty,
-                        (PrepareDictionary(record.Variables)) ?? string.Empty,
-                        string.Format(message, args));
-                    return;
-                }
-
-                if (record.Level == TraceLevel.Info && IsEnabled(EventLevel.Informational, Keywords.ActivityState))
-                {
-                    ActivityStateInfo(
-                        actor.GetType().ToString(),
-                        actor.Id.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationTypeName,
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceTypeName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceName.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.PartitionId,
-                        actor.ActorService.ServiceInitializationParameters.InstanceId,
-                        FabricRuntime.GetNodeContext().NodeName,
-                        record.InstanceId,
-                        record.RecordNumber,
-                        record.EventTime.ToFileTimeUtc(),
-                        PrepareAnnotations(record.Annotations),
-                        (record.State) ?? string.Empty,
-                        (record.Activity?.Name) ?? string.Empty,
-                        (record.Activity?.Id) ?? string.Empty,
-                        (record.Activity?.InstanceId) ?? string.Empty,
-                        (record.Activity?.TypeName) ?? string.Empty,
-                        (PrepareDictionary(record.Arguments)) ?? string.Empty,
-                        (PrepareDictionary(record.Variables)) ?? string.Empty,
-                        string.Format(message, args));
-                    return;
-                }
-
-                if (record.Level == TraceLevel.Warning && IsEnabled(EventLevel.Warning, Keywords.ActivityState))
-                {
-                    ActivityStateWarning(
-                        actor.GetType().ToString(),
-                        actor.Id.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationTypeName,
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceTypeName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceName.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.PartitionId,
-                        actor.ActorService.ServiceInitializationParameters.InstanceId,
-                        FabricRuntime.GetNodeContext().NodeName,
-                        record.InstanceId,
-                        record.RecordNumber,
-                        record.EventTime.ToFileTimeUtc(),
-                        PrepareAnnotations(record.Annotations),
-                        (record.State) ?? string.Empty,
-                        (record.Activity?.Name) ?? string.Empty,
-                        (record.Activity?.Id) ?? string.Empty,
-                        (record.Activity?.InstanceId) ?? string.Empty,
-                        (record.Activity?.TypeName) ?? string.Empty,
-                        (PrepareDictionary(record.Arguments)) ?? string.Empty,
-                        (PrepareDictionary(record.Variables)) ?? string.Empty,
-                        string.Format(message, args));
-                    return;
-                }
-
-                if (record.Level == TraceLevel.Error && IsEnabled(EventLevel.Error, Keywords.ActivityState))
-                {
-                    ActivityStateError(
-                        actor.GetType().ToString(),
-                        actor.Id.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationTypeName,
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceTypeName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceName.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.PartitionId,
-                        actor.ActorService.ServiceInitializationParameters.InstanceId,
+                        actor.ActorService.Context.CodePackageActivationContext.ApplicationTypeName,
+                        actor.ActorService.Context.CodePackageActivationContext.ApplicationName,
+                        actor.ActorService.Context.ServiceTypeName,
+                        actor.ActorService.Context.ServiceName.ToString(),
+                        actor.ActorService.Context.PartitionId,
+                        actor.ActorService.Context.ReplicaId,
                         FabricRuntime.GetNodeContext().NodeName,
                         record.InstanceId,
                         record.RecordNumber,
@@ -1122,7 +878,7 @@ namespace Cogito.Fabric.Activities
         /// <param name="message"></param>
         /// <param name="args"></param>
         [NonEvent]
-        internal void BookmarkResumption(IStatefulActivityActorInternal actor, BookmarkResumptionRecord record, string message = "", params object[] args)
+        internal void BookmarkResumption(IActivityActor actor, BookmarkResumptionRecord record, string message = "", params object[] args)
         {
             Contract.Requires<ArgumentNullException>(actor != null);
             Contract.Requires<ArgumentNullException>(record != null);
@@ -1136,12 +892,12 @@ namespace Cogito.Fabric.Activities
                     BookmarkResumptionVerbose(
                         actor.GetType().ToString(),
                         actor.Id.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationTypeName,
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceTypeName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceName.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.PartitionId,
-                        actor.ActorService.ServiceInitializationParameters.ReplicaId,
+                        actor.ActorService.Context.CodePackageActivationContext.ApplicationTypeName,
+                        actor.ActorService.Context.CodePackageActivationContext.ApplicationName,
+                        actor.ActorService.Context.ServiceTypeName,
+                        actor.ActorService.Context.ServiceName.ToString(),
+                        actor.ActorService.Context.PartitionId,
+                        actor.ActorService.Context.ReplicaId,
                         FabricRuntime.GetNodeContext().NodeName,
                         record.InstanceId,
                         record.RecordNumber,
@@ -1159,12 +915,12 @@ namespace Cogito.Fabric.Activities
                     BookmarkResumptionInfo(
                         actor.GetType().ToString(),
                         actor.Id.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationTypeName,
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceTypeName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceName.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.PartitionId,
-                        actor.ActorService.ServiceInitializationParameters.ReplicaId,
+                        actor.ActorService.Context.CodePackageActivationContext.ApplicationTypeName,
+                        actor.ActorService.Context.CodePackageActivationContext.ApplicationName,
+                        actor.ActorService.Context.ServiceTypeName,
+                        actor.ActorService.Context.ServiceName.ToString(),
+                        actor.ActorService.Context.PartitionId,
+                        actor.ActorService.Context.ReplicaId,
                         FabricRuntime.GetNodeContext().NodeName,
                         record.InstanceId,
                         record.RecordNumber,
@@ -1182,12 +938,12 @@ namespace Cogito.Fabric.Activities
                     BookmarkResumptionWarning(
                         actor.GetType().ToString(),
                         actor.Id.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationTypeName,
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceTypeName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceName.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.PartitionId,
-                        actor.ActorService.ServiceInitializationParameters.ReplicaId,
+                        actor.ActorService.Context.CodePackageActivationContext.ApplicationTypeName,
+                        actor.ActorService.Context.CodePackageActivationContext.ApplicationName,
+                        actor.ActorService.Context.ServiceTypeName,
+                        actor.ActorService.Context.ServiceName.ToString(),
+                        actor.ActorService.Context.PartitionId,
+                        actor.ActorService.Context.ReplicaId,
                         FabricRuntime.GetNodeContext().NodeName,
                         record.InstanceId,
                         record.RecordNumber,
@@ -1205,124 +961,12 @@ namespace Cogito.Fabric.Activities
                     BookmarkResumptionError(
                         actor.GetType().ToString(),
                         actor.Id.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationTypeName,
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceTypeName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceName.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.PartitionId,
-                        actor.ActorService.ServiceInitializationParameters.ReplicaId,
-                        FabricRuntime.GetNodeContext().NodeName,
-                        record.InstanceId,
-                        record.RecordNumber,
-                        record.EventTime.ToFileTimeUtc(),
-                        PrepareAnnotations(record.Annotations),
-                        (record.BookmarkName) ?? string.Empty,
-                        record.BookmarkScope,
-                        (null) ?? string.Empty,
-                        string.Format(message, args));
-                    return;
-                }
-
-            }
-        }
-
-        /// <summary>
-        /// Records an event.
-        /// </summary>
-        /// <param name="actor"></param>
-        /// <param name="record"></param>
-        /// <param name="message"></param>
-        /// <param name="args"></param>
-        [NonEvent]
-        internal void BookmarkResumption(IStatelessActivityActorInternal actor, BookmarkResumptionRecord record, string message = "", params object[] args)
-        {
-            Contract.Requires<ArgumentNullException>(actor != null);
-            Contract.Requires<ArgumentNullException>(record != null);
-            Contract.Requires<ArgumentNullException>(message != null);
-            Contract.Requires<ArgumentNullException>(args != null);
-
-            if (IsEnabled())
-            {
-                if (record.Level == TraceLevel.Verbose && IsEnabled(EventLevel.Verbose, Keywords.BookmarkResumption))
-                {
-                    BookmarkResumptionVerbose(
-                        actor.GetType().ToString(),
-                        actor.Id.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationTypeName,
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceTypeName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceName.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.PartitionId,
-                        actor.ActorService.ServiceInitializationParameters.InstanceId,
-                        FabricRuntime.GetNodeContext().NodeName,
-                        record.InstanceId,
-                        record.RecordNumber,
-                        record.EventTime.ToFileTimeUtc(),
-                        PrepareAnnotations(record.Annotations),
-                        (record.BookmarkName) ?? string.Empty,
-                        record.BookmarkScope,
-                        (null) ?? string.Empty,
-                        string.Format(message, args));
-                    return;
-                }
-
-                if (record.Level == TraceLevel.Info && IsEnabled(EventLevel.Informational, Keywords.BookmarkResumption))
-                {
-                    BookmarkResumptionInfo(
-                        actor.GetType().ToString(),
-                        actor.Id.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationTypeName,
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceTypeName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceName.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.PartitionId,
-                        actor.ActorService.ServiceInitializationParameters.InstanceId,
-                        FabricRuntime.GetNodeContext().NodeName,
-                        record.InstanceId,
-                        record.RecordNumber,
-                        record.EventTime.ToFileTimeUtc(),
-                        PrepareAnnotations(record.Annotations),
-                        (record.BookmarkName) ?? string.Empty,
-                        record.BookmarkScope,
-                        (null) ?? string.Empty,
-                        string.Format(message, args));
-                    return;
-                }
-
-                if (record.Level == TraceLevel.Warning && IsEnabled(EventLevel.Warning, Keywords.BookmarkResumption))
-                {
-                    BookmarkResumptionWarning(
-                        actor.GetType().ToString(),
-                        actor.Id.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationTypeName,
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceTypeName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceName.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.PartitionId,
-                        actor.ActorService.ServiceInitializationParameters.InstanceId,
-                        FabricRuntime.GetNodeContext().NodeName,
-                        record.InstanceId,
-                        record.RecordNumber,
-                        record.EventTime.ToFileTimeUtc(),
-                        PrepareAnnotations(record.Annotations),
-                        (record.BookmarkName) ?? string.Empty,
-                        record.BookmarkScope,
-                        (null) ?? string.Empty,
-                        string.Format(message, args));
-                    return;
-                }
-
-                if (record.Level == TraceLevel.Error && IsEnabled(EventLevel.Error, Keywords.BookmarkResumption))
-                {
-                    BookmarkResumptionError(
-                        actor.GetType().ToString(),
-                        actor.Id.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationTypeName,
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceTypeName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceName.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.PartitionId,
-                        actor.ActorService.ServiceInitializationParameters.InstanceId,
+                        actor.ActorService.Context.CodePackageActivationContext.ApplicationTypeName,
+                        actor.ActorService.Context.CodePackageActivationContext.ApplicationName,
+                        actor.ActorService.Context.ServiceTypeName,
+                        actor.ActorService.Context.ServiceName.ToString(),
+                        actor.ActorService.Context.PartitionId,
+                        actor.ActorService.Context.ReplicaId,
                         FabricRuntime.GetNodeContext().NodeName,
                         record.InstanceId,
                         record.RecordNumber,
@@ -1621,7 +1265,7 @@ namespace Cogito.Fabric.Activities
         /// <param name="message"></param>
         /// <param name="args"></param>
         [NonEvent]
-        internal void CancelRequested(IStatefulActivityActorInternal actor, CancelRequestedRecord record, string message = "", params object[] args)
+        internal void CancelRequested(IActivityActor actor, CancelRequestedRecord record, string message = "", params object[] args)
         {
             Contract.Requires<ArgumentNullException>(actor != null);
             Contract.Requires<ArgumentNullException>(record != null);
@@ -1635,12 +1279,12 @@ namespace Cogito.Fabric.Activities
                     CancelRequestedVerbose(
                         actor.GetType().ToString(),
                         actor.Id.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationTypeName,
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceTypeName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceName.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.PartitionId,
-                        actor.ActorService.ServiceInitializationParameters.ReplicaId,
+                        actor.ActorService.Context.CodePackageActivationContext.ApplicationTypeName,
+                        actor.ActorService.Context.CodePackageActivationContext.ApplicationName,
+                        actor.ActorService.Context.ServiceTypeName,
+                        actor.ActorService.Context.ServiceName.ToString(),
+                        actor.ActorService.Context.PartitionId,
+                        actor.ActorService.Context.ReplicaId,
                         FabricRuntime.GetNodeContext().NodeName,
                         record.InstanceId,
                         record.RecordNumber,
@@ -1659,12 +1303,12 @@ namespace Cogito.Fabric.Activities
                     CancelRequestedInfo(
                         actor.GetType().ToString(),
                         actor.Id.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationTypeName,
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceTypeName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceName.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.PartitionId,
-                        actor.ActorService.ServiceInitializationParameters.ReplicaId,
+                        actor.ActorService.Context.CodePackageActivationContext.ApplicationTypeName,
+                        actor.ActorService.Context.CodePackageActivationContext.ApplicationName,
+                        actor.ActorService.Context.ServiceTypeName,
+                        actor.ActorService.Context.ServiceName.ToString(),
+                        actor.ActorService.Context.PartitionId,
+                        actor.ActorService.Context.ReplicaId,
                         FabricRuntime.GetNodeContext().NodeName,
                         record.InstanceId,
                         record.RecordNumber,
@@ -1683,12 +1327,12 @@ namespace Cogito.Fabric.Activities
                     CancelRequestedWarning(
                         actor.GetType().ToString(),
                         actor.Id.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationTypeName,
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceTypeName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceName.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.PartitionId,
-                        actor.ActorService.ServiceInitializationParameters.ReplicaId,
+                        actor.ActorService.Context.CodePackageActivationContext.ApplicationTypeName,
+                        actor.ActorService.Context.CodePackageActivationContext.ApplicationName,
+                        actor.ActorService.Context.ServiceTypeName,
+                        actor.ActorService.Context.ServiceName.ToString(),
+                        actor.ActorService.Context.PartitionId,
+                        actor.ActorService.Context.ReplicaId,
                         FabricRuntime.GetNodeContext().NodeName,
                         record.InstanceId,
                         record.RecordNumber,
@@ -1707,128 +1351,12 @@ namespace Cogito.Fabric.Activities
                     CancelRequestedError(
                         actor.GetType().ToString(),
                         actor.Id.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationTypeName,
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceTypeName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceName.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.PartitionId,
-                        actor.ActorService.ServiceInitializationParameters.ReplicaId,
-                        FabricRuntime.GetNodeContext().NodeName,
-                        record.InstanceId,
-                        record.RecordNumber,
-                        record.EventTime.ToFileTimeUtc(),
-                        PrepareAnnotations(record.Annotations),
-                        (record.Activity?.Name) ?? string.Empty,
-                        (record.Activity?.Id) ?? string.Empty,
-                        (record.Activity?.InstanceId) ?? string.Empty,
-                        (record.Activity?.TypeName) ?? string.Empty,
-                        string.Format(message, args));
-                    return;
-                }
-
-            }
-        }
-
-        /// <summary>
-        /// Records an event.
-        /// </summary>
-        /// <param name="actor"></param>
-        /// <param name="record"></param>
-        /// <param name="message"></param>
-        /// <param name="args"></param>
-        [NonEvent]
-        internal void CancelRequested(IStatelessActivityActorInternal actor, CancelRequestedRecord record, string message = "", params object[] args)
-        {
-            Contract.Requires<ArgumentNullException>(actor != null);
-            Contract.Requires<ArgumentNullException>(record != null);
-            Contract.Requires<ArgumentNullException>(message != null);
-            Contract.Requires<ArgumentNullException>(args != null);
-
-            if (IsEnabled())
-            {
-                if (record.Level == TraceLevel.Verbose && IsEnabled(EventLevel.Verbose, Keywords.CancelRequested))
-                {
-                    CancelRequestedVerbose(
-                        actor.GetType().ToString(),
-                        actor.Id.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationTypeName,
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceTypeName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceName.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.PartitionId,
-                        actor.ActorService.ServiceInitializationParameters.InstanceId,
-                        FabricRuntime.GetNodeContext().NodeName,
-                        record.InstanceId,
-                        record.RecordNumber,
-                        record.EventTime.ToFileTimeUtc(),
-                        PrepareAnnotations(record.Annotations),
-                        (record.Activity?.Name) ?? string.Empty,
-                        (record.Activity?.Id) ?? string.Empty,
-                        (record.Activity?.InstanceId) ?? string.Empty,
-                        (record.Activity?.TypeName) ?? string.Empty,
-                        string.Format(message, args));
-                    return;
-                }
-
-                if (record.Level == TraceLevel.Info && IsEnabled(EventLevel.Informational, Keywords.CancelRequested))
-                {
-                    CancelRequestedInfo(
-                        actor.GetType().ToString(),
-                        actor.Id.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationTypeName,
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceTypeName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceName.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.PartitionId,
-                        actor.ActorService.ServiceInitializationParameters.InstanceId,
-                        FabricRuntime.GetNodeContext().NodeName,
-                        record.InstanceId,
-                        record.RecordNumber,
-                        record.EventTime.ToFileTimeUtc(),
-                        PrepareAnnotations(record.Annotations),
-                        (record.Activity?.Name) ?? string.Empty,
-                        (record.Activity?.Id) ?? string.Empty,
-                        (record.Activity?.InstanceId) ?? string.Empty,
-                        (record.Activity?.TypeName) ?? string.Empty,
-                        string.Format(message, args));
-                    return;
-                }
-
-                if (record.Level == TraceLevel.Warning && IsEnabled(EventLevel.Warning, Keywords.CancelRequested))
-                {
-                    CancelRequestedWarning(
-                        actor.GetType().ToString(),
-                        actor.Id.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationTypeName,
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceTypeName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceName.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.PartitionId,
-                        actor.ActorService.ServiceInitializationParameters.InstanceId,
-                        FabricRuntime.GetNodeContext().NodeName,
-                        record.InstanceId,
-                        record.RecordNumber,
-                        record.EventTime.ToFileTimeUtc(),
-                        PrepareAnnotations(record.Annotations),
-                        (record.Activity?.Name) ?? string.Empty,
-                        (record.Activity?.Id) ?? string.Empty,
-                        (record.Activity?.InstanceId) ?? string.Empty,
-                        (record.Activity?.TypeName) ?? string.Empty,
-                        string.Format(message, args));
-                    return;
-                }
-
-                if (record.Level == TraceLevel.Error && IsEnabled(EventLevel.Error, Keywords.CancelRequested))
-                {
-                    CancelRequestedError(
-                        actor.GetType().ToString(),
-                        actor.Id.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationTypeName,
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceTypeName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceName.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.PartitionId,
-                        actor.ActorService.ServiceInitializationParameters.InstanceId,
+                        actor.ActorService.Context.CodePackageActivationContext.ApplicationTypeName,
+                        actor.ActorService.Context.CodePackageActivationContext.ApplicationName,
+                        actor.ActorService.Context.ServiceTypeName,
+                        actor.ActorService.Context.ServiceName.ToString(),
+                        actor.ActorService.Context.PartitionId,
+                        actor.ActorService.Context.ReplicaId,
                         FabricRuntime.GetNodeContext().NodeName,
                         record.InstanceId,
                         record.RecordNumber,
@@ -2140,7 +1668,7 @@ namespace Cogito.Fabric.Activities
         /// <param name="message"></param>
         /// <param name="args"></param>
         [NonEvent]
-        internal void FaultPropagation(IStatefulActivityActorInternal actor, FaultPropagationRecord record, string message = "", params object[] args)
+        internal void FaultPropagation(IActivityActor actor, FaultPropagationRecord record, string message = "", params object[] args)
         {
             Contract.Requires<ArgumentNullException>(actor != null);
             Contract.Requires<ArgumentNullException>(record != null);
@@ -2154,12 +1682,12 @@ namespace Cogito.Fabric.Activities
                     FaultPropagationVerbose(
                         actor.GetType().ToString(),
                         actor.Id.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationTypeName,
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceTypeName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceName.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.PartitionId,
-                        actor.ActorService.ServiceInitializationParameters.ReplicaId,
+                        actor.ActorService.Context.CodePackageActivationContext.ApplicationTypeName,
+                        actor.ActorService.Context.CodePackageActivationContext.ApplicationName,
+                        actor.ActorService.Context.ServiceTypeName,
+                        actor.ActorService.Context.ServiceName.ToString(),
+                        actor.ActorService.Context.PartitionId,
+                        actor.ActorService.Context.ReplicaId,
                         FabricRuntime.GetNodeContext().NodeName,
                         record.InstanceId,
                         record.RecordNumber,
@@ -2183,12 +1711,12 @@ namespace Cogito.Fabric.Activities
                     FaultPropagationInfo(
                         actor.GetType().ToString(),
                         actor.Id.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationTypeName,
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceTypeName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceName.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.PartitionId,
-                        actor.ActorService.ServiceInitializationParameters.ReplicaId,
+                        actor.ActorService.Context.CodePackageActivationContext.ApplicationTypeName,
+                        actor.ActorService.Context.CodePackageActivationContext.ApplicationName,
+                        actor.ActorService.Context.ServiceTypeName,
+                        actor.ActorService.Context.ServiceName.ToString(),
+                        actor.ActorService.Context.PartitionId,
+                        actor.ActorService.Context.ReplicaId,
                         FabricRuntime.GetNodeContext().NodeName,
                         record.InstanceId,
                         record.RecordNumber,
@@ -2212,12 +1740,12 @@ namespace Cogito.Fabric.Activities
                     FaultPropagationWarning(
                         actor.GetType().ToString(),
                         actor.Id.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationTypeName,
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceTypeName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceName.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.PartitionId,
-                        actor.ActorService.ServiceInitializationParameters.ReplicaId,
+                        actor.ActorService.Context.CodePackageActivationContext.ApplicationTypeName,
+                        actor.ActorService.Context.CodePackageActivationContext.ApplicationName,
+                        actor.ActorService.Context.ServiceTypeName,
+                        actor.ActorService.Context.ServiceName.ToString(),
+                        actor.ActorService.Context.PartitionId,
+                        actor.ActorService.Context.ReplicaId,
                         FabricRuntime.GetNodeContext().NodeName,
                         record.InstanceId,
                         record.RecordNumber,
@@ -2241,148 +1769,12 @@ namespace Cogito.Fabric.Activities
                     FaultPropagationError(
                         actor.GetType().ToString(),
                         actor.Id.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationTypeName,
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceTypeName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceName.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.PartitionId,
-                        actor.ActorService.ServiceInitializationParameters.ReplicaId,
-                        FabricRuntime.GetNodeContext().NodeName,
-                        record.InstanceId,
-                        record.RecordNumber,
-                        record.EventTime.ToFileTimeUtc(),
-                        PrepareAnnotations(record.Annotations),
-                        (record.Fault?.Message) ?? string.Empty,
-                        (record.FaultSource?.Name) ?? string.Empty,
-                        (record.FaultSource?.Id) ?? string.Empty,
-                        (record.FaultSource?.InstanceId) ?? string.Empty,
-                        (record.FaultSource?.TypeName) ?? string.Empty,
-                        (record.FaultHandler?.Name) ?? string.Empty,
-                        (record.FaultHandler?.Id) ?? string.Empty,
-                        (record.FaultHandler?.InstanceId) ?? string.Empty,
-                        (record.FaultHandler?.TypeName) ?? string.Empty,
-                        string.Format(message, args));
-                    return;
-                }
-
-            }
-        }
-
-        /// <summary>
-        /// Records an event.
-        /// </summary>
-        /// <param name="actor"></param>
-        /// <param name="record"></param>
-        /// <param name="message"></param>
-        /// <param name="args"></param>
-        [NonEvent]
-        internal void FaultPropagation(IStatelessActivityActorInternal actor, FaultPropagationRecord record, string message = "", params object[] args)
-        {
-            Contract.Requires<ArgumentNullException>(actor != null);
-            Contract.Requires<ArgumentNullException>(record != null);
-            Contract.Requires<ArgumentNullException>(message != null);
-            Contract.Requires<ArgumentNullException>(args != null);
-
-            if (IsEnabled())
-            {
-                if (record.Level == TraceLevel.Verbose && IsEnabled(EventLevel.Verbose, Keywords.FaultPropagation))
-                {
-                    FaultPropagationVerbose(
-                        actor.GetType().ToString(),
-                        actor.Id.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationTypeName,
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceTypeName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceName.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.PartitionId,
-                        actor.ActorService.ServiceInitializationParameters.InstanceId,
-                        FabricRuntime.GetNodeContext().NodeName,
-                        record.InstanceId,
-                        record.RecordNumber,
-                        record.EventTime.ToFileTimeUtc(),
-                        PrepareAnnotations(record.Annotations),
-                        (record.Fault?.Message) ?? string.Empty,
-                        (record.FaultSource?.Name) ?? string.Empty,
-                        (record.FaultSource?.Id) ?? string.Empty,
-                        (record.FaultSource?.InstanceId) ?? string.Empty,
-                        (record.FaultSource?.TypeName) ?? string.Empty,
-                        (record.FaultHandler?.Name) ?? string.Empty,
-                        (record.FaultHandler?.Id) ?? string.Empty,
-                        (record.FaultHandler?.InstanceId) ?? string.Empty,
-                        (record.FaultHandler?.TypeName) ?? string.Empty,
-                        string.Format(message, args));
-                    return;
-                }
-
-                if (record.Level == TraceLevel.Info && IsEnabled(EventLevel.Informational, Keywords.FaultPropagation))
-                {
-                    FaultPropagationInfo(
-                        actor.GetType().ToString(),
-                        actor.Id.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationTypeName,
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceTypeName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceName.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.PartitionId,
-                        actor.ActorService.ServiceInitializationParameters.InstanceId,
-                        FabricRuntime.GetNodeContext().NodeName,
-                        record.InstanceId,
-                        record.RecordNumber,
-                        record.EventTime.ToFileTimeUtc(),
-                        PrepareAnnotations(record.Annotations),
-                        (record.Fault?.Message) ?? string.Empty,
-                        (record.FaultSource?.Name) ?? string.Empty,
-                        (record.FaultSource?.Id) ?? string.Empty,
-                        (record.FaultSource?.InstanceId) ?? string.Empty,
-                        (record.FaultSource?.TypeName) ?? string.Empty,
-                        (record.FaultHandler?.Name) ?? string.Empty,
-                        (record.FaultHandler?.Id) ?? string.Empty,
-                        (record.FaultHandler?.InstanceId) ?? string.Empty,
-                        (record.FaultHandler?.TypeName) ?? string.Empty,
-                        string.Format(message, args));
-                    return;
-                }
-
-                if (record.Level == TraceLevel.Warning && IsEnabled(EventLevel.Warning, Keywords.FaultPropagation))
-                {
-                    FaultPropagationWarning(
-                        actor.GetType().ToString(),
-                        actor.Id.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationTypeName,
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceTypeName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceName.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.PartitionId,
-                        actor.ActorService.ServiceInitializationParameters.InstanceId,
-                        FabricRuntime.GetNodeContext().NodeName,
-                        record.InstanceId,
-                        record.RecordNumber,
-                        record.EventTime.ToFileTimeUtc(),
-                        PrepareAnnotations(record.Annotations),
-                        (record.Fault?.Message) ?? string.Empty,
-                        (record.FaultSource?.Name) ?? string.Empty,
-                        (record.FaultSource?.Id) ?? string.Empty,
-                        (record.FaultSource?.InstanceId) ?? string.Empty,
-                        (record.FaultSource?.TypeName) ?? string.Empty,
-                        (record.FaultHandler?.Name) ?? string.Empty,
-                        (record.FaultHandler?.Id) ?? string.Empty,
-                        (record.FaultHandler?.InstanceId) ?? string.Empty,
-                        (record.FaultHandler?.TypeName) ?? string.Empty,
-                        string.Format(message, args));
-                    return;
-                }
-
-                if (record.Level == TraceLevel.Error && IsEnabled(EventLevel.Error, Keywords.FaultPropagation))
-                {
-                    FaultPropagationError(
-                        actor.GetType().ToString(),
-                        actor.Id.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationTypeName,
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceTypeName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceName.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.PartitionId,
-                        actor.ActorService.ServiceInitializationParameters.InstanceId,
+                        actor.ActorService.Context.CodePackageActivationContext.ApplicationTypeName,
+                        actor.ActorService.Context.CodePackageActivationContext.ApplicationName,
+                        actor.ActorService.Context.ServiceTypeName,
+                        actor.ActorService.Context.ServiceName.ToString(),
+                        actor.ActorService.Context.PartitionId,
+                        actor.ActorService.Context.ReplicaId,
                         FabricRuntime.GetNodeContext().NodeName,
                         record.InstanceId,
                         record.RecordNumber,
@@ -2759,7 +2151,7 @@ namespace Cogito.Fabric.Activities
         /// <param name="message"></param>
         /// <param name="args"></param>
         [NonEvent]
-        internal void WorkflowInstance(IStatefulActivityActorInternal actor, WorkflowInstanceRecord record, string message = "", params object[] args)
+        internal void WorkflowInstance(IActivityActor actor, WorkflowInstanceRecord record, string message = "", params object[] args)
         {
             Contract.Requires<ArgumentNullException>(actor != null);
             Contract.Requires<ArgumentNullException>(record != null);
@@ -2773,12 +2165,12 @@ namespace Cogito.Fabric.Activities
                     WorkflowInstanceVerbose(
                         actor.GetType().ToString(),
                         actor.Id.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationTypeName,
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceTypeName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceName.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.PartitionId,
-                        actor.ActorService.ServiceInitializationParameters.ReplicaId,
+                        actor.ActorService.Context.CodePackageActivationContext.ApplicationTypeName,
+                        actor.ActorService.Context.CodePackageActivationContext.ApplicationName,
+                        actor.ActorService.Context.ServiceTypeName,
+                        actor.ActorService.Context.ServiceName.ToString(),
+                        actor.ActorService.Context.PartitionId,
+                        actor.ActorService.Context.ReplicaId,
                         FabricRuntime.GetNodeContext().NodeName,
                         record.InstanceId,
                         record.RecordNumber,
@@ -2796,12 +2188,12 @@ namespace Cogito.Fabric.Activities
                     WorkflowInstanceInfo(
                         actor.GetType().ToString(),
                         actor.Id.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationTypeName,
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceTypeName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceName.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.PartitionId,
-                        actor.ActorService.ServiceInitializationParameters.ReplicaId,
+                        actor.ActorService.Context.CodePackageActivationContext.ApplicationTypeName,
+                        actor.ActorService.Context.CodePackageActivationContext.ApplicationName,
+                        actor.ActorService.Context.ServiceTypeName,
+                        actor.ActorService.Context.ServiceName.ToString(),
+                        actor.ActorService.Context.PartitionId,
+                        actor.ActorService.Context.ReplicaId,
                         FabricRuntime.GetNodeContext().NodeName,
                         record.InstanceId,
                         record.RecordNumber,
@@ -2819,12 +2211,12 @@ namespace Cogito.Fabric.Activities
                     WorkflowInstanceWarning(
                         actor.GetType().ToString(),
                         actor.Id.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationTypeName,
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceTypeName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceName.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.PartitionId,
-                        actor.ActorService.ServiceInitializationParameters.ReplicaId,
+                        actor.ActorService.Context.CodePackageActivationContext.ApplicationTypeName,
+                        actor.ActorService.Context.CodePackageActivationContext.ApplicationName,
+                        actor.ActorService.Context.ServiceTypeName,
+                        actor.ActorService.Context.ServiceName.ToString(),
+                        actor.ActorService.Context.PartitionId,
+                        actor.ActorService.Context.ReplicaId,
                         FabricRuntime.GetNodeContext().NodeName,
                         record.InstanceId,
                         record.RecordNumber,
@@ -2842,124 +2234,12 @@ namespace Cogito.Fabric.Activities
                     WorkflowInstanceError(
                         actor.GetType().ToString(),
                         actor.Id.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationTypeName,
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceTypeName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceName.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.PartitionId,
-                        actor.ActorService.ServiceInitializationParameters.ReplicaId,
-                        FabricRuntime.GetNodeContext().NodeName,
-                        record.InstanceId,
-                        record.RecordNumber,
-                        record.EventTime.ToFileTimeUtc(),
-                        PrepareAnnotations(record.Annotations),
-                        (record.State) ?? string.Empty,
-                        (record.WorkflowDefinitionIdentity?.Name) ?? string.Empty,
-                        (record.ActivityDefinitionId) ?? string.Empty,
-                        string.Format(message, args));
-                    return;
-                }
-
-            }
-        }
-
-        /// <summary>
-        /// Records an event.
-        /// </summary>
-        /// <param name="actor"></param>
-        /// <param name="record"></param>
-        /// <param name="message"></param>
-        /// <param name="args"></param>
-        [NonEvent]
-        internal void WorkflowInstance(IStatelessActivityActorInternal actor, WorkflowInstanceRecord record, string message = "", params object[] args)
-        {
-            Contract.Requires<ArgumentNullException>(actor != null);
-            Contract.Requires<ArgumentNullException>(record != null);
-            Contract.Requires<ArgumentNullException>(message != null);
-            Contract.Requires<ArgumentNullException>(args != null);
-
-            if (IsEnabled())
-            {
-                if (record.Level == TraceLevel.Verbose && IsEnabled(EventLevel.Verbose, Keywords.WorkflowInstance))
-                {
-                    WorkflowInstanceVerbose(
-                        actor.GetType().ToString(),
-                        actor.Id.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationTypeName,
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceTypeName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceName.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.PartitionId,
-                        actor.ActorService.ServiceInitializationParameters.InstanceId,
-                        FabricRuntime.GetNodeContext().NodeName,
-                        record.InstanceId,
-                        record.RecordNumber,
-                        record.EventTime.ToFileTimeUtc(),
-                        PrepareAnnotations(record.Annotations),
-                        (record.State) ?? string.Empty,
-                        (record.WorkflowDefinitionIdentity?.Name) ?? string.Empty,
-                        (record.ActivityDefinitionId) ?? string.Empty,
-                        string.Format(message, args));
-                    return;
-                }
-
-                if (record.Level == TraceLevel.Info && IsEnabled(EventLevel.Informational, Keywords.WorkflowInstance))
-                {
-                    WorkflowInstanceInfo(
-                        actor.GetType().ToString(),
-                        actor.Id.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationTypeName,
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceTypeName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceName.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.PartitionId,
-                        actor.ActorService.ServiceInitializationParameters.InstanceId,
-                        FabricRuntime.GetNodeContext().NodeName,
-                        record.InstanceId,
-                        record.RecordNumber,
-                        record.EventTime.ToFileTimeUtc(),
-                        PrepareAnnotations(record.Annotations),
-                        (record.State) ?? string.Empty,
-                        (record.WorkflowDefinitionIdentity?.Name) ?? string.Empty,
-                        (record.ActivityDefinitionId) ?? string.Empty,
-                        string.Format(message, args));
-                    return;
-                }
-
-                if (record.Level == TraceLevel.Warning && IsEnabled(EventLevel.Warning, Keywords.WorkflowInstance))
-                {
-                    WorkflowInstanceWarning(
-                        actor.GetType().ToString(),
-                        actor.Id.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationTypeName,
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceTypeName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceName.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.PartitionId,
-                        actor.ActorService.ServiceInitializationParameters.InstanceId,
-                        FabricRuntime.GetNodeContext().NodeName,
-                        record.InstanceId,
-                        record.RecordNumber,
-                        record.EventTime.ToFileTimeUtc(),
-                        PrepareAnnotations(record.Annotations),
-                        (record.State) ?? string.Empty,
-                        (record.WorkflowDefinitionIdentity?.Name) ?? string.Empty,
-                        (record.ActivityDefinitionId) ?? string.Empty,
-                        string.Format(message, args));
-                    return;
-                }
-
-                if (record.Level == TraceLevel.Error && IsEnabled(EventLevel.Error, Keywords.WorkflowInstance))
-                {
-                    WorkflowInstanceError(
-                        actor.GetType().ToString(),
-                        actor.Id.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationTypeName,
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceTypeName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceName.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.PartitionId,
-                        actor.ActorService.ServiceInitializationParameters.InstanceId,
+                        actor.ActorService.Context.CodePackageActivationContext.ApplicationTypeName,
+                        actor.ActorService.Context.CodePackageActivationContext.ApplicationName,
+                        actor.ActorService.Context.ServiceTypeName,
+                        actor.ActorService.Context.ServiceName.ToString(),
+                        actor.ActorService.Context.PartitionId,
+                        actor.ActorService.Context.ReplicaId,
                         FabricRuntime.GetNodeContext().NodeName,
                         record.InstanceId,
                         record.RecordNumber,
@@ -3258,7 +2538,7 @@ namespace Cogito.Fabric.Activities
         /// <param name="message"></param>
         /// <param name="args"></param>
         [NonEvent]
-        internal void WorkflowInstanceAborted(IStatefulActivityActorInternal actor, WorkflowInstanceAbortedRecord record, string message = "", params object[] args)
+        internal void WorkflowInstanceAborted(IActivityActor actor, WorkflowInstanceAbortedRecord record, string message = "", params object[] args)
         {
             Contract.Requires<ArgumentNullException>(actor != null);
             Contract.Requires<ArgumentNullException>(record != null);
@@ -3272,12 +2552,12 @@ namespace Cogito.Fabric.Activities
                     WorkflowInstanceAbortedVerbose(
                         actor.GetType().ToString(),
                         actor.Id.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationTypeName,
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceTypeName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceName.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.PartitionId,
-                        actor.ActorService.ServiceInitializationParameters.ReplicaId,
+                        actor.ActorService.Context.CodePackageActivationContext.ApplicationTypeName,
+                        actor.ActorService.Context.CodePackageActivationContext.ApplicationName,
+                        actor.ActorService.Context.ServiceTypeName,
+                        actor.ActorService.Context.ServiceName.ToString(),
+                        actor.ActorService.Context.PartitionId,
+                        actor.ActorService.Context.ReplicaId,
                         FabricRuntime.GetNodeContext().NodeName,
                         record.InstanceId,
                         record.RecordNumber,
@@ -3296,12 +2576,12 @@ namespace Cogito.Fabric.Activities
                     WorkflowInstanceAbortedInfo(
                         actor.GetType().ToString(),
                         actor.Id.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationTypeName,
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceTypeName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceName.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.PartitionId,
-                        actor.ActorService.ServiceInitializationParameters.ReplicaId,
+                        actor.ActorService.Context.CodePackageActivationContext.ApplicationTypeName,
+                        actor.ActorService.Context.CodePackageActivationContext.ApplicationName,
+                        actor.ActorService.Context.ServiceTypeName,
+                        actor.ActorService.Context.ServiceName.ToString(),
+                        actor.ActorService.Context.PartitionId,
+                        actor.ActorService.Context.ReplicaId,
                         FabricRuntime.GetNodeContext().NodeName,
                         record.InstanceId,
                         record.RecordNumber,
@@ -3320,12 +2600,12 @@ namespace Cogito.Fabric.Activities
                     WorkflowInstanceAbortedWarning(
                         actor.GetType().ToString(),
                         actor.Id.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationTypeName,
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceTypeName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceName.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.PartitionId,
-                        actor.ActorService.ServiceInitializationParameters.ReplicaId,
+                        actor.ActorService.Context.CodePackageActivationContext.ApplicationTypeName,
+                        actor.ActorService.Context.CodePackageActivationContext.ApplicationName,
+                        actor.ActorService.Context.ServiceTypeName,
+                        actor.ActorService.Context.ServiceName.ToString(),
+                        actor.ActorService.Context.PartitionId,
+                        actor.ActorService.Context.ReplicaId,
                         FabricRuntime.GetNodeContext().NodeName,
                         record.InstanceId,
                         record.RecordNumber,
@@ -3344,128 +2624,12 @@ namespace Cogito.Fabric.Activities
                     WorkflowInstanceAbortedError(
                         actor.GetType().ToString(),
                         actor.Id.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationTypeName,
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceTypeName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceName.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.PartitionId,
-                        actor.ActorService.ServiceInitializationParameters.ReplicaId,
-                        FabricRuntime.GetNodeContext().NodeName,
-                        record.InstanceId,
-                        record.RecordNumber,
-                        record.EventTime.ToFileTimeUtc(),
-                        PrepareAnnotations(record.Annotations),
-                        (record.State) ?? string.Empty,
-                        (record.WorkflowDefinitionIdentity?.Name) ?? string.Empty,
-                        (record.ActivityDefinitionId) ?? string.Empty,
-                        (record.Reason) ?? string.Empty,
-                        string.Format(message, args));
-                    return;
-                }
-
-            }
-        }
-
-        /// <summary>
-        /// Records an event.
-        /// </summary>
-        /// <param name="actor"></param>
-        /// <param name="record"></param>
-        /// <param name="message"></param>
-        /// <param name="args"></param>
-        [NonEvent]
-        internal void WorkflowInstanceAborted(IStatelessActivityActorInternal actor, WorkflowInstanceAbortedRecord record, string message = "", params object[] args)
-        {
-            Contract.Requires<ArgumentNullException>(actor != null);
-            Contract.Requires<ArgumentNullException>(record != null);
-            Contract.Requires<ArgumentNullException>(message != null);
-            Contract.Requires<ArgumentNullException>(args != null);
-
-            if (IsEnabled())
-            {
-                if (record.Level == TraceLevel.Verbose && IsEnabled(EventLevel.Verbose, Keywords.WorkflowInstance | Keywords.WorkflowInstanceAborted))
-                {
-                    WorkflowInstanceAbortedVerbose(
-                        actor.GetType().ToString(),
-                        actor.Id.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationTypeName,
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceTypeName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceName.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.PartitionId,
-                        actor.ActorService.ServiceInitializationParameters.InstanceId,
-                        FabricRuntime.GetNodeContext().NodeName,
-                        record.InstanceId,
-                        record.RecordNumber,
-                        record.EventTime.ToFileTimeUtc(),
-                        PrepareAnnotations(record.Annotations),
-                        (record.State) ?? string.Empty,
-                        (record.WorkflowDefinitionIdentity?.Name) ?? string.Empty,
-                        (record.ActivityDefinitionId) ?? string.Empty,
-                        (record.Reason) ?? string.Empty,
-                        string.Format(message, args));
-                    return;
-                }
-
-                if (record.Level == TraceLevel.Info && IsEnabled(EventLevel.Informational, Keywords.WorkflowInstance | Keywords.WorkflowInstanceAborted))
-                {
-                    WorkflowInstanceAbortedInfo(
-                        actor.GetType().ToString(),
-                        actor.Id.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationTypeName,
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceTypeName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceName.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.PartitionId,
-                        actor.ActorService.ServiceInitializationParameters.InstanceId,
-                        FabricRuntime.GetNodeContext().NodeName,
-                        record.InstanceId,
-                        record.RecordNumber,
-                        record.EventTime.ToFileTimeUtc(),
-                        PrepareAnnotations(record.Annotations),
-                        (record.State) ?? string.Empty,
-                        (record.WorkflowDefinitionIdentity?.Name) ?? string.Empty,
-                        (record.ActivityDefinitionId) ?? string.Empty,
-                        (record.Reason) ?? string.Empty,
-                        string.Format(message, args));
-                    return;
-                }
-
-                if (record.Level == TraceLevel.Warning && IsEnabled(EventLevel.Warning, Keywords.WorkflowInstance | Keywords.WorkflowInstanceAborted))
-                {
-                    WorkflowInstanceAbortedWarning(
-                        actor.GetType().ToString(),
-                        actor.Id.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationTypeName,
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceTypeName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceName.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.PartitionId,
-                        actor.ActorService.ServiceInitializationParameters.InstanceId,
-                        FabricRuntime.GetNodeContext().NodeName,
-                        record.InstanceId,
-                        record.RecordNumber,
-                        record.EventTime.ToFileTimeUtc(),
-                        PrepareAnnotations(record.Annotations),
-                        (record.State) ?? string.Empty,
-                        (record.WorkflowDefinitionIdentity?.Name) ?? string.Empty,
-                        (record.ActivityDefinitionId) ?? string.Empty,
-                        (record.Reason) ?? string.Empty,
-                        string.Format(message, args));
-                    return;
-                }
-
-                if (record.Level == TraceLevel.Error && IsEnabled(EventLevel.Error, Keywords.WorkflowInstance | Keywords.WorkflowInstanceAborted))
-                {
-                    WorkflowInstanceAbortedError(
-                        actor.GetType().ToString(),
-                        actor.Id.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationTypeName,
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceTypeName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceName.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.PartitionId,
-                        actor.ActorService.ServiceInitializationParameters.InstanceId,
+                        actor.ActorService.Context.CodePackageActivationContext.ApplicationTypeName,
+                        actor.ActorService.Context.CodePackageActivationContext.ApplicationName,
+                        actor.ActorService.Context.ServiceTypeName,
+                        actor.ActorService.Context.ServiceName.ToString(),
+                        actor.ActorService.Context.PartitionId,
+                        actor.ActorService.Context.ReplicaId,
                         FabricRuntime.GetNodeContext().NodeName,
                         record.InstanceId,
                         record.RecordNumber,
@@ -3777,7 +2941,7 @@ namespace Cogito.Fabric.Activities
         /// <param name="message"></param>
         /// <param name="args"></param>
         [NonEvent]
-        internal void WorkflowInstanceSuspended(IStatefulActivityActorInternal actor, WorkflowInstanceSuspendedRecord record, string message = "", params object[] args)
+        internal void WorkflowInstanceSuspended(IActivityActor actor, WorkflowInstanceSuspendedRecord record, string message = "", params object[] args)
         {
             Contract.Requires<ArgumentNullException>(actor != null);
             Contract.Requires<ArgumentNullException>(record != null);
@@ -3791,12 +2955,12 @@ namespace Cogito.Fabric.Activities
                     WorkflowInstanceSuspendedVerbose(
                         actor.GetType().ToString(),
                         actor.Id.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationTypeName,
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceTypeName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceName.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.PartitionId,
-                        actor.ActorService.ServiceInitializationParameters.ReplicaId,
+                        actor.ActorService.Context.CodePackageActivationContext.ApplicationTypeName,
+                        actor.ActorService.Context.CodePackageActivationContext.ApplicationName,
+                        actor.ActorService.Context.ServiceTypeName,
+                        actor.ActorService.Context.ServiceName.ToString(),
+                        actor.ActorService.Context.PartitionId,
+                        actor.ActorService.Context.ReplicaId,
                         FabricRuntime.GetNodeContext().NodeName,
                         record.InstanceId,
                         record.RecordNumber,
@@ -3815,12 +2979,12 @@ namespace Cogito.Fabric.Activities
                     WorkflowInstanceSuspendedInfo(
                         actor.GetType().ToString(),
                         actor.Id.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationTypeName,
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceTypeName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceName.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.PartitionId,
-                        actor.ActorService.ServiceInitializationParameters.ReplicaId,
+                        actor.ActorService.Context.CodePackageActivationContext.ApplicationTypeName,
+                        actor.ActorService.Context.CodePackageActivationContext.ApplicationName,
+                        actor.ActorService.Context.ServiceTypeName,
+                        actor.ActorService.Context.ServiceName.ToString(),
+                        actor.ActorService.Context.PartitionId,
+                        actor.ActorService.Context.ReplicaId,
                         FabricRuntime.GetNodeContext().NodeName,
                         record.InstanceId,
                         record.RecordNumber,
@@ -3839,12 +3003,12 @@ namespace Cogito.Fabric.Activities
                     WorkflowInstanceSuspendedWarning(
                         actor.GetType().ToString(),
                         actor.Id.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationTypeName,
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceTypeName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceName.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.PartitionId,
-                        actor.ActorService.ServiceInitializationParameters.ReplicaId,
+                        actor.ActorService.Context.CodePackageActivationContext.ApplicationTypeName,
+                        actor.ActorService.Context.CodePackageActivationContext.ApplicationName,
+                        actor.ActorService.Context.ServiceTypeName,
+                        actor.ActorService.Context.ServiceName.ToString(),
+                        actor.ActorService.Context.PartitionId,
+                        actor.ActorService.Context.ReplicaId,
                         FabricRuntime.GetNodeContext().NodeName,
                         record.InstanceId,
                         record.RecordNumber,
@@ -3863,128 +3027,12 @@ namespace Cogito.Fabric.Activities
                     WorkflowInstanceSuspendedError(
                         actor.GetType().ToString(),
                         actor.Id.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationTypeName,
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceTypeName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceName.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.PartitionId,
-                        actor.ActorService.ServiceInitializationParameters.ReplicaId,
-                        FabricRuntime.GetNodeContext().NodeName,
-                        record.InstanceId,
-                        record.RecordNumber,
-                        record.EventTime.ToFileTimeUtc(),
-                        PrepareAnnotations(record.Annotations),
-                        (record.State) ?? string.Empty,
-                        (record.WorkflowDefinitionIdentity?.Name) ?? string.Empty,
-                        (record.ActivityDefinitionId) ?? string.Empty,
-                        (record.Reason) ?? string.Empty,
-                        string.Format(message, args));
-                    return;
-                }
-
-            }
-        }
-
-        /// <summary>
-        /// Records an event.
-        /// </summary>
-        /// <param name="actor"></param>
-        /// <param name="record"></param>
-        /// <param name="message"></param>
-        /// <param name="args"></param>
-        [NonEvent]
-        internal void WorkflowInstanceSuspended(IStatelessActivityActorInternal actor, WorkflowInstanceSuspendedRecord record, string message = "", params object[] args)
-        {
-            Contract.Requires<ArgumentNullException>(actor != null);
-            Contract.Requires<ArgumentNullException>(record != null);
-            Contract.Requires<ArgumentNullException>(message != null);
-            Contract.Requires<ArgumentNullException>(args != null);
-
-            if (IsEnabled())
-            {
-                if (record.Level == TraceLevel.Verbose && IsEnabled(EventLevel.Verbose, Keywords.WorkflowInstance | Keywords.WorkflowInstanceSuspended))
-                {
-                    WorkflowInstanceSuspendedVerbose(
-                        actor.GetType().ToString(),
-                        actor.Id.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationTypeName,
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceTypeName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceName.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.PartitionId,
-                        actor.ActorService.ServiceInitializationParameters.InstanceId,
-                        FabricRuntime.GetNodeContext().NodeName,
-                        record.InstanceId,
-                        record.RecordNumber,
-                        record.EventTime.ToFileTimeUtc(),
-                        PrepareAnnotations(record.Annotations),
-                        (record.State) ?? string.Empty,
-                        (record.WorkflowDefinitionIdentity?.Name) ?? string.Empty,
-                        (record.ActivityDefinitionId) ?? string.Empty,
-                        (record.Reason) ?? string.Empty,
-                        string.Format(message, args));
-                    return;
-                }
-
-                if (record.Level == TraceLevel.Info && IsEnabled(EventLevel.Informational, Keywords.WorkflowInstance | Keywords.WorkflowInstanceSuspended))
-                {
-                    WorkflowInstanceSuspendedInfo(
-                        actor.GetType().ToString(),
-                        actor.Id.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationTypeName,
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceTypeName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceName.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.PartitionId,
-                        actor.ActorService.ServiceInitializationParameters.InstanceId,
-                        FabricRuntime.GetNodeContext().NodeName,
-                        record.InstanceId,
-                        record.RecordNumber,
-                        record.EventTime.ToFileTimeUtc(),
-                        PrepareAnnotations(record.Annotations),
-                        (record.State) ?? string.Empty,
-                        (record.WorkflowDefinitionIdentity?.Name) ?? string.Empty,
-                        (record.ActivityDefinitionId) ?? string.Empty,
-                        (record.Reason) ?? string.Empty,
-                        string.Format(message, args));
-                    return;
-                }
-
-                if (record.Level == TraceLevel.Warning && IsEnabled(EventLevel.Warning, Keywords.WorkflowInstance | Keywords.WorkflowInstanceSuspended))
-                {
-                    WorkflowInstanceSuspendedWarning(
-                        actor.GetType().ToString(),
-                        actor.Id.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationTypeName,
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceTypeName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceName.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.PartitionId,
-                        actor.ActorService.ServiceInitializationParameters.InstanceId,
-                        FabricRuntime.GetNodeContext().NodeName,
-                        record.InstanceId,
-                        record.RecordNumber,
-                        record.EventTime.ToFileTimeUtc(),
-                        PrepareAnnotations(record.Annotations),
-                        (record.State) ?? string.Empty,
-                        (record.WorkflowDefinitionIdentity?.Name) ?? string.Empty,
-                        (record.ActivityDefinitionId) ?? string.Empty,
-                        (record.Reason) ?? string.Empty,
-                        string.Format(message, args));
-                    return;
-                }
-
-                if (record.Level == TraceLevel.Error && IsEnabled(EventLevel.Error, Keywords.WorkflowInstance | Keywords.WorkflowInstanceSuspended))
-                {
-                    WorkflowInstanceSuspendedError(
-                        actor.GetType().ToString(),
-                        actor.Id.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationTypeName,
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceTypeName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceName.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.PartitionId,
-                        actor.ActorService.ServiceInitializationParameters.InstanceId,
+                        actor.ActorService.Context.CodePackageActivationContext.ApplicationTypeName,
+                        actor.ActorService.Context.CodePackageActivationContext.ApplicationName,
+                        actor.ActorService.Context.ServiceTypeName,
+                        actor.ActorService.Context.ServiceName.ToString(),
+                        actor.ActorService.Context.PartitionId,
+                        actor.ActorService.Context.ReplicaId,
                         FabricRuntime.GetNodeContext().NodeName,
                         record.InstanceId,
                         record.RecordNumber,
@@ -4296,7 +3344,7 @@ namespace Cogito.Fabric.Activities
         /// <param name="message"></param>
         /// <param name="args"></param>
         [NonEvent]
-        internal void WorkflowInstanceTerminated(IStatefulActivityActorInternal actor, WorkflowInstanceTerminatedRecord record, string message = "", params object[] args)
+        internal void WorkflowInstanceTerminated(IActivityActor actor, WorkflowInstanceTerminatedRecord record, string message = "", params object[] args)
         {
             Contract.Requires<ArgumentNullException>(actor != null);
             Contract.Requires<ArgumentNullException>(record != null);
@@ -4310,12 +3358,12 @@ namespace Cogito.Fabric.Activities
                     WorkflowInstanceTerminatedVerbose(
                         actor.GetType().ToString(),
                         actor.Id.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationTypeName,
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceTypeName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceName.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.PartitionId,
-                        actor.ActorService.ServiceInitializationParameters.ReplicaId,
+                        actor.ActorService.Context.CodePackageActivationContext.ApplicationTypeName,
+                        actor.ActorService.Context.CodePackageActivationContext.ApplicationName,
+                        actor.ActorService.Context.ServiceTypeName,
+                        actor.ActorService.Context.ServiceName.ToString(),
+                        actor.ActorService.Context.PartitionId,
+                        actor.ActorService.Context.ReplicaId,
                         FabricRuntime.GetNodeContext().NodeName,
                         record.InstanceId,
                         record.RecordNumber,
@@ -4334,12 +3382,12 @@ namespace Cogito.Fabric.Activities
                     WorkflowInstanceTerminatedInfo(
                         actor.GetType().ToString(),
                         actor.Id.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationTypeName,
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceTypeName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceName.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.PartitionId,
-                        actor.ActorService.ServiceInitializationParameters.ReplicaId,
+                        actor.ActorService.Context.CodePackageActivationContext.ApplicationTypeName,
+                        actor.ActorService.Context.CodePackageActivationContext.ApplicationName,
+                        actor.ActorService.Context.ServiceTypeName,
+                        actor.ActorService.Context.ServiceName.ToString(),
+                        actor.ActorService.Context.PartitionId,
+                        actor.ActorService.Context.ReplicaId,
                         FabricRuntime.GetNodeContext().NodeName,
                         record.InstanceId,
                         record.RecordNumber,
@@ -4358,12 +3406,12 @@ namespace Cogito.Fabric.Activities
                     WorkflowInstanceTerminatedWarning(
                         actor.GetType().ToString(),
                         actor.Id.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationTypeName,
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceTypeName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceName.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.PartitionId,
-                        actor.ActorService.ServiceInitializationParameters.ReplicaId,
+                        actor.ActorService.Context.CodePackageActivationContext.ApplicationTypeName,
+                        actor.ActorService.Context.CodePackageActivationContext.ApplicationName,
+                        actor.ActorService.Context.ServiceTypeName,
+                        actor.ActorService.Context.ServiceName.ToString(),
+                        actor.ActorService.Context.PartitionId,
+                        actor.ActorService.Context.ReplicaId,
                         FabricRuntime.GetNodeContext().NodeName,
                         record.InstanceId,
                         record.RecordNumber,
@@ -4382,128 +3430,12 @@ namespace Cogito.Fabric.Activities
                     WorkflowInstanceTerminatedError(
                         actor.GetType().ToString(),
                         actor.Id.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationTypeName,
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceTypeName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceName.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.PartitionId,
-                        actor.ActorService.ServiceInitializationParameters.ReplicaId,
-                        FabricRuntime.GetNodeContext().NodeName,
-                        record.InstanceId,
-                        record.RecordNumber,
-                        record.EventTime.ToFileTimeUtc(),
-                        PrepareAnnotations(record.Annotations),
-                        (record.State) ?? string.Empty,
-                        (record.WorkflowDefinitionIdentity?.Name) ?? string.Empty,
-                        (record.ActivityDefinitionId) ?? string.Empty,
-                        (record.Reason) ?? string.Empty,
-                        string.Format(message, args));
-                    return;
-                }
-
-            }
-        }
-
-        /// <summary>
-        /// Records an event.
-        /// </summary>
-        /// <param name="actor"></param>
-        /// <param name="record"></param>
-        /// <param name="message"></param>
-        /// <param name="args"></param>
-        [NonEvent]
-        internal void WorkflowInstanceTerminated(IStatelessActivityActorInternal actor, WorkflowInstanceTerminatedRecord record, string message = "", params object[] args)
-        {
-            Contract.Requires<ArgumentNullException>(actor != null);
-            Contract.Requires<ArgumentNullException>(record != null);
-            Contract.Requires<ArgumentNullException>(message != null);
-            Contract.Requires<ArgumentNullException>(args != null);
-
-            if (IsEnabled())
-            {
-                if (record.Level == TraceLevel.Verbose && IsEnabled(EventLevel.Verbose, Keywords.WorkflowInstance | Keywords.WorkflowInstanceTerminated))
-                {
-                    WorkflowInstanceTerminatedVerbose(
-                        actor.GetType().ToString(),
-                        actor.Id.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationTypeName,
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceTypeName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceName.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.PartitionId,
-                        actor.ActorService.ServiceInitializationParameters.InstanceId,
-                        FabricRuntime.GetNodeContext().NodeName,
-                        record.InstanceId,
-                        record.RecordNumber,
-                        record.EventTime.ToFileTimeUtc(),
-                        PrepareAnnotations(record.Annotations),
-                        (record.State) ?? string.Empty,
-                        (record.WorkflowDefinitionIdentity?.Name) ?? string.Empty,
-                        (record.ActivityDefinitionId) ?? string.Empty,
-                        (record.Reason) ?? string.Empty,
-                        string.Format(message, args));
-                    return;
-                }
-
-                if (record.Level == TraceLevel.Info && IsEnabled(EventLevel.Informational, Keywords.WorkflowInstance | Keywords.WorkflowInstanceTerminated))
-                {
-                    WorkflowInstanceTerminatedInfo(
-                        actor.GetType().ToString(),
-                        actor.Id.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationTypeName,
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceTypeName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceName.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.PartitionId,
-                        actor.ActorService.ServiceInitializationParameters.InstanceId,
-                        FabricRuntime.GetNodeContext().NodeName,
-                        record.InstanceId,
-                        record.RecordNumber,
-                        record.EventTime.ToFileTimeUtc(),
-                        PrepareAnnotations(record.Annotations),
-                        (record.State) ?? string.Empty,
-                        (record.WorkflowDefinitionIdentity?.Name) ?? string.Empty,
-                        (record.ActivityDefinitionId) ?? string.Empty,
-                        (record.Reason) ?? string.Empty,
-                        string.Format(message, args));
-                    return;
-                }
-
-                if (record.Level == TraceLevel.Warning && IsEnabled(EventLevel.Warning, Keywords.WorkflowInstance | Keywords.WorkflowInstanceTerminated))
-                {
-                    WorkflowInstanceTerminatedWarning(
-                        actor.GetType().ToString(),
-                        actor.Id.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationTypeName,
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceTypeName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceName.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.PartitionId,
-                        actor.ActorService.ServiceInitializationParameters.InstanceId,
-                        FabricRuntime.GetNodeContext().NodeName,
-                        record.InstanceId,
-                        record.RecordNumber,
-                        record.EventTime.ToFileTimeUtc(),
-                        PrepareAnnotations(record.Annotations),
-                        (record.State) ?? string.Empty,
-                        (record.WorkflowDefinitionIdentity?.Name) ?? string.Empty,
-                        (record.ActivityDefinitionId) ?? string.Empty,
-                        (record.Reason) ?? string.Empty,
-                        string.Format(message, args));
-                    return;
-                }
-
-                if (record.Level == TraceLevel.Error && IsEnabled(EventLevel.Error, Keywords.WorkflowInstance | Keywords.WorkflowInstanceTerminated))
-                {
-                    WorkflowInstanceTerminatedError(
-                        actor.GetType().ToString(),
-                        actor.Id.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationTypeName,
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceTypeName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceName.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.PartitionId,
-                        actor.ActorService.ServiceInitializationParameters.InstanceId,
+                        actor.ActorService.Context.CodePackageActivationContext.ApplicationTypeName,
+                        actor.ActorService.Context.CodePackageActivationContext.ApplicationName,
+                        actor.ActorService.Context.ServiceTypeName,
+                        actor.ActorService.Context.ServiceName.ToString(),
+                        actor.ActorService.Context.PartitionId,
+                        actor.ActorService.Context.ReplicaId,
                         FabricRuntime.GetNodeContext().NodeName,
                         record.InstanceId,
                         record.RecordNumber,
@@ -4815,7 +3747,7 @@ namespace Cogito.Fabric.Activities
         /// <param name="message"></param>
         /// <param name="args"></param>
         [NonEvent]
-        internal void WorkflowInstanceUnhandledException(IStatefulActivityActorInternal actor, WorkflowInstanceUnhandledExceptionRecord record, string message = "", params object[] args)
+        internal void WorkflowInstanceUnhandledException(IActivityActor actor, WorkflowInstanceUnhandledExceptionRecord record, string message = "", params object[] args)
         {
             Contract.Requires<ArgumentNullException>(actor != null);
             Contract.Requires<ArgumentNullException>(record != null);
@@ -4829,12 +3761,12 @@ namespace Cogito.Fabric.Activities
                     WorkflowInstanceUnhandledExceptionVerbose(
                         actor.GetType().ToString(),
                         actor.Id.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationTypeName,
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceTypeName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceName.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.PartitionId,
-                        actor.ActorService.ServiceInitializationParameters.ReplicaId,
+                        actor.ActorService.Context.CodePackageActivationContext.ApplicationTypeName,
+                        actor.ActorService.Context.CodePackageActivationContext.ApplicationName,
+                        actor.ActorService.Context.ServiceTypeName,
+                        actor.ActorService.Context.ServiceName.ToString(),
+                        actor.ActorService.Context.PartitionId,
+                        actor.ActorService.Context.ReplicaId,
                         FabricRuntime.GetNodeContext().NodeName,
                         record.InstanceId,
                         record.RecordNumber,
@@ -4857,12 +3789,12 @@ namespace Cogito.Fabric.Activities
                     WorkflowInstanceUnhandledExceptionInfo(
                         actor.GetType().ToString(),
                         actor.Id.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationTypeName,
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceTypeName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceName.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.PartitionId,
-                        actor.ActorService.ServiceInitializationParameters.ReplicaId,
+                        actor.ActorService.Context.CodePackageActivationContext.ApplicationTypeName,
+                        actor.ActorService.Context.CodePackageActivationContext.ApplicationName,
+                        actor.ActorService.Context.ServiceTypeName,
+                        actor.ActorService.Context.ServiceName.ToString(),
+                        actor.ActorService.Context.PartitionId,
+                        actor.ActorService.Context.ReplicaId,
                         FabricRuntime.GetNodeContext().NodeName,
                         record.InstanceId,
                         record.RecordNumber,
@@ -4885,12 +3817,12 @@ namespace Cogito.Fabric.Activities
                     WorkflowInstanceUnhandledExceptionWarning(
                         actor.GetType().ToString(),
                         actor.Id.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationTypeName,
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceTypeName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceName.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.PartitionId,
-                        actor.ActorService.ServiceInitializationParameters.ReplicaId,
+                        actor.ActorService.Context.CodePackageActivationContext.ApplicationTypeName,
+                        actor.ActorService.Context.CodePackageActivationContext.ApplicationName,
+                        actor.ActorService.Context.ServiceTypeName,
+                        actor.ActorService.Context.ServiceName.ToString(),
+                        actor.ActorService.Context.PartitionId,
+                        actor.ActorService.Context.ReplicaId,
                         FabricRuntime.GetNodeContext().NodeName,
                         record.InstanceId,
                         record.RecordNumber,
@@ -4913,144 +3845,12 @@ namespace Cogito.Fabric.Activities
                     WorkflowInstanceUnhandledExceptionError(
                         actor.GetType().ToString(),
                         actor.Id.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationTypeName,
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceTypeName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceName.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.PartitionId,
-                        actor.ActorService.ServiceInitializationParameters.ReplicaId,
-                        FabricRuntime.GetNodeContext().NodeName,
-                        record.InstanceId,
-                        record.RecordNumber,
-                        record.EventTime.ToFileTimeUtc(),
-                        PrepareAnnotations(record.Annotations),
-                        (record.State) ?? string.Empty,
-                        (record.WorkflowDefinitionIdentity?.Name) ?? string.Empty,
-                        (record.ActivityDefinitionId) ?? string.Empty,
-                        (record.FaultSource?.Name) ?? string.Empty,
-                        (record.FaultSource?.Id) ?? string.Empty,
-                        (record.FaultSource?.InstanceId) ?? string.Empty,
-                        (record.FaultSource?.TypeName) ?? string.Empty,
-                        (record.UnhandledException?.Message) ?? string.Empty,
-                        string.Format(message, args));
-                    return;
-                }
-
-            }
-        }
-
-        /// <summary>
-        /// Records an event.
-        /// </summary>
-        /// <param name="actor"></param>
-        /// <param name="record"></param>
-        /// <param name="message"></param>
-        /// <param name="args"></param>
-        [NonEvent]
-        internal void WorkflowInstanceUnhandledException(IStatelessActivityActorInternal actor, WorkflowInstanceUnhandledExceptionRecord record, string message = "", params object[] args)
-        {
-            Contract.Requires<ArgumentNullException>(actor != null);
-            Contract.Requires<ArgumentNullException>(record != null);
-            Contract.Requires<ArgumentNullException>(message != null);
-            Contract.Requires<ArgumentNullException>(args != null);
-
-            if (IsEnabled())
-            {
-                if (record.Level == TraceLevel.Verbose && IsEnabled(EventLevel.Verbose, Keywords.WorkflowInstance | Keywords.WorkflowInstanceUnhandledException))
-                {
-                    WorkflowInstanceUnhandledExceptionVerbose(
-                        actor.GetType().ToString(),
-                        actor.Id.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationTypeName,
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceTypeName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceName.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.PartitionId,
-                        actor.ActorService.ServiceInitializationParameters.InstanceId,
-                        FabricRuntime.GetNodeContext().NodeName,
-                        record.InstanceId,
-                        record.RecordNumber,
-                        record.EventTime.ToFileTimeUtc(),
-                        PrepareAnnotations(record.Annotations),
-                        (record.State) ?? string.Empty,
-                        (record.WorkflowDefinitionIdentity?.Name) ?? string.Empty,
-                        (record.ActivityDefinitionId) ?? string.Empty,
-                        (record.FaultSource?.Name) ?? string.Empty,
-                        (record.FaultSource?.Id) ?? string.Empty,
-                        (record.FaultSource?.InstanceId) ?? string.Empty,
-                        (record.FaultSource?.TypeName) ?? string.Empty,
-                        (record.UnhandledException?.Message) ?? string.Empty,
-                        string.Format(message, args));
-                    return;
-                }
-
-                if (record.Level == TraceLevel.Info && IsEnabled(EventLevel.Informational, Keywords.WorkflowInstance | Keywords.WorkflowInstanceUnhandledException))
-                {
-                    WorkflowInstanceUnhandledExceptionInfo(
-                        actor.GetType().ToString(),
-                        actor.Id.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationTypeName,
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceTypeName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceName.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.PartitionId,
-                        actor.ActorService.ServiceInitializationParameters.InstanceId,
-                        FabricRuntime.GetNodeContext().NodeName,
-                        record.InstanceId,
-                        record.RecordNumber,
-                        record.EventTime.ToFileTimeUtc(),
-                        PrepareAnnotations(record.Annotations),
-                        (record.State) ?? string.Empty,
-                        (record.WorkflowDefinitionIdentity?.Name) ?? string.Empty,
-                        (record.ActivityDefinitionId) ?? string.Empty,
-                        (record.FaultSource?.Name) ?? string.Empty,
-                        (record.FaultSource?.Id) ?? string.Empty,
-                        (record.FaultSource?.InstanceId) ?? string.Empty,
-                        (record.FaultSource?.TypeName) ?? string.Empty,
-                        (record.UnhandledException?.Message) ?? string.Empty,
-                        string.Format(message, args));
-                    return;
-                }
-
-                if (record.Level == TraceLevel.Warning && IsEnabled(EventLevel.Warning, Keywords.WorkflowInstance | Keywords.WorkflowInstanceUnhandledException))
-                {
-                    WorkflowInstanceUnhandledExceptionWarning(
-                        actor.GetType().ToString(),
-                        actor.Id.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationTypeName,
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceTypeName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceName.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.PartitionId,
-                        actor.ActorService.ServiceInitializationParameters.InstanceId,
-                        FabricRuntime.GetNodeContext().NodeName,
-                        record.InstanceId,
-                        record.RecordNumber,
-                        record.EventTime.ToFileTimeUtc(),
-                        PrepareAnnotations(record.Annotations),
-                        (record.State) ?? string.Empty,
-                        (record.WorkflowDefinitionIdentity?.Name) ?? string.Empty,
-                        (record.ActivityDefinitionId) ?? string.Empty,
-                        (record.FaultSource?.Name) ?? string.Empty,
-                        (record.FaultSource?.Id) ?? string.Empty,
-                        (record.FaultSource?.InstanceId) ?? string.Empty,
-                        (record.FaultSource?.TypeName) ?? string.Empty,
-                        (record.UnhandledException?.Message) ?? string.Empty,
-                        string.Format(message, args));
-                    return;
-                }
-
-                if (record.Level == TraceLevel.Error && IsEnabled(EventLevel.Error, Keywords.WorkflowInstance | Keywords.WorkflowInstanceUnhandledException))
-                {
-                    WorkflowInstanceUnhandledExceptionError(
-                        actor.GetType().ToString(),
-                        actor.Id.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationTypeName,
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceTypeName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceName.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.PartitionId,
-                        actor.ActorService.ServiceInitializationParameters.InstanceId,
+                        actor.ActorService.Context.CodePackageActivationContext.ApplicationTypeName,
+                        actor.ActorService.Context.CodePackageActivationContext.ApplicationName,
+                        actor.ActorService.Context.ServiceTypeName,
+                        actor.ActorService.Context.ServiceName.ToString(),
+                        actor.ActorService.Context.PartitionId,
+                        actor.ActorService.Context.ReplicaId,
                         FabricRuntime.GetNodeContext().NodeName,
                         record.InstanceId,
                         record.RecordNumber,
@@ -5414,7 +4214,7 @@ namespace Cogito.Fabric.Activities
         /// <param name="message"></param>
         /// <param name="args"></param>
         [NonEvent]
-        internal void WorkflowInstanceUpdated(IStatefulActivityActorInternal actor, WorkflowInstanceUpdatedRecord record, string message = "", params object[] args)
+        internal void WorkflowInstanceUpdated(IActivityActor actor, WorkflowInstanceUpdatedRecord record, string message = "", params object[] args)
         {
             Contract.Requires<ArgumentNullException>(actor != null);
             Contract.Requires<ArgumentNullException>(record != null);
@@ -5428,12 +4228,12 @@ namespace Cogito.Fabric.Activities
                     WorkflowInstanceUpdatedVerbose(
                         actor.GetType().ToString(),
                         actor.Id.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationTypeName,
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceTypeName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceName.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.PartitionId,
-                        actor.ActorService.ServiceInitializationParameters.ReplicaId,
+                        actor.ActorService.Context.CodePackageActivationContext.ApplicationTypeName,
+                        actor.ActorService.Context.CodePackageActivationContext.ApplicationName,
+                        actor.ActorService.Context.ServiceTypeName,
+                        actor.ActorService.Context.ServiceName.ToString(),
+                        actor.ActorService.Context.PartitionId,
+                        actor.ActorService.Context.ReplicaId,
                         FabricRuntime.GetNodeContext().NodeName,
                         record.InstanceId,
                         record.RecordNumber,
@@ -5452,12 +4252,12 @@ namespace Cogito.Fabric.Activities
                     WorkflowInstanceUpdatedInfo(
                         actor.GetType().ToString(),
                         actor.Id.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationTypeName,
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceTypeName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceName.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.PartitionId,
-                        actor.ActorService.ServiceInitializationParameters.ReplicaId,
+                        actor.ActorService.Context.CodePackageActivationContext.ApplicationTypeName,
+                        actor.ActorService.Context.CodePackageActivationContext.ApplicationName,
+                        actor.ActorService.Context.ServiceTypeName,
+                        actor.ActorService.Context.ServiceName.ToString(),
+                        actor.ActorService.Context.PartitionId,
+                        actor.ActorService.Context.ReplicaId,
                         FabricRuntime.GetNodeContext().NodeName,
                         record.InstanceId,
                         record.RecordNumber,
@@ -5476,12 +4276,12 @@ namespace Cogito.Fabric.Activities
                     WorkflowInstanceUpdatedWarning(
                         actor.GetType().ToString(),
                         actor.Id.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationTypeName,
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceTypeName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceName.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.PartitionId,
-                        actor.ActorService.ServiceInitializationParameters.ReplicaId,
+                        actor.ActorService.Context.CodePackageActivationContext.ApplicationTypeName,
+                        actor.ActorService.Context.CodePackageActivationContext.ApplicationName,
+                        actor.ActorService.Context.ServiceTypeName,
+                        actor.ActorService.Context.ServiceName.ToString(),
+                        actor.ActorService.Context.PartitionId,
+                        actor.ActorService.Context.ReplicaId,
                         FabricRuntime.GetNodeContext().NodeName,
                         record.InstanceId,
                         record.RecordNumber,
@@ -5500,128 +4300,12 @@ namespace Cogito.Fabric.Activities
                     WorkflowInstanceUpdatedError(
                         actor.GetType().ToString(),
                         actor.Id.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationTypeName,
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceTypeName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceName.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.PartitionId,
-                        actor.ActorService.ServiceInitializationParameters.ReplicaId,
-                        FabricRuntime.GetNodeContext().NodeName,
-                        record.InstanceId,
-                        record.RecordNumber,
-                        record.EventTime.ToFileTimeUtc(),
-                        PrepareAnnotations(record.Annotations),
-                        (record.State) ?? string.Empty,
-                        (record.WorkflowDefinitionIdentity?.Name) ?? string.Empty,
-                        (record.ActivityDefinitionId) ?? string.Empty,
-                        record.IsSuccessful,
-                        string.Format(message, args));
-                    return;
-                }
-
-            }
-        }
-
-        /// <summary>
-        /// Records an event.
-        /// </summary>
-        /// <param name="actor"></param>
-        /// <param name="record"></param>
-        /// <param name="message"></param>
-        /// <param name="args"></param>
-        [NonEvent]
-        internal void WorkflowInstanceUpdated(IStatelessActivityActorInternal actor, WorkflowInstanceUpdatedRecord record, string message = "", params object[] args)
-        {
-            Contract.Requires<ArgumentNullException>(actor != null);
-            Contract.Requires<ArgumentNullException>(record != null);
-            Contract.Requires<ArgumentNullException>(message != null);
-            Contract.Requires<ArgumentNullException>(args != null);
-
-            if (IsEnabled())
-            {
-                if (record.Level == TraceLevel.Verbose && IsEnabled(EventLevel.Verbose, Keywords.WorkflowInstance | Keywords.WorkflowInstanceUpdated))
-                {
-                    WorkflowInstanceUpdatedVerbose(
-                        actor.GetType().ToString(),
-                        actor.Id.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationTypeName,
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceTypeName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceName.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.PartitionId,
-                        actor.ActorService.ServiceInitializationParameters.InstanceId,
-                        FabricRuntime.GetNodeContext().NodeName,
-                        record.InstanceId,
-                        record.RecordNumber,
-                        record.EventTime.ToFileTimeUtc(),
-                        PrepareAnnotations(record.Annotations),
-                        (record.State) ?? string.Empty,
-                        (record.WorkflowDefinitionIdentity?.Name) ?? string.Empty,
-                        (record.ActivityDefinitionId) ?? string.Empty,
-                        record.IsSuccessful,
-                        string.Format(message, args));
-                    return;
-                }
-
-                if (record.Level == TraceLevel.Info && IsEnabled(EventLevel.Informational, Keywords.WorkflowInstance | Keywords.WorkflowInstanceUpdated))
-                {
-                    WorkflowInstanceUpdatedInfo(
-                        actor.GetType().ToString(),
-                        actor.Id.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationTypeName,
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceTypeName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceName.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.PartitionId,
-                        actor.ActorService.ServiceInitializationParameters.InstanceId,
-                        FabricRuntime.GetNodeContext().NodeName,
-                        record.InstanceId,
-                        record.RecordNumber,
-                        record.EventTime.ToFileTimeUtc(),
-                        PrepareAnnotations(record.Annotations),
-                        (record.State) ?? string.Empty,
-                        (record.WorkflowDefinitionIdentity?.Name) ?? string.Empty,
-                        (record.ActivityDefinitionId) ?? string.Empty,
-                        record.IsSuccessful,
-                        string.Format(message, args));
-                    return;
-                }
-
-                if (record.Level == TraceLevel.Warning && IsEnabled(EventLevel.Warning, Keywords.WorkflowInstance | Keywords.WorkflowInstanceUpdated))
-                {
-                    WorkflowInstanceUpdatedWarning(
-                        actor.GetType().ToString(),
-                        actor.Id.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationTypeName,
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceTypeName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceName.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.PartitionId,
-                        actor.ActorService.ServiceInitializationParameters.InstanceId,
-                        FabricRuntime.GetNodeContext().NodeName,
-                        record.InstanceId,
-                        record.RecordNumber,
-                        record.EventTime.ToFileTimeUtc(),
-                        PrepareAnnotations(record.Annotations),
-                        (record.State) ?? string.Empty,
-                        (record.WorkflowDefinitionIdentity?.Name) ?? string.Empty,
-                        (record.ActivityDefinitionId) ?? string.Empty,
-                        record.IsSuccessful,
-                        string.Format(message, args));
-                    return;
-                }
-
-                if (record.Level == TraceLevel.Error && IsEnabled(EventLevel.Error, Keywords.WorkflowInstance | Keywords.WorkflowInstanceUpdated))
-                {
-                    WorkflowInstanceUpdatedError(
-                        actor.GetType().ToString(),
-                        actor.Id.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationTypeName,
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceTypeName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceName.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.PartitionId,
-                        actor.ActorService.ServiceInitializationParameters.InstanceId,
+                        actor.ActorService.Context.CodePackageActivationContext.ApplicationTypeName,
+                        actor.ActorService.Context.CodePackageActivationContext.ApplicationName,
+                        actor.ActorService.Context.ServiceTypeName,
+                        actor.ActorService.Context.ServiceName.ToString(),
+                        actor.ActorService.Context.PartitionId,
+                        actor.ActorService.Context.ReplicaId,
                         FabricRuntime.GetNodeContext().NodeName,
                         record.InstanceId,
                         record.RecordNumber,
@@ -5933,7 +4617,7 @@ namespace Cogito.Fabric.Activities
         /// <param name="message"></param>
         /// <param name="args"></param>
         [NonEvent]
-        internal void CustomTracking(IStatefulActivityActorInternal actor, CustomTrackingRecord record, string message = "", params object[] args)
+        internal void CustomTracking(IActivityActor actor, CustomTrackingRecord record, string message = "", params object[] args)
         {
             Contract.Requires<ArgumentNullException>(actor != null);
             Contract.Requires<ArgumentNullException>(record != null);
@@ -5947,12 +4631,12 @@ namespace Cogito.Fabric.Activities
                     CustomTrackingVerbose(
                         actor.GetType().ToString(),
                         actor.Id.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationTypeName,
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceTypeName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceName.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.PartitionId,
-                        actor.ActorService.ServiceInitializationParameters.ReplicaId,
+                        actor.ActorService.Context.CodePackageActivationContext.ApplicationTypeName,
+                        actor.ActorService.Context.CodePackageActivationContext.ApplicationName,
+                        actor.ActorService.Context.ServiceTypeName,
+                        actor.ActorService.Context.ServiceName.ToString(),
+                        actor.ActorService.Context.PartitionId,
+                        actor.ActorService.Context.ReplicaId,
                         FabricRuntime.GetNodeContext().NodeName,
                         record.InstanceId,
                         record.RecordNumber,
@@ -5973,12 +4657,12 @@ namespace Cogito.Fabric.Activities
                     CustomTrackingInfo(
                         actor.GetType().ToString(),
                         actor.Id.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationTypeName,
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceTypeName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceName.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.PartitionId,
-                        actor.ActorService.ServiceInitializationParameters.ReplicaId,
+                        actor.ActorService.Context.CodePackageActivationContext.ApplicationTypeName,
+                        actor.ActorService.Context.CodePackageActivationContext.ApplicationName,
+                        actor.ActorService.Context.ServiceTypeName,
+                        actor.ActorService.Context.ServiceName.ToString(),
+                        actor.ActorService.Context.PartitionId,
+                        actor.ActorService.Context.ReplicaId,
                         FabricRuntime.GetNodeContext().NodeName,
                         record.InstanceId,
                         record.RecordNumber,
@@ -5999,12 +4683,12 @@ namespace Cogito.Fabric.Activities
                     CustomTrackingWarning(
                         actor.GetType().ToString(),
                         actor.Id.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationTypeName,
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceTypeName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceName.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.PartitionId,
-                        actor.ActorService.ServiceInitializationParameters.ReplicaId,
+                        actor.ActorService.Context.CodePackageActivationContext.ApplicationTypeName,
+                        actor.ActorService.Context.CodePackageActivationContext.ApplicationName,
+                        actor.ActorService.Context.ServiceTypeName,
+                        actor.ActorService.Context.ServiceName.ToString(),
+                        actor.ActorService.Context.PartitionId,
+                        actor.ActorService.Context.ReplicaId,
                         FabricRuntime.GetNodeContext().NodeName,
                         record.InstanceId,
                         record.RecordNumber,
@@ -6025,136 +4709,12 @@ namespace Cogito.Fabric.Activities
                     CustomTrackingError(
                         actor.GetType().ToString(),
                         actor.Id.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationTypeName,
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceTypeName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceName.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.PartitionId,
-                        actor.ActorService.ServiceInitializationParameters.ReplicaId,
-                        FabricRuntime.GetNodeContext().NodeName,
-                        record.InstanceId,
-                        record.RecordNumber,
-                        record.EventTime.ToFileTimeUtc(),
-                        PrepareAnnotations(record.Annotations),
-                        (record.Name) ?? string.Empty,
-                        (record.Activity?.Name) ?? string.Empty,
-                        (record.Activity?.Id) ?? string.Empty,
-                        (record.Activity?.InstanceId) ?? string.Empty,
-                        (record.Activity?.TypeName) ?? string.Empty,
-                        (PrepareDictionary(record.Data)) ?? string.Empty,
-                        string.Format(message, args));
-                    return;
-                }
-
-            }
-        }
-
-        /// <summary>
-        /// Records an event.
-        /// </summary>
-        /// <param name="actor"></param>
-        /// <param name="record"></param>
-        /// <param name="message"></param>
-        /// <param name="args"></param>
-        [NonEvent]
-        internal void CustomTracking(IStatelessActivityActorInternal actor, CustomTrackingRecord record, string message = "", params object[] args)
-        {
-            Contract.Requires<ArgumentNullException>(actor != null);
-            Contract.Requires<ArgumentNullException>(record != null);
-            Contract.Requires<ArgumentNullException>(message != null);
-            Contract.Requires<ArgumentNullException>(args != null);
-
-            if (IsEnabled())
-            {
-                if (record.Level == TraceLevel.Verbose && IsEnabled(EventLevel.Verbose, Keywords.CustomTracking))
-                {
-                    CustomTrackingVerbose(
-                        actor.GetType().ToString(),
-                        actor.Id.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationTypeName,
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceTypeName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceName.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.PartitionId,
-                        actor.ActorService.ServiceInitializationParameters.InstanceId,
-                        FabricRuntime.GetNodeContext().NodeName,
-                        record.InstanceId,
-                        record.RecordNumber,
-                        record.EventTime.ToFileTimeUtc(),
-                        PrepareAnnotations(record.Annotations),
-                        (record.Name) ?? string.Empty,
-                        (record.Activity?.Name) ?? string.Empty,
-                        (record.Activity?.Id) ?? string.Empty,
-                        (record.Activity?.InstanceId) ?? string.Empty,
-                        (record.Activity?.TypeName) ?? string.Empty,
-                        (PrepareDictionary(record.Data)) ?? string.Empty,
-                        string.Format(message, args));
-                    return;
-                }
-
-                if (record.Level == TraceLevel.Info && IsEnabled(EventLevel.Informational, Keywords.CustomTracking))
-                {
-                    CustomTrackingInfo(
-                        actor.GetType().ToString(),
-                        actor.Id.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationTypeName,
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceTypeName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceName.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.PartitionId,
-                        actor.ActorService.ServiceInitializationParameters.InstanceId,
-                        FabricRuntime.GetNodeContext().NodeName,
-                        record.InstanceId,
-                        record.RecordNumber,
-                        record.EventTime.ToFileTimeUtc(),
-                        PrepareAnnotations(record.Annotations),
-                        (record.Name) ?? string.Empty,
-                        (record.Activity?.Name) ?? string.Empty,
-                        (record.Activity?.Id) ?? string.Empty,
-                        (record.Activity?.InstanceId) ?? string.Empty,
-                        (record.Activity?.TypeName) ?? string.Empty,
-                        (PrepareDictionary(record.Data)) ?? string.Empty,
-                        string.Format(message, args));
-                    return;
-                }
-
-                if (record.Level == TraceLevel.Warning && IsEnabled(EventLevel.Warning, Keywords.CustomTracking))
-                {
-                    CustomTrackingWarning(
-                        actor.GetType().ToString(),
-                        actor.Id.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationTypeName,
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceTypeName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceName.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.PartitionId,
-                        actor.ActorService.ServiceInitializationParameters.InstanceId,
-                        FabricRuntime.GetNodeContext().NodeName,
-                        record.InstanceId,
-                        record.RecordNumber,
-                        record.EventTime.ToFileTimeUtc(),
-                        PrepareAnnotations(record.Annotations),
-                        (record.Name) ?? string.Empty,
-                        (record.Activity?.Name) ?? string.Empty,
-                        (record.Activity?.Id) ?? string.Empty,
-                        (record.Activity?.InstanceId) ?? string.Empty,
-                        (record.Activity?.TypeName) ?? string.Empty,
-                        (PrepareDictionary(record.Data)) ?? string.Empty,
-                        string.Format(message, args));
-                    return;
-                }
-
-                if (record.Level == TraceLevel.Error && IsEnabled(EventLevel.Error, Keywords.CustomTracking))
-                {
-                    CustomTrackingError(
-                        actor.GetType().ToString(),
-                        actor.Id.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationTypeName,
-                        actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceTypeName,
-                        actor.ActorService.ServiceInitializationParameters.ServiceName.ToString(),
-                        actor.ActorService.ServiceInitializationParameters.PartitionId,
-                        actor.ActorService.ServiceInitializationParameters.InstanceId,
+                        actor.ActorService.Context.CodePackageActivationContext.ApplicationTypeName,
+                        actor.ActorService.Context.CodePackageActivationContext.ApplicationName,
+                        actor.ActorService.Context.ServiceTypeName,
+                        actor.ActorService.Context.ServiceName.ToString(),
+                        actor.ActorService.Context.PartitionId,
+                        actor.ActorService.Context.ReplicaId,
                         FabricRuntime.GetNodeContext().NodeName,
                         record.InstanceId,
                         record.RecordNumber,

@@ -160,8 +160,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ITest2.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ITestActor.cs" />
+    <Compile Include="ITest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

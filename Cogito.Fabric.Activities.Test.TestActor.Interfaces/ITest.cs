@@ -5,7 +5,7 @@ using Microsoft.ServiceFabric.Actors;
 namespace Cogito.Fabric.Activities.Test.TestActor.Interfaces
 {
 
-    public interface ITestActor : 
+    public interface ITest : 
         IActor
     {
 

@@ -94,47 +94,24 @@ namespace Cogito.Fabric.Activities
         }
 
         /// <summary>
-        /// Records a generic message for a <see cref="StatelessActivityActor"/>.
+        /// Records a generic message for a <see cref="ActivityActor"/>.
         /// </summary>
         /// <param name="actor"></param>
         /// <param name="message"></param>
         /// <param name="args"></param>
         [NonEvent]
-        public void ActorMessage(StatelessActivityActor actor, string message, params object[] args)
+        public void ActorMessage(ActivityActor actor, string message, params object[] args)
         {
             if (IsEnabled())
                 ActorMessage(
                     actor.GetType().ToString(),
                     actor.Id.ToString(),
-                    actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationTypeName,
-                    actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationName,
-                    actor.ActorService.ServiceInitializationParameters.ServiceTypeName,
-                    actor.ActorService.ServiceInitializationParameters.ServiceName.ToString(),
-                    actor.ActorService.ServiceInitializationParameters.PartitionId,
-                    actor.ActorService.ServiceInitializationParameters.InstanceId,
-                    FabricRuntime.GetNodeContext().NodeName,
-                    string.Format(message, args));
-        }
-
-        /// <summary>
-        /// Records a generic message for a <see cref="StatefulActivityActor"/>.
-        /// </summary>
-        /// <param name="actor"></param>
-        /// <param name="message"></param>
-        /// <param name="args"></param>
-        [NonEvent]
-        public void ActorMessage(StatefulActivityActor actor, string message, params object[] args)
-        {
-            if (IsEnabled())
-                ActorMessage(
-                    actor.GetType().ToString(),
-                    actor.Id.ToString(),
-                    actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationTypeName,
-                    actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationName,
-                    actor.ActorService.ServiceInitializationParameters.ServiceTypeName,
-                    actor.ActorService.ServiceInitializationParameters.ServiceName.ToString(),
-                    actor.ActorService.ServiceInitializationParameters.PartitionId,
-                    actor.ActorService.ServiceInitializationParameters.ReplicaId,
+                    actor.ActorService.Context.CodePackageActivationContext.ApplicationTypeName,
+                    actor.ActorService.Context.CodePackageActivationContext.ApplicationName,
+                    actor.ActorService.Context.ServiceTypeName,
+                    actor.ActorService.Context.ServiceName.ToString(),
+                    actor.ActorService.Context.PartitionId,
+                    actor.ActorService.Context.ReplicaId,
                     FabricRuntime.GetNodeContext().NodeName,
                     string.Format(message, args));
         }

@@ -162,52 +162,106 @@ namespace Cogito.Fabric
             {
                 return GetReminder(reminderName);
             }
-            catch
+            catch (FabricException e) when (e.ErrorCode == FabricErrorCode.Unknown)
             {
-                return null;
+                // ignore
+            }
+
+            return null;
+        }
+
+    }
+
+    /// <summary>
+    /// Represents an actor with a default well known state object.
+    /// </summary>
+    /// <typeparam name="TState"></typeparam>
+    public abstract class Actor<TState> :
+        Actor
+    {
+
+        const string DEFAULT_STATE_KEY = "__ActorState__";
+
+        /// <summary>
+        /// Gets or sets the state name in which the state object is stored.
+        /// </summary>
+        protected virtual string StateObjectKey { get; set; } = DEFAULT_STATE_KEY;
+
+        /// <summary>
+        /// Gets the actor state object.
+        /// </summary>
+        protected virtual TState State { get; set; }
+
+        /// <summary>
+        /// Override this method to initialize the members.
+        /// </summary>
+        /// <returns></returns>
+        protected override async Task OnActivateAsync()
+        {
+            await LoadStateObject();
+            await base.OnActivateAsync();
+        }
+
+        /// <summary>
+        /// Loads the state. This method is invoked as part of the actor activation.
+        /// </summary>
+        /// <returns></returns>
+        protected virtual async Task LoadStateObject()
+        {
+            var o = await StateManager.TryGetStateAsync<TState>(StateObjectKey);
+            State = o.HasValue ? o.Value : State;
+        }
+
+        /// <summary>
+        /// Saves the state. Invoke this after modifications to the state.
+        /// </summary>
+        /// <returns></returns>
+        protected virtual async Task SaveStateObject()
+        {
+            if (typeof(TState).IsValueType)
+                await StateManager.SetStateAsync(StateObjectKey, State);
+            else if (State != null)
+                await StateManager.SetStateAsync(StateObjectKey, State);
+            else if (await StateManager.ContainsStateAsync(StateObjectKey))
+                await StateManager.TryRemoveStateAsync(StateObjectKey);
+        }
+
+        /// <summary>
+        /// Executes the given action and ensures the state object is saved upon completion.
+        /// </summary>
+        /// <param name="action"></param>
+        /// <returns></returns>
+        protected virtual async Task WriteState(Func<Task> action)
+        {
+            Contract.Requires<ArgumentNullException>(action != null);
+
+            try
+            {
+                await action();
+            }
+            finally
+            {
+                await SaveStateObject();
             }
         }
 
         /// <summary>
-        /// Executes the given function with the state object available.
+        /// Executes the given action and ensures the state object is saved upon completion.
         /// </summary>
-        /// <param name="func"></param>
+        /// <param name="action"></param>
         /// <returns></returns>
-        protected virtual async Task WithState<TState>(Func<TState, Task> func)
-            where TState : new()
+        protected virtual async Task WriteState(Action action)
         {
-            // find existing state
-            var c = await StateManager.TryGetStateAsync<TState>("State");
-            var state = c.HasValue ? c.Value : new TState();
+            Contract.Requires<ArgumentNullException>(action != null);
 
-            // execute func with state
-            await func(state);
-
-            // save modified state
-            await StateManager.SetStateAsync("State", state);
-        }
-
-        /// <summary>
-        /// Executes the given function with the state object available.
-        /// </summary>
-        /// <typeparam name="TResult"></typeparam>
-        /// <param name="func"></param>
-        /// <returns></returns>
-        protected virtual async Task<TResult> WithState<TState, TResult>(Func<TState, Task<TResult>> func)
-            where TState : new()
-        {
-            // find existing state
-            var c = await StateManager.TryGetStateAsync<TState>("State");
-            var state = c.HasValue ? c.Value : new TState();
-
-            // execute func with state
-            var result = await func(state);
-
-            // save modified state
-            await StateManager.SetStateAsync("State", state);
-
-            // return result
-            return result;
+            try
+            {
+                action();
+            }
+            finally
+            {
+                await SaveStateObject();
+            }
         }
 
     }

@@ -11,6 +11,22 @@
             ServiceTypeName="OwinStatelessServiceType" />
         <StatefulServiceType
             ServiceTypeName="OwinStatefulServiceType" />
+        <StatefulServiceType
+            ServiceTypeName="TestActorServiceType" HasPersistedState="true">
+            <Extensions>
+                <Extension Name="__GeneratedServiceType__"
+                           GeneratedId="53b46c29-853d-4ab2-8b2d-914535263c16|None">
+                    <GeneratedNames xmlns="http://schemas.microsoft.com/2015/03/fabact-no-schema">
+                        <DefaultService Name="TestActorService" />
+                        <ServiceEndpoint Name="TestActorServiceEndpoint" />
+                        <ReplicatorEndpoint Name="TestActorServiceReplicatorEndpoint" />
+                        <ReplicatorConfigSection Name="TestActorServiceReplicatorConfig" />
+                        <ReplicatorSecurityConfigSection Name="TestActorServiceReplicatorSecurityConfig" />
+                        <StoreConfigSection Name="TestActorServiceLocalStoreConfig" />
+                    </GeneratedNames>
+                </Extension>
+            </Extensions>
+        </StatefulServiceType>
     </ServiceTypes>
 
     <CodePackage
@@ -29,6 +45,8 @@
 
     <Resources>
         <Endpoints>
+            <Endpoint Name="TestActorServiceEndpoint" />
+            <Endpoint Name="TestActorServiceReplicatorEndpoint" />
             <Endpoint
                 Name="HttpServiceEndpoint"
                 Protocol="http"/>

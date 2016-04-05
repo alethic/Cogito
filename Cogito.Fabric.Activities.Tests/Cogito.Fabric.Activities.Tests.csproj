@@ -137,6 +137,30 @@
       <HintPath>..\packages\EnterpriseLibrary.SemanticLogging.EventSourceAnalyzer.2.0.1406.1\lib\net45\Microsoft.Practices.EnterpriseLibrary.SemanticLogging.EventSourceAnalyzer.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Microsoft.ServiceFabric.Actors, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=AMD64">
+      <HintPath>..\packages\Microsoft.ServiceFabric.Actors.2.0.135\lib\net45\Microsoft.ServiceFabric.Actors.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.ServiceFabric.Data, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=AMD64">
+      <HintPath>..\packages\Microsoft.ServiceFabric.Data.2.0.135\lib\net45\Microsoft.ServiceFabric.Data.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.ServiceFabric.Data.Interfaces, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=AMD64">
+      <HintPath>..\packages\Microsoft.ServiceFabric.Data.2.0.135\lib\net45\Microsoft.ServiceFabric.Data.Interfaces.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.ServiceFabric.Internal, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=AMD64">
+      <HintPath>..\packages\Microsoft.ServiceFabric.5.0.135\lib\net45\Microsoft.ServiceFabric.Internal.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.ServiceFabric.Internal.Strings, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=AMD64">
+      <HintPath>..\packages\Microsoft.ServiceFabric.5.0.135\lib\net45\Microsoft.ServiceFabric.Internal.Strings.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.ServiceFabric.Services, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=AMD64">
+      <HintPath>..\packages\Microsoft.ServiceFabric.Services.2.0.135\lib\net45\Microsoft.ServiceFabric.Services.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.8.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
@@ -144,6 +168,11 @@
     <Reference Include="System" />
     <Reference Include="System.Activities" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Fabric, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=AMD64">
+      <HintPath>..\packages\Microsoft.ServiceFabric.5.0.135\lib\net45\System.Fabric.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Runtime.DurableInstancing" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.ServiceModel.Activities" />
@@ -169,6 +198,9 @@
   </Choose>
   <ItemGroup>
     <Compile Include="ActivityActorEventSourceTests.cs" />
+    <Compile Include="ActivityActorStateManagerTests.cs" />
+    <Compile Include="ActivityActorInstanceStoreTests.cs" />
+    <Compile Include="ActorStateManagerMock.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -178,6 +210,14 @@
     </XamlAppDef>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Cogito.Activities\Cogito.Activities.csproj">
+      <Project>{828365a4-ab29-4692-a555-bc97c0e5a8d5}</Project>
+      <Name>Cogito.Activities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Cogito.Core\Cogito.Core.csproj">
+      <Project>{133c2d12-bda9-4806-ba0a-70ec83bec9bd}</Project>
+      <Name>Cogito.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Cogito.Fabric.Activities.Test.Activities\Cogito.Fabric.Activities.Test.Activities.csproj">
       <Project>{58b7fc57-2117-4bee-a7d5-69ca21398199}</Project>
       <Name>Cogito.Fabric.Activities.Test.Activities</Name>
@@ -220,8 +260,10 @@
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.ServiceFabric.Actors.2.0.135\build\Microsoft.ServiceFabric.Actors.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.ServiceFabric.Actors.2.0.135\build\Microsoft.ServiceFabric.Actors.targets'))" />
   </Target>
   <Import Project="..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
+  <Import Project="..\packages\Microsoft.ServiceFabric.Actors.2.0.135\build\Microsoft.ServiceFabric.Actors.targets" Condition="Exists('..\packages\Microsoft.ServiceFabric.Actors.2.0.135\build\Microsoft.ServiceFabric.Actors.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

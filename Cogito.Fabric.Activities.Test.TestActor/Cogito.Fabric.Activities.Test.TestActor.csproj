@@ -174,9 +174,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TestActor.cs" />
+    <Compile Include="Test2.cs" />
+    <Compile Include="Test.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="ActorEventSource.cs" />
+    <Compile Include="Test2State.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PackageRoot\ServiceManifest.xml">

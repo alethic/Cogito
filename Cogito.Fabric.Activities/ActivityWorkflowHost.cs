@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Activities;
+using System.Collections.Generic;
 using System.Diagnostics.Contracts;
-using System.Fabric;
+using System.Runtime.DurableInstancing;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
 using Cogito.Activities;
-using Cogito.Collections;
-
-using Microsoft.ServiceFabric.Actors;
 
 namespace Cogito.Fabric.Activities
 {
@@ -19,123 +17,117 @@ namespace Cogito.Fabric.Activities
     public class ActivityWorkflowHost
     {
 
-        static readonly XName ActivityTimerExpirationTimeKey = XName.Get("TimerExpirationTime", "urn:schemas-microsoft-com:System.Activities/4.0/properties");
-        static readonly string ActivityTimerExpirationReminderName = "Cogito.Fabric.Activities.TimerExpirationReminder";
+        internal static readonly XNamespace WorkflowNamespace = "urn:schemas-microsoft-com:System.Activities/4.0/properties";
+        internal static readonly XName ActivityTimerExpirationTimeKey = WorkflowNamespace + "TimerExpirationTime";
+        internal static readonly string ActivityTimerExpirationReminderName = "Cogito.Fabric.Activities::TimerExpirationReminder";
 
-        readonly IActivityActorInternal actor;
+        readonly IActivityActor actor;
+        readonly ActivityActorStateManager state;
         WorkflowApplication workflow;
-        IActorTimer timer;
 
         /// <summary>
         /// Initializes a new instance.
         /// </summary>
         /// <param name="actor"></param>
-        public ActivityWorkflowHost(IActivityActorInternal actor)
+        public ActivityWorkflowHost(IActivityActor actor)
         {
             Contract.Requires<ArgumentNullException>(actor != null);
 
             this.actor = actor;
+
+            // provides access to workflow state stored in the actor
+            this.state = new ActivityActorStateManager(() => actor.StateManager);
+            this.state.Persisted = OnPersisted;
         }
 
         /// <summary>
         /// Create a new <see cref="WorkflowApplication"/> instance.
         /// </summary>
         /// <param name="activity"></param>
+        /// <param name="inputs"></param>
         /// <returns></returns>
-        WorkflowApplication CreateWorkflow(Activity activity)
+        WorkflowApplication CreateWorkflow(Activity activity, IDictionary<string, object> inputs = null)
         {
             Contract.Requires<ArgumentNullException>(activity != null);
             Contract.Ensures(Contract.Result<WorkflowApplication>() != null);
 
-            // generate new instance
-            var workflow = new WorkflowApplication(activity)
+            var workflow = inputs != null ? new WorkflowApplication(activity, inputs) : new WorkflowApplication(activity);
+            workflow.SynchronizationContext = new ActivityActorSynchronizationContext(actor);
+            workflow.InstanceStore = new ActivityActorInstanceStore(state);
+
+            workflow.OnUnhandledException = args =>
             {
-                SynchronizationContext = new ActivityActorSynchronizationContext(actor),
-                InstanceStore = actor.CanPersist ? new ActivityActorInstanceStore(actor) : null,
-
-                OnUnhandledException = args =>
+                this.workflow.SynchronizationContext.Post(async o =>
                 {
-                    actor.RegisterTimer(o => actor.OnException(args.UnhandledException), null, TimeSpan.FromMilliseconds(1), TimeSpan.FromMilliseconds(-1), false);
-                    return UnhandledExceptionAction.Abort;
-                },
+                    await actor.OnException(args.UnhandledException);
+                }, null);
 
-                Aborted = args =>
+                return UnhandledExceptionAction.Abort;
+            };
+
+            workflow.Aborted = args =>
+            {
+                this.workflow.SynchronizationContext.Post(async o =>
                 {
+                    await actor.OnAborted(args.Reason);
+                }, null);
+            };
 
-                },
-
-                Idle = args =>
+            workflow.PersistableIdle = args =>
+            {
+                this.workflow.SynchronizationContext.Post(async o =>
                 {
-                    actor.RegisterTimer(o => actor.OnIdle(), null, TimeSpan.FromMilliseconds(1), TimeSpan.FromMilliseconds(-1), false);
-                },
+                    await actor.OnPersistableIdle();
+                }, null);
 
-                PersistableIdle = args =>
+                // workflow should save state but not unload until actor deactivated
+                // workflow timers invoke themselves as long as it's loaded
+                return PersistableIdleAction.Persist;
+            };
+
+            workflow.Idle = args =>
+            {
+                this.workflow.SynchronizationContext.Post(async o =>
                 {
-                    return actor.CanPersist ? PersistableIdleAction.Persist : PersistableIdleAction.None;
-                },
+                    await actor.OnIdle();
+                }, null);
+            };
 
-                Completed = args =>
+            workflow.Completed = args =>
+            {
+                this.workflow.SynchronizationContext.Post(async o =>
                 {
-                    actor.State.Status = ToActivityStatus(args.CompletionState);
-                },
+                    await actor.OnCompleted(args.CompletionState, args.Outputs);
+                }, null);
+            };
 
-                Unloaded = args =>
+            workflow.Unloaded = args =>
+            {
+                this.workflow.SynchronizationContext.Post(async o =>
                 {
-
-                }
+                    await actor.OnUnloaded();
+                }, null);
             };
 
             workflow.Extensions.Add(() => new ActivityActorTrackingParticipant(actor));
             workflow.Extensions.Add(() => new ActivityActorExtension(actor));
             workflow.Extensions.Add(() => new AsyncActivityExtension(workflow.SynchronizationContext));
 
+            // add user extensions
+            foreach (var ext in actor.GetWorkflowExtensions())
+                workflow.Extensions.Add(ext);
+
             return workflow;
         }
 
         /// <summary>
-        /// Transforms a <see cref="ActivityInstanceState"/> into a <see cref="ActivityActorStatus"/>.
+        /// Invoked by the instance store after the workflow instance has been persisted.
         /// </summary>
-        /// <param name="state"></param>
         /// <returns></returns>
-        ActivityActorStatus ToActivityStatus(ActivityInstanceState state)
+        async Task OnPersisted()
         {
-            switch (state)
-            {
-                case ActivityInstanceState.Executing:
-                    return ActivityActorStatus.Executing;
-                case ActivityInstanceState.Canceled:
-                    return ActivityActorStatus.Canceled;
-                case ActivityInstanceState.Faulted:
-                    return ActivityActorStatus.Faulted;
-                case ActivityInstanceState.Closed:
-                    return ActivityActorStatus.Closed;
-                default:
-                    throw new InvalidOperationException();
-            }
-        }
-
-        /// <summary>
-        /// Invokes the specified function against the workflow instance.
-        /// </summary>
-        /// <param name="func"></param>
-        /// <returns></returns>
-        async Task InvokeWithWorkflow(Func<WorkflowApplication, Task> func)
-        {
-            Contract.Requires<ArgumentNullException>(func != null);
-
-            // check existing status
-            var status = actor.State.Status;
-            if (status == ActivityActorStatus.Closed)
-                throw new ActivityActorClosedException();
-
-            // execute user function, workflow will schedule timers
-            await func(workflow);
-
-            // notify about status changes
-            await OnStatusChanged(status, actor.State.Status);
-
-            // save reminder to resume bookmarks
-            await SaveTimersAsync();
+            await SaveReminderAsync();
+            await actor.OnPersisted();
         }
 
         /// <summary>
@@ -145,36 +137,27 @@ namespace Cogito.Fabric.Activities
         internal async Task OnActivateAsync()
         {
             // might already be loaded
-            if (workflow != null)
-                return;
-
-            // workflow has been closed, cannot be loaded anymore
-            if (actor.State.Status == ActivityActorStatus.Closed)
-                return;
-
-            // create new activity
-            var activity = actor.CreateActivity();
-            if (activity == null)
-                throw new ActivityActorException("CreateActivity returned null.");
-
-            // create new workflow
-            workflow = CreateWorkflow(activity);
             if (workflow == null)
-                throw new ActivityActorException("CreateWorkflow returned null.");
+            {
+                // generate owner ID
+                if (await state.GetInstanceOwnerId() == Guid.Empty)
+                    await state.SetInstanceOwnerId(Guid.NewGuid());
 
-            // generate owner ID
-            if (actor.State.InstanceOwnerId == Guid.Empty)
-                actor.State.InstanceOwnerId = Guid.NewGuid();
-
-            // load existing instance
-            if (actor.State.InstanceId != Guid.Empty)
-                await InvokeWithWorkflow(_ => _.LoadAsync(actor.State.InstanceId));
-
-            // ensure instance ID is known
-            actor.State.InstanceId = workflow.Id;
-
-            // run instance
-            await InvokeWithWorkflow(_ => _.RunAsync());
+                if (await state.GetInstanceId() == Guid.Empty)
+                {
+                    // create workflow
+                    workflow = CreateWorkflow(actor.CreateActivity(), actor.CreateActivityInputs() ?? new Dictionary<string, object>());
+                    await state.SetInstanceId(workflow.Id);
+                    await workflow.RunAsync();
+                }
+                else
+                {
+                    // load workflow
+                    workflow = CreateWorkflow(actor.CreateActivity());
+                    await workflow.LoadAsync(await state.GetInstanceId());
+                    await workflow.RunAsync();
+                }
+            }
         }
 
         /// <summary>
@@ -183,12 +166,20 @@ namespace Cogito.Fabric.Activities
         /// <returns></returns>
         internal async Task OnDeactivateAsync()
         {
-            Contract.Ensures(workflow == null);
-
             if (workflow != null)
             {
-                await workflow.UnloadAsync();
-                workflow = null;
+                try
+                {
+                    await workflow.UnloadAsync();
+                }
+                catch (TimeoutException e)
+                {
+
+                }
+                finally
+                {
+                    workflow = null;
+                }
             }
         }
 
@@ -196,38 +187,20 @@ namespace Cogito.Fabric.Activities
         /// Ensures workflow timers are registered for waking the instance up.
         /// </summary>
         /// <returns></returns>
-        async Task SaveTimersAsync()
-        {
-            if (actor.CanRegisterReminder)
-                await ScheduleResumeAsReminderAsync();
-            else
-                await ScheduleResumeAsTimerAsync();
-        }
-
-        /// <summary>
-        /// Ensures a reminder is scheduled to signal a wake up based on the workflow's timers.
-        /// </summary>
-        /// <returns></returns>
-        async Task ScheduleResumeAsReminderAsync()
+        async Task SaveReminderAsync()
         {
             Contract.Requires(workflow != null);
-            Contract.Requires(actor.CanRegisterReminder);
 
-            // next time at which the reminder should be invoked
-            var time = (DateTime?)actor.State.InstanceData?
-                .GetOrDefault(workflow.Id)?
-                .GetOrDefault(ActivityTimerExpirationTimeKey);
-
-            // get existing reminder if possible
-            var reminder = TryGetReminder(ActivityTimerExpirationReminderName);
-
-            // a time is present
-            if (time != null)
+            // next date at which the reminder should be invoked
+            var date = (DateTime?)await state.GetInstanceData(ActivityTimerExpirationTimeKey);
+            if (date != null)
             {
-                // time at which the reminder should be fired, minimum 1 second from now
-                var dueTime = new TimeSpan(Math.Max(((DateTime)time - DateTime.UtcNow).Ticks, TimeSpan.FromSeconds(1).Ticks));
+                // time at which the reminder should be fired, minimum 1 second from now, advance ahead by 1 second
+                var dueTime = new TimeSpan(Math.Max(((DateTime)date - DateTime.UtcNow).Ticks, TimeSpan.FromSeconds(1).Ticks))
+                    .Add(TimeSpan.FromSeconds(1));
 
                 // unregister reminder if it the time has changed
+                var reminder = actor.TryGetReminder(ActivityTimerExpirationReminderName);
                 if (reminder != null)
                 {
                     // allow a skew of 5 seconds
@@ -245,96 +218,15 @@ namespace Cogito.Fabric.Activities
                         ActivityTimerExpirationReminderName,
                         null,
                         dueTime,
-                        TimeSpan.FromMilliseconds(-1),
-                        ActorReminderAttributes.None);
+                        TimeSpan.FromMilliseconds(-1));
             }
             else
             {
                 // no reminder required, unregister existing reminder
+                var reminder = actor.TryGetReminder(ActivityTimerExpirationReminderName);
                 if (reminder != null)
                     await actor.UnregisterReminderAsync(reminder);
             }
-        }
-
-        /// <summary>
-        /// Ensures a timer is scheduled to signal a wake up based on the workflow's timers.
-        /// </summary>
-        /// <returns></returns>
-        Task ScheduleResumeAsTimerAsync()
-        {
-            Contract.Requires(workflow != null);
-            Contract.Requires(actor.CanRegisterReminder);
-
-            // next time at which the reminder should be invoked
-            var time = (DateTime?)actor.State.InstanceData?
-                .GetOrDefault(workflow.Id)?
-                .GetOrDefault(ActivityTimerExpirationTimeKey);
-
-            // a time is present
-            if (time != null)
-            {
-                // time at which the reminder should be fired, minimum 1 second from now
-                var dueTime = new TimeSpan(Math.Max(((DateTime)time - DateTime.UtcNow).Ticks, TimeSpan.FromSeconds(1).Ticks));
-
-                // unregister reminder if it the time has changed
-                if (timer != null)
-                {
-                    // allow a skew of 5 seconds
-                    if (Math.Abs((dueTime - timer.DueTime).TotalSeconds) > 5)
-                    {
-                        // timer is out of range, will reschedule below
-                        actor.UnregisterTimer(timer);
-                        timer = null;
-                    }
-                }
-
-                // schedule new reminder
-                if (timer == null)
-                    timer = actor.RegisterTimer(
-                        o =>
-                        {
-                            // scheduled function unregisters the existing timer
-                            actor.UnregisterTimer(timer);
-                            timer = null;
-
-                            // invoke run of workflow
-                            return RunAsync();
-                        },
-                        null,
-                        dueTime,
-                        TimeSpan.FromMilliseconds(-1),
-                        false);
-            }
-            else
-            {
-                // no reminder required, unregister existing reminder
-                if (timer != null)
-                {
-                    actor.UnregisterTimer(timer);
-                    timer = null;
-                }
-            }
-
-            return Task.FromResult(true);
-        }
-
-        /// <summary>
-        /// Gets the actor reminder with the specified actor reminder name, or <c>null</c> if no such reminder exists.
-        /// </summary>
-        /// <param name="reminderName"></param>
-        /// <returns></returns>
-        protected IActorReminder TryGetReminder(string reminderName)
-        {
-            try
-            {
-                return actor.GetReminder(reminderName);
-            }
-            catch (FabricException e) when (e.ErrorCode == FabricErrorCode.Unknown)
-            {
-                // ignore
-            }
-
-            return null;
         }
 
         /// <summary>
@@ -347,28 +239,26 @@ namespace Cogito.Fabric.Activities
             if (workflow != null)
             {
                 await workflow.UnloadAsync();
+                await state.SetInstanceId(Guid.Empty);
+                await state.ClearInstanceData();
+                await state.ClearInstanceMetadata();
                 workflow = null;
             }
 
-            // create new activity
-            var activity = actor.CreateActivity();
-            if (activity == null)
-                throw new ActivityActorException("CreateActivity returned null.");
+            // generate owner ID
+            if (await state.GetInstanceOwnerId() == Guid.Empty)
+                await state.SetInstanceOwnerId(Guid.NewGuid());
 
             // create new workflow
-            workflow = CreateWorkflow(activity);
+            workflow = CreateWorkflow(actor.CreateActivity(), actor.CreateActivityInputs());
             if (workflow == null)
                 throw new ActivityActorException("CreateWorkflow returned null.");
 
-            // generate new owner ID
-            if (actor.State.InstanceOwnerId == Guid.Empty)
-                actor.State.InstanceOwnerId = Guid.NewGuid();
-
-            // ensure instance ID is known
-            actor.State.InstanceId = workflow.Id;
+            // initialize state
+            await state.SetInstanceId(workflow.Id);
 
             // run instance
-            await InvokeWithWorkflow(_ => _.RunAsync());
+            await workflow.RunAsync();
         }
 
         /// <summary>
@@ -377,11 +267,11 @@ namespace Cogito.Fabric.Activities
         /// <returns></returns>
         internal async Task RunAsync()
         {
-            await InvokeWithWorkflow(_ => _.RunAsync());
+            await workflow.RunAsync();
         }
 
         /// <summary>
-        /// Resumes the <see cref="StatefulActivityActor{TActivity, TState}"/> with the given <paramref name="value"/>.
+        /// Resumes the <see cref="ActivityActor{TActivity}"/> with the given <paramref name="value"/>.
         /// </summary>
         /// <param name="bookmark"></param>
         /// <param name="value"></param>
@@ -391,11 +281,11 @@ namespace Cogito.Fabric.Activities
         {
             Contract.Requires<ArgumentNullException>(bookmark != null);
 
-            await InvokeWithWorkflow(_ => _.ResumeBookmarkAsync(bookmark, value, timeout));
+            await workflow.ResumeBookmarkAsync(bookmark, value, timeout);
         }
 
         /// <summary>
-        /// Resumes the <see cref="StatefulActivityActor{TActivity, TState}"/> with the given <paramref name="value"/>.
+        /// Resumes the <see cref="ActivityActor{TActivity}"/> with the given <paramref name="value"/>.
         /// </summary>
         /// <param name="bookmark"></param>
         /// <param name="value"></param>
@@ -404,11 +294,11 @@ namespace Cogito.Fabric.Activities
         {
             Contract.Requires<ArgumentNullException>(bookmark != null);
 
-            await InvokeWithWorkflow(_ => _.ResumeBookmarkAsync(bookmark, value));
+            await workflow.ResumeBookmarkAsync(bookmark, value);
         }
 
         /// <summary>
-        /// Resumes the <see cref="StatefulActivityActor{TActivity, TState}"/>.
+        /// Resumes the <see cref="ActivityActor{TActivity}"/>.
         /// </summary>
         /// <param name="bookmark"></param>
         /// <param name="timeout"></param>
@@ -421,7 +311,7 @@ namespace Cogito.Fabric.Activities
         }
 
         /// <summary>
-        /// Resumes the <see cref="StatefulActivityActor{TActivity, TState}"/>.
+        /// Resumes the <see cref="ActivityActor{TActivity}"/>.
         /// </summary>
         /// <param name="bookmark"></param>
         /// <returns></returns>
@@ -433,7 +323,7 @@ namespace Cogito.Fabric.Activities
         }
 
         /// <summary>
-        /// Resumes the <see cref="StatefulActivityActor{TActivity, TState}"/> with the given <paramref name="value"/>.
+        /// Resumes the <see cref="ActivityActor{TActivity}"/> with the given <paramref name="value"/>.
         /// </summary>
         /// <param name="bookmarkName"></param>
         /// <param name="value"></param>
@@ -444,11 +334,11 @@ namespace Cogito.Fabric.Activities
             Contract.Requires<ArgumentNullException>(bookmarkName != null);
             Contract.Requires<ArgumentException>(bookmarkName.Length > 0);
 
-            await InvokeWithWorkflow(_ => _.ResumeBookmarkAsync(bookmarkName, value, timeout));
+            await workflow.ResumeBookmarkAsync(bookmarkName, value, timeout);
         }
 
         /// <summary>
-        /// Resumes the <see cref="StatefulActivityActor{TActivity, TState}"/> with the given <paramref name="value"/>.
+        /// Resumes the <see cref="ActivityActor{TActivity}"/> with the given <paramref name="value"/>.
         /// </summary>
         /// <param name="bookmarkName"></param>
         /// <param name="value"></param>
@@ -458,11 +348,11 @@ namespace Cogito.Fabric.Activities
             Contract.Requires<ArgumentNullException>(bookmarkName != null);
             Contract.Requires<ArgumentException>(bookmarkName.Length > 0);
 
-            await InvokeWithWorkflow(_ => _.ResumeBookmarkAsync(bookmarkName, value));
+            await workflow.ResumeBookmarkAsync(bookmarkName, value);
         }
 
         /// <summary>
-        /// Resumes the <see cref="StatefulActivityActor{TActivity, TState}"/>.
+        /// Resumes the <see cref="ActivityActor{TActivity}"/>.
         /// </summary>
         /// <param name="bookmarkName"></param>
         /// <param name="timeout"></param>
@@ -476,7 +366,7 @@ namespace Cogito.Fabric.Activities
         }
 
         /// <summary>
-        /// Resumes the <see cref="StatefulActivityActor{TActivity, TState}"/>.
+        /// Resumes the <see cref="ActivityActor{TActivity}"/>.
         /// </summary>
         /// <param name="bookmarkName"></param>
         /// <returns></returns>
@@ -496,40 +386,14 @@ namespace Cogito.Fabric.Activities
         /// <param name="dueTime"></param>
         /// <param name="period"></param>
         /// <returns></returns>
-        public async Task ReceiveReminderAsync(string reminderName, byte[] context, TimeSpan dueTime, TimeSpan period)
+        internal Task ReceiveReminderAsync(string reminderName, byte[] context, TimeSpan dueTime, TimeSpan period)
         {
             if (reminderName == ActivityTimerExpirationReminderName)
             {
-                // workflow not yet loaded, or has been closed
-                if (workflow == null)
-                    return;
-
-                await InvokeWithWorkflow(_ => _.RunAsync());
-            }
-        }
-
-        /// <summary>
-        /// Invoked when the status has changed.
-        /// </summary>
-        /// <param name="from"></param>
-        /// <param name="to"></param>
-        /// <returns></returns>
-        protected virtual Task OnStatusChanged(ActivityActorStatus from, ActivityActorStatus to)
-        {
-            if (from == to)
-                return Task.FromResult(true);
-
-            switch (to)
-            {
-                case ActivityActorStatus.Canceled:
-                    return actor.OnCanceled();
-                case ActivityActorStatus.Faulted:
-                    return actor.OnFaulted();
-                case ActivityActorStatus.Closed:
-                    return actor.OnClosed();
+                // just used to wake the workflow up
+                // once activated it should handle the events on its own
             }
 
-            // unimportant status
             return Task.FromResult(true);
         }
 

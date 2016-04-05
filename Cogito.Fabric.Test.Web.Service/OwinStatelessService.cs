@@ -2,6 +2,8 @@
 using System.Threading.Tasks;
 
 using Microsoft.Owin;
+using Microsoft.ServiceFabric.Actors;
+using Microsoft.ServiceFabric.Actors.Client;
 
 namespace Cogito.Fabric.Test.Web.Service
 {
@@ -20,9 +22,10 @@ namespace Cogito.Fabric.Test.Web.Service
 
         }
 
-        protected override Task RunRequest(IOwinContext context)
+        protected override Task OnRequest(IOwinContext context)
         {
-            return base.RunRequest(context);
+            var actor = ActorProxy.Create<ITestActor>(new ActorId(123));
+            return actor.IncrementThing();
         }
 
     }

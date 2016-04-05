@@ -73,7 +73,7 @@ namespace Cogito.Fabric.Http
         {
             Contract.Requires<ArgumentNullException>(app != null);
 
-            app.Run(RunRequest);
+            app.Run(OnRequest);
         }
 
         /// <summary>
@@ -81,7 +81,7 @@ namespace Cogito.Fabric.Http
         /// </summary>
         /// <param name="context"></param>
         /// <returns></returns>
-        protected virtual Task RunRequest(IOwinContext context)
+        protected virtual Task OnRequest(IOwinContext context)
         {
             Contract.Requires<ArgumentNullException>(context != null);
 

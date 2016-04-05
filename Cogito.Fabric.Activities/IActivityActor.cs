@@ -1,16 +1,18 @@
 ﻿using System;
 using System.Activities;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 using Microsoft.ServiceFabric.Actors;
+using Microsoft.ServiceFabric.Actors.Runtime;
 
 namespace Cogito.Fabric.Activities
 {
 
     /// <summary>
-    /// Provides internal access to some methods of a an <see cref="Activity"/> actor.
+    /// Provides access to some methods of a <see cref="Actor"/> that can host a <see cref="Activity"/>.
     /// </summary>
-    public interface IActivityActorInternal
+    public interface IActivityActor
     {
 
         /// <summary>
@@ -19,14 +21,14 @@ namespace Cogito.Fabric.Activities
         ActorId Id { get; }
 
         /// <summary>
-        /// Gets whether the actor can persist state.
+        /// Gets the <see cref="ActorService"/>.
         /// </summary>
-        bool CanPersist { get; }
+        ActorService ActorService { get; }
 
         /// <summary>
-        /// Gets a reference to the <see cref="ActivityActorState"/>.
+        /// Gets a reference to the <see cref="IActorStateManager"/>.
         /// </summary>
-        ActivityActorState State { get; }
+        IActorStateManager StateManager { get; }
 
         /// <summary>
         /// Creates the <see cref="Activity"/> associated with the actor.
@@ -35,15 +37,26 @@ namespace Cogito.Fabric.Activities
         Activity CreateActivity();
 
         /// <summary>
+        /// Creates the set of parameters to be passed to the workflow.
+        /// </summary>
+        /// <returns></returns>
+        IDictionary<string, object> CreateActivityInputs();
+
+        /// <summary>
+        /// Gets the set of custom extensions to add to the workflow.
+        /// </summary>
+        /// <returns></returns>
+        IEnumerable<object> GetWorkflowExtensions();
+
+        /// <summary>
         /// Registers a timer with the actor.
         /// </summary>
         /// <param name="callback"></param>
         /// <param name="state"></param>
         /// <param name="dueTime"></param>
         /// <param name="period"></param>
-        /// <param name="isCallbackReadOnly"></param>
         /// <returns></returns>
-        IActorTimer RegisterTimer(Func<object, Task> callback, object state, TimeSpan dueTime, TimeSpan period, bool isCallbackReadOnly);
+        IActorTimer RegisterTimer(Func<object, Task> callback, object state, TimeSpan dueTime, TimeSpan period);
 
         /// <summary>
         /// Unregisters a timer with the actor.
@@ -52,17 +65,12 @@ namespace Cogito.Fabric.Activities
         void UnregisterTimer(IActorTimer timer);
 
         /// <summary>
-        /// Gets whether or not the actor can register reminders.
-        /// </summary>
-        bool CanRegisterReminder { get; }
-
-        /// <summary>
         /// Gets the reminder with the specified name.
         /// </summary>
         /// <param name="reminderName"></param>
         /// <returns></returns>
         IActorReminder GetReminder(string reminderName);
-        
+
         /// <summary>
         /// Registers the specified reminder.
         /// </summary>
@@ -70,9 +78,8 @@ namespace Cogito.Fabric.Activities
         /// <param name="state"></param>
         /// <param name="dueTime"></param>
         /// <param name="period"></param>
-        /// <param name="attribute"></param>
         /// <returns></returns>
-        Task<IActorReminder> RegisterReminderAsync(string reminderName, byte[] state, TimeSpan dueTime, TimeSpan period, ActorReminderAttributes attribute);
+        Task<IActorReminder> RegisterReminderAsync(string reminderName, byte[] state, TimeSpan dueTime, TimeSpan period);
 
         /// <summary>
         ///  Unregisters the specified reminder.
@@ -82,11 +89,24 @@ namespace Cogito.Fabric.Activities
         Task UnregisterReminderAsync(IActorReminder reminder);
 
         /// <summary>
+        /// Invoked when the activity workflow is persisted to the <see cref="IActorStateManager"/>.
+        /// </summary>
+        /// <returns></returns>
+        Task OnPersisted();
+
+        /// <summary>
         /// Invoked when an unhandled <see cref="Exception"/> occurs.
         /// </summary>
         /// <param name="unhandledException"></param>
         /// <returns></returns>
         Task OnException(Exception unhandledException);
+
+        /// <summary>
+        /// Invoked when the workflow is aborted.
+        /// </summary>
+        /// <param name="reason"></param>
+        /// <returns></returns>
+        Task OnAborted(Exception reason);
 
         /// <summary>
         /// Invoked when the workflow goes idle.
@@ -95,22 +115,30 @@ namespace Cogito.Fabric.Activities
         Task OnIdle();
 
         /// <summary>
+        /// Invoked when the workflow goes idle and is persitable.
+        /// </summary>
+        /// <returns></returns>
+        Task OnPersistableIdle();
+
+        /// <summary>
         /// Invoked when the workflow is faulted.
         /// </summary>
         /// <returns></returns>
         Task OnFaulted();
 
         /// <summary>
-        /// Invoked when the workflow is canceled.
+        /// Invoked when the workflow is completed.
         /// </summary>
+        /// <param name="state"></param>
+        /// <param name="outputs"></param>
         /// <returns></returns>
-        Task OnCanceled();
+        Task OnCompleted(ActivityInstanceState state, IDictionary<string, object> outputs);
 
         /// <summary>
-        /// Invoked when the workflow is closed.
+        /// Invoked when the workflow is unloaded.
         /// </summary>
         /// <returns></returns>
-        Task OnClosed();
+        Task OnUnloaded();
 
     }
 

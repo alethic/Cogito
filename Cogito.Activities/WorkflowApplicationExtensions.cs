@@ -131,6 +131,19 @@ namespace Cogito.Activities
             return Task.Factory.FromAsync(self.BeginUnload, self.EndUnload, null);
         }
 
+        /// <summary>
+        /// Persists and disposes a workflow instance asynchronously using the specified timeout interval.
+        /// </summary>
+        /// <param name="self"></param>
+        /// <param name="timeout"></param>
+        /// <returns></returns>
+        public static Task UnloadAsync(this WorkflowApplication self, TimeSpan timeout)
+        {
+            Contract.Requires<ArgumentNullException>(self != null);
+
+            return Task.Factory.FromAsync(self.BeginUnload, self.EndUnload, timeout, null);
+        }
+
     }
 
 }

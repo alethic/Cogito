@@ -7,8 +7,11 @@
    <Section Name="TestActorServiceReplicatorSecurityConfig">
       <Parameter Name="CredentialType" Value="None" />
    </Section>
-   <Section Name="TestActorServiceLocalStoreConfig">
-      <Parameter Name="MaxAsyncCommitDelayInMilliseconds" Value="100" />
-      <Parameter Name="MaxVerPages" Value="32768" />
+   <Section Name="Test2ActorServiceReplicatorConfig">
+      <Parameter Name="ReplicatorEndpoint" Value="Test2ActorServiceReplicatorEndpoint" />
+      <Parameter Name="BatchAcknowledgementInterval" Value="0.005" />
+   </Section>
+   <Section Name="Test2ActorServiceReplicatorSecurityConfig">
+      <Parameter Name="CredentialType" Value="None" />
    </Section>
 </Settings>

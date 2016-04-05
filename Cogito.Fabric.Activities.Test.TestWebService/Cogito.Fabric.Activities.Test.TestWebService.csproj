@@ -201,7 +201,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestWebService.cs" />
     <Compile Include="Program.cs" />
-    <Compile Include="ServiceEventSource.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PackageRoot\Config\Settings.xml" />

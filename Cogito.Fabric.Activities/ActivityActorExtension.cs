@@ -9,19 +9,19 @@ namespace Cogito.Fabric.Activities
 {
 
     /// <summary>
-    /// Provides an extension for activities to access the <see cref="StatefulActivityActor{TActivity, TState}"/>.
+    /// Provides an extension for activities to access the <see cref="ActivityActor{TActivity, TState}"/>.
     /// </summary>
     public class ActivityActorExtension :
         IWorkflowInstanceExtension
     {
 
-        readonly IActivityActorInternal actor;
+        readonly IActivityActor actor;
         WorkflowInstanceProxy instance;
 
         /// <summary>
         /// Initializes a new instance.
         /// </summary>
-        internal ActivityActorExtension(IActivityActorInternal actor)
+        internal ActivityActorExtension(IActivityActor actor)
         {
             Contract.Requires<ArgumentNullException>(actor != null);
 
@@ -49,7 +49,7 @@ namespace Cogito.Fabric.Activities
         /// <summary>
         /// Gets a reference to the actor.
         /// </summary>
-        public IActivityActorInternal Actor
+        public IActivityActor Actor
         {
             get { return actor; }
         }

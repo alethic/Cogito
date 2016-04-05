@@ -15,12 +15,12 @@ namespace Cogito.Fabric.Activities
         TrackingParticipant
     {
 
-        readonly IActivityActorInternal actor;
+        readonly IActivityActor actor;
 
         /// <summary>
         /// Initializes a new instance.
         /// </summary>
-        internal ActivityActorTrackingParticipant(IActivityActorInternal actor)
+        internal ActivityActorTrackingParticipant(IActivityActor actor)
         {
             Contract.Requires<ArgumentNullException>(actor != null);
 

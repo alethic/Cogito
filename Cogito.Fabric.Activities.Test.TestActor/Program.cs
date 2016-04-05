@@ -14,7 +14,8 @@ namespace Cogito.Fabric.Activities.Test.TestActor
         {
             try
             {
-                ActorRuntime.RegisterActorAsync<TestActor>().Wait();
+                ActorRuntime.RegisterActorAsync<Test>().Wait();
+                ActorRuntime.RegisterActorAsync<Test2>().Wait();
                 Thread.Sleep(Timeout.Infinite);
             }
             catch (Exception e)
