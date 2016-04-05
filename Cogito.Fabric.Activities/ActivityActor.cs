@@ -488,6 +488,15 @@ namespace Cogito.Fabric.Activities
         protected virtual TState State { get; set; }
 
         /// <summary>
+        /// Creates the default state object.
+        /// </summary>
+        /// <returns></returns>
+        protected virtual Task<TState> CreateDefaultState()
+        {
+            return Task.FromResult(default(TState));
+        }
+
+        /// <summary>
         /// Override this method to initialize the members.
         /// </summary>
         /// <returns></returns>
@@ -504,7 +513,7 @@ namespace Cogito.Fabric.Activities
         protected virtual async Task LoadStateObject()
         {
             var o = await StateManager.TryGetStateAsync<TState>(StateObjectKey);
-            State = o.HasValue ? o.Value : State;
+            State = o.HasValue ? o.Value : await CreateDefaultState();
         }
 
         /// <summary>

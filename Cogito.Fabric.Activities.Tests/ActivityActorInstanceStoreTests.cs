@@ -2,8 +2,9 @@
 using System.Activities;
 using System.Activities.Statements;
 using System.Threading.Tasks;
+
 using Cogito.Activities;
-using Cogito.Threading;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Cogito.Fabric.Activities.Tests
