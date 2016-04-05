@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading;
@@ -16,6 +17,25 @@ namespace Cogito.Fabric.Http
     public class HttpCommunicationClientFactory :
         CommunicationClientFactoryBase<HttpCommunicationClient>
     {
+
+        static readonly Lazy<HttpCommunicationClientFactory> default_ = new Lazy<HttpCommunicationClientFactory>(() => CreateDefault(), true);
+
+        /// <summary>
+        /// Creates the default <see cref="HttpCommunicationClientFactory"/> instance.
+        /// </summary>
+        /// <returns></returns>
+        static HttpCommunicationClientFactory CreateDefault()
+        {
+            return new HttpCommunicationClientFactory(ServicePartitionResolver.GetDefault());
+        }
+
+        /// <summary>
+        /// Gets the default <see cref="HttpCommunicationClientFactory"/>.
+        /// </summary>
+        public static HttpCommunicationClientFactory Default
+        {
+            get { return default_.Value; }
+        }
 
         /// <summary>
         /// Appends our custom exception handler.
