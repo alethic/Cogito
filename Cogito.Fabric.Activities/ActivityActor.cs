@@ -493,7 +493,7 @@ namespace Cogito.Fabric.Activities
         /// <returns></returns>
         protected virtual Task<TState> CreateDefaultState()
         {
-            return Task.FromResult(default(TState));
+            return Task.FromResult(Activator.CreateInstance<TState>());
         }
 
         /// <summary>
