@@ -18,5 +18,9 @@
             <dependency id="Cogito.Core" />
             <dependency id="Cogito.Fabric" />
         </dependencies>
+        <frameworkAssemblies>
+            <frameworkAssembly assemblyName="System.Activities" />
+            <frameworkAssembly assemblyName="System.ServiceModel" />
+        </frameworkAssemblies>
     </metadata>
 </package>
