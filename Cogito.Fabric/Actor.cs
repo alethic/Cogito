@@ -37,7 +37,7 @@ namespace Cogito.Fabric
         /// <summary>
         /// Gets the initialization parameters passed to the service replica.
         /// </summary>
-        protected StatefulServiceContext ServiceInitializationParameters
+        protected StatefulServiceContext ServiceContext
         {
             get { return ActorService.Context; }
         }
@@ -47,7 +47,7 @@ namespace Cogito.Fabric
         /// </summary>
         protected ICodePackageActivationContext CodePackageActivationContext
         {
-            get { return ServiceInitializationParameters.CodePackageActivationContext; }
+            get { return ServiceContext.CodePackageActivationContext; }
         }
 
         /// <summary>
@@ -58,8 +58,8 @@ namespace Cogito.Fabric
         {
             Fabric.HealthManager.ReportHealth(
                 new StatefulServiceReplicaHealthReport(
-                    ServiceInitializationParameters.PartitionId,
-                    ServiceInitializationParameters.ReplicaId,
+                    ServiceContext.PartitionId,
+                    ServiceContext.ReplicaId,
                     healthInformation));
         }
 
