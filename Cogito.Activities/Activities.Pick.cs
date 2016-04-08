@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Activities;
+using System.Activities.Expressions;
 using System.Activities.Statements;
 using System.Diagnostics.Contracts;
 using System.Threading.Tasks;
@@ -39,6 +40,36 @@ namespace Cogito.Activities
             {
                 Trigger = trigger,
                 Action = action,
+            };
+        }
+
+        /// <summary>
+        /// Creates a new <see cref="PickBranch"/> with the given <paramref name="trigger"/> and <paramref name="action"/>.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="trigger"></param>
+        /// <param name="action"></param>
+        /// <returns></returns>
+        public static PickBranch PickBranch<T>(ActivityFunc<T> trigger, ActivityAction<T> action)
+        {
+            Contract.Requires<ArgumentNullException>(trigger != null);
+            Contract.Requires<ArgumentNullException>(action != null);
+
+            var arg = new Variable<T>();
+
+            return new PickBranch()
+            {
+                Variables = { arg },
+                Trigger = new InvokeFunc<T>()
+                {
+                    Func = trigger,
+                    Result = arg,
+                },
+                Action = new InvokeAction<T>()
+                {
+                    Action = action,
+                    Argument = arg,
+                }
             };
         }
 
