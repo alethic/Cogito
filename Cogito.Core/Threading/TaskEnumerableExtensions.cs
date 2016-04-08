@@ -36,6 +36,22 @@ namespace Cogito.Threading
         }
 
         /// <summary>
+        /// Returns a <see cref="Task{T}"/> that waits for all of the individual <see cref="Task{T}"/> to be complete in sequence.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="source"></param>
+        /// <returns></returns>
+        public static async Task<T[]> ToSequentialArrayAsync<T>(this IEnumerable<Task<T>> source)
+        {
+            Contract.Requires<ArgumentNullException>(source != null);
+
+            var l = new List<T>();
+            foreach (var i in source)
+                l.Add(await i);
+            return l.ToArray();
+        }
+
+        /// <summary>
         /// Returns <c>true</c> if all of the items in <paramref name="source"/> match <paramref name="predicate"/>.
         /// </summary>
         /// <typeparam name="T"></typeparam>
