@@ -5,16 +5,21 @@ using System.Dynamic;
 using System.Linq.Expressions;
 using System.Runtime.Serialization;
 
+using Newtonsoft.Json;
+
 using Cogito.Collections;
 
 namespace Cogito.Dynamic
 {
 
     /// <summary>
-    /// Provides a dynamic object that can be serialized with a <see cref="DataContractSerializer"/>.
+    /// Provides a dynamic object that can be serialized by multiple serialization providers.
     /// </summary>
     [DataContract]
-    public class DynamicDataContract :
+    [KnownType(typeof(SerializableDynamicObject))]
+    [KnownType(typeof(SerializableDynamicObject[]))]
+    [JsonConverter(typeof(SerializableDynamicObjectJsonConverter))]
+    public class SerializableDynamicObject :
         IDynamicMetaObjectProvider
     {
 
@@ -49,11 +54,11 @@ namespace Cogito.Dynamic
         /// <returns></returns>
         public DynamicMetaObject GetMetaObject(Expression expression)
         {
-            return new DynamicDataContractMetaObject(expression, BindingRestrictions.GetInstanceRestriction(expression, this), this);
+            return new SerializableDynamicObjectMetaObject(expression, BindingRestrictions.GetInstanceRestriction(expression, this), this);
         }
 
         /// <summary>
-        /// Used by the <see cref="DynamicDataContractMetaObject"/>.
+        /// Used by the <see cref="SerializableDynamicObjectMetaObject"/>.
         /// </summary>
         /// <param name="name"></param>
         /// <param name="value"></param>
@@ -64,7 +69,7 @@ namespace Cogito.Dynamic
         }
 
         /// <summary>
-        /// Used by the <see cref="DynamicDataContractMetaObject"/>.
+        /// Used by the <see cref="SerializableDynamicObjectMetaObject"/>.
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>

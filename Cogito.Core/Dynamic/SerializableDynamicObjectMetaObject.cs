@@ -8,7 +8,7 @@ using System.Reflection;
 namespace Cogito.Dynamic
 {
 
-    public class DynamicDataContractMetaObject :
+    public class SerializableDynamicObjectMetaObject :
          DynamicMetaObject
     {
 
@@ -23,25 +23,25 @@ namespace Cogito.Dynamic
         /// <param name="expression"></param>
         /// <param name="restrictions"></param>
         /// <param name="value"></param>
-        public DynamicDataContractMetaObject(Expression expression, BindingRestrictions restrictions, object value)
+        public SerializableDynamicObjectMetaObject(Expression expression, BindingRestrictions restrictions, object value)
             : base(expression, restrictions, value)
         {
             Contract.Requires<ArgumentNullException>(expression != null);
             Contract.Requires<ArgumentNullException>(restrictions != null);
-            Contract.Requires<ArgumentException>(value is DynamicDataContract);
+            Contract.Requires<ArgumentException>(value is SerializableDynamicObject);
 
             this.type = value.GetType();
-            this.getValueMethod = type.GetMethod(nameof(DynamicDataContract.GetValue), BindingFlags.NonPublic | BindingFlags.Instance);
-            this.setValueMethod = type.GetMethod(nameof(DynamicDataContract.SetValue), BindingFlags.NonPublic | BindingFlags.Instance);
+            this.getValueMethod = type.GetMethod(nameof(SerializableDynamicObject.GetValue), BindingFlags.NonPublic | BindingFlags.Instance);
+            this.setValueMethod = type.GetMethod(nameof(SerializableDynamicObject.SetValue), BindingFlags.NonPublic | BindingFlags.Instance);
             this.restrictions = BindingRestrictions.GetTypeRestriction(Expression, type);
         }
 
         /// <summary>
-        /// The runtime value represented by this <see cref="DynamicDataContractMetaObject"/>.
+        /// The runtime value represented by this <see cref="SerializableDynamicObjectMetaObject"/>.
         /// </summary>
-        new DynamicDataContract Value
+        new SerializableDynamicObject Value
         {
-            get { return (DynamicDataContract)base.Value; }
+            get { return (SerializableDynamicObject)base.Value; }
         }
 
         public override DynamicMetaObject BindGetMember(GetMemberBinder binder)

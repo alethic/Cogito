@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Activities;
+using System.Activities.Expressions;
 using System.Activities.Statements;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
@@ -195,7 +196,10 @@ namespace Cogito.Activities
         {
             Contract.Requires<ArgumentNullException>(source != null);
 
-            return Invoke<TSource, TResult>(source, i => i);
+            return new As<TSource, TResult>()
+            {
+                Operand = source,
+            };
         }
 
         public static Parallel WithBranch(this Parallel parallel, Activity branch)

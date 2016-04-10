@@ -162,8 +162,9 @@
     <Compile Include="Diagnostics\ProcessStartInfoExtensions.cs" />
     <Compile Include="Diagnostics\RollingFileTraceListener.cs" />
     <Compile Include="DisposableExtensions.cs" />
-    <Compile Include="Dynamic\DynamicDataContract.cs" />
-    <Compile Include="Dynamic\DynamicDataContractMetaObject.cs" />
+    <Compile Include="Dynamic\SerializableDynamicObject.cs" />
+    <Compile Include="Dynamic\SerializableDynamicObjectJsonSerializer.cs" />
+    <Compile Include="Dynamic\SerializableDynamicObjectMetaObject.cs" />
     <Compile Include="ExceptionExtensions.cs" />
     <Compile Include="IDisposable.cs" />
     <Compile Include="IO\BlockingStream.cs" />
