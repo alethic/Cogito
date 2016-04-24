@@ -8,14 +8,13 @@ using System.Reflection;
 namespace Cogito.Dynamic
 {
 
-    public class SerializableDynamicObjectMetaObject :
+    public class ElasticObjectMetaObject :
          DynamicMetaObject
     {
 
-        readonly Type type;
-        readonly MethodInfo getValueMethod;
-        readonly MethodInfo setValueMethod;
-        readonly BindingRestrictions restrictions;
+        static readonly MethodInfo getValueMethod = typeof(ElasticObject).GetMethod(nameof(ElasticObject.GetValue), BindingFlags.NonPublic | BindingFlags.Instance);
+        static readonly MethodInfo setValueMethod = typeof(ElasticObject).GetMethod(nameof(ElasticObject.SetValue), BindingFlags.NonPublic | BindingFlags.Instance);
+        static readonly Type type = typeof(ElasticObject);
 
         /// <summary>
         /// Initializes a new instance.
@@ -23,25 +22,19 @@ namespace Cogito.Dynamic
         /// <param name="expression"></param>
         /// <param name="restrictions"></param>
         /// <param name="value"></param>
-        public SerializableDynamicObjectMetaObject(Expression expression, BindingRestrictions restrictions, object value)
+        public ElasticObjectMetaObject(Expression expression, BindingRestrictions restrictions, ElasticObject value)
             : base(expression, restrictions, value)
         {
             Contract.Requires<ArgumentNullException>(expression != null);
             Contract.Requires<ArgumentNullException>(restrictions != null);
-            Contract.Requires<ArgumentException>(value is SerializableDynamicObject);
-
-            this.type = value.GetType();
-            this.getValueMethod = type.GetMethod(nameof(SerializableDynamicObject.GetValue), BindingFlags.NonPublic | BindingFlags.Instance);
-            this.setValueMethod = type.GetMethod(nameof(SerializableDynamicObject.SetValue), BindingFlags.NonPublic | BindingFlags.Instance);
-            this.restrictions = BindingRestrictions.GetTypeRestriction(Expression, type);
         }
 
         /// <summary>
-        /// The runtime value represented by this <see cref="SerializableDynamicObjectMetaObject"/>.
+        /// The runtime value represented by this <see cref="ElasticObjectMetaObject"/>.
         /// </summary>
-        new SerializableDynamicObject Value
+        new ElasticObject Value
         {
-            get { return (SerializableDynamicObject)base.Value; }
+            get { return (ElasticObject)base.Value; }
         }
 
         public override DynamicMetaObject BindGetMember(GetMemberBinder binder)
@@ -51,7 +44,7 @@ namespace Cogito.Dynamic
                 getValueMethod,
                 Expression.Constant(binder.Name));
 
-            return new DynamicMetaObject(target, restrictions);
+            return new DynamicMetaObject(target, Restrictions);
         }
 
         public override DynamicMetaObject BindSetMember(SetMemberBinder binder, DynamicMetaObject value)
@@ -62,7 +55,22 @@ namespace Cogito.Dynamic
                 Expression.Constant(binder.Name),
                 Expression.Convert(value.Expression, typeof(object)));
 
-            return new DynamicMetaObject(target, restrictions);
+            return new DynamicMetaObject(target, Restrictions);
+        }
+
+        public override DynamicMetaObject BindConvert(ConvertBinder binder)
+        {
+            return base.BindConvert(binder);
+        }
+
+        public override DynamicMetaObject BindUnaryOperation(UnaryOperationBinder binder)
+        {
+            return base.BindUnaryOperation(binder);
+        }
+
+        public override DynamicMetaObject BindBinaryOperation(BinaryOperationBinder binder, DynamicMetaObject arg)
+        {
+            return base.BindBinaryOperation(binder, arg);
         }
 
         public override IEnumerable<string> GetDynamicMemberNames()

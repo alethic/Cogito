@@ -111,6 +111,52 @@ namespace Cogito
             return self.Substring(0, Math.Min(self.Length, count));
         }
 
+        /// <summary>
+        /// Parses the string as an integer.
+        /// </summary>
+        /// <param name="self"></param>
+        /// <returns></returns>
+        public static int ParseInt32(this string self)
+        {
+            Contract.Requires<ArgumentNullException>(self != null);
+
+            return int.Parse(self);
+        }
+
+        /// <summary>
+        /// Attempts to parse the string as an integer.
+        /// </summary>
+        /// <param name="self"></param>
+        /// <returns></returns>
+        public static int? TryParseInt32(this string self)
+        {
+            int i;
+            return int.TryParse(self, out i) ? (int?)i : null;
+        }
+
+        /// <summary>
+        /// Parses the string as a long.
+        /// </summary>
+        /// <param name="self"></param>
+        /// <returns></returns>
+        public static long ParseInt64(this string self)
+        {
+            Contract.Requires<ArgumentNullException>(self != null);
+
+            return long.Parse(self);
+        }
+
+        /// <summary>
+        /// Attempts to parse the string as a long.
+        /// </summary>
+        /// <param name="self"></param>
+        /// <returns></returns>
+        public static long? TryParseInt64(this string self)
+        {
+            long i;
+            return long.TryParse(self, out i) ? (long?)i : null;
+        }
+
     }
 
 }

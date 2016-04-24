@@ -1,4 +1,5 @@
-﻿using System.Runtime.Serialization;
+﻿using System.Dynamic;
+using System.Runtime.Serialization;
 using System.Xml.Linq;
 using Cogito.Dynamic;
 
@@ -16,10 +17,10 @@ namespace Cogito.Core.Tests.Dynamic
         [TestMethod]
         public void Test_SerializeToXml()
         {
-            dynamic o = new SerializableDynamicObject();
+            dynamic o = new ElasticObject();
             o.Property1 = "foo";
             o.Property2 = "bar";
-            var s = new DataContractSerializer(typeof(SerializableDynamicObject));
+            var s = new DataContractSerializer(typeof(ElasticObject));
             var m = new XDocument();
             using (var w = m.CreateWriter())
                 s.WriteObject(w, o);
@@ -28,7 +29,7 @@ namespace Cogito.Core.Tests.Dynamic
         [TestMethod]
         public void Test_SerializeToJson()
         {
-            dynamic o = new SerializableDynamicObject();
+            dynamic o = new ElasticObject();
             o.Property1 = "foo";
             o.Property2 = "bar";
             var s = JsonConvert.SerializeObject(o);
@@ -37,10 +38,10 @@ namespace Cogito.Core.Tests.Dynamic
         [TestMethod]
         public void Test_Nested_SerializeToJson()
         {
-            dynamic o = new SerializableDynamicObject();
+            dynamic o = new ElasticObject();
             o.Property1 = "foo";
             o.Property2 = "bar";
-            o.Nested1 = new SerializableDynamicObject();
+            o.Nested1 = new ElasticObject();
             o.Nested1.Property1 = "foo";
             o.Nested1.Property2 = "foo";
             var s = JsonConvert.SerializeObject(o);
@@ -49,13 +50,13 @@ namespace Cogito.Core.Tests.Dynamic
         [TestMethod]
         public void Test_Nested_SerializeToXml()
         {
-            dynamic o = new SerializableDynamicObject();
+            dynamic o = new ElasticObject();
             o.Property1 = "foo";
             o.Property2 = "bar";
-            o.Nested1 = new SerializableDynamicObject();
+            o.Nested1 = new ElasticObject();
             o.Nested1.Property1 = "foo";
             o.Nested1.Property2 = "foo";
-            var s = new DataContractSerializer(typeof(SerializableDynamicObject));
+            var s = new DataContractSerializer(typeof(ElasticObject));
             var m = new XDocument();
             using (var w = m.CreateWriter())
                 s.WriteObject(w, o);
@@ -64,11 +65,11 @@ namespace Cogito.Core.Tests.Dynamic
         [TestMethod]
         public void Test_DeserializeFromJson()
         {
-            dynamic o = new SerializableDynamicObject();
+            dynamic o = new ElasticObject();
             o.Property1 = "foo";
             o.Property2 = "bar";
             var s = JsonConvert.SerializeObject(o);
-            o = JsonConvert.DeserializeObject<SerializableDynamicObject>(s);
+            o = JsonConvert.DeserializeObject<ElasticObject>(s);
             Assert.IsNotNull(o);
             Assert.AreEqual("foo", o.Property1);
             Assert.AreEqual("bar", o.Property2);
@@ -77,10 +78,10 @@ namespace Cogito.Core.Tests.Dynamic
         [TestMethod]
         public void Test_DeserializeFromXml()
         {
-            dynamic o = new SerializableDynamicObject();
+            dynamic o = new ElasticObject();
             o.Property1 = "foo";
             o.Property2 = "bar";
-            var s = new DataContractSerializer(typeof(SerializableDynamicObject));
+            var s = new DataContractSerializer(typeof(ElasticObject));
             var m = new XDocument();
             using (var w = m.CreateWriter())
                 s.WriteObject(w, o);
@@ -93,14 +94,14 @@ namespace Cogito.Core.Tests.Dynamic
         [TestMethod]
         public void Test_Nested_DeserializeFromJson()
         {
-            dynamic o = new SerializableDynamicObject();
+            dynamic o = new ElasticObject();
             o.Property1 = "foo";
             o.Property2 = "bar";
-            o.Nested1 = new SerializableDynamicObject();
+            o.Nested1 = new ElasticObject();
             o.Nested1.Property1 = "1foo";
             o.Nested1.Property2 = "1bar";
             var s = JsonConvert.SerializeObject(o);
-            o = JsonConvert.DeserializeObject<SerializableDynamicObject>(s);
+            o = JsonConvert.DeserializeObject<ElasticObject>(s);
             Assert.IsNotNull(o);
             Assert.AreEqual("foo", o.Property1);
             Assert.AreEqual("bar", o.Property2);
@@ -111,13 +112,13 @@ namespace Cogito.Core.Tests.Dynamic
         [TestMethod]
         public void Test_Nested_DeserializeFromXml()
         {
-            dynamic o = new SerializableDynamicObject();
+            dynamic o = new ElasticObject();
             o.Property1 = "foo";
             o.Property2 = "bar";
-            o.Nested1 = new SerializableDynamicObject();
+            o.Nested1 = new ElasticObject();
             o.Nested1.Property1 = "1foo";
             o.Nested1.Property2 = "1bar";
-            var s = new DataContractSerializer(typeof(SerializableDynamicObject));
+            var s = new DataContractSerializer(typeof(ElasticObject));
             var m = new XDocument();
             using (var w = m.CreateWriter())
                 s.WriteObject(w, o);
@@ -127,6 +128,26 @@ namespace Cogito.Core.Tests.Dynamic
             Assert.AreEqual("bar", o.Property2);
             Assert.AreEqual("1foo", o.Nested1.Property1);
             Assert.AreEqual("1bar", o.Nested1.Property2);
+        }
+
+        [TestMethod]
+        public void Test_Array_SerializeToXml()
+        {
+            dynamic o = new ElasticObject();
+            o.Array = new string[] { "hello", "mom" };
+            o.Foo = new int[] { 1, 2, 3 };
+            var s = new DataContractSerializer(typeof(ElasticObject));
+            var m = new XDocument();
+            using (var w = m.CreateWriter())
+                s.WriteObject(w, o);
+        }
+
+        [TestMethod]
+        public void Test_Array_SerializeToJson()
+        {
+            dynamic o = new ElasticObject();
+            o.Array = new string[] { "hello", "mom" };
+            var s = JsonConvert.SerializeObject(o);
         }
 
     }

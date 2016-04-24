@@ -7,18 +7,18 @@ using Newtonsoft.Json.Linq;
 namespace Cogito.Dynamic
 {
 
-    public class SerializableDynamicObjectJsonConverter :
+    public class ElasticDynamicObjectJsonConverter :
         JsonConverter
     {
 
         public override bool CanConvert(Type objectType)
         {
-            return objectType == typeof(SerializableDynamicObject);
+            return objectType == typeof(ElasticObject);
         }
 
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            var o = value as SerializableDynamicObject;
+            var o = value as ElasticObject;
             if (o == null)
             {
                 writer.WriteStartObject();
@@ -43,7 +43,7 @@ namespace Cogito.Dynamic
             if (obj == null)
                 return null;
 
-            var o = new SerializableDynamicObject();
+            var o = new ElasticObject();
 
             foreach (var i in obj.Properties())
                 o[i.Name] = ReadJson((JToken)i.Value, serializer);
@@ -73,7 +73,7 @@ namespace Cogito.Dynamic
                 case JTokenType.TimeSpan:
                     return value.Value<TimeSpan?>();
                 case JTokenType.Object:
-                    return serializer.Deserialize<SerializableDynamicObject>(value.CreateReader());
+                    return serializer.Deserialize<ElasticObject>(value.CreateReader());
             }
 
             throw new NotSupportedException();
