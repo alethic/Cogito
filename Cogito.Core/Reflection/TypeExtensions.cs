@@ -28,6 +28,18 @@ namespace Cogito.Reflection
         }
 
         /// <summary>
+        /// Returns an enumeration of the specified <see cref="Type"/> and all base <see cref="Type"/>s.
+        /// </summary>
+        /// <param name="self"></param>
+        /// <returns></returns>
+        public static IEnumerable<Type> GetTypeAndBaseTypes(this Type self)
+        {
+            Contract.Requires<ArgumentNullException>(self != null);
+
+            return self.Recurse(i => i.BaseType);
+        }
+
+        /// <summary>
         /// Gets the property of field of <paramref name="self"/> named <paramref name="name"/>.
         /// </summary>
         /// <param name="self"></param>

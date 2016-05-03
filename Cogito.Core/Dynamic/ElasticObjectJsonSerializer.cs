@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics.Contracts;
-
+using System.Linq;
+using Cogito.Reflection;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -43,40 +44,55 @@ namespace Cogito.Dynamic
             if (obj == null)
                 return null;
 
-            var o = new ElasticObject();
+            var o = (ElasticObject)Activator.CreateInstance(objectType);
 
+            // apply each property
             foreach (var i in obj.Properties())
-                o[i.Name] = ReadJson((JToken)i.Value, serializer);
+                o[i.Name] = ReadJson(i.Value, objectType, serializer);
 
             return o;
         }
 
-        object ReadJson(JToken value, JsonSerializer serializer)
+        object ReadJson(JToken value, Type objectType, JsonSerializer serializer)
         {
             Contract.Requires<ArgumentNullException>(value != null);
             Contract.Requires<ArgumentNullException>(serializer != null);
 
-            switch (value.Type)
+            return value.ToObject(JTokenToType(value, objectType, serializer), serializer);
+        }
+
+        Type JTokenToType(JToken token, Type objectType, JsonSerializer serializer)
+        {
+            switch (token.Type)
             {
                 case JTokenType.Null:
-                    return null;
+                    return typeof(object);
                 case JTokenType.Boolean:
-                    return value.Value<bool>();
+                    return typeof(bool);
                 case JTokenType.Date:
-                    return value.Value<DateTime?>();
+                    return typeof(DateTime?);
                 case JTokenType.Float:
-                    return value.Value<float?>();
+                    return typeof(float?);
                 case JTokenType.Integer:
-                    return value.Value<int?>();
+                    return typeof(int?);
                 case JTokenType.String:
-                    return value.Value<string>();
+                    return typeof(string);
                 case JTokenType.TimeSpan:
-                    return value.Value<TimeSpan?>();
+                    return typeof(TimeSpan?);
+                case JTokenType.Array:
+                    var a = ((JArray)token).Select(i => JTokenToType(i, objectType, serializer)).ToArray();
+                    if (a.All(i => i == objectType))
+                        return objectType.MakeArrayType();
+                    else
+                    {
+                        var t = TypeUtil.GetMostCompatibleTypes(a).First();
+                        return t.MakeArrayType();
+                    }
                 case JTokenType.Object:
-                    return serializer.Deserialize<ElasticObject>(value.CreateReader());
+                    return objectType;
             }
 
-            throw new NotSupportedException();
+            throw new InvalidOperationException();
         }
 
     }

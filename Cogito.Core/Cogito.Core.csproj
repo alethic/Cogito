@@ -180,6 +180,7 @@
     <Compile Include="Net\Http\HttpMessageEventSourceWriterHandler.cs" />
     <Compile Include="RandomExtensions.cs" />
     <Compile Include="Reflection\MethodInfoExtensions.cs" />
+    <Compile Include="Reflection\TypeUtil.cs" />
     <Compile Include="Runtime\Caching\ObjectCacheExtensions.cs" />
     <Compile Include="Ref.cs" />
     <Compile Include="RefManager.cs" />

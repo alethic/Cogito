@@ -150,6 +150,15 @@ namespace Cogito.Core.Tests.Dynamic
             var s = JsonConvert.SerializeObject(o);
         }
 
+        [TestMethod]
+        public void Test_Array_DeserializeFromJson()
+        {
+            dynamic o = new ElasticObject();
+            o.Array = new string[] { "hello", "mom" };
+            var s = JsonConvert.SerializeObject(o);
+            o = JsonConvert.DeserializeObject<ElasticObject>(s);
+        }
+
     }
 
 }
