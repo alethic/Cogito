@@ -2,7 +2,9 @@
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Text.RegularExpressions;
+
 using Cogito.Reflection;
+
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -13,7 +15,7 @@ namespace Cogito.Dynamic
         JsonConverter
     {
 
-        readonly Regex timeSpanRegex = new Regex(@"\d\d:\d\d:\d\d", RegexOptions.Compiled);
+        readonly Regex timeSpanRegex = new Regex(@"^\d\d:\d\d:\d\d$", RegexOptions.Compiled);
 
         public override bool CanConvert(Type objectType)
         {
