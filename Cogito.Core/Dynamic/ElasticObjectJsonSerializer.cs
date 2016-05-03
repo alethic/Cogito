@@ -13,6 +13,8 @@ namespace Cogito.Dynamic
         JsonConverter
     {
 
+        readonly Regex timeSpanRegex = new Regex(@"\d\d:\d\d:\d\d", RegexOptions.Compiled);
+
         public override bool CanConvert(Type objectType)
         {
             return objectType == typeof(ElasticObject);
@@ -68,17 +70,16 @@ namespace Cogito.Dynamic
             if (t == null)
                 return null;
 
-            // specified type is array, convert each element to array
+            // specified type is array, convert each element individually
             if (t.IsArray)
             {
-                var e = t.GetElementType();
+                // generate new typed array with proper count
                 var s = (Array)Activator.CreateInstance(t, new object[] { ((JArray)value).Count });
-                var a = ((JArray)value).Select(i => i.ToObject(JTokenToType(i, objectType, serializer), serializer));
 
-                // copy each deserialized type into new array
+                // copy each deserialized item into new array
                 int j = 0;
-                foreach (var i in a)
-                    s.SetValue(i, j++);
+                foreach (var i in ((JArray)value))
+                    s.SetValue(ReadJson(i, objectType, serializer), j++);
 
                 return s;
             }
@@ -87,6 +88,13 @@ namespace Cogito.Dynamic
             return value.ToObject(t, serializer);
         }
 
+        /// <summary>
+        /// Returns the optimal .NET type for the given <see cref="JToken"/>.
+        /// </summary>
+        /// <param name="token"></param>
+        /// <param name="objectType"></param>
+        /// <param name="serializer"></param>
+        /// <returns></returns>
         Type JTokenToType(JToken token, Type objectType, JsonSerializer serializer)
         {
             switch (token.Type)
@@ -96,18 +104,18 @@ namespace Cogito.Dynamic
                 case JTokenType.Boolean:
                     return typeof(bool);
                 case JTokenType.Date:
-                    return typeof(DateTime?);
+                    return typeof(DateTime);
                 case JTokenType.Float:
-                    return typeof(float?);
+                    return typeof(float);
                 case JTokenType.Integer:
-                    return typeof(int?);
+                    return typeof(int);
                 case JTokenType.String:
-                    if (Regex.IsMatch(token.Value<string>(), @"\d\d:\d\d:\d\d"))
+                    if (timeSpanRegex.IsMatch(token.Value<string>()))
                         return typeof(TimeSpan);
                     else
                         return typeof(string);
                 case JTokenType.TimeSpan:
-                    return typeof(TimeSpan?);
+                    return typeof(TimeSpan);
                 case JTokenType.Array:
                     // find types of each element
                     var a = ((JArray)token).Select(i => JTokenToType(i, objectType, serializer)).ToArray();
