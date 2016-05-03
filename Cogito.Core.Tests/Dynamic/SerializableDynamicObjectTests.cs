@@ -1,6 +1,7 @@
-﻿using System.Dynamic;
+﻿using System;
 using System.Runtime.Serialization;
 using System.Xml.Linq;
+
 using Cogito.Dynamic;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -157,6 +158,27 @@ namespace Cogito.Core.Tests.Dynamic
             o.Array = new string[] { "hello", "mom" };
             var s = JsonConvert.SerializeObject(o);
             o = JsonConvert.DeserializeObject<ElasticObject>(s);
+            Assert.IsTrue(o.Array is string[]);
+        }
+
+        [TestMethod]
+        public void Test_Array_DeserializeFromJson2()
+        {
+            dynamic o = new ElasticObject();
+            o.Array = new object[] { "hello", "mom", 1 };
+            var s = JsonConvert.SerializeObject(o);
+            o = JsonConvert.DeserializeObject<ElasticObject>(s);
+            Assert.IsTrue(o.Array is object[]);
+        }
+
+        [TestMethod]
+        public void Test_Array_DeserializeFromJson3()
+        {
+            dynamic o = new ElasticObject();
+            o.Array = new object[] { new { Foo = "123" }, "mom", 1 , TimeSpan.FromMinutes(1), };
+            var s = JsonConvert.SerializeObject(o);
+            o = JsonConvert.DeserializeObject<ElasticObject>(s);
+            Assert.IsTrue(o.Array is object[]);
         }
 
     }

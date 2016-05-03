@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics.Contracts;
 using System.Linq;
+using System.Text.RegularExpressions;
 using Cogito.Reflection;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -20,19 +21,16 @@ namespace Cogito.Dynamic
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
             var o = value as ElasticObject;
-            if (o == null)
-            {
-                writer.WriteStartObject();
-                writer.WriteEndObject();
-                return;
-            }
 
             writer.WriteStartObject();
 
-            foreach (var i in o.GetDynamicMemberNames())
+            if (o != null)
             {
-                writer.WritePropertyName(i);
-                serializer.Serialize(writer, o[i]);
+                foreach (var i in o.GetDynamicMemberNames())
+                {
+                    writer.WritePropertyName(i);
+                    serializer.Serialize(writer, o[i]);
+                }
             }
 
             writer.WriteEndObject();
@@ -53,12 +51,40 @@ namespace Cogito.Dynamic
             return o;
         }
 
+        /// <summary>
+        /// Reads a JToken as the appropriate type.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="objectType"></param>
+        /// <param name="serializer"></param>
+        /// <returns></returns>
         object ReadJson(JToken value, Type objectType, JsonSerializer serializer)
         {
             Contract.Requires<ArgumentNullException>(value != null);
             Contract.Requires<ArgumentNullException>(serializer != null);
 
-            return value.ToObject(JTokenToType(value, objectType, serializer), serializer);
+            // recommended type of value
+            var t = JTokenToType(value, objectType, serializer);
+            if (t == null)
+                return null;
+
+            // specified type is array, convert each element to array
+            if (t.IsArray)
+            {
+                var e = t.GetElementType();
+                var s = (Array)Activator.CreateInstance(t, new object[] { ((JArray)value).Count });
+                var a = ((JArray)value).Select(i => i.ToObject(JTokenToType(i, objectType, serializer), serializer));
+
+                // copy each deserialized type into new array
+                int j = 0;
+                foreach (var i in a)
+                    s.SetValue(i, j++);
+
+                return s;
+            }
+
+            // by default convert to specified type
+            return value.ToObject(t, serializer);
         }
 
         Type JTokenToType(JToken token, Type objectType, JsonSerializer serializer)
@@ -66,7 +92,7 @@ namespace Cogito.Dynamic
             switch (token.Type)
             {
                 case JTokenType.Null:
-                    return typeof(object);
+                    return null;
                 case JTokenType.Boolean:
                     return typeof(bool);
                 case JTokenType.Date:
@@ -76,18 +102,22 @@ namespace Cogito.Dynamic
                 case JTokenType.Integer:
                     return typeof(int?);
                 case JTokenType.String:
-                    return typeof(string);
+                    if (Regex.IsMatch(token.Value<string>(), @"\d\d:\d\d:\d\d"))
+                        return typeof(TimeSpan);
+                    else
+                        return typeof(string);
                 case JTokenType.TimeSpan:
                     return typeof(TimeSpan?);
                 case JTokenType.Array:
+                    // find types of each element
                     var a = ((JArray)token).Select(i => JTokenToType(i, objectType, serializer)).ToArray();
+
+                    // if all objects are the ElasticObject type, return an ElasticObject array
                     if (a.All(i => i == objectType))
                         return objectType.MakeArrayType();
-                    else
-                    {
-                        var t = TypeUtil.GetMostCompatibleTypes(a).First();
-                        return t.MakeArrayType();
-                    }
+
+                    // array of most common ancestor type
+                    return TypeUtil.GetMostCompatibleTypes(a).First().MakeArrayType();
                 case JTokenType.Object:
                     return objectType;
             }

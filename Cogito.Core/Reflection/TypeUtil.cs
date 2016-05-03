@@ -19,40 +19,29 @@ namespace Cogito.Reflection
         {
             Contract.Requires<ArgumentNullException>(types != null);
 
-            // side-by-side hierarchy of types starting at object
-            var a = types.Select(i => i.GetTypeAndBaseTypes().Reverse().ToArray()).ToArray();
+            // first type serves as reference hierarchy
+            var t = types.FirstOrDefault();
+            if (t == null)
+                yield break;
 
-            // single type passed, type hierarchy itself is result
-            if (a.Length == 1)
-                return a[0];
+            // finished signal
+            var b = false;
 
-            var l = new LinkedList<Type>();
-            int p = -1;
-
-            // test each hierarchy level
-            while (true)
+            // check each type in hierarchy
+            foreach (var a in t.GetTypeAndBaseTypes())
             {
-                p++;
-
-                // cut across the type arrays
-                var s = a.Select(i => i.Length > p ? i[p] : null);
-                var t = s.First();
-
-                // first element must not be null
-                if (t == null)
-                    return l;
-
-                // all elements match first element
-                if (s.Skip(1).All(i => i == t))
+                // finished, or all types are either equal or a subclass of current hierachy position
+                if (b || types.All(i => i == a || i.IsSubclassOf(a)))
                 {
-                    // prepend and check next
-                    l.AddFirst(t);
-                    continue;
-                }
+                    // all remaining types are also true
+                    b = true;
 
-                // types do not match, we're finished
-                return l;
+                    // return result
+                    yield return a;
+                }
             }
+
+            throw new InvalidOperationException();
         }
 
     }
