@@ -30,6 +30,24 @@ namespace Cogito.Core.Tests.Linq
             Assert.AreEqual(3, a.Count);
         }
 
+        [TestMethod]
+        public void Test_GroupAdjacent_Null()
+        {
+            var l = new[]
+            {
+                Tuple.Create("Name1", "Value1"),
+                Tuple.Create("Name1", "Value1"),
+                Tuple.Create("Name2", "Value1"),
+                Tuple.Create("Name2", "Value1"),
+                Tuple.Create((string)null, "Value2"),
+                Tuple.Create("Name1", "Value2"),
+            };
+
+            var a = l.GroupAdjacent(i => i.Item1).ToList();
+
+            Assert.AreEqual(4, a.Count);
+        }
+
     }
 
 }
