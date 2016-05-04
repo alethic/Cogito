@@ -15,7 +15,7 @@ namespace Cogito.Dynamic
         JsonConverter
     {
 
-        static readonly Regex timeSpanRegex = new Regex(@"^\d\d:\d\d:\d\d$", RegexOptions.Compiled);
+        static readonly Regex timeSpanRegex = new Regex(@"^\d\d:\d\d:\d\d(\.\d+)?$", RegexOptions.Compiled);
 
         public override bool CanConvert(Type objectType)
         {
