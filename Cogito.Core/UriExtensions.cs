@@ -19,10 +19,16 @@ namespace Cogito
             Contract.Requires<ArgumentOutOfRangeException>(self.IsAbsoluteUri);
             Contract.Requires<ArgumentNullException>(path != null);
 
-            if (!self.ToString().EndsWith("/"))
-                self = new Uri(self.ToString() + "/");
+            // append missing final slash
+            var b = new UriBuilder(self);
+            if (!b.Path.EndsWith("/"))
+                b.Path += "/";
+            
+            // append new path element
+            b.Path += path;
 
-            return new Uri(self, path);
+            // generate from relative path
+            return b.Uri;
         }
 
         /// <summary>

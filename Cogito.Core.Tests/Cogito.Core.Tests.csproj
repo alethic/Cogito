@@ -119,6 +119,7 @@
     <Compile Include="Reflection\GenericInvokerTests.cs" />
     <Compile Include="Reflection\TypeUtilTests.cs" />
     <Compile Include="Threading\TaskEnumerableExtensionsTests.cs" />
+    <Compile Include="UriExtensionsTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Cogito.Core\Cogito.Core.csproj">
