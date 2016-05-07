@@ -2,6 +2,7 @@
 using System.Activities;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
+using System.Linq;
 using System.Runtime.DurableInstancing;
 using System.Threading.Tasks;
 using System.Xml.Linq;
@@ -281,7 +282,8 @@ namespace Cogito.Fabric.Activities
         {
             Contract.Requires<ArgumentNullException>(bookmark != null);
 
-            await workflow.ResumeBookmarkAsync(bookmark, value, timeout);
+            if (workflow.GetBookmarks().Any(i => i.BookmarkName == bookmark.Name))
+                await workflow.ResumeBookmarkAsync(bookmark, value, timeout);
         }
 
         /// <summary>
@@ -294,7 +296,8 @@ namespace Cogito.Fabric.Activities
         {
             Contract.Requires<ArgumentNullException>(bookmark != null);
 
-            await workflow.ResumeBookmarkAsync(bookmark, value);
+            if (workflow.GetBookmarks().Any(i => i.BookmarkName == bookmark.Name))
+                await workflow.ResumeBookmarkAsync(bookmark, value);
         }
 
         /// <summary>
@@ -334,7 +337,8 @@ namespace Cogito.Fabric.Activities
             Contract.Requires<ArgumentNullException>(bookmarkName != null);
             Contract.Requires<ArgumentException>(bookmarkName.Length > 0);
 
-            await workflow.ResumeBookmarkAsync(bookmarkName, value, timeout);
+            if (workflow.GetBookmarks().Any(i => i.BookmarkName == bookmarkName))
+                await workflow.ResumeBookmarkAsync(bookmarkName, value, timeout);
         }
 
         /// <summary>
@@ -348,7 +352,8 @@ namespace Cogito.Fabric.Activities
             Contract.Requires<ArgumentNullException>(bookmarkName != null);
             Contract.Requires<ArgumentException>(bookmarkName.Length > 0);
 
-            await workflow.ResumeBookmarkAsync(bookmarkName, value);
+            if (workflow.GetBookmarks().Any(i => i.BookmarkName == bookmarkName))
+                await workflow.ResumeBookmarkAsync(bookmarkName, value);
         }
 
         /// <summary>
