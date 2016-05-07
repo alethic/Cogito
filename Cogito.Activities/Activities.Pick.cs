@@ -286,6 +286,23 @@ namespace Cogito.Activities
             return pick;
         }
 
+        /// <summary>
+        /// Creates a new <see cref="Pick"/> that waits for any of the given <see cref="Activity"/>s to complete.
+        /// </summary>
+        /// <param name="activities"></param>
+        /// <returns></returns>
+        public static Pick PickAny(params Activity[] activities)
+        {
+            Contract.Requires<ArgumentNullException>(activities != null);
+
+            var pick = new Pick();
+
+            foreach (var activity in activities)
+                pick.Branch(activity);
+
+            return pick;
+        }
+
     }
 
 }
