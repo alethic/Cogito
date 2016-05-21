@@ -157,6 +157,29 @@ namespace Cogito
             return long.TryParse(self, out i) ? (long?)i : null;
         }
 
+        /// <summary>
+        /// Parses the string as a <see cref="Guid"/>.
+        /// </summary>
+        /// <param name="self"></param>
+        /// <returns></returns>
+        public static Guid ParseGuid(this string self)
+        {
+            Contract.Requires<ArgumentNullException>(self != null);
+
+            return Guid.Parse(self);
+        }
+
+        /// <summary>
+        /// Attempts to parse the <see cref="String"/> as a <see cref="Guid"/>.
+        /// </summary>
+        /// <param name="self"></param>
+        /// <returns></returns>
+        public static Guid? TryParseGuid(this string self)
+        {
+            Guid i;
+            return Guid.TryParse(self, out i) ? (Guid?)i : null;
+        }
+
     }
 
 }
