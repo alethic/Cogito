@@ -29,6 +29,7 @@ namespace Cogito.Dynamic
         /// </summary>
         static readonly Type[] knownTypesBase = new[]
         {
+            typeof(ElasticObject),
             typeof(Int16),
             typeof(Int32),
             typeof(Int64),
