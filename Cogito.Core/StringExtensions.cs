@@ -170,7 +170,7 @@ namespace Cogito
         }
 
         /// <summary>
-        /// Attempts to parse the <see cref="String"/> as a <see cref="Guid"/>.
+        /// Attempts to parse the <see cref="string"/> as a <see cref="Guid"/>.
         /// </summary>
         /// <param name="self"></param>
         /// <returns></returns>
