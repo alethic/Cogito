@@ -16,6 +16,7 @@ namespace Cogito.Fabric
         Microsoft.ServiceFabric.Actors.Runtime.Actor
     {
 
+        readonly IActorStateManager state;
         readonly Lazy<FabricClient> fabric;
 
         /// <summary>
@@ -24,6 +25,7 @@ namespace Cogito.Fabric
         public Actor()
         {
             this.fabric = new Lazy<FabricClient>(() => new FabricClient(), true);
+            this.state = new ActorStateManager(base.StateManager);
         }
 
         /// <summary>
@@ -168,6 +170,14 @@ namespace Cogito.Fabric
             }
 
             return null;
+        }
+
+        /// <summary>
+        /// Gets the state manager for the actor.
+        /// </summary>
+        protected virtual new IActorStateManager StateManager
+        {
+            get { return state; }
         }
 
     }

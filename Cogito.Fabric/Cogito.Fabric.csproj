@@ -165,6 +165,7 @@
     <Compile Include="ActorReferenceExtensions.cs" />
     <Compile Include="ActorStateDataContractSerializer.cs" />
     <Compile Include="ActorStateDataContractSurrogate.cs" />
+    <Compile Include="ActorStateManager.cs" />
     <Compile Include="IServiceReference.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServiceProxyExtensions.cs" />
