@@ -67,7 +67,7 @@ namespace Cogito.Fabric
 
         public virtual Task SetStateAsync<T>(string stateName, T value, CancellationToken cancellationToken = default(CancellationToken))
         {
-            return SetStateAsync<T>(stateName, value, cancellationToken);
+            return state.SetStateAsync<T>(stateName, value, cancellationToken);
         }
 
         public virtual Task<bool> TryAddStateAsync<T>(string stateName, T value, CancellationToken cancellationToken = default(CancellationToken))
