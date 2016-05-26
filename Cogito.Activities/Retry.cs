@@ -181,6 +181,21 @@ namespace Cogito.Activities
         /// </summary>
         /// <typeparam name="TException"></typeparam>
         /// <param name="retry"></param>
+        /// <returns></returns>
+        public static Retry Catch<TException>(this Retry retry)
+            where TException : Exception
+        {
+            Contract.Requires<ArgumentNullException>(retry != null);
+
+            retry.Catches.Add(new RetryCatch<TException>() { Action = null });
+            return retry;
+        }
+
+        /// <summary>
+        /// Handles a <see cref="Exception"/> for the given <see cref="Retry"/>.
+        /// </summary>
+        /// <typeparam name="TException"></typeparam>
+        /// <param name="retry"></param>
         /// <param name="maxAttempts"></param>
         /// <param name="catch"></param>
         /// <returns></returns>
@@ -346,7 +361,7 @@ namespace Cogito.Activities
         {
             context.SetValue(attempts, 0);
             context.SetValue(exceptions, new List<Exception>());
-            TryScheduleBody(context);
+            TryScheduleExecution(context);
         }
 
         /// <summary>
@@ -357,7 +372,9 @@ namespace Cogito.Activities
         void OnBodyCompleted(NativeActivityContext context, ActivityInstance instance)
         {
             if (instance.State != ActivityInstanceState.Faulted)
+            {
                 BeforeExit(context);
+            }
         }
 
         /// <summary>
@@ -374,8 +391,8 @@ namespace Cogito.Activities
 
             // record exception
             exceptions.Get(context).Add(propagatedException);
-
-            // if user wants to be notified upon an exception
+            
+            // discover if exception is handled
             var c = FindCatch(propagatedException);
             if (c != null)
             {
@@ -384,8 +401,9 @@ namespace Cogito.Activities
                 return;
             }
 
-            // schedule the body to execute again
-            TryScheduleBody(context);
+            // unhandled exception, throw
+            BeforeExit(context);
+            ThrowFinal(context);
         }
 
         /// <summary>
@@ -398,7 +416,7 @@ namespace Cogito.Activities
             if (Delay != null)
                 context.ScheduleActivity(delay, OnDelayComplete);
             else
-                TryScheduleBody(context);
+                TryScheduleExecution(context);
         }
 
         /// <summary>
@@ -408,7 +426,7 @@ namespace Cogito.Activities
         /// <param name="completedInstance"></param>
         void OnDelayComplete(NativeActivityContext context, ActivityInstance completedInstance)
         {
-            TryScheduleBody(context);
+            TryScheduleExecution(context);
         }
 
         /// <summary>
@@ -419,14 +437,20 @@ namespace Cogito.Activities
         /// <param name="propagatedFrom"></param>
         void OnCatchFault(NativeActivityFaultContext faultContext, Exception propagatedException, ActivityInstance propagatedFrom)
         {
+            // append new exception to exception list
+            if (propagatedException != null)
+                exceptions.Get(faultContext).Add(propagatedException);
 
+            // set output
+            BeforeExit(faultContext);
+            ThrowFinal(faultContext);
         }
 
         /// <summary>
-        /// Schedules the body to execute, after decrementing the attempts counter
+        /// Schedules the body to execute, after decrementing the attempts counter.
         /// </summary>
         /// <param name="context"></param>
-        void TryScheduleBody(NativeActivityContext context)
+        void TryScheduleExecution(NativeActivityContext context)
         {
             if (attempts.Get(context) < MaxAttempts.Get(context))
             {
@@ -436,11 +460,7 @@ namespace Cogito.Activities
             else
             {
                 BeforeExit(context);
-
-                // throw exception if there are any
-                var l = exceptions.Get(context);
-                if (l.Count > 0)
-                    throw new RetryException(attempts.Get(context), l);
+                ThrowFinal(context);
             }
         }
 
@@ -452,6 +472,17 @@ namespace Cogito.Activities
         {
             context.SetValue(Attempts, context.GetValue(attempts));
             context.SetValue(Exceptions, exceptions.Get(context));
+        }
+
+        /// <summary>
+        /// Throws any final exceptions if they exist.
+        /// </summary>
+        /// <param name="context"></param>
+        void ThrowFinal(NativeActivityContext context)
+        {
+            var l = exceptions.Get(context);
+            if (l.Count > 0)
+                throw new RetryException(attempts.Get(context), l);
         }
 
         /// <summary>
@@ -537,7 +568,7 @@ namespace Cogito.Activities
         {
             context.SetValue(attempts, 0);
             context.SetValue(exceptions, new List<Exception>());
-            TryScheduleBody(context);
+            TryScheduleExecution(context);
         }
 
         /// <summary>
@@ -569,17 +600,17 @@ namespace Cogito.Activities
             // record exception
             exceptions.Get(context).Add(propagatedException);
 
-            // if user wants to be notified upon an exception
+            // discover if exception is handled
             var c = FindCatch(propagatedException);
             if (c != null)
             {
                 // dispatch to exception handler, which will handle, and then retry the body
                 c.ScheduleAction(context, propagatedException, context.GetValue(attempts), OnCatchComplete, OnCatchFault);
-                return;
             }
 
-            // schedule the body to execute again
-            TryScheduleBody(context);
+            // unhandled exception, throw
+            BeforeExit(context);
+            ThrowFinal(context);
         }
 
         /// <summary>
@@ -592,7 +623,7 @@ namespace Cogito.Activities
             if (Delay != null)
                 context.ScheduleActivity(delay, OnDelayComplete);
             else
-                TryScheduleBody(context);
+                TryScheduleExecution(context);
         }
 
         /// <summary>
@@ -602,25 +633,31 @@ namespace Cogito.Activities
         /// <param name="completedInstance"></param>
         void OnDelayComplete(NativeActivityContext context, ActivityInstance completedInstance)
         {
-            TryScheduleBody(context);
+            TryScheduleExecution(context);
         }
 
         /// <summary>
-        /// Invoked when a <see cref="RetryCatch"/> faultssss.
+        /// Invoked when a <see cref="RetryCatch"/> faults.
         /// </summary>
         /// <param name="faultContext"></param>
         /// <param name="propagatedException"></param>
         /// <param name="propagatedFrom"></param>
         void OnCatchFault(NativeActivityFaultContext faultContext, Exception propagatedException, ActivityInstance propagatedFrom)
         {
+            // append new exception to exception list
+            if (propagatedException != null)
+                exceptions.Get(faultContext).Add(propagatedException);
 
+            // set output
+            BeforeExit(faultContext);
+            ThrowFinal(faultContext);
         }
 
         /// <summary>
-        /// Schedules the body to execute, after decrementing the attempts counter
+        /// Schedules the body to execute, after decrementing the attempts counter.
         /// </summary>
         /// <param name="context"></param>
-        void TryScheduleBody(NativeActivityContext context)
+        void TryScheduleExecution(NativeActivityContext context)
         {
             if (attempts.Get(context) < MaxAttempts.Get(context))
             {
@@ -630,11 +667,7 @@ namespace Cogito.Activities
             else
             {
                 BeforeExit(context);
-
-                // throw exception if there are any
-                var l = exceptions.Get(context);
-                if (l.Count > 0)
-                    throw new RetryException(attempts.Get(context), l);
+                ThrowFinal(context);
             }
         }
 
@@ -646,6 +679,17 @@ namespace Cogito.Activities
         {
             context.SetValue(Attempts, context.GetValue(attempts));
             context.SetValue(Exceptions, exceptions.Get(context));
+        }
+
+        /// <summary>
+        /// Throws any final exceptions if they exist.
+        /// </summary>
+        /// <param name="context"></param>
+        void ThrowFinal(NativeActivityContext context)
+        {
+            var l = exceptions.Get(context);
+            if (l.Count > 0)
+                throw new RetryException(attempts.Get(context), l);
         }
 
         /// <summary>
