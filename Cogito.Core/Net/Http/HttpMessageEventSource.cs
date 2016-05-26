@@ -137,7 +137,7 @@ namespace Cogito.Net.Http
         /// <param name="requestHeaders"></param>
         /// <param name="statusCode"></param>
         /// <param name="reasonPhrase"></param>
-        [Event(RequestEventId, Level = EventLevel.Verbose, Message = "[{0}] {1} {2} [{5} {6}]")]
+        [Event(ResponseEventId, Level = EventLevel.Verbose, Message = "[{0}] {1} {2} [{5} {6}]")]
         public void Response(
             Guid correlationId,
             string method,
