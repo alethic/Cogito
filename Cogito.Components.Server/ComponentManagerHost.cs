@@ -11,7 +11,7 @@ namespace Cogito.Components.Server
     /// <summary>
     /// Discovers and hosts the <see cref="ComponentManager"/> instance using reflection to load the
     /// <see cref="ContainerManager"/>. Takes care to ensure the proper type from the proper <see cref="AppDomain"/>
-    /// is used and other types from the parent <see cref="AppDomain"/> aren't accidently loaded.
+    /// is used and other types from the parent <see cref="AppDomain"/> aren't accidentally loaded.
     /// </summary>
     class ComponentManagerHost
     {

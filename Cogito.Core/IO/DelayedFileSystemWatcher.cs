@@ -75,7 +75,7 @@ namespace Cogito.IO
     /// DelayedFileSystemWatcher will capture all events from the FileSystemWatcher object.
     /// The captured events will be delayed by at least ConsolidationInterval milliseconds in order
     /// to be able to eliminate duplicate events. When duplicate events are found, the last event
-    /// is droped and the first event is fired (the reverse is not recomended because it could
+    /// is droped and the first event is fired (the reverse is not recommended because it could
     /// cause some events not be fired at all since the last event will become the first event and
     /// it won't fire a if a new similar event arrives imediately afterwards).
     /// </summary>

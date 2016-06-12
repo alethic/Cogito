@@ -124,7 +124,7 @@ namespace Cogito.Composition.Hosting
                 var got = provider.TryGetExports(definition, atomicComposition, out exports);
                 var any = exports.Any();
 
-                // provider suceeded, and we have exports
+                // provider succeeded, and we have exports
                 if (got && any)
                     return exports;
 

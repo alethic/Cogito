@@ -15,7 +15,7 @@ namespace Cogito.Activities
     {
 
         /// <summary>
-        /// For suspending persistance.
+        /// For suspending persistence.
         /// </summary>
         Variable<NoPersistHandle> NoPersistHandle { get; set; }
 
@@ -138,7 +138,7 @@ namespace Cogito.Activities
     {
 
         /// <summary>
-        /// For suspending persistance.
+        /// For suspending persistence.
         /// </summary>
         Variable<NoPersistHandle> NoPersistHandle { get; set; }
 

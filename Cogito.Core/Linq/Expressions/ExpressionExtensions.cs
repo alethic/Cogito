@@ -13,7 +13,7 @@ namespace Cogito.Linq.Expressions
         /// <summary>
         /// Retrieves the member that an expression is defined for.
         /// </summary>
-        /// <param name="self">The expression to retreive the member from.</param>
+        /// <param name="self">The expression to retrieve the member from.</param>
         /// <returns>A <see cref="MemberInfo"/> instance if the member could be found; otherwise <see langword="null"/>.</returns>
         public static MemberInfo GetTargetMemberInfo(this Expression self)
         {

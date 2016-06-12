@@ -2,7 +2,7 @@
 {
 
     /// <summary>
-    /// Provides access to the context of negotation between two <see cref="Negotiator"/>s.
+    /// Provides access to the context of negotiation between two <see cref="Negotiator"/>s.
     /// </summary>
     public sealed class NegotiationContext
     {

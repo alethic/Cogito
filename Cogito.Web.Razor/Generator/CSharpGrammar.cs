@@ -15,7 +15,7 @@ namespace Cogito.Web.Razor
       Shift-reduce conflict in state S88, reduce production: using_directives_opt ->  on inputs: extern 
            - because of use of "extern" two places: in "extern alias someName;" and as modifier of class members;
              this conflict is not in original c# grammar, it is a result of grammar tweaking (merging modifiers definitions)
-             prefering shift is correct behavior
+             preferring shift is correct behavior
       Shift-reduce conflict in state S518, reduce production: else_clause_opt ->  on inputs: else 
            - "dangling ELSE conflict" well described in textbooks; preferring shift is a correct behavior
        */
