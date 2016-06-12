@@ -20,7 +20,7 @@ namespace Cogito.Net.Http
         EventSource
     {
 
-        const string MESSAGE_CORRELATION_KEY = "Cogito.Net.Http.HttpMessageEventSource.MessageId";
+        const string ACTIVITY_CORRELATION_KEY = "Cogito.Net.Http.HttpMessageEventSource.ActivityId";
 
         /// <summary>
         /// Gets the current <see cref="HttpMessageEventSource"/>.
@@ -69,11 +69,11 @@ namespace Cogito.Net.Http
 
             if (IsEnabled())
             {
-                // to later identify the logged response
-                message.Properties[MESSAGE_CORRELATION_KEY] = Guid.NewGuid();
+                // update message with correlation key
+                message.Properties.GetOrAdd(ACTIVITY_CORRELATION_KEY, _ => Guid.NewGuid());
 
                 Request(
-                    (Guid)message.Properties[MESSAGE_CORRELATION_KEY],
+                    (Guid)message.Properties[ACTIVITY_CORRELATION_KEY],
                     message.Method.ToString(),
                     message.RequestUri.ToString(),
                     message.Version.ToString(),
@@ -118,7 +118,7 @@ namespace Cogito.Net.Http
 
             if (IsEnabled())
                 Response(
-                    (Guid?)message.RequestMessage.Properties.GetOrDefault(MESSAGE_CORRELATION_KEY) ?? System.Guid.Empty,
+                    (Guid?)message.RequestMessage.Properties.GetOrDefault(ACTIVITY_CORRELATION_KEY) ?? Guid.Empty,
                     message.RequestMessage.Method.ToString(),
                     message.RequestMessage.RequestUri.ToString(),
                     message.RequestMessage.Version.ToString(),

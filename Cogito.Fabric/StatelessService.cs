@@ -92,9 +92,6 @@ namespace Cogito.Fabric
         /// <returns></returns>
         protected sealed override async Task RunAsync(CancellationToken cancellationToken)
         {
-            // subscribe to configuration package changes
-            CodePackageActivationContext.ConfigurationPackageModifiedEvent += CodePackageActivationContext_ConfigurationPackageModifiedEvent;
-
             // enter method
             await RunEnterAsync(cancellationToken);
 
@@ -104,9 +101,6 @@ namespace Cogito.Fabric
 
             // exit method
             await RunExitAsync(new CancellationTokenSource(TimeSpan.FromMinutes(5)).Token);
-
-            // unsubscribe from configuration package changes
-            CodePackageActivationContext.ConfigurationPackageModifiedEvent -= CodePackageActivationContext_ConfigurationPackageModifiedEvent;
         }
 
         /// <summary>
@@ -136,7 +130,7 @@ namespace Cogito.Fabric
         /// <returns></returns>
         protected virtual Task RunLoopAsync(CancellationToken cancellationToken)
         {
-            return Task.Delay(TimeSpan.FromSeconds(1));
+            return Task.Delay(TimeSpan.FromSeconds(5));
         }
 
         /// <summary>
@@ -218,24 +212,6 @@ namespace Cogito.Fabric
             Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(parameterName));
 
             return DefaultConfigurationPackage?.Settings.Sections[sectionName]?.Parameters[parameterName]?.Value;
-        }
-
-        /// <summary>
-        /// Invoked when the configuration packages are changed.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="args"></param>
-        void CodePackageActivationContext_ConfigurationPackageModifiedEvent(object sender, PackageModifiedEventArgs<ConfigurationPackage> args)
-        {
-            OnConfigurationPackageAvailableOrModified(args.NewPackage);
-        }
-
-        /// <summary>
-        /// Invoked when the available configuration packages become available or changes.
-        /// </summary>
-        protected virtual void OnConfigurationPackageAvailableOrModified(ConfigurationPackage package)
-        {
-
         }
 
         /// <summary>

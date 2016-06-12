@@ -14,38 +14,13 @@ namespace Cogito.Net.Http
         DelegatingHandler
     {
 
-        readonly HttpMessageEventSource eventSource;
-
         /// <summary>
         /// Initializes a new instance.
         /// </summary>
         /// <param name="eventSource"></param>
-        /// <param name="innerHandler"></param>
-        public HttpEventSourceWriterHandler(HttpMessageEventSource eventSource, HttpMessageHandler innerHandler)
-            : base(innerHandler)
-        {
-            Contract.Requires<ArgumentNullException>(eventSource != null);
-            Contract.Requires<ArgumentNullException>(innerHandler != null);
-
-            this.eventSource = eventSource;
-        }
-
-        /// <summary>
-        /// Initializes a new instance.
-        /// </summary>
-        /// <param name="eventSource"></param>
-        public HttpEventSourceWriterHandler(HttpMessageEventSource eventSource)
-            : this(eventSource, new HttpClientHandler())
-        {
-            Contract.Requires<ArgumentNullException>(eventSource != null);
-        }
-
-        /// <summary>
-        /// Initializes a new instance.
-        /// </summary>
         /// <param name="innerHandler"></param>
         public HttpEventSourceWriterHandler(HttpMessageHandler innerHandler)
-            : this(HttpMessageEventSource.Current, innerHandler)
+            : base(innerHandler)
         {
             Contract.Requires<ArgumentNullException>(innerHandler != null);
         }
@@ -54,16 +29,16 @@ namespace Cogito.Net.Http
         /// Initializes a new instance.
         /// </summary>
         public HttpEventSourceWriterHandler()
-            : this(HttpMessageEventSource.Current, new HttpClientHandler())
+            : this(new HttpClientHandler())
         {
 
         }
 
         protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
-            eventSource.Request(request);
+            HttpMessageEventSource.Current.Request(request);
             var response = await base.SendAsync(request, cancellationToken);
-            eventSource.Response(response);
+            HttpMessageEventSource.Current.Response(response);
 
             return response;
         }
