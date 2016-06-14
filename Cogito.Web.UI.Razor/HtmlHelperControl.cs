@@ -5,7 +5,7 @@ namespace Cogito.Web.UI.Razor
 {
 
     /// <summary>
-    /// ASP.Net server control that accepts and renders a <see cref="Action<object>"/>.
+    /// ASP.Net server control that accepts and renders a <see cref="Action{Object}"/>.
     /// </summary>
     class HtmlHelperControl : 
         CogitoControl
