@@ -175,6 +175,10 @@
       <Project>{133c2d12-bda9-4806-ba0a-70ec83bec9bd}</Project>
       <Name>Cogito.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Cogito.ServiceBus\Cogito.ServiceBus.csproj">
+      <Project>{2F9A61CA-5F20-4F98-90E5-6BF972BB87C5}</Project>
+      <Name>Cogito.ServiceBus</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
