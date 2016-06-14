@@ -28,7 +28,7 @@ namespace Cogito.Fabric
             Contract.Requires<ArgumentNullException>(state != null);
 
             this.state = state;
-        }
+        }        
 
         public virtual Task<T> AddOrUpdateStateAsync<T>(string stateName, T addValue, Func<string, T, T> updateValueFactory, CancellationToken cancellationToken = default(CancellationToken))
         {
@@ -38,6 +38,11 @@ namespace Cogito.Fabric
         public virtual Task AddStateAsync<T>(string stateName, T value, CancellationToken cancellationToken = default(CancellationToken))
         {
             return state.AddStateAsync<T>(stateName, value, cancellationToken);
+        }
+
+        public Task ClearCacheAsync(CancellationToken cancellationToken = default(CancellationToken))
+        {
+            return state.ClearCacheAsync(cancellationToken);
         }
 
         public virtual Task<bool> ContainsStateAsync(string stateName, CancellationToken cancellationToken = default(CancellationToken))

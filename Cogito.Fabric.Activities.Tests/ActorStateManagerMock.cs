@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+
 using Microsoft.ServiceFabric.Actors.Runtime;
 using Microsoft.ServiceFabric.Data;
 
@@ -28,6 +29,11 @@ namespace Cogito.Fabric.Activities.Tests
         public Task AddStateAsync<T>(string stateName, T value, CancellationToken cancellationToken = default(CancellationToken))
         {
             store[stateName] = value;
+            return Task.FromResult(true);
+        }
+
+        public Task ClearCacheAsync(CancellationToken cancellationToken = default(CancellationToken))
+        {
             return Task.FromResult(true);
         }
 
