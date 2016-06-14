@@ -22,28 +22,28 @@ namespace Cogito.Tests.Net.Http
             EventSourceAnalyzer.InspectAll(HttpMessageEventSource.Current);
         }
 
-        [TestMethod]
-        public void Test_Request()
-        {
-            using (var session = new TraceEventSession("MyRealTimeSession"))
-            {
-                session.Source.Dynamic.All += data => Console.WriteLine("GOT Event " + data);
-                session.EnableProvider(TraceEventProviders.GetEventSourceGuidFromName("Cogito-Net-Http-Messages"));
+        //[TestMethod]
+        //public void Test_Request()
+        //{
+        //    using (var session = new TraceEventSession("MyRealTimeSession"))
+        //    {
+        //        session.Source.Dynamic.All += data => Console.WriteLine("GOT Event " + data);
+        //        session.EnableProvider(TraceEventProviders.GetEventSourceGuidFromName("Cogito-Net-Http-Messages"));
 
-                HttpMessageEventSource.Current.Request(new HttpRequestMessage(HttpMethod.Get, new Uri("http://www.tempuri.com"))
-                {
+        //        HttpMessageEventSource.Current.Request(new HttpRequestMessage(HttpMethod.Get, new Uri("http://www.tempuri.com"))
+        //        {
 
-                });
+        //        });
 
-                session.Source.Process();
-            }
-        }
+        //        session.Source.Process();
+        //    }
+        //}
 
-        [TestMethod]
-        public void Test_Response()
-        {
-            HttpMessageEventSource.Current.Response(new HttpResponseMessage(HttpStatusCode.OK));
-        }
+        //[TestMethod]
+        //public void Test_Response()
+        //{
+        //    HttpMessageEventSource.Current.Response(new HttpResponseMessage(HttpStatusCode.OK));
+        //}
 
     }
 
