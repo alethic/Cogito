@@ -137,7 +137,7 @@ namespace Cogito.Fabric.Activities
         /// <returns></returns>
         internal async Task OnActivateAsync()
         {
-            // might already be loaded
+            // might already be loaded somehow
             if (workflow == null)
             {
                 // generate owner ID
@@ -240,10 +240,12 @@ namespace Cogito.Fabric.Activities
             if (workflow != null)
             {
                 await workflow.UnloadAsync();
+                workflow = null;
+
+                // reset state
                 await state.SetInstanceId(Guid.Empty);
                 await state.ClearInstanceData();
                 await state.ClearInstanceMetadata();
-                workflow = null;
             }
 
             // generate owner ID

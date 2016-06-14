@@ -2,7 +2,7 @@
 using System.Activities;
 using System.Collections.Generic;
 using System.Linq;
-
+using System.Net.Http;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Cogito.Activities.Tests
@@ -39,7 +39,7 @@ namespace Cogito.Activities.Tests
             }
             catch (RetryException e)
             {
-                Assert.AreEqual(5, e.InnerExceptions.Count);
+                Assert.AreEqual(5, e.Attempts.Length);
                 Assert.AreEqual(5, runCount);
 
                 return;
@@ -47,6 +47,47 @@ namespace Cogito.Activities.Tests
             catch (Exception e)
             {
                 Assert.Fail();
+            }
+
+            Assert.Fail();
+        }
+
+        /// <summary>
+        /// Tests for complete failure.
+        /// </summary>
+        [TestMethod]
+        public void Test_Retry_Unhandled()
+        {
+            int runCount = 0;
+
+            try
+            {
+                WorkflowInvoker.Invoke(new Retry()
+                {
+                    MaxAttempts = 5,
+                    Body = Activities.Invoke<int>(i =>
+                    {
+                        runCount++;
+                        throw new Exception("broke");
+                        return;
+                    }),
+                    Catches =
+                    {
+                        new RetryCatch<HttpRequestException>(),
+                    }
+                });
+            }
+            catch (RetryException e)
+            {
+                Assert.AreEqual(5, e.Attempts.Length);
+                Assert.AreEqual(5, runCount);
+
+                return;
+            }
+            catch (Exception e) when (e.Message == "broke")
+            {
+                // success
+                return;
             }
 
             Assert.Fail();
@@ -74,7 +115,7 @@ namespace Cogito.Activities.Tests
                 });
 
                 Assert.AreEqual(3, runCount);
-                Assert.AreEqual(2, ((IEnumerable<Exception>)results["Exceptions"]).ToArray().Length);
+                Assert.AreEqual(2, ((IEnumerable<Exception>)results["Attempts"]).ToArray().Length);
 
                 return;
             }
@@ -97,7 +138,7 @@ namespace Cogito.Activities.Tests
                     Body = Activities.Invoke<int>(i => { }),
                 });
 
-                Assert.AreEqual(1, (int)results["Attempts"]);
+                Assert.AreEqual(0, ((IEnumerable<Exception>)results["Attempts"]).ToArray().Length);
 
                 return;
             }
