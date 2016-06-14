@@ -30,7 +30,7 @@ namespace Cogito.Nancy.Razor
             Contract.Requires<ArgumentNullException>(resourceName != null);
             Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(resourceName));
 
-            // remove suffix, split by ., extract file name as class name and preceeding as namespace
+            // remove suffix, split by ., extract file name as class name and preceding as namespace
             var segments = resourceName.RemoveEnd(suffix).Split('.');
             var ns = string.Join(".", segments.Take(segments.Length - 1));
             var tn = segments.Last();

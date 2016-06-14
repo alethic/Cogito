@@ -5,7 +5,7 @@ namespace Cogito.Linq.Expressions
 {
 
     /// <summary>
-    /// Removes unneccessary Convert operations from a <see cref="Expression"/>.
+    /// Removes unnecessary Convert operations from a <see cref="Expression"/>.
     /// </summary>
     public class RedundantConvertExpressionTransformer :
          ExpressionVisitor

@@ -258,7 +258,7 @@ namespace Cogito.Collections
 
         /// <summary>
         /// Updates the degree of a node, cascading to update the degree of the
-        /// parents if nessecary
+        /// parents if necessary
         /// </summary>
         /// <param name="parentNode"></param>
         private void UpdateNodesDegree(
