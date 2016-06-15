@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Activities;
-using System.Runtime.ExceptionServices;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -33,9 +32,7 @@ namespace Cogito.Activities
                     .ContinueWith(t =>
                     {
                         tcs.TrySetFrom(t);
-
-                        if (callback != null)
-                            callback(tcs.Task);
+                        callback?.Invoke(tcs.Task);
                     }, TaskContinuationOptions.ExecuteSynchronously);
             }
 
@@ -44,15 +41,7 @@ namespace Cogito.Activities
 
         protected sealed override void EndExecute(AsyncCodeActivityContext context, IAsyncResult result)
         {
-            try
-            {
-                ((Task)result).Wait();
-            }
-            catch (AggregateException ex)
-            {
-                ExceptionDispatchInfo.Capture(ex.InnerException).Throw();
-                throw;
-            }
+            ((Task)result).GetAwaiter().GetResult();
         }
 
         /// <summary>
@@ -89,9 +78,7 @@ namespace Cogito.Activities
                     .ContinueWith(t =>
                     {
                         tcs.TrySetFrom(t);
-
-                        if (callback != null)
-                            callback(tcs.Task);
+                        callback?.Invoke(tcs.Task);
                     }, TaskContinuationOptions.ExecuteSynchronously);
             }
 
@@ -100,15 +87,7 @@ namespace Cogito.Activities
 
         protected sealed override TResult EndExecute(AsyncCodeActivityContext context, IAsyncResult result)
         {
-            try
-            {
-                return ((Task<TResult>)result).Result;
-            }
-            catch (AggregateException ex)
-            {
-                ExceptionDispatchInfo.Capture(ex.InnerException).Throw();
-                throw;
-            }
+            return ((Task<TResult>)result).GetAwaiter().GetResult();
         }
 
         /// <summary>
