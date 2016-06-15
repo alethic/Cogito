@@ -49,7 +49,7 @@ namespace Cogito.Net.Http
         public static class Keywords
         {
 
-            
+
 
         }
 
@@ -77,7 +77,8 @@ namespace Cogito.Net.Http
                     message.Method.ToString(),
                     message.RequestUri.ToString(),
                     message.Version.ToString(),
-                    HeadersToXml(message.Headers));
+                    HeadersToXml(message.Headers),
+                    HeadersToXml(message.Content?.Headers));
             }
         }
 
@@ -89,13 +90,15 @@ namespace Cogito.Net.Http
         /// <param name="requestUri"></param>
         /// <param name="version"></param>
         /// <param name="headers"></param>
-        [Event(RequestEventId, Level = EventLevel.Verbose, Message = "[{0}] {1} {2}")]
+        /// <param name="contentHeaders"></param>
+        [Event(RequestEventId, Level = EventLevel.Verbose, Message = "{0} {1} {2}")]
         public void Request(
             Guid correlationId,
             string method,
             string requestUri,
             string version,
-            string headers)
+            string headers,
+            string contentHeaders)
         {
             if (IsEnabled())
                 WriteEvent(
@@ -104,7 +107,8 @@ namespace Cogito.Net.Http
                     method,
                     requestUri,
                     version,
-                    headers);
+                    headers,
+                    contentHeaders);
         }
 
         /// <summary>
@@ -122,9 +126,10 @@ namespace Cogito.Net.Http
                     message.RequestMessage.Method.ToString(),
                     message.RequestMessage.RequestUri.ToString(),
                     message.RequestMessage.Version.ToString(),
-                    HeadersToXml(message.RequestMessage.Headers),
                     (int)message.StatusCode,
-                    message.ReasonPhrase);
+                    message.ReasonPhrase,
+                    HeadersToXml(message.Headers),
+                    HeadersToXml(message.Content?.Headers));
         }
 
         /// <summary>
@@ -134,18 +139,20 @@ namespace Cogito.Net.Http
         /// <param name="method"></param>
         /// <param name="requestUri"></param>
         /// <param name="version"></param>
-        /// <param name="requestHeaders"></param>
         /// <param name="statusCode"></param>
         /// <param name="reasonPhrase"></param>
-        [Event(ResponseEventId, Level = EventLevel.Verbose, Message = "[{0}] {1} {2} [{5} {6}]")]
+        /// <param name="responseHeaders"></param>
+        /// <param name="responseContentHeaders"></param>
+        [Event(ResponseEventId, Level = EventLevel.Verbose, Message = "{0} {1} {2} {4} {5}")]
         public void Response(
             Guid correlationId,
             string method,
             string requestUri,
             string version,
-            string requestHeaders,
             int statusCode,
-            string reasonPhrase)
+            string reasonPhrase,
+            string responseHeaders,
+            string responseContentHeaders)
         {
             if (IsEnabled())
                 WriteEvent(
@@ -154,9 +161,10 @@ namespace Cogito.Net.Http
                     method,
                     requestUri,
                     version,
-                    requestHeaders,
                     statusCode,
-                    reasonPhrase);
+                    reasonPhrase,
+                    responseHeaders,
+                    responseContentHeaders);
         }
 
         /// <summary>
@@ -166,7 +174,7 @@ namespace Cogito.Net.Http
         /// <returns></returns>
         string HeadersToXml(HttpHeaders headers)
         {
-            return new XElement("Headers", headers.Select(i => new XElement(i.Key, i.Value))).ToString();
+            return headers != null ? new XElement("Headers", headers.Select(i => new XElement(i.Key, i.Value))).ToString() : null;
         }
 
     }
