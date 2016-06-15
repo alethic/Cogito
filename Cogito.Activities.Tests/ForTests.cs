@@ -44,19 +44,23 @@ namespace Cogito.Activities.Tests
         [TestMethod]
         public void Test_Range()
         {
+            var t = 0;
             var c = 0;
-            var a = Activities.Range(0, 10, i => c++);
+            var a = Activities.Range(0, 10, i => { t = i; c++; });
             var b = WorkflowInvoker.Invoke(a);
             Assert.AreEqual(10, c);
+            Assert.AreEqual(9, t);
         }
 
         [TestMethod]
         public void Test_Range_Offset()
         {
+            var t = 0;
             var c = 0;
-            var a = Activities.Range(5, 10, i => c++);
+            var a = Activities.Range(5, 10, i => { t = i; c++; });
             var b = WorkflowInvoker.Invoke(a);
             Assert.AreEqual(10, c);
+            Assert.AreEqual(14, t);
         }
 
     }

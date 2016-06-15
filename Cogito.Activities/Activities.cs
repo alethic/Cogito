@@ -247,7 +247,7 @@ namespace Cogito.Activities
         public static Activity Range(int start, int count, Action<int> action)
         {
             return For<int>(start, i => i - start < count, i => i + 1, arg => Invoke(action, arg));
-        }
+        }   
 
     }
 
