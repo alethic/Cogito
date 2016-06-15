@@ -282,9 +282,9 @@ void GenerateEventMethods(RecordType recordType)
 #>
         /// <param name="message"></param>
         [Event(
-            <#= recordType.Name #><#= tLevels[l] #>EventId, 
-            Level = EventLevel.<#= eLevels[l] #>, 
-            Message = "{<#= recordType.Args.Length + 13 #>}", 
+            <#= recordType.Name #><#= tLevels[l] #>EventId,
+            Level = EventLevel.<#= eLevels[l] #>,
+            Message = "{<#= recordType.Args.Length + 13 #>}",
             Keywords = <#= string.Join(" | ", recordType.Keywords.Select(k => "Keywords." + k)) #>)]
         internal void <#= recordType.Name #><#= tLevels[l] #>(
             string actorType,

@@ -92,6 +92,7 @@ namespace Cogito.Fabric.Activities
     /// <typeparam name="TState"></typeparam>
     public abstract class ActivityActor<TActivity> :
         ActivityActor,
+        IActivityActorInternal,
         IActivityActor
         where TActivity : Activity
     {
@@ -377,89 +378,94 @@ namespace Cogito.Fabric.Activities
 
         #region IActivityActorInternal
 
-        Activity IActivityActor.CreateActivity()
+        Activity IActivityActorInternal.CreateActivity()
         {
             return CreateActivity();
         }
 
-        IDictionary<string, object> IActivityActor.CreateActivityInputs()
+        IDictionary<string, object> IActivityActorInternal.CreateActivityInputs()
         {
             return CreateActivityInputs() ?? new Dictionary<string, object>();
         }
 
-        IEnumerable<object> IActivityActor.GetWorkflowExtensions()
+        IEnumerable<object> IActivityActorInternal.GetWorkflowExtensions()
         {
             return GetWorkflowExtensions();
         }
 
-        IActorStateManager IActivityActor.StateManager
+        IActorStateManager IActivityActorInternal.StateManager
         {
             get { return StateManager; }
         }
 
-        IActorTimer IActivityActor.RegisterTimer(Func<object, Task> callback, object state, TimeSpan dueTime, TimeSpan period)
+        IActorTimer IActivityActorInternal.RegisterTimer(Func<object, Task> callback, object state, TimeSpan dueTime, TimeSpan period)
         {
             return RegisterTimer(callback, state, dueTime, period);
         }
 
-        void IActivityActor.UnregisterTimer(IActorTimer timer)
+        void IActivityActorInternal.UnregisterTimer(IActorTimer timer)
         {
             UnregisterTimer(timer);
         }
 
-        IActorReminder IActivityActor.GetReminder(string reminderName)
+        IActorReminder IActivityActorInternal.GetReminder(string reminderName)
         {
             return GetReminder(reminderName);
         }
 
-        Task<IActorReminder> IActivityActor.RegisterReminderAsync(string reminderName, byte[] state, TimeSpan dueTime, TimeSpan period)
+        Task<IActorReminder> IActivityActorInternal.RegisterReminderAsync(string reminderName, byte[] state, TimeSpan dueTime, TimeSpan period)
         {
             return RegisterReminderAsync(reminderName, state, dueTime, period);
         }
 
-        Task IActivityActor.UnregisterReminderAsync(IActorReminder reminder)
+        Task IActivityActorInternal.UnregisterReminderAsync(IActorReminder reminder)
         {
             return UnregisterReminderAsync(reminder);
         }
 
-        Task IActivityActor.OnPersisted()
+        Task IActivityActorInternal.OnPersisted()
         {
             return OnPersisted();
         }
 
-        Task IActivityActor.OnException(Exception exception)
+        Task IActivityActorInternal.OnException(Exception exception)
         {
             return OnException(exception);
         }
 
-        Task IActivityActor.OnAborted(Exception reason)
+        Task IActivityActorInternal.OnAborted(Exception reason)
         {
             return OnAborted(reason);
         }
 
-        Task IActivityActor.OnPersistableIdle()
+        Task IActivityActorInternal.OnPersistableIdle()
         {
             return OnPersistableIdle();
         }
 
-        Task IActivityActor.OnIdle()
+        Task IActivityActorInternal.OnIdle()
         {
             return OnIdle();
         }
 
-        Task IActivityActor.OnFaulted()
+        Task IActivityActorInternal.OnFaulted()
         {
             return OnFaulted();
         }
 
-        Task IActivityActor.OnCompleted(ActivityInstanceState state, IDictionary<string, object> outputs)
+        Task IActivityActorInternal.OnCompleted(ActivityInstanceState state, IDictionary<string, object> outputs)
         {
             return OnCompleted(state, outputs);
         }
 
-        Task IActivityActor.OnUnloaded()
+        Task IActivityActorInternal.OnUnloaded()
         {
             return OnUnloaded();
+        }
+
+        Task IActivityActor.ResumeAsync(string bookmarkName, object value)
+        {
+            return ResumeAsync(bookmarkName, value);
         }
 
         #endregion

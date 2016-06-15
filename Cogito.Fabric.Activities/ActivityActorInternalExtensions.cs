@@ -8,7 +8,10 @@ using Microsoft.ServiceFabric.Actors.Runtime;
 namespace Cogito.Fabric.Activities
 {
 
-    public static class ActivityActorExtensions
+    /// <summary>
+    /// Internal extensions against <see cref="IActivityActorInternal"/> interfaces.
+    /// </summary>
+    static class ActivityActorInternalExtensions
     {
 
         /// <summary>
@@ -16,7 +19,7 @@ namespace Cogito.Fabric.Activities
         /// </summary>
         /// <param name="actor"></param>
         /// <param name="action"></param>
-        public static void ScheduleInvokeWithTimer(this IActivityActor actor, Func<Task> action)
+        public static void ScheduleInvokeWithTimer(this IActivityActorInternal actor, Func<Task> action)
         {
             Contract.Requires<ArgumentNullException>(actor != null);
             Contract.Requires<ArgumentNullException>(action != null);
@@ -37,7 +40,7 @@ namespace Cogito.Fabric.Activities
         /// </summary>
         /// <param name="reminderName"></param>
         /// <returns></returns>
-        public static IActorReminder TryGetReminder(this IActivityActor actor, string reminderName)
+        public static IActorReminder TryGetReminder(this IActivityActorInternal actor, string reminderName)
         {
             Contract.Requires<ArgumentNullException>(actor != null);
             Contract.Requires<ArgumentNullException>(reminderName != null);

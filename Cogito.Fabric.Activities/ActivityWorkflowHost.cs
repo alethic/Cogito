@@ -15,14 +15,14 @@ namespace Cogito.Fabric.Activities
     /// <summary>
     /// Manages the <see cref="WorkflowApplication"/> associated with a <see cref="Activity"/> actor.
     /// </summary>
-    public class ActivityWorkflowHost
+    class ActivityWorkflowHost
     {
 
         internal static readonly XNamespace WorkflowNamespace = "urn:schemas-microsoft-com:System.Activities/4.0/properties";
         internal static readonly XName ActivityTimerExpirationTimeKey = WorkflowNamespace + "TimerExpirationTime";
         internal static readonly string ActivityTimerExpirationReminderName = "Cogito.Fabric.Activities::TimerExpirationReminder";
 
-        readonly IActivityActor actor;
+        readonly IActivityActorInternal actor;
         readonly ActivityActorStateManager state;
         WorkflowApplication workflow;
 
@@ -30,7 +30,7 @@ namespace Cogito.Fabric.Activities
         /// Initializes a new instance.
         /// </summary>
         /// <param name="actor"></param>
-        public ActivityWorkflowHost(IActivityActor actor)
+        public ActivityWorkflowHost(IActivityActorInternal actor)
         {
             Contract.Requires<ArgumentNullException>(actor != null);
 

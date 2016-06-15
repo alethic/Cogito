@@ -24,7 +24,7 @@ namespace Cogito.Fabric.Activities
         /// <param name="message"></param>
         /// <param name="args"></param>
         [NonEvent]
-        internal void ActivityScheduled(IActivityActor actor, ActivityScheduledRecord record, string message = "", params object[] args)
+        internal void ActivityScheduled(IActivityActorInternal actor, ActivityScheduledRecord record, string message = "", params object[] args)
         {
             Contract.Requires<ArgumentNullException>(actor != null);
             Contract.Requires<ArgumentNullException>(record != null);
@@ -155,9 +155,9 @@ namespace Cogito.Fabric.Activities
         /// <param name="activityTypeName"></param>
         /// <param name="message"></param>
         [Event(
-            ActivityScheduledVerboseEventId, 
-            Level = EventLevel.Verbose, 
-            Message = "{17}", 
+            ActivityScheduledVerboseEventId,
+            Level = EventLevel.Verbose,
+            Message = "{17}",
             Keywords = Keywords.ActivityScheduled)]
         internal void ActivityScheduledVerbose(
             string actorType,
@@ -224,9 +224,9 @@ namespace Cogito.Fabric.Activities
         /// <param name="activityTypeName"></param>
         /// <param name="message"></param>
         [Event(
-            ActivityScheduledInfoEventId, 
-            Level = EventLevel.Informational, 
-            Message = "{17}", 
+            ActivityScheduledInfoEventId,
+            Level = EventLevel.Informational,
+            Message = "{17}",
             Keywords = Keywords.ActivityScheduled)]
         internal void ActivityScheduledInfo(
             string actorType,
@@ -293,9 +293,9 @@ namespace Cogito.Fabric.Activities
         /// <param name="activityTypeName"></param>
         /// <param name="message"></param>
         [Event(
-            ActivityScheduledWarningEventId, 
-            Level = EventLevel.Warning, 
-            Message = "{17}", 
+            ActivityScheduledWarningEventId,
+            Level = EventLevel.Warning,
+            Message = "{17}",
             Keywords = Keywords.ActivityScheduled)]
         internal void ActivityScheduledWarning(
             string actorType,
@@ -362,9 +362,9 @@ namespace Cogito.Fabric.Activities
         /// <param name="activityTypeName"></param>
         /// <param name="message"></param>
         [Event(
-            ActivityScheduledErrorEventId, 
-            Level = EventLevel.Error, 
-            Message = "{17}", 
+            ActivityScheduledErrorEventId,
+            Level = EventLevel.Error,
+            Message = "{17}",
             Keywords = Keywords.ActivityScheduled)]
         internal void ActivityScheduledError(
             string actorType,
@@ -427,7 +427,7 @@ namespace Cogito.Fabric.Activities
         /// <param name="message"></param>
         /// <param name="args"></param>
         [NonEvent]
-        internal void ActivityState(IActivityActor actor, ActivityStateRecord record, string message = "", params object[] args)
+        internal void ActivityState(IActivityActorInternal actor, ActivityStateRecord record, string message = "", params object[] args)
         {
             Contract.Requires<ArgumentNullException>(actor != null);
             Contract.Requires<ArgumentNullException>(record != null);
@@ -573,9 +573,9 @@ namespace Cogito.Fabric.Activities
         /// <param name="variables"></param>
         /// <param name="message"></param>
         [Event(
-            ActivityStateVerboseEventId, 
-            Level = EventLevel.Verbose, 
-            Message = "{20}", 
+            ActivityStateVerboseEventId,
+            Level = EventLevel.Verbose,
+            Message = "{20}",
             Keywords = Keywords.ActivityState)]
         internal void ActivityStateVerbose(
             string actorType,
@@ -651,9 +651,9 @@ namespace Cogito.Fabric.Activities
         /// <param name="variables"></param>
         /// <param name="message"></param>
         [Event(
-            ActivityStateInfoEventId, 
-            Level = EventLevel.Informational, 
-            Message = "{20}", 
+            ActivityStateInfoEventId,
+            Level = EventLevel.Informational,
+            Message = "{20}",
             Keywords = Keywords.ActivityState)]
         internal void ActivityStateInfo(
             string actorType,
@@ -729,9 +729,9 @@ namespace Cogito.Fabric.Activities
         /// <param name="variables"></param>
         /// <param name="message"></param>
         [Event(
-            ActivityStateWarningEventId, 
-            Level = EventLevel.Warning, 
-            Message = "{20}", 
+            ActivityStateWarningEventId,
+            Level = EventLevel.Warning,
+            Message = "{20}",
             Keywords = Keywords.ActivityState)]
         internal void ActivityStateWarning(
             string actorType,
@@ -807,9 +807,9 @@ namespace Cogito.Fabric.Activities
         /// <param name="variables"></param>
         /// <param name="message"></param>
         [Event(
-            ActivityStateErrorEventId, 
-            Level = EventLevel.Error, 
-            Message = "{20}", 
+            ActivityStateErrorEventId,
+            Level = EventLevel.Error,
+            Message = "{20}",
             Keywords = Keywords.ActivityState)]
         internal void ActivityStateError(
             string actorType,
@@ -878,7 +878,7 @@ namespace Cogito.Fabric.Activities
         /// <param name="message"></param>
         /// <param name="args"></param>
         [NonEvent]
-        internal void BookmarkResumption(IActivityActor actor, BookmarkResumptionRecord record, string message = "", params object[] args)
+        internal void BookmarkResumption(IActivityActorInternal actor, BookmarkResumptionRecord record, string message = "", params object[] args)
         {
             Contract.Requires<ArgumentNullException>(actor != null);
             Contract.Requires<ArgumentNullException>(record != null);
@@ -1004,9 +1004,9 @@ namespace Cogito.Fabric.Activities
         /// <param name="payload"></param>
         /// <param name="message"></param>
         [Event(
-            BookmarkResumptionVerboseEventId, 
-            Level = EventLevel.Verbose, 
-            Message = "{16}", 
+            BookmarkResumptionVerboseEventId,
+            Level = EventLevel.Verbose,
+            Message = "{16}",
             Keywords = Keywords.BookmarkResumption)]
         internal void BookmarkResumptionVerbose(
             string actorType,
@@ -1070,9 +1070,9 @@ namespace Cogito.Fabric.Activities
         /// <param name="payload"></param>
         /// <param name="message"></param>
         [Event(
-            BookmarkResumptionInfoEventId, 
-            Level = EventLevel.Informational, 
-            Message = "{16}", 
+            BookmarkResumptionInfoEventId,
+            Level = EventLevel.Informational,
+            Message = "{16}",
             Keywords = Keywords.BookmarkResumption)]
         internal void BookmarkResumptionInfo(
             string actorType,
@@ -1136,9 +1136,9 @@ namespace Cogito.Fabric.Activities
         /// <param name="payload"></param>
         /// <param name="message"></param>
         [Event(
-            BookmarkResumptionWarningEventId, 
-            Level = EventLevel.Warning, 
-            Message = "{16}", 
+            BookmarkResumptionWarningEventId,
+            Level = EventLevel.Warning,
+            Message = "{16}",
             Keywords = Keywords.BookmarkResumption)]
         internal void BookmarkResumptionWarning(
             string actorType,
@@ -1202,9 +1202,9 @@ namespace Cogito.Fabric.Activities
         /// <param name="payload"></param>
         /// <param name="message"></param>
         [Event(
-            BookmarkResumptionErrorEventId, 
-            Level = EventLevel.Error, 
-            Message = "{16}", 
+            BookmarkResumptionErrorEventId,
+            Level = EventLevel.Error,
+            Message = "{16}",
             Keywords = Keywords.BookmarkResumption)]
         internal void BookmarkResumptionError(
             string actorType,
@@ -1265,7 +1265,7 @@ namespace Cogito.Fabric.Activities
         /// <param name="message"></param>
         /// <param name="args"></param>
         [NonEvent]
-        internal void CancelRequested(IActivityActor actor, CancelRequestedRecord record, string message = "", params object[] args)
+        internal void CancelRequested(IActivityActorInternal actor, CancelRequestedRecord record, string message = "", params object[] args)
         {
             Contract.Requires<ArgumentNullException>(actor != null);
             Contract.Requires<ArgumentNullException>(record != null);
@@ -1396,9 +1396,9 @@ namespace Cogito.Fabric.Activities
         /// <param name="activityTypeName"></param>
         /// <param name="message"></param>
         [Event(
-            CancelRequestedVerboseEventId, 
-            Level = EventLevel.Verbose, 
-            Message = "{17}", 
+            CancelRequestedVerboseEventId,
+            Level = EventLevel.Verbose,
+            Message = "{17}",
             Keywords = Keywords.CancelRequested)]
         internal void CancelRequestedVerbose(
             string actorType,
@@ -1465,9 +1465,9 @@ namespace Cogito.Fabric.Activities
         /// <param name="activityTypeName"></param>
         /// <param name="message"></param>
         [Event(
-            CancelRequestedInfoEventId, 
-            Level = EventLevel.Informational, 
-            Message = "{17}", 
+            CancelRequestedInfoEventId,
+            Level = EventLevel.Informational,
+            Message = "{17}",
             Keywords = Keywords.CancelRequested)]
         internal void CancelRequestedInfo(
             string actorType,
@@ -1534,9 +1534,9 @@ namespace Cogito.Fabric.Activities
         /// <param name="activityTypeName"></param>
         /// <param name="message"></param>
         [Event(
-            CancelRequestedWarningEventId, 
-            Level = EventLevel.Warning, 
-            Message = "{17}", 
+            CancelRequestedWarningEventId,
+            Level = EventLevel.Warning,
+            Message = "{17}",
             Keywords = Keywords.CancelRequested)]
         internal void CancelRequestedWarning(
             string actorType,
@@ -1603,9 +1603,9 @@ namespace Cogito.Fabric.Activities
         /// <param name="activityTypeName"></param>
         /// <param name="message"></param>
         [Event(
-            CancelRequestedErrorEventId, 
-            Level = EventLevel.Error, 
-            Message = "{17}", 
+            CancelRequestedErrorEventId,
+            Level = EventLevel.Error,
+            Message = "{17}",
             Keywords = Keywords.CancelRequested)]
         internal void CancelRequestedError(
             string actorType,
@@ -1668,7 +1668,7 @@ namespace Cogito.Fabric.Activities
         /// <param name="message"></param>
         /// <param name="args"></param>
         [NonEvent]
-        internal void FaultPropagation(IActivityActor actor, FaultPropagationRecord record, string message = "", params object[] args)
+        internal void FaultPropagation(IActivityActorInternal actor, FaultPropagationRecord record, string message = "", params object[] args)
         {
             Contract.Requires<ArgumentNullException>(actor != null);
             Contract.Requires<ArgumentNullException>(record != null);
@@ -1824,9 +1824,9 @@ namespace Cogito.Fabric.Activities
         /// <param name="faultHandlerTypeName"></param>
         /// <param name="message"></param>
         [Event(
-            FaultPropagationVerboseEventId, 
-            Level = EventLevel.Verbose, 
-            Message = "{22}", 
+            FaultPropagationVerboseEventId,
+            Level = EventLevel.Verbose,
+            Message = "{22}",
             Keywords = Keywords.FaultPropagation)]
         internal void FaultPropagationVerbose(
             string actorType,
@@ -1908,9 +1908,9 @@ namespace Cogito.Fabric.Activities
         /// <param name="faultHandlerTypeName"></param>
         /// <param name="message"></param>
         [Event(
-            FaultPropagationInfoEventId, 
-            Level = EventLevel.Informational, 
-            Message = "{22}", 
+            FaultPropagationInfoEventId,
+            Level = EventLevel.Informational,
+            Message = "{22}",
             Keywords = Keywords.FaultPropagation)]
         internal void FaultPropagationInfo(
             string actorType,
@@ -1992,9 +1992,9 @@ namespace Cogito.Fabric.Activities
         /// <param name="faultHandlerTypeName"></param>
         /// <param name="message"></param>
         [Event(
-            FaultPropagationWarningEventId, 
-            Level = EventLevel.Warning, 
-            Message = "{22}", 
+            FaultPropagationWarningEventId,
+            Level = EventLevel.Warning,
+            Message = "{22}",
             Keywords = Keywords.FaultPropagation)]
         internal void FaultPropagationWarning(
             string actorType,
@@ -2076,9 +2076,9 @@ namespace Cogito.Fabric.Activities
         /// <param name="faultHandlerTypeName"></param>
         /// <param name="message"></param>
         [Event(
-            FaultPropagationErrorEventId, 
-            Level = EventLevel.Error, 
-            Message = "{22}", 
+            FaultPropagationErrorEventId,
+            Level = EventLevel.Error,
+            Message = "{22}",
             Keywords = Keywords.FaultPropagation)]
         internal void FaultPropagationError(
             string actorType,
@@ -2151,7 +2151,7 @@ namespace Cogito.Fabric.Activities
         /// <param name="message"></param>
         /// <param name="args"></param>
         [NonEvent]
-        internal void WorkflowInstance(IActivityActor actor, WorkflowInstanceRecord record, string message = "", params object[] args)
+        internal void WorkflowInstance(IActivityActorInternal actor, WorkflowInstanceRecord record, string message = "", params object[] args)
         {
             Contract.Requires<ArgumentNullException>(actor != null);
             Contract.Requires<ArgumentNullException>(record != null);
@@ -2277,9 +2277,9 @@ namespace Cogito.Fabric.Activities
         /// <param name="activityDefinitionId"></param>
         /// <param name="message"></param>
         [Event(
-            WorkflowInstanceVerboseEventId, 
-            Level = EventLevel.Verbose, 
-            Message = "{16}", 
+            WorkflowInstanceVerboseEventId,
+            Level = EventLevel.Verbose,
+            Message = "{16}",
             Keywords = Keywords.WorkflowInstance)]
         internal void WorkflowInstanceVerbose(
             string actorType,
@@ -2343,9 +2343,9 @@ namespace Cogito.Fabric.Activities
         /// <param name="activityDefinitionId"></param>
         /// <param name="message"></param>
         [Event(
-            WorkflowInstanceInfoEventId, 
-            Level = EventLevel.Informational, 
-            Message = "{16}", 
+            WorkflowInstanceInfoEventId,
+            Level = EventLevel.Informational,
+            Message = "{16}",
             Keywords = Keywords.WorkflowInstance)]
         internal void WorkflowInstanceInfo(
             string actorType,
@@ -2409,9 +2409,9 @@ namespace Cogito.Fabric.Activities
         /// <param name="activityDefinitionId"></param>
         /// <param name="message"></param>
         [Event(
-            WorkflowInstanceWarningEventId, 
-            Level = EventLevel.Warning, 
-            Message = "{16}", 
+            WorkflowInstanceWarningEventId,
+            Level = EventLevel.Warning,
+            Message = "{16}",
             Keywords = Keywords.WorkflowInstance)]
         internal void WorkflowInstanceWarning(
             string actorType,
@@ -2475,9 +2475,9 @@ namespace Cogito.Fabric.Activities
         /// <param name="activityDefinitionId"></param>
         /// <param name="message"></param>
         [Event(
-            WorkflowInstanceErrorEventId, 
-            Level = EventLevel.Error, 
-            Message = "{16}", 
+            WorkflowInstanceErrorEventId,
+            Level = EventLevel.Error,
+            Message = "{16}",
             Keywords = Keywords.WorkflowInstance)]
         internal void WorkflowInstanceError(
             string actorType,
@@ -2538,7 +2538,7 @@ namespace Cogito.Fabric.Activities
         /// <param name="message"></param>
         /// <param name="args"></param>
         [NonEvent]
-        internal void WorkflowInstanceAborted(IActivityActor actor, WorkflowInstanceAbortedRecord record, string message = "", params object[] args)
+        internal void WorkflowInstanceAborted(IActivityActorInternal actor, WorkflowInstanceAbortedRecord record, string message = "", params object[] args)
         {
             Contract.Requires<ArgumentNullException>(actor != null);
             Contract.Requires<ArgumentNullException>(record != null);
@@ -2669,9 +2669,9 @@ namespace Cogito.Fabric.Activities
         /// <param name="reason"></param>
         /// <param name="message"></param>
         [Event(
-            WorkflowInstanceAbortedVerboseEventId, 
-            Level = EventLevel.Verbose, 
-            Message = "{17}", 
+            WorkflowInstanceAbortedVerboseEventId,
+            Level = EventLevel.Verbose,
+            Message = "{17}",
             Keywords = Keywords.WorkflowInstance | Keywords.WorkflowInstanceAborted)]
         internal void WorkflowInstanceAbortedVerbose(
             string actorType,
@@ -2738,9 +2738,9 @@ namespace Cogito.Fabric.Activities
         /// <param name="reason"></param>
         /// <param name="message"></param>
         [Event(
-            WorkflowInstanceAbortedInfoEventId, 
-            Level = EventLevel.Informational, 
-            Message = "{17}", 
+            WorkflowInstanceAbortedInfoEventId,
+            Level = EventLevel.Informational,
+            Message = "{17}",
             Keywords = Keywords.WorkflowInstance | Keywords.WorkflowInstanceAborted)]
         internal void WorkflowInstanceAbortedInfo(
             string actorType,
@@ -2807,9 +2807,9 @@ namespace Cogito.Fabric.Activities
         /// <param name="reason"></param>
         /// <param name="message"></param>
         [Event(
-            WorkflowInstanceAbortedWarningEventId, 
-            Level = EventLevel.Warning, 
-            Message = "{17}", 
+            WorkflowInstanceAbortedWarningEventId,
+            Level = EventLevel.Warning,
+            Message = "{17}",
             Keywords = Keywords.WorkflowInstance | Keywords.WorkflowInstanceAborted)]
         internal void WorkflowInstanceAbortedWarning(
             string actorType,
@@ -2876,9 +2876,9 @@ namespace Cogito.Fabric.Activities
         /// <param name="reason"></param>
         /// <param name="message"></param>
         [Event(
-            WorkflowInstanceAbortedErrorEventId, 
-            Level = EventLevel.Error, 
-            Message = "{17}", 
+            WorkflowInstanceAbortedErrorEventId,
+            Level = EventLevel.Error,
+            Message = "{17}",
             Keywords = Keywords.WorkflowInstance | Keywords.WorkflowInstanceAborted)]
         internal void WorkflowInstanceAbortedError(
             string actorType,
@@ -2941,7 +2941,7 @@ namespace Cogito.Fabric.Activities
         /// <param name="message"></param>
         /// <param name="args"></param>
         [NonEvent]
-        internal void WorkflowInstanceSuspended(IActivityActor actor, WorkflowInstanceSuspendedRecord record, string message = "", params object[] args)
+        internal void WorkflowInstanceSuspended(IActivityActorInternal actor, WorkflowInstanceSuspendedRecord record, string message = "", params object[] args)
         {
             Contract.Requires<ArgumentNullException>(actor != null);
             Contract.Requires<ArgumentNullException>(record != null);
@@ -3072,9 +3072,9 @@ namespace Cogito.Fabric.Activities
         /// <param name="reason"></param>
         /// <param name="message"></param>
         [Event(
-            WorkflowInstanceSuspendedVerboseEventId, 
-            Level = EventLevel.Verbose, 
-            Message = "{17}", 
+            WorkflowInstanceSuspendedVerboseEventId,
+            Level = EventLevel.Verbose,
+            Message = "{17}",
             Keywords = Keywords.WorkflowInstance | Keywords.WorkflowInstanceSuspended)]
         internal void WorkflowInstanceSuspendedVerbose(
             string actorType,
@@ -3141,9 +3141,9 @@ namespace Cogito.Fabric.Activities
         /// <param name="reason"></param>
         /// <param name="message"></param>
         [Event(
-            WorkflowInstanceSuspendedInfoEventId, 
-            Level = EventLevel.Informational, 
-            Message = "{17}", 
+            WorkflowInstanceSuspendedInfoEventId,
+            Level = EventLevel.Informational,
+            Message = "{17}",
             Keywords = Keywords.WorkflowInstance | Keywords.WorkflowInstanceSuspended)]
         internal void WorkflowInstanceSuspendedInfo(
             string actorType,
@@ -3210,9 +3210,9 @@ namespace Cogito.Fabric.Activities
         /// <param name="reason"></param>
         /// <param name="message"></param>
         [Event(
-            WorkflowInstanceSuspendedWarningEventId, 
-            Level = EventLevel.Warning, 
-            Message = "{17}", 
+            WorkflowInstanceSuspendedWarningEventId,
+            Level = EventLevel.Warning,
+            Message = "{17}",
             Keywords = Keywords.WorkflowInstance | Keywords.WorkflowInstanceSuspended)]
         internal void WorkflowInstanceSuspendedWarning(
             string actorType,
@@ -3279,9 +3279,9 @@ namespace Cogito.Fabric.Activities
         /// <param name="reason"></param>
         /// <param name="message"></param>
         [Event(
-            WorkflowInstanceSuspendedErrorEventId, 
-            Level = EventLevel.Error, 
-            Message = "{17}", 
+            WorkflowInstanceSuspendedErrorEventId,
+            Level = EventLevel.Error,
+            Message = "{17}",
             Keywords = Keywords.WorkflowInstance | Keywords.WorkflowInstanceSuspended)]
         internal void WorkflowInstanceSuspendedError(
             string actorType,
@@ -3344,7 +3344,7 @@ namespace Cogito.Fabric.Activities
         /// <param name="message"></param>
         /// <param name="args"></param>
         [NonEvent]
-        internal void WorkflowInstanceTerminated(IActivityActor actor, WorkflowInstanceTerminatedRecord record, string message = "", params object[] args)
+        internal void WorkflowInstanceTerminated(IActivityActorInternal actor, WorkflowInstanceTerminatedRecord record, string message = "", params object[] args)
         {
             Contract.Requires<ArgumentNullException>(actor != null);
             Contract.Requires<ArgumentNullException>(record != null);
@@ -3475,9 +3475,9 @@ namespace Cogito.Fabric.Activities
         /// <param name="reason"></param>
         /// <param name="message"></param>
         [Event(
-            WorkflowInstanceTerminatedVerboseEventId, 
-            Level = EventLevel.Verbose, 
-            Message = "{17}", 
+            WorkflowInstanceTerminatedVerboseEventId,
+            Level = EventLevel.Verbose,
+            Message = "{17}",
             Keywords = Keywords.WorkflowInstance | Keywords.WorkflowInstanceTerminated)]
         internal void WorkflowInstanceTerminatedVerbose(
             string actorType,
@@ -3544,9 +3544,9 @@ namespace Cogito.Fabric.Activities
         /// <param name="reason"></param>
         /// <param name="message"></param>
         [Event(
-            WorkflowInstanceTerminatedInfoEventId, 
-            Level = EventLevel.Informational, 
-            Message = "{17}", 
+            WorkflowInstanceTerminatedInfoEventId,
+            Level = EventLevel.Informational,
+            Message = "{17}",
             Keywords = Keywords.WorkflowInstance | Keywords.WorkflowInstanceTerminated)]
         internal void WorkflowInstanceTerminatedInfo(
             string actorType,
@@ -3613,9 +3613,9 @@ namespace Cogito.Fabric.Activities
         /// <param name="reason"></param>
         /// <param name="message"></param>
         [Event(
-            WorkflowInstanceTerminatedWarningEventId, 
-            Level = EventLevel.Warning, 
-            Message = "{17}", 
+            WorkflowInstanceTerminatedWarningEventId,
+            Level = EventLevel.Warning,
+            Message = "{17}",
             Keywords = Keywords.WorkflowInstance | Keywords.WorkflowInstanceTerminated)]
         internal void WorkflowInstanceTerminatedWarning(
             string actorType,
@@ -3682,9 +3682,9 @@ namespace Cogito.Fabric.Activities
         /// <param name="reason"></param>
         /// <param name="message"></param>
         [Event(
-            WorkflowInstanceTerminatedErrorEventId, 
-            Level = EventLevel.Error, 
-            Message = "{17}", 
+            WorkflowInstanceTerminatedErrorEventId,
+            Level = EventLevel.Error,
+            Message = "{17}",
             Keywords = Keywords.WorkflowInstance | Keywords.WorkflowInstanceTerminated)]
         internal void WorkflowInstanceTerminatedError(
             string actorType,
@@ -3747,7 +3747,7 @@ namespace Cogito.Fabric.Activities
         /// <param name="message"></param>
         /// <param name="args"></param>
         [NonEvent]
-        internal void WorkflowInstanceUnhandledException(IActivityActor actor, WorkflowInstanceUnhandledExceptionRecord record, string message = "", params object[] args)
+        internal void WorkflowInstanceUnhandledException(IActivityActorInternal actor, WorkflowInstanceUnhandledExceptionRecord record, string message = "", params object[] args)
         {
             Contract.Requires<ArgumentNullException>(actor != null);
             Contract.Requires<ArgumentNullException>(record != null);
@@ -3898,9 +3898,9 @@ namespace Cogito.Fabric.Activities
         /// <param name="exception"></param>
         /// <param name="message"></param>
         [Event(
-            WorkflowInstanceUnhandledExceptionVerboseEventId, 
-            Level = EventLevel.Verbose, 
-            Message = "{21}", 
+            WorkflowInstanceUnhandledExceptionVerboseEventId,
+            Level = EventLevel.Verbose,
+            Message = "{21}",
             Keywords = Keywords.WorkflowInstance | Keywords.WorkflowInstanceUnhandledException)]
         internal void WorkflowInstanceUnhandledExceptionVerbose(
             string actorType,
@@ -3979,9 +3979,9 @@ namespace Cogito.Fabric.Activities
         /// <param name="exception"></param>
         /// <param name="message"></param>
         [Event(
-            WorkflowInstanceUnhandledExceptionInfoEventId, 
-            Level = EventLevel.Informational, 
-            Message = "{21}", 
+            WorkflowInstanceUnhandledExceptionInfoEventId,
+            Level = EventLevel.Informational,
+            Message = "{21}",
             Keywords = Keywords.WorkflowInstance | Keywords.WorkflowInstanceUnhandledException)]
         internal void WorkflowInstanceUnhandledExceptionInfo(
             string actorType,
@@ -4060,9 +4060,9 @@ namespace Cogito.Fabric.Activities
         /// <param name="exception"></param>
         /// <param name="message"></param>
         [Event(
-            WorkflowInstanceUnhandledExceptionWarningEventId, 
-            Level = EventLevel.Warning, 
-            Message = "{21}", 
+            WorkflowInstanceUnhandledExceptionWarningEventId,
+            Level = EventLevel.Warning,
+            Message = "{21}",
             Keywords = Keywords.WorkflowInstance | Keywords.WorkflowInstanceUnhandledException)]
         internal void WorkflowInstanceUnhandledExceptionWarning(
             string actorType,
@@ -4141,9 +4141,9 @@ namespace Cogito.Fabric.Activities
         /// <param name="exception"></param>
         /// <param name="message"></param>
         [Event(
-            WorkflowInstanceUnhandledExceptionErrorEventId, 
-            Level = EventLevel.Error, 
-            Message = "{21}", 
+            WorkflowInstanceUnhandledExceptionErrorEventId,
+            Level = EventLevel.Error,
+            Message = "{21}",
             Keywords = Keywords.WorkflowInstance | Keywords.WorkflowInstanceUnhandledException)]
         internal void WorkflowInstanceUnhandledExceptionError(
             string actorType,
@@ -4214,7 +4214,7 @@ namespace Cogito.Fabric.Activities
         /// <param name="message"></param>
         /// <param name="args"></param>
         [NonEvent]
-        internal void WorkflowInstanceUpdated(IActivityActor actor, WorkflowInstanceUpdatedRecord record, string message = "", params object[] args)
+        internal void WorkflowInstanceUpdated(IActivityActorInternal actor, WorkflowInstanceUpdatedRecord record, string message = "", params object[] args)
         {
             Contract.Requires<ArgumentNullException>(actor != null);
             Contract.Requires<ArgumentNullException>(record != null);
@@ -4345,9 +4345,9 @@ namespace Cogito.Fabric.Activities
         /// <param name="isSuccessful"></param>
         /// <param name="message"></param>
         [Event(
-            WorkflowInstanceUpdatedVerboseEventId, 
-            Level = EventLevel.Verbose, 
-            Message = "{17}", 
+            WorkflowInstanceUpdatedVerboseEventId,
+            Level = EventLevel.Verbose,
+            Message = "{17}",
             Keywords = Keywords.WorkflowInstance | Keywords.WorkflowInstanceUpdated)]
         internal void WorkflowInstanceUpdatedVerbose(
             string actorType,
@@ -4414,9 +4414,9 @@ namespace Cogito.Fabric.Activities
         /// <param name="isSuccessful"></param>
         /// <param name="message"></param>
         [Event(
-            WorkflowInstanceUpdatedInfoEventId, 
-            Level = EventLevel.Informational, 
-            Message = "{17}", 
+            WorkflowInstanceUpdatedInfoEventId,
+            Level = EventLevel.Informational,
+            Message = "{17}",
             Keywords = Keywords.WorkflowInstance | Keywords.WorkflowInstanceUpdated)]
         internal void WorkflowInstanceUpdatedInfo(
             string actorType,
@@ -4483,9 +4483,9 @@ namespace Cogito.Fabric.Activities
         /// <param name="isSuccessful"></param>
         /// <param name="message"></param>
         [Event(
-            WorkflowInstanceUpdatedWarningEventId, 
-            Level = EventLevel.Warning, 
-            Message = "{17}", 
+            WorkflowInstanceUpdatedWarningEventId,
+            Level = EventLevel.Warning,
+            Message = "{17}",
             Keywords = Keywords.WorkflowInstance | Keywords.WorkflowInstanceUpdated)]
         internal void WorkflowInstanceUpdatedWarning(
             string actorType,
@@ -4552,9 +4552,9 @@ namespace Cogito.Fabric.Activities
         /// <param name="isSuccessful"></param>
         /// <param name="message"></param>
         [Event(
-            WorkflowInstanceUpdatedErrorEventId, 
-            Level = EventLevel.Error, 
-            Message = "{17}", 
+            WorkflowInstanceUpdatedErrorEventId,
+            Level = EventLevel.Error,
+            Message = "{17}",
             Keywords = Keywords.WorkflowInstance | Keywords.WorkflowInstanceUpdated)]
         internal void WorkflowInstanceUpdatedError(
             string actorType,
@@ -4617,7 +4617,7 @@ namespace Cogito.Fabric.Activities
         /// <param name="message"></param>
         /// <param name="args"></param>
         [NonEvent]
-        internal void CustomTracking(IActivityActor actor, CustomTrackingRecord record, string message = "", params object[] args)
+        internal void CustomTracking(IActivityActorInternal actor, CustomTrackingRecord record, string message = "", params object[] args)
         {
             Contract.Requires<ArgumentNullException>(actor != null);
             Contract.Requires<ArgumentNullException>(record != null);
@@ -4758,9 +4758,9 @@ namespace Cogito.Fabric.Activities
         /// <param name="data"></param>
         /// <param name="message"></param>
         [Event(
-            CustomTrackingVerboseEventId, 
-            Level = EventLevel.Verbose, 
-            Message = "{19}", 
+            CustomTrackingVerboseEventId,
+            Level = EventLevel.Verbose,
+            Message = "{19}",
             Keywords = Keywords.CustomTracking)]
         internal void CustomTrackingVerbose(
             string actorType,
@@ -4833,9 +4833,9 @@ namespace Cogito.Fabric.Activities
         /// <param name="data"></param>
         /// <param name="message"></param>
         [Event(
-            CustomTrackingInfoEventId, 
-            Level = EventLevel.Informational, 
-            Message = "{19}", 
+            CustomTrackingInfoEventId,
+            Level = EventLevel.Informational,
+            Message = "{19}",
             Keywords = Keywords.CustomTracking)]
         internal void CustomTrackingInfo(
             string actorType,
@@ -4908,9 +4908,9 @@ namespace Cogito.Fabric.Activities
         /// <param name="data"></param>
         /// <param name="message"></param>
         [Event(
-            CustomTrackingWarningEventId, 
-            Level = EventLevel.Warning, 
-            Message = "{19}", 
+            CustomTrackingWarningEventId,
+            Level = EventLevel.Warning,
+            Message = "{19}",
             Keywords = Keywords.CustomTracking)]
         internal void CustomTrackingWarning(
             string actorType,
@@ -4983,9 +4983,9 @@ namespace Cogito.Fabric.Activities
         /// <param name="data"></param>
         /// <param name="message"></param>
         [Event(
-            CustomTrackingErrorEventId, 
-            Level = EventLevel.Error, 
-            Message = "{19}", 
+            CustomTrackingErrorEventId,
+            Level = EventLevel.Error,
+            Message = "{19}",
             Keywords = Keywords.CustomTracking)]
         internal void CustomTrackingError(
             string actorType,

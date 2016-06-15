@@ -10,7 +10,7 @@ namespace Cogito.Fabric.Activities
 		{
 			if (record is CustomTrackingRecord)
 			{
-				if (actor is IActivityActor)
+				if (actor is IActivityActorInternal)
 				{
 					ActivityActorEventSource.Current.CustomTracking(actor, (CustomTrackingRecord)record);
 					return;
@@ -19,7 +19,7 @@ namespace Cogito.Fabric.Activities
 
 			if (record is WorkflowInstanceUpdatedRecord)
 			{
-				if (actor is IActivityActor)
+				if (actor is IActivityActorInternal)
 				{
 					ActivityActorEventSource.Current.WorkflowInstanceUpdated(actor, (WorkflowInstanceUpdatedRecord)record);
 					return;
@@ -28,7 +28,7 @@ namespace Cogito.Fabric.Activities
 
 			if (record is WorkflowInstanceUnhandledExceptionRecord)
 			{
-				if (actor is IActivityActor)
+				if (actor is IActivityActorInternal)
 				{
 					ActivityActorEventSource.Current.WorkflowInstanceUnhandledException(actor, (WorkflowInstanceUnhandledExceptionRecord)record);
 					return;
@@ -37,7 +37,7 @@ namespace Cogito.Fabric.Activities
 
 			if (record is WorkflowInstanceTerminatedRecord)
 			{
-				if (actor is IActivityActor)
+				if (actor is IActivityActorInternal)
 				{
 					ActivityActorEventSource.Current.WorkflowInstanceTerminated(actor, (WorkflowInstanceTerminatedRecord)record);
 					return;
@@ -46,7 +46,7 @@ namespace Cogito.Fabric.Activities
 
 			if (record is WorkflowInstanceSuspendedRecord)
 			{
-				if (actor is IActivityActor)
+				if (actor is IActivityActorInternal)
 				{
 					ActivityActorEventSource.Current.WorkflowInstanceSuspended(actor, (WorkflowInstanceSuspendedRecord)record);
 					return;
@@ -55,7 +55,7 @@ namespace Cogito.Fabric.Activities
 
 			if (record is WorkflowInstanceAbortedRecord)
 			{
-				if (actor is IActivityActor)
+				if (actor is IActivityActorInternal)
 				{
 					ActivityActorEventSource.Current.WorkflowInstanceAborted(actor, (WorkflowInstanceAbortedRecord)record);
 					return;
@@ -64,7 +64,7 @@ namespace Cogito.Fabric.Activities
 
 			if (record is WorkflowInstanceRecord)
 			{
-				if (actor is IActivityActor)
+				if (actor is IActivityActorInternal)
 				{
 					ActivityActorEventSource.Current.WorkflowInstance(actor, (WorkflowInstanceRecord)record);
 					return;
@@ -73,7 +73,7 @@ namespace Cogito.Fabric.Activities
 
 			if (record is FaultPropagationRecord)
 			{
-				if (actor is IActivityActor)
+				if (actor is IActivityActorInternal)
 				{
 					ActivityActorEventSource.Current.FaultPropagation(actor, (FaultPropagationRecord)record);
 					return;
@@ -82,7 +82,7 @@ namespace Cogito.Fabric.Activities
 
 			if (record is CancelRequestedRecord)
 			{
-				if (actor is IActivityActor)
+				if (actor is IActivityActorInternal)
 				{
 					ActivityActorEventSource.Current.CancelRequested(actor, (CancelRequestedRecord)record);
 					return;
@@ -91,7 +91,7 @@ namespace Cogito.Fabric.Activities
 
 			if (record is BookmarkResumptionRecord)
 			{
-				if (actor is IActivityActor)
+				if (actor is IActivityActorInternal)
 				{
 					ActivityActorEventSource.Current.BookmarkResumption(actor, (BookmarkResumptionRecord)record);
 					return;
@@ -100,7 +100,7 @@ namespace Cogito.Fabric.Activities
 
 			if (record is ActivityStateRecord)
 			{
-				if (actor is IActivityActor)
+				if (actor is IActivityActorInternal)
 				{
 					ActivityActorEventSource.Current.ActivityState(actor, (ActivityStateRecord)record);
 					return;
@@ -109,7 +109,7 @@ namespace Cogito.Fabric.Activities
 
 			if (record is ActivityScheduledRecord)
 			{
-				if (actor is IActivityActor)
+				if (actor is IActivityActorInternal)
 				{
 					ActivityActorEventSource.Current.ActivityScheduled(actor, (ActivityScheduledRecord)record);
 					return;

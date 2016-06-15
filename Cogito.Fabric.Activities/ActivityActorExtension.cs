@@ -3,25 +3,23 @@ using System.Activities.Hosting;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 
-using Microsoft.ServiceFabric.Actors;
-
 namespace Cogito.Fabric.Activities
 {
 
     /// <summary>
     /// Provides an extension for activities to access the <see cref="ActivityActor{TActivity, TState}"/>.
     /// </summary>
-    public class ActivityActorExtension :
+    class ActivityActorExtension :
         IWorkflowInstanceExtension
     {
 
-        readonly IActivityActor actor;
+        readonly IActivityActorInternal actor;
         WorkflowInstanceProxy instance;
 
         /// <summary>
         /// Initializes a new instance.
         /// </summary>
-        internal ActivityActorExtension(IActivityActor actor)
+        public ActivityActorExtension(IActivityActorInternal actor)
         {
             Contract.Requires<ArgumentNullException>(actor != null);
 
@@ -49,7 +47,7 @@ namespace Cogito.Fabric.Activities
         /// <summary>
         /// Gets a reference to the actor.
         /// </summary>
-        public IActivityActor Actor
+        public IActivityActorInternal Actor
         {
             get { return actor; }
         }

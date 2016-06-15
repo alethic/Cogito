@@ -6,15 +6,13 @@ using System.Threading.Tasks;
 
 using Cogito.Threading;
 
-using Microsoft.ServiceFabric.Actors.Runtime;
-
 namespace Cogito.Fabric.Activities
 {
 
     /// <summary>
     /// Provides a synchronization context linked to an <see cref="ActivityActor"/> timer infrastructure.
     /// </summary>
-    public class ActivityActorSynchronizationContext :
+    class ActivityActorSynchronizationContext :
         SynchronizationContext
     {
 
@@ -27,13 +25,13 @@ namespace Cogito.Fabric.Activities
             return CallContext.LogicalGetData("_FabActCallContext_") != null;
         }
 
-        readonly IActivityActor actor;
+        readonly IActivityActorInternal actor;
 
         /// <summary>
         /// Initializes a new instance.
         /// </summary>
         /// <param name="actor"></param>
-        public ActivityActorSynchronizationContext(IActivityActor actor)
+        public ActivityActorSynchronizationContext(IActivityActorInternal actor)
         {
             Contract.Requires<ArgumentNullException>(actor != null);
 
