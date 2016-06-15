@@ -368,6 +368,214 @@ namespace Cogito.Activities
             };
         }
 
+
+        public static ActivityFunc<TResult> DelegateFunc<TResult>(Func<Activity<TResult>> create)
+        {
+            Contract.Requires<ArgumentNullException>(create != null);
+
+            var result = new DelegateOutArgument<TResult>();
+            var action = create();
+            action.Result = result;
+
+            return new ActivityFunc<TResult>()
+            {
+                Result = result,
+                Handler = action,
+            };
+        }
+
+        public static ActivityFunc<TArg, TResult> DelegateFunc<TArg, TResult>(Func<DelegateInArgument<TArg>, Activity<TResult>> create)
+        {
+            Contract.Requires<ArgumentNullException>(create != null);
+
+            var arg = new DelegateInArgument<TArg>();
+            var result = new DelegateOutArgument<TResult>();
+            var action = create(arg);
+            action.Result = result;
+
+            return new ActivityFunc<TArg, TResult>()
+            {
+                Argument = arg,
+                Result = result,
+                Handler = action,
+            };
+        }
+
+        public static ActivityFunc<TArg1, TArg2, TResult> DelegateFunc<TArg1, TArg2, TResult>(Func<DelegateInArgument<TArg1>, DelegateInArgument<TArg2>, Activity<TResult>> create)
+        {
+            Contract.Requires<ArgumentNullException>(create != null);
+
+            var arg1 = new DelegateInArgument<TArg1>();
+            var arg2 = new DelegateInArgument<TArg2>();
+            var result = new DelegateOutArgument<TResult>();
+            var action = create(arg1, arg2);
+            action.Result = result;
+
+            return new ActivityFunc<TArg1, TArg2, TResult>()
+            {
+                Argument1 = arg1,
+                Argument2 = arg2,
+                Result = result,
+                Handler = action,
+            };
+        }
+
+        public static ActivityFunc<TArg1, TArg2, TArg3, TResult> DelegateFunc<TArg1, TArg2, TArg3, TResult>(Func<DelegateInArgument<TArg1>, DelegateInArgument<TArg2>, DelegateInArgument<TArg3>, Activity<TResult>> create)
+        {
+            Contract.Requires<ArgumentNullException>(create != null);
+
+            var arg1 = new DelegateInArgument<TArg1>();
+            var arg2 = new DelegateInArgument<TArg2>();
+            var arg3 = new DelegateInArgument<TArg3>();
+            var result = new DelegateOutArgument<TResult>();
+            var action = create(arg1, arg2, arg3);
+            action.Result = result;
+
+            return new ActivityFunc<TArg1, TArg2, TArg3, TResult>()
+            {
+                Argument1 = arg1,
+                Argument2 = arg2,
+                Argument3 = arg3,
+                Result = result,
+                Handler = action,
+            };
+        }
+
+        public static ActivityFunc<TArg1, TArg2, TArg3, TArg4, TResult> DelegateFunc<TArg1, TArg2, TArg3, TArg4, TResult>(Func<DelegateInArgument<TArg1>, DelegateInArgument<TArg2>, DelegateInArgument<TArg3>, DelegateInArgument<TArg4>, Activity<TResult>> create)
+        {
+            Contract.Requires<ArgumentNullException>(create != null);
+
+            var arg1 = new DelegateInArgument<TArg1>();
+            var arg2 = new DelegateInArgument<TArg2>();
+            var arg3 = new DelegateInArgument<TArg3>();
+            var arg4 = new DelegateInArgument<TArg4>();
+            var result = new DelegateOutArgument<TResult>();
+            var action = create(arg1, arg2, arg3, arg4);
+            action.Result = result;
+
+            return new ActivityFunc<TArg1, TArg2, TArg3, TArg4, TResult>()
+            {
+                Argument1 = arg1,
+                Argument2 = arg2,
+                Argument3 = arg3,
+                Argument4 = arg4,
+                Result = result,
+                Handler = action,
+            };
+        }
+
+        public static ActivityFunc<TArg1, TArg2, TArg3, TArg4, TArg5, TResult> DelegateFunc<TArg1, TArg2, TArg3, TArg4, TArg5, TResult>(Func<DelegateInArgument<TArg1>, DelegateInArgument<TArg2>, DelegateInArgument<TArg3>, DelegateInArgument<TArg4>, DelegateInArgument<TArg5>, Activity<TResult>> create)
+        {
+            Contract.Requires<ArgumentNullException>(create != null);
+
+            var arg1 = new DelegateInArgument<TArg1>();
+            var arg2 = new DelegateInArgument<TArg2>();
+            var arg3 = new DelegateInArgument<TArg3>();
+            var arg4 = new DelegateInArgument<TArg4>();
+            var arg5 = new DelegateInArgument<TArg5>();
+            var result = new DelegateOutArgument<TResult>();
+            var action = create(arg1, arg2, arg3, arg4, arg5);
+            action.Result = result;
+
+            return new ActivityFunc<TArg1, TArg2, TArg3, TArg4, TArg5, TResult>()
+            {
+                Argument1 = arg1,
+                Argument2 = arg2,
+                Argument3 = arg3,
+                Argument4 = arg4,
+                Argument5 = arg5,
+                Result = result,
+                Handler = action,
+            };
+        }
+
+        public static ActivityFunc<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TResult> DelegateFunc<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TResult>(Func<DelegateInArgument<TArg1>, DelegateInArgument<TArg2>, DelegateInArgument<TArg3>, DelegateInArgument<TArg4>, DelegateInArgument<TArg5>, DelegateInArgument<TArg6>, Activity<TResult>> create)
+        {
+            Contract.Requires<ArgumentNullException>(create != null);
+
+            var arg1 = new DelegateInArgument<TArg1>();
+            var arg2 = new DelegateInArgument<TArg2>();
+            var arg3 = new DelegateInArgument<TArg3>();
+            var arg4 = new DelegateInArgument<TArg4>();
+            var arg5 = new DelegateInArgument<TArg5>();
+            var arg6 = new DelegateInArgument<TArg6>();
+            var result = new DelegateOutArgument<TResult>();
+            var action = create(arg1, arg2, arg3, arg4, arg5, arg6);
+            action.Result = result;
+
+            return new ActivityFunc<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TResult>()
+            {
+                Argument1 = arg1,
+                Argument2 = arg2,
+                Argument3 = arg3,
+                Argument4 = arg4,
+                Argument5 = arg5,
+                Argument6 = arg6,
+                Result = result,
+                Handler = action,
+            };
+        }
+
+        public static ActivityFunc<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TResult> DelegateFunc<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TResult>(Func<DelegateInArgument<TArg1>, DelegateInArgument<TArg2>, DelegateInArgument<TArg3>, DelegateInArgument<TArg4>, DelegateInArgument<TArg5>, DelegateInArgument<TArg6>, DelegateInArgument<TArg7>, Activity<TResult>> create)
+        {
+            Contract.Requires<ArgumentNullException>(create != null);
+
+            var arg1 = new DelegateInArgument<TArg1>();
+            var arg2 = new DelegateInArgument<TArg2>();
+            var arg3 = new DelegateInArgument<TArg3>();
+            var arg4 = new DelegateInArgument<TArg4>();
+            var arg5 = new DelegateInArgument<TArg5>();
+            var arg6 = new DelegateInArgument<TArg6>();
+            var arg7 = new DelegateInArgument<TArg7>();
+            var result = new DelegateOutArgument<TResult>();
+            var action = create(arg1, arg2, arg3, arg4, arg5, arg6, arg7);
+            action.Result = result;
+
+            return new ActivityFunc<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TResult>()
+            {
+                Argument1 = arg1,
+                Argument2 = arg2,
+                Argument3 = arg3,
+                Argument4 = arg4,
+                Argument5 = arg5,
+                Argument6 = arg6,
+                Argument7 = arg7,
+                Result = result,
+                Handler = action,
+            };
+        }
+
+        public static ActivityFunc<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TResult> DelegateFunc<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TResult>(Func<DelegateInArgument<TArg1>, DelegateInArgument<TArg2>, DelegateInArgument<TArg3>, DelegateInArgument<TArg4>, DelegateInArgument<TArg5>, DelegateInArgument<TArg6>, DelegateInArgument<TArg7>, DelegateInArgument<TArg8>, Activity<TResult>> create)
+        {
+            Contract.Requires<ArgumentNullException>(create != null);
+
+            var arg1 = new DelegateInArgument<TArg1>();
+            var arg2 = new DelegateInArgument<TArg2>();
+            var arg3 = new DelegateInArgument<TArg3>();
+            var arg4 = new DelegateInArgument<TArg4>();
+            var arg5 = new DelegateInArgument<TArg5>();
+            var arg6 = new DelegateInArgument<TArg6>();
+            var arg7 = new DelegateInArgument<TArg7>();
+            var arg8 = new DelegateInArgument<TArg8>();
+            var result = new DelegateOutArgument<TResult>();
+            var action = create(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
+            action.Result = result;
+
+            return new ActivityFunc<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TResult>()
+            {
+                Argument1 = arg1,
+                Argument2 = arg2,
+                Argument3 = arg3,
+                Argument4 = arg4,
+                Argument5 = arg5,
+                Argument6 = arg6,
+                Argument7 = arg7,
+                Argument8 = arg8,
+                Result = result,
+                Handler = action,
+            };
+        }
+
     }
 
 }

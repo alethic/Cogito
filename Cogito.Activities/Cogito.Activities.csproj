@@ -163,6 +163,7 @@
     <Compile Include="Activities.Throw.cs" />
     <Compile Include="Activities.TryCatch.cs" />
     <Compile Include="AsyncTaskCodeActivity.cs" />
+    <Compile Include="For.cs" />
     <Compile Include="ParallelForEachAsyncActionActivity.cs" />
     <Compile Include="ParallelForEachActionActivity.cs" />
     <Compile Include="Retry.cs" />
