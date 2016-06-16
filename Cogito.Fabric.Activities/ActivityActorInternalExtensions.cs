@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Diagnostics.Contracts;
-using System.Fabric;
 using System.Threading.Tasks;
 
+using Microsoft.ServiceFabric.Actors;
 using Microsoft.ServiceFabric.Actors.Runtime;
 
 namespace Cogito.Fabric.Activities
@@ -49,7 +49,7 @@ namespace Cogito.Fabric.Activities
             {
                 return actor.GetReminder(reminderName);
             }
-            catch (FabricException e) when (e.ErrorCode == FabricErrorCode.Unknown)
+            catch (ReminderNotFoundException)
             {
                 // ignore
             }
