@@ -18,8 +18,6 @@
         </dependencies>
         <frameworkAssemblies>
             <frameworkAssembly assemblyName="System.Activities" />
-            <frameworkAssembly assemblyName="System.ServiceModel" />
-            <frameworkAssembly assemblyName="System.ServiceModel.Activities" />
         </frameworkAssemblies>
     </metadata>
 </package>
