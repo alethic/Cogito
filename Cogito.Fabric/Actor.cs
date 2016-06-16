@@ -94,7 +94,6 @@ namespace Cogito.Fabric
         protected ConfigurationPackage GetConfigurationPackage(string packageName)
         {
             Contract.Requires<ArgumentNullException>(packageName != null);
-            Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(packageName));
 
             return CodePackageActivationContext.GetConfigurationPackageObject(packageName);
         }
@@ -113,7 +112,7 @@ namespace Cogito.Fabric
         /// <returns></returns>
         protected ConfigurationPackage DefaultConfigurationPackage
         {
-            get { return GetConfigurationPackage(DefaultConfigurationPackageName); }
+            get { Contract.Requires(DefaultConfigurationPackageName != null); return GetConfigurationPackage(DefaultConfigurationPackageName); }
         }
 
         /// <summary>
@@ -126,11 +125,8 @@ namespace Cogito.Fabric
         protected string GetConfigurationPackageParameterValue(string packageName, string sectionName, string parameterName)
         {
             Contract.Requires<ArgumentNullException>(packageName != null);
-            Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(packageName));
             Contract.Requires<ArgumentNullException>(sectionName != null);
-            Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(sectionName));
             Contract.Requires<ArgumentNullException>(parameterName != null);
-            Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(parameterName));
 
             return GetConfigurationPackage(packageName)?.Settings.Sections[sectionName]?.Parameters[parameterName]?.Value;
         }
@@ -144,9 +140,7 @@ namespace Cogito.Fabric
         protected string GetDefaultConfigurationPackageParameterValue(string sectionName, string parameterName)
         {
             Contract.Requires<ArgumentNullException>(sectionName != null);
-            Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(sectionName));
             Contract.Requires<ArgumentNullException>(parameterName != null);
-            Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(parameterName));
 
             return DefaultConfigurationPackage?.Settings.Sections[sectionName]?.Parameters[parameterName]?.Value;
         }
