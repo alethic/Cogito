@@ -176,6 +176,7 @@
     <Compile Include="MediaRange.cs" />
     <Compile Include="Json\Converters\MediaRangeJsonConverter.cs" />
     <Compile Include="MediaRangeParameters.cs" />
+    <Compile Include="Net\Http\HttpHeadersExtensions.cs" />
     <Compile Include="Net\Http\HttpMessageEventSource.cs" />
     <Compile Include="Net\Http\HttpMessageEventSourceWriterHandler.cs" />
     <Compile Include="RandomExtensions.cs" />
