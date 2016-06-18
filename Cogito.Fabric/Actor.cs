@@ -4,6 +4,7 @@ using System.Fabric;
 using System.Fabric.Health;
 using System.Threading.Tasks;
 
+using Microsoft.ServiceFabric.Actors;
 using Microsoft.ServiceFabric.Actors.Runtime;
 
 namespace Cogito.Fabric
@@ -73,12 +74,14 @@ namespace Cogito.Fabric
         /// <param name="state"></param>
         /// <param name="timeToLive"></param>
         /// <param name="removeWhenExpired"></param>
-        protected void ReportHealth(string sourceId, string property, HealthState state, TimeSpan? timeToLive = null, bool? removeWhenExpired = null)
+        protected void ReportHealth(string sourceId, string property, HealthState state, string description = null, TimeSpan? timeToLive = null, bool? removeWhenExpired = null)
         {
             Contract.Requires<ArgumentNullException>(sourceId != null);
             Contract.Requires<ArgumentNullException>(property != null);
 
             var i = new HealthInformation(sourceId, property, state);
+            if (description != null)
+                i.Description = description;
             if (timeToLive != null)
                 i.TimeToLive = (TimeSpan)timeToLive;
             if (removeWhenExpired != null)
@@ -158,7 +161,7 @@ namespace Cogito.Fabric
             {
                 return GetReminder(reminderName);
             }
-            catch (FabricException e) when (e.ErrorCode == FabricErrorCode.Unknown)
+            catch (ReminderNotFoundException)
             {
                 // ignore
             }
@@ -240,41 +243,15 @@ namespace Cogito.Fabric
         }
 
         /// <summary>
-        /// Executes the given action and ensures the state object is saved upon completion.
+        /// This method is invoked by actor runtime an actor method has finished execution. Override this method for
+        /// performing any actions after an actor method has finished execution.
         /// </summary>
-        /// <param name="action"></param>
+        /// <param name="actorMethodContext"></param>
         /// <returns></returns>
-        protected virtual async Task WriteState(Func<Task> action)
+        protected override async Task OnPostActorMethodAsync(ActorMethodContext actorMethodContext)
         {
-            Contract.Requires<ArgumentNullException>(action != null);
-
-            try
-            {
-                await action();
-            }
-            finally
-            {
-                await SaveStateObject();
-            }
-        }
-
-        /// <summary>
-        /// Executes the given action and ensures the state object is saved upon completion.
-        /// </summary>
-        /// <param name="action"></param>
-        /// <returns></returns>
-        protected virtual async Task WriteState(Action action)
-        {
-            Contract.Requires<ArgumentNullException>(action != null);
-
-            try
-            {
-                action();
-            }
-            finally
-            {
-                await SaveStateObject();
-            }
+            await SaveStateObject();
+            await base.OnPostActorMethodAsync(actorMethodContext);
         }
 
     }

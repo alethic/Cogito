@@ -537,6 +537,18 @@ namespace Cogito.Fabric.Activities
         }
 
         /// <summary>
+        /// This method is invoked by actor runtime an actor method has finished execution. Override this method for
+        /// performing any actions after an actor method has finished execution.
+        /// </summary>
+        /// <param name="actorMethodContext"></param>
+        /// <returns></returns>
+        protected override async Task OnPostActorMethodAsync(ActorMethodContext actorMethodContext)
+        {
+            await SaveStateObject();
+            await base.OnPostActorMethodAsync(actorMethodContext);
+        }
+
+        /// <summary>
         /// Invoked after the activity workflow is peristed to the <see cref="IActorStateManager"/>.
         /// </summary>
         /// <returns></returns>
@@ -544,44 +556,6 @@ namespace Cogito.Fabric.Activities
         {
             await SaveStateObject();
             await base.OnPersisted();
-        }
-
-        /// <summary>
-        /// Executes the given action and ensures the state object is saved upon completion.
-        /// </summary>
-        /// <param name="action"></param>
-        /// <returns></returns>
-        protected virtual async Task WriteState(Func<Task> action)
-        {
-            Contract.Requires<ArgumentNullException>(action != null);
-
-            try
-            {
-                await action();
-            }
-            finally
-            {
-                await SaveStateObject();
-            }
-        }
-
-        /// <summary>
-        /// Executes the given action and ensures the state object is saved upon completion.
-        /// </summary>
-        /// <param name="action"></param>
-        /// <returns></returns>
-        protected virtual async Task WriteState(Action action)
-        {
-            Contract.Requires<ArgumentNullException>(action != null);
-
-            try
-            {
-                action();
-            }
-            finally
-            {
-                await SaveStateObject();
-            }
         }
 
     }
