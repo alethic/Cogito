@@ -69,14 +69,23 @@ namespace Cogito.Fabric
         /// <param name="sourceId"></param>
         /// <param name="property"></param>
         /// <param name="state"></param>
+        /// <param name="description"></param>
         /// <param name="timeToLive"></param>
         /// <param name="removeWhenExpired"></param>
-        protected void ReportHealth(string sourceId, string property, HealthState state, TimeSpan? timeToLive = null, bool? removeWhenExpired = null)
+        protected void ReportHealth(
+            string sourceId,
+            string property,
+            HealthState state,
+            string description = null,
+            TimeSpan? timeToLive = null,
+            bool? removeWhenExpired = null)
         {
             Contract.Requires<ArgumentNullException>(sourceId != null);
             Contract.Requires<ArgumentNullException>(property != null);
 
             var i = new HealthInformation(sourceId, property, state);
+            if (description != null)
+                i.Description = description;
             if (timeToLive != null)
                 i.TimeToLive = (TimeSpan)timeToLive;
             if (removeWhenExpired != null)
@@ -100,7 +109,7 @@ namespace Cogito.Fabric
                 await RunLoopAsync(cancellationToken);
 
             // exit method
-            await RunExitAsync(new CancellationTokenSource(TimeSpan.FromMinutes(5)).Token);
+            await RunExitAsync(new CancellationTokenSource(TimeSpan.FromSeconds(5)).Token);
         }
 
         /// <summary>
