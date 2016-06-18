@@ -33,8 +33,9 @@ namespace Cogito
 
             var ae = e as AggregateException;
             if (ae != null)
-                foreach (var aee in Expand(ae))
-                    yield return aee;
+                foreach (var aei in ae.InnerExceptions)
+                    foreach (var aee in Expand(aei))
+                        yield return aee;
             else
                 yield return e;
         }

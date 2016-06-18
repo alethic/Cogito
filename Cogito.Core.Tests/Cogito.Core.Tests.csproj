@@ -130,6 +130,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Dynamic\SerializableDynamicObjectTests.cs" />
+    <Compile Include="ExceptionExtensionsTests.cs" />
     <Compile Include="Linq\CombinatorialsTests.cs" />
     <Compile Include="Linq\EnumerableExtensionsTests.cs" />
     <Compile Include="Net\Http\HttpMessageEventSourceTests.cs" />
