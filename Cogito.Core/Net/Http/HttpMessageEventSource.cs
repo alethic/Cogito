@@ -77,8 +77,8 @@ namespace Cogito.Net.Http
                     message.Method.ToString(),
                     message.RequestUri.ToString(),
                     message.Version.ToString(),
-                    HeadersToXml(message.Headers),
-                    HeadersToXml(message.Content?.Headers));
+                    HeadersToXml(message.Headers) ?? "",
+                    HeadersToXml(message.Content?.Headers) ?? "");
             }
         }
 
@@ -127,9 +127,9 @@ namespace Cogito.Net.Http
                     message.RequestMessage.RequestUri.ToString(),
                     message.RequestMessage.Version.ToString(),
                     (int)message.StatusCode,
-                    message.ReasonPhrase,
-                    HeadersToXml(message.Headers),
-                    HeadersToXml(message.Content?.Headers));
+                    message.ReasonPhrase ?? "",
+                    HeadersToXml(message.Headers) ?? "",
+                    HeadersToXml(message.Content?.Headers) ?? "");
         }
 
         /// <summary>
