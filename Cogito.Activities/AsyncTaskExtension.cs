@@ -30,14 +30,6 @@ namespace Cogito.Activities
         }
 
         /// <summary>
-        /// Initializes a new instance.
-        /// </summary>
-        public AsyncTaskExtension()
-        {
-
-        }
-
-        /// <summary>
         /// Executes the action.
         /// </summary>
         /// <param name="action"></param>
