@@ -65,11 +65,24 @@ namespace Cogito.Fabric.Activities
         void UnregisterTimer(IActorTimer timer);
 
         /// <summary>
+        /// Invokes the given action once on an actor timer.
+        /// </summary>
+        /// <param name="action"></param>
+        void InvokeOnceWithTimer(Func<Task> action);
+
+        /// <summary>
         /// Gets the reminder with the specified name.
         /// </summary>
         /// <param name="reminderName"></param>
         /// <returns></returns>
         IActorReminder GetReminder(string reminderName);
+
+        /// <summary>
+        /// Tries to get the reminder with the specified name, or returns null.
+        /// </summary>
+        /// <param name="reminderName"></param>
+        /// <returns></returns>
+        IActorReminder TryGetReminder(string reminderName);
 
         /// <summary>
         /// Registers the specified reminder.
@@ -97,48 +110,44 @@ namespace Cogito.Fabric.Activities
         /// <summary>
         /// Invoked when an unhandled <see cref="Exception"/> occurs.
         /// </summary>
-        /// <param name="unhandledException"></param>
+        /// <param name="args"></param>
         /// <returns></returns>
-        Task OnException(Exception unhandledException);
+        Task OnUnhandledException(WorkflowApplicationUnhandledExceptionEventArgs args);
 
         /// <summary>
         /// Invoked when the workflow is aborted.
         /// </summary>
-        /// <param name="reason"></param>
+        /// <param name="args"></param>
         /// <returns></returns>
-        Task OnAborted(Exception reason);
+        Task OnAborted(WorkflowApplicationAbortedEventArgs args);
 
         /// <summary>
         /// Invoked when the workflow goes idle.
         /// </summary>
+        /// <param name="args"></param>
         /// <returns></returns>
-        Task OnIdle();
+        Task OnIdle(WorkflowApplicationIdleEventArgs args);
 
         /// <summary>
         /// Invoked when the workflow goes idle and is persitable.
         /// </summary>
+        /// <param name="args"></param>
         /// <returns></returns>
-        Task OnPersistableIdle();
-
-        /// <summary>
-        /// Invoked when the workflow is faulted.
-        /// </summary>
-        /// <returns></returns>
-        Task OnFaulted();
+        Task OnPersistableIdle(WorkflowApplicationIdleEventArgs args);
 
         /// <summary>
         /// Invoked when the workflow is completed.
         /// </summary>
-        /// <param name="state"></param>
-        /// <param name="outputs"></param>
+        /// <param name="args"></param>
         /// <returns></returns>
-        Task OnCompleted(ActivityInstanceState state, IDictionary<string, object> outputs);
+        Task OnCompleted(WorkflowApplicationCompletedEventArgs args);
 
         /// <summary>
         /// Invoked when the workflow is unloaded.
         /// </summary>
+        /// <param name="args"></param>
         /// <returns></returns>
-        Task OnUnloaded();
+        Task OnUnloaded(WorkflowApplicationEventArgs args);
 
     }
 

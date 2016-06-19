@@ -2,7 +2,6 @@
 using System.Activities;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
-using System.Linq;
 using System.Runtime.DurableInstancing;
 using System.Threading.Tasks;
 using System.Xml.Linq;
@@ -105,7 +104,7 @@ namespace Cogito.Fabric.Activities
             {
                 workflow.SynchronizationContext.Post(async o =>
                 {
-                    await actor.OnException(args.UnhandledException);
+                    await actor.OnUnhandledException(args);
                 }, null);
 
                 return UnhandledExceptionAction.Abort;
@@ -115,7 +114,7 @@ namespace Cogito.Fabric.Activities
             {
                 workflow.SynchronizationContext.Post(async o =>
                 {
-                    await actor.OnAborted(args.Reason);
+                    await actor.OnAborted(args);
                 }, null);
             };
 
@@ -123,7 +122,7 @@ namespace Cogito.Fabric.Activities
             {
                 workflow.SynchronizationContext.Post(async o =>
                 {
-                    await actor.OnPersistableIdle();
+                    await actor.OnPersistableIdle(args);
                 }, null);
 
                 // workflow should save state but not unload until actor deactivated
@@ -135,7 +134,7 @@ namespace Cogito.Fabric.Activities
             {
                 workflow.SynchronizationContext.Post(async o =>
                 {
-                    await actor.OnIdle();
+                    await actor.OnIdle(args);
                 }, null);
             };
 
@@ -143,7 +142,7 @@ namespace Cogito.Fabric.Activities
             {
                 workflow.SynchronizationContext.Post(async o =>
                 {
-                    await actor.OnCompleted(args.CompletionState, args.Outputs);
+                    await actor.OnCompleted(args);
                 }, null);
             };
 
@@ -151,7 +150,7 @@ namespace Cogito.Fabric.Activities
             {
                 workflow.SynchronizationContext.Post(async o =>
                 {
-                    await actor.OnUnloaded();
+                    await actor.OnUnloaded(args);
                 }, null);
             };
 

@@ -110,10 +110,7 @@ namespace Cogito.Fabric
         /// <summary>
         /// Name of the default configuration package.
         /// </summary>
-        protected string DefaultConfigurationPackageName
-        {
-            get { return "Config"; }
-        }
+        protected string DefaultConfigurationPackageName { get; set; } = "Config";
 
         /// <summary>
         /// Gets the default config package object.
@@ -175,6 +172,25 @@ namespace Cogito.Fabric
             return null;
         }
 
+        /// <summary>
+        /// Schedules the given action using an actor timer.
+        /// </summary>
+        /// <param name="action"></param>
+        protected void InvokeOnceWithTimer(Func<Task> action)
+        {
+            Contract.Requires<ArgumentNullException>(action != null);
+
+            // hoist timer so it can be unregistered
+            IActorTimer timer = null;
+
+            // schedule timer
+            timer = RegisterTimer(
+                o => { UnregisterTimer(timer); return action(); },
+                null,
+                TimeSpan.FromMilliseconds(1),
+                TimeSpan.FromMilliseconds(-1));
+        }
+
     }
 
     /// <summary>
@@ -212,8 +228,8 @@ namespace Cogito.Fabric
         /// <returns></returns>
         protected override async Task OnActivateAsync()
         {
-            await base.OnActivateAsync();
             await LoadStateObject();
+            await base.OnActivateAsync();
         }
 
         /// <summary>
@@ -248,8 +264,9 @@ namespace Cogito.Fabric
         /// <returns></returns>
         protected override async Task OnPostActorMethodAsync(ActorMethodContext actorMethodContext)
         {
-            await SaveStateObject();
             await base.OnPostActorMethodAsync(actorMethodContext);
+            await SaveStateObject();
+            await SaveStateAsync();
         }
 
     }

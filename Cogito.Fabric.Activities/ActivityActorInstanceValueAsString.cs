@@ -7,7 +7,7 @@ namespace Cogito.Fabric.Activities
     /// Describes a serialized object type.
     /// </summary>
     [DataContract]
-    public class ActivityActorInstanceValueAsString
+    class ActivityActorInstanceValueAsString
     {
 
         /// <summary>

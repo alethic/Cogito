@@ -9,7 +9,7 @@ namespace Cogito.Fabric.Activities.Test.TestActor.Interfaces
         IActor
     {
 
-        Task Run();
+        Task CallBack(ITest2 test2, int value);
 
     }
 

@@ -49,9 +49,9 @@ namespace Cogito.Fabric.Activities
         /// <returns></returns>
         async Task OnActivateAsyncInternal()
         {
-            await OnBeforeWorkflowActivate();
+            await OnBeforeWorkflowActivateAsync();
             await host.OnActivateAsync();
-            await OnAfterWorkflowActivate();
+            await OnAfterWorkflowActivateAsync();
             await OnActivateAsyncHidden();
         }
 
@@ -78,9 +78,9 @@ namespace Cogito.Fabric.Activities
         /// <returns></returns>
         async Task OnDeactivateAsyncInternal()
         {
-            await OnBeforeWorkflowDeactivate();
+            await OnBeforeWorkflowDeactivateAsync();
             await host.OnDeactivateAsync();
-            await OnAfterWorkflowDeactivate();
+            await OnAfterWorkflowDeactivateAsync();
             await OnDeactivateAsyncHidden();
         }
 
@@ -119,7 +119,7 @@ namespace Cogito.Fabric.Activities
         /// Invoked before the workflow has been activated.
         /// </summary>
         /// <returns></returns>
-        protected virtual Task OnBeforeWorkflowActivate()
+        protected virtual Task OnBeforeWorkflowActivateAsync()
         {
             return Task.FromResult(true);
         }
@@ -128,7 +128,7 @@ namespace Cogito.Fabric.Activities
         /// Invoked after the workflow has been activated.
         /// </summary>
         /// <returns></returns>
-        protected virtual Task OnAfterWorkflowActivate()
+        protected virtual Task OnAfterWorkflowActivateAsync()
         {
             return Task.FromResult(true);
         }
@@ -137,7 +137,7 @@ namespace Cogito.Fabric.Activities
         /// Invoked before the workflow has been deactivated.
         /// </summary>
         /// <returns></returns>
-        protected virtual Task OnBeforeWorkflowDeactivate()
+        protected virtual Task OnBeforeWorkflowDeactivateAsync()
         {
             return Task.FromResult(true);
         }
@@ -146,7 +146,67 @@ namespace Cogito.Fabric.Activities
         /// Invoked after the workfly has been deactivated.
         /// </summary>
         /// <returns></returns>
-        protected virtual Task OnAfterWorkflowDeactivate()
+        protected virtual Task OnAfterWorkflowDeactivateAsync()
+        {
+            return Task.FromResult(true);
+        }
+
+        /// <summary>
+        /// Invoked when an unhandled <see cref="Exception"/> is thrown during the workflow operation.
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        protected virtual Task OnUnhandledExceptionAsync(WorkflowApplicationUnhandledExceptionEventArgs args)
+        {
+            return Task.FromResult(true);
+        }
+
+        /// <summary>
+        /// Invoked when the <see cref="ActivityActor"/> is aborted.
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        protected virtual Task OnAbortedAsync(WorkflowApplicationAbortedEventArgs args)
+        {
+            return Task.FromResult(true);
+        }
+
+        /// <summary>
+        /// Invoked when the <see cref="ActivityActor"/> is idle and persistable.
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        protected virtual Task OnPersistableIdleAsync(WorkflowApplicationIdleEventArgs args)
+        {
+            return Task.FromResult(true);
+        }
+
+        /// <summary>
+        /// Invoked when the <see cref="ActivityActor"/> goes idle.
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        protected virtual Task OnIdle(WorkflowApplicationIdleEventArgs args)
+        {
+            return Task.FromResult(true);
+        }
+
+        /// <summary>
+        /// Invoked when the <see cref="ActivityActor"/> is completed.
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        protected virtual Task OnCompletedAsync(WorkflowApplicationCompletedEventArgs args)
+        {
+            return Task.FromResult(true);
+        }
+
+        /// <summary>
+        /// Invoked when the <see cref="ActivityActor"/> is unloaded.
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        protected virtual Task OnUnloadedAsync(WorkflowApplicationEventArgs args)
         {
             return Task.FromResult(true);
         }
@@ -155,74 +215,9 @@ namespace Cogito.Fabric.Activities
         /// Invoked when the activity workflow is persisted to the <see cref="IActorStateManager"/>.
         /// </summary>
         /// <returns></returns>
-        protected virtual async Task OnPersisted()
+        protected virtual async Task OnPersistedAsync()
         {
             await SaveStateAsync();
-        }
-
-        /// <summary>
-        /// Invoked when an <see cref="Exception"/> is thrown during the workflow operation.
-        /// </summary>
-        /// <param name="exception"></param>
-        /// <returns></returns>
-        protected virtual Task OnException(Exception exception)
-        {
-            return Task.FromResult(true);
-        }
-
-        /// <summary>
-        /// Invoked when the <see cref="ActivityActorCore"/> is aborted.
-        /// </summary>
-        /// <param name="reason"></param>
-        /// <returns></returns>
-        protected virtual Task OnAborted(Exception reason)
-        {
-            return Task.FromResult(true);
-        }
-
-        /// <summary>
-        /// Invoked when the <see cref="ActivityActorCore"/> is idle and persistable.
-        /// </summary>
-        /// <returns></returns>
-        protected virtual Task OnPersistableIdle()
-        {
-            return Task.FromResult(true);
-        }
-
-        /// <summary>
-        /// Invoked when the <see cref="ActivityActorCore"/> goes idle.
-        /// </summary>
-        /// <returns></returns>
-        protected virtual Task OnIdle()
-        {
-            return Task.FromResult(true);
-        }
-
-        /// <summary>
-        /// Invoked when the <see cref="ActivityActorCore"/> is faulted.
-        /// </summary>
-        /// <returns></returns>
-        protected virtual Task OnFaulted()
-        {
-            return Task.FromResult(true);
-        }
-
-        /// <summary>
-        /// Invoked when the <see cref="ActivityActorCore"/> is completed.
-        /// </summary>
-        /// <returns></returns>
-        protected virtual Task OnCompleted(ActivityInstanceState state, IDictionary<string, object> outputs)
-        {
-            return Task.FromResult(true);
-        }
-
-        /// <summary>
-        /// Invoked when the <see cref="ActivityActorCore"/> is unloaded.
-        /// </summary>
-        /// <returns></returns>
-        protected virtual Task OnUnloaded()
-        {
-            return Task.FromResult(true);
         }
 
         /// <summary>
@@ -396,9 +391,19 @@ namespace Cogito.Fabric.Activities
             UnregisterTimer(timer);
         }
 
+        void IActivityActorInternal.InvokeOnceWithTimer(Func<Task> action)
+        {
+            InvokeOnceWithTimer(action);
+        }
+
         IActorReminder IActivityActorInternal.GetReminder(string reminderName)
         {
             return GetReminder(reminderName);
+        }
+
+        IActorReminder IActivityActorInternal.TryGetReminder(string reminderName)
+        {
+            return TryGetReminder(reminderName);
         }
 
         Task<IActorReminder> IActivityActorInternal.RegisterReminderAsync(string reminderName, byte[] state, TimeSpan dueTime, TimeSpan period)
@@ -413,42 +418,37 @@ namespace Cogito.Fabric.Activities
 
         async Task IActivityActorInternal.OnPersisted()
         {
-            await OnPersisted();
+            await OnPersistedAsync();
         }
 
-        Task IActivityActorInternal.OnException(Exception exception)
+        Task IActivityActorInternal.OnUnhandledException(WorkflowApplicationUnhandledExceptionEventArgs args)
         {
-            return OnException(exception);
+            return OnUnhandledExceptionAsync(args);
         }
 
-        Task IActivityActorInternal.OnAborted(Exception reason)
+        Task IActivityActorInternal.OnAborted(WorkflowApplicationAbortedEventArgs args)
         {
-            return OnAborted(reason);
+            return OnAbortedAsync(args);
         }
 
-        Task IActivityActorInternal.OnPersistableIdle()
+        Task IActivityActorInternal.OnPersistableIdle(WorkflowApplicationIdleEventArgs args)
         {
-            return OnPersistableIdle();
+            return OnPersistableIdleAsync(args);
         }
 
-        Task IActivityActorInternal.OnIdle()
+        Task IActivityActorInternal.OnIdle(WorkflowApplicationIdleEventArgs args)
         {
-            return OnIdle();
+            return OnIdle(args);
         }
 
-        Task IActivityActorInternal.OnFaulted()
+        Task IActivityActorInternal.OnCompleted(WorkflowApplicationCompletedEventArgs args)
         {
-            return OnFaulted();
+            return OnCompletedAsync(args);
         }
 
-        Task IActivityActorInternal.OnCompleted(ActivityInstanceState state, IDictionary<string, object> outputs)
+        Task IActivityActorInternal.OnUnloaded(WorkflowApplicationEventArgs args)
         {
-            return OnCompleted(state, outputs);
-        }
-
-        Task IActivityActorInternal.OnUnloaded()
-        {
-            return OnUnloaded();
+            return OnUnloadedAsync(args);
         }
 
         Task IActivityActor.ResumeAsync(string bookmarkName, object value)

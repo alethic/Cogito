@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Concurrent;
-using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.Runtime.Remoting.Messaging;
 using System.Threading;
@@ -64,7 +63,7 @@ namespace Cogito.Fabric.Activities
 
             // schedule timer on first item
             if (queue.Count == 1)
-                actor.ScheduleInvokeWithTimer(() => { Pump(); return Task.FromResult(true); });
+                actor.InvokeOnceWithTimer(() => { Pump(); return Task.FromResult(true); });
         }
 
         /// <summary>

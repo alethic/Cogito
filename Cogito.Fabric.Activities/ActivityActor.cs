@@ -50,9 +50,9 @@ namespace Cogito.Fabric.Activities
         /// Override this method to initialize the members.
         /// </summary>
         /// <returns></returns>
-        protected override async Task OnBeforeWorkflowActivate()
+        protected override async Task OnBeforeWorkflowActivateAsync()
         {
-            await base.OnBeforeWorkflowActivate();
+            await base.OnBeforeWorkflowActivateAsync();
             await LoadStateObject();
         }
 
@@ -84,10 +84,10 @@ namespace Cogito.Fabric.Activities
         /// Invoked when the activity workflow is persisted to the <see cref="IActorStateManager"/>.
         /// </summary>
         /// <returns></returns>
-        protected override async Task OnPersisted()
+        protected override async Task OnPersistedAsync()
         {
             await SaveStateObject();
-            await base.OnPersisted();
+            await base.OnPersistedAsync();
         }
 
         /// <summary>

@@ -4,7 +4,10 @@ using System.Activities.Statements;
 using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
+using Cogito.Activities;
 using Cogito.Fabric.Activities.Test.TestActor.Interfaces;
+using Microsoft.ServiceFabric.Actors;
+using Microsoft.ServiceFabric.Actors.Client;
 using Microsoft.ServiceFabric.Actors.Runtime;
 
 namespace Cogito.Fabric.Activities.Test.TestActor
@@ -28,6 +31,7 @@ namespace Cogito.Fabric.Activities.Test.TestActor
                         Activities =
                         {
                             Cogito.Activities.Activities.Invoke(() => OnLoop()),
+                            Cogito.Activities.Activities.Invoke(() => AfterDelay()),
                             Cogito.Activities.Activities.Delay(TimeSpan.FromSeconds(5)),
                         }
                     }
@@ -36,6 +40,8 @@ namespace Cogito.Fabric.Activities.Test.TestActor
 
         public async Task Run()
         {
+            await AfterDelay();
+
             var t = await ResumeAsync("Run", TimeSpan.FromSeconds(0));
         }
 
@@ -57,12 +63,13 @@ namespace Cogito.Fabric.Activities.Test.TestActor
             return Task.FromResult(true);
         }
 
-        Task AfterDelay()
+        async Task AfterDelay()
         {
             var sc = SynchronizationContext.Current;
             var ec = ExecutionContext.Capture();
             Debug.WriteLine("After");
-            return Task.FromResult(true);
+            var t1 = ActorProxy.Create<ITest>(ActorId.CreateRandom());
+            await t1.CallBack(this, State.Value);
         }
 
     }

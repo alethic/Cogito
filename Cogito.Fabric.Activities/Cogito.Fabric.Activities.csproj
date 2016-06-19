@@ -172,7 +172,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ActivityActorEventSource.TrackingRecord.tt</DependentUpon>
     </Compile>
-    <Compile Include="ActivityActorInternalExtensions.cs" />
     <Compile Include="ActivityActorTrackingParticipant.cs" />
     <Compile Include="ActivityActorTrackingParticipant.TrackingRecord.cs">
       <AutoGen>True</AutoGen>
@@ -183,7 +182,6 @@
     <Compile Include="ActivityWorkflowHost.cs" />
     <Compile Include="ActivityActorEventSource.cs" />
     <Compile Include="ActivityActor.cs" />
-    <Compile Include="ActivityActorClosedException.cs" />
     <Compile Include="ActivityActorException.cs" />
     <Compile Include="ActivityActorExtension.cs" />
     <Compile Include="ActivityActorStateManager.cs" />

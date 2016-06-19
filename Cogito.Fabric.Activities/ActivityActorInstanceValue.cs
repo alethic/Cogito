@@ -13,7 +13,7 @@ namespace Cogito.Fabric.Activities
     [KnownType(typeof(XName))]
     [KnownType(typeof(ReadOnlyCollection<BookmarkInfo>))]
     [KnownType(typeof(ActivityActorInstanceValueAsString))]
-    public class ActivityActorInstanceValue
+    class ActivityActorInstanceValue
     {
 
         [DataMember]

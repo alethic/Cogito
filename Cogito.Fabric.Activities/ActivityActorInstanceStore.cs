@@ -19,7 +19,7 @@ namespace Cogito.Fabric.Activities
     /// <summary>
     /// Provides a Durable Instancing store for saving objects into a <see cref="ActivityActorStateManager"/>.
     /// </summary>
-    public class ActivityActorInstanceStore :
+    class ActivityActorInstanceStore :
         InstanceStore
     {
 
@@ -110,7 +110,11 @@ namespace Cogito.Fabric.Activities
         /// <param name="command"></param>
         async Task<bool> CreateWorkflowOwnerCommand(InstancePersistenceContext context, CreateWorkflowOwnerCommand command)
         {
-            context.BindInstanceOwner(await state.GetInstanceOwnerId(), Guid.NewGuid());
+            var id = await state.GetInstanceOwnerId();
+            if (id == Guid.Empty)
+                throw new InvalidOperationException("InstanceOwnerId is empty.");
+
+            context.BindInstanceOwner(id, Guid.NewGuid());
             return true;
         }
 
@@ -120,9 +124,9 @@ namespace Cogito.Fabric.Activities
         /// <param name="context"></param>
         /// <param name="command"></param>
         /// <returns></returns>
-        async Task<bool> QueryActivatableWorkflowsCommand(InstancePersistenceContext context, QueryActivatableWorkflowsCommand command)
+        Task<bool> QueryActivatableWorkflowsCommand(InstancePersistenceContext context, QueryActivatableWorkflowsCommand command)
         {
-            return false;
+            return Task.FromResult(false);
         }
 
         /// <summary>
@@ -143,6 +147,7 @@ namespace Cogito.Fabric.Activities
                 await state.SetInstanceState(InstanceState.Completed);
                 await state.ClearInstanceData();
                 await state.ClearInstanceMetadata();
+                await state.OnCompleted();
             }
 
             // signal that we have been saved
@@ -166,6 +171,7 @@ namespace Cogito.Fabric.Activities
                     await LoadInstanceMetadata(context.InstanceView.InstanceId),
                     null,
                     null);
+
                 return true;
             }
             else
@@ -178,9 +184,9 @@ namespace Cogito.Fabric.Activities
         /// <param name="context"></param>
         /// <param name="command"></param>
         /// <returns></returns>
-        async Task<bool> TryLoadRunnableWorkflowCommand(InstancePersistenceContext context, TryLoadRunnableWorkflowCommand command)
+        Task<bool> TryLoadRunnableWorkflowCommand(InstancePersistenceContext context, TryLoadRunnableWorkflowCommand command)
         {
-            return false;
+            return Task.FromResult(false);
         }
 
         /// <summary>
@@ -204,8 +210,9 @@ namespace Cogito.Fabric.Activities
         /// <returns></returns>
         async Task<IDictionary<XName, InstanceValue>> LoadInstanceData(Guid instanceId)
         {
-            if (await state.GetInstanceId() != instanceId)
-                throw new InvalidOperationException();
+            var id = await state.GetInstanceId();
+            if (id != instanceId)
+                throw new InvalidOperationException("Actor InstanceId does not match loaded InstanceId.");
 
             return await (await state.GetInstanceDataItems())
                 .ToDictionaryAsync(i => i, async i => new InstanceValue(FromSerializableObject(await state.GetInstanceData(i))));

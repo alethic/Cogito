@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Activities;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 using Cogito.Fabric.Activities.Test.TestActor.Interfaces;
@@ -12,60 +11,13 @@ namespace Cogito.Fabric.Activities.Test.TestActor
 
     [ActorService(Name = "TestActorService")]
     class Test :
-        ActivityActor,
+        Actor,
         ITest
     {
-
-        public Task Run()
+        public async Task CallBack(ITest2 test2, int value)
         {
-            return ResumeAsync("Wait1");
+            await test2.SetNumber(value);
         }
-
-        protected override Task OnPersistableIdle()
-        {
-            return base.OnPersistableIdle();
-        }
-
-        protected override Task OnIdle()
-        {
-            return base.OnIdle();
-        }
-
-        protected override Task OnException(Exception exception)
-        {
-            return base.OnException(exception);
-        }
-
-        protected override Task OnAborted(Exception reason)
-        {
-            return base.OnAborted(reason);
-        }
-
-        protected override Task OnFaulted()
-        {
-            return base.OnFaulted();
-        }
-
-        protected override Task OnUnloaded()
-        {
-            return base.OnUnloaded();
-        }
-
-        protected override Task OnCompleted(ActivityInstanceState state, IDictionary<string, object> outputs)
-        {
-            return base.OnCompleted(state, outputs);
-        }
-
-        protected override Task ReceiveReminderAsync(string reminderName, byte[] context, TimeSpan dueTime, TimeSpan period)
-        {
-            return base.ReceiveReminderAsync(reminderName, context, dueTime, period);
-        }
-
-        protected override Activity CreateActivity()
-        {
-            throw new NotImplementedException();
-        }
-
     }
 
 }

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Activities;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
@@ -15,7 +14,7 @@ namespace Cogito.Fabric.Activities
     /// <summary>
     /// Manages access to a workflow's state with a <see cref="IActorStateManager"/>.
     /// </summary>
-    public class ActivityActorStateManager
+    class ActivityActorStateManager
     {
 
         const string KEY_PREFIX = "__ActivityActorState__";
