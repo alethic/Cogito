@@ -13,7 +13,7 @@ namespace Cogito.Fabric.Activities.Test.TestActor
     [ActorService(Name = "Test2ActorService")]
     [StatePersistence(StatePersistence.Persisted)]
     class Test2 :
-        ActivityActor<Activity, Test2State>,
+        ActivityActor<Test2State>,
         ITest2
     {
 

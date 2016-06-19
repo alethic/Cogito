@@ -12,7 +12,7 @@ namespace Cogito.Fabric.Activities.Test.TestActor
 
     [ActorService(Name = "TestActorService")]
     class Test :
-        ActivityActor<TestActorActivity>,
+        ActivityActor,
         ITest
     {
 
@@ -61,10 +61,11 @@ namespace Cogito.Fabric.Activities.Test.TestActor
             return base.ReceiveReminderAsync(reminderName, context, dueTime, period);
         }
 
-        protected override TestActorActivity CreateActivity()
+        protected override Activity CreateActivity()
         {
             throw new NotImplementedException();
         }
+
     }
 
 }

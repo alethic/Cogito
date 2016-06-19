@@ -95,13 +95,13 @@ namespace Cogito.Fabric.Activities
         }
 
         /// <summary>
-        /// Records a generic message for a <see cref="ActivityActor"/>.
+        /// Records a generic message for a <see cref="ActivityActorCore"/>.
         /// </summary>
         /// <param name="actor"></param>
         /// <param name="message"></param>
         /// <param name="args"></param>
         [NonEvent]
-        public void ActorMessage(ActivityActor actor, string message, params object[] args)
+        public void ActorMessage(ActivityActorCore actor, string message, params object[] args)
         {
             if (IsEnabled())
                 ActorMessage(

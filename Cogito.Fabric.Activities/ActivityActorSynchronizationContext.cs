@@ -12,7 +12,7 @@ namespace Cogito.Fabric.Activities
 {
 
     /// <summary>
-    /// Provides a synchronization context linked to an <see cref="ActivityActor"/> timer infrastructure.
+    /// Provides a synchronization context linked to an <see cref="ActivityActorCore"/> timer infrastructure.
     /// </summary>
     class ActivityActorSynchronizationContext :
         SynchronizationContext

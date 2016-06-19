@@ -165,6 +165,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActivityActorBase.cs" />
+    <Compile Include="ActivityActorCore.cs" />
     <Compile Include="ActivityActorEventSource.TrackingRecord.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
