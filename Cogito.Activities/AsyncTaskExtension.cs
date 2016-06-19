@@ -18,7 +18,7 @@ namespace Cogito.Activities
         /// </summary>
         static AsyncTaskExtension()
         {
-            defaultValue = new Lazy<AsyncTaskExtension>(() => new AsyncTaskExtension());
+            defaultValue = new Lazy<AsyncTaskExtension>(() => new AsyncTaskExtension(), true);
         }
 
         /// <summary>
