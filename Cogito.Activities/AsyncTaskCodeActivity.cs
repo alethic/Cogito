@@ -80,7 +80,7 @@ namespace Cogito.Activities
         /// </summary>
         /// <param name="context"></param>
         /// <returns></returns>
-        Task ExecuteInternalAsync(AsyncCodeActivityContext context)
+        Task<TResult> ExecuteInternalAsync(AsyncCodeActivityContext context)
         {
             return context.GetExtension<AsyncTaskExtension>().Execute(() => ExecuteAsync(context));
         }
