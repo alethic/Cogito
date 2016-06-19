@@ -38,7 +38,7 @@ namespace Cogito.Activities
         /// <returns></returns>
         Task ExecuteInternalAsync(AsyncCodeActivityContext context)
         {
-            return context.GetExtension<AsyncTaskExtension>().Execute(() => ExecuteAsync(context));
+            return context.GetExtension<AsyncTaskExtension>().ExecuteAsync(() => ExecuteAsync(context));
         }
 
         /// <summary>
@@ -82,7 +82,7 @@ namespace Cogito.Activities
         /// <returns></returns>
         Task<TResult> ExecuteInternalAsync(AsyncCodeActivityContext context)
         {
-            return context.GetExtension<AsyncTaskExtension>().Execute(() => ExecuteAsync(context));
+            return context.GetExtension<AsyncTaskExtension>().ExecuteAsync(() => ExecuteAsync(context));
         }
 
         /// <summary>

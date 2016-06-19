@@ -42,7 +42,7 @@ namespace Cogito.Activities
         /// </summary>
         /// <param name="action"></param>
         /// <returns></returns>
-        public virtual Task Execute(Func<Task> action)
+        public virtual Task ExecuteAsync(Func<Task> action)
         {
             Contract.Requires<ArgumentNullException>(action != null);
 
@@ -55,7 +55,7 @@ namespace Cogito.Activities
         /// <typeparam name="TResult"></typeparam>
         /// <param name="func"></param>
         /// <returns></returns>
-        public virtual Task<TResult> Execute<TResult>(Func<Task<TResult>> func)
+        public virtual Task<TResult> ExecuteAsync<TResult>(Func<Task<TResult>> func)
         {
             Contract.Requires<ArgumentNullException>(func != null);
 

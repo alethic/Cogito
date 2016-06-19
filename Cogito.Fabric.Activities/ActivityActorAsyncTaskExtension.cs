@@ -27,12 +27,12 @@ namespace Cogito.Fabric.Activities
             this.actor = actor;
         }
 
-        public override Task Execute(Func<Task> action)
+        public override Task ExecuteAsync(Func<Task> action)
         {
             return actor.InvokeWithTimer(action);
         }
 
-        public override Task<TResult> Execute<TResult>(Func<Task<TResult>> func)
+        public override Task<TResult> ExecuteAsync<TResult>(Func<Task<TResult>> func)
         {
             return actor.InvokeWithTimer(func);
         }
