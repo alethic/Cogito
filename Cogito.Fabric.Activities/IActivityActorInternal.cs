@@ -68,14 +68,14 @@ namespace Cogito.Fabric.Activities
         /// Invokes the given action once on an actor timer.
         /// </summary>
         /// <param name="action"></param>
-        Task InvokeWithTimer(Func<Task> action);
+        Task InvokeWithTimerAsync(Func<Task> action);
 
         /// <summary>
         /// Invokes the given action once on an actor timer.
         /// </summary>
         /// <typeparam name="TResult"></typeparam>
         /// <param name="func"></param>
-        Task<TResult> InvokeWithTimer<TResult>(Func<Task<TResult>> func);
+        Task<TResult> InvokeWithTimerAsync<TResult>(Func<Task<TResult>> func);
 
         /// <summary>
         /// Gets the reminder with the specified name.

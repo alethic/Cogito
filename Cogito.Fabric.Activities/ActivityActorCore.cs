@@ -391,14 +391,14 @@ namespace Cogito.Fabric.Activities
             UnregisterTimer(timer);
         }
 
-        Task IActivityActorInternal.InvokeWithTimer(Func<Task> action)
+        Task IActivityActorInternal.InvokeWithTimerAsync(Func<Task> action)
         {
-            return InvokeWithTimer(action);
+            return InvokeWithTimerAsync(action);
         }
 
-        Task<TResult> IActivityActorInternal.InvokeWithTimer<TResult>(Func<Task<TResult>> func)
+        Task<TResult> IActivityActorInternal.InvokeWithTimerAsync<TResult>(Func<Task<TResult>> func)
         {
-            return InvokeWithTimer(func);
+            return InvokeWithTimerAsync(func);
         }
 
         IActorReminder IActivityActorInternal.GetReminder(string reminderName)

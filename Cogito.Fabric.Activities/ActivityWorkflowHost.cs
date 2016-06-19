@@ -65,7 +65,7 @@ namespace Cogito.Fabric.Activities
 
             workflow.OnUnhandledException = args =>
             {
-                actor.InvokeWithTimer(async () =>
+                actor.InvokeWithTimerAsync(async () =>
                 {
                     await actor.OnUnhandledException(args);
                 });
@@ -75,7 +75,7 @@ namespace Cogito.Fabric.Activities
 
             workflow.Aborted = args =>
             {
-                actor.InvokeWithTimer(async () =>
+                actor.InvokeWithTimerAsync(async () =>
                 {
                     await actor.OnAborted(args);
                 });
@@ -83,7 +83,7 @@ namespace Cogito.Fabric.Activities
 
             workflow.PersistableIdle = args =>
             {
-                actor.InvokeWithTimer(async () =>
+                actor.InvokeWithTimerAsync(async () =>
                 {
                     await actor.OnPersistableIdle(args);
                 });
@@ -95,7 +95,7 @@ namespace Cogito.Fabric.Activities
 
             workflow.Idle = args =>
             {
-                actor.InvokeWithTimer(async () =>
+                actor.InvokeWithTimerAsync(async () =>
                 {
                     await actor.OnIdle(args);
                 });
@@ -103,7 +103,7 @@ namespace Cogito.Fabric.Activities
 
             workflow.Completed = args =>
             {
-                actor.InvokeWithTimer(async () =>
+                actor.InvokeWithTimerAsync(async () =>
                 {
                     await actor.OnCompleted(args);
                 });
@@ -111,7 +111,7 @@ namespace Cogito.Fabric.Activities
 
             workflow.Unloaded = args =>
             {
-                actor.InvokeWithTimer(async () =>
+                actor.InvokeWithTimerAsync(async () =>
                 {
                     await actor.OnUnloaded(args);
                 });

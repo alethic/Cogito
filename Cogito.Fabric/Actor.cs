@@ -176,7 +176,7 @@ namespace Cogito.Fabric
         /// Schedules the given action using an actor timer.
         /// </summary>
         /// <param name="action"></param>
-        protected Task InvokeWithTimer(Func<Task> action)
+        protected Task InvokeWithTimerAsync(Func<Task> action)
         {
             Contract.Requires<ArgumentNullException>(action != null);
 
@@ -198,7 +198,7 @@ namespace Cogito.Fabric
         /// Schedules the given function using an actor timer.
         /// </summary>
         /// <param name="func"></param>
-        protected Task<TResult> InvokeWithTimer<TResult>(Func<Task<TResult>> func)
+        protected Task<TResult> InvokeWithTimerAsync<TResult>(Func<Task<TResult>> func)
         {
             Contract.Requires<ArgumentNullException>(func != null);
 
