@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Activities;
 using System.Activities.Statements;
+using System.Threading.Tasks;
 
 namespace Cogito.Activities
 {
@@ -68,7 +69,7 @@ namespace Cogito.Activities
     /// Provides an <see cref="Activity"/> that executes the given function.
     /// </summary>
     public partial class ActionActivity :
-        NativeActivity
+        AsyncTaskCodeActivity
     {
 
         /// <summary>
@@ -116,9 +117,15 @@ namespace Cogito.Activities
         [RequiredArgument]
         public Action<ActivityContext> Action { get; set; }
 
-        protected override void Execute(NativeActivityContext context)
+        /// <summary>
+        /// Executes the function.
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        protected override Task ExecuteAsync(AsyncCodeActivityContext context)
         {
             Action(context);
+            return Task.FromResult(true);
         }
 
     }

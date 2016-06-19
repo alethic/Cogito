@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Activities;
-using System.Threading;
 using System.Threading.Tasks;
 
 using Cogito.Threading;
@@ -18,30 +17,28 @@ namespace Cogito.Activities
         protected override void CacheMetadata(CodeActivityMetadata metadata)
         {
             base.CacheMetadata(metadata);
-            metadata.RequireExtension<AsyncActivityExtension>();
-            metadata.AddDefaultExtensionProvider(() => new AsyncActivityExtension(null));
+            metadata.RequireExtension<AsyncTaskExtension>();
+            metadata.AddDefaultExtensionProvider(() => AsyncTaskExtension.Default);
         }
 
         protected sealed override IAsyncResult BeginExecute(AsyncCodeActivityContext context, AsyncCallback callback, object state)
         {
-            var tcs = new TaskCompletionSource<bool>(state);
-
-            using (new SynchronizationContextScope(context.GetExtension<AsyncActivityExtension>()?.SynchronizationContext ?? SynchronizationContext.Current))
-            {
-                (ExecuteAsync(context) ?? Task.FromResult(true))
-                    .ContinueWith(t =>
-                    {
-                        tcs.TrySetFrom(t);
-                        callback?.Invoke(tcs.Task);
-                    }, TaskContinuationOptions.ExecuteSynchronously);
-            }
-
-            return tcs.Task;
+            return (ExecuteInternalAsync(context) ?? Task.FromResult(true)).ToAsyncBegin(callback, state);
         }
 
         protected sealed override void EndExecute(AsyncCodeActivityContext context, IAsyncResult result)
         {
-            ((Task)result).GetAwaiter().GetResult();
+            ((Task)result).ToAsyncEnd();
+        }
+
+        /// <summary>
+        /// Executes the user code to retrieve the task.
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        Task ExecuteInternalAsync(AsyncCodeActivityContext context)
+        {
+            return context.GetExtension<AsyncTaskExtension>().Execute(() => ExecuteAsync(context));
         }
 
         /// <summary>
@@ -64,30 +61,28 @@ namespace Cogito.Activities
         protected override void CacheMetadata(CodeActivityMetadata metadata)
         {
             base.CacheMetadata(metadata);
-            metadata.RequireExtension<AsyncActivityExtension>();
-            metadata.AddDefaultExtensionProvider(() => new AsyncActivityExtension(null));
+            metadata.RequireExtension<AsyncTaskExtension>();
+            metadata.AddDefaultExtensionProvider(() => AsyncTaskExtension.Default);
         }
 
         protected sealed override IAsyncResult BeginExecute(AsyncCodeActivityContext context, AsyncCallback callback, object state)
         {
-            var tcs = new TaskCompletionSource<TResult>(state);
-
-            using (new SynchronizationContextScope(context.GetExtension<AsyncActivityExtension>()?.SynchronizationContext ?? SynchronizationContext.Current))
-            {
-                (ExecuteAsync(context) ?? Task.FromResult(default(TResult)))
-                    .ContinueWith(t =>
-                    {
-                        tcs.TrySetFrom(t);
-                        callback?.Invoke(tcs.Task);
-                    }, TaskContinuationOptions.ExecuteSynchronously);
-            }
-
-            return tcs.Task;
+            return (ExecuteInternalAsync(context) ?? Task.FromResult(default(TResult))).ToAsyncBegin(callback, state);
         }
 
         protected sealed override TResult EndExecute(AsyncCodeActivityContext context, IAsyncResult result)
         {
-            return ((Task<TResult>)result).GetAwaiter().GetResult();
+            return ((Task<TResult>)result).ToAsyncEnd();
+        }
+
+        /// <summary>
+        /// Executes the user code to retrieve the task.
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        Task ExecuteInternalAsync(AsyncCodeActivityContext context)
+        {
+            return context.GetExtension<AsyncTaskExtension>().Execute(() => ExecuteAsync(context));
         }
 
         /// <summary>

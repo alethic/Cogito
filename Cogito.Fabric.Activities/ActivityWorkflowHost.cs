@@ -23,7 +23,6 @@ namespace Cogito.Fabric.Activities
 
         readonly IActivityActorInternal actor;
         readonly ActivityActorStateManager state;
-        readonly ActivityActorSynchronizationContext sync;
         WorkflowApplication workflow;
 
         /// <summary>
@@ -40,9 +39,6 @@ namespace Cogito.Fabric.Activities
             this.state = new ActivityActorStateManager(() => actor.StateManager);
             this.state.Persisted = OnPersistedFromStore;
             this.state.Completed = OnCompletedFromStore;
-
-            // collects tasks and schedules them on the actor
-            this.sync = new ActivityActorSynchronizationContext(actor);
         }
 
         /// <summary>
@@ -52,38 +48,6 @@ namespace Cogito.Fabric.Activities
         {
             if (workflow == null)
                 throw new ActivityStateException();
-        }
-
-        /// <summary>
-        /// Executes the given workflow method, and then drains the defered operation queue.
-        /// </summary>
-        /// <param name="action"></param>
-        /// <returns></returns>
-        async Task RunAndPump(Func<Task> action)
-        {
-            Contract.Requires<ArgumentNullException>(action != null);
-            ThrowIfInvalidState();
-
-            // execute action, drain tasks, then wait
-            var t = action();
-            sync.Pump();
-            await t;
-        }
-
-        /// <summary>
-        /// Executes the given workflow method, and then drains the defered operation queue.
-        /// </summary>
-        /// <param name="action"></param>
-        /// <returns></returns>
-        async Task<TResult> RunAndPump<TResult>(Func<Task<TResult>> action)
-        {
-            Contract.Requires<ArgumentNullException>(action != null);
-            ThrowIfInvalidState();
-
-            // execute action, drain tasks, then wait
-            var t = action();
-            sync.Pump();
-            return await t;
         }
 
         /// <summary>
@@ -97,33 +61,32 @@ namespace Cogito.Fabric.Activities
             Contract.Requires<ArgumentNullException>(activity != null);
 
             workflow = inputs != null ? new WorkflowApplication(activity, inputs) : new WorkflowApplication(activity);
-            workflow.SynchronizationContext = sync;
             workflow.InstanceStore = new ActivityActorInstanceStore(state);
 
             workflow.OnUnhandledException = args =>
             {
-                workflow.SynchronizationContext.Post(async o =>
+                actor.InvokeWithTimer(async () =>
                 {
                     await actor.OnUnhandledException(args);
-                }, null);
+                });
 
                 return UnhandledExceptionAction.Abort;
             };
 
             workflow.Aborted = args =>
             {
-                workflow.SynchronizationContext.Post(async o =>
+                actor.InvokeWithTimer(async () =>
                 {
                     await actor.OnAborted(args);
-                }, null);
+                });
             };
 
             workflow.PersistableIdle = args =>
             {
-                workflow.SynchronizationContext.Post(async o =>
+                actor.InvokeWithTimer(async () =>
                 {
                     await actor.OnPersistableIdle(args);
-                }, null);
+                });
 
                 // workflow should save state but not unload until actor deactivated
                 // workflow timers invoke themselves as long as it's loaded
@@ -132,31 +95,31 @@ namespace Cogito.Fabric.Activities
 
             workflow.Idle = args =>
             {
-                workflow.SynchronizationContext.Post(async o =>
+                actor.InvokeWithTimer(async () =>
                 {
                     await actor.OnIdle(args);
-                }, null);
+                });
             };
 
             workflow.Completed = args =>
             {
-                workflow.SynchronizationContext.Post(async o =>
+                actor.InvokeWithTimer(async () =>
                 {
                     await actor.OnCompleted(args);
-                }, null);
+                });
             };
 
             workflow.Unloaded = args =>
             {
-                workflow.SynchronizationContext.Post(async o =>
+                actor.InvokeWithTimer(async () =>
                 {
                     await actor.OnUnloaded(args);
-                }, null);
+                });
             };
 
+            workflow.Extensions.Add(() => new ActivityActorAsyncTaskExtension(actor));
             workflow.Extensions.Add(() => new ActivityActorTrackingParticipant(actor));
             workflow.Extensions.Add(() => new ActivityActorExtension(actor));
-            workflow.Extensions.Add(() => new AsyncActivityExtension(workflow.SynchronizationContext));
 
             // add user extensions
             foreach (var ext in actor.GetWorkflowExtensions())
@@ -186,14 +149,14 @@ namespace Cogito.Fabric.Activities
                         // create workflow
                         await CreateWorkflow(actor.CreateActivity(), actor.CreateActivityInputs() ?? new Dictionary<string, object>());
                         await state.SetInstanceId(workflow.Id);
-                        await RunAndPump(() => workflow.RunAsync());
+                        await workflow.RunAsync();
                     }
                     else
                     {
                         // load workflow
                         await CreateWorkflow(actor.CreateActivity());
-                        await RunAndPump(async () => await workflow.LoadAsync(await state.GetInstanceId()));
-                        await RunAndPump(() => workflow.RunAsync());
+                        await workflow.LoadAsync(await state.GetInstanceId());
+                        await workflow.RunAsync();
                     }
                 }
             }
@@ -209,7 +172,7 @@ namespace Cogito.Fabric.Activities
             {
                 try
                 {
-                    await RunAndPump(() => workflow.UnloadAsync(TimeSpan.FromMinutes(1)));
+                    await workflow.UnloadAsync();
                 }
                 catch (TimeoutException)
                 {
@@ -324,7 +287,7 @@ namespace Cogito.Fabric.Activities
         internal async Task RunAsync()
         {
             ThrowIfInvalidState();
-            await RunAndPump(() => workflow.RunAsync());
+            await workflow.RunAsync();
         }
 
         /// <summary>
@@ -339,7 +302,7 @@ namespace Cogito.Fabric.Activities
             Contract.Requires<ArgumentNullException>(bookmark != null);
             ThrowIfInvalidState();
 
-            return await RunAndPump(async () => await workflow.ResumeBookmarkAsync(bookmark, value, timeout));
+            return await workflow.ResumeBookmarkAsync(bookmark, value, timeout);
         }
 
         /// <summary>
@@ -353,7 +316,7 @@ namespace Cogito.Fabric.Activities
             Contract.Requires<ArgumentNullException>(bookmark != null);
             ThrowIfInvalidState();
 
-            return await RunAndPump(async () => await workflow.ResumeBookmarkAsync(bookmark, value));
+            return await workflow.ResumeBookmarkAsync(bookmark, value);
         }
 
         /// <summary>
@@ -369,7 +332,7 @@ namespace Cogito.Fabric.Activities
             Contract.Requires<ArgumentException>(bookmarkName.Length > 0);
             ThrowIfInvalidState();
 
-            return await RunAndPump(async () => await workflow.ResumeBookmarkAsync(bookmarkName, value, timeout));
+            return await workflow.ResumeBookmarkAsync(bookmarkName, value, timeout);
         }
 
         /// <summary>
@@ -384,7 +347,7 @@ namespace Cogito.Fabric.Activities
             Contract.Requires<ArgumentException>(bookmarkName.Length > 0);
             ThrowIfInvalidState();
 
-            return await RunAndPump(async () => await workflow.ResumeBookmarkAsync(bookmarkName, value));
+            return await workflow.ResumeBookmarkAsync(bookmarkName, value);
         }
 
         /// <summary>
@@ -395,10 +358,14 @@ namespace Cogito.Fabric.Activities
         /// <param name="dueTime"></param>
         /// <param name="period"></param>
         /// <returns></returns>
-        internal async Task ReceiveReminderAsync(string reminderName, byte[] context, TimeSpan dueTime, TimeSpan period)
+        internal Task ReceiveReminderAsync(string reminderName, byte[] context, TimeSpan dueTime, TimeSpan period)
         {
             if (reminderName == ActivityTimerExpirationReminderName)
-                await RunAndPump(() => Task.FromResult(true));
+            {
+                // workflow was activated, should be good enough
+            }
+
+            return Task.FromResult(true);
         }
 
     }

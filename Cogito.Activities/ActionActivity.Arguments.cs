@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Activities;
 using System.Diagnostics.Contracts;
+using System.Threading.Tasks;
 
 namespace Cogito.Activities
 {
@@ -1506,7 +1507,7 @@ namespace Cogito.Activities
     /// Provides an <see cref="Activity"/> that executes the given action with 1 arguments.
     /// </summary>
     public class ActionActivity<TArg1> :
-        NativeActivity
+        AsyncTaskCodeActivity
     {
     
         /// <summary>
@@ -1578,9 +1579,15 @@ namespace Cogito.Activities
         [RequiredArgument]
         public InArgument<TArg1> Argument1 { get; set; }
 
-        protected override void Execute(NativeActivityContext context)
+        /// <summary>
+        /// Executes the function.
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        protected override Task ExecuteAsync(AsyncCodeActivityContext context)
         {
             Action(context.GetValue(Argument1), context);
+            return Task.FromResult(true);
         }
 
     }
@@ -1589,7 +1596,7 @@ namespace Cogito.Activities
     /// Provides an <see cref="Activity"/> that executes the given action with 2 arguments.
     /// </summary>
     public class ActionActivity<TArg1, TArg2> :
-        NativeActivity
+        AsyncTaskCodeActivity
     {
     
         /// <summary>
@@ -1673,9 +1680,15 @@ namespace Cogito.Activities
         [RequiredArgument]
         public InArgument<TArg2> Argument2 { get; set; }
 
-        protected override void Execute(NativeActivityContext context)
+        /// <summary>
+        /// Executes the function.
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        protected override Task ExecuteAsync(AsyncCodeActivityContext context)
         {
             Action(context.GetValue(Argument1), context.GetValue(Argument2), context);
+            return Task.FromResult(true);
         }
 
     }
@@ -1684,7 +1697,7 @@ namespace Cogito.Activities
     /// Provides an <see cref="Activity"/> that executes the given action with 3 arguments.
     /// </summary>
     public class ActionActivity<TArg1, TArg2, TArg3> :
-        NativeActivity
+        AsyncTaskCodeActivity
     {
     
         /// <summary>
@@ -1780,9 +1793,15 @@ namespace Cogito.Activities
         [RequiredArgument]
         public InArgument<TArg3> Argument3 { get; set; }
 
-        protected override void Execute(NativeActivityContext context)
+        /// <summary>
+        /// Executes the function.
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        protected override Task ExecuteAsync(AsyncCodeActivityContext context)
         {
             Action(context.GetValue(Argument1), context.GetValue(Argument2), context.GetValue(Argument3), context);
+            return Task.FromResult(true);
         }
 
     }
@@ -1791,7 +1810,7 @@ namespace Cogito.Activities
     /// Provides an <see cref="Activity"/> that executes the given action with 4 arguments.
     /// </summary>
     public class ActionActivity<TArg1, TArg2, TArg3, TArg4> :
-        NativeActivity
+        AsyncTaskCodeActivity
     {
     
         /// <summary>
@@ -1899,9 +1918,15 @@ namespace Cogito.Activities
         [RequiredArgument]
         public InArgument<TArg4> Argument4 { get; set; }
 
-        protected override void Execute(NativeActivityContext context)
+        /// <summary>
+        /// Executes the function.
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        protected override Task ExecuteAsync(AsyncCodeActivityContext context)
         {
             Action(context.GetValue(Argument1), context.GetValue(Argument2), context.GetValue(Argument3), context.GetValue(Argument4), context);
+            return Task.FromResult(true);
         }
 
     }
@@ -1910,7 +1935,7 @@ namespace Cogito.Activities
     /// Provides an <see cref="Activity"/> that executes the given action with 5 arguments.
     /// </summary>
     public class ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5> :
-        NativeActivity
+        AsyncTaskCodeActivity
     {
     
         /// <summary>
@@ -2030,9 +2055,15 @@ namespace Cogito.Activities
         [RequiredArgument]
         public InArgument<TArg5> Argument5 { get; set; }
 
-        protected override void Execute(NativeActivityContext context)
+        /// <summary>
+        /// Executes the function.
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        protected override Task ExecuteAsync(AsyncCodeActivityContext context)
         {
             Action(context.GetValue(Argument1), context.GetValue(Argument2), context.GetValue(Argument3), context.GetValue(Argument4), context.GetValue(Argument5), context);
+            return Task.FromResult(true);
         }
 
     }
@@ -2041,7 +2072,7 @@ namespace Cogito.Activities
     /// Provides an <see cref="Activity"/> that executes the given action with 6 arguments.
     /// </summary>
     public class ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6> :
-        NativeActivity
+        AsyncTaskCodeActivity
     {
     
         /// <summary>
@@ -2173,9 +2204,15 @@ namespace Cogito.Activities
         [RequiredArgument]
         public InArgument<TArg6> Argument6 { get; set; }
 
-        protected override void Execute(NativeActivityContext context)
+        /// <summary>
+        /// Executes the function.
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        protected override Task ExecuteAsync(AsyncCodeActivityContext context)
         {
             Action(context.GetValue(Argument1), context.GetValue(Argument2), context.GetValue(Argument3), context.GetValue(Argument4), context.GetValue(Argument5), context.GetValue(Argument6), context);
+            return Task.FromResult(true);
         }
 
     }
@@ -2184,7 +2221,7 @@ namespace Cogito.Activities
     /// Provides an <see cref="Activity"/> that executes the given action with 7 arguments.
     /// </summary>
     public class ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7> :
-        NativeActivity
+        AsyncTaskCodeActivity
     {
     
         /// <summary>
@@ -2328,9 +2365,15 @@ namespace Cogito.Activities
         [RequiredArgument]
         public InArgument<TArg7> Argument7 { get; set; }
 
-        protected override void Execute(NativeActivityContext context)
+        /// <summary>
+        /// Executes the function.
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        protected override Task ExecuteAsync(AsyncCodeActivityContext context)
         {
             Action(context.GetValue(Argument1), context.GetValue(Argument2), context.GetValue(Argument3), context.GetValue(Argument4), context.GetValue(Argument5), context.GetValue(Argument6), context.GetValue(Argument7), context);
+            return Task.FromResult(true);
         }
 
     }
@@ -2339,7 +2382,7 @@ namespace Cogito.Activities
     /// Provides an <see cref="Activity"/> that executes the given action with 8 arguments.
     /// </summary>
     public class ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8> :
-        NativeActivity
+        AsyncTaskCodeActivity
     {
     
         /// <summary>
@@ -2495,9 +2538,15 @@ namespace Cogito.Activities
         [RequiredArgument]
         public InArgument<TArg8> Argument8 { get; set; }
 
-        protected override void Execute(NativeActivityContext context)
+        /// <summary>
+        /// Executes the function.
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        protected override Task ExecuteAsync(AsyncCodeActivityContext context)
         {
             Action(context.GetValue(Argument1), context.GetValue(Argument2), context.GetValue(Argument3), context.GetValue(Argument4), context.GetValue(Argument5), context.GetValue(Argument6), context.GetValue(Argument7), context.GetValue(Argument8), context);
+            return Task.FromResult(true);
         }
 
     }

@@ -37,7 +37,7 @@ namespace Cogito.Fabric.Activities
         /// <returns></returns>
         protected override IAsyncResult BeginTrack(TrackingRecord record, TimeSpan timeout, AsyncCallback callback, object state)
         {
-            return Task.Run(() => Track(record, timeout)).BeginToAsync(callback, state);
+            return Task.Run(() => Track(record, timeout)).ToAsyncBegin(callback, state);
         }
 
         /// <summary>
@@ -46,7 +46,7 @@ namespace Cogito.Fabric.Activities
         /// <param name="result"></param>
         protected override void EndTrack(IAsyncResult result)
         {
-            ((Task)result).EndToAsync();
+            ((Task)result).ToAsyncEnd();
         }
 
         /// <summary>

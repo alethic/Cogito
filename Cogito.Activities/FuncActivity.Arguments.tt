@@ -6,6 +6,8 @@
 <#@ output extension=".cs" #>
 using System;
 using System.Activities;
+using System.Diagnostics.Contracts;
+using System.Threading.Tasks;
 
 namespace Cogito.Activities
 {
@@ -18,53 +20,142 @@ for (int i = 1; i <= 8; i++)
 {
 #>
 
+        /// <summary>
+        /// Returns a <see cref="Activity"/> that executes <paramref name="func"/>.
+        /// </summary>
+        <# WriteTypeParamsComments(i); #>
+        /// <param name="func"></param>
+        /// <returns></returns>
         public static FuncActivity<<#= Repeat("TArg{0}", i, ", ") #>, TResult> Invoke<<#= Repeat("TArg{0}", i, ", ") #>, TResult>(Func<<#= Repeat("TArg{0}", i, ", ") #>, TResult> func)
         {
+            Contract.Requires<ArgumentNullException>(func != null);
+
             return new FuncActivity<<#= Repeat("TArg{0}", i, ", ") #>, TResult>((<#= Repeat("_arg{0}", i, ", ") #>, context) => func(<#= Repeat("_arg{0}", i, ", ") #>), <#= Repeat("null", i, ", ") #>);
         }
-
+        
+        /// <summary>
+        /// Returns a <see cref="Activity"/> that executes <paramref name="func"/>.
+        /// </summary>
+        <# WriteTypeParamsComments(i); #>
+        /// <param name="func"></param>
+        <# WriteArgParamsComments(i); #>
+        /// <returns></returns>
         public static FuncActivity<<#= Repeat("TArg{0}", i, ", ") #>, TResult> Invoke<<#= Repeat("TArg{0}", i, ", ") #>, TResult>(Func<<#= Repeat("TArg{0}", i, ", ") #>, TResult> func, <#= Repeat("InArgument<TArg{0}> arg{0}", i, ", ") #>)
         {
+            Contract.Requires<ArgumentNullException>(func != null);
+
             return new FuncActivity<<#= Repeat("TArg{0}", i, ", ") #>, TResult>((<#= Repeat("_arg{0}", i, ", ") #>, context) => func(<#= Repeat("_arg{0}", i, ", ") #>), <#= Repeat("arg{0}", i, ", ") #>);
         }
-
+        
+        /// <summary>
+        /// Returns a <see cref="Activity"/> that executes <paramref name="func"/>.
+        /// </summary>
+        <# WriteTypeParamsComments(i); #>
+        /// <param name="func"></param>
+        <# WriteArgParamsComments(i); #>
+        /// <returns></returns>
         public static FuncActivity<<#= Repeat("TArg{0}", i, ", ") #>, TResult> Invoke<<#= Repeat("TArg{0}", i, ", ") #>, TResult>(Func<<#= Repeat("TArg{0}", i, ", ") #>, TResult> func, <#= Repeat("DelegateInArgument<TArg{0}> arg{0}", i, ", ") #>)
         {
+            Contract.Requires<ArgumentNullException>(func != null);
+
             return new FuncActivity<<#= Repeat("TArg{0}", i, ", ") #>, TResult>((<#= Repeat("_arg{0}", i, ", ") #>, context) => func(<#= Repeat("_arg{0}", i, ", ") #>), <#= Repeat("arg{0}", i, ", ") #>);
         }
-
+        
+        /// <summary>
+        /// Returns a <see cref="Activity"/> that executes <paramref name="func"/>.
+        /// </summary>
+        <# WriteTypeParamsComments(i); #>
+        /// <param name="func"></param>
+        <# WriteArgParamsComments(i); #>
+        /// <returns></returns>
         public static FuncActivity<<#= Repeat("TArg{0}", i, ", ") #>, TResult> Invoke<<#= Repeat("TArg{0}", i, ", ") #>, TResult>(<#= Repeat("InArgument<TArg{0}> arg{0}", i, ", ") #>, Func<<#= Repeat("TArg{0}", i, ", ") #>, TResult> func)
         {
+            Contract.Requires<ArgumentNullException>(func != null);
+
             return new FuncActivity<<#= Repeat("TArg{0}", i, ", ") #>, TResult>((<#= Repeat("_arg{0}", i, ", ") #>, context) => func(<#= Repeat("_arg{0}", i, ", ") #>), <#= Repeat("arg{0}", i, ", ") #>);
         }
-
+        
+        /// <summary>
+        /// Returns a <see cref="Activity"/> that executes <paramref name="func"/>.
+        /// </summary>
+        <# WriteTypeParamsComments(i); #>
+        /// <param name="func"></param>
+        <# WriteArgParamsComments(i); #>
+        /// <returns></returns>
         public static FuncActivity<<#= Repeat("TArg{0}", i, ", ") #>, TResult> Invoke<<#= Repeat("TArg{0}", i, ", ") #>, TResult>(<#= Repeat("DelegateInArgument<TArg{0}> arg{0}", i, ", ") #>, Func<<#= Repeat("TArg{0}", i, ", ") #>, TResult> func)
         {
+            Contract.Requires<ArgumentNullException>(func != null);
+
             return new FuncActivity<<#= Repeat("TArg{0}", i, ", ") #>, TResult>((<#= Repeat("_arg{0}", i, ", ") #>, context) => func(<#= Repeat("_arg{0}", i, ", ") #>), <#= Repeat("arg{0}", i, ", ") #>);
         }
-
+                
+        /// <summary>
+        /// Returns a <see cref="Activity"/> that executes <paramref name="func"/>.
+        /// </summary>
+        <# WriteTypeParamsComments(i); #>
+        /// <param name="func"></param>
+        <# WriteArgParamsComments(i); #>
+        /// <returns></returns>
         public static FuncActivity<<#= Repeat("TArg{0}", i, ", ") #>, TResult> InvokeWithContext<<#= Repeat("TArg{0}", i, ", ") #>, TResult>(Func<<#= Repeat("TArg{0}", i, ", ") #>, ActivityContext, TResult> func)
         {
+            Contract.Requires<ArgumentNullException>(func != null);
+
             return new FuncActivity<<#= Repeat("TArg{0}", i, ", ") #>, TResult>(func, <#= Repeat("null", i, ", ") #>);
         }
 
+        /// <summary>
+        /// Returns a <see cref="Activity"/> that executes <paramref name="func"/>.
+        /// </summary>
+        <# WriteTypeParamsComments(i); #>
+        /// <param name="func"></param>
+        <# WriteArgParamsComments(i); #>
+        /// <returns></returns>
         public static FuncActivity<<#= Repeat("TArg{0}", i, ", ") #>, TResult> InvokeWithContext<<#= Repeat("TArg{0}", i, ", ") #>, TResult>(Func<<#= Repeat("TArg{0}", i, ", ") #>, ActivityContext, TResult> func, <#= Repeat("InArgument<TArg{0}> arg{0}", i, ", ") #>)
         {
+            Contract.Requires<ArgumentNullException>(func != null);
+
             return new FuncActivity<<#= Repeat("TArg{0}", i, ", ") #>, TResult>(func, <#= Repeat("arg{0}", i, ", ") #>);
         }
 
+        /// <summary>
+        /// Returns a <see cref="Activity"/> that executes <paramref name="func"/>.
+        /// </summary>
+        <# WriteTypeParamsComments(i); #>
+        /// <param name="func"></param>
+        <# WriteArgParamsComments(i); #>
+        /// <returns></returns>
         public static FuncActivity<<#= Repeat("TArg{0}", i, ", ") #>, TResult> InvokeWithContext<<#= Repeat("TArg{0}", i, ", ") #>, TResult>(Func<<#= Repeat("TArg{0}", i, ", ") #>, ActivityContext, TResult> func, <#= Repeat("DelegateInArgument<TArg{0}> arg{0}", i, ", ") #>)
         {
+            Contract.Requires<ArgumentNullException>(func != null);
+
             return new FuncActivity<<#= Repeat("TArg{0}", i, ", ") #>, TResult>(func, <#= Repeat("arg{0}", i, ", ") #>);
         }
-
+        
+        /// <summary>
+        /// Returns a <see cref="Activity"/> that executes <paramref name="func"/>.
+        /// </summary>
+        <# WriteTypeParamsComments(i); #>
+        /// <param name="func"></param>
+        <# WriteArgParamsComments(i); #>
+        /// <returns></returns>
         public static FuncActivity<<#= Repeat("TArg{0}", i, ", ") #>, TResult> InvokeWithContext<<#= Repeat("TArg{0}", i, ", ") #>, TResult>(<#= Repeat("InArgument<TArg{0}> arg{0}", i, ", ") #>, Func<<#= Repeat("TArg{0}", i, ", ") #>, ActivityContext, TResult> func)
         {
+            Contract.Requires<ArgumentNullException>(func != null);
+
             return new FuncActivity<<#= Repeat("TArg{0}", i, ", ") #>, TResult>(func, <#= Repeat("arg{0}", i, ", ") #>);
         }
-
+        
+        /// <summary>
+        /// Returns a <see cref="Activity"/> that executes <paramref name="func"/>.
+        /// </summary>
+        <# WriteTypeParamsComments(i); #>
+        /// <param name="func"></param>
+        <# WriteArgParamsComments(i); #>
+        /// <returns></returns>
         public static FuncActivity<<#= Repeat("TArg{0}", i, ", ") #>, TResult> InvokeWithContext<<#= Repeat("TArg{0}", i, ", ") #>, TResult>(<#= Repeat("DelegateInArgument<TArg{0}> arg{0}", i, ", ") #>, Func<<#= Repeat("TArg{0}", i, ", ") #>, ActivityContext, TResult> func)
         {
+            Contract.Requires<ArgumentNullException>(func != null);
+
             return new FuncActivity<<#= Repeat("TArg{0}", i, ", ") #>, TResult>(func, <#= Repeat("arg{0}", i, ", ") #>);
         }
 
@@ -81,7 +172,7 @@ for (int i = 1; i <= 8; i++)
     /// Provides an <see cref="Activity"/> that executes the given function with <#= i #> arguments.
     /// </summary>
     public class FuncActivity<<#= Repeat("TArg{0}", i, ", ") #>, TResult> :
-        NativeActivity<TResult>
+        AsyncTaskCodeActivity<TResult>
     {
 
         public static implicit operator ActivityFunc<<#= Repeat("TArg{0}", i, ", ") #>, TResult>(FuncActivity<<#= Repeat("TArg{0}", i, ", ") #>, TResult> activity)
@@ -186,9 +277,16 @@ for (int j = 1; j <= i; j++)
 <#
 }
 #>
-        protected override void Execute(NativeActivityContext context)
+
+
+        /// <summary>
+        /// Executes the function.
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        protected override Task<TResult> ExecuteAsync(AsyncCodeActivityContext context)
         {
-            Result.Set(context, Func(<#= Repeat("context.GetValue(Argument{0})", i, ", ") #>, context));
+            return Task.FromResult(Func(<#= Repeat("context.GetValue(Argument{0})", i, ", ") #>, context));
         }
 
     }
@@ -204,6 +302,22 @@ for (int j = 1; j <= i; j++)
 string Repeat(string format, int count, string separator)
 {
     return string.Join(separator, Enumerable.Range(1, count).Select(i => string.Format(format , i)));
+}
+
+void WriteTypeParamsComments(int count)
+{
+    for (int i = 1; i <= count; i++)
+    {
+        WriteLine("/// <typeparam name=\"TArg" + i + "\"></typeparam>");
+    }
+}
+
+void WriteArgParamsComments(int count)
+{
+    for (int i = 1; i <= count; i++)
+    {
+        WriteLine("/// <param name=\"arg" + i + "\"></param>");
+    }
 }
 
 #>

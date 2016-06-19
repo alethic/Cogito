@@ -7,6 +7,7 @@
 using System;
 using System.Activities;
 using System.Diagnostics.Contracts;
+using System.Threading.Tasks;
 
 namespace Cogito.Activities
 {
@@ -158,7 +159,7 @@ for (int i = 1; i <= 8; i++)
     /// Provides an <see cref="Activity"/> that executes the given action with <#= i #> arguments.
     /// </summary>
     public class ActionActivity<<#= Repeat("TArg{0}", i, ", ") #>> :
-        NativeActivity
+        AsyncTaskCodeActivity
     {
     
         /// <summary>
@@ -279,9 +280,15 @@ for (int i = 1; i <= 8; i++)
 <#
     }
 #>
-        protected override void Execute(NativeActivityContext context)
+        /// <summary>
+        /// Executes the function.
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        protected override Task ExecuteAsync(AsyncCodeActivityContext context)
         {
             Action(<#= Repeat("context.GetValue(Argument{0})", i, ", ") #>, context);
+            return Task.FromResult(true);
         }
 
     }

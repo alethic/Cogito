@@ -3,7 +3,7 @@ using System.Diagnostics.Contracts;
 using System.Fabric;
 using System.Fabric.Health;
 using System.Threading.Tasks;
-
+using Cogito.Threading;
 using Microsoft.ServiceFabric.Actors;
 using Microsoft.ServiceFabric.Actors.Runtime;
 
@@ -176,19 +176,44 @@ namespace Cogito.Fabric
         /// Schedules the given action using an actor timer.
         /// </summary>
         /// <param name="action"></param>
-        protected void InvokeOnceWithTimer(Func<Task> action)
+        protected Task InvokeWithTimer(Func<Task> action)
         {
             Contract.Requires<ArgumentNullException>(action != null);
 
             // hoist timer so it can be unregistered
             IActorTimer timer = null;
+            var cs = new TaskCompletionSource<bool>();
 
             // schedule timer
             timer = RegisterTimer(
-                o => { UnregisterTimer(timer); return action(); },
+                async o => { UnregisterTimer(timer); await cs.SafeTrySetFromAsync(action); },
                 null,
                 TimeSpan.FromMilliseconds(1),
                 TimeSpan.FromMilliseconds(-1));
+
+            return cs.Task;
+        }
+
+        /// <summary>
+        /// Schedules the given function using an actor timer.
+        /// </summary>
+        /// <param name="func"></param>
+        protected Task<TResult> InvokeWithTimer<TResult>(Func<Task<TResult>> func)
+        {
+            Contract.Requires<ArgumentNullException>(func != null);
+
+            // hoist timer so it can be unregistered
+            IActorTimer timer = null;
+            var cs = new TaskCompletionSource<TResult>();
+
+            // schedule timer
+            timer = RegisterTimer(
+                async o => { UnregisterTimer(timer); await cs.SafeTrySetFromAsync(func); },
+                null,
+                TimeSpan.FromMilliseconds(1),
+                TimeSpan.FromMilliseconds(-1));
+
+            return cs.Task;
         }
 
     }

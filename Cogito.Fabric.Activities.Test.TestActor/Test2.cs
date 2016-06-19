@@ -4,8 +4,9 @@ using System.Activities.Statements;
 using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
-using Cogito.Activities;
+
 using Cogito.Fabric.Activities.Test.TestActor.Interfaces;
+
 using Microsoft.ServiceFabric.Actors;
 using Microsoft.ServiceFabric.Actors.Client;
 using Microsoft.ServiceFabric.Actors.Runtime;
@@ -66,8 +67,11 @@ namespace Cogito.Fabric.Activities.Test.TestActor
         async Task AfterDelay()
         {
             var sc = SynchronizationContext.Current;
+            await StateManager.SetStateAsync("foo", new object());
             var ec = ExecutionContext.Capture();
+            await StateManager.SetStateAsync("foo2", new object());
             Debug.WriteLine("After");
+            await StateManager.SetStateAsync("fo3o", new object());
             var t1 = ActorProxy.Create<ITest>(ActorId.CreateRandom());
             await t1.CallBack(this, State.Value);
         }

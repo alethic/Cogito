@@ -63,31 +63,31 @@ namespace Cogito.Fabric.Activities
         {
             if (command is CreateWorkflowOwnerCommand)
             {
-                return CreateWorkflowOwnerCommand(context, (CreateWorkflowOwnerCommand)command).BeginToAsync(callback, state);
+                return CreateWorkflowOwnerCommand(context, (CreateWorkflowOwnerCommand)command).ToAsyncBegin(callback, state);
             }
             else if (command is QueryActivatableWorkflowsCommand)
             {
-                return QueryActivatableWorkflowsCommand(context, (QueryActivatableWorkflowsCommand)command).BeginToAsync(callback, state);
+                return QueryActivatableWorkflowsCommand(context, (QueryActivatableWorkflowsCommand)command).ToAsyncBegin(callback, state);
             }
             else if (command is SaveWorkflowCommand)
             {
-                return SaveWorkflowCommand(context, (SaveWorkflowCommand)command).BeginToAsync(callback, state);
+                return SaveWorkflowCommand(context, (SaveWorkflowCommand)command).ToAsyncBegin(callback, state);
             }
             else if (command is LoadWorkflowCommand)
             {
-                return LoadWorkflowCommand(context, (LoadWorkflowCommand)command).BeginToAsync(callback, state);
+                return LoadWorkflowCommand(context, (LoadWorkflowCommand)command).ToAsyncBegin(callback, state);
             }
             else if (command is TryLoadRunnableWorkflowCommand)
             {
-                return TryLoadRunnableWorkflowCommand(context, (TryLoadRunnableWorkflowCommand)command).BeginToAsync(callback, state);
+                return TryLoadRunnableWorkflowCommand(context, (TryLoadRunnableWorkflowCommand)command).ToAsyncBegin(callback, state);
             }
             else if (command is DeleteWorkflowOwnerCommand)
             {
-                return DeleteWorkflowOwnerCommand(context, (DeleteWorkflowOwnerCommand)command).BeginToAsync(callback, state);
+                return DeleteWorkflowOwnerCommand(context, (DeleteWorkflowOwnerCommand)command).ToAsyncBegin(callback, state);
             }
             else
             {
-                return Task.FromResult(true).BeginToAsync(callback, state);
+                return Task.FromResult(true).ToAsyncBegin(callback, state);
             }
         }
 
@@ -98,7 +98,7 @@ namespace Cogito.Fabric.Activities
         /// <returns></returns>
         protected override bool EndTryCommand(IAsyncResult result)
         {
-            return ((Task<bool>)result).EndToAsync();
+            return ((Task<bool>)result).ToAsyncEnd();
         }
 
         #region Commands
