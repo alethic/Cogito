@@ -136,12 +136,50 @@ namespace Cogito.Fabric.Activities
         }
 
         /// <summary>
+        /// Invoked before the workflow has been activated.
+        /// </summary>
+        /// <returns></returns>
+        protected virtual Task OnBeforeWorkflowActivate()
+        {
+            return Task.FromResult(true);
+        }
+
+        /// <summary>
+        /// Invoked after the workflow has been activated.
+        /// </summary>
+        /// <returns></returns>
+        protected virtual Task OnAfterWorkflowActivate()
+        {
+            return Task.FromResult(true);
+        }
+
+        /// <summary>
+        /// Invoked before the workflow has been deactivated.
+        /// </summary>
+        /// <returns></returns>
+        protected virtual Task OnBeforeWorkflowDeactivate()
+        {
+            return Task.FromResult(true);
+        }
+
+        /// <summary>
+        /// Invoked after the workfly has been deactivated.
+        /// </summary>
+        /// <returns></returns>
+        protected virtual Task OnAfterWorkflowDeactivate()
+        {
+            return Task.FromResult(true);
+        }
+
+        /// <summary>
         /// Invoked when the actor is activated.
         /// </summary>
         /// <returns></returns>
         protected internal sealed override async Task OnActivateAsyncInternal()
         {
+            await OnBeforeWorkflowActivate();
             await host.OnActivateAsync();
+            await OnAfterWorkflowActivate();
             await OnActivateAsync();
         }
 
@@ -160,7 +198,9 @@ namespace Cogito.Fabric.Activities
         /// <returns></returns>
         protected internal sealed override async Task OnDeactivateAsyncInternal()
         {
+            await OnBeforeWorkflowDeactivate();
             await host.OnDeactivateAsync();
+            await OnAfterWorkflowDeactivate();
             await OnDeactivateAsync();
         }
 
@@ -198,7 +238,7 @@ namespace Cogito.Fabric.Activities
         /// <param name="value"></param>
         /// <param name="timeout"></param>
         /// <returns></returns>
-        protected Task ResumeAsync(string bookmarkName, object value, TimeSpan timeout)
+        protected Task<BookmarkResumptionResult> ResumeAsync(string bookmarkName, object value, TimeSpan timeout)
         {
             Contract.Requires<ArgumentNullException>(bookmarkName != null);
             Contract.Requires<ArgumentException>(bookmarkName.Length > 0);
@@ -212,7 +252,7 @@ namespace Cogito.Fabric.Activities
         /// <param name="bookmarkName"></param>
         /// <param name="value"></param>
         /// <returns></returns>
-        protected Task ResumeAsync(string bookmarkName, object value)
+        protected Task<BookmarkResumptionResult> ResumeAsync(string bookmarkName, object value)
         {
             Contract.Requires<ArgumentNullException>(bookmarkName != null);
             Contract.Requires<ArgumentException>(bookmarkName.Length > 0);
@@ -226,12 +266,12 @@ namespace Cogito.Fabric.Activities
         /// <param name="bookmarkName"></param>
         /// <param name="timeout"></param>
         /// <returns></returns>
-        protected Task ResumeAsync(string bookmarkName, TimeSpan timeout)
+        protected Task<BookmarkResumptionResult> ResumeAsync(string bookmarkName, TimeSpan timeout)
         {
             Contract.Requires<ArgumentNullException>(bookmarkName != null);
             Contract.Requires<ArgumentException>(bookmarkName.Length > 0);
 
-            return host.ResumeAsync(bookmarkName, timeout);
+            return host.ResumeAsync(bookmarkName, null, timeout);
         }
 
         /// <summary>
@@ -239,12 +279,12 @@ namespace Cogito.Fabric.Activities
         /// </summary>
         /// <param name="bookmarkName"></param>
         /// <returns></returns>
-        protected Task ResumeAsync(string bookmarkName)
+        protected Task<BookmarkResumptionResult> ResumeAsync(string bookmarkName)
         {
             Contract.Requires<ArgumentNullException>(bookmarkName != null);
             Contract.Requires<ArgumentException>(bookmarkName.Length > 0);
 
-            return host.ResumeAsync(bookmarkName);
+            return host.ResumeAsync(bookmarkName, null);
         }
 
         /// <summary>
@@ -253,11 +293,11 @@ namespace Cogito.Fabric.Activities
         /// <param name="bookmark"></param>
         /// <param name="timeout"></param>
         /// <returns></returns>
-        protected Task ResumeAsync(Bookmark bookmark, TimeSpan timeout)
+        protected Task<BookmarkResumptionResult> ResumeAsync(Bookmark bookmark, TimeSpan timeout)
         {
             Contract.Requires<ArgumentNullException>(bookmark != null);
 
-            return host.ResumeAsync(bookmark, timeout);
+            return host.ResumeAsync(bookmark, null, timeout);
         }
 
         /// <summary>
@@ -265,11 +305,11 @@ namespace Cogito.Fabric.Activities
         /// </summary>
         /// <param name="bookmark"></param>
         /// <returns></returns>
-        protected Task ResumeAsync(Bookmark bookmark)
+        protected Task<BookmarkResumptionResult> ResumeAsync(Bookmark bookmark)
         {
             Contract.Requires<ArgumentNullException>(bookmark != null);
 
-            return host.ResumeAsync(bookmark);
+            return host.ResumeAsync(bookmark, null);
         }
 
         /// <summary>
@@ -303,9 +343,9 @@ namespace Cogito.Fabric.Activities
         /// Invoked when the activity workflow is persisted to the <see cref="IActorStateManager"/>.
         /// </summary>
         /// <returns></returns>
-        protected virtual Task OnPersisted()
+        protected virtual async Task OnPersisted()
         {
-            return Task.FromResult(true);
+            await SaveStateAsync();
         }
 
         /// <summary>
@@ -371,18 +411,6 @@ namespace Cogito.Fabric.Activities
         protected virtual Task OnUnloaded()
         {
             return Task.FromResult(true);
-        }
-
-        /// <summary>
-        /// This method is invoked by actor runtime an actor method has finished execution. Override this method for
-        /// performing any actions after an actor method has finished execution.
-        /// </summary>
-        /// <param name="actorMethodContext"></param>
-        /// <returns></returns>
-        protected override async Task OnPostActorMethodAsync(ActorMethodContext actorMethodContext)
-        {
-            await SaveStateAsync();
-            await base.OnPostActorMethodAsync(actorMethodContext);
         }
 
         #region IActivityActorInternal
@@ -515,10 +543,10 @@ namespace Cogito.Fabric.Activities
         /// Override this method to initialize the members.
         /// </summary>
         /// <returns></returns>
-        protected override async Task OnActivateAsync()
+        protected override async Task OnBeforeWorkflowActivate()
         {
+            await base.OnBeforeWorkflowActivate();
             await LoadStateObject();
-            await base.OnActivateAsync();
         }
 
         /// <summary>
@@ -546,6 +574,16 @@ namespace Cogito.Fabric.Activities
         }
 
         /// <summary>
+        /// Invoked when the activity workflow is persisted to the <see cref="IActorStateManager"/>.
+        /// </summary>
+        /// <returns></returns>
+        protected override async Task OnPersisted()
+        {
+            await SaveStateObject();
+            await base.OnPersisted();
+        }
+
+        /// <summary>
         /// This method is invoked by actor runtime an actor method has finished execution. Override this method for
         /// performing any actions after an actor method has finished execution.
         /// </summary>
@@ -553,8 +591,9 @@ namespace Cogito.Fabric.Activities
         /// <returns></returns>
         protected override async Task OnPostActorMethodAsync(ActorMethodContext actorMethodContext)
         {
-            await SaveStateObject();
             await base.OnPostActorMethodAsync(actorMethodContext);
+            await SaveStateObject();
+            await SaveStateAsync();
         }
 
     }

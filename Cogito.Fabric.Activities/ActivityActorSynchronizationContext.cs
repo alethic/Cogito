@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.Runtime.Remoting.Messaging;
 using System.Threading;
@@ -48,22 +49,28 @@ namespace Cogito.Fabric.Activities
         /// <param name="state"></param>
         public override void Post(SendOrPostCallback d, object state)
         {
-            if (IsInActorContext())
-                Execute(d, state);
-            else
-                Defer(d, state);
-        }
-
-        void Defer(SendOrPostCallback d, object state)
-        {
-            queue.Enqueue(new SynchronizationContextWorkItem(d, state));
-            actor.ScheduleInvokeWithTimer(() => { DeferExecute(); return Task.FromResult(true); });
+            Schedule(d, state);
         }
 
         /// <summary>
-        /// Executes any deferred actions.
+        /// Schedules the given callback to run at a later time.
         /// </summary>
-        internal void DeferExecute()
+        /// <param name="d"></param>
+        /// <param name="state"></param>
+        void Schedule(SendOrPostCallback d, object state)
+        {
+            // add to queue
+            queue.Enqueue(new SynchronizationContextWorkItem(d, state));
+
+            // schedule timer on first item
+            if (queue.Count == 1)
+                actor.ScheduleInvokeWithTimer(() => { Pump(); return Task.FromResult(true); });
+        }
+
+        /// <summary>
+        /// Executes any deferred tasks.
+        /// </summary>
+        internal void Pump()
         {
             SynchronizationContextWorkItem item;
             while (queue.TryDequeue(out item))

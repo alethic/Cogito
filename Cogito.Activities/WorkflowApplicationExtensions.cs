@@ -47,7 +47,7 @@ namespace Cogito.Activities
         /// <param name="bookmark"></param>
         /// <param name="value"></param>
         /// <returns></returns>
-        public static Task ResumeBookmarkAsync(this WorkflowApplication self, Bookmark bookmark, object value)
+        public static Task<BookmarkResumptionResult> ResumeBookmarkAsync(this WorkflowApplication self, Bookmark bookmark, object value)
         {
             Contract.Requires<ArgumentNullException>(self != null);
             Contract.Requires<ArgumentNullException>(bookmark != null);
@@ -64,7 +64,7 @@ namespace Cogito.Activities
         /// <param name="bookmarkName"></param>
         /// <param name="value"></param>
         /// <returns></returns>
-        public static Task ResumeBookmarkAsync(this WorkflowApplication self, string bookmarkName, object value)
+        public static Task<BookmarkResumptionResult> ResumeBookmarkAsync(this WorkflowApplication self, string bookmarkName, object value)
         {
             Contract.Requires<ArgumentNullException>(self != null);
             Contract.Requires<ArgumentNullException>(bookmarkName != null);
@@ -82,7 +82,7 @@ namespace Cogito.Activities
         /// <param name="value"></param>
         /// <param name="timeout"></param>
         /// <returns></returns>
-        public static Task ResumeBookmarkAsync(this WorkflowApplication self, Bookmark bookmark, object value, TimeSpan timeout)
+        public static Task<BookmarkResumptionResult> ResumeBookmarkAsync(this WorkflowApplication self, Bookmark bookmark, object value, TimeSpan timeout)
         {
             Contract.Requires<ArgumentNullException>(self != null);
             Contract.Requires<ArgumentNullException>(bookmark != null);
@@ -100,7 +100,7 @@ namespace Cogito.Activities
         /// <param name="value"></param>
         /// <param name="timeout"></param>
         /// <returns></returns>
-        public static Task ResumeBookmarkAsync(this WorkflowApplication self, string bookmarkName, object value, TimeSpan timeout)
+        public static Task<BookmarkResumptionResult> ResumeBookmarkAsync(this WorkflowApplication self, string bookmarkName, object value, TimeSpan timeout)
         {
             Contract.Requires<ArgumentNullException>(self != null);
             Contract.Requires<ArgumentNullException>(bookmarkName != null);

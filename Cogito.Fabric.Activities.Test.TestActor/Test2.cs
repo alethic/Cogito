@@ -2,6 +2,7 @@
 using System.Activities;
 using System.Activities.Statements;
 using System.Diagnostics;
+using System.Threading;
 using System.Threading.Tasks;
 using Cogito.Fabric.Activities.Test.TestActor.Interfaces;
 using Microsoft.ServiceFabric.Actors.Runtime;
@@ -33,9 +34,9 @@ namespace Cogito.Fabric.Activities.Test.TestActor
                 });
         }
 
-        public Task Run()
+        public async Task Run()
         {
-            return ResumeAsync("Run");
+            var t = await ResumeAsync("Run", TimeSpan.FromSeconds(0));
         }
 
         public Task<int> GetNumber()
@@ -53,6 +54,14 @@ namespace Cogito.Fabric.Activities.Test.TestActor
         {
             State.Value--;
             Debug.WriteLine(ServiceContext.NodeContext.NodeName + ":" + State.Value);
+            return Task.FromResult(true);
+        }
+
+        Task AfterDelay()
+        {
+            var sc = SynchronizationContext.Current;
+            var ec = ExecutionContext.Capture();
+            Debug.WriteLine("After");
             return Task.FromResult(true);
         }
 

@@ -41,6 +41,8 @@ namespace Cogito.Fabric.Activities.Test.TestWebService.Controllers
             var a = ActorProxy.Create<ITest2>(new ActorId(id));
             if (number != null)
                 await a.SetNumber((int)number);
+            else
+                await a.GetNumber();
             return Content(HttpStatusCode.OK, a.GetActorId());
         }
 

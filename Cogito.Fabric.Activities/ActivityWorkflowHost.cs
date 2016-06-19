@@ -24,6 +24,7 @@ namespace Cogito.Fabric.Activities
 
         readonly IActivityActorInternal actor;
         readonly ActivityActorStateManager state;
+        readonly ActivityActorSynchronizationContext sync;
         WorkflowApplication workflow;
 
         /// <summary>
@@ -40,6 +41,9 @@ namespace Cogito.Fabric.Activities
             this.state = new ActivityActorStateManager(() => actor.StateManager);
             this.state.Persisted = OnPersistedFromStore;
             this.state.Completed = OnCompletedFromStore;
+
+            // collects tasks and schedules them on the actor
+            this.sync = new ActivityActorSynchronizationContext(actor);
         }
 
         /// <summary>
@@ -49,6 +53,38 @@ namespace Cogito.Fabric.Activities
         {
             if (workflow == null)
                 throw new ActivityStateException();
+        }
+
+        /// <summary>
+        /// Executes the given workflow method, and then drains the defered operation queue.
+        /// </summary>
+        /// <param name="action"></param>
+        /// <returns></returns>
+        async Task RunAndPump(Func<Task> action)
+        {
+            Contract.Requires<ArgumentNullException>(action != null);
+            ThrowIfInvalidState();
+
+            // execute action, drain tasks, then wait
+            var t = action();
+            sync.Pump();
+            await t;
+        }
+
+        /// <summary>
+        /// Executes the given workflow method, and then drains the defered operation queue.
+        /// </summary>
+        /// <param name="action"></param>
+        /// <returns></returns>
+        async Task<TResult> RunAndPump<TResult>(Func<Task<TResult>> action)
+        {
+            Contract.Requires<ArgumentNullException>(action != null);
+            ThrowIfInvalidState();
+
+            // execute action, drain tasks, then wait
+            var t = action();
+            sync.Pump();
+            return await t;
         }
 
         /// <summary>
@@ -62,7 +98,7 @@ namespace Cogito.Fabric.Activities
             Contract.Requires<ArgumentNullException>(activity != null);
 
             workflow = inputs != null ? new WorkflowApplication(activity, inputs) : new WorkflowApplication(activity);
-            workflow.SynchronizationContext = new ActivityActorSynchronizationContext(actor);
+            workflow.SynchronizationContext = sync;
             workflow.InstanceStore = new ActivityActorInstanceStore(state);
 
             workflow.OnUnhandledException = args =>
@@ -151,31 +187,17 @@ namespace Cogito.Fabric.Activities
                         // create workflow
                         await CreateWorkflow(actor.CreateActivity(), actor.CreateActivityInputs() ?? new Dictionary<string, object>());
                         await state.SetInstanceId(workflow.Id);
-                        await workflow.RunAsync();
-                        await workflow.PersistAsync();
-                        DeferExecuteSynchronizationContext();
+                        await RunAndPump(() => workflow.RunAsync());
                     }
                     else
                     {
                         // load workflow
                         await CreateWorkflow(actor.CreateActivity());
-                        await workflow.LoadAsync(await state.GetInstanceId());
-                        await workflow.RunAsync();
-                        await workflow.PersistAsync();
-                        DeferExecuteSynchronizationContext();
+                        await RunAndPump(async () => await workflow.LoadAsync(await state.GetInstanceId()));
+                        await RunAndPump(() => workflow.RunAsync());
                     }
                 }
             }
-        }
-
-        /// <summary>
-        /// Executes any outstanding tasks put onto the synchronization context.
-        /// </summary>
-        void DeferExecuteSynchronizationContext()
-        {
-            ThrowIfInvalidState();
-            var s = (ActivityActorSynchronizationContext)workflow.SynchronizationContext;
-            s.DeferExecute();
         }
 
         /// <summary>
@@ -188,21 +210,7 @@ namespace Cogito.Fabric.Activities
             {
                 try
                 {
-                    // schedule unload
-                    var t = workflow.UnloadAsync(TimeSpan.FromMinutes(1));
-
-                    // drain outstanding executions; this is very imprecise
-                    DeferExecuteSynchronizationContext();
-                    await Task.Delay(TimeSpan.FromSeconds(1));
-                    DeferExecuteSynchronizationContext();
-                    await Task.Delay(TimeSpan.FromSeconds(1));
-                    DeferExecuteSynchronizationContext();
-
-                    // await unload method
-                    await t;
-
-                    // just in case
-                    DeferExecuteSynchronizationContext();
+                    await RunAndPump(() => workflow.UnloadAsync(TimeSpan.FromMinutes(1)));
                 }
                 catch (TimeoutException)
                 {
@@ -317,8 +325,7 @@ namespace Cogito.Fabric.Activities
         internal async Task RunAsync()
         {
             ThrowIfInvalidState();
-            await workflow.RunAsync();
-            DeferExecuteSynchronizationContext();
+            await RunAndPump(() => workflow.RunAsync());
         }
 
         /// <summary>
@@ -328,16 +335,12 @@ namespace Cogito.Fabric.Activities
         /// <param name="value"></param>
         /// <param name="timeout"></param>
         /// <returns></returns>
-        internal async Task ResumeAsync(Bookmark bookmark, object value, TimeSpan timeout)
+        internal async Task<BookmarkResumptionResult> ResumeAsync(Bookmark bookmark, object value, TimeSpan timeout)
         {
             Contract.Requires<ArgumentNullException>(bookmark != null);
             ThrowIfInvalidState();
 
-            if (workflow.GetBookmarks().Any(i => i.BookmarkName == bookmark.Name))
-            {
-                await workflow.ResumeBookmarkAsync(bookmark, value, timeout);
-                DeferExecuteSynchronizationContext();
-            }
+            return await RunAndPump(async () => await workflow.ResumeBookmarkAsync(bookmark, value, timeout));
         }
 
         /// <summary>
@@ -346,43 +349,12 @@ namespace Cogito.Fabric.Activities
         /// <param name="bookmark"></param>
         /// <param name="value"></param>
         /// <returns></returns>
-        internal async Task ResumeAsync(Bookmark bookmark, object value)
+        internal async Task<BookmarkResumptionResult> ResumeAsync(Bookmark bookmark, object value)
         {
             Contract.Requires<ArgumentNullException>(bookmark != null);
             ThrowIfInvalidState();
 
-            if (workflow.GetBookmarks().Any(i => i.BookmarkName == bookmark.Name))
-            {
-                await workflow.ResumeBookmarkAsync(bookmark, value);
-                DeferExecuteSynchronizationContext();
-            }
-        }
-
-        /// <summary>
-        /// Resumes the <see cref="ActivityActor{TActivity}"/>.
-        /// </summary>
-        /// <param name="bookmark"></param>
-        /// <param name="timeout"></param>
-        /// <returns></returns>
-        internal Task ResumeAsync(Bookmark bookmark, TimeSpan timeout)
-        {
-            Contract.Requires<ArgumentNullException>(bookmark != null);
-            ThrowIfInvalidState();
-
-            return ResumeAsync(bookmark, null, timeout);
-        }
-
-        /// <summary>
-        /// Resumes the <see cref="ActivityActor{TActivity}"/>.
-        /// </summary>
-        /// <param name="bookmark"></param>
-        /// <returns></returns>
-        internal Task ResumeAsync(Bookmark bookmark)
-        {
-            Contract.Requires<ArgumentNullException>(bookmark != null);
-            ThrowIfInvalidState();
-
-            return ResumeAsync(bookmark, null);
+            return await RunAndPump(async () => await workflow.ResumeBookmarkAsync(bookmark, value));
         }
 
         /// <summary>
@@ -392,17 +364,13 @@ namespace Cogito.Fabric.Activities
         /// <param name="value"></param>
         /// <param name="timeout"></param>
         /// <returns></returns>
-        internal async Task ResumeAsync(string bookmarkName, object value, TimeSpan timeout)
+        internal async Task<BookmarkResumptionResult> ResumeAsync(string bookmarkName, object value, TimeSpan timeout)
         {
             Contract.Requires<ArgumentNullException>(bookmarkName != null);
             Contract.Requires<ArgumentException>(bookmarkName.Length > 0);
             ThrowIfInvalidState();
 
-            if (workflow.GetBookmarks().Any(i => i.BookmarkName == bookmarkName))
-            {
-                await workflow.ResumeBookmarkAsync(bookmarkName, value, timeout);
-                DeferExecuteSynchronizationContext();
-            }
+            return await RunAndPump(async () => await workflow.ResumeBookmarkAsync(bookmarkName, value, timeout));
         }
 
         /// <summary>
@@ -411,46 +379,13 @@ namespace Cogito.Fabric.Activities
         /// <param name="bookmarkName"></param>
         /// <param name="value"></param>
         /// <returns></returns>
-        internal async Task ResumeAsync(string bookmarkName, object value)
+        internal async Task<BookmarkResumptionResult> ResumeAsync(string bookmarkName, object value)
         {
             Contract.Requires<ArgumentNullException>(bookmarkName != null);
             Contract.Requires<ArgumentException>(bookmarkName.Length > 0);
             ThrowIfInvalidState();
 
-            if (workflow.GetBookmarks().Any(i => i.BookmarkName == bookmarkName))
-            {
-                await workflow.ResumeBookmarkAsync(bookmarkName, value);
-                DeferExecuteSynchronizationContext();
-            }
-        }
-
-        /// <summary>
-        /// Resumes the <see cref="ActivityActor{TActivity}"/>.
-        /// </summary>
-        /// <param name="bookmarkName"></param>
-        /// <param name="timeout"></param>
-        /// <returns></returns>
-        internal Task ResumeAsync(string bookmarkName, TimeSpan timeout)
-        {
-            Contract.Requires<ArgumentNullException>(bookmarkName != null);
-            Contract.Requires<ArgumentException>(bookmarkName.Length > 0);
-            ThrowIfInvalidState();
-
-            return ResumeAsync(bookmarkName, null, timeout);
-        }
-
-        /// <summary>
-        /// Resumes the <see cref="ActivityActor{TActivity}"/>.
-        /// </summary>
-        /// <param name="bookmarkName"></param>
-        /// <returns></returns>
-        internal Task ResumeAsync(string bookmarkName)
-        {
-            Contract.Requires<ArgumentNullException>(bookmarkName != null);
-            Contract.Requires<ArgumentException>(bookmarkName.Length > 0);
-            ThrowIfInvalidState();
-
-            return ResumeAsync(bookmarkName, null);
+            return await RunAndPump(async () => await workflow.ResumeBookmarkAsync(bookmarkName, value));
         }
 
         /// <summary>
@@ -461,15 +396,10 @@ namespace Cogito.Fabric.Activities
         /// <param name="dueTime"></param>
         /// <param name="period"></param>
         /// <returns></returns>
-        internal Task ReceiveReminderAsync(string reminderName, byte[] context, TimeSpan dueTime, TimeSpan period)
+        internal async Task ReceiveReminderAsync(string reminderName, byte[] context, TimeSpan dueTime, TimeSpan period)
         {
             if (reminderName == ActivityTimerExpirationReminderName)
-            {
-                // execute any remaining tasks
-                DeferExecuteSynchronizationContext();
-            }
-
-            return Task.FromResult(true);
+                await RunAndPump(() => Task.FromResult(true));
         }
 
     }
