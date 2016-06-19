@@ -17,27 +17,34 @@ namespace Cogito.Fabric
     /// Reliable service base class which provides an <see cref="Microsoft.ServiceFabric.Data.IReliableStateManager"/> and provides some additional utility methods.
     /// </summary>
     public abstract class StatefulService :
-        Microsoft.ServiceFabric.Services.Runtime.StatefulService,
-        IDisposable
+        Microsoft.ServiceFabric.Services.Runtime.StatefulService
     {
 
-        readonly Lazy<FabricClient> fabric;
-
-        /// <summary>
-        /// Initializes a new instance.
-        /// </summary>
-        public StatefulService(StatefulServiceContext context)
-            : base(context)
-        {
-            this.fabric = new Lazy<FabricClient>(() => new FabricClient(), true);
-        }
+        static readonly Lazy<FabricClient> fabric;
 
         /// <summary>
         /// Gets a reference to the <see cref="FabricClient"/>.
         /// </summary>
-        protected FabricClient Fabric
+        static protected FabricClient Fabric
         {
             get { return fabric.Value; }
+        }
+
+        /// <summary>
+        /// Initializes the static instance.
+        /// </summary>
+        static StatefulService()
+        {
+            fabric = new Lazy<FabricClient>(() => new FabricClient(), true);
+        }
+
+        /// <summary>
+        /// Initializes a new instance.
+        /// </summary>
+        public StatefulService(StatefulServiceContext serviceContext)
+            : base(serviceContext)
+        {
+            Contract.Requires<ArgumentNullException>(serviceContext != null);
         }
 
         /// <summary>
@@ -109,7 +116,7 @@ namespace Cogito.Fabric
                 await RunLoopAsync(cancellationToken);
 
             // exit method
-            await RunExitAsync(new CancellationTokenSource(TimeSpan.FromMinutes(5)).Token);
+            await RunExitAsync(new CancellationTokenSource(TimeSpan.FromSeconds(5)).Token);
         }
 
         /// <summary>
@@ -123,7 +130,7 @@ namespace Cogito.Fabric
         }
 
         /// <summary>
-        /// Invoked when the service is exiting.
+        /// Invoked when the service is exiting. Canceled after 5 seconds.
         /// </summary>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
@@ -137,9 +144,16 @@ namespace Cogito.Fabric
         /// </summary>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        protected virtual Task RunLoopAsync(CancellationToken cancellationToken)
+        protected virtual async Task RunLoopAsync(CancellationToken cancellationToken)
         {
-            return Task.Delay(TimeSpan.FromSeconds(5));
+            try
+            {
+                await Task.Delay(TimeSpan.FromSeconds(5), cancellationToken);
+            }
+            catch (TaskCanceledException)
+            {
+                // ignore
+            }
         }
 
         /// <summary>
@@ -215,15 +229,6 @@ namespace Cogito.Fabric
             Contract.Requires<ArgumentNullException>(parameterName != null);
 
             return DefaultConfigurationPackage?.Settings.Sections[sectionName]?.Parameters[parameterName]?.Value;
-        }
-
-        /// <summary>
-        /// Disposes of the instance.
-        /// </summary>
-        public void Dispose()
-        {
-            if (fabric.IsValueCreated)
-                fabric.Value.Dispose();
         }
 
     }

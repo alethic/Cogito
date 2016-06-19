@@ -177,6 +177,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ActivityActorTrackingParticipant.TrackingRecord.tt</DependentUpon>
     </Compile>
+    <Compile Include="ActivityStateException.cs" />
     <Compile Include="ActivityWorkflowHost.cs" />
     <Compile Include="ActivityActorEventSource.cs" />
     <Compile Include="ActivityActor.cs" />

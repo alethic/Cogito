@@ -13,6 +13,8 @@ namespace Cogito.Fabric.Activities.Test.TestActor.Interfaces
 
         Task<int> GetNumber();
 
+        Task SetNumber(int value);
+
     }
 
 }

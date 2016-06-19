@@ -47,12 +47,9 @@ namespace Cogito.Threading
         /// </summary>
         public virtual void Run()
         {
-            using (new SynchronizationContextScope(this))
-            {
-                SynchronizationContextWorkItem item;
-                while (queue.TryDequeue(out item))
-                    item.Callback(item.State);
-            }
+            SynchronizationContextWorkItem item;
+            while (queue.TryDequeue(out item))
+                Execute(item.Callback, item.State);
         }
 
         /// <summary>
@@ -60,12 +57,20 @@ namespace Cogito.Threading
         /// </summary>
         public virtual void RunOnce()
         {
+            SynchronizationContextWorkItem item;
+            if (queue.TryDequeue(out item))
+                Execute(item.Callback, item.State);
+        }
+
+        /// <summary>
+        /// Dispatches the callback.
+        /// </summary>
+        /// <param name="d"></param>
+        /// <param name="state"></param>
+        void Execute(SendOrPostCallback d, object state)
+        {
             using (new SynchronizationContextScope(this))
-            {
-                SynchronizationContextWorkItem item;
-                if (queue.TryDequeue(out item))
-                    item.Callback(item.State);
-            }
+                d(state);
         }
 
     }

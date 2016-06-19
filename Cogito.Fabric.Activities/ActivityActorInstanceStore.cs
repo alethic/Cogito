@@ -158,14 +158,18 @@ namespace Cogito.Fabric.Activities
         /// <param name="command"></param>
         async Task<bool> LoadWorkflowCommand(InstancePersistenceContext context, LoadWorkflowCommand command)
         {
-            context.LoadedInstance(
-                InstanceState.Initialized,
-                await LoadInstanceData(context.InstanceView.InstanceId),
-                await LoadInstanceMetadata(context.InstanceView.InstanceId),
-                null,
-                null);
-
-            return true;
+            if (await state.GetInstanceState() != InstanceState.Completed)
+            {
+                context.LoadedInstance(
+                    InstanceState.Initialized,
+                    await LoadInstanceData(context.InstanceView.InstanceId),
+                    await LoadInstanceMetadata(context.InstanceView.InstanceId),
+                    null,
+                    null);
+                return true;
+            }
+            else
+                return false;
         }
 
         /// <summary>

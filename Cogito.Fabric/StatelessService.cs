@@ -17,11 +17,26 @@ namespace Cogito.Fabric
     /// Reliable service base class which provides some additional utility methods.
     /// </summary>
     public abstract class StatelessService :
-        Microsoft.ServiceFabric.Services.Runtime.StatelessService,
-        IDisposable
+        Microsoft.ServiceFabric.Services.Runtime.StatelessService
     {
 
-        readonly Lazy<FabricClient> fabric;
+        static readonly Lazy<FabricClient> fabric;
+
+        /// <summary>
+        /// Gets a reference to the <see cref="FabricClient"/>.
+        /// </summary>
+        static protected FabricClient Fabric
+        {
+            get { return fabric.Value; }
+        }
+
+        /// <summary>
+        /// Initializes the static instance.
+        /// </summary>
+        static StatelessService()
+        {
+            fabric = new Lazy<FabricClient>(() => new FabricClient(), true);
+        }
 
         /// <summary>
         /// Initializes a new instance.
@@ -29,15 +44,7 @@ namespace Cogito.Fabric
         public StatelessService(StatelessServiceContext serviceContext)
             : base(serviceContext)
         {
-            this.fabric = new Lazy<FabricClient>(() => new FabricClient(), true);
-        }
-
-        /// <summary>
-        /// Gets a reference to the <see cref="FabricClient"/>.
-        /// </summary>
-        protected FabricClient Fabric
-        {
-            get { return fabric.Value; }
+            Contract.Requires<ArgumentNullException>(serviceContext != null);
         }
 
         /// <summary>
@@ -215,15 +222,6 @@ namespace Cogito.Fabric
             Contract.Requires<ArgumentNullException>(parameterName != null);
 
             return DefaultConfigurationPackage?.Settings.Sections[sectionName]?.Parameters[parameterName]?.Value;
-        }
-
-        /// <summary>
-        /// Disposes of the instance.
-        /// </summary>
-        public void Dispose()
-        {
-            if (fabric.IsValueCreated)
-                fabric.Value.Dispose();
         }
 
     }

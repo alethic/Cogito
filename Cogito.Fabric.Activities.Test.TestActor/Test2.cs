@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Activities;
 using System.Activities.Statements;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using Cogito.Fabric.Activities.Test.TestActor.Interfaces;
 using Microsoft.ServiceFabric.Actors.Runtime;
@@ -19,25 +20,17 @@ namespace Cogito.Fabric.Activities.Test.TestActor
         {
             return Cogito.Activities.Activities.Sequence(
                 Cogito.Activities.Activities.Wait("Run"),
-                new While(ctx => true)
+                new While(ctx => State.Value < 10)
                 {
                     Body = new Sequence()
                     {
                         Activities =
                         {
                             Cogito.Activities.Activities.Invoke(() => OnLoop()),
-                            Cogito.Activities.Activities.Delay(TimeSpan.FromMinutes(1)),
+                            Cogito.Activities.Activities.Delay(TimeSpan.FromSeconds(5)),
                         }
                     }
                 });
-        }
-
-        protected override async Task OnActivateAsync()
-        {
-            if (State == null)
-                State = new Test2State();
-
-            await base.OnActivateAsync();
         }
 
         public Task Run()
@@ -50,9 +43,17 @@ namespace Cogito.Fabric.Activities.Test.TestActor
             return Task.FromResult(State.Value);
         }
 
-        async Task OnLoop()
+        public Task SetNumber(int number)
         {
-            Console.WriteLine(await GetNumber());
+            State.Value = number;
+            return Task.FromResult(true);
+        }
+
+        Task OnLoop()
+        {
+            State.Value--;
+            Debug.WriteLine(ServiceContext.NodeContext.NodeName + ":" + State.Value);
+            return Task.FromResult(true);
         }
 
     }

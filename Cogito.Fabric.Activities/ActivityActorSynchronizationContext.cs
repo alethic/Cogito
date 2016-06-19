@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Diagnostics.Contracts;
 using System.Runtime.Remoting.Messaging;
 using System.Threading;
@@ -26,6 +27,7 @@ namespace Cogito.Fabric.Activities
         }
 
         readonly IActivityActorInternal actor;
+        readonly ConcurrentQueue<SynchronizationContextWorkItem> queue;
 
         /// <summary>
         /// Initializes a new instance.
@@ -36,28 +38,47 @@ namespace Cogito.Fabric.Activities
             Contract.Requires<ArgumentNullException>(actor != null);
 
             this.actor = actor;
-        }
-
-        public override void Post(SendOrPostCallback d, object state)
-        {
-            if (IsInActorContext())
-                d(state);
-            else
-                actor.ScheduleInvokeWithTimer(() => InvokeFromTimer(new SynchronizationContextWorkItem(d, state)));
+            this.queue = new ConcurrentQueue<SynchronizationContextWorkItem>();
         }
 
         /// <summary>
-        /// When a scheduled callback is invoked by an actor timer.
+        /// Executes or schedules execution of the given callback.
         /// </summary>
-        Task InvokeFromTimer(SynchronizationContextWorkItem item)
+        /// <param name="d"></param>
+        /// <param name="state"></param>
+        public override void Post(SendOrPostCallback d, object state)
         {
-            // schedule further tasks as timers as well
-            using (new SynchronizationContextScope(this))
-            {
-                // invoke callback synchronously
-                item.Callback(item.State);
-                return Task.FromResult(true);
-            }
+            if (IsInActorContext())
+                Execute(d, state);
+            else
+                Defer(d, state);
+        }
+
+        void Defer(SendOrPostCallback d, object state)
+        {
+            queue.Enqueue(new SynchronizationContextWorkItem(d, state));
+            actor.ScheduleInvokeWithTimer(() => { DeferExecute(); return Task.FromResult(true); });
+        }
+
+        /// <summary>
+        /// Executes any deferred actions.
+        /// </summary>
+        internal void DeferExecute()
+        {
+            SynchronizationContextWorkItem item;
+            while (queue.TryDequeue(out item))
+                Execute(item.Callback, item.State);
+        }
+
+        /// <summary>
+        /// Executes an item.
+        /// </summary>
+        /// <param name="d"></param>
+        /// <param name="state"></param>
+        void Execute(SendOrPostCallback d, object state)
+        {
+            using (var scope = new SynchronizationContextScope(this))
+                d(state);
         }
 
     }

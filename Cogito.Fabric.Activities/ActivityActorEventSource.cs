@@ -18,11 +18,10 @@ namespace Cogito.Fabric.Activities
         EventSource
     {
 
-        const string itemsTag = "items";
-        const string itemTag = "item";
-        const string nameAttribute = "name";
-        const string typeAttribute = "type";
-        NetDataContractSerializer variableSerializer;
+        const string ITEMS_ELEMENT = "items";
+        const string ITEM_ELEMENT = "item";
+        const string NAME_ATTRIBUTE = "name";
+        const string TYPE_ATTRIBUTE = "type";
 
         public static readonly ActivityActorEventSource Current = new ActivityActorEventSource();
 
@@ -33,6 +32,8 @@ namespace Cogito.Fabric.Activities
         {
             Task.Run(() => { }).Wait();
         }
+
+        readonly NetDataContractSerializer variableSerializer = new NetDataContractSerializer();
 
         /// <summary>
         /// Initializes a new instance.
@@ -167,31 +168,27 @@ namespace Cogito.Fabric.Activities
         string PrepareDictionary(IDictionary<string, object> data)
         {
             var builder = new StringBuilder();
-            var settings = new XmlWriterSettings()
-            {
-                OmitXmlDeclaration = true
-            };
 
-            using (var writer = XmlWriter.Create(builder, settings))
+            using (var writer = XmlWriter.Create(builder, new XmlWriterSettings() { OmitXmlDeclaration = true }))
             {
-                writer.WriteStartElement(itemsTag);
+                writer.WriteStartElement(ITEMS_ELEMENT);
 
                 if (data != null)
                 {
                     foreach (var item in data)
                     {
-                        writer.WriteStartElement(itemTag);
-                        writer.WriteAttributeString(nameAttribute, item.Key);
+                        writer.WriteStartElement(ITEM_ELEMENT);
+                        writer.WriteAttributeString(NAME_ATTRIBUTE, item.Key);
 
                         if (item.Value == null)
                         {
-                            writer.WriteAttributeString(typeAttribute, string.Empty);
+                            writer.WriteAttributeString(TYPE_ATTRIBUTE, string.Empty);
                             writer.WriteValue(string.Empty);
                         }
                         else
                         {
                             var valueType = item.Value.GetType();
-                            writer.WriteAttributeString(typeAttribute, valueType.FullName);
+                            writer.WriteAttributeString(TYPE_ATTRIBUTE, valueType.FullName);
 
                             if (valueType == typeof(int) ||
                                 valueType == typeof(float) ||
@@ -217,9 +214,6 @@ namespace Cogito.Fabric.Activities
                             }
                             else
                             {
-                                if (variableSerializer == null)
-                                    variableSerializer = new NetDataContractSerializer();
-
                                 try
                                 {
                                     variableSerializer.WriteObject(writer, item.Value);
@@ -237,9 +231,9 @@ namespace Cogito.Fabric.Activities
 
                 writer.WriteEndElement();
                 writer.Flush();
-
-                return builder.ToString();
             }
+
+            return builder.ToString();
         }
 
         /// <summary>
@@ -249,25 +243,19 @@ namespace Cogito.Fabric.Activities
         /// <returns></returns>
         static string PrepareAnnotations(IDictionary<string, string> data)
         {
-            var stringTypeName = typeof(string).FullName;
-
             var builder = new StringBuilder();
-            var settings = new XmlWriterSettings()
-            {
-                OmitXmlDeclaration = true
-            };
 
-            using (var writer = XmlWriter.Create(builder, settings))
+            using (var writer = XmlWriter.Create(builder, new XmlWriterSettings() { OmitXmlDeclaration = true }))
             {
-                writer.WriteStartElement(itemsTag);
+                writer.WriteStartElement(ITEMS_ELEMENT);
 
                 if (data != null)
                 {
                     foreach (var item in data)
                     {
-                        writer.WriteStartElement(itemTag);
-                        writer.WriteAttributeString(nameAttribute, item.Key);
-                        writer.WriteAttributeString(typeAttribute, stringTypeName);
+                        writer.WriteStartElement(ITEM_ELEMENT);
+                        writer.WriteAttributeString(NAME_ATTRIBUTE, item.Key);
+                        writer.WriteAttributeString(TYPE_ATTRIBUTE, typeof(string).FullName);
                         writer.WriteValue(item.Value ?? string.Empty);
                         writer.WriteEndElement();
                     }
@@ -275,9 +263,9 @@ namespace Cogito.Fabric.Activities
 
                 writer.WriteEndElement();
                 writer.Flush();
-
-                return builder.ToString();
             }
+
+            return builder.ToString();
         }
 
     }

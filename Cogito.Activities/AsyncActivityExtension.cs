@@ -1,5 +1,7 @@
-﻿using System.Activities.Hosting;
+﻿using System;
+using System.Activities.Hosting;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Threading;
 
 namespace Cogito.Activities
@@ -21,6 +23,8 @@ namespace Cogito.Activities
         /// <param name="synchronizationContext"></param>
         public AsyncActivityExtension(SynchronizationContext synchronizationContext)
         {
+            Contract.Requires<ArgumentNullException>(synchronizationContext != null);
+
             this.synchronizationContext = synchronizationContext;
         }
 

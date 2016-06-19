@@ -50,7 +50,7 @@ namespace Cogito.Fabric.Activities
         /// <param name="dueTime"></param>
         /// <param name="period"></param>
         /// <returns></returns>
-        protected abstract Task ReceiveReminderAsyncInternal(string reminderName, byte[] context, TimeSpan dueTime, TimeSpan period);
+        protected internal abstract Task ReceiveReminderAsyncInternal(string reminderName, byte[] context, TimeSpan dueTime, TimeSpan period);
 
         /// <summary>
         /// Overrides the <see cref="OnActivateAsync"/> method so it can be reimplemented above.
@@ -66,7 +66,7 @@ namespace Cogito.Fabric.Activities
         /// New implementation of <see cref="OnActivateAsync"/>.
         /// </summary>
         /// <returns></returns>
-        protected abstract Task OnActivateAsyncInternal();
+        protected internal abstract Task OnActivateAsyncInternal();
 
         /// <summary>
         /// Overrides the <see cref="OnDeactivateAsync"/> method so it can be reimplemented above.
@@ -82,7 +82,7 @@ namespace Cogito.Fabric.Activities
         /// New implementation of <see cref="OnDeactivateAsync"/>.
         /// </summary>
         /// <returns></returns>
-        protected abstract Task OnDeactivateAsyncInternal();
+        protected internal abstract Task OnDeactivateAsyncInternal();
 
     }
 
@@ -139,8 +139,7 @@ namespace Cogito.Fabric.Activities
         /// Invoked when the actor is activated.
         /// </summary>
         /// <returns></returns>
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        protected sealed override async Task OnActivateAsyncInternal()
+        protected internal sealed override async Task OnActivateAsyncInternal()
         {
             await host.OnActivateAsync();
             await OnActivateAsync();
@@ -159,8 +158,7 @@ namespace Cogito.Fabric.Activities
         /// Invoked when the actor is deactiviated.
         /// </summary>
         /// <returns></returns>
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        protected sealed override async Task OnDeactivateAsyncInternal()
+        protected internal sealed override async Task OnDeactivateAsyncInternal()
         {
             await host.OnDeactivateAsync();
             await OnDeactivateAsync();
@@ -282,8 +280,7 @@ namespace Cogito.Fabric.Activities
         /// <param name="dueTime"></param>
         /// <param name="period"></param>
         /// <returns></returns>
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        protected sealed override async Task ReceiveReminderAsyncInternal(string reminderName, byte[] context, TimeSpan dueTime, TimeSpan period)
+        protected internal sealed override async Task ReceiveReminderAsyncInternal(string reminderName, byte[] context, TimeSpan dueTime, TimeSpan period)
         {
             await host.ReceiveReminderAsync(reminderName, context, dueTime, period);
             await ReceiveReminderAsync(reminderName, context, dueTime, period);
@@ -308,7 +305,7 @@ namespace Cogito.Fabric.Activities
         /// <returns></returns>
         protected virtual Task OnPersisted()
         {
-            return SaveStateAsync();
+            return Task.FromResult(true);
         }
 
         /// <summary>
@@ -376,6 +373,18 @@ namespace Cogito.Fabric.Activities
             return Task.FromResult(true);
         }
 
+        /// <summary>
+        /// This method is invoked by actor runtime an actor method has finished execution. Override this method for
+        /// performing any actions after an actor method has finished execution.
+        /// </summary>
+        /// <param name="actorMethodContext"></param>
+        /// <returns></returns>
+        protected override async Task OnPostActorMethodAsync(ActorMethodContext actorMethodContext)
+        {
+            await SaveStateAsync();
+            await base.OnPostActorMethodAsync(actorMethodContext);
+        }
+
         #region IActivityActorInternal
 
         Activity IActivityActorInternal.CreateActivity()
@@ -423,9 +432,9 @@ namespace Cogito.Fabric.Activities
             return UnregisterReminderAsync(reminder);
         }
 
-        Task IActivityActorInternal.OnPersisted()
+        async Task IActivityActorInternal.OnPersisted()
         {
-            return OnPersisted();
+            await OnPersisted();
         }
 
         Task IActivityActorInternal.OnException(Exception exception)
@@ -513,7 +522,7 @@ namespace Cogito.Fabric.Activities
         }
 
         /// <summary>
-        /// Loads the state. This method is invoked as part of the actor activation.
+        /// Loads the state object. This method is invoked as part of the actor activation.
         /// </summary>
         /// <returns></returns>
         protected virtual async Task LoadStateObject()
@@ -523,7 +532,7 @@ namespace Cogito.Fabric.Activities
         }
 
         /// <summary>
-        /// Saves the state. Invoke this after modifications to the state.
+        /// Saves the state object. Invoke this after modifications to the state.
         /// </summary>
         /// <returns></returns>
         protected virtual async Task SaveStateObject()
@@ -546,16 +555,6 @@ namespace Cogito.Fabric.Activities
         {
             await SaveStateObject();
             await base.OnPostActorMethodAsync(actorMethodContext);
-        }
-
-        /// <summary>
-        /// Invoked after the activity workflow is peristed to the <see cref="IActorStateManager"/>.
-        /// </summary>
-        /// <returns></returns>
-        protected override async Task OnPersisted()
-        {
-            await SaveStateObject();
-            await base.OnPersisted();
         }
 
     }

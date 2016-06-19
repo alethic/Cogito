@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Threading.Tasks;
+
 using Cogito.Fabric.Http;
+
 using Microsoft.ServiceFabric.Actors.Runtime;
 using Microsoft.ServiceFabric.Services.Communication.Client;
-using Microsoft.ServiceFabric.Services.Remoting.Client;
 
 namespace Cogito.Fabric.Test.Web.Service
 {
@@ -14,20 +15,15 @@ namespace Cogito.Fabric.Test.Web.Service
         ITestActor
     {
 
-        protected override async Task OnActivateAsync()
+        protected override Task<TestActorState> CreateDefaultState()
         {
-            await base.OnActivateAsync();
-
-            if (State == null)
-                State = new TestActorState();
+            return Task.FromResult(new TestActorState());
         }
 
         public Task IncrementThing()
         {
-            return WriteState(() =>
-            {
-                State.Thing++;
-            });
+            State.Thing++;
+            return Task.FromResult(true);
         }
 
         public async Task Connect()

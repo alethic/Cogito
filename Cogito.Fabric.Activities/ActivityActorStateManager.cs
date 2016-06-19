@@ -18,7 +18,7 @@ namespace Cogito.Fabric.Activities
     public class ActivityActorStateManager
     {
 
-        const string KEY_PREFIX = "Cogito.Fabric.Activities.ActivityActorState";
+        const string KEY_PREFIX = "__ActivityActorState__";
 
         /// <summary>
         /// Creates a key for storing objects in the state manager.
@@ -29,7 +29,7 @@ namespace Cogito.Fabric.Activities
         {
             Contract.Requires<ArgumentNullException>(objectName != null);
 
-            return KEY_PREFIX + ":" + objectName;
+            return KEY_PREFIX + objectName;
         }
 
 
@@ -231,6 +231,21 @@ namespace Cogito.Fabric.Activities
         {
             if (Persisted != null)
                 await Persisted();
+        }
+
+        /// <summary>
+        /// Raised by the instance store upon completion.
+        /// </summary>
+        public Func<Task> Completed;
+
+        /// <summary>
+        /// Raises the Completed event.
+        /// </summary>
+        /// <returns></returns>
+        public async Task OnCompleted()
+        {
+            if (Completed != null)
+                await Completed();
         }
 
     }

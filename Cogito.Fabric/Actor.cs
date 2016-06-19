@@ -17,24 +17,30 @@ namespace Cogito.Fabric
         Microsoft.ServiceFabric.Actors.Runtime.Actor
     {
 
-        readonly Lazy<IActorStateManager> state;
-        readonly Lazy<FabricClient> fabric;
-
-        /// <summary>
-        /// Initializes a new instance.
-        /// </summary>
-        public Actor()
-        {
-            this.fabric = new Lazy<FabricClient>(() => new FabricClient(), true);
-            this.state = new Lazy<IActorStateManager>(() => new ActorStateManager(base.StateManager));
-        }
+        static readonly Lazy<FabricClient> fabric;
 
         /// <summary>
         /// Gets a reference to the <see cref="FabricClient"/>.
         /// </summary>
-        protected FabricClient Fabric
+        static protected FabricClient Fabric
         {
             get { return fabric.Value; }
+        }
+
+        /// <summary>
+        /// Initializes the static instance.
+        /// </summary>
+        static Actor()
+        {
+            fabric = new Lazy<FabricClient>(() => new FabricClient(), true);
+        }
+
+        /// <summary>
+        /// Initializes a new instance.
+        /// </summary>
+        protected Actor()
+        {
+
         }
 
         /// <summary>
@@ -169,14 +175,6 @@ namespace Cogito.Fabric
             return null;
         }
 
-        /// <summary>
-        /// Gets the state manager for the actor.
-        /// </summary>
-        protected virtual new IActorStateManager StateManager
-        {
-            get { return state.Value; }
-        }
-
     }
 
     /// <summary>
@@ -214,12 +212,12 @@ namespace Cogito.Fabric
         /// <returns></returns>
         protected override async Task OnActivateAsync()
         {
-            await LoadStateObject();
             await base.OnActivateAsync();
+            await LoadStateObject();
         }
 
         /// <summary>
-        /// Loads the state. This method is invoked as part of the actor activation.
+        /// Loads the state object. This method is invoked as part of the actor activation.
         /// </summary>
         /// <returns></returns>
         protected virtual async Task LoadStateObject()
@@ -229,7 +227,7 @@ namespace Cogito.Fabric
         }
 
         /// <summary>
-        /// Saves the state. Invoke this after modifications to the state.
+        /// Saves the state object. Invoke this after modifications to the state.
         /// </summary>
         /// <returns></returns>
         protected virtual async Task SaveStateObject()
