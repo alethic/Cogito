@@ -23,8 +23,6 @@ namespace Cogito.Activities
         /// <param name="synchronizationContext"></param>
         public AsyncActivityExtension(SynchronizationContext synchronizationContext)
         {
-            Contract.Requires<ArgumentNullException>(synchronizationContext != null);
-
             this.synchronizationContext = synchronizationContext;
         }
 

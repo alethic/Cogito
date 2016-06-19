@@ -189,7 +189,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>AsyncActionActivity.Arguments.tt</DependentUpon>
     </Compile>
-    <Compile Include="AsyncNativeActivity.cs" />
     <Compile Include="AsyncActivityExtension.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="AsyncActionActivity.cs" />
