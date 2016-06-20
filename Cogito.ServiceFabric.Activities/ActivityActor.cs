@@ -90,18 +90,18 @@ namespace Cogito.ServiceFabric.Activities
             await base.OnPersistedAsync();
         }
 
-        /// <summary>
-        /// This method is invoked by actor runtime an actor method has finished execution. Override this method for
-        /// performing any actions after an actor method has finished execution.
-        /// </summary>
-        /// <param name="actorMethodContext"></param>
-        /// <returns></returns>
-        protected override async Task OnPostActorMethodAsync(ActorMethodContext actorMethodContext)
-        {
-            await base.OnPostActorMethodAsync(actorMethodContext);
-            await SaveStateObject();
-            //await SaveStateAsync();
-        }
+        ///// <summary>
+        ///// This method is invoked by actor runtime an actor method has finished execution. Override this method for
+        ///// performing any actions after an actor method has finished execution.
+        ///// </summary>
+        ///// <param name="actorMethodContext"></param>
+        ///// <returns></returns>
+        //protected override async Task OnPostActorMethodAsync(ActorMethodContext actorMethodContext)
+        //{
+        //    await base.OnPostActorMethodAsync(actorMethodContext);
+        //    await SaveStateObject();
+        //    //await SaveStateAsync();
+        //}
 
     }
 

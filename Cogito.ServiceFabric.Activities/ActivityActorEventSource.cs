@@ -13,7 +13,7 @@ namespace Cogito.ServiceFabric.Activities
     /// <summary>
     /// Logs events for the Activity Actor framework.
     /// </summary>
-    [EventSource(Name = "Cogito-Fabric-Activities")]
+    [EventSource(Name = "Cogito-ServiceFabric-Activities")]
     partial class ActivityActorEventSource :
         EventSource
     {
