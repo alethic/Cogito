@@ -200,17 +200,8 @@ namespace Cogito.ServiceFabric
         {
             Contract.Requires<ArgumentNullException>(action != null);
 
-            // hoist timer so it can be unregistered
-            IActorTimer timer = null;
             var cs = new TaskCompletionSource<bool>();
-
-            // schedule timer
-            timer = RegisterTimer(
-                async o => { UnregisterTimer(timer); await cs.SafeTrySetFromAsync(action); },
-                null,
-                TimeSpan.FromMilliseconds(1),
-                TimeSpan.FromMilliseconds(-1));
-
+            InvokeWithTimer(async () => await cs.SafeTrySetFromAsync(action));
             return cs.Task;
         }
 
@@ -222,17 +213,8 @@ namespace Cogito.ServiceFabric
         {
             Contract.Requires<ArgumentNullException>(func != null);
 
-            // hoist timer so it can be unregistered
-            IActorTimer timer = null;
             var cs = new TaskCompletionSource<TResult>();
-
-            // schedule timer
-            timer = RegisterTimer(
-                async o => { UnregisterTimer(timer); await cs.SafeTrySetFromAsync(func); },
-                null,
-                TimeSpan.FromMilliseconds(1),
-                TimeSpan.FromMilliseconds(-1));
-
+            InvokeWithTimer(async () => await cs.SafeTrySetFromAsync(func));
             return cs.Task;
         }
 
