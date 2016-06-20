@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
 
-namespace Cogito
+namespace Cogito.Media
 {
 
     /// <summary>

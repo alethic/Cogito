@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Cogito
+namespace Cogito.Media
 {
 
     /// <summary>

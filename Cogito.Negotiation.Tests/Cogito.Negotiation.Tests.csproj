@@ -167,10 +167,6 @@
       <Project>{133c2d12-bda9-4806-ba0a-70ec83bec9bd}</Project>
       <Name>Cogito.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Cogito.Negotiation\Cogito.Negotiation.csproj">
-      <Project>{dcf6aab4-f221-459f-9887-8a87cf2866dd}</Project>
-      <Name>Cogito.Negotiation</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

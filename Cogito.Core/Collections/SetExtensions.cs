@@ -5,6 +5,9 @@ using System.Diagnostics.Contracts;
 namespace Cogito.Collections
 {
 
+    /// <summary>
+    /// Various extension methods for operating on sets.
+    /// </summary>
     public static class HashSetExtensions
     {
 

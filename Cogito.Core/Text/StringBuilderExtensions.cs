@@ -6,6 +6,9 @@ using System.Text;
 namespace Cogito.Text
 {
 
+    /// <summary>
+    /// Various extension methods for <see cref="StringBuilder"/> instances.
+    /// </summary>
     public static class StringBuilderExtensions
     {
 

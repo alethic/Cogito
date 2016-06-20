@@ -6,6 +6,9 @@ using System.Linq;
 namespace Cogito.Reflection
 {
 
+    /// <summary>
+    /// Provides various methods for working with <see cref="Type"/> instances.
+    /// </summary>
     public static class TypeUtil
     {
 

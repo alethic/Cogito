@@ -2,13 +2,13 @@
 
 using Newtonsoft.Json;
 
-namespace Cogito.Json.Converters
+namespace Cogito.Media
 {
 
     /// <summary>
     /// Provides JSON serialization for a <see cref="MediaRange"/>.
     /// </summary>
-    public class MediaRangeJsonConverter :
+    class MediaRangeJsonConverter :
          JsonConverter
     {
 

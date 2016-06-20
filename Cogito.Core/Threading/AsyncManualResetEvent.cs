@@ -4,6 +4,9 @@ using System.Threading.Tasks;
 namespace Cogito.Threading
 {
 
+    /// <summary>
+    /// Manual reset event implementation with async methods.
+    /// </summary>
     public class AsyncManualResetEvent
     {
 
@@ -26,6 +29,9 @@ namespace Cogito.Threading
             m_tcs.TrySetResult(true);
         }
 
+        /// <summary>
+        /// Resets the event.
+        /// </summary>
         public void Reset()
         {
             while (true)

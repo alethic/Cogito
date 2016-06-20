@@ -11,7 +11,10 @@ using Newtonsoft.Json.Linq;
 namespace Cogito.Dynamic
 {
 
-    public class ElasticDynamicObjectJsonConverter :
+    /// <summary>
+    /// Serializes <see cref="ElasticObject"/> instances to JSON.
+    /// </summary>
+    class ElasticDynamicObjectJsonConverter :
         JsonConverter
     {
 

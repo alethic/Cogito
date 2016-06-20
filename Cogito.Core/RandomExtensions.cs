@@ -4,6 +4,9 @@ using System.Diagnostics.Contracts;
 namespace Cogito
 {
 
+    /// <summary>
+    /// Provides extension methods for working with <see cref="Random"/> instances.
+    /// </summary>
     public static class RandomExtensions
     {
 

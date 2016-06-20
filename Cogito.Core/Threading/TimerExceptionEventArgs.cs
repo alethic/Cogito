@@ -4,6 +4,9 @@ using System.Threading;
 namespace Cogito.Threading
 {
 
+    /// <summary>
+    /// Arguments passed when an exception occurs on the timer.
+    /// </summary>
     public class TimerExceptionEventArgs :
         ThreadExceptionEventArgs
     {

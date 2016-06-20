@@ -3,7 +3,7 @@
 <package
     xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
     <metadata>
-        <id>Cogito.Fabric.Activities</id>
+        <id>Cogito.ServiceFabric.Activities</id>
         <version>$version$</version>
         <authors>Jerome Haltom</authors>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
@@ -16,7 +16,7 @@
         <dependencies>
             <dependency id="Cogito.Activities" />
             <dependency id="Cogito.Core" />
-            <dependency id="Cogito.Fabric" />
+            <dependency id="Cogito.ServiceFabric" />
         </dependencies>
         <frameworkAssemblies>
             <frameworkAssembly assemblyName="System.Activities" />

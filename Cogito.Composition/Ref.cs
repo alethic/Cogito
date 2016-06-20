@@ -7,6 +7,9 @@ namespace Cogito
     /// <summary>
     /// Maintains a reference counted handle to <typeparamref name="T"/>.
     /// </summary>
+    /// <remarks>
+    /// This type should be used. I've exposed it to a number of other Cogito projects that make use of it, for now.
+    /// </remarks>
     /// <typeparam name="T"></typeparam>
     public class Ref<T> :
         IDisposable

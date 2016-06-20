@@ -2,7 +2,7 @@
 using System.Diagnostics.Contracts;
 using System.Runtime.Serialization;
 
-namespace Cogito
+namespace Cogito.Media
 {
 
     /// <summary>

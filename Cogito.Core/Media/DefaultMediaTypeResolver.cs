@@ -6,9 +6,13 @@ using System.Linq;
 
 using Cogito.Linq;
 
-namespace Cogito
+namespace Cogito.Media
 {
 
+    /// <summary>
+    /// Default <see cref="IMediaTypeResolver"/> implementation that attempts to resolve media types from
+    /// <see cref="IMediaTypeProvider"/> instances.
+    /// </summary>
     [Export(typeof(IMediaTypeResolver))]
     public class DefaultMediaTypeResolver :
         IMediaTypeResolver
@@ -36,7 +40,7 @@ namespace Cogito
 
         public IEnumerable<MediaType> ResolveMany(string name)
         {
-            return providers.SelectMany(i => i.Resolve(name)).Append((MediaType)"application/octet-stream");
+            return providers.SelectMany(i => i.Resolve(name)).Append("application/octet-stream");
         }
 
     }

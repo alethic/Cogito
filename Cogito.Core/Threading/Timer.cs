@@ -105,6 +105,11 @@ namespace Cogito.Threading
             }
         }
 
+        /// <summary>
+        /// Invoked when the internal timer elapses.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
         void timer_Elapsed(object sender, ElapsedEventArgs args)
         {
             lock (sync)
@@ -156,6 +161,7 @@ namespace Cogito.Threading
         /// <summary>
         /// Invoked when the timer is starting.
         /// </summary>
+        /// <param name="args"></param>
         protected void OnStarting(TimerEventArgs args)
         {
             Starting?.Invoke(this, args);
@@ -169,7 +175,7 @@ namespace Cogito.Threading
         /// <summary>
         /// Invoked when the timer elapses.
         /// </summary>
-        /// <param name="cancellationToken"></param>
+        /// <param name="args"></param>
         protected void OnElapsed(TimerElapsedEventArgs args)
         {
             Elapsed?.Invoke(this, args);
@@ -183,6 +189,7 @@ namespace Cogito.Threading
         /// <summary>
         /// Invoked when the timer is stopped.
         /// </summary>
+        /// <param name="args"></param>
         protected void OnStopped(TimerEventArgs args)
         {
             Contract.Requires<ArgumentNullException>(args != null);
@@ -198,7 +205,7 @@ namespace Cogito.Threading
         /// <summary>
         /// Invoked when an <see cref="Exception"/> is thrown by the timer.
         /// </summary>
-        /// <param name="exception"></param>
+        /// <param name="args"></param>
         protected void OnException(TimerExceptionEventArgs args)
         {
             Contract.Requires<ArgumentNullException>(args != null);

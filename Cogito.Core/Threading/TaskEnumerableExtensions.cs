@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 namespace Cogito.Threading
 {
 
+    /// <summary>
+    /// Various extension methods for working with enumerations of <see cref="Task"/> instances.
+    /// </summary>
     public static class TaskEnumerableExtensions
     {
 

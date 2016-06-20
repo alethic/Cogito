@@ -4,15 +4,18 @@ using System.IO;
 
 using Cogito.Collections;
 
-namespace Cogito
+namespace Cogito.Media
 {
 
+    /// <summary>
+    /// Maps common image extension to media types.
+    /// </summary>
     [Export(typeof(IMediaTypeProvider))]
     public class ImageMediaTypeProvider :
         IMediaTypeProvider
     {
 
-        Dictionary<string, MediaType> map = new Dictionary<string, MediaType>()
+        readonly static Dictionary<string, MediaType> map = new Dictionary<string, MediaType>()
         {
             { "gif", "image/gif" },
             { "jpeg", "image/jpeg" },

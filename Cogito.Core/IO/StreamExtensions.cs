@@ -1,9 +1,14 @@
-﻿using System.IO;
+﻿using System;
+using System.Diagnostics.Contracts;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace Cogito.IO
 {
 
+    /// <summary>
+    /// Provides various extension methods for working with <see cref="Stream"/> instances.
+    /// </summary>
     public static class StreamExtensions
     {
 
@@ -36,9 +41,13 @@ namespace Cogito.IO
         /// </summary>
         /// <param name="self"></param>
         /// <param name="source"></param>
-        public static void WriteAll(this Stream self, Stream source)
+        /// <param name="bufferSize"></param>
+        public static void WriteFrom(this Stream self, Stream source, int bufferSize)
         {
-            WriteAll(self, source, 1024);
+            Contract.Requires<ArgumentNullException>(self != null);
+            Contract.Requires<ArgumentNullException>(source != null);
+
+            source.CopyTo(self, bufferSize);
         }
 
         /// <summary>
@@ -46,13 +55,39 @@ namespace Cogito.IO
         /// </summary>
         /// <param name="self"></param>
         /// <param name="source"></param>
-        /// <param name="blockSize"></param>
-        public static void WriteAll(this Stream self, Stream source, int blockSize)
+        public static void WriteFrom(this Stream self, Stream source)
         {
-            var buf = new byte[blockSize];
-            int read = 0;
-            while ((read = source.Read(buf, 0, blockSize)) > 0)
-                self.Write(buf, 0, read);
+            Contract.Requires<ArgumentNullException>(self != null);
+            Contract.Requires<ArgumentNullException>(source != null);
+
+            source.CopyTo(self);
+        }
+
+        /// <summary>
+        /// Writes all data from the <paramref name="source"/> <see cref="Stream"/> into this <see cref="Stream"/>.
+        /// </summary>
+        /// <param name="self"></param>
+        /// <param name="source"></param>
+        /// <param name="bufferSize"></param>
+        public static Task WriteFromAsync(this Stream self, Stream source, int bufferSize)
+        {
+            Contract.Requires<ArgumentNullException>(self != null);
+            Contract.Requires<ArgumentNullException>(source != null);
+
+            return source.CopyToAsync(self, bufferSize);
+        }
+
+        /// <summary>
+        /// Writes all data from the <paramref name="source"/> <see cref="Stream"/> into this <see cref="Stream"/>.
+        /// </summary>
+        /// <param name="self"></param>
+        /// <param name="source"></param>
+        public static Task WriteFromAsync(this Stream self, Stream source)
+        {
+            Contract.Requires<ArgumentNullException>(self != null);
+            Contract.Requires<ArgumentNullException>(source != null);
+
+            return source.CopyToAsync(self);
         }
 
     }

@@ -4,15 +4,15 @@ using System.IO;
 
 using Cogito.Collections;
 
-namespace Cogito
+namespace Cogito.Media
 {
 
     [Export(typeof(IMediaTypeProvider))]
-    public class WebMediaTypeProvider :
+    public class TextMediaTypeProvider :
         IMediaTypeProvider
     {
 
-        Dictionary<string, MediaType> map = new Dictionary<string, MediaType>()
+        readonly static Dictionary<string, MediaType> map = new Dictionary<string, MediaType>()
         {
             { "css", "text/css" },
             { "html", "text/html" },

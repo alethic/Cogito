@@ -8,7 +8,10 @@ using System.Reflection;
 namespace Cogito.Dynamic
 {
 
-    public class ElasticObjectMetaObject :
+    /// <summary>
+    /// Handles dynamic dispatch for a <see cref="ElasticObject"/>.
+    /// </summary>
+    class ElasticObjectMetaObject :
          DynamicMetaObject
     {
 

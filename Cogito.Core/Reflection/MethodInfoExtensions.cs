@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Cogito.Reflection
 {
 
+    /// <summary>
+    /// Various extension methods for <see cref="MethodInfo"/> instances.
+    /// </summary>
     public static class MethodInfoExtensions
     {
 
@@ -21,6 +22,10 @@ namespace Cogito.Reflection
         /// <returns></returns>
         public static object InvokeWithNamedParameters(this MethodBase self, object obj, IDictionary<string, object> parameters)
         {
+            Contract.Requires<ArgumentNullException>(self != null);
+            Contract.Requires<ArgumentNullException>(obj != null);
+            Contract.Requires<ArgumentNullException>(parameters != null);
+
             return self.Invoke(obj, MapParameters(self, parameters));
         }
 

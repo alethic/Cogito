@@ -6,7 +6,7 @@ namespace Cogito.Composition.Hosting
     /// <summary>
     /// Exports the <see cref="CompositionContainer"/> to itself.
     /// </summary>
-    public class ContainerExport :
+    class ContainerExport :
         Value<CompositionContainer>
     {
 

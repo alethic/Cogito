@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 namespace Cogito.Threading
 {
 
+    /// <summary>
+    /// Various extension methods for <see cref="TaskCompletionSource{TResult}"/> instances.
+    /// </summary>
     public static class TaskCompletionSourceExtensions
     {
 
@@ -14,7 +17,7 @@ namespace Cogito.Threading
         /// </summary>
         /// <typeparam name="TResult"></typeparam>
         /// <param name="self"></param>
-        /// <param name="task"></param>
+        /// <param name="func"></param>
         /// <returns></returns>
         public static async Task<bool> SafeTrySetFromAsync<TResult>(this TaskCompletionSource<TResult> self, Func<Task<TResult>> func)
         {

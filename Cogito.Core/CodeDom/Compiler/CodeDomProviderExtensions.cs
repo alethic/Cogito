@@ -7,6 +7,9 @@ using System.IO;
 namespace Cogito.CodeDom.Compiler
 {
 
+    /// <summary>
+    /// Various extension methods for working with <see cref="CodeDomProvider"/>.
+    /// </summary>
     public static class CodeDomProviderExtensions
     {
 

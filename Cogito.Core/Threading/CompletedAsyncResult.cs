@@ -5,7 +5,7 @@ namespace Cogito.Threading
 {
 
     /// <summary>
-    /// <see cref="IAsyncResult"/> implementation that is completed.
+    /// <see cref="IAsyncResult"/> implementation that is completed by default.
     /// </summary>
     public class CompletedAsyncResult :
         IAsyncResult
@@ -65,7 +65,7 @@ namespace Cogito.Threading
     }
 
     /// <summary>
-    /// <see cref="IAsyncResult"/> implementation that is completed.
+    /// <see cref="IAsyncResult"/> implementation that is completed by default.
     /// </summary>
     /// <typeparam name="T"></typeparam>
     public class CompletedAsyncResult<T> :

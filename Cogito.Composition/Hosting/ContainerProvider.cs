@@ -1,8 +1,8 @@
 ﻿using System;
 using System.ComponentModel.Composition;
 using System.Diagnostics.Contracts;
+
 using Cogito.Composition.Scoping;
-using Cogito.Core;
 
 namespace Cogito.Composition.Hosting
 {
@@ -13,7 +13,7 @@ namespace Cogito.Composition.Hosting
     [PartMetadata(CompositionConstants.ScopeMetadataKey, typeof(IEveryScope))]
     [Export(typeof(IContainerProvider))]
     [ExportMetadata(CompositionConstants.VisibilityMetadataKey, Visibility.Local)]
-    public class ContainerProvider
+    class ContainerProvider
         : IContainerProvider
     {
 

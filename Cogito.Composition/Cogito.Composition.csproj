@@ -157,6 +157,8 @@
     <Compile Include="IExportResolver.cs" />
     <Compile Include="IOrderedExportMetadata.cs" />
     <Compile Include="OrderedManyImport.cs" />
+    <Compile Include="Ref.cs" />
+    <Compile Include="RefManager.cs" />
     <Compile Include="Scoping\IScopeTypeResolver.cs" />
     <Compile Include="Scoping\IScopeService.cs" />
     <Compile Include="Scoping\ScopeCatalog.cs" />
