@@ -4,6 +4,9 @@ using System.Diagnostics.Contracts;
 namespace Cogito
 {
 
+    /// <summary>
+    /// Various extensions for working with <see cref="UriBuilder"/> instances.
+    /// </summary>
     public static class UriBuilderExtensions
     {
 

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Diagnostics.Contracts;
-using System.Runtime.ExceptionServices;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -21,27 +20,21 @@ namespace Cogito.Threading
         /// <param name="callback"></param>
         /// <param name="state"></param>
         /// <returns></returns>
-        public static IAsyncResult BeginToAsync<TResult>(this Task<TResult> task, AsyncCallback callback, object state)
+        public static IAsyncResult ToAsyncBegin<TResult>(this Task<TResult> task, AsyncCallback callback, object state)
         {
             Contract.Requires<ArgumentNullException>(task != null);
-            
+
             var ec = ExecutionContext.Capture();
             var cs = new TaskCompletionSource<TResult>(state);
 
             task.ContinueWith(_ =>
             {
-                if (_.IsFaulted)
-                    cs.TrySetException(_.Exception.InnerExceptions);
-                else if (_.IsCanceled)
-                    cs.TrySetCanceled();
-                else
-                    cs.TrySetResult(_.Result);
+                cs.TrySetFrom(_);
 
                 // invoke callback, which should invoke EndToAsync
                 if (callback != null)
                     ExecutionContext.Run(ec, __ => callback((Task<TResult>)__), cs.Task);
-
-            }, TaskContinuationOptions.ExecuteSynchronously);
+            });
 
             return cs.Task;
         }
@@ -53,28 +46,22 @@ namespace Cogito.Threading
         /// <param name="callback"></param>
         /// <param name="state"></param>
         /// <returns></returns>
-        public static IAsyncResult BeginToAsync(this Task task, AsyncCallback callback, object state)
+        public static IAsyncResult ToAsyncBegin(this Task task, AsyncCallback callback, object state)
         {
             Contract.Requires<ArgumentNullException>(task != null);
-            
+
             var ec = ExecutionContext.Capture();
             var cs = new TaskCompletionSource<object>(state);
 
             task.ContinueWith(_ =>
             {
-                if (_.IsFaulted)
-                    cs.TrySetException(_.Exception.InnerExceptions);
-                else if (_.IsCanceled)
-                    cs.TrySetCanceled();
-                else
-                    cs.TrySetResult(null);
+                cs.TrySetFrom(_);
 
                 // invoke callback, which should invoke EndToAsync
                 if (callback != null)
                     ExecutionContext.Run(ec, __ => callback((Task)__), cs.Task);
-
-            }, TaskContinuationOptions.ExecuteSynchronously);
-
+            });
+            
             return cs.Task;
         }
 
@@ -83,19 +70,11 @@ namespace Cogito.Threading
         /// </summary>
         /// <param name="task"></param>
         /// <returns></returns>
-        public static TResult EndToAsync<TResult>(this Task<TResult> task)
+        public static TResult ToAsyncEnd<TResult>(this Task<TResult> task)
         {
             Contract.Requires<ArgumentNullException>(task != null);
 
-            try
-            {
-                return task.Result;
-            }
-            catch (AggregateException e)
-            {
-                ExceptionDispatchInfo.Capture(e.InnerException).Throw();
-                throw e;
-            }
+            return task.GetAwaiter().GetResult();
         }
 
         /// <summary>
@@ -103,19 +82,11 @@ namespace Cogito.Threading
         /// </summary>
         /// <param name="task"></param>
         /// <returns></returns>
-        public static void EndToAsync(this Task task)
+        public static void ToAsyncEnd(this Task task)
         {
             Contract.Requires<ArgumentNullException>(task != null);
 
-            try
-            {
-                task.Wait();
-            }
-            catch (AggregateException e)
-            {
-                ExceptionDispatchInfo.Capture(e.InnerException).Throw();
-                throw e;
-            }
+            task.GetAwaiter().GetResult();
         }
 
     }

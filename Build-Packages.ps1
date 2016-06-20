@@ -54,6 +54,6 @@ foreach ($i in $NuSpecFiles)
     $f = [System.IO.Path]::ChangeExtension($i.FullName, ".csproj")
     if (Test-Path $f)
     {
-	    & $NuGetExe pack -OutputDirectory `"$OutputDirectory`" -Version `"$Version`" -Prop Configuration=$BuildConfiguration `"$f`"
+    	& $NuGetExe pack -OutputDirectory `"$OutputDirectory`" -Version `"$Version`" -Properties Configuration=$BuildConfiguration `"$f`"
     }
 }

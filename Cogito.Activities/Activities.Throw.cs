@@ -56,7 +56,7 @@ namespace Cogito.Activities
         /// </summary>
         /// <param name="exception"></param>
         /// <returns></returns>
-        public static Throw Throw<TArg>(Func<TArg, Exception> exception, DelegateInArgument<TArg> arg)
+        public static Throw Throw<TArg>(Func<TArg, Exception> exception, InArgument<TArg> arg)
         {
             Contract.Requires<ArgumentNullException>(exception != null);
 

@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Activities;
-using System.Runtime.ExceptionServices;
-using System.Threading;
 using System.Threading.Tasks;
 
 using Cogito.Threading;
@@ -19,40 +17,28 @@ namespace Cogito.Activities
         protected override void CacheMetadata(CodeActivityMetadata metadata)
         {
             base.CacheMetadata(metadata);
-            metadata.RequireExtension<AsyncActivityExtension>();
-            metadata.AddDefaultExtensionProvider(() => new AsyncActivityExtension(null));
+            metadata.RequireExtension<AsyncTaskExtension>();
+            metadata.AddDefaultExtensionProvider(() => AsyncTaskExtension.Default);
         }
 
         protected sealed override IAsyncResult BeginExecute(AsyncCodeActivityContext context, AsyncCallback callback, object state)
         {
-            var tcs = new TaskCompletionSource<bool>(state);
-
-            using (new SynchronizationContextScope(context.GetExtension<AsyncActivityExtension>()?.SynchronizationContext ?? SynchronizationContext.Current))
-            {
-                (ExecuteAsync(context) ?? Task.FromResult(true))
-                    .ContinueWith(t =>
-                    {
-                        tcs.TrySetFrom(t);
-
-                        if (callback != null)
-                            callback(tcs.Task);
-                    }, TaskContinuationOptions.ExecuteSynchronously);
-            }
-
-            return tcs.Task;
+            return (ExecuteInternalAsync(context) ?? Task.FromResult(true)).ToAsyncBegin(callback, state);
         }
 
         protected sealed override void EndExecute(AsyncCodeActivityContext context, IAsyncResult result)
         {
-            try
-            {
-                ((Task)result).Wait();
-            }
-            catch (AggregateException ex)
-            {
-                ExceptionDispatchInfo.Capture(ex.InnerException).Throw();
-                throw;
-            }
+            ((Task)result).ToAsyncEnd();
+        }
+
+        /// <summary>
+        /// Executes the user code to retrieve the task.
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        Task ExecuteInternalAsync(AsyncCodeActivityContext context)
+        {
+            return context.GetExtension<AsyncTaskExtension>().ExecuteAsync(() => ExecuteAsync(context));
         }
 
         /// <summary>
@@ -75,40 +61,28 @@ namespace Cogito.Activities
         protected override void CacheMetadata(CodeActivityMetadata metadata)
         {
             base.CacheMetadata(metadata);
-            metadata.RequireExtension<AsyncActivityExtension>();
-            metadata.AddDefaultExtensionProvider(() => new AsyncActivityExtension(null));
+            metadata.RequireExtension<AsyncTaskExtension>();
+            metadata.AddDefaultExtensionProvider(() => AsyncTaskExtension.Default);
         }
 
         protected sealed override IAsyncResult BeginExecute(AsyncCodeActivityContext context, AsyncCallback callback, object state)
         {
-            var tcs = new TaskCompletionSource<TResult>(state);
-
-            using (new SynchronizationContextScope(context.GetExtension<AsyncActivityExtension>()?.SynchronizationContext ?? SynchronizationContext.Current))
-            {
-                (ExecuteAsync(context) ?? Task.FromResult(default(TResult)))
-                    .ContinueWith(t =>
-                    {
-                        tcs.TrySetFrom(t);
-
-                        if (callback != null)
-                            callback(tcs.Task);
-                    }, TaskContinuationOptions.ExecuteSynchronously);
-            }
-
-            return tcs.Task;
+            return (ExecuteInternalAsync(context) ?? Task.FromResult(default(TResult))).ToAsyncBegin(callback, state);
         }
 
         protected sealed override TResult EndExecute(AsyncCodeActivityContext context, IAsyncResult result)
         {
-            try
-            {
-                return ((Task<TResult>)result).Result;
-            }
-            catch (AggregateException ex)
-            {
-                ExceptionDispatchInfo.Capture(ex.InnerException).Throw();
-                throw;
-            }
+            return ((Task<TResult>)result).ToAsyncEnd();
+        }
+
+        /// <summary>
+        /// Executes the user code to retrieve the task.
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        Task<TResult> ExecuteInternalAsync(AsyncCodeActivityContext context)
+        {
+            return context.GetExtension<AsyncTaskExtension>().ExecuteAsync(() => ExecuteAsync(context));
         }
 
         /// <summary>

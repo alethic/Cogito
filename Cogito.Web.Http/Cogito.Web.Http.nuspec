@@ -1,7 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
-<package xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-    <metadata xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+<package
+    xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+    <metadata>
         <id>Cogito.Web.Http</id>
         <version>$version$</version>
         <authors>Jerome Haltom</authors>
@@ -12,5 +13,11 @@
         <copyright>Jerome Haltom</copyright>
         <licenseUrl>https://raw.github.com/wasabii/Cogito/master/LICENSE</licenseUrl>
         <projectUrl>https://github.com/wasabii/Cogito</projectUrl>
+        <dependencies>
+            <dependency id="Cogito.Application"/>
+            <dependency id="Cogito.Composition"/>
+            <dependency id="Cogito.Core" />
+            <dependency id="Cogito.Web.Core" />
+        </dependencies>
     </metadata>
 </package>

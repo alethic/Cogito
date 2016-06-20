@@ -19,8 +19,6 @@ namespace Cogito.Collections
         /// <summary>
         /// Implements a TryFunc around a plain Func.
         /// </summary>
-        /// <param name="key"></param>
-        /// <param name="result"></param>
         /// <param name="getter"></param>
         /// <returns></returns>
         static TryFunc<TKey, TValue> TryFuncFunc(Func<TKey, TValue> getter)

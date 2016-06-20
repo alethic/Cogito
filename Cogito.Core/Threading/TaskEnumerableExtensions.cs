@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 namespace Cogito.Threading
 {
 
+    /// <summary>
+    /// Various extension methods for working with enumerations of <see cref="Task"/> instances.
+    /// </summary>
     public static class TaskEnumerableExtensions
     {
 
@@ -33,6 +36,22 @@ namespace Cogito.Threading
             Contract.Requires<ArgumentNullException>(source != null);
 
             return Task.WhenAll<T>(source);
+        }
+
+        /// <summary>
+        /// Returns a <see cref="Task{T}"/> that waits for all of the individual <see cref="Task{T}"/> to be complete in sequence.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="source"></param>
+        /// <returns></returns>
+        public static async Task<T[]> ToSequentialArrayAsync<T>(this IEnumerable<Task<T>> source)
+        {
+            Contract.Requires<ArgumentNullException>(source != null);
+
+            var l = new List<T>();
+            foreach (var i in source)
+                l.Add(await i);
+            return l.ToArray();
         }
 
         /// <summary>
@@ -205,7 +224,7 @@ namespace Cogito.Threading
         /// <param name="keySelector"></param>
         /// <param name="elementSelector"></param>
         /// <returns></returns>
-        public static async Task<Dictionary<TKey, TValue>> ToDictionaryAsync<TSource,TKey,TValue>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector, Func<TSource, Task<TValue>> elementSelector)
+        public static async Task<Dictionary<TKey, TValue>> ToDictionaryAsync<TSource, TKey, TValue>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector, Func<TSource, Task<TValue>> elementSelector)
         {
             var d = new Dictionary<TKey, TValue>();
             var l = source.ToDictionary(keySelector, elementSelector);
@@ -213,6 +232,48 @@ namespace Cogito.Threading
                 d[i.Key] = await i.Value;
 
             return d;
+        }
+
+        /// <summary>
+        /// Returns the first element of a sequence, or a default value if the sequence contains no elements.
+        /// </summary>
+        /// <typeparam name="TSource"></typeparam>
+        /// <param name="source"></param>
+        /// <param name="predicate"></param>
+        /// <returns></returns>
+        public static async Task<TSource> FirstOrDefaultAsync<TSource>(this IEnumerable<Task<TSource>> source, Func<TSource, Task<bool>> predicate)
+        {
+            Contract.Requires<ArgumentNullException>(source != null);
+            Contract.Requires<ArgumentNullException>(predicate != null);
+
+            // find first matching element
+            foreach (var t in source)
+                if (await predicate(await t))
+                    return await t;
+
+            // none found, return default
+            return default(TSource);
+        }
+
+        /// <summary>
+        /// Returns the first element of a sequence, or a default value if the sequence contains no elements.
+        /// </summary>
+        /// <typeparam name="TSource"></typeparam>
+        /// <param name="source"></param>
+        /// <param name="predicate"></param>
+        /// <returns></returns>
+        public static async Task<TSource> FirstOrDefaultAsync<TSource>(this IEnumerable<TSource> source, Func<TSource, Task<bool>> predicate)
+        {
+            Contract.Requires<ArgumentNullException>(source != null);
+            Contract.Requires<ArgumentNullException>(predicate != null);
+
+            // find first matching element
+            foreach (var t in source)
+                if (await predicate(t))
+                    return t;
+
+            // none found, return default
+            return default(TSource);
         }
 
     }

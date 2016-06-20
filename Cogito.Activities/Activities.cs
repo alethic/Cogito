@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Activities;
+using System.Activities.Expressions;
 using System.Activities.Statements;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
@@ -195,7 +196,10 @@ namespace Cogito.Activities
         {
             Contract.Requires<ArgumentNullException>(source != null);
 
-            return Invoke<TSource, TResult>(source, i => i);
+            return new As<TSource, TResult>()
+            {
+                Operand = source,
+            };
         }
 
         public static Parallel WithBranch(this Parallel parallel, Activity branch)
@@ -220,6 +224,30 @@ namespace Cogito.Activities
                 Then = then,
             };
         }
+
+        /// <summary>
+        /// Executes the given action with <paramref name="count"/> values starting from <paramref name="start"/>.
+        /// </summary>
+        /// <param name="start"></param>
+        /// <param name="count"></param>
+        /// <param name="createAction"></param>
+        /// <returns></returns>
+        public static Activity Range(int start, int count, Func<DelegateInArgument<int>, ActionActivity<int>> createAction)
+        {
+            return For(start, i => i - count < count, i => i + 1, createAction);
+        }
+
+        /// <summary>
+        /// Executes the given action with <paramref name="count"/> values starting from <paramref name="start"/>.
+        /// </summary>
+        /// <param name="start"></param>
+        /// <param name="count"></param>
+        /// <param name="action"></param>
+        /// <returns></returns>
+        public static Activity Range(int start, int count, Action<int> action)
+        {
+            return For<int>(start, i => i - start < count, i => i + 1, arg => Invoke(action, arg));
+        }   
 
     }
 

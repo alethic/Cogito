@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Activities;
+using System.Threading.Tasks;
 
 namespace Cogito.Activities
 {
@@ -33,7 +34,7 @@ namespace Cogito.Activities
     /// Provides an <see cref="Activity"/> that executes the given function.
     /// </summary>
     public class FuncActivity<TResult> :
-        NativeActivity<TResult>
+        AsyncTaskCodeActivity<TResult>
     {
 
         public static implicit operator ActivityFunc<TResult>(FuncActivity<TResult> activity)
@@ -74,9 +75,14 @@ namespace Cogito.Activities
         [RequiredArgument]
         public Func<ActivityContext, TResult> Func { get; set; }
 
-        protected override void Execute(NativeActivityContext context)
+        /// <summary>
+        /// Executes the function.
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        protected override Task<TResult> ExecuteAsync(AsyncCodeActivityContext context)
         {
-            Result.Set(context, Func(context));
+            return Task.FromResult(Func(context));
         }
 
     }

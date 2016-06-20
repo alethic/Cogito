@@ -4,6 +4,9 @@ using System.Threading;
 namespace Cogito.Threading
 {
 
+    /// <summary>
+    /// Introduces a <see cref="SynchronizationContext"/> within the descending scope and restores it upon dispose.
+    /// </summary>
     public struct SynchronizationContextScope :
         IDisposable
     {
@@ -20,6 +23,9 @@ namespace Cogito.Threading
             SynchronizationContext.SetSynchronizationContext(context);
         }
 
+        /// <summary>
+        /// Resets the scope.
+        /// </summary>
         public void Dispose()
         {
             SynchronizationContext.SetSynchronizationContext(prev);

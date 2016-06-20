@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using System.Diagnostics.Contracts;
 
-namespace Cogito.Core.Diagnostics
+namespace Cogito.Diagnostics
 {
 
     /// <summary>
@@ -12,7 +12,7 @@ namespace Cogito.Core.Diagnostics
         TraceListener
     {
 
-        Action<string> _write;
+        readonly Action<string> _write;
 
         /// <summary>
         /// Initializes a new instance.

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Activities;
 using System.Diagnostics.Contracts;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Cogito.Activities
@@ -43,15 +44,68 @@ namespace Cogito.Activities
         /// the workflow instance.
         /// </summary>
         /// <param name="self"></param>
+        /// <param name="bookmark"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static Task<BookmarkResumptionResult> ResumeBookmarkAsync(this WorkflowApplication self, Bookmark bookmark, object value)
+        {
+            Contract.Requires<ArgumentNullException>(self != null);
+            Contract.Requires<ArgumentNullException>(bookmark != null);
+
+            return Task.Factory.FromAsync(self.BeginResumeBookmark, self.EndResumeBookmark, bookmark, value, null);
+        }
+
+        /// <summary>
+        /// Initiates an asynchronous operation to resume the bookmark with the specified name, using the specified
+        /// value, callback method, and state. The bookmark to be resumed is previously created by an activity within
+        /// the workflow instance.
+        /// </summary>
+        /// <param name="self"></param>
         /// <param name="bookmarkName"></param>
         /// <param name="value"></param>
         /// <returns></returns>
-        public static Task ResumeBookmarkAsync(this WorkflowApplication self, string bookmarkName, object value)
+        public static Task<BookmarkResumptionResult> ResumeBookmarkAsync(this WorkflowApplication self, string bookmarkName, object value)
         {
             Contract.Requires<ArgumentNullException>(self != null);
             Contract.Requires<ArgumentNullException>(bookmarkName != null);
 
             return Task.Factory.FromAsync(self.BeginResumeBookmark, self.EndResumeBookmark, bookmarkName, value, null);
+        }
+
+        /// <summary>
+        /// Initiates an asynchronous operation to resume the bookmark with the specified name, using the specified
+        /// value, time-out interval, callback method, and state. The bookmark to be resumed is previously created by
+        /// an activity within the workflow instance.
+        /// </summary>
+        /// <param name="self"></param>
+        /// <param name="bookmark"></param>
+        /// <param name="value"></param>
+        /// <param name="timeout"></param>
+        /// <returns></returns>
+        public static Task<BookmarkResumptionResult> ResumeBookmarkAsync(this WorkflowApplication self, Bookmark bookmark, object value, TimeSpan timeout)
+        {
+            Contract.Requires<ArgumentNullException>(self != null);
+            Contract.Requires<ArgumentNullException>(bookmark != null);
+
+            return Task.Factory.FromAsync(self.BeginResumeBookmark, self.EndResumeBookmark, bookmark, value, timeout, null);
+        }
+
+        /// <summary>
+        /// Initiates an asynchronous operation to resume the bookmark with the specified name, using the specified
+        /// value, time-out interval, callback method, and state. The bookmark to be resumed is previously created by
+        /// an activity within the workflow instance.
+        /// </summary>
+        /// <param name="self"></param>
+        /// <param name="bookmarkName"></param>
+        /// <param name="value"></param>
+        /// <param name="timeout"></param>
+        /// <returns></returns>
+        public static Task<BookmarkResumptionResult> ResumeBookmarkAsync(this WorkflowApplication self, string bookmarkName, object value, TimeSpan timeout)
+        {
+            Contract.Requires<ArgumentNullException>(self != null);
+            Contract.Requires<ArgumentNullException>(bookmarkName != null);
+
+            return Task.Factory.FromAsync(self.BeginResumeBookmark, self.EndResumeBookmark, bookmarkName, value, timeout, null);
         }
 
         /// <summary>
@@ -76,6 +130,19 @@ namespace Cogito.Activities
             Contract.Requires<ArgumentNullException>(self != null);
 
             return Task.Factory.FromAsync(self.BeginUnload, self.EndUnload, null);
+        }
+
+        /// <summary>
+        /// Persists and disposes a workflow instance asynchronously using the specified timeout interval.
+        /// </summary>
+        /// <param name="self"></param>
+        /// <param name="timeout"></param>
+        /// <returns></returns>
+        public static Task UnloadAsync(this WorkflowApplication self, TimeSpan timeout)
+        {
+            Contract.Requires<ArgumentNullException>(self != null);
+
+            return Task.Factory.FromAsync(self.BeginUnload, self.EndUnload, timeout, null);
         }
 
     }

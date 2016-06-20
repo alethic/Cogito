@@ -8,7 +8,7 @@ namespace Cogito.Threading
     /// <summary>
     /// Describes a work item dispatched to a <see cref="SynchronizationContext"/>.
     /// </summary>
-    public struct SynchronizationContextWorkItem
+    struct SynchronizationContextWorkItem
     {
 
         /// <summary>

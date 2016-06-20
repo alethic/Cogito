@@ -7,6 +7,9 @@ using System.Reflection;
 namespace Cogito.Reflection
 {
 
+    /// <summary>
+    /// Various extension methods for working with <see cref="AssemblyName"/> instances.
+    /// </summary>
     public static class AssemblyNameExtensions
     {
 
@@ -16,7 +19,7 @@ namespace Cogito.Reflection
         /// <param name="assemblyString"></param>
         /// <param name="throwOnFileNotFound"></param>
         /// <returns></returns>
-        public static Assembly ReflectionOnlyLoad(string assemblyString, bool throwOnFileNotFound = true)
+        static Assembly ReflectionOnlyLoad(string assemblyString, bool throwOnFileNotFound = true)
         {
             if (throwOnFileNotFound)
                 return Assembly.ReflectionOnlyLoad(assemblyString);

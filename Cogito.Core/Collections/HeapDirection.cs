@@ -15,7 +15,7 @@
         /// <summary>
         /// Items are Dequeued in Decreasing order, from greatest to least.
         /// </summary>
-        Decreasing
+        Decreasing,
 
     }
 

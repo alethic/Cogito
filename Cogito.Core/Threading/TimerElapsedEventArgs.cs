@@ -3,6 +3,9 @@
 namespace Cogito.Threading
 {
 
+    /// <summary>
+    /// Events raised when the <see cref="Timer"/> elapses.
+    /// </summary>
     public class TimerElapsedEventArgs :
         TimerEventArgs
     {

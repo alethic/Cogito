@@ -43,6 +43,10 @@ namespace Cogito.Threading
             lck = Task.FromResult<IDisposable>(new Releaser(this));
         }
 
+        /// <summary>
+        /// Creates a task which resolves when the lock is free. Dispose of the resulting instance to release the lock.
+        /// </summary>
+        /// <returns></returns>
         public Task<IDisposable> LockAsync()
         {
             var wait = semaphore.WaitAsync();

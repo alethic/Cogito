@@ -9,6 +9,9 @@ using Cogito.Linq;
 namespace Cogito.Reflection
 {
 
+    /// <summary>
+    /// Various extension methods for working with <see cref="Type"/> instances.
+    /// </summary>
     public static class TypeExtensions
     {
 
@@ -25,6 +28,18 @@ namespace Cogito.Reflection
             return self
                 .Recurse(i => i.BaseType)
                 .SelectMany(i => i.GetInterfaces().Prepend(i));
+        }
+
+        /// <summary>
+        /// Returns an enumeration of the specified <see cref="Type"/> and all base <see cref="Type"/>s.
+        /// </summary>
+        /// <param name="self"></param>
+        /// <returns></returns>
+        public static IEnumerable<Type> GetTypeAndBaseTypes(this Type self)
+        {
+            Contract.Requires<ArgumentNullException>(self != null);
+
+            return self.Recurse(i => i.BaseType);
         }
 
         /// <summary>
@@ -75,17 +90,25 @@ namespace Cogito.Reflection
             return ienum.GetGenericArguments()[0];
         }
 
+        /// <summary>
+        /// Returns the <see cref="Type"/> which implements <see cref="IEnumerable{T}"/>.
+        /// </summary>
+        /// <param name="sequenceType"></param>
+        /// <returns></returns>
         static Type FindIEnumerable(Type sequenceType)
         {
             if (sequenceType == null || sequenceType == typeof(string))
                 return null;
 
+            // type if an array direcetly
             if (sequenceType.IsArray)
                 return typeof(IEnumerable<>).MakeGenericType(sequenceType.GetElementType());
 
+            // type is generic
             if (sequenceType.IsGenericType)
             {
-                foreach (Type arg in sequenceType.GetGenericArguments())
+                // check whether IEnumerable{T} for one of the generic arguments is supported, such as List{T} supporting IEnumerable{T}
+                foreach (var arg in sequenceType.GetGenericArguments())
                 {
                     var ienum = typeof(IEnumerable<>).MakeGenericType(arg);
                     if (ienum.IsAssignableFrom(sequenceType))
@@ -93,10 +116,11 @@ namespace Cogito.Reflection
                 }
             }
 
+            // run through each interface and see if we can find it there
             var ifaces = sequenceType.GetInterfaces();
             if (ifaces != null && ifaces.Length > 0)
             {
-                foreach (Type iface in ifaces)
+                foreach (var iface in ifaces)
                 {
                     var ienum = FindIEnumerable(iface);
                     if (ienum != null) 
@@ -104,7 +128,9 @@ namespace Cogito.Reflection
                 }
             }
 
-            if (sequenceType.BaseType != null && sequenceType.BaseType != typeof(object))
+            // repeat for the base type
+            if (sequenceType.BaseType != null &&
+                sequenceType.BaseType != typeof(object))
                 return FindIEnumerable(sequenceType.BaseType);
 
             return null;

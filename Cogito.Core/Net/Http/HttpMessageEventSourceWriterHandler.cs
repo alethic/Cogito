@@ -1,4 +1,6 @@
-﻿using System.Net.Http;
+﻿using System;
+using System.Diagnostics.Contracts;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -15,8 +17,19 @@ namespace Cogito.Net.Http
         /// <summary>
         /// Initializes a new instance.
         /// </summary>
+        /// <param name="eventSource"></param>
+        /// <param name="innerHandler"></param>
+        public HttpEventSourceWriterHandler(HttpMessageHandler innerHandler)
+            : base(innerHandler)
+        {
+            Contract.Requires<ArgumentNullException>(innerHandler != null);
+        }
+
+        /// <summary>
+        /// Initializes a new instance.
+        /// </summary>
         public HttpEventSourceWriterHandler()
-            : base(new HttpClientHandler())
+            : this(new HttpClientHandler())
         {
 
         }

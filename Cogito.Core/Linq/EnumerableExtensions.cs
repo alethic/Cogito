@@ -362,7 +362,7 @@ namespace Cogito.Linq
                 var k = keySelector(s);
                 if (haveLast)
                 {
-                    if (!k.Equals(last))
+                    if (!Equals(k, last))
                     {
                         yield return new GroupOfAdjacent<TKey, TElement>(last, list);
 

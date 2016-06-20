@@ -136,6 +136,77 @@ for (int i = 2; i <= 8; i++)
 <#
 }
 #>
+
+        public static ActivityFunc<TResult> DelegateFunc<TResult>(Func<Activity<TResult>> create)
+        {
+            Contract.Requires<ArgumentNullException>(create != null);
+
+            var result = new DelegateOutArgument<TResult>();
+            var action = create();
+            action.Result = result;
+
+            return new ActivityFunc<TResult>()
+            {
+                Result = result,
+                Handler = action,
+            };
+        }
+
+        public static ActivityFunc<TArg, TResult> DelegateFunc<TArg, TResult>(Func<DelegateInArgument<TArg>, Activity<TResult>> create)
+        {
+            Contract.Requires<ArgumentNullException>(create != null);
+
+            var arg = new DelegateInArgument<TArg>();
+            var result = new DelegateOutArgument<TResult>();
+            var action = create(arg);
+            action.Result = result;
+
+            return new ActivityFunc<TArg, TResult>()
+            {
+                Argument = arg,
+                Result = result,
+                Handler = action,
+            };
+        }
+
+<#
+for (int i = 2; i <= 8; i++)
+{
+#>
+        public static ActivityFunc<<#= Repeat("TArg{0}", i, ", ") #>, TResult> DelegateFunc<<#= Repeat("TArg{0}", i, ", ") #>, TResult>(Func<<#= Repeat("DelegateInArgument<TArg{0}>", i, ", ") #>, Activity<TResult>> create)
+        {
+            Contract.Requires<ArgumentNullException>(create != null);
+
+<#
+    for (int j = 1; j <= i; j++)
+    {
+#>
+            var <#= string.Format("arg{0}", j) #> = new DelegateInArgument<<#= string.Format("TArg{0}", j) #>>();
+<#
+    }
+#>
+            var result = new DelegateOutArgument<TResult>();
+            var action = create(<#= Repeat("arg{0}", i, ", ") #>);
+            action.Result = result;
+
+            return new ActivityFunc<<#= Repeat("TArg{0}", i, ", ") #>, TResult>()
+            {
+<#
+    for (int j = 1; j <= i; j++)
+    {
+#>
+                Argument<#= j #> = arg<#= j #>,
+<#
+    }
+#>
+                Result = result,
+                Handler = action,
+            };
+        }
+
+<#
+}
+#>
     }
 
 }

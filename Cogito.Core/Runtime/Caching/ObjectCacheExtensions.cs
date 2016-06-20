@@ -103,6 +103,7 @@ namespace Cogito.Runtime.Caching
         /// invocation with the given cache key and cache policy.
         /// </summary>
         /// <typeparam name="T"></typeparam>
+        /// <param name="self"></param>
         /// <param name="func"></param>
         /// <param name="absoluteExpiration"></param>
         /// <param name="keys"></param>
@@ -127,6 +128,7 @@ namespace Cogito.Runtime.Caching
         /// invocation with the given cache key and cache policy.
         /// </summary>
         /// <typeparam name="T"></typeparam>
+        /// <param name="self"></param>
         /// <param name="func"></param>
         /// <param name="slidingExpiration"></param>
         /// <param name="keys"></param>

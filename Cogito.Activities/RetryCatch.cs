@@ -5,6 +5,9 @@ using System.Windows.Markup;
 namespace Cogito.Activities
 {
 
+    /// <summary>
+    /// Represents a handled exception on a <see cref="Retry"/>.
+    /// </summary>
     public abstract class RetryCatch
     {
 
@@ -31,6 +34,10 @@ namespace Cogito.Activities
 
     }
 
+    /// <summary>
+    /// Represents a handled exception on a <see cref="Retry"/>.
+    /// </summary>
+    /// <typeparam name="TException"></typeparam>
     [ContentProperty("Action")]
     public class RetryCatch<TException> :
         RetryCatch
@@ -69,7 +76,10 @@ namespace Cogito.Activities
         /// <param name="faultCallback"></param>
         internal override void ScheduleAction(NativeActivityContext context, Exception exception, int attempts, CompletionCallback completionCallback, FaultCallback faultCallback)
         {
-            context.ScheduleAction(Action, (TException)exception, attempts, completionCallback, faultCallback);
+            if (Action != null)
+                context.ScheduleAction(Action, (TException)exception, attempts, completionCallback, faultCallback);
+            else
+                completionCallback(context, null);
         }
 
     }

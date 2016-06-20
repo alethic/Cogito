@@ -6,6 +6,9 @@ using System.Text;
 namespace Cogito.Text
 {
 
+    /// <summary>
+    /// Various extension methods for <see cref="StringBuilder"/> instances.
+    /// </summary>
     public static class StringBuilderExtensions
     {
 
@@ -38,6 +41,7 @@ namespace Cogito.Text
 
             foreach (var i in source)
                 self.Append(i).AppendLine();
+
             return self;
         }
 
@@ -56,11 +60,14 @@ namespace Cogito.Text
             {
                 if (prefix != null)
                     self.Append(prefix);
-                self.Append(i);
+                if (i != null)
+                    self.Append(i);
                 if (suffix != null)
                     self.Append(suffix);
+
                 self.AppendLine();
             }
+
             return self;
         }
 
@@ -76,8 +83,11 @@ namespace Cogito.Text
             Contract.Requires<ArgumentNullException>(source != null);
 
             foreach (var i in source)
-                self.Append(i);
+                if (i != null)
+                    self.Append(i);
+
             self.AppendLine();
+
             return self;
         }
 
@@ -93,7 +103,9 @@ namespace Cogito.Text
             Contract.Requires<ArgumentNullException>(source != null);
 
             foreach (var i in source)
-                AppendFullLine(self, i);
+                if (i != null)
+                    AppendFullLine(self, i);
+
             return self;
         }
 
@@ -116,9 +128,11 @@ namespace Cogito.Text
             {
                 if (prefix != null)
                     self.Append(prefix);
-                AppendMany(self, i);
+                if (i != null)
+                    AppendMany(self, i);
                 if (suffix != null)
                     self.Append(suffix);
+
                 self.AppendLine();
             }
 

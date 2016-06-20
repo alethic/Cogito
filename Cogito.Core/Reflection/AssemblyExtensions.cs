@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Reflection;
@@ -8,6 +9,9 @@ using Cogito.Collections;
 namespace Cogito.Reflection
 {
 
+    /// <summary>
+    /// Various extension methods for working with <see cref="Assembly"/> instances.
+    /// </summary>
     public static class AssemblyExtensions
     {
 
@@ -48,18 +52,6 @@ namespace Cogito.Reflection
             foreach (var assemblyName in assembly.GetReferencedAssemblies())
                 if ((assembly = assemblyName.ReflectionOnlyLoad()) != null && assemblies.Add(assembly))
                     LoadAllReferencedAssembliesInternal(assembly, assemblies);
-        }
-
-        /// <summary>
-        /// Resolves the <see cref="Version"/> of the specified assembly.
-        /// </summary>
-        /// <param name="assembly"></param>
-        /// <returns></returns>
-        public static Version GetVersion(this Assembly assembly)
-        {
-            Contract.Requires<ArgumentNullException>(assembly != null);
-
-            return new RuntimeVersion(assembly.GetName().Version);
         }
 
     }

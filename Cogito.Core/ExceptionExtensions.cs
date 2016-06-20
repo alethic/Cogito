@@ -5,6 +5,9 @@ using System.Diagnostics.Contracts;
 namespace Cogito
 {
 
+    /// <summary>
+    /// Various extension methods for <see cref="Exception"/> instances.
+    /// </summary>
     public static class ExceptionExtensions
     {
 
@@ -26,10 +29,13 @@ namespace Cogito
         /// <returns></returns>
         public static IEnumerable<Exception> Expand(this Exception e)
         {
+            Contract.Requires<ArgumentNullException>(e != null);
+
             var ae = e as AggregateException;
             if (ae != null)
-                foreach (var aee in Expand(ae))
-                    yield return aee;
+                foreach (var aei in ae.InnerExceptions)
+                    foreach (var aee in Expand(aei))
+                        yield return aee;
             else
                 yield return e;
         }

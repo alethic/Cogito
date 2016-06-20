@@ -22,7 +22,6 @@ namespace Cogito.Linq
         /// <param name="list"></param>
         internal GroupOfAdjacent(TKey key, IEnumerable<TElement> list)
         {
-            Contract.Requires<ArgumentNullException>(key != null);
             Contract.Requires<ArgumentNullException>(list != null);
 
             this.key = key;

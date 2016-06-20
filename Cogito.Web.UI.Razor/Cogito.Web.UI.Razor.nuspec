@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<package
+    xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+    <metadata>
+        <id>Cogito.Web.UI.Razor</id>
+        <version>$version$</version>
+        <authors>Jerome Haltom</authors>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>Provides objects to use Razor for WebForms.</description>
+        <summary></summary>
+        <language>en-US</language>
+        <copyright>Jerome Haltom</copyright>
+        <licenseUrl>https://raw.github.com/wasabii/Cogito/master/LICENSE</licenseUrl>
+        <projectUrl>https://github.com/wasabii/Cogito</projectUrl>
+        <dependencies>
+            <dependency id="Cogito.Composition"/>
+            <dependency id="Cogito.Core"/>
+            <dependency id="Cogito.IO"/>
+            <dependency id="Cogito.Web.Razor" />
+            <dependency id="Cogito.Web.UI" />
+        </dependencies>
+    </metadata>
+</package>

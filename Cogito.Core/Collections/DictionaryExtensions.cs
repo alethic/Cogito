@@ -5,10 +5,14 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Diagnostics.Contracts;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Cogito.Collections
 {
 
+    /// <summary>
+    /// Provides extension methods for working with Dictionaries.
+    /// </summary>
     public static class DictionaryExtensions
     {
 
@@ -23,6 +27,7 @@ namespace Cogito.Collections
         public static TValue GetOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> self, TKey key)
         {
             Contract.Requires<ArgumentNullException>(self != null);
+            Contract.Requires<ArgumentNullException>(key != null);
 
             TValue v;
             return self.TryGetValue(key, out v) ? v : default(TValue);
@@ -55,6 +60,7 @@ namespace Cogito.Collections
         {
             Contract.Requires<ArgumentNullException>(self != null);
             Contract.Requires<ArgumentNullException>(key != null);
+            Contract.Requires<ArgumentNullException>(create != null);
 
             // ConcurrentDictionary provides it's own thread-safe version
             if (self is ConcurrentDictionary<TKey, TValue>)
@@ -62,6 +68,25 @@ namespace Cogito.Collections
 
             TValue v;
             return self.TryGetValue(key, out v) ? v : self[key] = create(key);
+        }
+
+        /// <summary>
+        /// Gets the value for the specified key or creates it asynchronously. This is not thread-safe.
+        /// </summary>
+        /// <typeparam name="TKey"></typeparam>
+        /// <typeparam name="TValue"></typeparam>
+        /// <param name="self"></param>
+        /// <param name="key"></param>
+        /// <param name="create"></param>
+        /// <returns></returns>
+        public static async Task<TValue> GetOrAddAsync<TKey, TValue>(this IDictionary<TKey, TValue> self, TKey key, Func<TKey, Task<TValue>> create)
+        {
+            Contract.Requires<ArgumentNullException>(self != null);
+            Contract.Requires<ArgumentNullException>(key != null);
+            Contract.Requires<ArgumentNullException>(create != null);
+
+            TValue v;
+            return self.TryGetValue(key, out v) ? v : self[key] = await create(key);
         }
 
         /// <summary>
@@ -74,11 +99,15 @@ namespace Cogito.Collections
         /// <returns></returns>
         public static IDictionary<TKey, TValue> Merge<TKey, TValue>(this IDictionary<TKey, TValue> source, IDictionary<TKey, TValue> second)
         {
+            Contract.Requires<ArgumentNullException>(source != null);
+            Contract.Requires<ArgumentNullException>(second != null);
+
             var d = new Dictionary<TKey, TValue>(source);
 
             // merge keys from second into new copy
             foreach (var i in second)
-                d[i.Key] = i.Value;
+                if (i.Key != null)
+                    d[i.Key] = i.Value;
 
             return d;
         }
@@ -100,7 +129,6 @@ namespace Cogito.Collections
         /// <summary>
         /// Returns an empty <see cref="IDictionary{TKey, TValue}"/> if <paramref name="source"/> is null.
         /// </summary>
-        /// <typeparam name="TDictionary"></typeparam>
         /// <typeparam name="TKey"></typeparam>
         /// <typeparam name="TValue"></typeparam>
         /// <param name="source"></param>
@@ -113,7 +141,6 @@ namespace Cogito.Collections
         /// <summary>
         /// Returns an empty <see cref="IDictionary{TKey, TValue}"/> if <paramref name="source"/> is null.
         /// </summary>
-        /// <typeparam name="TDictionary"></typeparam>
         /// <typeparam name="TKey"></typeparam>
         /// <typeparam name="TValue"></typeparam>
         /// <param name="source"></param>
