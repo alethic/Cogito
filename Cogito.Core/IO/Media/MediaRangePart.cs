@@ -2,33 +2,33 @@
 using System.Diagnostics.Contracts;
 using System.Runtime.Serialization;
 
-namespace Cogito.Media
+namespace Cogito.IO.Media
 {
 
     /// <summary>
     /// Represents a media type or subtype in a <see cref="MediaRange"/>.
     /// </summary>
     [Serializable]
-    public struct MediaType :
+    public struct MediaRangePart :
         ISerializable
     {
 
         /// <summary>
-        /// Converts a <see cref="String"/> to a <see cref="MediaType"/>.
+        /// Converts a <see cref="String"/> to a <see cref="MediaRangePart"/>.
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        public static implicit operator MediaType(string value)
+        public static implicit operator MediaRangePart(string value)
         {
-            return new MediaType(value);
+            return new MediaRangePart(value);
         }
 
         /// <summary>
-        /// Converts a <see cref="MediaType"/> to a <see cref="String"/>.
+        /// Converts a <see cref="MediaRangePart"/> to a <see cref="String"/>.
         /// </summary>
         /// <param name="type"></param>
         /// <returns></returns>
-        public static implicit operator string(MediaType type)
+        public static implicit operator string(MediaRangePart type)
         {
             return type.ToString();
         }
@@ -37,10 +37,10 @@ namespace Cogito.Media
         readonly string value;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="MediaType"/> class for the media type part.
+        /// Initializes a new instance of the <see cref="MediaRangePart"/> class for the media type part.
         /// </summary>
         /// <param name="value"></param>
-        MediaType(string value)
+        MediaRangePart(string value)
         {
             Contract.Requires<ArgumentNullException>(!string.IsNullOrEmpty(value));
 
@@ -48,12 +48,12 @@ namespace Cogito.Media
         }
 
         /// <summary>
-        /// Deserializes an instance of <see cref="MediaType"/> class.
+        /// Deserializes an instance of <see cref="MediaRangePart"/> class.
         /// </summary>
         /// <param name="info"></param>
         /// <param name="context"></param>
-        public MediaType(SerializationInfo info, StreamingContext context)
-            : this(info.GetString("MediaType"))
+        public MediaRangePart(SerializationInfo info, StreamingContext context)
+            : this(info.GetString("Value"))
         {
             Contract.Requires<ArgumentNullException>(info != null);
         }
@@ -72,7 +72,7 @@ namespace Cogito.Media
         /// </summary>
         /// <param name="other">The media type that should be matched against.</param>
         /// <returns><see langword="true" /> if the media types match, otherwise <see langword="false" />.</returns>
-        public bool Matches(MediaType other)
+        public bool Matches(MediaRangePart other)
         {
             return IsWildcard || other.IsWildcard || value.Equals(other.value, StringComparison.InvariantCultureIgnoreCase);
         }
@@ -84,7 +84,7 @@ namespace Cogito.Media
 
         public override bool Equals(object other)
         {
-            return other is MediaType ? Matches((MediaType)other) : false;
+            return other is MediaRangePart ? Matches((MediaRangePart)other) : false;
         }
 
         public override int GetHashCode()
@@ -94,7 +94,7 @@ namespace Cogito.Media
 
         void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            info.AddValue("MediaType", value);
+            info.AddValue("Value", value);
         }
 
     }

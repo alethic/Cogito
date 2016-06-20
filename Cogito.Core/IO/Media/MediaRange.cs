@@ -7,7 +7,7 @@ using System.Security.Permissions;
 
 using Newtonsoft.Json;
 
-namespace Cogito.Media
+namespace Cogito.IO.Media
 {
 
     /// <summary>
@@ -53,14 +53,14 @@ namespace Cogito.Media
         }
 
 
-        readonly MediaType type;
-        readonly MediaType subtype;
+        readonly MediaRangePart type;
+        readonly MediaRangePart subtype;
         readonly MediaRangeParameters parameters;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MediaRange"/> class.
         /// </summary>
-        MediaRange(MediaType type, MediaType subtype, MediaRangeParameters parameters)
+        MediaRange(MediaRangePart type, MediaRangePart subtype, MediaRangeParameters parameters)
         {
             Contract.Requires<ArgumentNullException>(parameters != null);
 
@@ -96,7 +96,7 @@ namespace Cogito.Media
         /// <param name="info"></param>
         /// <param name="context"></param>
         protected MediaRange(SerializationInfo info, StreamingContext context)
-            : this(info.GetString("MediaRange"))
+            : this(info.GetString("Value"))
         {
             Contract.Requires<ArgumentNullException>(info != null);
         }
@@ -104,7 +104,7 @@ namespace Cogito.Media
         /// <summary>
         /// Media range type.
         /// </summary>
-        public MediaType Type
+        public MediaRangePart Type
         {
             get { return type; }
         }
@@ -112,7 +112,7 @@ namespace Cogito.Media
         /// <summary>
         /// Media range subtype.
         /// </summary>
-        public MediaType Subtype
+        public MediaRangePart Subtype
         {
             get { return subtype; }
         }
@@ -223,7 +223,7 @@ namespace Cogito.Media
         [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.SerializationFormatter)]
         void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            info.AddValue("MediaRange", ToString());
+            info.AddValue("Value", ToString());
         }
 
     }

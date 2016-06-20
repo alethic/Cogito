@@ -4,7 +4,7 @@ using System.IO;
 
 using Cogito.Collections;
 
-namespace Cogito.Media
+namespace Cogito.IO.Media.Providers
 {
 
     /// <summary>
@@ -15,7 +15,7 @@ namespace Cogito.Media
         IMediaTypeProvider
     {
 
-        readonly static Dictionary<string, MediaType> map = new Dictionary<string, MediaType>()
+        readonly static Dictionary<string, MediaRange> map = new Dictionary<string, MediaRange>()
         {
             { "gif", "image/gif" },
             { "jpeg", "image/jpeg" },
@@ -25,15 +25,15 @@ namespace Cogito.Media
             { "tif", "image/tiff" },
         };
 
-        public IEnumerable<MediaType> Resolve(string name)
+        public IEnumerable<MediaRange> Resolve(string name)
         {
             var extension = Path.GetExtension(name);
             if (extension == null)
                 yield break;
 
-            var mediaType = map.GetOrDefault(extension.TrimStart('.'));
-            if (mediaType != null)
-                yield return mediaType;
+            var mediaRange = map.GetOrDefault(extension.TrimStart('.'));
+            if (mediaRange != null)
+                yield return mediaRange;
         }
 
     }

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Cogito.Media
+namespace Cogito.IO.Media
 {
 
     /// <summary>
@@ -10,18 +10,18 @@ namespace Cogito.Media
     {
 
         /// <summary>
-        /// Attempts to resolve a <see cref="MediaType"/> from a given file name.
+        /// Attempts to resolve a <see cref="MediaRange"/> from a given file name.
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        MediaType Resolve(string name);
+        MediaRange Resolve(string name);
 
         /// <summary>
-        /// Attempts to resolve the available <see cref="MediaType"/>s from a given file name.
+        /// Attempts to resolve the available <see cref="MediaRange"/>s from a given file name.
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        IEnumerable<MediaType> ResolveMany(string name);
+        IEnumerable<MediaRange> ResolveMany(string name);
 
     }
 

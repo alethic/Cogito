@@ -6,7 +6,7 @@ using System.Linq;
 
 using Cogito.Linq;
 
-namespace Cogito.Media
+namespace Cogito.IO.Media
 {
 
     /// <summary>
@@ -33,14 +33,14 @@ namespace Cogito.Media
             this.providers = providers;
         }
 
-        public MediaType Resolve(string name)
+        public MediaRange Resolve(string name)
         {
             return ResolveMany(name).FirstOrDefault();
         }
 
-        public IEnumerable<MediaType> ResolveMany(string name)
+        public IEnumerable<MediaRange> ResolveMany(string name)
         {
-            return providers.SelectMany(i => i.Resolve(name)).Append("application/octet-stream");
+            return providers.SelectMany(i => i.Resolve(name)).Append((MediaRange)"application/octet-stream");
         }
 
     }

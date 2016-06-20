@@ -4,7 +4,7 @@ using System.IO;
 
 using Cogito.Collections;
 
-namespace Cogito.Media
+namespace Cogito.IO.Media.Providers
 {
 
     [Export(typeof(IMediaTypeProvider))]
@@ -12,7 +12,7 @@ namespace Cogito.Media
         IMediaTypeProvider
     {
 
-        readonly static Dictionary<string, MediaType> map = new Dictionary<string, MediaType>()
+        readonly static Dictionary<string, MediaRange> map = new Dictionary<string, MediaRange>()
         {
             { "css", "text/css" },
             { "html", "text/html" },
@@ -20,7 +20,7 @@ namespace Cogito.Media
             { "xml", "text/xml" },
         };
 
-        public IEnumerable<MediaType> Resolve(string name)
+        public IEnumerable<MediaRange> Resolve(string name)
         {
             var extension = Path.GetExtension(name);
             if (extension == null)

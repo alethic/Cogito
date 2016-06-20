@@ -1,20 +1,20 @@
 ﻿using System.Collections.Generic;
 
-namespace Cogito.Media
+namespace Cogito.IO.Media
 {
 
     /// <summary>
-    /// Provides <see cref="MediaType"/> resolution.
+    /// Provides <see cref="MediaRange"/> resolution.
     /// </summary>
     public interface IMediaTypeProvider
     {
 
         /// <summary>
-        /// Attempts to resolve the available <see cref="MediaType"/>s from a given file name.
+        /// Attempts to resolve the available <see cref="MediaRange"/>s from a given file name.
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        IEnumerable<MediaType> Resolve(string name);
+        IEnumerable<MediaRange> Resolve(string name);
 
     }
 

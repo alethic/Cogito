@@ -2,7 +2,7 @@
 
 using Newtonsoft.Json;
 
-namespace Cogito.Media
+namespace Cogito.IO.Media
 {
 
     /// <summary>
