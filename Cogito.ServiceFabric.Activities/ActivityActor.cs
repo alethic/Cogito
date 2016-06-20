@@ -41,7 +41,7 @@ namespace Cogito.ServiceFabric.Activities
         /// Creates the default state object.
         /// </summary>
         /// <returns></returns>
-        protected virtual Task<TState> CreateDefaultState()
+        protected virtual Task<TState> CreateDefaultStateAsync()
         {
             return Task.FromResult(Activator.CreateInstance<TState>());
         }
@@ -53,24 +53,24 @@ namespace Cogito.ServiceFabric.Activities
         protected override async Task OnBeforeWorkflowActivateAsync()
         {
             await base.OnBeforeWorkflowActivateAsync();
-            await LoadStateObject();
+            await LoadStateObjectAsync();
         }
 
         /// <summary>
         /// Loads the state object. This method is invoked as part of the actor activation.
         /// </summary>
         /// <returns></returns>
-        protected virtual async Task LoadStateObject()
+        protected virtual async Task LoadStateObjectAsync()
         {
             var o = await StateManager.TryGetStateAsync<TState>(StateObjectKey);
-            State = o.HasValue ? o.Value : await CreateDefaultState();
+            State = o.HasValue ? o.Value : await CreateDefaultStateAsync();
         }
 
         /// <summary>
         /// Saves the state object. Invoke this after modifications to the state.
         /// </summary>
         /// <returns></returns>
-        protected virtual async Task SaveStateObject()
+        protected virtual async Task SaveStateObjectAsync()
         {
             if (typeof(TState).IsValueType)
                 await StateManager.SetStateAsync(StateObjectKey, State);
@@ -86,7 +86,7 @@ namespace Cogito.ServiceFabric.Activities
         /// <returns></returns>
         protected override async Task OnPersistedAsync()
         {
-            await SaveStateObject();
+            await SaveStateObjectAsync();
             await base.OnPersistedAsync();
         }
 
@@ -99,7 +99,7 @@ namespace Cogito.ServiceFabric.Activities
         protected override async Task OnPostActorMethodAsync(ActorMethodContext actorMethodContext)
         {
             await base.OnPostActorMethodAsync(actorMethodContext);
-            await SaveStateObject();
+            await SaveStateObjectAsync();
             await SaveStateAsync();
         }
 
