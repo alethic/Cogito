@@ -31,6 +31,7 @@ namespace Cogito.ServiceFabric.Activities.Test.TestWebService.Controllers
         public async Task<IHttpActionResult> Test(Guid id)
         {
             var a = ActorProxy.Create<ITest>(new ActorId(id));
+            await a.CallMe();
             return Content(HttpStatusCode.OK, a.GetActorId());
         }
 

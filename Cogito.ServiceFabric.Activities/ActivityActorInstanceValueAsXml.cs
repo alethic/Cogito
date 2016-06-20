@@ -1,4 +1,5 @@
 ﻿using System.Runtime.Serialization;
+using System.Xml.Linq;
 
 namespace Cogito.ServiceFabric.Activities
 {
@@ -7,14 +8,14 @@ namespace Cogito.ServiceFabric.Activities
     /// Describes a serialized object type.
     /// </summary>
     [DataContract]
-    class ActivityActorInstanceValueAsString
+    class ActivityActorInstanceValueAsXml
     {
 
         /// <summary>
         /// Serialized data as XML.
         /// </summary>
         [DataMember]
-        public string Data { get; set; }
+        public XElement Value { get; set; }
 
     }
 

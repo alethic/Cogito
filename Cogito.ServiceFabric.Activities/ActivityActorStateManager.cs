@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Runtime.DurableInstancing;
@@ -20,8 +22,13 @@ namespace Cogito.ServiceFabric.Activities
         const string STATE_NAME = "__ActivityActorState__";
 
         readonly ActivityWorkflowHost host;
-        internal object sync = new object();
-        ActivityActorState state;
+
+        // instance state
+        Guid instanceOwnerId;
+        Guid instanceId;
+        InstanceState instanceState;
+        ImmutableDictionary<XName, object> instanceData = ImmutableDictionary<XName, object>.Empty;
+        ImmutableDictionary<XName, object> instanceMetadata = ImmutableDictionary<XName, object>.Empty;
 
         /// <summary>
         /// Initializes a new instance.
@@ -39,8 +46,8 @@ namespace Cogito.ServiceFabric.Activities
         /// </summary>
         public Guid InstanceOwnerId
         {
-            get { lock (sync) return state.InstanceOwnerId; }
-            set { lock (sync) state.InstanceOwnerId = value; }
+            get { return instanceOwnerId; }
+            set { instanceOwnerId = value; }
         }
 
         /// <summary>
@@ -48,8 +55,8 @@ namespace Cogito.ServiceFabric.Activities
         /// </summary>
         public Guid InstanceId
         {
-            get { lock (sync) return state.InstanceId; }
-            set { lock (sync) state.InstanceId = value; }
+            get { return instanceId; }
+            set { instanceId = value; }
         }
 
         /// <summary>
@@ -57,8 +64,8 @@ namespace Cogito.ServiceFabric.Activities
         /// </summary>
         public InstanceState InstanceState
         {
-            get { lock (sync) return state.InstanceState; }
-            set { lock (sync) state.InstanceState = value; }
+            get { return instanceState; }
+            set { instanceState = value; }
         }
 
         /// <summary>
@@ -66,10 +73,9 @@ namespace Cogito.ServiceFabric.Activities
         /// </summary>
         /// <param name="name"></param>
         /// <param name="value"></param>
-        public void SetInstanceData(string name, object value)
+        public void SetInstanceData(XName name, object value)
         {
-            lock (sync)
-                state.InstanceData[name] = value;
+            instanceData = instanceData.SetItem(name, value);
         }
 
         /// <summary>
@@ -77,29 +83,26 @@ namespace Cogito.ServiceFabric.Activities
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        public object GetInstanceData(string name)
+        public object GetInstanceData(XName name)
         {
-            lock (sync)
-                return state.InstanceData.GetOrDefault(name);
+            return instanceData.GetValueOrDefault(name);
         }
 
         /// <summary>
         /// Gets the available instance data names.
         /// </summary>
         /// <returns></returns>
-        public string[] GetInstanceDataNames()
+        public IEnumerable<XName> GetInstanceDataNames()
         {
-            lock (sync)
-                return state.InstanceData.Keys.ToArray();
+            return instanceData.Keys;
         }
 
         /// <summary>
-        /// Clears the instance data.
+        /// Clears the instance metadata.
         /// </summary>
         public void ClearInstanceData()
         {
-            lock (sync)
-                state.InstanceData.Clear();
+            instanceData = instanceData.Clear();
         }
 
         /// <summary>
@@ -107,10 +110,9 @@ namespace Cogito.ServiceFabric.Activities
         /// </summary>
         /// <param name="name"></param>
         /// <param name="value"></param>
-        public void SetInstanceMetadata(string name, object value)
+        public void SetInstanceMetadata(XName name, object value)
         {
-            lock (sync)
-                state.InstanceMetadata[name] = value;
+            instanceMetadata = instanceMetadata.SetItem(name, value);
         }
 
         /// <summary>
@@ -118,20 +120,18 @@ namespace Cogito.ServiceFabric.Activities
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        public object GetInstanceMetadata(string name)
+        public object GetInstanceMetadata(XName name)
         {
-            lock (sync)
-                return state.InstanceMetadata.GetOrDefault(name);
+            return instanceMetadata.GetValueOrDefault(name);
         }
 
         /// <summary>
         /// Gets the available instance data names.
         /// </summary>
         /// <returns></returns>
-        public string[] GetInstanceMetadataNames()
+        public IEnumerable<XName> GetInstanceMetadataNames()
         {
-            lock (sync)
-                return state.InstanceMetadata.Keys.ToArray();
+            return instanceMetadata.Keys;
         }
 
         /// <summary>
@@ -139,8 +139,7 @@ namespace Cogito.ServiceFabric.Activities
         /// </summary>
         public void ClearInstanceMetadata()
         {
-            lock (sync)
-                state.InstanceMetadata.Clear();
+            instanceMetadata = instanceMetadata.Clear();
         }
 
         /// <summary> 
@@ -149,8 +148,23 @@ namespace Cogito.ServiceFabric.Activities
         /// <returns></returns>
         public async Task LoadAsync()
         {
-            var item = await host.Actor.StateManager.TryGetStateAsync<ActivityActorState>(STATE_NAME);
-            state = item.HasValue ? item.Value : new ActivityActorState();
+            var state = await host.Actor.StateManager.TryGetStateAsync<ActivityActorState>(STATE_NAME);
+            if (state.HasValue)
+            {
+                instanceOwnerId = state.Value.InstanceOwnerId;
+                instanceId = state.Value.InstanceId;
+                instanceState= state.Value.InstanceState;
+                instanceData = state.Value.InstanceData.ToImmutableDictionary();
+                instanceMetadata = state.Value.InstanceMetadata.ToImmutableDictionary();
+            }
+            else
+            {
+                instanceOwnerId = Guid.Empty;
+                instanceId = Guid.Empty;
+                instanceState = InstanceState.Unknown;
+                instanceData = ImmutableDictionary<XName, object>.Empty;
+                instanceMetadata = ImmutableDictionary<XName, object>.Empty;
+            }
         }
 
         /// <summary>
@@ -159,7 +173,14 @@ namespace Cogito.ServiceFabric.Activities
         /// <returns></returns>
         public async Task SaveAsync()
         {
-            await host.Actor.StateManager.SetStateAsync(STATE_NAME, state);
+            await host.Actor.StateManager.SetStateAsync(STATE_NAME, new ActivityActorState()
+            {
+                InstanceOwnerId = instanceOwnerId,
+                InstanceId = instanceId,
+                InstanceState = instanceState,
+                InstanceData = instanceData.ToDictionary(),
+                InstanceMetadata = instanceMetadata.ToDictionary(),
+            });
         }
 
         /// <summary>

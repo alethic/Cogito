@@ -14,9 +14,9 @@ namespace Cogito.ServiceFabric.Activities
     /// </summary>
     [DataContract]
     [KnownType(typeof(XName))]
-    [KnownType(typeof(ActivityActorInstanceValueAsString))]
+    [KnownType(typeof(ActivityActorInstanceValueAsXml))]
     [KnownType(typeof(ReadOnlyCollection<BookmarkInfo>))]
-    public class ActivityActorState
+    class ActivityActorState
     {
 
         [DataMember]
@@ -29,12 +29,10 @@ namespace Cogito.ServiceFabric.Activities
         public InstanceState InstanceState { get; set; }
 
         [DataMember]
-        public Dictionary<string, object> InstanceData { get; set; } =
-            new Dictionary<string, object>();
+        public IDictionary<XName, object> InstanceData { get; set; }
 
         [DataMember]
-        public Dictionary<string, object> InstanceMetadata { get; set; } =
-            new Dictionary<string, object>();
+        public IDictionary<XName, object> InstanceMetadata { get; set; }
 
     }
 

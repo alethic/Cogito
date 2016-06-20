@@ -166,6 +166,7 @@
   <ItemGroup>
     <Compile Include="Actor.cs" />
     <Compile Include="ActorReferenceExtensions.cs" />
+    <Compile Include="ActorStateManagerExtensions.cs" />
     <Compile Include="IServiceReference.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServiceProxyExtensions.cs" />

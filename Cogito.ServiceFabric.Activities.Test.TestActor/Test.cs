@@ -49,7 +49,7 @@ namespace Cogito.ServiceFabric.Activities.Test.TestActor
         public async Task CallMe()
         {
             Debug.WriteLine($"Test {Id} CallMe");
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < 0; i++)
             {
                 var a = ActorProxy.Create<ITest2>(ActorId.CreateRandom());
                 await a.CallMe1(this);

@@ -152,6 +152,7 @@ namespace Cogito.ServiceFabric.Activities
             state.InstanceState = InstanceState.Initialized;
             SaveInstanceData(context.InstanceView.InstanceId, command.InstanceData);
             SaveInstanceMetadata(context.InstanceView.InstanceId, command.InstanceMetadataChanges);
+            state.OnPersisted();
 
             // clear instance data when complete
             if (command.CompleteInstance)
@@ -161,9 +162,6 @@ namespace Cogito.ServiceFabric.Activities
                 state.ClearInstanceMetadata();
                 state.OnCompleted();
             }
-
-            // signal that we have been saved
-            state.OnPersisted();
 
             return Task.FromResult(true);
         }
@@ -235,7 +233,7 @@ namespace Cogito.ServiceFabric.Activities
         /// <returns></returns>
         IDictionary<XName, InstanceValue> LoadInstanceMetadata(Guid instanceId)
         {
-            return state.GetInstanceMetadataNames().ToDictionary(i => (XName)i, i => new InstanceValue(FromSerializableObject(i)));
+            return state.GetInstanceMetadataNames().ToDictionary(i => (XName)i, i => new InstanceValue(FromSerializableObject(state.GetInstanceMetadata(i))));
         }
 
         /// <summary>
@@ -300,7 +298,7 @@ namespace Cogito.ServiceFabric.Activities
             else if (value is ReadOnlyCollection<BookmarkInfo>)
                 return value;
             else
-                return new ActivityActorInstanceValueAsString() { Data = SerializeObject(value).ToString() };
+                return new ActivityActorInstanceValueAsXml() { Value = SerializeObject(value) };
         }
 
         /// <summary>
@@ -312,13 +310,15 @@ namespace Cogito.ServiceFabric.Activities
         {
             Contract.Requires<ArgumentNullException>(value != null);
 
-            // serialize to stream
-            var stream = new MemoryStream();
-            serializer.Serialize(stream, value);
-            stream.Position = 0;
+            var d1 = new XmlDocument();
+            using (var w = d1.CreateNavigator().AppendChild())
+                serializer.WriteObject(w, value);
 
-            // parse serialized contents into new element
-            return XElement.Load(stream);
+            var d2 = new XDocument();
+            using (var w = d2.CreateWriter())
+                d1.DocumentElement.WriteTo(w);
+
+            return d2.Root;
         }
 
         /// <summary>
@@ -328,8 +328,8 @@ namespace Cogito.ServiceFabric.Activities
         /// <returns></returns>
         object FromSerializableObject(object value)
         {
-            if (value is ActivityActorInstanceValueAsString)
-                return DeserializeObject(XElement.Parse(((ActivityActorInstanceValueAsString)value).Data));
+            if (value is ActivityActorInstanceValueAsXml)
+                return DeserializeObject(((ActivityActorInstanceValueAsXml)value).Value);
             else
                 return value;
         }
@@ -343,11 +343,8 @@ namespace Cogito.ServiceFabric.Activities
         {
             Contract.Requires<ArgumentNullException>(element != null);
 
-            var stream = new MemoryStream();
-            element.Save(stream);
-            stream.Position = 0;
-
-            return serializer.Deserialize(stream);
+            using (var rdr = element.CreateReader())
+                return serializer.ReadObject(rdr);
         }
 
         #endregion

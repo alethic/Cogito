@@ -2,7 +2,7 @@
 using System.Activities;
 using System.Diagnostics;
 using System.Threading.Tasks;
-
+using System.Xml.Linq;
 using Cogito.ServiceFabric.Activities.Test.TestActor.Interfaces;
 
 using Microsoft.ServiceFabric.Actors.Runtime;
@@ -63,6 +63,7 @@ namespace Cogito.ServiceFabric.Activities.Test.TestActor
 
         public async Task Start()
         {
+            State.Element = new System.Xml.Linq.XElement("Foo", new XElement("Bar", new XElement("Blah")));
             Debug.WriteLine($"Test2 {Id} Start");
             await ResumeAsync("Start");
             Debug.WriteLine($"Test2 {Id} Start End");
