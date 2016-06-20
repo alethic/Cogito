@@ -19,7 +19,7 @@ namespace Cogito.ServiceFabric.Activities.Tests
         {
             var actor = new ActorStateManagerMock();
             var state = new ActivityActorStateManager(() => actor);
-            var store = new ActivityActorInstanceStore(state);
+            var store = new ActivityActorInstanceStore(f => f(), state);
         }
 
         [TestMethod]
@@ -29,7 +29,7 @@ namespace Cogito.ServiceFabric.Activities.Tests
             {
                 var actor = new ActorStateManagerMock();
                 var state = new ActivityActorStateManager(() => actor);
-                var store = new ActivityActorInstanceStore(state);
+                var store = new ActivityActorInstanceStore(f => f(), state);
 
                 await state.SetInstanceOwnerId(Guid.NewGuid());
 

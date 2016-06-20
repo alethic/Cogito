@@ -23,17 +23,21 @@ namespace Cogito.ServiceFabric.Activities
         InstanceStore
     {
 
+        readonly Func<Func<Task<bool>>, Task<bool>> sync;
         readonly ActivityActorStateManager state;
         readonly NetDataContractSerializer serializer;
 
         /// <summary>
         /// Initializes a new instance.
         /// </summary>
-        /// <param name="actor"></param>
-        public ActivityActorInstanceStore(ActivityActorStateManager state)
+        /// <param name="state"></param>
+        /// <param name="sync"></param>
+        public ActivityActorInstanceStore(Func<Func<Task<bool>>, Task<bool>> sync, ActivityActorStateManager state)
         {
             Contract.Requires<ArgumentNullException>(state != null);
+            Contract.Requires<ArgumentNullException>(sync != null);
 
+            this.sync = sync;
             this.state = state;
             this.serializer = new NetDataContractSerializer();
         }
@@ -61,34 +65,7 @@ namespace Cogito.ServiceFabric.Activities
         /// <returns></returns>
         protected override IAsyncResult BeginTryCommand(InstancePersistenceContext context, InstancePersistenceCommand command, TimeSpan timeout, AsyncCallback callback, object state)
         {
-            if (command is CreateWorkflowOwnerCommand)
-            {
-                return CreateWorkflowOwnerCommand(context, (CreateWorkflowOwnerCommand)command).ToAsyncBegin(callback, state);
-            }
-            else if (command is QueryActivatableWorkflowsCommand)
-            {
-                return QueryActivatableWorkflowsCommand(context, (QueryActivatableWorkflowsCommand)command).ToAsyncBegin(callback, state);
-            }
-            else if (command is SaveWorkflowCommand)
-            {
-                return SaveWorkflowCommand(context, (SaveWorkflowCommand)command).ToAsyncBegin(callback, state);
-            }
-            else if (command is LoadWorkflowCommand)
-            {
-                return LoadWorkflowCommand(context, (LoadWorkflowCommand)command).ToAsyncBegin(callback, state);
-            }
-            else if (command is TryLoadRunnableWorkflowCommand)
-            {
-                return TryLoadRunnableWorkflowCommand(context, (TryLoadRunnableWorkflowCommand)command).ToAsyncBegin(callback, state);
-            }
-            else if (command is DeleteWorkflowOwnerCommand)
-            {
-                return DeleteWorkflowOwnerCommand(context, (DeleteWorkflowOwnerCommand)command).ToAsyncBegin(callback, state);
-            }
-            else
-            {
-                return Task.FromResult(true).ToAsyncBegin(callback, state);
-            }
+            return Command(context, command).ToAsyncBegin(callback, state);
         }
 
         /// <summary>
@@ -102,6 +79,47 @@ namespace Cogito.ServiceFabric.Activities
         }
 
         #region Commands
+
+        /// <summary>
+        /// Handles a <see cref="InstancePersistenceCommand"/>.
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="command"></param>
+        /// <returns></returns>
+        Task<bool> Command(InstancePersistenceContext context, InstancePersistenceCommand command)
+        {
+            return sync(() =>
+            {
+                if (command is CreateWorkflowOwnerCommand)
+                {
+                    return CreateWorkflowOwnerCommand(context, (CreateWorkflowOwnerCommand)command);
+                }
+                else if (command is QueryActivatableWorkflowsCommand)
+                {
+                    return QueryActivatableWorkflowsCommand(context, (QueryActivatableWorkflowsCommand)command);
+                }
+                else if (command is SaveWorkflowCommand)
+                {
+                    return SaveWorkflowCommand(context, (SaveWorkflowCommand)command);
+                }
+                else if (command is LoadWorkflowCommand)
+                {
+                    return LoadWorkflowCommand(context, (LoadWorkflowCommand)command);
+                }
+                else if (command is TryLoadRunnableWorkflowCommand)
+                {
+                    return TryLoadRunnableWorkflowCommand(context, (TryLoadRunnableWorkflowCommand)command);
+                }
+                else if (command is DeleteWorkflowOwnerCommand)
+                {
+                    return DeleteWorkflowOwnerCommand(context, (DeleteWorkflowOwnerCommand)command);
+                }
+                else
+                {
+                    return Task.FromResult(true);
+                }
+            });
+        }
 
         /// <summary>
         /// Handles a <see cref="CreateWorkflowOwnerCommand"/>.

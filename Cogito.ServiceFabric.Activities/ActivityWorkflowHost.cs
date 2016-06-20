@@ -61,7 +61,7 @@ namespace Cogito.ServiceFabric.Activities
             Contract.Requires<ArgumentNullException>(activity != null);
 
             workflow = inputs != null ? new WorkflowApplication(activity, inputs) : new WorkflowApplication(activity);
-            workflow.InstanceStore = new ActivityActorInstanceStore(state);
+            workflow.InstanceStore = new ActivityActorInstanceStore(actor.InvokeWithTimerAsync, state);
 
             workflow.OnUnhandledException = args =>
             {
