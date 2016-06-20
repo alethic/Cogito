@@ -392,6 +392,11 @@ namespace Cogito.ServiceFabric.Activities
             UnregisterTimer(timer);
         }
 
+        void IActivityActorInternal.InvokeWithTimer(Func<Task> action)
+        {
+            InvokeWithTimer(action);
+        }
+
         Task IActivityActorInternal.InvokeWithTimerAsync(Func<Task> action)
         {
             return InvokeWithTimerAsync(action);

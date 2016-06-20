@@ -177,6 +177,25 @@ namespace Cogito.ServiceFabric
         /// Schedules the given action using an actor timer.
         /// </summary>
         /// <param name="action"></param>
+        protected void InvokeWithTimer(Func<Task> action)
+        {
+            Contract.Requires<ArgumentNullException>(action != null);
+
+            // hoist timer so it can be unregistered
+            IActorTimer timer = null;
+
+            // schedule timer
+            timer = RegisterTimer(
+                async o => { UnregisterTimer(timer); await action(); },
+                null,
+                TimeSpan.FromMilliseconds(1),
+                TimeSpan.FromMilliseconds(-1));
+        }
+
+        /// <summary>
+        /// Schedules the given action using an actor timer.
+        /// </summary>
+        /// <param name="action"></param>
         protected Task InvokeWithTimerAsync(Func<Task> action)
         {
             Contract.Requires<ArgumentNullException>(action != null);

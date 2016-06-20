@@ -68,6 +68,12 @@ namespace Cogito.ServiceFabric.Activities
         /// Invokes the given action once on an actor timer.
         /// </summary>
         /// <param name="action"></param>
+        void InvokeWithTimer(Func<Task> action);
+
+        /// <summary>
+        /// Invokes the given action once on an actor timer.
+        /// </summary>
+        /// <param name="action"></param>
         Task InvokeWithTimerAsync(Func<Task> action);
 
         /// <summary>
