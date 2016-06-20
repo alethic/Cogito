@@ -19,20 +19,35 @@ namespace Cogito.ServiceFabric.Activities
     class ActivityActorState
     {
 
+        /// <summary>
+        /// Owner ID.
+        /// </summary>
         [DataMember]
         public Guid InstanceOwnerId { get; set; }
 
+        /// <summary>
+        /// Instance ID.
+        /// </summary>
         [DataMember]
         public Guid InstanceId { get; set; }
 
+        /// <summary>
+        /// State of the instance.
+        /// </summary>
         [DataMember]
         public InstanceState InstanceState { get; set; }
 
+        /// <summary>
+        /// Data of the instance.
+        /// </summary>
         [DataMember]
-        public IDictionary<XName, object> InstanceData { get; set; }
+        public KeyValuePair<XName, object>[] InstanceData { get; set; }
 
+        /// <summary>
+        /// Metadata of the instance.
+        /// </summary>
         [DataMember]
-        public IDictionary<XName, object> InstanceMetadata { get; set; }
+        public KeyValuePair<XName, object>[] InstanceMetadata { get; set; }
 
     }
 

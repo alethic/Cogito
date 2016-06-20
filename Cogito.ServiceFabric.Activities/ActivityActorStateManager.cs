@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Diagnostics.Contracts;
@@ -7,7 +6,9 @@ using System.Linq;
 using System.Runtime.DurableInstancing;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+
 using Cogito.Collections;
+
 using Microsoft.ServiceFabric.Actors.Runtime;
 
 namespace Cogito.ServiceFabric.Activities
@@ -39,7 +40,7 @@ namespace Cogito.ServiceFabric.Activities
             Contract.Requires<ArgumentNullException>(host != null);
 
             this.host = host;
-        }
+        }                            
 
         /// <summary>
         /// Gets or sets the instance owner id.
@@ -178,8 +179,8 @@ namespace Cogito.ServiceFabric.Activities
                 InstanceOwnerId = instanceOwnerId,
                 InstanceId = instanceId,
                 InstanceState = instanceState,
-                InstanceData = instanceData.ToDictionary(),
-                InstanceMetadata = instanceMetadata.ToDictionary(),
+                InstanceData = instanceData.ToArray(),
+                InstanceMetadata = instanceMetadata.ToArray(),
             });
         }
 
