@@ -100,7 +100,7 @@ namespace Cogito.ServiceFabric.Activities
         {
             await base.OnPostActorMethodAsync(actorMethodContext);
             await SaveStateObject();
-            await SaveStateAsync();
+            //await SaveStateAsync();
         }
 
     }

@@ -215,9 +215,10 @@ namespace Cogito.ServiceFabric.Activities
         /// Invoked when the activity workflow is persisted to the <see cref="IActorStateManager"/>.
         /// </summary>
         /// <returns></returns>
-        protected virtual async Task OnPersistedAsync()
+        protected virtual Task OnPersistedAsync()
         {
-            await SaveStateAsync();
+            //await SaveStateAsync();
+            return Task.FromResult(false);
         }
 
         /// <summary>
