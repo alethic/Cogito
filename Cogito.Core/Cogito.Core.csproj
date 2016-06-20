@@ -210,6 +210,7 @@
     <Compile Include="Threading\TaskCompletionSourceExtensions.cs" />
     <Compile Include="Threading\TaskEnumerableExtensions.cs" />
     <Compile Include="Threading\TaskExtensions.cs" />
+    <Compile Include="Threading\TaskPump.cs" />
     <Compile Include="Threading\Timer.cs" />
     <Compile Include="Threading\TimerExceptionEventHandler.cs" />
     <Compile Include="Threading\TimerExceptionEventArgs.cs" />
@@ -217,6 +218,7 @@
     <Compile Include="Threading\TimerEventArgs.cs" />
     <Compile Include="Threading\TimerElapsedEventHandler.cs" />
     <Compile Include="Threading\TimerEventHandler.cs" />
+    <Compile Include="TimeSpanExtensions.cs" />
     <Compile Include="TryFunc.cs" />
     <Compile Include="UriBuilderExtensions.cs" />
     <Compile Include="UriExtensions.cs" />

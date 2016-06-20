@@ -29,12 +29,12 @@ namespace Cogito.ServiceFabric.Activities
 
         public override Task ExecuteAsync(Func<Task> action)
         {
-            return host.EnqueueTask(action);
+            return host.Pump.Enqueue(action);
         }
 
         public override Task<TResult> ExecuteAsync<TResult>(Func<Task<TResult>> func)
         {
-            return host.EnqueueTask(func);
+            return host.Pump.Enqueue(func);
         }
 
     }

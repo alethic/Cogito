@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Activities;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Runtime.DurableInstancing;
@@ -8,7 +7,6 @@ using System.Threading.Tasks;
 using System.Xml.Linq;
 
 using Cogito.Activities;
-using Cogito.Collections;
 using Cogito.Threading;
 
 namespace Cogito.ServiceFabric.Activities
@@ -25,9 +23,10 @@ namespace Cogito.ServiceFabric.Activities
         internal static readonly string ActivityTimerExpirationReminderName = "Cogito.Fabric.Activities::TimerExpirationReminder";
 
         readonly IActivityActorInternal actor;
-        readonly ConcurrentQueue<Func<Task<bool>>> queue;
+        readonly TaskPump pump;
         ActivityActorStateManager state;
         WorkflowApplication workflow;
+        DateTime lastDueDate;
 
         /// <summary>
         /// Initializes a new instance.
@@ -38,62 +37,18 @@ namespace Cogito.ServiceFabric.Activities
             Contract.Requires<ArgumentNullException>(actor != null);
 
             this.actor = actor;
-            this.queue = new ConcurrentQueue<Func<Task<bool>>>();
+
+            // to enqueue task functions to execute in actor context
+            pump = new TaskPump();
+            pump.TaskAdded += (s, a) => { if (pump.Count == 1) actor.InvokeWithTimer(pump.PumpAsync); };
         }
 
         /// <summary>
-        /// Enqueues a task to be executed.
+        /// Gets a reference to the <see cref="TaskPump"/> used for queuing work items on the actor context.
         /// </summary>
-        /// <param name="action"></param>
-        /// <returns></returns>
-        internal Task EnqueueTask(Func<Task> action)
+        internal TaskPump Pump
         {
-            Contract.Requires<ArgumentNullException>(action != null);
-
-            // schedule task on task queue
-            var tc = new TaskCompletionSource<bool>();
-            queue.Enqueue(() => tc.SafeTrySetFromAsync(action));
-
-            // first task, schedule timer to handle it
-            if (queue.Count == 1)
-                actor.InvokeWithTimer(PumpTaskQueue);
-
-            // final result to caller
-            return tc.Task;
-        }
-
-        /// <summary>
-        /// Enqueues a task to be executed.
-        /// </summary>
-        /// <typeparam name="TResult"></typeparam>
-        /// <param name="func"></param>
-        /// <returns></returns>
-        internal Task<TResult> EnqueueTask<TResult>(Func<Task<TResult>> func)
-        {
-            Contract.Requires<ArgumentNullException>(func != null);
-
-            // schedule task on task queue
-            var tc = new TaskCompletionSource<TResult>();
-            queue.Enqueue(() => tc.SafeTrySetFromAsync(func));
-
-            // first task, schedule timer to handle it
-            if (queue.Count == 1)
-                actor.InvokeWithTimer(PumpTaskQueue);
-
-            // final result to caller
-            return tc.Task;
-        }
-
-        /// <summary>
-        /// Pumps outstanding tasks in the task queue.
-        /// </summary>
-        /// <returns></returns>
-        async Task PumpTaskQueue()
-        {
-            Func<Task<bool>> action;
-            while (queue.TryDequeue(out action))
-                if (!await action())
-                    throw new InvalidOperationException("Queued task did not return success.");
+            get { return pump; }
         }
 
         /// <summary>
@@ -104,7 +59,7 @@ namespace Cogito.ServiceFabric.Activities
         async Task InvokeAndPump(Func<Task> action)
         {
             var t = action();
-            await PumpTaskQueue();
+            await pump.PumpAsync();
             await t;
         }
 
@@ -117,7 +72,7 @@ namespace Cogito.ServiceFabric.Activities
         async Task<TResult> InvokeAndPump<TResult>(Func<Task<TResult>> func)
         {
             var t = func();
-            await PumpTaskQueue();
+            await pump.PumpAsync();
             return await t;
         }
 
@@ -155,7 +110,7 @@ namespace Cogito.ServiceFabric.Activities
 
             state.Persisted = () =>
             {
-                EnqueueTask(async () =>
+                pump.Enqueue(async () =>
                 {
                     await state.SaveAsync();
                     await SaveReminderAsync();
@@ -165,7 +120,7 @@ namespace Cogito.ServiceFabric.Activities
 
             state.Completed = () =>
             {
-                EnqueueTask(async () =>
+                pump.Enqueue(async () =>
                 {
                     await state.SaveAsync();
                     await SaveReminderAsync();
@@ -191,7 +146,7 @@ namespace Cogito.ServiceFabric.Activities
 
             workflow.OnUnhandledException = args =>
             {
-                EnqueueTask(async () =>
+                pump.Enqueue(async () =>
                 {
                     await actor.OnUnhandledExceptionAsync(args);
                 });
@@ -201,7 +156,7 @@ namespace Cogito.ServiceFabric.Activities
 
             workflow.Aborted = args =>
             {
-                EnqueueTask(async () =>
+                pump.Enqueue(async () =>
                 {
                     await actor.OnAbortedAsync(args);
                 });
@@ -209,7 +164,7 @@ namespace Cogito.ServiceFabric.Activities
 
             workflow.PersistableIdle = args =>
             {
-                EnqueueTask(async () =>
+                pump.Enqueue(async () =>
                 {
                     await actor.OnPersistableIdleAsync(args);
                 });
@@ -221,7 +176,7 @@ namespace Cogito.ServiceFabric.Activities
 
             workflow.Idle = args =>
             {
-                EnqueueTask(async () =>
+                pump.Enqueue(async () =>
                 {
                     await actor.OnIdleAsync(args);
                 });
@@ -229,7 +184,7 @@ namespace Cogito.ServiceFabric.Activities
 
             workflow.Completed = args =>
             {
-                EnqueueTask(async () =>
+                pump.Enqueue(async () =>
                 {
                     await actor.OnCompletedAsync(args);
                 });
@@ -237,7 +192,7 @@ namespace Cogito.ServiceFabric.Activities
 
             workflow.Unloaded = args =>
             {
-                EnqueueTask(async () =>
+                pump.Enqueue(async () =>
                 {
                     await actor.OnUnloadedAsync(args);
                 });
@@ -281,22 +236,17 @@ namespace Cogito.ServiceFabric.Activities
 
                         // create workflow application
                         await CreateWorkflow(actor.CreateActivity(), actor.CreateActivityInputs() ?? new Dictionary<string, object>());
-
-                        // save new instance ID
                         state.InstanceId = workflow.Id;
-                        await state.SaveAsync();
-
-                        // initial invoke
                         await InvokeAndPump(workflow.RunAsync);
+                        await state.SaveAsync();
                     }
                     else
                     {
                         // create workflow application
                         await CreateWorkflow(actor.CreateActivity());
-                        await state.SaveAsync();
-
-                        // load existing instance ID and run
                         await InvokeAndPump(async () => await workflow.LoadAsync(state.InstanceId));
+                        await InvokeAndPump(workflow.RunAsync);
+                        await state.SaveAsync();
                     }
                 }
             }
@@ -351,19 +301,23 @@ namespace Cogito.ServiceFabric.Activities
         async Task SaveReminderAsync()
         {
             // next date at which the reminder should be invoked
-            var date = (DateTime?)state.GetInstanceData(ActivityTimerExpirationTimeKey.ToString());
-            if (date != null)
+            var dueDate = (DateTime?)state.GetInstanceData(ActivityTimerExpirationTimeKey) ?? DateTime.MinValue;
+            if (dueDate != DateTime.MinValue)
             {
-                // time at which the reminder should be fired, minimum 1 second from now, advance ahead by 1 second
-                var dueTime = new TimeSpan(Math.Max(((DateTime)date - DateTime.UtcNow).Ticks, TimeSpan.FromSeconds(1).Ticks))
-                    .Add(TimeSpan.FromSeconds(1));
+                // lock down current time
+                var nowDate = DateTime.UtcNow;
+
+                // don't allow dates in the past
+                if (dueDate < nowDate)
+                    dueDate = nowDate;
 
                 // unregister reminder if it the time has changed
                 var reminder = actor.TryGetReminder(ActivityTimerExpirationReminderName);
                 if (reminder != null)
                 {
-                    // allow a skew of 5 seconds
-                    if (Math.Abs((dueTime - reminder.DueTime).TotalSeconds) > 5)
+                    // deserialize last due date from reminder
+                    var lastDueDate = DateTime.FromBinary(BitConverter.ToInt64(reminder.State, 0));
+                    if (lastDueDate != dueDate)
                     {
                         // timer is out of range, will reschedule below
                         await actor.UnregisterReminderAsync(reminder);
@@ -375,8 +329,8 @@ namespace Cogito.ServiceFabric.Activities
                 if (reminder == null)
                     await actor.RegisterReminderAsync(
                         ActivityTimerExpirationReminderName,
-                        null,
-                        dueTime,
+                        BitConverter.GetBytes(dueDate.ToBinary()),
+                        (dueDate - nowDate).Max(TimeSpan.FromMilliseconds(100)),
                         TimeSpan.FromMilliseconds(-1));
             }
             else
