@@ -65,7 +65,7 @@ namespace Cogito.ServiceFabric.Activities
         /// <returns></returns>
         protected override IAsyncResult BeginTryCommand(InstancePersistenceContext context, InstancePersistenceCommand command, TimeSpan timeout, AsyncCallback callback, object state)
         {
-            return Command(context, command).ToAsyncBegin(callback, state);
+            return CommandAsync(context, command).ToAsyncBegin(callback, state);
         }
 
         /// <summary>
@@ -86,39 +86,47 @@ namespace Cogito.ServiceFabric.Activities
         /// <param name="context"></param>
         /// <param name="command"></param>
         /// <returns></returns>
-        Task<bool> Command(InstancePersistenceContext context, InstancePersistenceCommand command)
+        Task<bool> CommandAsync(InstancePersistenceContext context, InstancePersistenceCommand command)
         {
-            return sync(() =>
+            return sync(() => CommandDispatchAsync(context, command));
+        }
+
+        /// <summary>
+        /// Handles a <see cref="InstancePersistenceCommand"/>.
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="command"></param>
+        /// <returns></returns>
+        Task<bool> CommandDispatchAsync(InstancePersistenceContext context, InstancePersistenceCommand command)
+        {
+            if (command is CreateWorkflowOwnerCommand)
             {
-                if (command is CreateWorkflowOwnerCommand)
-                {
-                    return CreateWorkflowOwnerCommand(context, (CreateWorkflowOwnerCommand)command);
-                }
-                else if (command is QueryActivatableWorkflowsCommand)
-                {
-                    return QueryActivatableWorkflowsCommand(context, (QueryActivatableWorkflowsCommand)command);
-                }
-                else if (command is SaveWorkflowCommand)
-                {
-                    return SaveWorkflowCommand(context, (SaveWorkflowCommand)command);
-                }
-                else if (command is LoadWorkflowCommand)
-                {
-                    return LoadWorkflowCommand(context, (LoadWorkflowCommand)command);
-                }
-                else if (command is TryLoadRunnableWorkflowCommand)
-                {
-                    return TryLoadRunnableWorkflowCommand(context, (TryLoadRunnableWorkflowCommand)command);
-                }
-                else if (command is DeleteWorkflowOwnerCommand)
-                {
-                    return DeleteWorkflowOwnerCommand(context, (DeleteWorkflowOwnerCommand)command);
-                }
-                else
-                {
-                    return Task.FromResult(true);
-                }
-            });
+                return CreateWorkflowOwnerCommand(context, (CreateWorkflowOwnerCommand)command);
+            }
+            else if (command is QueryActivatableWorkflowsCommand)
+            {
+                return QueryActivatableWorkflowsCommand(context, (QueryActivatableWorkflowsCommand)command);
+            }
+            else if (command is SaveWorkflowCommand)
+            {
+                return SaveWorkflowCommand(context, (SaveWorkflowCommand)command);
+            }
+            else if (command is LoadWorkflowCommand)
+            {
+                return LoadWorkflowCommand(context, (LoadWorkflowCommand)command);
+            }
+            else if (command is TryLoadRunnableWorkflowCommand)
+            {
+                return TryLoadRunnableWorkflowCommand(context, (TryLoadRunnableWorkflowCommand)command);
+            }
+            else if (command is DeleteWorkflowOwnerCommand)
+            {
+                return DeleteWorkflowOwnerCommand(context, (DeleteWorkflowOwnerCommand)command);
+            }
+            else
+            {
+                return Task.FromResult(true);
+            }
         }
 
         /// <summary>
