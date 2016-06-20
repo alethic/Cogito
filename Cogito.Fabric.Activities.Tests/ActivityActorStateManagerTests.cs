@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Cogito.Fabric.Activities.Tests
+namespace Cogito.ServiceFabric.Activities.Tests
 {
 
     [TestClass]

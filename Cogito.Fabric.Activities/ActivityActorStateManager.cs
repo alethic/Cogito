@@ -8,7 +8,7 @@ using System.Xml.Linq;
 
 using Microsoft.ServiceFabric.Actors.Runtime;
 
-namespace Cogito.Fabric.Activities
+namespace Cogito.ServiceFabric.Activities
 {
 
     /// <summary>

@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Cogito.Fabric.Activities.Test.TestActor")]
+[assembly: AssemblyTitle("Cogito.ServiceFabric.Activities.Test.TestActor")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Cogito.Fabric.Activities.Test.TestActor")]
+[assembly: AssemblyProduct("Cogito.ServiceFabric.Activities.Test.TestActor")]
 [assembly: AssemblyCopyright("Copyright ©  2015")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

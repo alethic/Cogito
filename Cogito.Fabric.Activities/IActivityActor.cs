@@ -2,7 +2,7 @@
 
 using Microsoft.ServiceFabric.Actors;
 
-namespace Cogito.Fabric.Activities
+namespace Cogito.ServiceFabric.Activities
 {
 
     /// <summary>

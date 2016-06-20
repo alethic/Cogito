@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace Cogito.Fabric.Activities
+namespace Cogito.ServiceFabric.Activities
 {
 
     /// <summary>

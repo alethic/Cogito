@@ -7,7 +7,7 @@ using Cogito.Activities;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Cogito.Fabric.Activities.Tests
+namespace Cogito.ServiceFabric.Activities.Tests
 {
 
     [TestClass]

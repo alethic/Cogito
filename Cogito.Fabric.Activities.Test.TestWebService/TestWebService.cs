@@ -2,11 +2,11 @@
 using System.Web.Http;
 using Owin;
 
-namespace Cogito.Fabric.Activities.Test.TestWebService
+namespace Cogito.ServiceFabric.Activities.Test.TestWebService
 {
 
     sealed class TestWebService :
-        Cogito.Fabric.Http.OwinStatelessService
+        Cogito.ServiceFabric.Http.OwinStatelessService
     {
 
         public TestWebService(StatelessServiceContext context)

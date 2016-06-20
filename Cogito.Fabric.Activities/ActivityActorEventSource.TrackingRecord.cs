@@ -5,7 +5,7 @@ using System.Diagnostics.Contracts;
 using System.Diagnostics.Tracing;
 using System.Fabric;
 
-namespace Cogito.Fabric.Activities
+namespace Cogito.ServiceFabric.Activities
 {
 
     partial class ActivityActorEventSource

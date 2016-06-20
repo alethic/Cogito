@@ -4,7 +4,7 @@ using System.Threading;
 using Microsoft.ServiceFabric.Actors;
 using Microsoft.ServiceFabric.Actors.Runtime;
 
-namespace Cogito.Fabric.Activities.Test.TestActor
+namespace Cogito.ServiceFabric.Activities.Test.TestActor
 {
 
     static class Program

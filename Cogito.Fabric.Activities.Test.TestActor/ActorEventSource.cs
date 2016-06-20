@@ -7,9 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Cogito.Fabric.Activities.Test.TestActor
+namespace Cogito.ServiceFabric.Activities.Test.TestActor
 {
-    [EventSource(Name = "MyCompany-Cogito.Fabric.Activities.Test.Application-Cogito.Fabric.Activities.Test.TestActor")]
+    [EventSource(Name = "MyCompany-Cogito.ServiceFabric.Activities.Test.Application-Cogito.ServiceFabric.Activities.Test.TestActor")]
     internal sealed class ActorEventSource : EventSource
     {
         public static readonly ActorEventSource Current = new ActorEventSource();

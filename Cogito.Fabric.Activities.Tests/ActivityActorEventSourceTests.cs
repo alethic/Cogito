@@ -1,7 +1,7 @@
 ﻿using Microsoft.Practices.EnterpriseLibrary.SemanticLogging.Utility;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Cogito.Fabric.Activities.Tests
+namespace Cogito.ServiceFabric.Activities.Tests
 {
 
     [TestClass]

@@ -6,7 +6,7 @@ using System.Xml;
 
 using Microsoft.ServiceFabric.Actors;
 
-namespace Cogito.Fabric
+namespace Cogito.ServiceFabric
 {
 
     /// <summary>

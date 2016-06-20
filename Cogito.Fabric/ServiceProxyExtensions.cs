@@ -3,7 +3,7 @@ using System.Diagnostics.Contracts;
 
 using Microsoft.ServiceFabric.Services.Remoting;
 
-namespace Cogito.Fabric
+namespace Cogito.ServiceFabric
 {
 
     /// <summary>

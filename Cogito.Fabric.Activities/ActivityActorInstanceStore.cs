@@ -13,7 +13,7 @@ using System.Xml.Linq;
 
 using Cogito.Threading;
 
-namespace Cogito.Fabric.Activities
+namespace Cogito.ServiceFabric.Activities
 {
 
     /// <summary>

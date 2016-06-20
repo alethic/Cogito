@@ -3,7 +3,7 @@ using System.Collections.ObjectModel;
 using System.Runtime.Serialization;
 using System.Xml.Linq;
 
-namespace Cogito.Fabric.Activities
+namespace Cogito.ServiceFabric.Activities
 {
 
     /// <summary>

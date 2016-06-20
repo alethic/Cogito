@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 using Cogito.Activities;
 
-namespace Cogito.Fabric.Activities
+namespace Cogito.ServiceFabric.Activities
 {
 
     /// <summary>

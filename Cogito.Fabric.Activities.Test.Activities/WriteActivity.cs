@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Activities;
 
-namespace Cogito.Fabric.Activities.Test.Activities
+namespace Cogito.ServiceFabric.Activities.Test.Activities
 {
 
     public class WriteActivity :

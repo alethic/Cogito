@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-namespace Cogito.Fabric.Activities.Test.TestActor
+namespace Cogito.ServiceFabric.Activities.Test.TestActor
 {
 
     [DataContract]

@@ -10,7 +10,7 @@
 <#@ output extension=".cs" #>
 using System.Activities.Tracking;
 
-namespace Cogito.Fabric.Activities
+namespace Cogito.ServiceFabric.Activities
 {
 
 	public partial class ActivityActorTrackingParticipant

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics.Contracts;
 
-namespace Cogito.Fabric
+namespace Cogito.ServiceFabric
 {
 
     /// <summary>

@@ -3,7 +3,7 @@ using System.Activities.Hosting;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 
-namespace Cogito.Fabric.Activities
+namespace Cogito.ServiceFabric.Activities
 {
 
     /// <summary>

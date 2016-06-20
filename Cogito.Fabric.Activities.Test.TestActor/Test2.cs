@@ -5,13 +5,13 @@ using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 
-using Cogito.Fabric.Activities.Test.TestActor.Interfaces;
+using Cogito.ServiceFabric.Activities.Test.TestActor.Interfaces;
 
 using Microsoft.ServiceFabric.Actors;
 using Microsoft.ServiceFabric.Actors.Client;
 using Microsoft.ServiceFabric.Actors.Runtime;
 
-namespace Cogito.Fabric.Activities.Test.TestActor
+namespace Cogito.ServiceFabric.Activities.Test.TestActor
 {
 
     [ActorService(Name = "Test2ActorService")]

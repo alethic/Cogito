@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-namespace Cogito.Fabric.Test.Web.Service
+namespace Cogito.ServiceFabric.Test.Web.Service
 {
 
     [DataContract]

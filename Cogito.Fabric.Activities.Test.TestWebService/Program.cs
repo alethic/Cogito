@@ -3,7 +3,7 @@ using System.Threading;
 
 using Microsoft.ServiceFabric.Services.Runtime;
 
-namespace Cogito.Fabric.Activities.Test.TestWebService
+namespace Cogito.ServiceFabric.Activities.Test.TestWebService
 {
 
     static class Program

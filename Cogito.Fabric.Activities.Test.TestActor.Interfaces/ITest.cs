@@ -2,7 +2,7 @@
 
 using Microsoft.ServiceFabric.Actors;
 
-namespace Cogito.Fabric.Activities.Test.TestActor.Interfaces
+namespace Cogito.ServiceFabric.Activities.Test.TestActor.Interfaces
 {
 
     public interface ITest : 

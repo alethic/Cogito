@@ -5,7 +5,7 @@ using Microsoft.Owin;
 using Microsoft.ServiceFabric.Actors;
 using Microsoft.ServiceFabric.Actors.Client;
 
-namespace Cogito.Fabric.Test.Web.Service
+namespace Cogito.ServiceFabric.Test.Web.Service
 {
 
     internal sealed class OwinStatelessService :

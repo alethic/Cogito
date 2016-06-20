@@ -3,12 +3,12 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
 
-using Cogito.Fabric.Activities.Test.TestActor.Interfaces;
+using Cogito.ServiceFabric.Activities.Test.TestActor.Interfaces;
 
 using Microsoft.ServiceFabric.Actors;
 using Microsoft.ServiceFabric.Actors.Client;
 
-namespace Cogito.Fabric.Activities.Test.TestWebService.Controllers
+namespace Cogito.ServiceFabric.Activities.Test.TestWebService.Controllers
 {
 
     [RoutePrefix("activity-actor")]

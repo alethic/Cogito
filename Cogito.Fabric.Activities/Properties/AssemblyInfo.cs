@@ -2,12 +2,12 @@
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-[assembly: AssemblyTitle("Cogito.Fabric.Activities")]
+[assembly: AssemblyTitle("Cogito.ServiceFabric.Activities")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Cogito.Fabric.Activities")]
-[assembly: AssemblyCopyright("Copyright © Jerome Haltom 2015")]
+[assembly: AssemblyProduct("Cogito.ServiceFabric.Activities")]
+[assembly: AssemblyCopyright("Copyright © Jerome Haltom 2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -17,4 +17,4 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyVersion("1.0.0.0")]
 [assembly: AssemblyFileVersion("1.0.0.0")]
 
-[assembly: InternalsVisibleTo("Cogito.Fabric.Activities.Tests")]
+[assembly: InternalsVisibleTo("Cogito.ServiceFabric.Activities.Tests")]

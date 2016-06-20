@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.ServiceFabric.Actors.Runtime;
 using Microsoft.ServiceFabric.Data;
 
-namespace Cogito.Fabric.Activities.Tests
+namespace Cogito.ServiceFabric.Activities.Tests
 {
 
     class ActorStateManagerMock :

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 using Microsoft.ServiceFabric.Actors.Runtime;
 
-namespace Cogito.Fabric.Activities
+namespace Cogito.ServiceFabric.Activities
 {
 
     /// <summary>
@@ -17,7 +17,7 @@ namespace Cogito.Fabric.Activities
     /// This base contains the main implementation details.
     /// </remarks>
     public abstract class ActivityActorCore :
-        Cogito.Fabric.Actor,
+        Cogito.ServiceFabric.Actor,
         IRemindable,
         IActivityActorInternal,
         IActivityActor

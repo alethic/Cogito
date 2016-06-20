@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 using Microsoft.Owin;
 
-namespace Cogito.Fabric.Test.Web.Service
+namespace Cogito.ServiceFabric.Test.Web.Service
 {
 
     internal sealed class OwinStatefulService :

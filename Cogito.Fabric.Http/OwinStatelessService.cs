@@ -9,14 +9,14 @@ using Microsoft.ServiceFabric.Services.Communication.Runtime;
 
 using Owin;
 
-namespace Cogito.Fabric.Http
+namespace Cogito.ServiceFabric.Http
 {
 
     /// <summary>
     /// Describes a service that exposes an OWIN endpoint.
     /// </summary>
     public abstract class OwinStatelessService :
-        Cogito.Fabric.StatelessService
+        Cogito.ServiceFabric.StatelessService
     {
 
         readonly string appRoot;

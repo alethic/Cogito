@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-using Cogito.Fabric.Http;
+using Cogito.ServiceFabric.Http;
 
 using Microsoft.ServiceFabric.Actors.Runtime;
 using Microsoft.ServiceFabric.Services.Communication.Client;
 
-namespace Cogito.Fabric.Test.Web.Service
+namespace Cogito.ServiceFabric.Test.Web.Service
 {
 
     [StatePersistence(StatePersistence.Persisted)]

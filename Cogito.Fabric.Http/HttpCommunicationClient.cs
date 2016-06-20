@@ -5,7 +5,7 @@ using System.Net.Http;
 
 using Microsoft.ServiceFabric.Services.Communication.Client;
 
-namespace Cogito.Fabric.Http
+namespace Cogito.ServiceFabric.Http
 {
 
     /// <summary>

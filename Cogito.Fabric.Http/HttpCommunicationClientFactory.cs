@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.ServiceFabric.Services.Client;
 using Microsoft.ServiceFabric.Services.Communication.Client;
 
-namespace Cogito.Fabric.Http
+namespace Cogito.ServiceFabric.Http
 {
 
     /// <summary>

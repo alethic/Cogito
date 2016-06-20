@@ -8,7 +8,7 @@ using System.Xml.Linq;
 
 using Cogito.Activities;
 
-namespace Cogito.Fabric.Activities
+namespace Cogito.ServiceFabric.Activities
 {
 
     /// <summary>

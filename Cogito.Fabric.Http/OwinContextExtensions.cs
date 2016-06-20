@@ -4,7 +4,7 @@ using System.Fabric;
 
 using Microsoft.Owin;
 
-namespace Cogito.Fabric.Http
+namespace Cogito.ServiceFabric.Http
 {
 
     /// <summary>

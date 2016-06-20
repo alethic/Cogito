@@ -12,7 +12,7 @@ using Microsoft.ServiceFabric.Services.Communication.Runtime;
 
 using Owin;
 
-namespace Cogito.Fabric.Http
+namespace Cogito.ServiceFabric.Http
 {
 
     /// <summary>

@@ -4,10 +4,11 @@ using System.Fabric;
 using System.Fabric.Health;
 using System.Threading.Tasks;
 using Cogito.Threading;
+
 using Microsoft.ServiceFabric.Actors;
 using Microsoft.ServiceFabric.Actors.Runtime;
 
-namespace Cogito.Fabric
+namespace Cogito.ServiceFabric
 {
 
     /// <summary>
@@ -17,14 +18,14 @@ namespace Cogito.Fabric
         Microsoft.ServiceFabric.Actors.Runtime.Actor
     {
 
-        static readonly Lazy<FabricClient> fabric;
+        static readonly Lazy<FabricClient> fabricClient;
 
         /// <summary>
-        /// Gets a reference to the <see cref="FabricClient"/>.
+        /// Gets a reference to the <see cref="System.Fabric.FabricClient"/>.
         /// </summary>
-        static protected FabricClient Fabric
+        static protected FabricClient FabricClient
         {
-            get { return fabric.Value; }
+            get { return fabricClient.Value; }
         }
 
         /// <summary>
@@ -32,7 +33,7 @@ namespace Cogito.Fabric
         /// </summary>
         static Actor()
         {
-            fabric = new Lazy<FabricClient>(() => new FabricClient(), true);
+            fabricClient = new Lazy<FabricClient>(() => new FabricClient(), true);
         }
 
         /// <summary>
@@ -65,7 +66,7 @@ namespace Cogito.Fabric
         /// <param name="healthInformation"></param>
         protected void ReportHealth(HealthInformation healthInformation)
         {
-            Fabric.HealthManager.ReportHealth(
+            FabricClient.HealthManager.ReportHealth(
                 new StatefulServiceReplicaHealthReport(
                     ServiceContext.PartitionId,
                     ServiceContext.ReplicaId,

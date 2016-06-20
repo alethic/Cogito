@@ -1,6 +1,6 @@
-﻿<Activity mc:Ignorable="sap sap2010 sads" x:Class="Cogito.Fabric.Activities.Tests.ActivityActorTestActivity" sap2010:ExpressionActivityEditor.ExpressionActivityEditor="C#" sap2010:WorkflowViewState.IdRef="Cogito.Fabric.Activities.Tests.ActivityActorTestActivity_1"
+﻿<Activity mc:Ignorable="sap sap2010 sads" x:Class="Cogito.ServiceFabric.Activities.Tests.ActivityActorTestActivity" sap2010:ExpressionActivityEditor.ExpressionActivityEditor="C#" sap2010:WorkflowViewState.IdRef="Cogito.ServiceFabric.Activities.Tests.ActivityActorTestActivity_1"
  xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities"
- xmlns:cfata="clr-namespace:Cogito.Fabric.Activities.Test.Activities;assembly=Cogito.Fabric.Activities.Test.Activities"
+ xmlns:cfata="clr-namespace:Cogito.ServiceFabric.Activities.Test.Activities;assembly=Cogito.ServiceFabric.Activities.Test.Activities"
  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
  xmlns:mca="clr-namespace:Microsoft.CSharp.Activities;assembly=System.Activities"
  xmlns:sads="http://schemas.microsoft.com/netfx/2010/xaml/activities/debugger"
@@ -37,11 +37,11 @@
       <AssemblyReference>System.Xml</AssemblyReference>
       <AssemblyReference>System.Xml.Linq</AssemblyReference>
       <AssemblyReference>Microsoft.VisualStudio.QualityTools.UnitTestFramework</AssemblyReference>
-      <AssemblyReference>Cogito.Fabric.Activities</AssemblyReference>
-      <AssemblyReference>Cogito.Fabric</AssemblyReference>
+      <AssemblyReference>Cogito.ServiceFabric.Activities</AssemblyReference>
+      <AssemblyReference>Cogito.ServiceFabric</AssemblyReference>
       <AssemblyReference>System.Core</AssemblyReference>
       <AssemblyReference>mscorlib</AssemblyReference>
-      <AssemblyReference>Cogito.Fabric.Activities.Tests</AssemblyReference>
+      <AssemblyReference>Cogito.ServiceFabric.Activities.Tests</AssemblyReference>
     </sco:Collection>
   </TextExpression.ReferencesForImplementation>
   <Sequence sap2010:WorkflowViewState.IdRef="Sequence_1">
@@ -66,7 +66,7 @@
           </scg:Dictionary>
         </sap:WorkflowViewStateService.ViewState>
       </sap2010:ViewStateData>
-      <sap2010:ViewStateData Id="Cogito.Fabric.Activities.Tests.ActivityActorTestActivity_1" sap:VirtualizedContainerService.HintSize="262,350" />
+      <sap2010:ViewStateData Id="Cogito.ServiceFabric.Activities.Tests.ActivityActorTestActivity_1" sap:VirtualizedContainerService.HintSize="262,350" />
     </sap2010:ViewStateManager>
   </sap2010:WorkflowViewState.ViewStateManager>
 </Activity>

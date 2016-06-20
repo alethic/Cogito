@@ -1,4 +1,4 @@
-﻿<Activity mc:Ignorable="sap sap2010 sads" x:Class="Cogito.Fabric.Activities.Test.TestActor.TestActorActivity" sap2010:ExpressionActivityEditor.ExpressionActivityEditor="C#" sap2010:WorkflowViewState.IdRef="Cogito.Fabric.Activities.Test.TestActor.TestActorActivity_1"
+﻿<Activity mc:Ignorable="sap sap2010 sads" x:Class="Cogito.ServiceFabric.Activities.Test.TestActor.TestActorActivity" sap2010:ExpressionActivityEditor.ExpressionActivityEditor="C#" sap2010:WorkflowViewState.IdRef="Cogito.ServiceFabric.Activities.Test.TestActor.TestActorActivity_1"
  xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities"
  xmlns:ca="clr-namespace:Cogito.Activities;assembly=Cogito.Activities"
  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -41,13 +41,13 @@
       <AssemblyReference>Topshelf</AssemblyReference>
       <AssemblyReference>Cogito.Activities</AssemblyReference>
       <AssemblyReference>Cogito.Core</AssemblyReference>
-      <AssemblyReference>Cogito.Fabric.Activities.Test.Activities</AssemblyReference>
-      <AssemblyReference>Cogito.Fabric.Activities.Test.TestActor.Interfaces</AssemblyReference>
-      <AssemblyReference>Cogito.Fabric.Activities.Tests</AssemblyReference>
-      <AssemblyReference>Cogito.Fabric.Activities</AssemblyReference>
-      <AssemblyReference>Cogito.Fabric</AssemblyReference>
+      <AssemblyReference>Cogito.ServiceFabric.Activities.Test.Activities</AssemblyReference>
+      <AssemblyReference>Cogito.ServiceFabric.Activities.Test.TestActor.Interfaces</AssemblyReference>
+      <AssemblyReference>Cogito.ServiceFabric.Activities.Tests</AssemblyReference>
+      <AssemblyReference>Cogito.ServiceFabric.Activities</AssemblyReference>
+      <AssemblyReference>Cogito.ServiceFabric</AssemblyReference>
       <AssemblyReference>mscorlib</AssemblyReference>
-      <AssemblyReference>Cogito.Fabric.Activities.Test.TestActor</AssemblyReference>
+      <AssemblyReference>Cogito.ServiceFabric.Activities.Test.TestActor</AssemblyReference>
     </sco:Collection>
   </TextExpression.ReferencesForImplementation>
   <Sequence sap2010:WorkflowViewState.IdRef="Sequence_1">
@@ -70,7 +70,7 @@
           </scg:Dictionary>
         </sap:WorkflowViewStateService.ViewState>
       </sap2010:ViewStateData>
-      <sap2010:ViewStateData Id="Cogito.Fabric.Activities.Test.TestActor.TestActorActivity_1" sap:VirtualizedContainerService.HintSize="262,288" />
+      <sap2010:ViewStateData Id="Cogito.ServiceFabric.Activities.Test.TestActor.TestActorActivity_1" sap:VirtualizedContainerService.HintSize="262,288" />
     </sap2010:ViewStateManager>
   </sap2010:WorkflowViewState.ViewStateManager>
 </Activity>

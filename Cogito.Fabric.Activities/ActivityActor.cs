@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 using Microsoft.ServiceFabric.Actors.Runtime;
 
-namespace Cogito.Fabric.Activities
+namespace Cogito.ServiceFabric.Activities
 {
 
     /// <summary>

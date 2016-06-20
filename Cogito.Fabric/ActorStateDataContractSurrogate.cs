@@ -7,7 +7,7 @@ using System.Runtime.Serialization;
 using Microsoft.ServiceFabric.Actors;
 using Microsoft.ServiceFabric.Services.Remoting;
 
-namespace Cogito.Fabric
+namespace Cogito.ServiceFabric
 {
 
     /// <summary>

@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.ServiceFabric.Actors;
 
-namespace Cogito.Fabric.Test.Web.Service
+namespace Cogito.ServiceFabric.Test.Web.Service
 {
 
     public interface ITestActor :

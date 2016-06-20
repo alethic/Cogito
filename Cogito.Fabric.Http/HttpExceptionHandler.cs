@@ -4,7 +4,7 @@ using System.Net.Sockets;
 
 using Microsoft.ServiceFabric.Services.Communication.Client;
 
-namespace Cogito.Fabric.Http
+namespace Cogito.ServiceFabric.Http
 {
 
     public class HttpExceptionHandler :

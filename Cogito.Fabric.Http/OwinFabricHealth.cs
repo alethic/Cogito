@@ -11,7 +11,7 @@ using Newtonsoft.Json.Linq;
 
 using Owin;
 
-namespace Cogito.Fabric.Http
+namespace Cogito.ServiceFabric.Http
 {
 
     /// <summary>

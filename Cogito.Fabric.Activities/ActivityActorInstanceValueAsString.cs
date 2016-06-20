@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-namespace Cogito.Fabric.Activities
+namespace Cogito.ServiceFabric.Activities
 {
 
     /// <summary>
