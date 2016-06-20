@@ -14,27 +14,27 @@ namespace Cogito.ServiceFabric.Activities
         AsyncTaskExtension
     {
 
-        readonly IActivityActorInternal actor;
+        readonly ActivityWorkflowHost host;
 
         /// <summary>
         /// Initializes a new instance.
         /// </summary>
-        /// <param name="actor"></param>
-        public ActivityActorAsyncTaskExtension(IActivityActorInternal actor)
+        /// <param name="host"></param>
+        public ActivityActorAsyncTaskExtension(ActivityWorkflowHost host)
         {
-            Contract.Requires<ArgumentNullException>(actor != null);
+            Contract.Requires<ArgumentNullException>(host != null);
 
-            this.actor = actor;
+            this.host = host;
         }
 
         public override Task ExecuteAsync(Func<Task> action)
         {
-            return actor.InvokeWithTimerAsync(action);
+            return host.EnqueueTask(action);
         }
 
         public override Task<TResult> ExecuteAsync<TResult>(Func<Task<TResult>> func)
         {
-            return actor.InvokeWithTimerAsync(func);
+            return host.EnqueueTask(func);
         }
 
     }

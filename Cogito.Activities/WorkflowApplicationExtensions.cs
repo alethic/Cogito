@@ -117,7 +117,24 @@ namespace Cogito.Activities
         {
             Contract.Requires<ArgumentNullException>(self != null);
 
-            return Task.Factory.FromAsync(self.BeginPersist, self.EndPersist, null);
+            var tcs = new TaskCompletionSource<bool>();
+            self.BeginPersist(ar =>
+            {
+                try
+                {
+                    self.EndPersist(ar);
+                    tcs.SetResult(true);
+                }
+                catch (OperationCanceledException)
+                {
+                    tcs.SetCanceled();
+                }
+                catch (Exception e)
+                {
+                    tcs.SetException(e);
+                }
+            }, null);
+            return tcs.Task;
         }
 
         /// <summary>

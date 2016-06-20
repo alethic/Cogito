@@ -186,6 +186,7 @@
     <Compile Include="Test.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="ActorEventSource.cs" />
+    <Compile Include="TestState.cs" />
     <Compile Include="Test2State.cs" />
   </ItemGroup>
   <ItemGroup>

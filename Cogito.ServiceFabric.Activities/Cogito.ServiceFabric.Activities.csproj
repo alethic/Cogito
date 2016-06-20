@@ -174,6 +174,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ActivityActorEventSource.TrackingRecord.tt</DependentUpon>
     </Compile>
+    <Compile Include="ActivityActorState.cs" />
     <Compile Include="ActivityActorTrackingParticipant.cs" />
     <Compile Include="ActivityActorTrackingParticipant.TrackingRecord.cs">
       <AutoGen>True</AutoGen>
@@ -192,7 +193,6 @@
     <Compile Include="IActivityActor.cs" />
     <Compile Include="IActivityActorInternal.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ActivityActorInstanceValue.cs" />
     <None Include="ActivityActorTrackingParticipant.TrackingRecord.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>ActivityActorTrackingParticipant.TrackingRecord.cs</LastGenOutput>

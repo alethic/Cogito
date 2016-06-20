@@ -18,3 +18,4 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyFileVersion("1.0.0.0")]
 
 [assembly: InternalsVisibleTo("Cogito.ServiceFabric.Activities.Tests")]
+[assembly: InternalsVisibleTo("Cogito.ServiceFabric.Activities.Test.TestActor")]

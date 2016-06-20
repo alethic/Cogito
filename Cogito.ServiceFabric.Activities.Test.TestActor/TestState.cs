@@ -7,11 +7,10 @@ namespace Cogito.ServiceFabric.Activities.Test.TestActor
 {
 
     [DataContract]
-    public class Test2State
+    public class TestState
     {
 
-        [DataMember]
-        public List<ITest> Others { get; set; } = new List<ITest>();
+
 
     }
 

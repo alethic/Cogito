@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Activities;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Runtime.DurableInstancing;
@@ -7,6 +8,8 @@ using System.Threading.Tasks;
 using System.Xml.Linq;
 
 using Cogito.Activities;
+using Cogito.Collections;
+using Cogito.Threading;
 
 namespace Cogito.ServiceFabric.Activities
 {
@@ -22,7 +25,8 @@ namespace Cogito.ServiceFabric.Activities
         internal static readonly string ActivityTimerExpirationReminderName = "Cogito.Fabric.Activities::TimerExpirationReminder";
 
         readonly IActivityActorInternal actor;
-        readonly ActivityActorStateManager state;
+        readonly ConcurrentQueue<Func<Task<bool>>> queue;
+        ActivityActorStateManager state;
         WorkflowApplication workflow;
 
         /// <summary>
@@ -34,11 +38,103 @@ namespace Cogito.ServiceFabric.Activities
             Contract.Requires<ArgumentNullException>(actor != null);
 
             this.actor = actor;
+            this.queue = new ConcurrentQueue<Func<Task<bool>>>();
+        }
 
-            // provides access to workflow state stored in the actor
-            this.state = new ActivityActorStateManager(() => actor.StateManager);
-            this.state.Persisted = OnPersistedFromStore;
-            this.state.Completed = OnCompletedFromStore;
+        /// <summary>
+        /// Enqueues a task to be executed.
+        /// </summary>
+        /// <param name="action"></param>
+        /// <returns></returns>
+        internal Task EnqueueTask(Func<Task> action)
+        {
+            Contract.Requires<ArgumentNullException>(action != null);
+
+            // schedule task on task queue
+            var tc = new TaskCompletionSource<bool>();
+            queue.Enqueue(() => tc.SafeTrySetFromAsync(action));
+
+            // first task, schedule timer to handle it
+            if (queue.Count == 1)
+                actor.InvokeWithTimer(PumpTaskQueue);
+
+            // final result to caller
+            return tc.Task;
+        }
+
+        /// <summary>
+        /// Enqueues a task to be executed.
+        /// </summary>
+        /// <typeparam name="TResult"></typeparam>
+        /// <param name="func"></param>
+        /// <returns></returns>
+        internal Task<TResult> EnqueueTask<TResult>(Func<Task<TResult>> func)
+        {
+            Contract.Requires<ArgumentNullException>(func != null);
+
+            // schedule task on task queue
+            var tc = new TaskCompletionSource<TResult>();
+            queue.Enqueue(() => tc.SafeTrySetFromAsync(func));
+
+            // first task, schedule timer to handle it
+            if (queue.Count == 1)
+                actor.InvokeWithTimer(PumpTaskQueue);
+
+            // final result to caller
+            return tc.Task;
+        }
+
+        /// <summary>
+        /// Pumps outstanding tasks in the task queue.
+        /// </summary>
+        /// <returns></returns>
+        async Task PumpTaskQueue()
+        {
+            Func<Task<bool>> action;
+            while (queue.TryDequeue(out action))
+                if (!await action())
+                    throw new InvalidOperationException("Queued task did not return success.");
+        }
+
+        /// <summary>
+        /// Invokes the specified method and then pumps any tasks in the queue.
+        /// </summary>
+        /// <param name="action"></param>
+        /// <returns></returns>
+        async Task InvokeAndPump(Func<Task> action)
+        {
+            var t = action();
+            await PumpTaskQueue();
+            await t;
+        }
+
+        /// <summary>
+        /// Invokes the specified method and then pumps any tasks in the queue. 
+        /// </summary>
+        /// <typeparam name="TResult"></typeparam>
+        /// <param name="func"></param>
+        /// <returns></returns>
+        async Task<TResult> InvokeAndPump<TResult>(Func<Task<TResult>> func)
+        {
+            var t = func();
+            await PumpTaskQueue();
+            return await t;
+        }
+
+        /// <summary>
+        /// Gets the associated actor.
+        /// </summary>
+        internal IActivityActorInternal Actor
+        {
+            get { return actor; }
+        }
+
+        /// <summary>
+        /// Gets the running workflow application.
+        /// </summary>
+        internal WorkflowApplication Workflow
+        {
+            get { return workflow; }
         }
 
         /// <summary>
@@ -51,6 +147,35 @@ namespace Cogito.ServiceFabric.Activities
         }
 
         /// <summary>
+        /// Creates a new <see cref="ActivityActorStateManager"/>.
+        /// </summary>
+        Task CreateStateManager()
+        {
+            state = new ActivityActorStateManager(this);
+
+            state.Persisted = () =>
+            {
+                EnqueueTask(async () =>
+                {
+                    await state.SaveAsync();
+                    await SaveReminderAsync();
+                    await actor.OnPersisted();
+                });
+            };
+
+            state.Completed = () =>
+            {
+                EnqueueTask(async () =>
+                {
+                    await state.SaveAsync();
+                    await SaveReminderAsync();
+                });
+            };
+
+            return Task.FromResult(true);
+        }
+
+        /// <summary>
         /// Create a new <see cref="WorkflowApplication"/> instance.
         /// </summary>
         /// <param name="activity"></param>
@@ -60,12 +185,13 @@ namespace Cogito.ServiceFabric.Activities
         {
             Contract.Requires<ArgumentNullException>(activity != null);
 
+            // manages access to the workflow state
             workflow = inputs != null ? new WorkflowApplication(activity, inputs) : new WorkflowApplication(activity);
-            workflow.InstanceStore = new ActivityActorInstanceStore(actor.InvokeWithTimerAsync, state);
+            workflow.InstanceStore = new ActivityActorInstanceStore(state);
 
             workflow.OnUnhandledException = args =>
             {
-                actor.InvokeWithTimerAsync(async () =>
+                EnqueueTask(async () =>
                 {
                     await actor.OnUnhandledException(args);
                 });
@@ -75,7 +201,7 @@ namespace Cogito.ServiceFabric.Activities
 
             workflow.Aborted = args =>
             {
-                actor.InvokeWithTimerAsync(async () =>
+                EnqueueTask(async () =>
                 {
                     await actor.OnAborted(args);
                 });
@@ -83,7 +209,7 @@ namespace Cogito.ServiceFabric.Activities
 
             workflow.PersistableIdle = args =>
             {
-                actor.InvokeWithTimerAsync(async () =>
+                EnqueueTask(async () =>
                 {
                     await actor.OnPersistableIdle(args);
                 });
@@ -95,7 +221,7 @@ namespace Cogito.ServiceFabric.Activities
 
             workflow.Idle = args =>
             {
-                actor.InvokeWithTimerAsync(async () =>
+                EnqueueTask(async () =>
                 {
                     await actor.OnIdle(args);
                 });
@@ -103,7 +229,7 @@ namespace Cogito.ServiceFabric.Activities
 
             workflow.Completed = args =>
             {
-                actor.InvokeWithTimerAsync(async () =>
+                EnqueueTask(async () =>
                 {
                     await actor.OnCompleted(args);
                 });
@@ -111,13 +237,13 @@ namespace Cogito.ServiceFabric.Activities
 
             workflow.Unloaded = args =>
             {
-                actor.InvokeWithTimerAsync(async () =>
+                EnqueueTask(async () =>
                 {
                     await actor.OnUnloaded(args);
                 });
             };
 
-            workflow.Extensions.Add(() => new ActivityActorAsyncTaskExtension(actor));
+            workflow.Extensions.Add(() => new ActivityActorAsyncTaskExtension(this));
             workflow.Extensions.Add(() => new ActivityActorTrackingParticipant(actor));
             workflow.Extensions.Add(() => new ActivityActorExtension(actor));
 
@@ -137,26 +263,40 @@ namespace Cogito.ServiceFabric.Activities
             // might already be loaded somehow
             if (workflow == null)
             {
+                // load state from actor
+                await state.LoadAsync();
+
                 // only continue if not already completed
-                if (await state.GetInstanceState() != InstanceState.Completed)
+                if (state.InstanceState != InstanceState.Completed)
                 {
                     // generate owner ID
-                    if (await state.GetInstanceOwnerId() == Guid.Empty)
-                        await state.SetInstanceOwnerId(Guid.NewGuid());
+                    if (state.InstanceOwnerId == Guid.Empty)
+                        state.InstanceOwnerId = Guid.NewGuid();
 
-                    if (await state.GetInstanceId() == Guid.Empty)
+                    if (state.InstanceId == Guid.Empty)
                     {
-                        // create workflow
+                        // clear existing data
+                        state.ClearInstanceData();
+                        state.ClearInstanceMetadata();
+
+                        // create workflow application
                         await CreateWorkflow(actor.CreateActivity(), actor.CreateActivityInputs() ?? new Dictionary<string, object>());
-                        await state.SetInstanceId(workflow.Id);
-                        await workflow.RunAsync();
+
+                        // save new instance ID
+                        state.InstanceId = workflow.Id;
+                        await state.SaveAsync();
+
+                        // initial invoke
+                        await InvokeAndPump(workflow.RunAsync);
                     }
                     else
                     {
-                        // load workflow
+                        // create workflow application
                         await CreateWorkflow(actor.CreateActivity());
-                        await workflow.LoadAsync(await state.GetInstanceId());
-                        await workflow.RunAsync();
+                        await state.SaveAsync();
+
+                        // load existing instance ID and run
+                        await InvokeAndPump(async () => await workflow.LoadAsync(state.InstanceId));
                     }
                 }
             }
@@ -172,7 +312,7 @@ namespace Cogito.ServiceFabric.Activities
             {
                 try
                 {
-                    await workflow.UnloadAsync();
+                    await InvokeAndPump(workflow.UnloadAsync);
                 }
                 catch (TimeoutException)
                 {
@@ -186,30 +326,12 @@ namespace Cogito.ServiceFabric.Activities
         }
 
         /// <summary>
-        /// Invoked by the instance store after the workflow instance has been persisted.
-        /// </summary>
-        /// <returns></returns>
-        async Task OnPersistedFromStore()
-        {
-            await SaveReminderAsync();
-            await actor.OnPersisted();
-        }
-
-        /// <summary>
-        /// Invoked by the instance store after the workflow instance has been completed.
-        /// </summary>
-        /// <returns></returns>
-        async Task OnCompletedFromStore()
-        {
-            await SaveReminderAsync();
-        }
-
-        /// <summary>
         /// Invoked when the actor is activated.
         /// </summary>
         /// <returns></returns>
         internal async Task OnActivateAsync()
         {
+            await CreateStateManager();
             await LoadWorkflow();
         }
 
@@ -229,7 +351,7 @@ namespace Cogito.ServiceFabric.Activities
         async Task SaveReminderAsync()
         {
             // next date at which the reminder should be invoked
-            var date = (DateTime?)await state.GetInstanceData(ActivityTimerExpirationTimeKey);
+            var date = (DateTime?)state.GetInstanceData(ActivityTimerExpirationTimeKey.ToString());
             if (date != null)
             {
                 // time at which the reminder should be fired, minimum 1 second from now, advance ahead by 1 second
@@ -273,10 +395,11 @@ namespace Cogito.ServiceFabric.Activities
         internal async Task ResetAsync()
         {
             await UnloadWorkflow();
-            await state.SetInstanceId(Guid.Empty);
-            await state.SetInstanceState(InstanceState.Unknown);
-            await state.ClearInstanceData();
-            await state.ClearInstanceMetadata();
+            state.InstanceId = Guid.Empty;
+            state.InstanceState = InstanceState.Unknown;
+            state.ClearInstanceData();
+            state.ClearInstanceMetadata();
+            await state.SaveAsync();
             await LoadWorkflow();
         }
 
@@ -287,7 +410,7 @@ namespace Cogito.ServiceFabric.Activities
         internal async Task RunAsync()
         {
             ThrowIfInvalidState();
-            await workflow.RunAsync();
+            await InvokeAndPump(workflow.RunAsync);
         }
 
         /// <summary>
@@ -302,7 +425,7 @@ namespace Cogito.ServiceFabric.Activities
             Contract.Requires<ArgumentNullException>(bookmark != null);
             ThrowIfInvalidState();
 
-            return await workflow.ResumeBookmarkAsync(bookmark, value, timeout);
+            return await InvokeAndPump(() => workflow.ResumeBookmarkAsync(bookmark, value, timeout));
         }
 
         /// <summary>
@@ -316,7 +439,7 @@ namespace Cogito.ServiceFabric.Activities
             Contract.Requires<ArgumentNullException>(bookmark != null);
             ThrowIfInvalidState();
 
-            return await workflow.ResumeBookmarkAsync(bookmark, value);
+            return await InvokeAndPump(() => workflow.ResumeBookmarkAsync(bookmark, value));
         }
 
         /// <summary>
@@ -332,7 +455,7 @@ namespace Cogito.ServiceFabric.Activities
             Contract.Requires<ArgumentException>(bookmarkName.Length > 0);
             ThrowIfInvalidState();
 
-            return await workflow.ResumeBookmarkAsync(bookmarkName, value, timeout);
+            return await InvokeAndPump(() => workflow.ResumeBookmarkAsync(bookmarkName, value, timeout));
         }
 
         /// <summary>
@@ -347,7 +470,7 @@ namespace Cogito.ServiceFabric.Activities
             Contract.Requires<ArgumentException>(bookmarkName.Length > 0);
             ThrowIfInvalidState();
 
-            return await workflow.ResumeBookmarkAsync(bookmarkName, value);
+            return await InvokeAndPump(() => workflow.ResumeBookmarkAsync(bookmarkName, value));
         }
 
         /// <summary>

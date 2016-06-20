@@ -21,6 +21,8 @@ namespace Cogito.ServiceFabric.Activities.Test.TestWebService.Controllers
         public async Task<IHttpActionResult> Test()
         {
             var a = ActorProxy.Create<ITest>(new ActorId(Guid.NewGuid()));
+            await a.CallMe();
+            await a.Start();
             return Content(HttpStatusCode.OK, a.GetActorId());
         }
 
@@ -29,27 +31,6 @@ namespace Cogito.ServiceFabric.Activities.Test.TestWebService.Controllers
         public async Task<IHttpActionResult> Test(Guid id)
         {
             var a = ActorProxy.Create<ITest>(new ActorId(id));
-            return Content(HttpStatusCode.OK, a.GetActorId());
-        }
-
-        [Route("test2")]
-        [HttpGet]
-        public async Task<IHttpActionResult> Test2()
-        {
-            var a = ActorProxy.Create<ITest2>(new ActorId(Guid.NewGuid()));
-            await a.Run();
-            return Content(HttpStatusCode.OK, a.GetActorId());
-        }
-
-        [Route("test2/{id}")]
-        [HttpGet]
-        public async Task<IHttpActionResult> Test2(Guid id, [FromUri] int? number = null)
-        {
-            var a = ActorProxy.Create<ITest2>(new ActorId(id));
-            if (number != null)
-                await a.SetNumber((int)number);
-            else
-                await a.GetNumber();
             return Content(HttpStatusCode.OK, a.GetActorId());
         }
 

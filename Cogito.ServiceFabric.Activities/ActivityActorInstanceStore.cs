@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics.Contracts;
 using System.IO;
+using System.Linq;
 using System.Runtime.DurableInstancing;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
@@ -23,7 +24,6 @@ namespace Cogito.ServiceFabric.Activities
         InstanceStore
     {
 
-        readonly Func<Func<Task<bool>>, Task<bool>> sync;
         readonly ActivityActorStateManager state;
         readonly NetDataContractSerializer serializer;
 
@@ -31,13 +31,10 @@ namespace Cogito.ServiceFabric.Activities
         /// Initializes a new instance.
         /// </summary>
         /// <param name="state"></param>
-        /// <param name="sync"></param>
-        public ActivityActorInstanceStore(Func<Func<Task<bool>>, Task<bool>> sync, ActivityActorStateManager state)
+        public ActivityActorInstanceStore(ActivityActorStateManager state)
         {
             Contract.Requires<ArgumentNullException>(state != null);
-            Contract.Requires<ArgumentNullException>(sync != null);
 
-            this.sync = sync;
             this.state = state;
             this.serializer = new NetDataContractSerializer();
         }
@@ -88,17 +85,6 @@ namespace Cogito.ServiceFabric.Activities
         /// <returns></returns>
         Task<bool> CommandAsync(InstancePersistenceContext context, InstancePersistenceCommand command)
         {
-            return sync(() => CommandDispatchAsync(context, command));
-        }
-
-        /// <summary>
-        /// Handles a <see cref="InstancePersistenceCommand"/>.
-        /// </summary>
-        /// <param name="context"></param>
-        /// <param name="command"></param>
-        /// <returns></returns>
-        Task<bool> CommandDispatchAsync(InstancePersistenceContext context, InstancePersistenceCommand command)
-        {
             if (command is CreateWorkflowOwnerCommand)
             {
                 return CreateWorkflowOwnerCommand(context, (CreateWorkflowOwnerCommand)command);
@@ -134,14 +120,14 @@ namespace Cogito.ServiceFabric.Activities
         /// </summary>
         /// <param name="context"></param>
         /// <param name="command"></param>
-        async Task<bool> CreateWorkflowOwnerCommand(InstancePersistenceContext context, CreateWorkflowOwnerCommand command)
+        Task<bool> CreateWorkflowOwnerCommand(InstancePersistenceContext context, CreateWorkflowOwnerCommand command)
         {
-            var id = await state.GetInstanceOwnerId();
-            if (id == Guid.Empty)
+            if (state.InstanceOwnerId == Guid.Empty)
                 throw new InvalidOperationException("InstanceOwnerId is empty.");
 
-            context.BindInstanceOwner(id, Guid.NewGuid());
-            return true;
+            context.BindInstanceOwner(state.InstanceOwnerId, Guid.NewGuid());
+
+            return Task.FromResult(true);
         }
 
         /// <summary>
@@ -160,26 +146,26 @@ namespace Cogito.ServiceFabric.Activities
         /// </summary>
         /// <param name="context"></param>
         /// <param name="command"></param>
-        async Task<bool> SaveWorkflowCommand(InstancePersistenceContext context, SaveWorkflowCommand command)
+        Task<bool> SaveWorkflowCommand(InstancePersistenceContext context, SaveWorkflowCommand command)
         {
             // save the instance data
-            await state.SetInstanceState(InstanceState.Initialized);
-            await SaveInstanceData(context.InstanceView.InstanceId, command.InstanceData);
-            await SaveInstanceMetadata(context.InstanceView.InstanceId, command.InstanceMetadataChanges);
+            state.InstanceState = InstanceState.Initialized;
+            SaveInstanceData(context.InstanceView.InstanceId, command.InstanceData);
+            SaveInstanceMetadata(context.InstanceView.InstanceId, command.InstanceMetadataChanges);
 
             // clear instance data when complete
             if (command.CompleteInstance)
             {
-                await state.SetInstanceState(InstanceState.Completed);
-                await state.ClearInstanceData();
-                await state.ClearInstanceMetadata();
-                await state.OnCompleted();
+                state.InstanceState = InstanceState.Completed;
+                state.ClearInstanceData();
+                state.ClearInstanceMetadata();
+                state.OnCompleted();
             }
 
             // signal that we have been saved
-            await state.OnPersisted();
+            state.OnPersisted();
 
-            return true;
+            return Task.FromResult(true);
         }
 
         /// <summary>
@@ -187,21 +173,24 @@ namespace Cogito.ServiceFabric.Activities
         /// </summary>
         /// <param name="context"></param>
         /// <param name="command"></param>
-        async Task<bool> LoadWorkflowCommand(InstancePersistenceContext context, LoadWorkflowCommand command)
+        Task<bool> LoadWorkflowCommand(InstancePersistenceContext context, LoadWorkflowCommand command)
         {
-            if (await state.GetInstanceState() != InstanceState.Completed)
+            if (state.InstanceId != context.InstanceView.InstanceId)
+                throw new InvalidOperationException("Loading InstanceId does not match state InstanceId.");
+
+            if (state.InstanceState != InstanceState.Completed)
             {
                 context.LoadedInstance(
                     InstanceState.Initialized,
-                    await LoadInstanceData(context.InstanceView.InstanceId),
-                    await LoadInstanceMetadata(context.InstanceView.InstanceId),
+                    LoadInstanceData(context.InstanceView.InstanceId),
+                    LoadInstanceMetadata(context.InstanceView.InstanceId),
                     null,
                     null);
 
-                return true;
+                return Task.FromResult(true);
             }
             else
-                return false;
+                return Task.FromResult(false);
         }
 
         /// <summary>
@@ -234,14 +223,9 @@ namespace Cogito.ServiceFabric.Activities
         /// </summary>
         /// <param name="instanceId"></param>
         /// <returns></returns>
-        async Task<IDictionary<XName, InstanceValue>> LoadInstanceData(Guid instanceId)
+        IDictionary<XName, InstanceValue> LoadInstanceData(Guid instanceId)
         {
-            var id = await state.GetInstanceId();
-            if (id != instanceId)
-                throw new InvalidOperationException("Actor InstanceId does not match loaded InstanceId.");
-
-            return await (await state.GetInstanceDataItems())
-                .ToDictionaryAsync(i => i, async i => new InstanceValue(FromSerializableObject(await state.GetInstanceData(i))));
+            return state.GetInstanceDataNames().ToDictionary(i => (XName)i, i => new InstanceValue(FromSerializableObject(state.GetInstanceData(i))));
         }
 
         /// <summary>
@@ -249,13 +233,9 @@ namespace Cogito.ServiceFabric.Activities
         /// </summary>
         /// <param name="instanceId"></param>
         /// <returns></returns>
-        async Task<IDictionary<XName, InstanceValue>> LoadInstanceMetadata(Guid instanceId)
+        IDictionary<XName, InstanceValue> LoadInstanceMetadata(Guid instanceId)
         {
-            if (await state.GetInstanceId() != instanceId)
-                throw new InvalidOperationException();
-
-            return await (await state.GetInstanceMetadataItems())
-                .ToDictionaryAsync(i => i, async i => new InstanceValue(FromSerializableObject(await state.GetInstanceMetadata(i))));
+            return state.GetInstanceMetadataNames().ToDictionary(i => (XName)i, i => new InstanceValue(FromSerializableObject(i)));
         }
 
         /// <summary>
@@ -263,15 +243,12 @@ namespace Cogito.ServiceFabric.Activities
         /// </summary>
         /// <param name="instanceId"></param>
         /// <param name="data"></param>
-        async Task SaveInstanceData(Guid instanceId, IDictionary<XName, InstanceValue> data)
+        void SaveInstanceData(Guid instanceId, IDictionary<XName, InstanceValue> data)
         {
             Contract.Requires<ArgumentNullException>(data != null);
 
-            if (await state.GetInstanceId() != instanceId)
-                throw new InvalidOperationException();
-
             foreach (var kvp in data)
-                await state.SetInstanceData(kvp.Key, ToSerializableObject(kvp.Value.Value));
+                state.SetInstanceData(kvp.Key.ToString(), ToSerializableObject(kvp.Value.Value));
         }
 
         /// <summary>
@@ -279,15 +256,12 @@ namespace Cogito.ServiceFabric.Activities
         /// </summary>
         /// <param name="instanceId"></param>
         /// <param name="metadata"></param>
-        async Task SaveInstanceMetadata(Guid instanceId, IDictionary<XName, InstanceValue> metadata)
+        void SaveInstanceMetadata(Guid instanceId, IDictionary<XName, InstanceValue> metadata)
         {
             Contract.Requires<ArgumentNullException>(metadata != null);
 
-            if (await state.GetInstanceId() != instanceId)
-                throw new InvalidOperationException();
-
             foreach (var kvp in metadata)
-                await state.SetInstanceMetadata(kvp.Key, ToSerializableObject(kvp.Value.Value));
+                state.SetInstanceMetadata(kvp.Key.ToString(), ToSerializableObject(kvp.Value.Value));
         }
 
         /// <summary>
@@ -354,9 +328,7 @@ namespace Cogito.ServiceFabric.Activities
         /// <returns></returns>
         object FromSerializableObject(object value)
         {
-            if (value is ActivityActorInstanceValue)
-                return ((ActivityActorInstanceValue)value).Value;
-            else if (value is ActivityActorInstanceValueAsString)
+            if (value is ActivityActorInstanceValueAsString)
                 return DeserializeObject(XElement.Parse(((ActivityActorInstanceValueAsString)value).Data));
             else
                 return value;
@@ -381,4 +353,5 @@ namespace Cogito.ServiceFabric.Activities
         #endregion
 
     }
+
 }

@@ -34,6 +34,14 @@ namespace Cogito.ServiceFabric.Activities
         }
 
         /// <summary>
+        /// Gets a reference to the workflow host.
+        /// </summary>
+        internal ActivityWorkflowHost Host
+        {
+            get { return host; }
+        }
+
+        /// <summary>
         /// Overrides the <see cref="OnActivateAsync"/> method so it can be reimplemented above.
         /// </summary>
         /// <returns></returns>
@@ -217,8 +225,7 @@ namespace Cogito.ServiceFabric.Activities
         /// <returns></returns>
         protected virtual Task OnPersistedAsync()
         {
-            //await SaveStateAsync();
-            return Task.FromResult(false);
+            return SaveStateAsync();
         }
 
         /// <summary>

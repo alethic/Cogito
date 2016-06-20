@@ -1,15 +1,13 @@
 ﻿using System;
 using System.Activities;
-using System.Activities.Statements;
 using System.Diagnostics;
-using System.Threading;
 using System.Threading.Tasks;
 
 using Cogito.ServiceFabric.Activities.Test.TestActor.Interfaces;
 
-using Microsoft.ServiceFabric.Actors;
-using Microsoft.ServiceFabric.Actors.Client;
 using Microsoft.ServiceFabric.Actors.Runtime;
+
+using static Cogito.Activities.Activities;
 
 namespace Cogito.ServiceFabric.Activities.Test.TestActor
 {
@@ -23,57 +21,51 @@ namespace Cogito.ServiceFabric.Activities.Test.TestActor
 
         protected override Activity CreateActivity()
         {
-            return Cogito.Activities.Activities.Sequence(
-                Cogito.Activities.Activities.Wait("Run"),
-                new While(ctx => State.Value < 10)
-                {
-                    Body = new Sequence()
-                    {
-                        Activities =
-                        {
-                            Cogito.Activities.Activities.Invoke(() => OnLoop()),
-                            Cogito.Activities.Activities.Invoke(() => AfterDelay()),
-                            Cogito.Activities.Activities.Delay(TimeSpan.FromSeconds(5)),
-                        }
-                    }
-                });
+            return Sequence(
+                Wait("Start"),
+                Invoke(() => DoThing1()),
+                While(true,
+                    Sequence(
+                        Delay(TimeSpan.FromSeconds(5)),
+                        Invoke(() => DoThing2()))));
         }
 
-        public async Task Run()
+        async Task DoThing1()
         {
-            await AfterDelay();
-
-            var t = await ResumeAsync("Run", TimeSpan.FromSeconds(0));
+            Debug.WriteLine($"Test2 {Id} DoThing1");
+            await Task.Delay(100);
+            Debug.WriteLine($"Test2 {Id} DoThing1 End");
         }
 
-        public Task<int> GetNumber()
+        async Task DoThing2()
         {
-            return Task.FromResult(State.Value);
+            Debug.WriteLine($"Test2 {Id} DoThing2");
+            await Task.Delay(100);
+            Debug.WriteLine($"Test2 {Id} DoThing2 End");
         }
 
-        public Task SetNumber(int number)
+        public async Task CallMe1(ITest test)
         {
-            State.Value = number;
-            return Task.FromResult(true);
+            Debug.WriteLine($"Test2 {Id} CallMe1");
+            State.Others.Add(test);
+            Debug.WriteLine($"Test2 {Id} CallMe1 End");
         }
 
-        Task OnLoop()
+        public async Task CallMe2()
         {
-            State.Value--;
-            Debug.WriteLine(ServiceContext.NodeContext.NodeName + ":" + State.Value);
-            return Task.FromResult(true);
+            Debug.WriteLine($"Test2 {Id} CallMe2");
+            foreach (var i in State.Others) 
+            {
+                await i.CallMeBack(this);
+            }
+            Debug.WriteLine($"Test2 {Id} CallMe2 End");
         }
 
-        async Task AfterDelay()
+        public async Task Start()
         {
-            var sc = SynchronizationContext.Current;
-            await StateManager.SetStateAsync("foo", new object());
-            var ec = ExecutionContext.Capture();
-            await StateManager.SetStateAsync("foo2", new object());
-            Debug.WriteLine("After");
-            await StateManager.SetStateAsync("fo3o", new object());
-            var t1 = ActorProxy.Create<ITest>(ActorId.CreateRandom());
-            await t1.CallBack(this, State.Value);
+            Debug.WriteLine($"Test2 {Id} Start");
+            await ResumeAsync("Start");
+            Debug.WriteLine($"Test2 {Id} Start End");
         }
 
     }
