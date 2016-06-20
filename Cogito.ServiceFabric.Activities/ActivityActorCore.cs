@@ -194,7 +194,7 @@ namespace Cogito.ServiceFabric.Activities
         /// </summary>
         /// <param name="args"></param>
         /// <returns></returns>
-        protected virtual Task OnIdle(WorkflowApplicationIdleEventArgs args)
+        protected virtual Task OnIdleAsync(WorkflowApplicationIdleEventArgs args)
         {
             return Task.FromResult(true);
         }
@@ -434,37 +434,37 @@ namespace Cogito.ServiceFabric.Activities
             return UnregisterReminderAsync(reminder);
         }
 
-        async Task IActivityActorInternal.OnPersisted()
+        async Task IActivityActorInternal.OnPersistedAsync()
         {
             await OnPersistedAsync();
         }
 
-        Task IActivityActorInternal.OnUnhandledException(WorkflowApplicationUnhandledExceptionEventArgs args)
+        Task IActivityActorInternal.OnUnhandledExceptionAsync(WorkflowApplicationUnhandledExceptionEventArgs args)
         {
             return OnUnhandledExceptionAsync(args);
         }
 
-        Task IActivityActorInternal.OnAborted(WorkflowApplicationAbortedEventArgs args)
+        Task IActivityActorInternal.OnAbortedAsync(WorkflowApplicationAbortedEventArgs args)
         {
             return OnAbortedAsync(args);
         }
 
-        Task IActivityActorInternal.OnPersistableIdle(WorkflowApplicationIdleEventArgs args)
+        Task IActivityActorInternal.OnPersistableIdleAsync(WorkflowApplicationIdleEventArgs args)
         {
             return OnPersistableIdleAsync(args);
         }
 
-        Task IActivityActorInternal.OnIdle(WorkflowApplicationIdleEventArgs args)
+        Task IActivityActorInternal.OnIdleAsync(WorkflowApplicationIdleEventArgs args)
         {
-            return OnIdle(args);
+            return OnIdleAsync(args);
         }
 
-        Task IActivityActorInternal.OnCompleted(WorkflowApplicationCompletedEventArgs args)
+        Task IActivityActorInternal.OnCompletedAsync(WorkflowApplicationCompletedEventArgs args)
         {
             return OnCompletedAsync(args);
         }
 
-        Task IActivityActorInternal.OnUnloaded(WorkflowApplicationEventArgs args)
+        Task IActivityActorInternal.OnUnloadedAsync(WorkflowApplicationEventArgs args)
         {
             return OnUnloadedAsync(args);
         }

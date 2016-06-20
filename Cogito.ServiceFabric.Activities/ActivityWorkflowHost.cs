@@ -159,7 +159,7 @@ namespace Cogito.ServiceFabric.Activities
                 {
                     await state.SaveAsync();
                     await SaveReminderAsync();
-                    await actor.OnPersisted();
+                    await actor.OnPersistedAsync();
                 });
             };
 
@@ -193,7 +193,7 @@ namespace Cogito.ServiceFabric.Activities
             {
                 EnqueueTask(async () =>
                 {
-                    await actor.OnUnhandledException(args);
+                    await actor.OnUnhandledExceptionAsync(args);
                 });
 
                 return UnhandledExceptionAction.Abort;
@@ -203,7 +203,7 @@ namespace Cogito.ServiceFabric.Activities
             {
                 EnqueueTask(async () =>
                 {
-                    await actor.OnAborted(args);
+                    await actor.OnAbortedAsync(args);
                 });
             };
 
@@ -211,7 +211,7 @@ namespace Cogito.ServiceFabric.Activities
             {
                 EnqueueTask(async () =>
                 {
-                    await actor.OnPersistableIdle(args);
+                    await actor.OnPersistableIdleAsync(args);
                 });
 
                 // workflow should save state but not unload until actor deactivated
@@ -223,7 +223,7 @@ namespace Cogito.ServiceFabric.Activities
             {
                 EnqueueTask(async () =>
                 {
-                    await actor.OnIdle(args);
+                    await actor.OnIdleAsync(args);
                 });
             };
 
@@ -231,7 +231,7 @@ namespace Cogito.ServiceFabric.Activities
             {
                 EnqueueTask(async () =>
                 {
-                    await actor.OnCompleted(args);
+                    await actor.OnCompletedAsync(args);
                 });
             };
 
@@ -239,7 +239,7 @@ namespace Cogito.ServiceFabric.Activities
             {
                 EnqueueTask(async () =>
                 {
-                    await actor.OnUnloaded(args);
+                    await actor.OnUnloadedAsync(args);
                 });
             };
 

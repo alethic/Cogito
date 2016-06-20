@@ -72,9 +72,9 @@ namespace Cogito.ServiceFabric.Activities.Test.TestActor
             Debug.WriteLine($"Test {Id} Start End");
         }
 
-        protected override async Task OnIdle(WorkflowApplicationIdleEventArgs args)
+        protected override async Task OnIdleAsync(WorkflowApplicationIdleEventArgs args)
         {
-            await base.OnIdle(args);
+            await base.OnIdleAsync(args);
             Debug.WriteLine("OnIdle");
         }
 
