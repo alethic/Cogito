@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Runtime.Serialization;
+using System.Xml;
 using System.Xml.Linq;
 
 using Cogito.Dynamic;
@@ -12,11 +13,33 @@ namespace Cogito.Core.Tests.Dynamic
 {
 
     [TestClass]
-    public class SerializableDynamicObjectTests
+    public class ElasticObjectTests
     {
 
         [TestMethod]
-        public void Test_SerializeToXml()
+        public void Test_serialize_invalid_property_name_with_old_xml()
+        {
+            dynamic o = new ElasticObject();
+            o["000"] = "foo";
+            var s = new DataContractSerializer(typeof(ElasticObject));
+            var m = new XmlDocument();
+            using (var w = m.CreateNavigator().AppendChild())
+                s.WriteObject(w, o);
+        }
+
+        [TestMethod]
+        public void Test_serialize_invalid_property_name()
+        {
+            dynamic o = new ElasticObject();
+            o["000"] = "foo";
+            var s = new DataContractSerializer(typeof(ElasticObject));
+            var m = new XDocument();
+            using (var w = m.CreateWriter())
+                s.WriteObject(w, o);
+        }
+
+        [TestMethod]
+        public void Test_serialize_to_xml()
         {
             dynamic o = new ElasticObject();
             o.Property1 = "foo";
@@ -28,7 +51,7 @@ namespace Cogito.Core.Tests.Dynamic
         }
 
         [TestMethod]
-        public void Test_SerializeToJson()
+        public void Test_serialize_to_json()
         {
             dynamic o = new ElasticObject();
             o.Property1 = "foo";
@@ -37,7 +60,7 @@ namespace Cogito.Core.Tests.Dynamic
         }
 
         [TestMethod]
-        public void Test_Nested_SerializeToJson()
+        public void Test_serialize_nested_properties_to_json()
         {
             dynamic o = new ElasticObject();
             o.Property1 = "foo";
@@ -49,7 +72,7 @@ namespace Cogito.Core.Tests.Dynamic
         }
 
         [TestMethod]
-        public void Test_Nested_SerializeToXml()
+        public void Test_serialize_nested_properties_to_xml()
         {
             dynamic o = new ElasticObject();
             o.Property1 = "foo";
@@ -64,7 +87,7 @@ namespace Cogito.Core.Tests.Dynamic
         }
 
         [TestMethod]
-        public void Test_DeserializeFromJson()
+        public void Test_deserialize_from_json()
         {
             dynamic o = new ElasticObject();
             o.Property1 = "foo";
@@ -77,7 +100,7 @@ namespace Cogito.Core.Tests.Dynamic
         }
 
         [TestMethod]
-        public void Test_DeserializeFromXml()
+        public void Test_deserialize_from_xml()
         {
             dynamic o = new ElasticObject();
             o.Property1 = "foo";
@@ -93,7 +116,7 @@ namespace Cogito.Core.Tests.Dynamic
         }
 
         [TestMethod]
-        public void Test_Nested_DeserializeFromJson()
+        public void Test_deserialize_nested_properties_from_json()
         {
             dynamic o = new ElasticObject();
             o.Property1 = "foo";
@@ -111,7 +134,7 @@ namespace Cogito.Core.Tests.Dynamic
         }
 
         [TestMethod]
-        public void Test_Nested_DeserializeFromXml()
+        public void Test_deserialize_nested_properties_from_xml()
         {
             dynamic o = new ElasticObject();
             o.Property1 = "foo";
