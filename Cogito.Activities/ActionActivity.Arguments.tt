@@ -39,35 +39,7 @@ for (int i = 1; i <= 8; i++)
         /// <param name="action"></param>
 <# WriteArgParamsComments(i); #>
         /// <returns></returns>
-        public static ActionActivity<<#= Repeat("TArg{0}", i, ", ") #>> Invoke<<#= Repeat("TArg{0}", i, ", ") #>>(<#= Repeat("InArgument<TArg{0}> arg{0}", i, ", ") #>, Action<<#= Repeat("TArg{0}", i, ", ") #>> action)
-        {
-            Contract.Requires<ArgumentNullException>(action != null);
-
-            return new ActionActivity<<#= Repeat("TArg{0}", i, ", ") #>>(action, <#= Repeat("arg{0}", i, ", ") #>);
-        }
-
-        /// <summary>
-        /// Returns a <see cref="Activity"/> that executes <paramref name="action"/> with arguments.
-        /// </summary>
-<# WriteTypeParamsComments(i); #>
-        /// <param name="action"></param>
-<# WriteArgParamsComments(i); #>
-        /// <returns></returns>
         public static ActionActivity<<#= Repeat("TArg{0}", i, ", ") #>> Invoke<<#= Repeat("TArg{0}", i, ", ") #>>(Action<<#= Repeat("TArg{0}", i, ", ") #>> action, <#= Repeat("Activity<TArg{0}> arg{0}", i, ", ") #>)
-        {
-            Contract.Requires<ArgumentNullException>(action != null);
-
-            return new ActionActivity<<#= Repeat("TArg{0}", i, ", ") #>>(action, <#= Repeat("arg{0}", i, ", ") #>);
-        }
-
-        /// <summary>
-        /// Returns a <see cref="Activity"/> that executes <paramref name="action"/> with arguments.
-        /// </summary>
-<# WriteTypeParamsComments(i); #>
-        /// <param name="action"></param>
-<# WriteArgParamsComments(i); #>
-        /// <returns></returns>
-        public static ActionActivity<<#= Repeat("TArg{0}", i, ", ") #>> Invoke<<#= Repeat("TArg{0}", i, ", ") #>>(<#= Repeat("Activity<TArg{0}> arg{0}", i, ", ") #>, Action<<#= Repeat("TArg{0}", i, ", ") #>> action)
         {
             Contract.Requires<ArgumentNullException>(action != null);
 

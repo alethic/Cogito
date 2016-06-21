@@ -16,7 +16,7 @@ namespace Cogito.Activities.Tests
             var a = new For<int>()
             {
                 Initial = 0,
-                Increment = Expressions.Delegate<int, int>(arg => Expressions.Invoke(arg, i => i + 1)),
+                Increment = Expressions.Delegate<int, int>(arg => Expressions.Invoke(i => i + 1, arg)),
                 Condition = Expressions.Delegate<int, bool>(arg => Expressions.Invoke(i => i < 10, arg)),
                 Action = Expressions.Delegate<int>(arg => Expressions.Invoke(i => { Console.WriteLine(i); c++; }, arg)),
             };

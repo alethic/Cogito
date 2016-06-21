@@ -27,11 +27,11 @@ namespace Cogito.Activities.Tests
                 WorkflowInvoker.Invoke(new Retry()
                 {
                     MaxAttempts = 5,
-                    Body = Expressions.Delegate<int>(arg => Expressions.Invoke(arg, i =>
+                    Body = Expressions.Delegate<int>(arg => Expressions.Invoke(i =>
                     {
                         runCount++;
                         throw new Exception("broke");
-                    })),
+                    }, arg)),
                     Catches =
                     {
                         new RetryCatch<Exception>(),
@@ -66,11 +66,11 @@ namespace Cogito.Activities.Tests
                 WorkflowInvoker.Invoke(new Retry()
                 {
                     MaxAttempts = 5,
-                    Body = Expressions.Delegate<int>(arg => Expressions.Invoke(arg, i =>
+                    Body = Expressions.Delegate<int>(arg => Expressions.Invoke(i =>
                     {
                         runCount++;
                         throw new Exception("broke");
-                    })),
+                    }, arg)),
                     Catches =
                     {
                         new RetryCatch<HttpRequestException>(),
@@ -103,13 +103,13 @@ namespace Cogito.Activities.Tests
                 var results = WorkflowInvoker.Invoke(new Retry()
                 {
                     MaxAttempts = 5,
-                    Body = Expressions.Delegate<int>(arg => Expressions.Invoke(arg, i =>
+                    Body = Expressions.Delegate<int>(arg => Expressions.Invoke(i =>
                     {
                         if (++runCount < 3)
                             throw new Exception("Exception");
 
                         return;
-                    })),
+                    }, arg)),
                     Catches =
                     {
                         new RetryCatch<Exception>(),
@@ -137,7 +137,7 @@ namespace Cogito.Activities.Tests
                 var results = WorkflowInvoker.Invoke(new Retry()
                 {
                     MaxAttempts = 5,
-                    Body = Expressions.Delegate<int>(arg => Expressions.Invoke(arg, i => Task.FromResult(0))),
+                    Body = Expressions.Delegate<int>(arg => Expressions.Invoke(i => Task.FromResult(0), arg)),
                 });
 
                 Assert.AreEqual(0, ((IEnumerable<Exception>)results["Attempts"]).ToArray().Length);

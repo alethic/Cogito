@@ -103,62 +103,6 @@ namespace Cogito.Activities
             return ThenParallel(activity, (IEnumerable<Activity>)next);
         }
 
-        public static ForEach<TElement> ForEach<TElement, TActivity>(this Activity<IEnumerable<TElement>> values, Func<InArgument<TElement>, TActivity> activity)
-            where TActivity : Activity
-        {
-            Contract.Requires<ArgumentNullException>(values != null);
-            Contract.Requires<ArgumentNullException>(activity != null);
-
-            var arg = new DelegateInArgument<TElement>();
-
-            return new ForEach<TElement>()
-            {
-                Body = new ActivityAction<TElement>()
-                {
-                    Argument = arg,
-                    Handler = activity(arg),
-                },
-                Values = values,
-            };
-        }
-
-        public static ForEach<TElement> ForEach<TElement, TActivity>(this Activity<TElement[]> values, Func<InArgument<TElement>, TActivity> activity)
-            where TActivity : Activity
-        {
-            Contract.Requires<ArgumentNullException>(values != null);
-            Contract.Requires<ArgumentNullException>(activity != null);
-
-            return ForEach(values.Select(i => i), activity);
-        }
-
-        public static ParallelForEach<TElement> ParallelForEach<TElement, TActivity>(this Activity<IEnumerable<TElement>> values, Func<InArgument<TElement>, TActivity> activity)
-            where TActivity : Activity
-        {
-            Contract.Requires<ArgumentNullException>(values != null);
-            Contract.Requires<ArgumentNullException>(activity != null);
-
-            var arg = new DelegateInArgument<TElement>();
-
-            return new ParallelForEach<TElement>()
-            {
-                Body = new ActivityAction<TElement>()
-                {
-                    Argument = arg,
-                    Handler = activity(arg),
-                },
-                Values = values,
-            };
-        }
-
-        public static ParallelForEach<TElement> ParallelForEach<TElement, TActivity>(this Activity<TElement[]> values, Func<InArgument<TElement>, TActivity> activity)
-            where TActivity : Activity
-        {
-            Contract.Requires<ArgumentNullException>(values != null);
-            Contract.Requires<ArgumentNullException>(activity != null);
-
-            return ParallelForEach(values.Select(i => i), activity);
-        }
-
         public static Sequence ThenDelay(this Activity activity, TimeSpan duration)
         {
             Contract.Requires<ArgumentNullException>(activity != null);

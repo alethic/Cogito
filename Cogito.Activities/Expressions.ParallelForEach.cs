@@ -18,12 +18,12 @@ namespace Cogito.Activities
         /// <param name="source"></param>
         /// <param name="body"></param>
         /// <returns></returns>
-        public static ForEach<TElement> ForEach<TElement>(InArgument<IEnumerable<TElement>> source, ActivityAction<TElement> body)
+        public static ParallelForEach<TElement> ParallelForEach<TElement>(InArgument<IEnumerable<TElement>> source, ActivityAction<TElement> body)
         {
             Contract.Requires<ArgumentNullException>(source != null);
             Contract.Requires<ArgumentNullException>(body != null);
 
-            return new ForEach<TElement>()
+            return new ParallelForEach<TElement>()
             {
                 Values = source,
                 Body = body,
@@ -37,12 +37,12 @@ namespace Cogito.Activities
         /// <param name="source"></param>
         /// <param name="body"></param>
         /// <returns></returns>
-        public static ForEach<TElement> ForEach<TElement>(InArgument<IEnumerable<TElement>> source, Func<InArgument<TElement>, Activity> body)
+        public static ParallelForEach<TElement> ParallelForEach<TElement>(InArgument<IEnumerable<TElement>> source, Func<InArgument<TElement>, Activity> body)
         {
             Contract.Requires<ArgumentNullException>(source != null);
             Contract.Requires<ArgumentNullException>(body != null);
 
-            return new ForEach<TElement>()
+            return new ParallelForEach<TElement>()
             {
                 Values = source,
                 Body = Delegate(body),
@@ -56,12 +56,12 @@ namespace Cogito.Activities
         /// <param name="source"></param>
         /// <param name="body"></param>
         /// <returns></returns>
-        public static ForEach<TElement> ForEach<TElement>(InArgument<IEnumerable<TElement>> source, Action<TElement> body)
+        public static ParallelForEach<TElement> ParallelForEach<TElement>(InArgument<IEnumerable<TElement>> source, Action<TElement> body)
         {
             Contract.Requires<ArgumentNullException>(source != null);
             Contract.Requires<ArgumentNullException>(body != null);
 
-            return new ForEach<TElement>()
+            return new ParallelForEach<TElement>()
             {
                 Values = source,
                 Body = Delegate<TElement>(arg => Invoke(body, arg)),
@@ -75,12 +75,12 @@ namespace Cogito.Activities
         /// <param name="source"></param>
         /// <param name="body"></param>
         /// <returns></returns>
-        public static ForEach<TElement> ForEach<TElement>(InArgument<IEnumerable<TElement>> source, Func<TElement, Task> body)
+        public static ParallelForEach<TElement> ParallelForEach<TElement>(InArgument<IEnumerable<TElement>> source, Func<TElement, Task> body)
         {
             Contract.Requires<ArgumentNullException>(source != null);
             Contract.Requires<ArgumentNullException>(body != null);
 
-            return new ForEach<TElement>()
+            return new ParallelForEach<TElement>()
             {
                 Values = source,
                 Body = Delegate<TElement>(arg => Invoke(body, arg)),
@@ -94,12 +94,12 @@ namespace Cogito.Activities
         /// <param name="source"></param>
         /// <param name="body"></param>
         /// <returns></returns>
-        public static ForEach<TElement> ForEach<TElement>(this Activity<IEnumerable<TElement>> source, Func<InArgument<TElement>, Activity> body)
+        public static ParallelForEach<TElement> ParallelForEach<TElement>(this Activity<IEnumerable<TElement>> source, Func<InArgument<TElement>, Activity> body)
         {
             Contract.Requires<ArgumentNullException>(source != null);
             Contract.Requires<ArgumentNullException>(body != null);
 
-            return new ForEach<TElement>()
+            return new ParallelForEach<TElement>()
             {
                 Values = source,
                 Body = Delegate(body),
@@ -113,12 +113,12 @@ namespace Cogito.Activities
         /// <param name="source"></param>
         /// <param name="body"></param>
         /// <returns></returns>
-        public static ForEach<TElement> ForEach<TElement>(this Activity<IEnumerable<TElement>> source, ActivityAction<TElement> body)
+        public static ParallelForEach<TElement> ParallelForEach<TElement>(this Activity<IEnumerable<TElement>> source, ActivityAction<TElement> body)
         {
             Contract.Requires<ArgumentNullException>(source != null);
             Contract.Requires<ArgumentNullException>(body != null);
 
-            return new ForEach<TElement>()
+            return new ParallelForEach<TElement>()
             {
                 Values = source,
                 Body = body,
@@ -132,12 +132,12 @@ namespace Cogito.Activities
         /// <param name="source"></param>
         /// <param name="body"></param>
         /// <returns></returns>
-        public static ForEach<TElement> ForEach<TElement>(this Activity<IEnumerable<TElement>> source, Action<TElement> body)
+        public static ParallelForEach<TElement> ParallelForEach<TElement>(this Activity<IEnumerable<TElement>> source, Action<TElement> body)
         {
             Contract.Requires<ArgumentNullException>(source != null);
             Contract.Requires<ArgumentNullException>(body != null);
 
-            return new ForEach<TElement>()
+            return new ParallelForEach<TElement>()
             {
                 Values = source,
                 Body = Delegate<TElement>(arg => Invoke(body, arg)),
@@ -151,12 +151,12 @@ namespace Cogito.Activities
         /// <param name="source"></param>
         /// <param name="body"></param>
         /// <returns></returns>
-        public static ForEach<TElement> ForEach<TElement>(this Activity<IEnumerable<TElement>> source, Func<TElement, Task> body)
+        public static ParallelForEach<TElement> ParallelForEach<TElement>(this Activity<IEnumerable<TElement>> source, Func<TElement, Task> body)
         {
             Contract.Requires<ArgumentNullException>(source != null);
             Contract.Requires<ArgumentNullException>(body != null);
 
-            return new ForEach<TElement>()
+            return new ParallelForEach<TElement>()
             {
                 Values = source,
                 Body = Delegate<TElement>(arg => Invoke(body, arg)),
@@ -170,12 +170,12 @@ namespace Cogito.Activities
         /// <param name="source"></param>
         /// <param name="body"></param>
         /// <returns></returns>
-        public static ForEach<TElement> ForEach<TElement>(Func<IEnumerable<TElement>> source, Func<InArgument<TElement>, Activity> body)
+        public static ParallelForEach<TElement> ParallelForEach<TElement>(Func<IEnumerable<TElement>> source, Func<InArgument<TElement>, Activity> body)
         {
             Contract.Requires<ArgumentNullException>(source != null);
             Contract.Requires<ArgumentNullException>(body != null);
 
-            return new ForEach<TElement>()
+            return new ParallelForEach<TElement>()
             {
                 Values = Invoke(source),
                 Body = Delegate(body),
@@ -189,12 +189,12 @@ namespace Cogito.Activities
         /// <param name="source"></param>
         /// <param name="body"></param>
         /// <returns></returns>
-        public static ForEach<TElement> ForEach<TElement>(Func<IEnumerable<TElement>> source, ActivityAction<TElement> body)
+        public static ParallelForEach<TElement> ParallelForEach<TElement>(Func<IEnumerable<TElement>> source, ActivityAction<TElement> body)
         {
             Contract.Requires<ArgumentNullException>(source != null);
             Contract.Requires<ArgumentNullException>(body != null);
 
-            return new ForEach<TElement>()
+            return new ParallelForEach<TElement>()
             {
                 Values = Invoke(source),
                 Body = body,
@@ -208,12 +208,12 @@ namespace Cogito.Activities
         /// <param name="source"></param>
         /// <param name="body"></param>
         /// <returns></returns>
-        public static ForEach<TElement> ForEach<TElement>(Func<IEnumerable<TElement>> source, Action<TElement> body)
+        public static ParallelForEach<TElement> ParallelForEach<TElement>(Func<IEnumerable<TElement>> source, Action<TElement> body)
         {
             Contract.Requires<ArgumentNullException>(source != null);
             Contract.Requires<ArgumentNullException>(body != null);
 
-            return new ForEach<TElement>()
+            return new ParallelForEach<TElement>()
             {
                 Values = Invoke(source),
                 Body = Delegate<TElement>(arg => Invoke(body, arg)),
@@ -227,12 +227,12 @@ namespace Cogito.Activities
         /// <param name="source"></param>
         /// <param name="body"></param>
         /// <returns></returns>
-        public static ForEach<TElement> ForEach<TElement>(Func<IEnumerable<TElement>> source, Func<TElement, Task> body)
+        public static ParallelForEach<TElement> ParallelForEach<TElement>(Func<IEnumerable<TElement>> source, Func<TElement, Task> body)
         {
             Contract.Requires<ArgumentNullException>(source != null);
             Contract.Requires<ArgumentNullException>(body != null);
 
-            return new ForEach<TElement>()
+            return new ParallelForEach<TElement>()
             {
                 Values = Invoke(source),
                 Body = Delegate<TElement>(arg => Invoke(body, arg)),
@@ -246,12 +246,12 @@ namespace Cogito.Activities
         /// <param name="source"></param>
         /// <param name="body"></param>
         /// <returns></returns>
-        public static ForEach<TElement> ForEach<TElement>(Func<Task<IEnumerable<TElement>>> source, Func<InArgument<TElement>, Activity> body)
+        public static ParallelForEach<TElement> ParallelForEach<TElement>(Func<Task<IEnumerable<TElement>>> source, Func<InArgument<TElement>, Activity> body)
         {
             Contract.Requires<ArgumentNullException>(source != null);
             Contract.Requires<ArgumentNullException>(body != null);
 
-            return new ForEach<TElement>()
+            return new ParallelForEach<TElement>()
             {
                 Values = Invoke(source),
                 Body = Delegate(body),
@@ -265,12 +265,12 @@ namespace Cogito.Activities
         /// <param name="source"></param>
         /// <param name="body"></param>
         /// <returns></returns>
-        public static ForEach<TElement> ForEach<TElement>(Func<Task<IEnumerable<TElement>>> source, ActivityAction<TElement> body)
+        public static ParallelForEach<TElement> ParallelForEach<TElement>(Func<Task<IEnumerable<TElement>>> source, ActivityAction<TElement> body)
         {
             Contract.Requires<ArgumentNullException>(source != null);
             Contract.Requires<ArgumentNullException>(body != null);
 
-            return new ForEach<TElement>()
+            return new ParallelForEach<TElement>()
             {
                 Values = Invoke(source),
                 Body = body,
@@ -284,12 +284,12 @@ namespace Cogito.Activities
         /// <param name="source"></param>
         /// <param name="body"></param>
         /// <returns></returns>
-        public static ForEach<TElement> ForEach<TElement>(Func<Task<IEnumerable<TElement>>> source, Action<TElement> body)
+        public static ParallelForEach<TElement> ParallelForEach<TElement>(Func<Task<IEnumerable<TElement>>> source, Action<TElement> body)
         {
             Contract.Requires<ArgumentNullException>(source != null);
             Contract.Requires<ArgumentNullException>(body != null);
 
-            return new ForEach<TElement>()
+            return new ParallelForEach<TElement>()
             {
                 Values = Invoke(source),
                 Body = Delegate<TElement>(arg => Invoke(body, arg)),
@@ -303,12 +303,12 @@ namespace Cogito.Activities
         /// <param name="source"></param>
         /// <param name="body"></param>
         /// <returns></returns>
-        public static ForEach<TElement> ForEach<TElement>(Func<Task<IEnumerable<TElement>>> source, Func<TElement, Task> body)
+        public static ParallelForEach<TElement> ParallelForEach<TElement>(Func<Task<IEnumerable<TElement>>> source, Func<TElement, Task> body)
         {
             Contract.Requires<ArgumentNullException>(source != null);
             Contract.Requires<ArgumentNullException>(body != null);
 
-            return new ForEach<TElement>()
+            return new ParallelForEach<TElement>()
             {
                 Values = Invoke(source),
                 Body = Delegate<TElement>(arg => Invoke(body, arg)),

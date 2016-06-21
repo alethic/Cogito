@@ -158,20 +158,18 @@
     </Compile>
     <Compile Include="Expressions.cs" />
     <Compile Include="Expressions.Assign.cs" />
+    <Compile Include="Expressions.ParallelForEach.cs" />
     <Compile Include="Expressions.ForEach.cs" />
     <Compile Include="Expressions.Throw.cs" />
     <Compile Include="Expressions.TryCatch.cs" />
     <Compile Include="AsyncTaskCodeActivity.cs" />
     <Compile Include="AsyncTaskExtension.cs" />
     <Compile Include="For.cs" />
-    <Compile Include="ParallelForEachAsyncActionActivity.cs" />
-    <Compile Include="ParallelForEachActionActivity.cs" />
     <Compile Include="Retry.cs" />
     <Compile Include="RetryException.cs" />
     <Compile Include="RetryCatch.cs" />
     <Compile Include="RetryExceptionCaughtTrackingRecord.cs" />
     <Compile Include="RetryState.cs" />
-    <Compile Include="SelectAsyncFuncActivity.cs" />
     <Compile Include="FormatActivity.cs" />
     <Compile Include="FuncActivity.Arguments.cs">
       <DependentUpon>FuncActivity.Arguments.tt</DependentUpon>
@@ -192,8 +190,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="AsyncActionActivity.cs" />
     <Compile Include="AsyncFuncActivity.cs" />
-    <Compile Include="SelectFuncActivity.cs" />
-    <Compile Include="SelectActivity.cs" />
     <Compile Include="Wait.cs" />
     <Compile Include="WaitThenAsyncFunc.cs" />
     <Compile Include="WaitThenFunc.cs" />
