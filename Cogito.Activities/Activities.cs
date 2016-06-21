@@ -159,17 +159,6 @@ namespace Cogito.Activities
             return ParallelForEach(values.Select(i => i), activity);
         }
 
-        public static While While(Activity<bool> condition, Activity activity)
-        {
-            Contract.Requires<ArgumentNullException>(condition != null);
-            Contract.Requires<ArgumentNullException>(activity != null);
-
-            return new While(condition)
-            {
-                Body = activity,
-            };
-        }
-
         public static Sequence ThenDelay(this Activity activity, TimeSpan duration)
         {
             Contract.Requires<ArgumentNullException>(activity != null);
