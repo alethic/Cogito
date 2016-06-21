@@ -8,6 +8,9 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace Cogito.Activities.Tests
 {
 
+    /// <summary>
+    /// Just ensures that various generic method resolutions function.
+    /// </summary>
     [TestClass]
     public class InvokeResolveTests
     {

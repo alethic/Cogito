@@ -133,7 +133,6 @@
     <Compile Include="ExceptionExtensionsTests.cs" />
     <Compile Include="Linq\CombinatorialsTests.cs" />
     <Compile Include="Linq\EnumerableExtensionsTests.cs" />
-    <Compile Include="Net\Http\HttpMessageEventSourceTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Reflection\GenericInvokerTests.cs" />
     <Compile Include="Reflection\TypeUtilTests.cs" />

@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Diagnostics.Contracts;
-using System.Diagnostics.Tracing;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Threading.Tasks;
 using System.Xml.Linq;
 
 using Cogito.Collections;
+
+using Microsoft.Diagnostics.Tracing;
 
 namespace Cogito.Net.Http
 {
@@ -16,7 +16,7 @@ namespace Cogito.Net.Http
     /// Logs HTTP requests and responses.
     /// </summary>
     [EventSource(Name = "Cogito-Net-Http-Messages")]
-    public class HttpMessageEventSource :
+    sealed class HttpMessageEventSource :
         EventSource
     {
 
@@ -26,23 +26,6 @@ namespace Cogito.Net.Http
         /// Gets the current <see cref="HttpMessageEventSource"/>.
         /// </summary>
         public static readonly HttpMessageEventSource Current = new HttpMessageEventSource();
-
-        /// <summary>
-        /// Initializes the static instance.
-        /// </summary>
-        static HttpMessageEventSource()
-        {
-            Task.Run(() => { }).Wait();
-        }
-
-        /// <summary>
-        /// Initializes a new instance.
-        /// </summary>
-        HttpMessageEventSource()
-            : base()
-        {
-
-        }
 
         #region Keywords
 
@@ -55,15 +38,15 @@ namespace Cogito.Net.Http
 
         #endregion
 
-        const int RequestEventId = 1;
-        const int ResponseEventId = 2;
+        const int HttpRequestEventId = 1;
+        const int HttpResponseEventId = 2;
 
         /// <summary>
         /// Records a <see cref="HttpRequestMessage"/>.
         /// </summary>
         /// <param name="message"></param>
         [NonEvent]
-        public void Request(HttpRequestMessage message)
+        public void HttpRequest(HttpRequestMessage message)
         {
             Contract.Requires<ArgumentNullException>(message != null);
 
@@ -72,7 +55,7 @@ namespace Cogito.Net.Http
                 // update message with correlation key
                 message.Properties.GetOrAdd(ACTIVITY_CORRELATION_KEY, _ => Guid.NewGuid());
 
-                Request(
+                HttpRequest(
                     (Guid)message.Properties[ACTIVITY_CORRELATION_KEY],
                     message.Method.ToString(),
                     message.RequestUri.ToString(),
@@ -91,8 +74,8 @@ namespace Cogito.Net.Http
         /// <param name="version"></param>
         /// <param name="headers"></param>
         /// <param name="contentHeaders"></param>
-        [Event(RequestEventId, Level = EventLevel.Verbose, Message = "{0} {1} {2}")]
-        public void Request(
+        [Event(HttpRequestEventId, Level = EventLevel.Verbose, Message = "{0} {1} {2}")]
+        public void HttpRequest(
             Guid correlationId,
             string method,
             string requestUri,
@@ -102,7 +85,7 @@ namespace Cogito.Net.Http
         {
             if (IsEnabled())
                 WriteEvent(
-                    RequestEventId,
+                    HttpRequestEventId,
                     correlationId,
                     method,
                     requestUri,
@@ -116,12 +99,12 @@ namespace Cogito.Net.Http
         /// </summary>
         /// <param name="message"></param>
         [NonEvent]
-        public void Response(HttpResponseMessage message)
+        public void HttpResponse(HttpResponseMessage message)
         {
             Contract.Requires<ArgumentNullException>(message != null);
 
             if (IsEnabled())
-                Response(
+                HttpResponse(
                     (Guid?)message.RequestMessage.Properties.GetOrDefault(ACTIVITY_CORRELATION_KEY) ?? Guid.Empty,
                     message.RequestMessage.Method.ToString(),
                     message.RequestMessage.RequestUri.ToString(),
@@ -143,8 +126,8 @@ namespace Cogito.Net.Http
         /// <param name="reasonPhrase"></param>
         /// <param name="responseHeaders"></param>
         /// <param name="responseContentHeaders"></param>
-        [Event(ResponseEventId, Level = EventLevel.Verbose, Message = "{0} {1} {2} {4} {5}")]
-        public void Response(
+        [Event(HttpResponseEventId, Level = EventLevel.Verbose, Message = "{0} {1} {2} {4} {5}")]
+        public void HttpResponse(
             Guid correlationId,
             string method,
             string requestUri,
@@ -156,7 +139,7 @@ namespace Cogito.Net.Http
         {
             if (IsEnabled())
                 WriteEvent(
-                    ResponseEventId,
+                    HttpResponseEventId,
                     correlationId,
                     method,
                     requestUri,

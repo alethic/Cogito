@@ -218,6 +218,28 @@ namespace Cogito.ServiceFabric
             return cs.Task;
         }
 
+        /// <summary>
+        /// This method is invoked just before invoking an actor method.
+        /// </summary>
+        /// <param name="actorMethodContext"></param>
+        /// <returns></returns>
+        protected override Task OnPreActorMethodAsync(ActorMethodContext actorMethodContext)
+        {
+            EventSource.Current.ActorMethodPre(this, actorMethodContext);
+            return base.OnPreActorMethodAsync(actorMethodContext);
+        }
+
+        /// <summary>
+        /// This method is invoked after an actor method has finished execution.
+        /// </summary>
+        /// <param name="actorMethodContext"></param>
+        /// <returns></returns>
+        protected override Task OnPostActorMethodAsync(ActorMethodContext actorMethodContext)
+        {
+            EventSource.Current.ActorMethodPost(this, actorMethodContext);
+            return base.OnPostActorMethodAsync(actorMethodContext);
+        }
+
     }
 
     /// <summary>

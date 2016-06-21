@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.Tracing;
 using System.Fabric;
 using System.Runtime.Serialization;
 using System.Text;
-using System.Threading.Tasks;
 using System.Xml;
+
+using Microsoft.Diagnostics.Tracing;
 
 namespace Cogito.ServiceFabric.Activities
 {
@@ -14,8 +14,8 @@ namespace Cogito.ServiceFabric.Activities
     /// Logs events for the Activity Actor framework.
     /// </summary>
     [EventSource(Name = "Cogito-ServiceFabric-Activities")]
-    partial class ActivityActorEventSource :
-        EventSource
+    sealed partial class ActivityActorEventSource :
+        Microsoft.Diagnostics.Tracing.EventSource
     {
 
         const string ITEMS_ELEMENT = "items";
@@ -25,24 +25,7 @@ namespace Cogito.ServiceFabric.Activities
 
         public static readonly ActivityActorEventSource Current = new ActivityActorEventSource();
 
-        /// <summary>
-        /// Initializes the static instance.
-        /// </summary>
-        static ActivityActorEventSource()
-        {
-            Task.Run(() => { }).Wait();
-        }
-
         readonly NetDataContractSerializer variableSerializer = new NetDataContractSerializer();
-
-        /// <summary>
-        /// Initializes a new instance.
-        /// </summary>
-        ActivityActorEventSource()
-            : base()
-        {
-
-        }
 
         #region Keywords
 
@@ -67,7 +50,9 @@ namespace Cogito.ServiceFabric.Activities
         #endregion
 
         const int MessageEventId = 1;
-        const int ActorMessageEventId = 2;
+        const int ErrorEventId = 2;
+        const int ActorMessageEventId = 3;
+        const int ActorErrorEventId = 4;
 
         #region Events
 
@@ -92,6 +77,29 @@ namespace Cogito.ServiceFabric.Activities
         {
             if (IsEnabled())
                 WriteEvent(MessageEventId, message);
+        }
+
+        /// <summary>
+        /// Records a generic error message.
+        /// </summary>
+        /// <param name="message"></param>
+        /// <param name="args"></param>
+        [NonEvent]
+        public void Error(string message, params object[] args)
+        {
+            if (IsEnabled())
+                Error(string.Format(message, args));
+        }
+
+        /// <summary>
+        /// Records a generic error message.
+        /// </summary>
+        /// <param name="message"></param>
+        [Event(ErrorEventId, Level = EventLevel.Error, Message = "{0}")]
+        public void Error(string message)
+        {
+            if (IsEnabled())
+                WriteEvent(ErrorEventId, message);
         }
 
         /// <summary>
@@ -158,7 +166,73 @@ namespace Cogito.ServiceFabric.Activities
                 message);
         }
 
+        /// <summary>
+        /// Records a generic message for a <see cref="ActivityActorCore"/>.
+        /// </summary>
+        /// <param name="actor"></param>
+        /// <param name="message"></param>
+        /// <param name="args"></param>
+        [NonEvent]
+        public void ActorError(ActivityActorCore actor, string message, params object[] args)
+        {
+            if (IsEnabled())
+                ActorError(
+                    actor.GetType().ToString(),
+                    actor.Id.ToString(),
+                    actor.ActorService.Context.CodePackageActivationContext.ApplicationTypeName,
+                    actor.ActorService.Context.CodePackageActivationContext.ApplicationName,
+                    actor.ActorService.Context.ServiceTypeName,
+                    actor.ActorService.Context.ServiceName.ToString(),
+                    actor.ActorService.Context.PartitionId,
+                    actor.ActorService.Context.ReplicaId,
+                    FabricRuntime.GetNodeContext().NodeName,
+                    string.Format(message, args));
+        }
+
+
+        /// <summary>
+        /// Implementation method for ActorError.
+        /// </summary>
+        /// <param name="actorType"></param>
+        /// <param name="actorId"></param>
+        /// <param name="applicationTypeName"></param>
+        /// <param name="applicationName"></param>
+        /// <param name="serviceTypeName"></param>
+        /// <param name="serviceName"></param>
+        /// <param name="partitionId"></param>
+        /// <param name="replicaOrInstanceId"></param>
+        /// <param name="nodeName"></param>
+        /// <param name="message"></param>
+        [Event(ActorErrorEventId, Level = EventLevel.Informational, Message = "{9}")]
+        void ActorError(
+            string actorType,
+            string actorId,
+            string applicationTypeName,
+            string applicationName,
+            string serviceTypeName,
+            string serviceName,
+            Guid partitionId,
+            long replicaOrInstanceId,
+            string nodeName,
+            string message)
+        {
+            WriteEvent(
+                ActorErrorEventId,
+                actorType,
+                actorId,
+                applicationTypeName,
+                applicationName,
+                serviceTypeName,
+                serviceName,
+                partitionId,
+                replicaOrInstanceId,
+                nodeName,
+                message);
+        }
+
         #endregion
+
+        #region Serialization
 
         /// <summary>
         /// Serializes the given dictionary for output.
@@ -267,6 +341,8 @@ namespace Cogito.ServiceFabric.Activities
 
             return builder.ToString();
         }
+
+        #endregion
 
     }
 

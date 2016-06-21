@@ -2,19 +2,20 @@
 using System.Activities.Tracking;
 using System.Diagnostics;
 using System.Diagnostics.Contracts;
-using System.Diagnostics.Tracing;
 using System.Fabric;
+
+using Microsoft.Diagnostics.Tracing;
 
 namespace Cogito.ServiceFabric.Activities
 {
 
-    partial class ActivityActorEventSource
+    sealed partial class ActivityActorEventSource
     {
 
-        const int ActivityScheduledVerboseEventId = 10;
-        const int ActivityScheduledInfoEventId = 11;
-        const int ActivityScheduledWarningEventId = 12;
-        const int ActivityScheduledErrorEventId = 13;
+        const int ActivityScheduledVerboseEventId = 110;
+        const int ActivityScheduledInfoEventId = 111;
+        const int ActivityScheduledWarningEventId = 112;
+        const int ActivityScheduledErrorEventId = 113;
         
         /// <summary>
         /// Records an event.
@@ -411,13 +412,13 @@ namespace Cogito.ServiceFabric.Activities
 
     }
 
-    partial class ActivityActorEventSource
+    sealed partial class ActivityActorEventSource
     {
 
-        const int ActivityStateVerboseEventId = 20;
-        const int ActivityStateInfoEventId = 21;
-        const int ActivityStateWarningEventId = 22;
-        const int ActivityStateErrorEventId = 23;
+        const int ActivityStateVerboseEventId = 120;
+        const int ActivityStateInfoEventId = 121;
+        const int ActivityStateWarningEventId = 122;
+        const int ActivityStateErrorEventId = 123;
         
         /// <summary>
         /// Records an event.
@@ -862,13 +863,13 @@ namespace Cogito.ServiceFabric.Activities
 
     }
 
-    partial class ActivityActorEventSource
+    sealed partial class ActivityActorEventSource
     {
 
-        const int BookmarkResumptionVerboseEventId = 30;
-        const int BookmarkResumptionInfoEventId = 31;
-        const int BookmarkResumptionWarningEventId = 32;
-        const int BookmarkResumptionErrorEventId = 33;
+        const int BookmarkResumptionVerboseEventId = 130;
+        const int BookmarkResumptionInfoEventId = 131;
+        const int BookmarkResumptionWarningEventId = 132;
+        const int BookmarkResumptionErrorEventId = 133;
         
         /// <summary>
         /// Records an event.
@@ -1249,13 +1250,13 @@ namespace Cogito.ServiceFabric.Activities
 
     }
 
-    partial class ActivityActorEventSource
+    sealed partial class ActivityActorEventSource
     {
 
-        const int CancelRequestedVerboseEventId = 40;
-        const int CancelRequestedInfoEventId = 41;
-        const int CancelRequestedWarningEventId = 42;
-        const int CancelRequestedErrorEventId = 43;
+        const int CancelRequestedVerboseEventId = 140;
+        const int CancelRequestedInfoEventId = 141;
+        const int CancelRequestedWarningEventId = 142;
+        const int CancelRequestedErrorEventId = 143;
         
         /// <summary>
         /// Records an event.
@@ -1652,13 +1653,13 @@ namespace Cogito.ServiceFabric.Activities
 
     }
 
-    partial class ActivityActorEventSource
+    sealed partial class ActivityActorEventSource
     {
 
-        const int FaultPropagationVerboseEventId = 50;
-        const int FaultPropagationInfoEventId = 51;
-        const int FaultPropagationWarningEventId = 52;
-        const int FaultPropagationErrorEventId = 53;
+        const int FaultPropagationVerboseEventId = 150;
+        const int FaultPropagationInfoEventId = 151;
+        const int FaultPropagationWarningEventId = 152;
+        const int FaultPropagationErrorEventId = 153;
         
         /// <summary>
         /// Records an event.
@@ -2135,13 +2136,13 @@ namespace Cogito.ServiceFabric.Activities
 
     }
 
-    partial class ActivityActorEventSource
+    sealed partial class ActivityActorEventSource
     {
 
-        const int WorkflowInstanceVerboseEventId = 60;
-        const int WorkflowInstanceInfoEventId = 61;
-        const int WorkflowInstanceWarningEventId = 62;
-        const int WorkflowInstanceErrorEventId = 63;
+        const int WorkflowInstanceVerboseEventId = 160;
+        const int WorkflowInstanceInfoEventId = 161;
+        const int WorkflowInstanceWarningEventId = 162;
+        const int WorkflowInstanceErrorEventId = 163;
         
         /// <summary>
         /// Records an event.
@@ -2522,13 +2523,13 @@ namespace Cogito.ServiceFabric.Activities
 
     }
 
-    partial class ActivityActorEventSource
+    sealed partial class ActivityActorEventSource
     {
 
-        const int WorkflowInstanceAbortedVerboseEventId = 70;
-        const int WorkflowInstanceAbortedInfoEventId = 71;
-        const int WorkflowInstanceAbortedWarningEventId = 72;
-        const int WorkflowInstanceAbortedErrorEventId = 73;
+        const int WorkflowInstanceAbortedVerboseEventId = 170;
+        const int WorkflowInstanceAbortedInfoEventId = 171;
+        const int WorkflowInstanceAbortedWarningEventId = 172;
+        const int WorkflowInstanceAbortedErrorEventId = 173;
         
         /// <summary>
         /// Records an event.
@@ -2925,13 +2926,13 @@ namespace Cogito.ServiceFabric.Activities
 
     }
 
-    partial class ActivityActorEventSource
+    sealed partial class ActivityActorEventSource
     {
 
-        const int WorkflowInstanceSuspendedVerboseEventId = 80;
-        const int WorkflowInstanceSuspendedInfoEventId = 81;
-        const int WorkflowInstanceSuspendedWarningEventId = 82;
-        const int WorkflowInstanceSuspendedErrorEventId = 83;
+        const int WorkflowInstanceSuspendedVerboseEventId = 180;
+        const int WorkflowInstanceSuspendedInfoEventId = 181;
+        const int WorkflowInstanceSuspendedWarningEventId = 182;
+        const int WorkflowInstanceSuspendedErrorEventId = 183;
         
         /// <summary>
         /// Records an event.
@@ -3328,13 +3329,13 @@ namespace Cogito.ServiceFabric.Activities
 
     }
 
-    partial class ActivityActorEventSource
+    sealed partial class ActivityActorEventSource
     {
 
-        const int WorkflowInstanceTerminatedVerboseEventId = 90;
-        const int WorkflowInstanceTerminatedInfoEventId = 91;
-        const int WorkflowInstanceTerminatedWarningEventId = 92;
-        const int WorkflowInstanceTerminatedErrorEventId = 93;
+        const int WorkflowInstanceTerminatedVerboseEventId = 190;
+        const int WorkflowInstanceTerminatedInfoEventId = 191;
+        const int WorkflowInstanceTerminatedWarningEventId = 192;
+        const int WorkflowInstanceTerminatedErrorEventId = 193;
         
         /// <summary>
         /// Records an event.
@@ -3731,13 +3732,13 @@ namespace Cogito.ServiceFabric.Activities
 
     }
 
-    partial class ActivityActorEventSource
+    sealed partial class ActivityActorEventSource
     {
 
-        const int WorkflowInstanceUnhandledExceptionVerboseEventId = 100;
-        const int WorkflowInstanceUnhandledExceptionInfoEventId = 101;
-        const int WorkflowInstanceUnhandledExceptionWarningEventId = 102;
-        const int WorkflowInstanceUnhandledExceptionErrorEventId = 103;
+        const int WorkflowInstanceUnhandledExceptionVerboseEventId = 200;
+        const int WorkflowInstanceUnhandledExceptionInfoEventId = 201;
+        const int WorkflowInstanceUnhandledExceptionWarningEventId = 202;
+        const int WorkflowInstanceUnhandledExceptionErrorEventId = 203;
         
         /// <summary>
         /// Records an event.
@@ -4198,13 +4199,13 @@ namespace Cogito.ServiceFabric.Activities
 
     }
 
-    partial class ActivityActorEventSource
+    sealed partial class ActivityActorEventSource
     {
 
-        const int WorkflowInstanceUpdatedVerboseEventId = 110;
-        const int WorkflowInstanceUpdatedInfoEventId = 111;
-        const int WorkflowInstanceUpdatedWarningEventId = 112;
-        const int WorkflowInstanceUpdatedErrorEventId = 113;
+        const int WorkflowInstanceUpdatedVerboseEventId = 210;
+        const int WorkflowInstanceUpdatedInfoEventId = 211;
+        const int WorkflowInstanceUpdatedWarningEventId = 212;
+        const int WorkflowInstanceUpdatedErrorEventId = 213;
         
         /// <summary>
         /// Records an event.
@@ -4601,13 +4602,13 @@ namespace Cogito.ServiceFabric.Activities
 
     }
 
-    partial class ActivityActorEventSource
+    sealed partial class ActivityActorEventSource
     {
 
-        const int CustomTrackingVerboseEventId = 200;
-        const int CustomTrackingInfoEventId = 201;
-        const int CustomTrackingWarningEventId = 202;
-        const int CustomTrackingErrorEventId = 203;
+        const int CustomTrackingVerboseEventId = 300;
+        const int CustomTrackingInfoEventId = 301;
+        const int CustomTrackingWarningEventId = 302;
+        const int CustomTrackingErrorEventId = 303;
         
         /// <summary>
         /// Records an event.

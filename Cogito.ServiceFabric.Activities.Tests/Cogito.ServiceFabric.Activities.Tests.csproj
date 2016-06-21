@@ -201,7 +201,6 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="ActivityActorEventSourceTests.cs" />
     <Compile Include="ActivityActorStateManagerTests.cs" />
     <Compile Include="ActivityActorInstanceStoreTests.cs" />
     <Compile Include="ActorStateManagerMock.cs" />
