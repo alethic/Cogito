@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Activities;
+using System.Diagnostics.Contracts;
 using System.Threading.Tasks;
 
 namespace Cogito.Activities
@@ -10,11 +11,16 @@ namespace Cogito.Activities
 
         public static FuncActivity<TResult> Invoke<TResult>(Func<TResult> func)
         {
+            Contract.Requires<ArgumentNullException>(func != null);
+
             return new FuncActivity<TResult>(func);
         }
 
         public static FuncActivity<TSource, TResult> ThenWith<TSource, TResult>(this Activity<TSource> activity, Func<TSource, TResult> func)
         {
+            Contract.Requires<ArgumentNullException>(activity != null);
+            Contract.Requires<ArgumentNullException>(func != null);
+
             return new FuncActivity<TSource, TResult>(func, activity);
         }
 
@@ -29,7 +35,7 @@ namespace Cogito.Activities
 
         public static implicit operator ActivityFunc<TResult>(FuncActivity<TResult> activity)
         {
-            return Activities.Delegate<TResult>(() =>
+            return Activities.Delegate(() =>
             {
                 return activity;
             });

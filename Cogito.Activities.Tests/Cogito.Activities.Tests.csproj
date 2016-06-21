@@ -106,6 +106,7 @@
     <Compile Include="AsyncActionActivityTests.cs" />
     <Compile Include="ActionActivityTests.cs" />
     <Compile Include="ForTests.cs" />
+    <Compile Include="InvokeResolveTests.cs" />
     <Compile Include="RetryTests.cs" />
     <Compile Include="FuncActivityTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

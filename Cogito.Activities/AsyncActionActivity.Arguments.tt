@@ -26,7 +26,7 @@ for (int i = 1; i <= 8; i++)
         /// <param name="action"></param>
 <# WriteArgParamsComments(i); #>
         /// <returns></returns>
-        public static AsyncActionActivity<<#= Repeat("TArg{0}", i, ", ") #>> Invoke<<#= Repeat("TArg{0}", i, ", ") #>>(Func<<#= Repeat("TArg{0}", i, ", ") #>, Task> func, <#= Repeat("InArgument<TArg{0}> arg{0} = null", i, ", ") #>)
+        public static AsyncActionActivity<<#= Repeat("TArg{0}", i, ", ") #>> Invoke<<#= Repeat("TArg{0}", i, ", ") #>>(Func<<#= Repeat("TArg{0}", i, ", ") #>, Task> func, <#= Repeat("InArgument<TArg{0}> arg{0}", i, ", ") #>)
         {
             Contract.Requires<ArgumentNullException>(func != null);
 

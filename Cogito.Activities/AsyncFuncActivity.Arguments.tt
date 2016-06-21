@@ -19,7 +19,7 @@ namespace Cogito.Activities
 for (int i = 1; i <= 8; i++)
 {
 #>
-        public static AsyncFuncActivity<<#= Repeat("TArg{0}", i, ", ") #>, TResult> Invoke<<#= Repeat("TArg{0}", i, ", ") #>, TResult>(Func<<#= Repeat("TArg{0}", i, ", ") #>, Task<TResult>> func, <#= Repeat("InArgument<TArg{0}> arg{0} = null", i, ", ") #>)
+        public static AsyncFuncActivity<<#= Repeat("TArg{0}", i, ", ") #>, TResult> Invoke<<#= Repeat("TArg{0}", i, ", ") #>, TResult>(Func<<#= Repeat("TArg{0}", i, ", ") #>, Task<TResult>> func, <#= Repeat("InArgument<TArg{0}> arg{0}", i, ", ") #>)
         {
             Contract.Requires<ArgumentNullException>(func != null);
 

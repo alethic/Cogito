@@ -137,7 +137,7 @@ namespace Cogito.Activities.Tests
                 var results = WorkflowInvoker.Invoke(new Retry()
                 {
                     MaxAttempts = 5,
-                    Body = Activities.Invoke<int>(i => Task.FromResult(0)),
+                    Body = Activities.Delegate<int>(arg => Activities.Invoke(arg, i => Task.FromResult(0))),
                 });
 
                 Assert.AreEqual(0, ((IEnumerable<Exception>)results["Attempts"]).ToArray().Length);

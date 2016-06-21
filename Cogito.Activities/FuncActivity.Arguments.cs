@@ -16,7 +16,7 @@ namespace Cogito.Activities
         /// <param name="func"></param>
 /// <param name="arg1"></param>
         /// <returns></returns>
-        public static FuncActivity<TArg1, TResult> Invoke<TArg1, TResult>(Func<TArg1, TResult> func, InArgument<TArg1> arg1 = null)
+        public static FuncActivity<TArg1, TResult> Invoke<TArg1, TResult>(Func<TArg1, TResult> func, InArgument<TArg1> arg1)
         {
             Contract.Requires<ArgumentNullException>(func != null);
 
@@ -44,7 +44,7 @@ namespace Cogito.Activities
         /// <param name="func"></param>
 /// <param name="arg1"></param>
         /// <returns></returns>
-        public static FuncActivity<TArg1, TResult> Invoke<TArg1, TResult>(Func<TArg1, TResult> func, DelegateInArgument<TArg1> arg1 = null)
+        public static FuncActivity<TArg1, TResult> Invoke<TArg1, TResult>(Func<TArg1, TResult> func, DelegateInArgument<TArg1> arg1)
         {
             Contract.Requires<ArgumentNullException>(func != null);
 
@@ -74,7 +74,7 @@ namespace Cogito.Activities
 /// <param name="arg1"></param>
 /// <param name="arg2"></param>
         /// <returns></returns>
-        public static FuncActivity<TArg1, TArg2, TResult> Invoke<TArg1, TArg2, TResult>(Func<TArg1, TArg2, TResult> func, InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null)
+        public static FuncActivity<TArg1, TArg2, TResult> Invoke<TArg1, TArg2, TResult>(Func<TArg1, TArg2, TResult> func, InArgument<TArg1> arg1, InArgument<TArg2> arg2)
         {
             Contract.Requires<ArgumentNullException>(func != null);
 
@@ -106,7 +106,7 @@ namespace Cogito.Activities
 /// <param name="arg1"></param>
 /// <param name="arg2"></param>
         /// <returns></returns>
-        public static FuncActivity<TArg1, TArg2, TResult> Invoke<TArg1, TArg2, TResult>(Func<TArg1, TArg2, TResult> func, DelegateInArgument<TArg1> arg1 = null, DelegateInArgument<TArg2> arg2 = null)
+        public static FuncActivity<TArg1, TArg2, TResult> Invoke<TArg1, TArg2, TResult>(Func<TArg1, TArg2, TResult> func, DelegateInArgument<TArg1> arg1, DelegateInArgument<TArg2> arg2)
         {
             Contract.Requires<ArgumentNullException>(func != null);
 
@@ -140,7 +140,7 @@ namespace Cogito.Activities
 /// <param name="arg2"></param>
 /// <param name="arg3"></param>
         /// <returns></returns>
-        public static FuncActivity<TArg1, TArg2, TArg3, TResult> Invoke<TArg1, TArg2, TArg3, TResult>(Func<TArg1, TArg2, TArg3, TResult> func, InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, InArgument<TArg3> arg3 = null)
+        public static FuncActivity<TArg1, TArg2, TArg3, TResult> Invoke<TArg1, TArg2, TArg3, TResult>(Func<TArg1, TArg2, TArg3, TResult> func, InArgument<TArg1> arg1, InArgument<TArg2> arg2, InArgument<TArg3> arg3)
         {
             Contract.Requires<ArgumentNullException>(func != null);
 
@@ -176,7 +176,7 @@ namespace Cogito.Activities
 /// <param name="arg2"></param>
 /// <param name="arg3"></param>
         /// <returns></returns>
-        public static FuncActivity<TArg1, TArg2, TArg3, TResult> Invoke<TArg1, TArg2, TArg3, TResult>(Func<TArg1, TArg2, TArg3, TResult> func, DelegateInArgument<TArg1> arg1 = null, DelegateInArgument<TArg2> arg2 = null, DelegateInArgument<TArg3> arg3 = null)
+        public static FuncActivity<TArg1, TArg2, TArg3, TResult> Invoke<TArg1, TArg2, TArg3, TResult>(Func<TArg1, TArg2, TArg3, TResult> func, DelegateInArgument<TArg1> arg1, DelegateInArgument<TArg2> arg2, DelegateInArgument<TArg3> arg3)
         {
             Contract.Requires<ArgumentNullException>(func != null);
 
@@ -214,7 +214,7 @@ namespace Cogito.Activities
 /// <param name="arg3"></param>
 /// <param name="arg4"></param>
         /// <returns></returns>
-        public static FuncActivity<TArg1, TArg2, TArg3, TArg4, TResult> Invoke<TArg1, TArg2, TArg3, TArg4, TResult>(Func<TArg1, TArg2, TArg3, TArg4, TResult> func, InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, InArgument<TArg3> arg3 = null, InArgument<TArg4> arg4 = null)
+        public static FuncActivity<TArg1, TArg2, TArg3, TArg4, TResult> Invoke<TArg1, TArg2, TArg3, TArg4, TResult>(Func<TArg1, TArg2, TArg3, TArg4, TResult> func, InArgument<TArg1> arg1, InArgument<TArg2> arg2, InArgument<TArg3> arg3, InArgument<TArg4> arg4)
         {
             Contract.Requires<ArgumentNullException>(func != null);
 
@@ -254,7 +254,7 @@ namespace Cogito.Activities
 /// <param name="arg3"></param>
 /// <param name="arg4"></param>
         /// <returns></returns>
-        public static FuncActivity<TArg1, TArg2, TArg3, TArg4, TResult> Invoke<TArg1, TArg2, TArg3, TArg4, TResult>(Func<TArg1, TArg2, TArg3, TArg4, TResult> func, DelegateInArgument<TArg1> arg1 = null, DelegateInArgument<TArg2> arg2 = null, DelegateInArgument<TArg3> arg3 = null, DelegateInArgument<TArg4> arg4 = null)
+        public static FuncActivity<TArg1, TArg2, TArg3, TArg4, TResult> Invoke<TArg1, TArg2, TArg3, TArg4, TResult>(Func<TArg1, TArg2, TArg3, TArg4, TResult> func, DelegateInArgument<TArg1> arg1, DelegateInArgument<TArg2> arg2, DelegateInArgument<TArg3> arg3, DelegateInArgument<TArg4> arg4)
         {
             Contract.Requires<ArgumentNullException>(func != null);
 
@@ -296,7 +296,7 @@ namespace Cogito.Activities
 /// <param name="arg4"></param>
 /// <param name="arg5"></param>
         /// <returns></returns>
-        public static FuncActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TResult> Invoke<TArg1, TArg2, TArg3, TArg4, TArg5, TResult>(Func<TArg1, TArg2, TArg3, TArg4, TArg5, TResult> func, InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, InArgument<TArg3> arg3 = null, InArgument<TArg4> arg4 = null, InArgument<TArg5> arg5 = null)
+        public static FuncActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TResult> Invoke<TArg1, TArg2, TArg3, TArg4, TArg5, TResult>(Func<TArg1, TArg2, TArg3, TArg4, TArg5, TResult> func, InArgument<TArg1> arg1, InArgument<TArg2> arg2, InArgument<TArg3> arg3, InArgument<TArg4> arg4, InArgument<TArg5> arg5)
         {
             Contract.Requires<ArgumentNullException>(func != null);
 
@@ -340,7 +340,7 @@ namespace Cogito.Activities
 /// <param name="arg4"></param>
 /// <param name="arg5"></param>
         /// <returns></returns>
-        public static FuncActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TResult> Invoke<TArg1, TArg2, TArg3, TArg4, TArg5, TResult>(Func<TArg1, TArg2, TArg3, TArg4, TArg5, TResult> func, DelegateInArgument<TArg1> arg1 = null, DelegateInArgument<TArg2> arg2 = null, DelegateInArgument<TArg3> arg3 = null, DelegateInArgument<TArg4> arg4 = null, DelegateInArgument<TArg5> arg5 = null)
+        public static FuncActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TResult> Invoke<TArg1, TArg2, TArg3, TArg4, TArg5, TResult>(Func<TArg1, TArg2, TArg3, TArg4, TArg5, TResult> func, DelegateInArgument<TArg1> arg1, DelegateInArgument<TArg2> arg2, DelegateInArgument<TArg3> arg3, DelegateInArgument<TArg4> arg4, DelegateInArgument<TArg5> arg5)
         {
             Contract.Requires<ArgumentNullException>(func != null);
 
@@ -386,7 +386,7 @@ namespace Cogito.Activities
 /// <param name="arg5"></param>
 /// <param name="arg6"></param>
         /// <returns></returns>
-        public static FuncActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TResult> Invoke<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TResult>(Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TResult> func, InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, InArgument<TArg3> arg3 = null, InArgument<TArg4> arg4 = null, InArgument<TArg5> arg5 = null, InArgument<TArg6> arg6 = null)
+        public static FuncActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TResult> Invoke<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TResult>(Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TResult> func, InArgument<TArg1> arg1, InArgument<TArg2> arg2, InArgument<TArg3> arg3, InArgument<TArg4> arg4, InArgument<TArg5> arg5, InArgument<TArg6> arg6)
         {
             Contract.Requires<ArgumentNullException>(func != null);
 
@@ -434,7 +434,7 @@ namespace Cogito.Activities
 /// <param name="arg5"></param>
 /// <param name="arg6"></param>
         /// <returns></returns>
-        public static FuncActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TResult> Invoke<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TResult>(Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TResult> func, DelegateInArgument<TArg1> arg1 = null, DelegateInArgument<TArg2> arg2 = null, DelegateInArgument<TArg3> arg3 = null, DelegateInArgument<TArg4> arg4 = null, DelegateInArgument<TArg5> arg5 = null, DelegateInArgument<TArg6> arg6 = null)
+        public static FuncActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TResult> Invoke<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TResult>(Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TResult> func, DelegateInArgument<TArg1> arg1, DelegateInArgument<TArg2> arg2, DelegateInArgument<TArg3> arg3, DelegateInArgument<TArg4> arg4, DelegateInArgument<TArg5> arg5, DelegateInArgument<TArg6> arg6)
         {
             Contract.Requires<ArgumentNullException>(func != null);
 
@@ -484,7 +484,7 @@ namespace Cogito.Activities
 /// <param name="arg6"></param>
 /// <param name="arg7"></param>
         /// <returns></returns>
-        public static FuncActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TResult> Invoke<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TResult>(Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TResult> func, InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, InArgument<TArg3> arg3 = null, InArgument<TArg4> arg4 = null, InArgument<TArg5> arg5 = null, InArgument<TArg6> arg6 = null, InArgument<TArg7> arg7 = null)
+        public static FuncActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TResult> Invoke<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TResult>(Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TResult> func, InArgument<TArg1> arg1, InArgument<TArg2> arg2, InArgument<TArg3> arg3, InArgument<TArg4> arg4, InArgument<TArg5> arg5, InArgument<TArg6> arg6, InArgument<TArg7> arg7)
         {
             Contract.Requires<ArgumentNullException>(func != null);
 
@@ -536,7 +536,7 @@ namespace Cogito.Activities
 /// <param name="arg6"></param>
 /// <param name="arg7"></param>
         /// <returns></returns>
-        public static FuncActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TResult> Invoke<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TResult>(Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TResult> func, DelegateInArgument<TArg1> arg1 = null, DelegateInArgument<TArg2> arg2 = null, DelegateInArgument<TArg3> arg3 = null, DelegateInArgument<TArg4> arg4 = null, DelegateInArgument<TArg5> arg5 = null, DelegateInArgument<TArg6> arg6 = null, DelegateInArgument<TArg7> arg7 = null)
+        public static FuncActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TResult> Invoke<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TResult>(Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TResult> func, DelegateInArgument<TArg1> arg1, DelegateInArgument<TArg2> arg2, DelegateInArgument<TArg3> arg3, DelegateInArgument<TArg4> arg4, DelegateInArgument<TArg5> arg5, DelegateInArgument<TArg6> arg6, DelegateInArgument<TArg7> arg7)
         {
             Contract.Requires<ArgumentNullException>(func != null);
 
@@ -590,7 +590,7 @@ namespace Cogito.Activities
 /// <param name="arg7"></param>
 /// <param name="arg8"></param>
         /// <returns></returns>
-        public static FuncActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TResult> Invoke<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TResult>(Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TResult> func, InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, InArgument<TArg3> arg3 = null, InArgument<TArg4> arg4 = null, InArgument<TArg5> arg5 = null, InArgument<TArg6> arg6 = null, InArgument<TArg7> arg7 = null, InArgument<TArg8> arg8 = null)
+        public static FuncActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TResult> Invoke<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TResult>(Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TResult> func, InArgument<TArg1> arg1, InArgument<TArg2> arg2, InArgument<TArg3> arg3, InArgument<TArg4> arg4, InArgument<TArg5> arg5, InArgument<TArg6> arg6, InArgument<TArg7> arg7, InArgument<TArg8> arg8)
         {
             Contract.Requires<ArgumentNullException>(func != null);
 
@@ -646,7 +646,7 @@ namespace Cogito.Activities
 /// <param name="arg7"></param>
 /// <param name="arg8"></param>
         /// <returns></returns>
-        public static FuncActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TResult> Invoke<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TResult>(Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TResult> func, DelegateInArgument<TArg1> arg1 = null, DelegateInArgument<TArg2> arg2 = null, DelegateInArgument<TArg3> arg3 = null, DelegateInArgument<TArg4> arg4 = null, DelegateInArgument<TArg5> arg5 = null, DelegateInArgument<TArg6> arg6 = null, DelegateInArgument<TArg7> arg7 = null, DelegateInArgument<TArg8> arg8 = null)
+        public static FuncActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TResult> Invoke<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TResult>(Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TResult> func, DelegateInArgument<TArg1> arg1, DelegateInArgument<TArg2> arg2, DelegateInArgument<TArg3> arg3, DelegateInArgument<TArg4> arg4, DelegateInArgument<TArg5> arg5, DelegateInArgument<TArg6> arg6, DelegateInArgument<TArg7> arg7, DelegateInArgument<TArg8> arg8)
         {
             Contract.Requires<ArgumentNullException>(func != null);
 
