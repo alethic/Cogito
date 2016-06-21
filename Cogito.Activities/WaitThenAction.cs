@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Activities;
+using System.Diagnostics.Contracts;
 
 namespace Cogito.Activities
 {
@@ -7,13 +8,33 @@ namespace Cogito.Activities
     public static partial class Activities
     {
 
-        public static WaitThenAction<TWait> WaitThen<TWait>(InArgument<string> bookmarkName, Action<TWait> action)
+        /// <summary>
+        /// Waits for the given bookmark, and then executes <paramref name="action"/>.
+        /// </summary>
+        /// <typeparam name="TWait"></typeparam>
+        /// <param name="bookmarkName"></param>
+        /// <param name="action"></param>
+        /// <returns></returns>
+        public static WaitThenAction WaitThen(InArgument<string> bookmarkName, Action action)
         {
-            return new WaitThenAction<TWait>(bookmarkName, (arg, context) => action(arg));
+            Contract.Requires<ArgumentNullException>(bookmarkName != null);
+            Contract.Requires<ArgumentNullException>(action != null);
+
+            return new WaitThenAction(bookmarkName, action);
         }
 
-        public static WaitThenAction<TWait> WaitThen<TWait>(InArgument<string> bookmarkName, Action<TWait, ActivityContext> action)
+        /// <summary>
+        /// Waits for the given bookmark, and then executes <paramref name="action"/>.
+        /// </summary>
+        /// <typeparam name="TWait"></typeparam>
+        /// <param name="bookmarkName"></param>
+        /// <param name="action"></param>
+        /// <returns></returns>
+        public static WaitThenAction<TWait> WaitThen<TWait>(InArgument<string> bookmarkName, Action<TWait> action)
         {
+            Contract.Requires<ArgumentNullException>(bookmarkName != null);
+            Contract.Requires<ArgumentNullException>(action != null);
+
             return new WaitThenAction<TWait>(bookmarkName, action);
         }
 
@@ -59,7 +80,7 @@ namespace Cogito.Activities
         /// </summary>
         /// <param name="bookmarkName"></param>
         /// <param name="then"></param>
-        public WaitThenAction(InArgument<string> bookmarkName, Action<ActivityContext> then)
+        public WaitThenAction(InArgument<string> bookmarkName, Action then)
             : this(bookmarkName)
         {
             Then = then;
@@ -75,7 +96,7 @@ namespace Cogito.Activities
         /// Action to be executed.
         /// </summary>
         [RequiredArgument]
-        public Action<ActivityContext> Then
+        public Action Then
         {
             get { return then.Action; }
             set { then.Action = value; }
@@ -144,7 +165,7 @@ namespace Cogito.Activities
         /// </summary>
         /// <param name="bookmarkName"></param>
         /// <param name="then"></param>
-        public WaitThenAction(InArgument<string> bookmarkName, Action<TWait, ActivityContext> then)
+        public WaitThenAction(InArgument<string> bookmarkName, Action<TWait> then)
             : this(bookmarkName)
         {
             Then = then;
@@ -160,7 +181,7 @@ namespace Cogito.Activities
         /// Action to be executed.
         /// </summary>
         [RequiredArgument]
-        public Action<TWait, ActivityContext> Then
+        public Action<TWait> Then
         {
             get { return then.Action; }
             set { then.Action = value; }

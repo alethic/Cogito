@@ -10,23 +10,13 @@ namespace Cogito.Activities
     {
 
         /// <summary>
-        /// Creates an <see cref="Activity"/> to invoke the specified <see cref="Action{ActivityContext}"/>.
-        /// </summary>
-        /// <param name="action"></param>
-        /// <returns></returns>
-        public static ActionActivity Invoke(Action<ActivityContext> action)
-        {
-            return new ActionActivity(action);
-        }
-
-        /// <summary>
-        /// Creates an <see cref="Activity"/> to invoke the specifed <see cref="Action"/>.
+        /// Returns a <see cref="Activity"/> that executes <paramref name="action"/>.
         /// </summary>
         /// <param name="action"></param>
         /// <returns></returns>
         public static ActionActivity Invoke(Action action)
         {
-            return new ActionActivity(context => action());
+            return new ActionActivity(action);
         }
 
         /// <summary>
@@ -37,30 +27,7 @@ namespace Cogito.Activities
         /// <returns></returns>
         public static Sequence Then(this Activity activity, Action action)
         {
-            return Then(activity, new ActionActivity(context => action()));
-        }
-
-        /// <summary>
-        /// Appends <paramref name="action"/> to be executed after the <see cref="Activity"/>.
-        /// </summary>
-        /// <param name="activity"></param>
-        /// <param name="action"></param>
-        /// <returns></returns>
-        public static Sequence Then(this Activity activity, Action<ActivityContext> action)
-        {
             return Then(activity, new ActionActivity(action));
-        }
-
-        /// <summary>
-        /// Appends <paramref name="action"/> to be executed after the <see cref="Activity"/>.
-        /// </summary>
-        /// <typeparam name="TValue"></typeparam>
-        /// <param name="activity"></param>
-        /// <param name="action"></param>
-        /// <returns></returns>
-        public static ActionActivity<TValue> Then<TValue>(this Activity<TValue> activity, Action<TValue> action)
-        {
-            return new ActionActivity<TValue>((arg, context) => action(arg), activity);
         }
 
     }
@@ -105,7 +72,7 @@ namespace Cogito.Activities
         /// Initializes a new instance.
         /// </summary>
         /// <param name="action"></param>
-        public ActionActivity(Action<ActivityContext> action)
+        public ActionActivity(Action action)
             : this()
         {
             Action = action;
@@ -115,17 +82,16 @@ namespace Cogito.Activities
         /// Gets or sets the action to be invoked.
         /// </summary>
         [RequiredArgument]
-        public Action<ActivityContext> Action { get; set; }
+        public Action Action { get; set; }
 
         /// <summary>
         /// Executes the function.
         /// </summary>
         /// <param name="context"></param>
         /// <returns></returns>
-        protected override Task ExecuteAsync(AsyncCodeActivityContext context)
+        protected override Task ExecuteAsync(AsyncCodeActivityContext context, Func<Func<Task>, Task> executor)
         {
-            Action(context);
-            return Task.FromResult(true);
+            return executor(() => { Action(); return Task.FromResult(true); });
         }
 
     }

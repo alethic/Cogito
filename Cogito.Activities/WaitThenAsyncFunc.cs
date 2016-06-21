@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Activities;
+using System.Diagnostics.Contracts;
 using System.Threading.Tasks;
 
 namespace Cogito.Activities
@@ -8,14 +9,20 @@ namespace Cogito.Activities
     public static partial class Activities
     {
 
-        public static WaitThenAsyncFunc<TWait, TResult> WaitThen<TWait, TResult>(InArgument<string> bookmarkName, Func<TWait, ActivityContext, Task<TResult>> func)
-        {
-            return new WaitThenAsyncFunc<TWait, TResult>(bookmarkName, func);
-        }
-
+        /// <summary>
+        /// Waits for the given bookmark, and then executes <paramref name="func"/>.
+        /// </summary>
+        /// <typeparam name="TWait"></typeparam>
+        /// <typeparam name="TResult"></typeparam>
+        /// <param name="bookmarkName"></param>
+        /// <param name="func"></param>
+        /// <returns></returns>
         public static WaitThenAsyncFunc<TWait, TResult> WaitThen<TWait, TResult>(InArgument<string> bookmarkName, Func<TWait, Task<TResult>> func)
         {
-            return new WaitThenAsyncFunc<TWait, TResult>(bookmarkName, (arg, context) => func(arg));
+            Contract.Requires<ArgumentNullException>(bookmarkName != null);
+            Contract.Requires<ArgumentNullException>(func != null);
+
+            return new WaitThenAsyncFunc<TWait, TResult>(bookmarkName, func);
         }
 
     }
@@ -67,7 +74,7 @@ namespace Cogito.Activities
         /// </summary>
         /// <param name="bookmarkName"></param>
         /// <param name="then"></param>
-        public WaitThenAsyncFunc(InArgument<string> bookmarkName, Func<TWait, ActivityContext, Task<TResult>> then)
+        public WaitThenAsyncFunc(InArgument<string> bookmarkName, Func<TWait, Task<TResult>> then)
             : this(bookmarkName)
         {
             Then = then;
@@ -83,7 +90,7 @@ namespace Cogito.Activities
         /// Action to be executed.
         /// </summary>
         [RequiredArgument]
-        public Func<TWait, ActivityContext, Task<TResult>> Then
+        public Func<TWait, Task<TResult>> Then
         {
             get { return then.Func; }
             set { then.Func = value; }

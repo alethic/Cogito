@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Activities;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 using Cogito.ServiceFabric.Activities.Test.TestActor.Interfaces;
 
@@ -26,8 +27,12 @@ namespace Cogito.ServiceFabric.Activities.Test.TestActor
                 Wait("Start"),
                 Invoke(() => DoThing1()),
                 Delay(TimeSpan.FromSeconds(5)),
-                While(true,
+                While(
+                    InvokeAsync(async () => { await Task.Delay(200); return true; }),
                     Sequence(
+                        Invoke(() => Enumerable.Range(0, 10))
+                            .ParallelForEach(arg =>
+                                Invoke(arg, i => Debug.WriteLine(i))),
                         Delay(TimeSpan.FromSeconds(15)),
                         Invoke(() => DoThing2()))));
         }
@@ -82,6 +87,11 @@ namespace Cogito.ServiceFabric.Activities.Test.TestActor
         {
             await base.OnPersistableIdleAsync(args);
             Debug.WriteLine("OnPersistableIdleAsync");
+        }
+
+        protected override Task OnUnhandledExceptionAsync(WorkflowApplicationUnhandledExceptionEventArgs args)
+        {
+            return base.OnUnhandledExceptionAsync(args);
         }
 
     }

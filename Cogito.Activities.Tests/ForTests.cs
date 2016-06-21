@@ -16,8 +16,8 @@ namespace Cogito.Activities.Tests
             var a = new For<int>()
             {
                 Initial = 0,
-                Increment = Activities.DelegateFunc<int, int>(arg => Activities.Invoke(i => i + 1, arg)),
-                Condition = Activities.DelegateFunc<int, bool>(arg => Activities.Invoke(i => i < 10, arg)),
+                Increment = Activities.Delegate<int, int>(arg => Activities.Invoke(arg, i => i + 1)),
+                Condition = Activities.Delegate<int, bool>(arg => Activities.Invoke(i => i < 10, arg)),
                 Action = Activities.Delegate<int>(arg => Activities.Invoke(i => { Console.WriteLine(i); c++; }, arg)),
             };
 
@@ -32,8 +32,8 @@ namespace Cogito.Activities.Tests
             var a = new For<int>()
             {
                 Initial = 5,
-                Increment = Activities.DelegateFunc<int, int>(arg => Activities.Invoke(i => i + 1, arg)),
-                Condition = Activities.DelegateFunc<int, bool>(arg => Activities.Invoke(i => i < 15, arg)),
+                Increment = Activities.Delegate<int, int>(arg => Activities.Invoke(i => i + 1, arg)),
+                Condition = Activities.Delegate<int, bool>(arg => Activities.Invoke(i => i < 15, arg)),
                 Action = Activities.Delegate<int>(arg => Activities.Invoke(i => { Console.WriteLine(i); c++; }, arg)),
             };
 

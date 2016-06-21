@@ -38,15 +38,17 @@ namespace Cogito.Activities
         /// <returns></returns>
         Task ExecuteInternalAsync(AsyncCodeActivityContext context)
         {
-            return context.GetExtension<AsyncTaskExtension>().ExecuteAsync(() => ExecuteAsync(context));
+            return ExecuteAsync(context, context.GetExtension<AsyncTaskExtension>().ExecuteAsync);
         }
 
         /// <summary>
-        /// Override this method to implement your asynchronous operation.
+        /// Override this method to implement your asynchronous operation. Ensure that you schedule any long term execution
+        /// with the executor.
         /// </summary>
         /// <param name="context"></param>
+        /// <param name="executor"></param>
         /// <returns></returns>
-        protected abstract Task ExecuteAsync(AsyncCodeActivityContext context);
+        protected abstract Task ExecuteAsync(AsyncCodeActivityContext context, Func<Func<Task>, Task> executor);
 
     }
 
@@ -82,15 +84,17 @@ namespace Cogito.Activities
         /// <returns></returns>
         Task<TResult> ExecuteInternalAsync(AsyncCodeActivityContext context)
         {
-            return context.GetExtension<AsyncTaskExtension>().ExecuteAsync(() => ExecuteAsync(context));
+            return ExecuteAsync(context, context.GetExtension<AsyncTaskExtension>().ExecuteAsync);
         }
 
         /// <summary>
-        /// Override this method to implement your asynchronous operation.
+        /// Override this method to implement your asynchronous operation. Ensure that you schedule any long term execution
+        /// with the executor.
         /// </summary>
         /// <param name="context"></param>
+        /// <param name="executor"></param>
         /// <returns></returns>
-        protected abstract Task<TResult> ExecuteAsync(AsyncCodeActivityContext context);
+        protected abstract Task<TResult> ExecuteAsync(AsyncCodeActivityContext context, Func<Func<Task<TResult>>, Task<TResult>> executor);
 
     }
 

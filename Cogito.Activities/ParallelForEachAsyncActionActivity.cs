@@ -11,44 +11,24 @@ namespace Cogito.Activities
     public static partial class Activities
     {
 
-        public static ParallelForEachAsyncActionActivity<TElement> ParallelForEach<TElement>(InArgument<IEnumerable<TElement>> source, Func<TElement, ActivityContext, Task> action)
-        {
-            return new ParallelForEachAsyncActionActivity<TElement>(source, action);
-        }
-
-        public static ParallelForEachAsyncActionActivity<TElement> ParallelForEach<TElement>(InArgument<TElement[]> source, Func<TElement, ActivityContext, Task> action)
-        {
-            return new ParallelForEachAsyncActionActivity<TElement>(Invoke(source, i => i.AsEnumerable()), action);
-        }
-
-        public static ParallelForEachAsyncActionActivity<TElement> ParallelForEach<TElement>(Func<IEnumerable<TElement>> source, Func<TElement, ActivityContext, Task> action)
-        {
-            return new ParallelForEachAsyncActionActivity<TElement>(Invoke(source), action);
-        }
-
-        public static ParallelForEachAsyncActionActivity<TElement> ParallelForEach<TElement>(this Activity<IEnumerable<TElement>> source, Func<TElement, ActivityContext, Task> action)
-        {
-            return new ParallelForEachAsyncActionActivity<TElement>(source, action);
-        }
-
         public static ParallelForEachAsyncActionActivity<TElement> ParallelForEach<TElement>(InArgument<IEnumerable<TElement>> source, Func<TElement, Task> action)
         {
-            return new ParallelForEachAsyncActionActivity<TElement>(source, (arg, context) => action(arg));
+            return new ParallelForEachAsyncActionActivity<TElement>(source, action);
         }
 
         public static ParallelForEachAsyncActionActivity<TElement> ParallelForEach<TElement>(InArgument<TElement[]> source, Func<TElement, Task> action)
         {
-            return new ParallelForEachAsyncActionActivity<TElement>(Invoke(source, i => i.AsEnumerable()), (arg, context) => action(arg));
+            return new ParallelForEachAsyncActionActivity<TElement>(Invoke(source, i => i.AsEnumerable()), action);
         }
 
         public static ParallelForEachAsyncActionActivity<TElement> ParallelForEach<TElement>(Func<IEnumerable<TElement>> source, Func<TElement, Task> action)
         {
-            return new ParallelForEachAsyncActionActivity<TElement>(Invoke(source), (arg, context) => action(arg));
+            return new ParallelForEachAsyncActionActivity<TElement>(Invoke(source), action);
         }
 
         public static ParallelForEachAsyncActionActivity<TElement> ParallelForEach<TElement>(this Activity<IEnumerable<TElement>> source, Func<TElement, Task> action)
         {
-            return new ParallelForEachAsyncActionActivity<TElement>(source, (arg, context) => action(arg));
+            return new ParallelForEachAsyncActionActivity<TElement>(source, action);
         }
 
     }
@@ -88,7 +68,7 @@ namespace Cogito.Activities
         /// </summary>
         /// <param name="source"></param>
         /// <param name="action"></param>
-        public ParallelForEachAsyncActionActivity(InArgument<IEnumerable<TElement>> source, Func<TElement, ActivityContext, Task> action)
+        public ParallelForEachAsyncActionActivity(InArgument<IEnumerable<TElement>> source, Func<TElement, Task> action)
         {
             Source = source;
             Action = action;
@@ -104,7 +84,7 @@ namespace Cogito.Activities
         /// The <see cref="Action"/> to invoke for each element.
         /// </summary>
         [RequiredArgument]
-        public Func<TElement, ActivityContext, Task> Action
+        public Func<TElement, Task> Action
         {
             get { return action.Action; }
             set { action.Action = value; }

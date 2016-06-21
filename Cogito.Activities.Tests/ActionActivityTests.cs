@@ -12,7 +12,7 @@ namespace Cogito.Activities.Tests
         public void TestActionActivity()
         {
             var c = false;
-            var a = new ActionActivity(ctx => c = true);
+            var a = new ActionActivity(() => c = true);
             var b = WorkflowInvoker.Invoke(a);
             Assert.AreEqual(true, c);
         }

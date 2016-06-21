@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Activities;
+using System.Diagnostics.Contracts;
 
 namespace Cogito.Activities
 {
@@ -7,14 +8,20 @@ namespace Cogito.Activities
     public static partial class Activities
     {
 
-        public static WaitThenFunc<TWaitFor, TResult> WaitThen<TWaitFor, TResult>(InArgument<string> bookmarkName, Func<TWaitFor, ActivityContext, TResult> action)
+        /// <summary>
+        /// Waits for the given bookmark, and then executes <paramref name="func"/>.
+        /// </summary>
+        /// <typeparam name="TWaitFor"></typeparam>
+        /// <typeparam name="TResult"></typeparam>
+        /// <param name="bookmarkName"></param>
+        /// <param name="func"></param>
+        /// <returns></returns>
+        public static WaitThenFunc<TWaitFor, TResult> WaitThen<TWaitFor, TResult>(InArgument<string> bookmarkName, Func<TWaitFor, TResult> func)
         {
-            return new WaitThenFunc<TWaitFor, TResult>(bookmarkName, action);
-        }
+            Contract.Requires<ArgumentNullException>(bookmarkName != null);
+            Contract.Requires<ArgumentNullException>(func != null);
 
-        public static WaitThenFunc<TWaitFor, TResult> WaitThen<TWaitFor, TResult>(InArgument<string> bookmarkName, Func<TWaitFor, TResult> action)
-        {
-            return new WaitThenFunc<TWaitFor, TResult>(bookmarkName, (arg, context) => action(arg));
+            return new WaitThenFunc<TWaitFor, TResult>(bookmarkName, func);
         }
 
     }
@@ -66,7 +73,7 @@ namespace Cogito.Activities
         /// </summary>
         /// <param name="bookmarkName"></param>
         /// <param name="then"></param>
-        public WaitThenFunc(InArgument<string> bookmarkName, Func<TWaitFor, ActivityContext, TResult> then)
+        public WaitThenFunc(InArgument<string> bookmarkName, Func<TWaitFor, TResult> then)
             : this(bookmarkName)
         {
             Then = then;
@@ -82,7 +89,7 @@ namespace Cogito.Activities
         /// Action to be executed.
         /// </summary>
         [RequiredArgument]
-        public Func<TWaitFor, ActivityContext, TResult> Then
+        public Func<TWaitFor, TResult> Then
         {
             get { return then.Func; }
             set { then.Func = value; }

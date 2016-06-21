@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Activities;
-using System.Activities.Statements;
+using System.Diagnostics.Contracts;
 using System.Threading.Tasks;
 
 namespace Cogito.Activities
@@ -9,33 +9,11 @@ namespace Cogito.Activities
     public static partial class Activities
     {
 
-        public static AsyncActionActivity Invoke(Func<Task> func)
+        public static AsyncActionActivity InvokeAsync(Func<Task> func)
         {
-            return new AsyncActionActivity(context => func());
-        }
-        public static AsyncActionActivity InvokeWithContext(Func<ActivityContext, Task> func)
-        {
+            Contract.Requires<ArgumentNullException>(func != null);
+
             return new AsyncActionActivity(func);
-        }
-
-        public static Sequence Then(this Activity activity, Func<Task> action)
-        {
-            return Then(activity, new AsyncActionActivity(contxt => action()));
-        }
-
-        public static Sequence Then(this Activity activity, Func<ActivityContext, Task> action)
-        {
-            return Then(activity, new AsyncActionActivity(action));
-        }
-
-        public static AsyncActionActivity<TResult> Then<TResult>(this Activity<TResult> activity, Func<TResult, Task> action)
-        {
-            return new AsyncActionActivity<TResult>((arg, context) => action(arg), activity);
-        }
-
-        public static AsyncActionActivity<TResult> Then<TResult>(this Activity<TResult> activity, Func<TResult, ActivityContext, Task> action)
-        {
-            return new AsyncActionActivity<TResult>(action, activity);
         }
 
     }
@@ -52,6 +30,11 @@ namespace Cogito.Activities
             return Activities.Delegate(() => activity);
         }
 
+        public static implicit operator ActivityDelegate(AsyncActionActivity activity)
+        {
+            return activity;
+        }
+
         /// <summary>
         /// Initializes a new instance.
         /// </summary>
@@ -64,7 +47,7 @@ namespace Cogito.Activities
         /// Initializes a new instance.
         /// </summary>
         /// <param name="action"></param>
-        public AsyncActionActivity(Func<ActivityContext, Task> action)
+        public AsyncActionActivity(Func<Task> action)
             : this()
         {
             Action = action;
@@ -74,11 +57,11 @@ namespace Cogito.Activities
         /// Gets or sets the action to be invoked.
         /// </summary>
         [RequiredArgument]
-        public Func<ActivityContext, Task> Action { get; set; }
+        public Func<Task> Action { get; set; }
 
-        protected override Task ExecuteAsync(AsyncCodeActivityContext context)
+        protected override Task ExecuteAsync(AsyncCodeActivityContext context, Func<Func<Task>, Task> executor)
         {
-            return Action(context);
+            return executor(Action);
         }
 
     }

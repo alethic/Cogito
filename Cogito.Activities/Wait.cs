@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Activities;
-using System.Activities.Statements;
+using System.Diagnostics.Contracts;
 
 namespace Cogito.Activities
 {
@@ -10,26 +10,36 @@ namespace Cogito.Activities
 
         public static Wait Wait(InArgument<string> bookmarkName)
         {
+            Contract.Requires<ArgumentNullException>(bookmarkName != null);
+
             return new Wait(bookmarkName);
         }
 
         public static Wait<TResult> Wait<TResult>(InArgument<string> bookmarkName)
         {
+            Contract.Requires<ArgumentNullException>(bookmarkName != null);
+
             return new Wait<TResult>(bookmarkName);
         }
 
-        public static Wait Wait<TWith>(Func<TWith, string> bookmarkName, InArgument<TWith> arg)
+        public static Wait Wait<TWith>(Func<TWith, string> bookmarkName, InArgument<TWith> arg = null)
         {
+            Contract.Requires<ArgumentNullException>(bookmarkName != null);
+
             return new Wait(Invoke(bookmarkName, arg));
         }
 
-        public static Wait Wait<TWith>(Func<TWith, string> bookmarkName, DelegateInArgument<TWith> arg)
+        public static Wait Wait<TWith>(Func<TWith, string> bookmarkName, DelegateInArgument<TWith> arg = null)
         {
+            Contract.Requires<ArgumentNullException>(bookmarkName != null);
+
             return new Wait(Invoke(bookmarkName, arg));
         }
 
-        public static Wait<TResult> Wait<TWith, TResult>(Func<TWith, string> bookmarkName, InArgument<TWith> arg)
+        public static Wait<TResult> Wait<TWith, TResult>(Func<TWith, string> bookmarkName, InArgument<TWith> arg = null)
         {
+            Contract.Requires<ArgumentNullException>(bookmarkName != null);
+
             return new Wait<TResult>(Invoke(bookmarkName, arg));
         }
 

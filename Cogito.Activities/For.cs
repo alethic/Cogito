@@ -32,8 +32,8 @@ namespace Cogito.Activities
 
             return For(
                 initial,
-                DelegateFunc<TValue, bool>(arg => Invoke(condition, arg)),
-                DelegateFunc<TValue, TValue>(arg => Invoke(increment, arg)),
+                Delegate<TValue, bool>(arg => Invoke(condition, arg)),
+                Delegate<TValue, TValue>(arg => Invoke(increment, arg)),
                 createAction);
         }
 

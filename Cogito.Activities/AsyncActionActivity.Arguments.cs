@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Activities;
+using System.Diagnostics.Contracts;
 using System.Threading.Tasks;
 
 namespace Cogito.Activities
@@ -8,403 +9,339 @@ namespace Cogito.Activities
     public static partial class Activities
     {
 
-        public static AsyncActionActivity<TArg1> Invoke<TArg1>(Func<TArg1, Task> func)
+        /// <summary>
+        /// Returns a <see cref="Activity"/> that executes <paramref name="action"/> with arguments.
+        /// </summary>
+/// <typeparam name="TArg1"></typeparam>
+        /// <param name="action"></param>
+/// <param name="arg1"></param>
+        /// <returns></returns>
+        public static AsyncActionActivity<TArg1> InvokeAsync<TArg1>(Func<TArg1, Task> func, InArgument<TArg1> arg1 = null)
         {
-            return new AsyncActionActivity<TArg1>((_arg1, context) => func(_arg1), null);
-        }
+            Contract.Requires<ArgumentNullException>(func != null);
 
-        public static AsyncActionActivity<TArg1> Invoke<TArg1>(Func<TArg1, Task> func, InArgument<TArg1> arg1)
-        {
-            return new AsyncActionActivity<TArg1>((_arg1, context) => func(_arg1), arg1);
-        }
-
-        public static AsyncActionActivity<TArg1> Invoke<TArg1>(Func<TArg1, Task> func, DelegateInArgument<TArg1> arg1)
-        {
-            return new AsyncActionActivity<TArg1>((_arg1, context) => func(_arg1), arg1);
-        }
-
-        public static AsyncActionActivity<TArg1> Invoke<TArg1>(InArgument<TArg1> arg1, Func<TArg1, Task> func)
-        {
-            return new AsyncActionActivity<TArg1>((_arg1, context) => func(_arg1), arg1);
-        }
-
-        public static AsyncActionActivity<TArg1> Invoke<TArg1>(DelegateInArgument<TArg1> arg1, Func<TArg1, Task> func)
-        {
-            return new AsyncActionActivity<TArg1>((_arg1, context) => func(_arg1), arg1);
+            return new AsyncActionActivity<TArg1>(func, arg1);
         }
         
-        public static AsyncActionActivity<TArg1> Invoke<TArg1>(Func<TArg1, ActivityContext, Task> func)
+        /// <summary>
+        /// Returns a <see cref="Activity"/> that executes <paramref name="action"/> with arguments.
+        /// </summary>
+/// <typeparam name="TArg1"></typeparam>
+        /// <param name="action"></param>
+/// <param name="arg1"></param>
+        /// <returns></returns>
+        public static AsyncActionActivity<TArg1> InvokeAsync<TArg1>(InArgument<TArg1> arg1, Func<TArg1,Task> func)
         {
-            return new AsyncActionActivity<TArg1>(func, null);
-        }
-        
-        public static AsyncActionActivity<TArg1> Invoke<TArg1>(Func<TArg1, ActivityContext, Task> func, InArgument<TArg1> arg1)
-        {
+            Contract.Requires<ArgumentNullException>(func != null);
+
             return new AsyncActionActivity<TArg1>(func, arg1);
         }
 
-        public static AsyncActionActivity<TArg1> Invoke<TArg1>(Func<TArg1, ActivityContext, Task> func, DelegateInArgument<TArg1> arg1)
+        /// <summary>
+        /// Returns a <see cref="Activity"/> that executes <paramref name="action"/> with arguments.
+        /// </summary>
+/// <typeparam name="TArg1"></typeparam>
+/// <typeparam name="TArg2"></typeparam>
+        /// <param name="action"></param>
+/// <param name="arg1"></param>
+/// <param name="arg2"></param>
+        /// <returns></returns>
+        public static AsyncActionActivity<TArg1, TArg2> InvokeAsync<TArg1, TArg2>(Func<TArg1, TArg2, Task> func, InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null)
         {
-            return new AsyncActionActivity<TArg1>(func, arg1);
-        }
+            Contract.Requires<ArgumentNullException>(func != null);
 
-        public static AsyncActionActivity<TArg1> Invoke<TArg1>(InArgument<TArg1> arg1, Func<TArg1, ActivityContext,Task> func)
-        {
-            return new AsyncActionActivity<TArg1>(func, arg1);
-        }
-
-        public static AsyncActionActivity<TArg1> Invoke<TArg1>(DelegateInArgument<TArg1> arg1, Func<TArg1, ActivityContext, Task> func)
-        {
-            return new AsyncActionActivity<TArg1>(func, arg1);
-        }
-
-        public static AsyncActionActivity<TArg1, TArg2> Invoke<TArg1, TArg2>(Func<TArg1, TArg2, Task> func)
-        {
-            return new AsyncActionActivity<TArg1, TArg2>((_arg1, _arg2, context) => func(_arg1, _arg2), null, null);
-        }
-
-        public static AsyncActionActivity<TArg1, TArg2> Invoke<TArg1, TArg2>(Func<TArg1, TArg2, Task> func, InArgument<TArg1> arg1, InArgument<TArg2> arg2)
-        {
-            return new AsyncActionActivity<TArg1, TArg2>((_arg1, _arg2, context) => func(_arg1, _arg2), arg1, arg2);
-        }
-
-        public static AsyncActionActivity<TArg1, TArg2> Invoke<TArg1, TArg2>(Func<TArg1, TArg2, Task> func, DelegateInArgument<TArg1> arg1, DelegateInArgument<TArg2> arg2)
-        {
-            return new AsyncActionActivity<TArg1, TArg2>((_arg1, _arg2, context) => func(_arg1, _arg2), arg1, arg2);
-        }
-
-        public static AsyncActionActivity<TArg1, TArg2> Invoke<TArg1, TArg2>(InArgument<TArg1> arg1, InArgument<TArg2> arg2, Func<TArg1, TArg2, Task> func)
-        {
-            return new AsyncActionActivity<TArg1, TArg2>((_arg1, _arg2, context) => func(_arg1, _arg2), arg1, arg2);
-        }
-
-        public static AsyncActionActivity<TArg1, TArg2> Invoke<TArg1, TArg2>(DelegateInArgument<TArg1> arg1, DelegateInArgument<TArg2> arg2, Func<TArg1, TArg2, Task> func)
-        {
-            return new AsyncActionActivity<TArg1, TArg2>((_arg1, _arg2, context) => func(_arg1, _arg2), arg1, arg2);
+            return new AsyncActionActivity<TArg1, TArg2>(func, arg1, arg2);
         }
         
-        public static AsyncActionActivity<TArg1, TArg2> Invoke<TArg1, TArg2>(Func<TArg1, TArg2, ActivityContext, Task> func)
+        /// <summary>
+        /// Returns a <see cref="Activity"/> that executes <paramref name="action"/> with arguments.
+        /// </summary>
+/// <typeparam name="TArg1"></typeparam>
+/// <typeparam name="TArg2"></typeparam>
+        /// <param name="action"></param>
+/// <param name="arg1"></param>
+/// <param name="arg2"></param>
+        /// <returns></returns>
+        public static AsyncActionActivity<TArg1, TArg2> InvokeAsync<TArg1, TArg2>(InArgument<TArg1> arg1, InArgument<TArg2> arg2, Func<TArg1, TArg2,Task> func)
         {
-            return new AsyncActionActivity<TArg1, TArg2>(func, null, null);
-        }
-        
-        public static AsyncActionActivity<TArg1, TArg2> Invoke<TArg1, TArg2>(Func<TArg1, TArg2, ActivityContext, Task> func, InArgument<TArg1> arg1, InArgument<TArg2> arg2)
-        {
+            Contract.Requires<ArgumentNullException>(func != null);
+
             return new AsyncActionActivity<TArg1, TArg2>(func, arg1, arg2);
         }
 
-        public static AsyncActionActivity<TArg1, TArg2> Invoke<TArg1, TArg2>(Func<TArg1, TArg2, ActivityContext, Task> func, DelegateInArgument<TArg1> arg1, DelegateInArgument<TArg2> arg2)
+        /// <summary>
+        /// Returns a <see cref="Activity"/> that executes <paramref name="action"/> with arguments.
+        /// </summary>
+/// <typeparam name="TArg1"></typeparam>
+/// <typeparam name="TArg2"></typeparam>
+/// <typeparam name="TArg3"></typeparam>
+        /// <param name="action"></param>
+/// <param name="arg1"></param>
+/// <param name="arg2"></param>
+/// <param name="arg3"></param>
+        /// <returns></returns>
+        public static AsyncActionActivity<TArg1, TArg2, TArg3> InvokeAsync<TArg1, TArg2, TArg3>(Func<TArg1, TArg2, TArg3, Task> func, InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, InArgument<TArg3> arg3 = null)
         {
-            return new AsyncActionActivity<TArg1, TArg2>(func, arg1, arg2);
-        }
+            Contract.Requires<ArgumentNullException>(func != null);
 
-        public static AsyncActionActivity<TArg1, TArg2> Invoke<TArg1, TArg2>(InArgument<TArg1> arg1, InArgument<TArg2> arg2, Func<TArg1, TArg2, ActivityContext,Task> func)
-        {
-            return new AsyncActionActivity<TArg1, TArg2>(func, arg1, arg2);
-        }
-
-        public static AsyncActionActivity<TArg1, TArg2> Invoke<TArg1, TArg2>(DelegateInArgument<TArg1> arg1, DelegateInArgument<TArg2> arg2, Func<TArg1, TArg2, ActivityContext, Task> func)
-        {
-            return new AsyncActionActivity<TArg1, TArg2>(func, arg1, arg2);
-        }
-
-        public static AsyncActionActivity<TArg1, TArg2, TArg3> Invoke<TArg1, TArg2, TArg3>(Func<TArg1, TArg2, TArg3, Task> func)
-        {
-            return new AsyncActionActivity<TArg1, TArg2, TArg3>((_arg1, _arg2, _arg3, context) => func(_arg1, _arg2, _arg3), null, null, null);
-        }
-
-        public static AsyncActionActivity<TArg1, TArg2, TArg3> Invoke<TArg1, TArg2, TArg3>(Func<TArg1, TArg2, TArg3, Task> func, InArgument<TArg1> arg1, InArgument<TArg2> arg2, InArgument<TArg3> arg3)
-        {
-            return new AsyncActionActivity<TArg1, TArg2, TArg3>((_arg1, _arg2, _arg3, context) => func(_arg1, _arg2, _arg3), arg1, arg2, arg3);
-        }
-
-        public static AsyncActionActivity<TArg1, TArg2, TArg3> Invoke<TArg1, TArg2, TArg3>(Func<TArg1, TArg2, TArg3, Task> func, DelegateInArgument<TArg1> arg1, DelegateInArgument<TArg2> arg2, DelegateInArgument<TArg3> arg3)
-        {
-            return new AsyncActionActivity<TArg1, TArg2, TArg3>((_arg1, _arg2, _arg3, context) => func(_arg1, _arg2, _arg3), arg1, arg2, arg3);
-        }
-
-        public static AsyncActionActivity<TArg1, TArg2, TArg3> Invoke<TArg1, TArg2, TArg3>(InArgument<TArg1> arg1, InArgument<TArg2> arg2, InArgument<TArg3> arg3, Func<TArg1, TArg2, TArg3, Task> func)
-        {
-            return new AsyncActionActivity<TArg1, TArg2, TArg3>((_arg1, _arg2, _arg3, context) => func(_arg1, _arg2, _arg3), arg1, arg2, arg3);
-        }
-
-        public static AsyncActionActivity<TArg1, TArg2, TArg3> Invoke<TArg1, TArg2, TArg3>(DelegateInArgument<TArg1> arg1, DelegateInArgument<TArg2> arg2, DelegateInArgument<TArg3> arg3, Func<TArg1, TArg2, TArg3, Task> func)
-        {
-            return new AsyncActionActivity<TArg1, TArg2, TArg3>((_arg1, _arg2, _arg3, context) => func(_arg1, _arg2, _arg3), arg1, arg2, arg3);
+            return new AsyncActionActivity<TArg1, TArg2, TArg3>(func, arg1, arg2, arg3);
         }
         
-        public static AsyncActionActivity<TArg1, TArg2, TArg3> Invoke<TArg1, TArg2, TArg3>(Func<TArg1, TArg2, TArg3, ActivityContext, Task> func)
+        /// <summary>
+        /// Returns a <see cref="Activity"/> that executes <paramref name="action"/> with arguments.
+        /// </summary>
+/// <typeparam name="TArg1"></typeparam>
+/// <typeparam name="TArg2"></typeparam>
+/// <typeparam name="TArg3"></typeparam>
+        /// <param name="action"></param>
+/// <param name="arg1"></param>
+/// <param name="arg2"></param>
+/// <param name="arg3"></param>
+        /// <returns></returns>
+        public static AsyncActionActivity<TArg1, TArg2, TArg3> InvokeAsync<TArg1, TArg2, TArg3>(InArgument<TArg1> arg1, InArgument<TArg2> arg2, InArgument<TArg3> arg3, Func<TArg1, TArg2, TArg3,Task> func)
         {
-            return new AsyncActionActivity<TArg1, TArg2, TArg3>(func, null, null, null);
-        }
-        
-        public static AsyncActionActivity<TArg1, TArg2, TArg3> Invoke<TArg1, TArg2, TArg3>(Func<TArg1, TArg2, TArg3, ActivityContext, Task> func, InArgument<TArg1> arg1, InArgument<TArg2> arg2, InArgument<TArg3> arg3)
-        {
+            Contract.Requires<ArgumentNullException>(func != null);
+
             return new AsyncActionActivity<TArg1, TArg2, TArg3>(func, arg1, arg2, arg3);
         }
 
-        public static AsyncActionActivity<TArg1, TArg2, TArg3> Invoke<TArg1, TArg2, TArg3>(Func<TArg1, TArg2, TArg3, ActivityContext, Task> func, DelegateInArgument<TArg1> arg1, DelegateInArgument<TArg2> arg2, DelegateInArgument<TArg3> arg3)
+        /// <summary>
+        /// Returns a <see cref="Activity"/> that executes <paramref name="action"/> with arguments.
+        /// </summary>
+/// <typeparam name="TArg1"></typeparam>
+/// <typeparam name="TArg2"></typeparam>
+/// <typeparam name="TArg3"></typeparam>
+/// <typeparam name="TArg4"></typeparam>
+        /// <param name="action"></param>
+/// <param name="arg1"></param>
+/// <param name="arg2"></param>
+/// <param name="arg3"></param>
+/// <param name="arg4"></param>
+        /// <returns></returns>
+        public static AsyncActionActivity<TArg1, TArg2, TArg3, TArg4> InvokeAsync<TArg1, TArg2, TArg3, TArg4>(Func<TArg1, TArg2, TArg3, TArg4, Task> func, InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, InArgument<TArg3> arg3 = null, InArgument<TArg4> arg4 = null)
         {
-            return new AsyncActionActivity<TArg1, TArg2, TArg3>(func, arg1, arg2, arg3);
-        }
+            Contract.Requires<ArgumentNullException>(func != null);
 
-        public static AsyncActionActivity<TArg1, TArg2, TArg3> Invoke<TArg1, TArg2, TArg3>(InArgument<TArg1> arg1, InArgument<TArg2> arg2, InArgument<TArg3> arg3, Func<TArg1, TArg2, TArg3, ActivityContext,Task> func)
-        {
-            return new AsyncActionActivity<TArg1, TArg2, TArg3>(func, arg1, arg2, arg3);
-        }
-
-        public static AsyncActionActivity<TArg1, TArg2, TArg3> Invoke<TArg1, TArg2, TArg3>(DelegateInArgument<TArg1> arg1, DelegateInArgument<TArg2> arg2, DelegateInArgument<TArg3> arg3, Func<TArg1, TArg2, TArg3, ActivityContext, Task> func)
-        {
-            return new AsyncActionActivity<TArg1, TArg2, TArg3>(func, arg1, arg2, arg3);
-        }
-
-        public static AsyncActionActivity<TArg1, TArg2, TArg3, TArg4> Invoke<TArg1, TArg2, TArg3, TArg4>(Func<TArg1, TArg2, TArg3, TArg4, Task> func)
-        {
-            return new AsyncActionActivity<TArg1, TArg2, TArg3, TArg4>((_arg1, _arg2, _arg3, _arg4, context) => func(_arg1, _arg2, _arg3, _arg4), null, null, null, null);
-        }
-
-        public static AsyncActionActivity<TArg1, TArg2, TArg3, TArg4> Invoke<TArg1, TArg2, TArg3, TArg4>(Func<TArg1, TArg2, TArg3, TArg4, Task> func, InArgument<TArg1> arg1, InArgument<TArg2> arg2, InArgument<TArg3> arg3, InArgument<TArg4> arg4)
-        {
-            return new AsyncActionActivity<TArg1, TArg2, TArg3, TArg4>((_arg1, _arg2, _arg3, _arg4, context) => func(_arg1, _arg2, _arg3, _arg4), arg1, arg2, arg3, arg4);
-        }
-
-        public static AsyncActionActivity<TArg1, TArg2, TArg3, TArg4> Invoke<TArg1, TArg2, TArg3, TArg4>(Func<TArg1, TArg2, TArg3, TArg4, Task> func, DelegateInArgument<TArg1> arg1, DelegateInArgument<TArg2> arg2, DelegateInArgument<TArg3> arg3, DelegateInArgument<TArg4> arg4)
-        {
-            return new AsyncActionActivity<TArg1, TArg2, TArg3, TArg4>((_arg1, _arg2, _arg3, _arg4, context) => func(_arg1, _arg2, _arg3, _arg4), arg1, arg2, arg3, arg4);
-        }
-
-        public static AsyncActionActivity<TArg1, TArg2, TArg3, TArg4> Invoke<TArg1, TArg2, TArg3, TArg4>(InArgument<TArg1> arg1, InArgument<TArg2> arg2, InArgument<TArg3> arg3, InArgument<TArg4> arg4, Func<TArg1, TArg2, TArg3, TArg4, Task> func)
-        {
-            return new AsyncActionActivity<TArg1, TArg2, TArg3, TArg4>((_arg1, _arg2, _arg3, _arg4, context) => func(_arg1, _arg2, _arg3, _arg4), arg1, arg2, arg3, arg4);
-        }
-
-        public static AsyncActionActivity<TArg1, TArg2, TArg3, TArg4> Invoke<TArg1, TArg2, TArg3, TArg4>(DelegateInArgument<TArg1> arg1, DelegateInArgument<TArg2> arg2, DelegateInArgument<TArg3> arg3, DelegateInArgument<TArg4> arg4, Func<TArg1, TArg2, TArg3, TArg4, Task> func)
-        {
-            return new AsyncActionActivity<TArg1, TArg2, TArg3, TArg4>((_arg1, _arg2, _arg3, _arg4, context) => func(_arg1, _arg2, _arg3, _arg4), arg1, arg2, arg3, arg4);
+            return new AsyncActionActivity<TArg1, TArg2, TArg3, TArg4>(func, arg1, arg2, arg3, arg4);
         }
         
-        public static AsyncActionActivity<TArg1, TArg2, TArg3, TArg4> Invoke<TArg1, TArg2, TArg3, TArg4>(Func<TArg1, TArg2, TArg3, TArg4, ActivityContext, Task> func)
+        /// <summary>
+        /// Returns a <see cref="Activity"/> that executes <paramref name="action"/> with arguments.
+        /// </summary>
+/// <typeparam name="TArg1"></typeparam>
+/// <typeparam name="TArg2"></typeparam>
+/// <typeparam name="TArg3"></typeparam>
+/// <typeparam name="TArg4"></typeparam>
+        /// <param name="action"></param>
+/// <param name="arg1"></param>
+/// <param name="arg2"></param>
+/// <param name="arg3"></param>
+/// <param name="arg4"></param>
+        /// <returns></returns>
+        public static AsyncActionActivity<TArg1, TArg2, TArg3, TArg4> InvokeAsync<TArg1, TArg2, TArg3, TArg4>(InArgument<TArg1> arg1, InArgument<TArg2> arg2, InArgument<TArg3> arg3, InArgument<TArg4> arg4, Func<TArg1, TArg2, TArg3, TArg4,Task> func)
         {
-            return new AsyncActionActivity<TArg1, TArg2, TArg3, TArg4>(func, null, null, null, null);
-        }
-        
-        public static AsyncActionActivity<TArg1, TArg2, TArg3, TArg4> Invoke<TArg1, TArg2, TArg3, TArg4>(Func<TArg1, TArg2, TArg3, TArg4, ActivityContext, Task> func, InArgument<TArg1> arg1, InArgument<TArg2> arg2, InArgument<TArg3> arg3, InArgument<TArg4> arg4)
-        {
+            Contract.Requires<ArgumentNullException>(func != null);
+
             return new AsyncActionActivity<TArg1, TArg2, TArg3, TArg4>(func, arg1, arg2, arg3, arg4);
         }
 
-        public static AsyncActionActivity<TArg1, TArg2, TArg3, TArg4> Invoke<TArg1, TArg2, TArg3, TArg4>(Func<TArg1, TArg2, TArg3, TArg4, ActivityContext, Task> func, DelegateInArgument<TArg1> arg1, DelegateInArgument<TArg2> arg2, DelegateInArgument<TArg3> arg3, DelegateInArgument<TArg4> arg4)
+        /// <summary>
+        /// Returns a <see cref="Activity"/> that executes <paramref name="action"/> with arguments.
+        /// </summary>
+/// <typeparam name="TArg1"></typeparam>
+/// <typeparam name="TArg2"></typeparam>
+/// <typeparam name="TArg3"></typeparam>
+/// <typeparam name="TArg4"></typeparam>
+/// <typeparam name="TArg5"></typeparam>
+        /// <param name="action"></param>
+/// <param name="arg1"></param>
+/// <param name="arg2"></param>
+/// <param name="arg3"></param>
+/// <param name="arg4"></param>
+/// <param name="arg5"></param>
+        /// <returns></returns>
+        public static AsyncActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5> InvokeAsync<TArg1, TArg2, TArg3, TArg4, TArg5>(Func<TArg1, TArg2, TArg3, TArg4, TArg5, Task> func, InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, InArgument<TArg3> arg3 = null, InArgument<TArg4> arg4 = null, InArgument<TArg5> arg5 = null)
         {
-            return new AsyncActionActivity<TArg1, TArg2, TArg3, TArg4>(func, arg1, arg2, arg3, arg4);
-        }
+            Contract.Requires<ArgumentNullException>(func != null);
 
-        public static AsyncActionActivity<TArg1, TArg2, TArg3, TArg4> Invoke<TArg1, TArg2, TArg3, TArg4>(InArgument<TArg1> arg1, InArgument<TArg2> arg2, InArgument<TArg3> arg3, InArgument<TArg4> arg4, Func<TArg1, TArg2, TArg3, TArg4, ActivityContext,Task> func)
-        {
-            return new AsyncActionActivity<TArg1, TArg2, TArg3, TArg4>(func, arg1, arg2, arg3, arg4);
-        }
-
-        public static AsyncActionActivity<TArg1, TArg2, TArg3, TArg4> Invoke<TArg1, TArg2, TArg3, TArg4>(DelegateInArgument<TArg1> arg1, DelegateInArgument<TArg2> arg2, DelegateInArgument<TArg3> arg3, DelegateInArgument<TArg4> arg4, Func<TArg1, TArg2, TArg3, TArg4, ActivityContext, Task> func)
-        {
-            return new AsyncActionActivity<TArg1, TArg2, TArg3, TArg4>(func, arg1, arg2, arg3, arg4);
-        }
-
-        public static AsyncActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5> Invoke<TArg1, TArg2, TArg3, TArg4, TArg5>(Func<TArg1, TArg2, TArg3, TArg4, TArg5, Task> func)
-        {
-            return new AsyncActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5>((_arg1, _arg2, _arg3, _arg4, _arg5, context) => func(_arg1, _arg2, _arg3, _arg4, _arg5), null, null, null, null, null);
-        }
-
-        public static AsyncActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5> Invoke<TArg1, TArg2, TArg3, TArg4, TArg5>(Func<TArg1, TArg2, TArg3, TArg4, TArg5, Task> func, InArgument<TArg1> arg1, InArgument<TArg2> arg2, InArgument<TArg3> arg3, InArgument<TArg4> arg4, InArgument<TArg5> arg5)
-        {
-            return new AsyncActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5>((_arg1, _arg2, _arg3, _arg4, _arg5, context) => func(_arg1, _arg2, _arg3, _arg4, _arg5), arg1, arg2, arg3, arg4, arg5);
-        }
-
-        public static AsyncActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5> Invoke<TArg1, TArg2, TArg3, TArg4, TArg5>(Func<TArg1, TArg2, TArg3, TArg4, TArg5, Task> func, DelegateInArgument<TArg1> arg1, DelegateInArgument<TArg2> arg2, DelegateInArgument<TArg3> arg3, DelegateInArgument<TArg4> arg4, DelegateInArgument<TArg5> arg5)
-        {
-            return new AsyncActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5>((_arg1, _arg2, _arg3, _arg4, _arg5, context) => func(_arg1, _arg2, _arg3, _arg4, _arg5), arg1, arg2, arg3, arg4, arg5);
-        }
-
-        public static AsyncActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5> Invoke<TArg1, TArg2, TArg3, TArg4, TArg5>(InArgument<TArg1> arg1, InArgument<TArg2> arg2, InArgument<TArg3> arg3, InArgument<TArg4> arg4, InArgument<TArg5> arg5, Func<TArg1, TArg2, TArg3, TArg4, TArg5, Task> func)
-        {
-            return new AsyncActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5>((_arg1, _arg2, _arg3, _arg4, _arg5, context) => func(_arg1, _arg2, _arg3, _arg4, _arg5), arg1, arg2, arg3, arg4, arg5);
-        }
-
-        public static AsyncActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5> Invoke<TArg1, TArg2, TArg3, TArg4, TArg5>(DelegateInArgument<TArg1> arg1, DelegateInArgument<TArg2> arg2, DelegateInArgument<TArg3> arg3, DelegateInArgument<TArg4> arg4, DelegateInArgument<TArg5> arg5, Func<TArg1, TArg2, TArg3, TArg4, TArg5, Task> func)
-        {
-            return new AsyncActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5>((_arg1, _arg2, _arg3, _arg4, _arg5, context) => func(_arg1, _arg2, _arg3, _arg4, _arg5), arg1, arg2, arg3, arg4, arg5);
+            return new AsyncActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5>(func, arg1, arg2, arg3, arg4, arg5);
         }
         
-        public static AsyncActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5> Invoke<TArg1, TArg2, TArg3, TArg4, TArg5>(Func<TArg1, TArg2, TArg3, TArg4, TArg5, ActivityContext, Task> func)
+        /// <summary>
+        /// Returns a <see cref="Activity"/> that executes <paramref name="action"/> with arguments.
+        /// </summary>
+/// <typeparam name="TArg1"></typeparam>
+/// <typeparam name="TArg2"></typeparam>
+/// <typeparam name="TArg3"></typeparam>
+/// <typeparam name="TArg4"></typeparam>
+/// <typeparam name="TArg5"></typeparam>
+        /// <param name="action"></param>
+/// <param name="arg1"></param>
+/// <param name="arg2"></param>
+/// <param name="arg3"></param>
+/// <param name="arg4"></param>
+/// <param name="arg5"></param>
+        /// <returns></returns>
+        public static AsyncActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5> InvokeAsync<TArg1, TArg2, TArg3, TArg4, TArg5>(InArgument<TArg1> arg1, InArgument<TArg2> arg2, InArgument<TArg3> arg3, InArgument<TArg4> arg4, InArgument<TArg5> arg5, Func<TArg1, TArg2, TArg3, TArg4, TArg5,Task> func)
         {
-            return new AsyncActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5>(func, null, null, null, null, null);
-        }
-        
-        public static AsyncActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5> Invoke<TArg1, TArg2, TArg3, TArg4, TArg5>(Func<TArg1, TArg2, TArg3, TArg4, TArg5, ActivityContext, Task> func, InArgument<TArg1> arg1, InArgument<TArg2> arg2, InArgument<TArg3> arg3, InArgument<TArg4> arg4, InArgument<TArg5> arg5)
-        {
+            Contract.Requires<ArgumentNullException>(func != null);
+
             return new AsyncActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5>(func, arg1, arg2, arg3, arg4, arg5);
         }
 
-        public static AsyncActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5> Invoke<TArg1, TArg2, TArg3, TArg4, TArg5>(Func<TArg1, TArg2, TArg3, TArg4, TArg5, ActivityContext, Task> func, DelegateInArgument<TArg1> arg1, DelegateInArgument<TArg2> arg2, DelegateInArgument<TArg3> arg3, DelegateInArgument<TArg4> arg4, DelegateInArgument<TArg5> arg5)
+        /// <summary>
+        /// Returns a <see cref="Activity"/> that executes <paramref name="action"/> with arguments.
+        /// </summary>
+/// <typeparam name="TArg1"></typeparam>
+/// <typeparam name="TArg2"></typeparam>
+/// <typeparam name="TArg3"></typeparam>
+/// <typeparam name="TArg4"></typeparam>
+/// <typeparam name="TArg5"></typeparam>
+/// <typeparam name="TArg6"></typeparam>
+        /// <param name="action"></param>
+/// <param name="arg1"></param>
+/// <param name="arg2"></param>
+/// <param name="arg3"></param>
+/// <param name="arg4"></param>
+/// <param name="arg5"></param>
+/// <param name="arg6"></param>
+        /// <returns></returns>
+        public static AsyncActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6> InvokeAsync<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, Task> func, InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, InArgument<TArg3> arg3 = null, InArgument<TArg4> arg4 = null, InArgument<TArg5> arg5 = null, InArgument<TArg6> arg6 = null)
         {
-            return new AsyncActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5>(func, arg1, arg2, arg3, arg4, arg5);
-        }
+            Contract.Requires<ArgumentNullException>(func != null);
 
-        public static AsyncActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5> Invoke<TArg1, TArg2, TArg3, TArg4, TArg5>(InArgument<TArg1> arg1, InArgument<TArg2> arg2, InArgument<TArg3> arg3, InArgument<TArg4> arg4, InArgument<TArg5> arg5, Func<TArg1, TArg2, TArg3, TArg4, TArg5, ActivityContext,Task> func)
-        {
-            return new AsyncActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5>(func, arg1, arg2, arg3, arg4, arg5);
-        }
-
-        public static AsyncActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5> Invoke<TArg1, TArg2, TArg3, TArg4, TArg5>(DelegateInArgument<TArg1> arg1, DelegateInArgument<TArg2> arg2, DelegateInArgument<TArg3> arg3, DelegateInArgument<TArg4> arg4, DelegateInArgument<TArg5> arg5, Func<TArg1, TArg2, TArg3, TArg4, TArg5, ActivityContext, Task> func)
-        {
-            return new AsyncActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5>(func, arg1, arg2, arg3, arg4, arg5);
-        }
-
-        public static AsyncActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6> Invoke<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, Task> func)
-        {
-            return new AsyncActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>((_arg1, _arg2, _arg3, _arg4, _arg5, _arg6, context) => func(_arg1, _arg2, _arg3, _arg4, _arg5, _arg6), null, null, null, null, null, null);
-        }
-
-        public static AsyncActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6> Invoke<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, Task> func, InArgument<TArg1> arg1, InArgument<TArg2> arg2, InArgument<TArg3> arg3, InArgument<TArg4> arg4, InArgument<TArg5> arg5, InArgument<TArg6> arg6)
-        {
-            return new AsyncActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>((_arg1, _arg2, _arg3, _arg4, _arg5, _arg6, context) => func(_arg1, _arg2, _arg3, _arg4, _arg5, _arg6), arg1, arg2, arg3, arg4, arg5, arg6);
-        }
-
-        public static AsyncActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6> Invoke<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, Task> func, DelegateInArgument<TArg1> arg1, DelegateInArgument<TArg2> arg2, DelegateInArgument<TArg3> arg3, DelegateInArgument<TArg4> arg4, DelegateInArgument<TArg5> arg5, DelegateInArgument<TArg6> arg6)
-        {
-            return new AsyncActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>((_arg1, _arg2, _arg3, _arg4, _arg5, _arg6, context) => func(_arg1, _arg2, _arg3, _arg4, _arg5, _arg6), arg1, arg2, arg3, arg4, arg5, arg6);
-        }
-
-        public static AsyncActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6> Invoke<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(InArgument<TArg1> arg1, InArgument<TArg2> arg2, InArgument<TArg3> arg3, InArgument<TArg4> arg4, InArgument<TArg5> arg5, InArgument<TArg6> arg6, Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, Task> func)
-        {
-            return new AsyncActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>((_arg1, _arg2, _arg3, _arg4, _arg5, _arg6, context) => func(_arg1, _arg2, _arg3, _arg4, _arg5, _arg6), arg1, arg2, arg3, arg4, arg5, arg6);
-        }
-
-        public static AsyncActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6> Invoke<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(DelegateInArgument<TArg1> arg1, DelegateInArgument<TArg2> arg2, DelegateInArgument<TArg3> arg3, DelegateInArgument<TArg4> arg4, DelegateInArgument<TArg5> arg5, DelegateInArgument<TArg6> arg6, Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, Task> func)
-        {
-            return new AsyncActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>((_arg1, _arg2, _arg3, _arg4, _arg5, _arg6, context) => func(_arg1, _arg2, _arg3, _arg4, _arg5, _arg6), arg1, arg2, arg3, arg4, arg5, arg6);
+            return new AsyncActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(func, arg1, arg2, arg3, arg4, arg5, arg6);
         }
         
-        public static AsyncActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6> Invoke<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, ActivityContext, Task> func)
+        /// <summary>
+        /// Returns a <see cref="Activity"/> that executes <paramref name="action"/> with arguments.
+        /// </summary>
+/// <typeparam name="TArg1"></typeparam>
+/// <typeparam name="TArg2"></typeparam>
+/// <typeparam name="TArg3"></typeparam>
+/// <typeparam name="TArg4"></typeparam>
+/// <typeparam name="TArg5"></typeparam>
+/// <typeparam name="TArg6"></typeparam>
+        /// <param name="action"></param>
+/// <param name="arg1"></param>
+/// <param name="arg2"></param>
+/// <param name="arg3"></param>
+/// <param name="arg4"></param>
+/// <param name="arg5"></param>
+/// <param name="arg6"></param>
+        /// <returns></returns>
+        public static AsyncActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6> InvokeAsync<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(InArgument<TArg1> arg1, InArgument<TArg2> arg2, InArgument<TArg3> arg3, InArgument<TArg4> arg4, InArgument<TArg5> arg5, InArgument<TArg6> arg6, Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6,Task> func)
         {
-            return new AsyncActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(func, null, null, null, null, null, null);
-        }
-        
-        public static AsyncActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6> Invoke<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, ActivityContext, Task> func, InArgument<TArg1> arg1, InArgument<TArg2> arg2, InArgument<TArg3> arg3, InArgument<TArg4> arg4, InArgument<TArg5> arg5, InArgument<TArg6> arg6)
-        {
+            Contract.Requires<ArgumentNullException>(func != null);
+
             return new AsyncActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(func, arg1, arg2, arg3, arg4, arg5, arg6);
         }
 
-        public static AsyncActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6> Invoke<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, ActivityContext, Task> func, DelegateInArgument<TArg1> arg1, DelegateInArgument<TArg2> arg2, DelegateInArgument<TArg3> arg3, DelegateInArgument<TArg4> arg4, DelegateInArgument<TArg5> arg5, DelegateInArgument<TArg6> arg6)
+        /// <summary>
+        /// Returns a <see cref="Activity"/> that executes <paramref name="action"/> with arguments.
+        /// </summary>
+/// <typeparam name="TArg1"></typeparam>
+/// <typeparam name="TArg2"></typeparam>
+/// <typeparam name="TArg3"></typeparam>
+/// <typeparam name="TArg4"></typeparam>
+/// <typeparam name="TArg5"></typeparam>
+/// <typeparam name="TArg6"></typeparam>
+/// <typeparam name="TArg7"></typeparam>
+        /// <param name="action"></param>
+/// <param name="arg1"></param>
+/// <param name="arg2"></param>
+/// <param name="arg3"></param>
+/// <param name="arg4"></param>
+/// <param name="arg5"></param>
+/// <param name="arg6"></param>
+/// <param name="arg7"></param>
+        /// <returns></returns>
+        public static AsyncActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7> InvokeAsync<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, Task> func, InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, InArgument<TArg3> arg3 = null, InArgument<TArg4> arg4 = null, InArgument<TArg5> arg5 = null, InArgument<TArg6> arg6 = null, InArgument<TArg7> arg7 = null)
         {
-            return new AsyncActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(func, arg1, arg2, arg3, arg4, arg5, arg6);
-        }
+            Contract.Requires<ArgumentNullException>(func != null);
 
-        public static AsyncActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6> Invoke<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(InArgument<TArg1> arg1, InArgument<TArg2> arg2, InArgument<TArg3> arg3, InArgument<TArg4> arg4, InArgument<TArg5> arg5, InArgument<TArg6> arg6, Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, ActivityContext,Task> func)
-        {
-            return new AsyncActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(func, arg1, arg2, arg3, arg4, arg5, arg6);
-        }
-
-        public static AsyncActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6> Invoke<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(DelegateInArgument<TArg1> arg1, DelegateInArgument<TArg2> arg2, DelegateInArgument<TArg3> arg3, DelegateInArgument<TArg4> arg4, DelegateInArgument<TArg5> arg5, DelegateInArgument<TArg6> arg6, Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, ActivityContext, Task> func)
-        {
-            return new AsyncActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(func, arg1, arg2, arg3, arg4, arg5, arg6);
-        }
-
-        public static AsyncActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7> Invoke<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, Task> func)
-        {
-            return new AsyncActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>((_arg1, _arg2, _arg3, _arg4, _arg5, _arg6, _arg7, context) => func(_arg1, _arg2, _arg3, _arg4, _arg5, _arg6, _arg7), null, null, null, null, null, null, null);
-        }
-
-        public static AsyncActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7> Invoke<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, Task> func, InArgument<TArg1> arg1, InArgument<TArg2> arg2, InArgument<TArg3> arg3, InArgument<TArg4> arg4, InArgument<TArg5> arg5, InArgument<TArg6> arg6, InArgument<TArg7> arg7)
-        {
-            return new AsyncActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>((_arg1, _arg2, _arg3, _arg4, _arg5, _arg6, _arg7, context) => func(_arg1, _arg2, _arg3, _arg4, _arg5, _arg6, _arg7), arg1, arg2, arg3, arg4, arg5, arg6, arg7);
-        }
-
-        public static AsyncActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7> Invoke<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, Task> func, DelegateInArgument<TArg1> arg1, DelegateInArgument<TArg2> arg2, DelegateInArgument<TArg3> arg3, DelegateInArgument<TArg4> arg4, DelegateInArgument<TArg5> arg5, DelegateInArgument<TArg6> arg6, DelegateInArgument<TArg7> arg7)
-        {
-            return new AsyncActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>((_arg1, _arg2, _arg3, _arg4, _arg5, _arg6, _arg7, context) => func(_arg1, _arg2, _arg3, _arg4, _arg5, _arg6, _arg7), arg1, arg2, arg3, arg4, arg5, arg6, arg7);
-        }
-
-        public static AsyncActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7> Invoke<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(InArgument<TArg1> arg1, InArgument<TArg2> arg2, InArgument<TArg3> arg3, InArgument<TArg4> arg4, InArgument<TArg5> arg5, InArgument<TArg6> arg6, InArgument<TArg7> arg7, Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, Task> func)
-        {
-            return new AsyncActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>((_arg1, _arg2, _arg3, _arg4, _arg5, _arg6, _arg7, context) => func(_arg1, _arg2, _arg3, _arg4, _arg5, _arg6, _arg7), arg1, arg2, arg3, arg4, arg5, arg6, arg7);
-        }
-
-        public static AsyncActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7> Invoke<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(DelegateInArgument<TArg1> arg1, DelegateInArgument<TArg2> arg2, DelegateInArgument<TArg3> arg3, DelegateInArgument<TArg4> arg4, DelegateInArgument<TArg5> arg5, DelegateInArgument<TArg6> arg6, DelegateInArgument<TArg7> arg7, Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, Task> func)
-        {
-            return new AsyncActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>((_arg1, _arg2, _arg3, _arg4, _arg5, _arg6, _arg7, context) => func(_arg1, _arg2, _arg3, _arg4, _arg5, _arg6, _arg7), arg1, arg2, arg3, arg4, arg5, arg6, arg7);
+            return new AsyncActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(func, arg1, arg2, arg3, arg4, arg5, arg6, arg7);
         }
         
-        public static AsyncActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7> Invoke<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, ActivityContext, Task> func)
+        /// <summary>
+        /// Returns a <see cref="Activity"/> that executes <paramref name="action"/> with arguments.
+        /// </summary>
+/// <typeparam name="TArg1"></typeparam>
+/// <typeparam name="TArg2"></typeparam>
+/// <typeparam name="TArg3"></typeparam>
+/// <typeparam name="TArg4"></typeparam>
+/// <typeparam name="TArg5"></typeparam>
+/// <typeparam name="TArg6"></typeparam>
+/// <typeparam name="TArg7"></typeparam>
+        /// <param name="action"></param>
+/// <param name="arg1"></param>
+/// <param name="arg2"></param>
+/// <param name="arg3"></param>
+/// <param name="arg4"></param>
+/// <param name="arg5"></param>
+/// <param name="arg6"></param>
+/// <param name="arg7"></param>
+        /// <returns></returns>
+        public static AsyncActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7> InvokeAsync<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(InArgument<TArg1> arg1, InArgument<TArg2> arg2, InArgument<TArg3> arg3, InArgument<TArg4> arg4, InArgument<TArg5> arg5, InArgument<TArg6> arg6, InArgument<TArg7> arg7, Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7,Task> func)
         {
-            return new AsyncActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(func, null, null, null, null, null, null, null);
-        }
-        
-        public static AsyncActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7> Invoke<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, ActivityContext, Task> func, InArgument<TArg1> arg1, InArgument<TArg2> arg2, InArgument<TArg3> arg3, InArgument<TArg4> arg4, InArgument<TArg5> arg5, InArgument<TArg6> arg6, InArgument<TArg7> arg7)
-        {
+            Contract.Requires<ArgumentNullException>(func != null);
+
             return new AsyncActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(func, arg1, arg2, arg3, arg4, arg5, arg6, arg7);
         }
 
-        public static AsyncActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7> Invoke<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, ActivityContext, Task> func, DelegateInArgument<TArg1> arg1, DelegateInArgument<TArg2> arg2, DelegateInArgument<TArg3> arg3, DelegateInArgument<TArg4> arg4, DelegateInArgument<TArg5> arg5, DelegateInArgument<TArg6> arg6, DelegateInArgument<TArg7> arg7)
+        /// <summary>
+        /// Returns a <see cref="Activity"/> that executes <paramref name="action"/> with arguments.
+        /// </summary>
+/// <typeparam name="TArg1"></typeparam>
+/// <typeparam name="TArg2"></typeparam>
+/// <typeparam name="TArg3"></typeparam>
+/// <typeparam name="TArg4"></typeparam>
+/// <typeparam name="TArg5"></typeparam>
+/// <typeparam name="TArg6"></typeparam>
+/// <typeparam name="TArg7"></typeparam>
+/// <typeparam name="TArg8"></typeparam>
+        /// <param name="action"></param>
+/// <param name="arg1"></param>
+/// <param name="arg2"></param>
+/// <param name="arg3"></param>
+/// <param name="arg4"></param>
+/// <param name="arg5"></param>
+/// <param name="arg6"></param>
+/// <param name="arg7"></param>
+/// <param name="arg8"></param>
+        /// <returns></returns>
+        public static AsyncActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8> InvokeAsync<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, Task> func, InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, InArgument<TArg3> arg3 = null, InArgument<TArg4> arg4 = null, InArgument<TArg5> arg5 = null, InArgument<TArg6> arg6 = null, InArgument<TArg7> arg7 = null, InArgument<TArg8> arg8 = null)
         {
-            return new AsyncActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(func, arg1, arg2, arg3, arg4, arg5, arg6, arg7);
-        }
+            Contract.Requires<ArgumentNullException>(func != null);
 
-        public static AsyncActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7> Invoke<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(InArgument<TArg1> arg1, InArgument<TArg2> arg2, InArgument<TArg3> arg3, InArgument<TArg4> arg4, InArgument<TArg5> arg5, InArgument<TArg6> arg6, InArgument<TArg7> arg7, Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, ActivityContext,Task> func)
-        {
-            return new AsyncActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(func, arg1, arg2, arg3, arg4, arg5, arg6, arg7);
-        }
-
-        public static AsyncActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7> Invoke<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(DelegateInArgument<TArg1> arg1, DelegateInArgument<TArg2> arg2, DelegateInArgument<TArg3> arg3, DelegateInArgument<TArg4> arg4, DelegateInArgument<TArg5> arg5, DelegateInArgument<TArg6> arg6, DelegateInArgument<TArg7> arg7, Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, ActivityContext, Task> func)
-        {
-            return new AsyncActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(func, arg1, arg2, arg3, arg4, arg5, arg6, arg7);
-        }
-
-        public static AsyncActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8> Invoke<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, Task> func)
-        {
-            return new AsyncActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>((_arg1, _arg2, _arg3, _arg4, _arg5, _arg6, _arg7, _arg8, context) => func(_arg1, _arg2, _arg3, _arg4, _arg5, _arg6, _arg7, _arg8), null, null, null, null, null, null, null, null);
-        }
-
-        public static AsyncActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8> Invoke<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, Task> func, InArgument<TArg1> arg1, InArgument<TArg2> arg2, InArgument<TArg3> arg3, InArgument<TArg4> arg4, InArgument<TArg5> arg5, InArgument<TArg6> arg6, InArgument<TArg7> arg7, InArgument<TArg8> arg8)
-        {
-            return new AsyncActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>((_arg1, _arg2, _arg3, _arg4, _arg5, _arg6, _arg7, _arg8, context) => func(_arg1, _arg2, _arg3, _arg4, _arg5, _arg6, _arg7, _arg8), arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
-        }
-
-        public static AsyncActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8> Invoke<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, Task> func, DelegateInArgument<TArg1> arg1, DelegateInArgument<TArg2> arg2, DelegateInArgument<TArg3> arg3, DelegateInArgument<TArg4> arg4, DelegateInArgument<TArg5> arg5, DelegateInArgument<TArg6> arg6, DelegateInArgument<TArg7> arg7, DelegateInArgument<TArg8> arg8)
-        {
-            return new AsyncActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>((_arg1, _arg2, _arg3, _arg4, _arg5, _arg6, _arg7, _arg8, context) => func(_arg1, _arg2, _arg3, _arg4, _arg5, _arg6, _arg7, _arg8), arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
-        }
-
-        public static AsyncActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8> Invoke<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(InArgument<TArg1> arg1, InArgument<TArg2> arg2, InArgument<TArg3> arg3, InArgument<TArg4> arg4, InArgument<TArg5> arg5, InArgument<TArg6> arg6, InArgument<TArg7> arg7, InArgument<TArg8> arg8, Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, Task> func)
-        {
-            return new AsyncActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>((_arg1, _arg2, _arg3, _arg4, _arg5, _arg6, _arg7, _arg8, context) => func(_arg1, _arg2, _arg3, _arg4, _arg5, _arg6, _arg7, _arg8), arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
-        }
-
-        public static AsyncActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8> Invoke<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(DelegateInArgument<TArg1> arg1, DelegateInArgument<TArg2> arg2, DelegateInArgument<TArg3> arg3, DelegateInArgument<TArg4> arg4, DelegateInArgument<TArg5> arg5, DelegateInArgument<TArg6> arg6, DelegateInArgument<TArg7> arg7, DelegateInArgument<TArg8> arg8, Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, Task> func)
-        {
-            return new AsyncActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>((_arg1, _arg2, _arg3, _arg4, _arg5, _arg6, _arg7, _arg8, context) => func(_arg1, _arg2, _arg3, _arg4, _arg5, _arg6, _arg7, _arg8), arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
-        }
-        
-        public static AsyncActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8> Invoke<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, ActivityContext, Task> func)
-        {
-            return new AsyncActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(func, null, null, null, null, null, null, null, null);
-        }
-        
-        public static AsyncActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8> Invoke<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, ActivityContext, Task> func, InArgument<TArg1> arg1, InArgument<TArg2> arg2, InArgument<TArg3> arg3, InArgument<TArg4> arg4, InArgument<TArg5> arg5, InArgument<TArg6> arg6, InArgument<TArg7> arg7, InArgument<TArg8> arg8)
-        {
             return new AsyncActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(func, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
         }
-
-        public static AsyncActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8> Invoke<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, ActivityContext, Task> func, DelegateInArgument<TArg1> arg1, DelegateInArgument<TArg2> arg2, DelegateInArgument<TArg3> arg3, DelegateInArgument<TArg4> arg4, DelegateInArgument<TArg5> arg5, DelegateInArgument<TArg6> arg6, DelegateInArgument<TArg7> arg7, DelegateInArgument<TArg8> arg8)
+        
+        /// <summary>
+        /// Returns a <see cref="Activity"/> that executes <paramref name="action"/> with arguments.
+        /// </summary>
+/// <typeparam name="TArg1"></typeparam>
+/// <typeparam name="TArg2"></typeparam>
+/// <typeparam name="TArg3"></typeparam>
+/// <typeparam name="TArg4"></typeparam>
+/// <typeparam name="TArg5"></typeparam>
+/// <typeparam name="TArg6"></typeparam>
+/// <typeparam name="TArg7"></typeparam>
+/// <typeparam name="TArg8"></typeparam>
+        /// <param name="action"></param>
+/// <param name="arg1"></param>
+/// <param name="arg2"></param>
+/// <param name="arg3"></param>
+/// <param name="arg4"></param>
+/// <param name="arg5"></param>
+/// <param name="arg6"></param>
+/// <param name="arg7"></param>
+/// <param name="arg8"></param>
+        /// <returns></returns>
+        public static AsyncActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8> InvokeAsync<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(InArgument<TArg1> arg1, InArgument<TArg2> arg2, InArgument<TArg3> arg3, InArgument<TArg4> arg4, InArgument<TArg5> arg5, InArgument<TArg6> arg6, InArgument<TArg7> arg7, InArgument<TArg8> arg8, Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8,Task> func)
         {
-            return new AsyncActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(func, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
-        }
+            Contract.Requires<ArgumentNullException>(func != null);
 
-        public static AsyncActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8> Invoke<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(InArgument<TArg1> arg1, InArgument<TArg2> arg2, InArgument<TArg3> arg3, InArgument<TArg4> arg4, InArgument<TArg5> arg5, InArgument<TArg6> arg6, InArgument<TArg7> arg7, InArgument<TArg8> arg8, Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, ActivityContext,Task> func)
-        {
-            return new AsyncActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(func, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
-        }
-
-        public static AsyncActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8> Invoke<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(DelegateInArgument<TArg1> arg1, DelegateInArgument<TArg2> arg2, DelegateInArgument<TArg3> arg3, DelegateInArgument<TArg4> arg4, DelegateInArgument<TArg5> arg5, DelegateInArgument<TArg6> arg6, DelegateInArgument<TArg7> arg7, DelegateInArgument<TArg8> arg8, Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, ActivityContext, Task> func)
-        {
             return new AsyncActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(func, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
         }
 
@@ -444,7 +381,7 @@ namespace Cogito.Activities
         /// </summary>
         /// <param name="action"></param>
         /// <param name="arg1"></param>
-        public AsyncActionActivity(Func<TArg1, ActivityContext, Task> action = null, InArgument<TArg1> arg1 = null)
+        public AsyncActionActivity(Func<TArg1, Task> action = null, InArgument<TArg1> arg1 = null)
         {
             Action = action;
             Argument1 = arg1 ?? new InArgument<TArg1>(default(TArg1));
@@ -455,7 +392,7 @@ namespace Cogito.Activities
         /// </summary>
         /// <param name="action"></param>
         /// <param name="arg1"></param>
-        public AsyncActionActivity(InArgument<TArg1> arg1 = null, Func<TArg1, ActivityContext, Task> action = null)
+        public AsyncActionActivity(InArgument<TArg1> arg1 = null, Func<TArg1, Task> action = null)
         {
             Argument1 = arg1 ?? new InArgument<TArg1>(default(TArg1));
             Action = action;
@@ -465,7 +402,7 @@ namespace Cogito.Activities
         /// Gets or sets the action to be invoked.
         /// </summary>
         [RequiredArgument]
-        public Func<TArg1, ActivityContext, Task> Action { get; set; }
+        public Func<TArg1, Task> Action { get; set; }
 
         /// <summary>
         /// Argument to send to action.
@@ -473,9 +410,10 @@ namespace Cogito.Activities
         [RequiredArgument]
         public InArgument<TArg1> Argument1 { get; set; }
 
-        protected override Task ExecuteAsync(AsyncCodeActivityContext context)
+        protected override Task ExecuteAsync(AsyncCodeActivityContext context, Func<Func<Task>, Task> executor)
         {
-            return Action(context.GetValue(Argument1), context);
+            var arg1 = Argument1.Get(context);
+            return executor(() => Action(arg1));
         }
 
     }
@@ -516,7 +454,7 @@ namespace Cogito.Activities
         /// <param name="action"></param>
         /// <param name="arg1"></param>
         /// <param name="arg2"></param>
-        public AsyncActionActivity(Func<TArg1, TArg2, ActivityContext, Task> action = null, InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null)
+        public AsyncActionActivity(Func<TArg1, TArg2, Task> action = null, InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null)
         {
             Action = action;
             Argument1 = arg1 ?? new InArgument<TArg1>(default(TArg1));
@@ -529,7 +467,7 @@ namespace Cogito.Activities
         /// <param name="action"></param>
         /// <param name="arg1"></param>
         /// <param name="arg2"></param>
-        public AsyncActionActivity(InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, Func<TArg1, TArg2, ActivityContext, Task> action = null)
+        public AsyncActionActivity(InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, Func<TArg1, TArg2, Task> action = null)
         {
             Argument1 = arg1 ?? new InArgument<TArg1>(default(TArg1));
             Argument2 = arg2 ?? new InArgument<TArg2>(default(TArg2));
@@ -540,7 +478,7 @@ namespace Cogito.Activities
         /// Gets or sets the action to be invoked.
         /// </summary>
         [RequiredArgument]
-        public Func<TArg1, TArg2, ActivityContext, Task> Action { get; set; }
+        public Func<TArg1, TArg2, Task> Action { get; set; }
 
         /// <summary>
         /// Argument to send to action.
@@ -554,9 +492,11 @@ namespace Cogito.Activities
         [RequiredArgument]
         public InArgument<TArg2> Argument2 { get; set; }
 
-        protected override Task ExecuteAsync(AsyncCodeActivityContext context)
+        protected override Task ExecuteAsync(AsyncCodeActivityContext context, Func<Func<Task>, Task> executor)
         {
-            return Action(context.GetValue(Argument1), context.GetValue(Argument2), context);
+            var arg1 = Argument1.Get(context);
+            var arg2 = Argument2.Get(context);
+            return executor(() => Action(arg1, arg2));
         }
 
     }
@@ -599,7 +539,7 @@ namespace Cogito.Activities
         /// <param name="arg1"></param>
         /// <param name="arg2"></param>
         /// <param name="arg3"></param>
-        public AsyncActionActivity(Func<TArg1, TArg2, TArg3, ActivityContext, Task> action = null, InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, InArgument<TArg3> arg3 = null)
+        public AsyncActionActivity(Func<TArg1, TArg2, TArg3, Task> action = null, InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, InArgument<TArg3> arg3 = null)
         {
             Action = action;
             Argument1 = arg1 ?? new InArgument<TArg1>(default(TArg1));
@@ -614,7 +554,7 @@ namespace Cogito.Activities
         /// <param name="arg1"></param>
         /// <param name="arg2"></param>
         /// <param name="arg3"></param>
-        public AsyncActionActivity(InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, InArgument<TArg3> arg3 = null, Func<TArg1, TArg2, TArg3, ActivityContext, Task> action = null)
+        public AsyncActionActivity(InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, InArgument<TArg3> arg3 = null, Func<TArg1, TArg2, TArg3, Task> action = null)
         {
             Argument1 = arg1 ?? new InArgument<TArg1>(default(TArg1));
             Argument2 = arg2 ?? new InArgument<TArg2>(default(TArg2));
@@ -626,7 +566,7 @@ namespace Cogito.Activities
         /// Gets or sets the action to be invoked.
         /// </summary>
         [RequiredArgument]
-        public Func<TArg1, TArg2, TArg3, ActivityContext, Task> Action { get; set; }
+        public Func<TArg1, TArg2, TArg3, Task> Action { get; set; }
 
         /// <summary>
         /// Argument to send to action.
@@ -646,9 +586,12 @@ namespace Cogito.Activities
         [RequiredArgument]
         public InArgument<TArg3> Argument3 { get; set; }
 
-        protected override Task ExecuteAsync(AsyncCodeActivityContext context)
+        protected override Task ExecuteAsync(AsyncCodeActivityContext context, Func<Func<Task>, Task> executor)
         {
-            return Action(context.GetValue(Argument1), context.GetValue(Argument2), context.GetValue(Argument3), context);
+            var arg1 = Argument1.Get(context);
+            var arg2 = Argument2.Get(context);
+            var arg3 = Argument3.Get(context);
+            return executor(() => Action(arg1, arg2, arg3));
         }
 
     }
@@ -693,7 +636,7 @@ namespace Cogito.Activities
         /// <param name="arg2"></param>
         /// <param name="arg3"></param>
         /// <param name="arg4"></param>
-        public AsyncActionActivity(Func<TArg1, TArg2, TArg3, TArg4, ActivityContext, Task> action = null, InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, InArgument<TArg3> arg3 = null, InArgument<TArg4> arg4 = null)
+        public AsyncActionActivity(Func<TArg1, TArg2, TArg3, TArg4, Task> action = null, InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, InArgument<TArg3> arg3 = null, InArgument<TArg4> arg4 = null)
         {
             Action = action;
             Argument1 = arg1 ?? new InArgument<TArg1>(default(TArg1));
@@ -710,7 +653,7 @@ namespace Cogito.Activities
         /// <param name="arg2"></param>
         /// <param name="arg3"></param>
         /// <param name="arg4"></param>
-        public AsyncActionActivity(InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, InArgument<TArg3> arg3 = null, InArgument<TArg4> arg4 = null, Func<TArg1, TArg2, TArg3, TArg4, ActivityContext, Task> action = null)
+        public AsyncActionActivity(InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, InArgument<TArg3> arg3 = null, InArgument<TArg4> arg4 = null, Func<TArg1, TArg2, TArg3, TArg4, Task> action = null)
         {
             Argument1 = arg1 ?? new InArgument<TArg1>(default(TArg1));
             Argument2 = arg2 ?? new InArgument<TArg2>(default(TArg2));
@@ -723,7 +666,7 @@ namespace Cogito.Activities
         /// Gets or sets the action to be invoked.
         /// </summary>
         [RequiredArgument]
-        public Func<TArg1, TArg2, TArg3, TArg4, ActivityContext, Task> Action { get; set; }
+        public Func<TArg1, TArg2, TArg3, TArg4, Task> Action { get; set; }
 
         /// <summary>
         /// Argument to send to action.
@@ -749,9 +692,13 @@ namespace Cogito.Activities
         [RequiredArgument]
         public InArgument<TArg4> Argument4 { get; set; }
 
-        protected override Task ExecuteAsync(AsyncCodeActivityContext context)
+        protected override Task ExecuteAsync(AsyncCodeActivityContext context, Func<Func<Task>, Task> executor)
         {
-            return Action(context.GetValue(Argument1), context.GetValue(Argument2), context.GetValue(Argument3), context.GetValue(Argument4), context);
+            var arg1 = Argument1.Get(context);
+            var arg2 = Argument2.Get(context);
+            var arg3 = Argument3.Get(context);
+            var arg4 = Argument4.Get(context);
+            return executor(() => Action(arg1, arg2, arg3, arg4));
         }
 
     }
@@ -798,7 +745,7 @@ namespace Cogito.Activities
         /// <param name="arg3"></param>
         /// <param name="arg4"></param>
         /// <param name="arg5"></param>
-        public AsyncActionActivity(Func<TArg1, TArg2, TArg3, TArg4, TArg5, ActivityContext, Task> action = null, InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, InArgument<TArg3> arg3 = null, InArgument<TArg4> arg4 = null, InArgument<TArg5> arg5 = null)
+        public AsyncActionActivity(Func<TArg1, TArg2, TArg3, TArg4, TArg5, Task> action = null, InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, InArgument<TArg3> arg3 = null, InArgument<TArg4> arg4 = null, InArgument<TArg5> arg5 = null)
         {
             Action = action;
             Argument1 = arg1 ?? new InArgument<TArg1>(default(TArg1));
@@ -817,7 +764,7 @@ namespace Cogito.Activities
         /// <param name="arg3"></param>
         /// <param name="arg4"></param>
         /// <param name="arg5"></param>
-        public AsyncActionActivity(InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, InArgument<TArg3> arg3 = null, InArgument<TArg4> arg4 = null, InArgument<TArg5> arg5 = null, Func<TArg1, TArg2, TArg3, TArg4, TArg5, ActivityContext, Task> action = null)
+        public AsyncActionActivity(InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, InArgument<TArg3> arg3 = null, InArgument<TArg4> arg4 = null, InArgument<TArg5> arg5 = null, Func<TArg1, TArg2, TArg3, TArg4, TArg5, Task> action = null)
         {
             Argument1 = arg1 ?? new InArgument<TArg1>(default(TArg1));
             Argument2 = arg2 ?? new InArgument<TArg2>(default(TArg2));
@@ -831,7 +778,7 @@ namespace Cogito.Activities
         /// Gets or sets the action to be invoked.
         /// </summary>
         [RequiredArgument]
-        public Func<TArg1, TArg2, TArg3, TArg4, TArg5, ActivityContext, Task> Action { get; set; }
+        public Func<TArg1, TArg2, TArg3, TArg4, TArg5, Task> Action { get; set; }
 
         /// <summary>
         /// Argument to send to action.
@@ -863,9 +810,14 @@ namespace Cogito.Activities
         [RequiredArgument]
         public InArgument<TArg5> Argument5 { get; set; }
 
-        protected override Task ExecuteAsync(AsyncCodeActivityContext context)
+        protected override Task ExecuteAsync(AsyncCodeActivityContext context, Func<Func<Task>, Task> executor)
         {
-            return Action(context.GetValue(Argument1), context.GetValue(Argument2), context.GetValue(Argument3), context.GetValue(Argument4), context.GetValue(Argument5), context);
+            var arg1 = Argument1.Get(context);
+            var arg2 = Argument2.Get(context);
+            var arg3 = Argument3.Get(context);
+            var arg4 = Argument4.Get(context);
+            var arg5 = Argument5.Get(context);
+            return executor(() => Action(arg1, arg2, arg3, arg4, arg5));
         }
 
     }
@@ -914,7 +866,7 @@ namespace Cogito.Activities
         /// <param name="arg4"></param>
         /// <param name="arg5"></param>
         /// <param name="arg6"></param>
-        public AsyncActionActivity(Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, ActivityContext, Task> action = null, InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, InArgument<TArg3> arg3 = null, InArgument<TArg4> arg4 = null, InArgument<TArg5> arg5 = null, InArgument<TArg6> arg6 = null)
+        public AsyncActionActivity(Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, Task> action = null, InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, InArgument<TArg3> arg3 = null, InArgument<TArg4> arg4 = null, InArgument<TArg5> arg5 = null, InArgument<TArg6> arg6 = null)
         {
             Action = action;
             Argument1 = arg1 ?? new InArgument<TArg1>(default(TArg1));
@@ -935,7 +887,7 @@ namespace Cogito.Activities
         /// <param name="arg4"></param>
         /// <param name="arg5"></param>
         /// <param name="arg6"></param>
-        public AsyncActionActivity(InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, InArgument<TArg3> arg3 = null, InArgument<TArg4> arg4 = null, InArgument<TArg5> arg5 = null, InArgument<TArg6> arg6 = null, Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, ActivityContext, Task> action = null)
+        public AsyncActionActivity(InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, InArgument<TArg3> arg3 = null, InArgument<TArg4> arg4 = null, InArgument<TArg5> arg5 = null, InArgument<TArg6> arg6 = null, Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, Task> action = null)
         {
             Argument1 = arg1 ?? new InArgument<TArg1>(default(TArg1));
             Argument2 = arg2 ?? new InArgument<TArg2>(default(TArg2));
@@ -950,7 +902,7 @@ namespace Cogito.Activities
         /// Gets or sets the action to be invoked.
         /// </summary>
         [RequiredArgument]
-        public Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, ActivityContext, Task> Action { get; set; }
+        public Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, Task> Action { get; set; }
 
         /// <summary>
         /// Argument to send to action.
@@ -988,9 +940,15 @@ namespace Cogito.Activities
         [RequiredArgument]
         public InArgument<TArg6> Argument6 { get; set; }
 
-        protected override Task ExecuteAsync(AsyncCodeActivityContext context)
+        protected override Task ExecuteAsync(AsyncCodeActivityContext context, Func<Func<Task>, Task> executor)
         {
-            return Action(context.GetValue(Argument1), context.GetValue(Argument2), context.GetValue(Argument3), context.GetValue(Argument4), context.GetValue(Argument5), context.GetValue(Argument6), context);
+            var arg1 = Argument1.Get(context);
+            var arg2 = Argument2.Get(context);
+            var arg3 = Argument3.Get(context);
+            var arg4 = Argument4.Get(context);
+            var arg5 = Argument5.Get(context);
+            var arg6 = Argument6.Get(context);
+            return executor(() => Action(arg1, arg2, arg3, arg4, arg5, arg6));
         }
 
     }
@@ -1041,7 +999,7 @@ namespace Cogito.Activities
         /// <param name="arg5"></param>
         /// <param name="arg6"></param>
         /// <param name="arg7"></param>
-        public AsyncActionActivity(Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, ActivityContext, Task> action = null, InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, InArgument<TArg3> arg3 = null, InArgument<TArg4> arg4 = null, InArgument<TArg5> arg5 = null, InArgument<TArg6> arg6 = null, InArgument<TArg7> arg7 = null)
+        public AsyncActionActivity(Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, Task> action = null, InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, InArgument<TArg3> arg3 = null, InArgument<TArg4> arg4 = null, InArgument<TArg5> arg5 = null, InArgument<TArg6> arg6 = null, InArgument<TArg7> arg7 = null)
         {
             Action = action;
             Argument1 = arg1 ?? new InArgument<TArg1>(default(TArg1));
@@ -1064,7 +1022,7 @@ namespace Cogito.Activities
         /// <param name="arg5"></param>
         /// <param name="arg6"></param>
         /// <param name="arg7"></param>
-        public AsyncActionActivity(InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, InArgument<TArg3> arg3 = null, InArgument<TArg4> arg4 = null, InArgument<TArg5> arg5 = null, InArgument<TArg6> arg6 = null, InArgument<TArg7> arg7 = null, Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, ActivityContext, Task> action = null)
+        public AsyncActionActivity(InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, InArgument<TArg3> arg3 = null, InArgument<TArg4> arg4 = null, InArgument<TArg5> arg5 = null, InArgument<TArg6> arg6 = null, InArgument<TArg7> arg7 = null, Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, Task> action = null)
         {
             Argument1 = arg1 ?? new InArgument<TArg1>(default(TArg1));
             Argument2 = arg2 ?? new InArgument<TArg2>(default(TArg2));
@@ -1080,7 +1038,7 @@ namespace Cogito.Activities
         /// Gets or sets the action to be invoked.
         /// </summary>
         [RequiredArgument]
-        public Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, ActivityContext, Task> Action { get; set; }
+        public Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, Task> Action { get; set; }
 
         /// <summary>
         /// Argument to send to action.
@@ -1124,9 +1082,16 @@ namespace Cogito.Activities
         [RequiredArgument]
         public InArgument<TArg7> Argument7 { get; set; }
 
-        protected override Task ExecuteAsync(AsyncCodeActivityContext context)
+        protected override Task ExecuteAsync(AsyncCodeActivityContext context, Func<Func<Task>, Task> executor)
         {
-            return Action(context.GetValue(Argument1), context.GetValue(Argument2), context.GetValue(Argument3), context.GetValue(Argument4), context.GetValue(Argument5), context.GetValue(Argument6), context.GetValue(Argument7), context);
+            var arg1 = Argument1.Get(context);
+            var arg2 = Argument2.Get(context);
+            var arg3 = Argument3.Get(context);
+            var arg4 = Argument4.Get(context);
+            var arg5 = Argument5.Get(context);
+            var arg6 = Argument6.Get(context);
+            var arg7 = Argument7.Get(context);
+            return executor(() => Action(arg1, arg2, arg3, arg4, arg5, arg6, arg7));
         }
 
     }
@@ -1179,7 +1144,7 @@ namespace Cogito.Activities
         /// <param name="arg6"></param>
         /// <param name="arg7"></param>
         /// <param name="arg8"></param>
-        public AsyncActionActivity(Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, ActivityContext, Task> action = null, InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, InArgument<TArg3> arg3 = null, InArgument<TArg4> arg4 = null, InArgument<TArg5> arg5 = null, InArgument<TArg6> arg6 = null, InArgument<TArg7> arg7 = null, InArgument<TArg8> arg8 = null)
+        public AsyncActionActivity(Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, Task> action = null, InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, InArgument<TArg3> arg3 = null, InArgument<TArg4> arg4 = null, InArgument<TArg5> arg5 = null, InArgument<TArg6> arg6 = null, InArgument<TArg7> arg7 = null, InArgument<TArg8> arg8 = null)
         {
             Action = action;
             Argument1 = arg1 ?? new InArgument<TArg1>(default(TArg1));
@@ -1204,7 +1169,7 @@ namespace Cogito.Activities
         /// <param name="arg6"></param>
         /// <param name="arg7"></param>
         /// <param name="arg8"></param>
-        public AsyncActionActivity(InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, InArgument<TArg3> arg3 = null, InArgument<TArg4> arg4 = null, InArgument<TArg5> arg5 = null, InArgument<TArg6> arg6 = null, InArgument<TArg7> arg7 = null, InArgument<TArg8> arg8 = null, Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, ActivityContext, Task> action = null)
+        public AsyncActionActivity(InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, InArgument<TArg3> arg3 = null, InArgument<TArg4> arg4 = null, InArgument<TArg5> arg5 = null, InArgument<TArg6> arg6 = null, InArgument<TArg7> arg7 = null, InArgument<TArg8> arg8 = null, Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, Task> action = null)
         {
             Argument1 = arg1 ?? new InArgument<TArg1>(default(TArg1));
             Argument2 = arg2 ?? new InArgument<TArg2>(default(TArg2));
@@ -1221,7 +1186,7 @@ namespace Cogito.Activities
         /// Gets or sets the action to be invoked.
         /// </summary>
         [RequiredArgument]
-        public Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, ActivityContext, Task> Action { get; set; }
+        public Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, Task> Action { get; set; }
 
         /// <summary>
         /// Argument to send to action.
@@ -1271,9 +1236,17 @@ namespace Cogito.Activities
         [RequiredArgument]
         public InArgument<TArg8> Argument8 { get; set; }
 
-        protected override Task ExecuteAsync(AsyncCodeActivityContext context)
+        protected override Task ExecuteAsync(AsyncCodeActivityContext context, Func<Func<Task>, Task> executor)
         {
-            return Action(context.GetValue(Argument1), context.GetValue(Argument2), context.GetValue(Argument3), context.GetValue(Argument4), context.GetValue(Argument5), context.GetValue(Argument6), context.GetValue(Argument7), context.GetValue(Argument8), context);
+            var arg1 = Argument1.Get(context);
+            var arg2 = Argument2.Get(context);
+            var arg3 = Argument3.Get(context);
+            var arg4 = Argument4.Get(context);
+            var arg5 = Argument5.Get(context);
+            var arg6 = Argument6.Get(context);
+            var arg7 = Argument7.Get(context);
+            var arg8 = Argument8.Get(context);
+            return executor(() => Action(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8));
         }
 
     }

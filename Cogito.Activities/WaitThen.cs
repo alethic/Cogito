@@ -9,7 +9,7 @@ namespace Cogito.Activities
     {
 
         /// <summary>
-        /// Waits for the given bookmark, and then executes the <paramref name="then"/> <see cref="ActivityAction"/>.
+        /// Waits for the given bookmark, and then executes <paramref name="then"/>.
         /// </summary>
         /// <param name="bookmarkName"></param>
         /// <param name="then"></param>

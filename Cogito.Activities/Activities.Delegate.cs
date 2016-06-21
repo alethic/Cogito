@@ -369,7 +369,7 @@ namespace Cogito.Activities
         }
 
 
-        public static ActivityFunc<TResult> DelegateFunc<TResult>(Func<Activity<TResult>> create)
+        public static ActivityFunc<TResult> Delegate<TResult>(Func<Activity<TResult>> create)
         {
             Contract.Requires<ArgumentNullException>(create != null);
 
@@ -384,7 +384,7 @@ namespace Cogito.Activities
             };
         }
 
-        public static ActivityFunc<TArg, TResult> DelegateFunc<TArg, TResult>(Func<DelegateInArgument<TArg>, Activity<TResult>> create)
+        public static ActivityFunc<TArg, TResult> Delegate<TArg, TResult>(Func<DelegateInArgument<TArg>, Activity<TResult>> create)
         {
             Contract.Requires<ArgumentNullException>(create != null);
 
@@ -401,7 +401,7 @@ namespace Cogito.Activities
             };
         }
 
-        public static ActivityFunc<TArg1, TArg2, TResult> DelegateFunc<TArg1, TArg2, TResult>(Func<DelegateInArgument<TArg1>, DelegateInArgument<TArg2>, Activity<TResult>> create)
+        public static ActivityFunc<TArg1, TArg2, TResult> Delegate<TArg1, TArg2, TResult>(Func<DelegateInArgument<TArg1>, DelegateInArgument<TArg2>, Activity<TResult>> create)
         {
             Contract.Requires<ArgumentNullException>(create != null);
 
@@ -420,7 +420,7 @@ namespace Cogito.Activities
             };
         }
 
-        public static ActivityFunc<TArg1, TArg2, TArg3, TResult> DelegateFunc<TArg1, TArg2, TArg3, TResult>(Func<DelegateInArgument<TArg1>, DelegateInArgument<TArg2>, DelegateInArgument<TArg3>, Activity<TResult>> create)
+        public static ActivityFunc<TArg1, TArg2, TArg3, TResult> Delegate<TArg1, TArg2, TArg3, TResult>(Func<DelegateInArgument<TArg1>, DelegateInArgument<TArg2>, DelegateInArgument<TArg3>, Activity<TResult>> create)
         {
             Contract.Requires<ArgumentNullException>(create != null);
 
@@ -441,7 +441,7 @@ namespace Cogito.Activities
             };
         }
 
-        public static ActivityFunc<TArg1, TArg2, TArg3, TArg4, TResult> DelegateFunc<TArg1, TArg2, TArg3, TArg4, TResult>(Func<DelegateInArgument<TArg1>, DelegateInArgument<TArg2>, DelegateInArgument<TArg3>, DelegateInArgument<TArg4>, Activity<TResult>> create)
+        public static ActivityFunc<TArg1, TArg2, TArg3, TArg4, TResult> Delegate<TArg1, TArg2, TArg3, TArg4, TResult>(Func<DelegateInArgument<TArg1>, DelegateInArgument<TArg2>, DelegateInArgument<TArg3>, DelegateInArgument<TArg4>, Activity<TResult>> create)
         {
             Contract.Requires<ArgumentNullException>(create != null);
 
@@ -464,7 +464,7 @@ namespace Cogito.Activities
             };
         }
 
-        public static ActivityFunc<TArg1, TArg2, TArg3, TArg4, TArg5, TResult> DelegateFunc<TArg1, TArg2, TArg3, TArg4, TArg5, TResult>(Func<DelegateInArgument<TArg1>, DelegateInArgument<TArg2>, DelegateInArgument<TArg3>, DelegateInArgument<TArg4>, DelegateInArgument<TArg5>, Activity<TResult>> create)
+        public static ActivityFunc<TArg1, TArg2, TArg3, TArg4, TArg5, TResult> Delegate<TArg1, TArg2, TArg3, TArg4, TArg5, TResult>(Func<DelegateInArgument<TArg1>, DelegateInArgument<TArg2>, DelegateInArgument<TArg3>, DelegateInArgument<TArg4>, DelegateInArgument<TArg5>, Activity<TResult>> create)
         {
             Contract.Requires<ArgumentNullException>(create != null);
 
@@ -489,7 +489,7 @@ namespace Cogito.Activities
             };
         }
 
-        public static ActivityFunc<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TResult> DelegateFunc<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TResult>(Func<DelegateInArgument<TArg1>, DelegateInArgument<TArg2>, DelegateInArgument<TArg3>, DelegateInArgument<TArg4>, DelegateInArgument<TArg5>, DelegateInArgument<TArg6>, Activity<TResult>> create)
+        public static ActivityFunc<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TResult> Delegate<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TResult>(Func<DelegateInArgument<TArg1>, DelegateInArgument<TArg2>, DelegateInArgument<TArg3>, DelegateInArgument<TArg4>, DelegateInArgument<TArg5>, DelegateInArgument<TArg6>, Activity<TResult>> create)
         {
             Contract.Requires<ArgumentNullException>(create != null);
 
@@ -516,7 +516,7 @@ namespace Cogito.Activities
             };
         }
 
-        public static ActivityFunc<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TResult> DelegateFunc<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TResult>(Func<DelegateInArgument<TArg1>, DelegateInArgument<TArg2>, DelegateInArgument<TArg3>, DelegateInArgument<TArg4>, DelegateInArgument<TArg5>, DelegateInArgument<TArg6>, DelegateInArgument<TArg7>, Activity<TResult>> create)
+        public static ActivityFunc<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TResult> Delegate<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TResult>(Func<DelegateInArgument<TArg1>, DelegateInArgument<TArg2>, DelegateInArgument<TArg3>, DelegateInArgument<TArg4>, DelegateInArgument<TArg5>, DelegateInArgument<TArg6>, DelegateInArgument<TArg7>, Activity<TResult>> create)
         {
             Contract.Requires<ArgumentNullException>(create != null);
 
@@ -545,7 +545,7 @@ namespace Cogito.Activities
             };
         }
 
-        public static ActivityFunc<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TResult> DelegateFunc<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TResult>(Func<DelegateInArgument<TArg1>, DelegateInArgument<TArg2>, DelegateInArgument<TArg3>, DelegateInArgument<TArg4>, DelegateInArgument<TArg5>, DelegateInArgument<TArg6>, DelegateInArgument<TArg7>, DelegateInArgument<TArg8>, Activity<TResult>> create)
+        public static ActivityFunc<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TResult> Delegate<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TResult>(Func<DelegateInArgument<TArg1>, DelegateInArgument<TArg2>, DelegateInArgument<TArg3>, DelegateInArgument<TArg4>, DelegateInArgument<TArg5>, DelegateInArgument<TArg6>, DelegateInArgument<TArg7>, DelegateInArgument<TArg8>, Activity<TResult>> create)
         {
             Contract.Requires<ArgumentNullException>(create != null);
 

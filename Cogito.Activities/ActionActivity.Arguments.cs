@@ -8,301 +8,132 @@ namespace Cogito.Activities
 
     public static partial class Activities
     {
-
-        /// <summary>
-        /// Returns a <see cref="Activity"/> that executes <paramref name="action"/>.
-        /// </summary>
-        /// <typeparam name="TArg1"></typeparam>
-        /// <param name="action"></param>
-        /// <returns></returns>
-        public static ActionActivity<TArg1> Invoke<TArg1>(Action<TArg1> action)
-        {
-            Contract.Requires<ArgumentNullException>(action != null);
-
-            return new ActionActivity<TArg1>((_arg1, context) => action(_arg1), null);
-        }
-        
         /// <summary>
         /// Returns a <see cref="Activity"/> that executes <paramref name="action"/> with arguments.
         /// </summary>
-        /// <typeparam name="TArg1"></typeparam>
+/// <typeparam name="TArg1"></typeparam>
         /// <param name="action"></param>
-        /// <param name="arg1"></param>
+/// <param name="arg1"></param>
         /// <returns></returns>
         public static ActionActivity<TArg1> Invoke<TArg1>(Action<TArg1> action, InArgument<TArg1> arg1)
         {
             Contract.Requires<ArgumentNullException>(action != null);
 
-            return new ActionActivity<TArg1>((_arg1, context) => action(_arg1), arg1);
+            return new ActionActivity<TArg1>(action, arg1);
         }
-        
-        /// <summary>
-        /// Returns a <see cref="Activity"/> that executes <paramref name="action"/> with arguments.
-        /// </summary>
-        /// <typeparam name="TArg1"></typeparam>
-        /// <param name="action"></param>
-        /// <param name="arg1"></param>
-        /// <returns></returns>
-        public static ActionActivity<TArg1> Invoke<TArg1>(Action<TArg1> action, DelegateInArgument<TArg1> arg1)
-        {
-            Contract.Requires<ArgumentNullException>(action != null);
 
-            return new ActionActivity<TArg1>((_arg1, context) => action(_arg1), arg1);
-        }
-        
         /// <summary>
         /// Returns a <see cref="Activity"/> that executes <paramref name="action"/> with arguments.
         /// </summary>
-        /// <typeparam name="TArg1"></typeparam>
+/// <typeparam name="TArg1"></typeparam>
         /// <param name="action"></param>
-        /// <param name="arg1"></param>
+/// <param name="arg1"></param>
         /// <returns></returns>
         public static ActionActivity<TArg1> Invoke<TArg1>(InArgument<TArg1> arg1, Action<TArg1> action)
         {
             Contract.Requires<ArgumentNullException>(action != null);
 
-            return new ActionActivity<TArg1>((_arg1, context) => action(_arg1), arg1);
+            return new ActionActivity<TArg1>(action, arg1);
         }
-        
+
         /// <summary>
         /// Returns a <see cref="Activity"/> that executes <paramref name="action"/> with arguments.
         /// </summary>
-        /// <typeparam name="TArg1"></typeparam>
+/// <typeparam name="TArg1"></typeparam>
         /// <param name="action"></param>
-        /// <param name="arg1"></param>
+/// <param name="arg1"></param>
+        /// <returns></returns>
+        public static ActionActivity<TArg1> Invoke<TArg1>(Action<TArg1> action, DelegateInArgument<TArg1> arg1)
+        {
+            Contract.Requires<ArgumentNullException>(action != null);
+
+            return new ActionActivity<TArg1>(action, arg1);
+        }
+
+        /// <summary>
+        /// Returns a <see cref="Activity"/> that executes <paramref name="action"/> with arguments.
+        /// </summary>
+/// <typeparam name="TArg1"></typeparam>
+        /// <param name="action"></param>
+/// <param name="arg1"></param>
         /// <returns></returns>
         public static ActionActivity<TArg1> Invoke<TArg1>(DelegateInArgument<TArg1> arg1, Action<TArg1> action)
         {
             Contract.Requires<ArgumentNullException>(action != null);
 
-            return new ActionActivity<TArg1>((_arg1, context) => action(_arg1), arg1);
-        }
-
-        /// <summary>
-        /// Returns a <see cref="Activity"/> that executes <paramref name="action"/> with arguments and the execution context.
-        /// </summary>
-        /// <typeparam name="TArg1"></typeparam>
-        /// <param name="action"></param>
-        /// <param name="arg1"></param>
-        /// <returns></returns>
-        public static ActionActivity<TArg1> InvokeWithContext<TArg1>(Action<TArg1, ActivityContext> action, InArgument<TArg1> arg1)
-        {
-            Contract.Requires<ArgumentNullException>(action != null);
-
             return new ActionActivity<TArg1>(action, arg1);
         }
-
-        /// <summary>
-        /// Returns a <see cref="Activity"/> that executes <paramref name="action"/> with arguments and the execution context.
-        /// </summary>
-        /// <typeparam name="TArg1"></typeparam>
-        /// <param name="action"></param>
-        /// <param name="arg1"></param>
-        /// <returns></returns>
-        public static ActionActivity<TArg1> InvokeWithContext<TArg1>(Action<TArg1, ActivityContext> action, DelegateInArgument<TArg1> arg1)
-        {
-            Contract.Requires<ArgumentNullException>(action != null);
-
-            return new ActionActivity<TArg1>(action, arg1);
-        }
-        
-
-        /// <summary>
-        /// Returns a <see cref="Activity"/> that executes <paramref name="action"/> with arguments and the execution context.
-        /// </summary>
-        /// <typeparam name="TArg1"></typeparam>
-        /// <param name="action"></param>
-        /// <param name="arg1"></param>
-        /// <returns></returns>
-        public static ActionActivity<TArg1> InvokeWithContext<TArg1>(InArgument<TArg1> arg1, Action<TArg1, ActivityContext> action)
-        {
-            Contract.Requires<ArgumentNullException>(action != null);
-
-            return new ActionActivity<TArg1>(action, arg1);
-        }
-        
-
-        /// <summary>
-        /// Returns a <see cref="Activity"/> that executes <paramref name="action"/> with arguments and the execution context.
-        /// </summary>
-        /// <typeparam name="TArg1"></typeparam>
-        /// <param name="action"></param>
-        /// <param name="arg1"></param>
-        /// <returns></returns>
-        public static ActionActivity<TArg1> InvokeWithContext<TArg1>(DelegateInArgument<TArg1> arg1, Action<TArg1, ActivityContext> action)
-        {
-            Contract.Requires<ArgumentNullException>(action != null);
-
-            return new ActionActivity<TArg1>(action, arg1);
-        }
-
-        /// <summary>
-        /// Returns a <see cref="Activity"/> that executes <paramref name="action"/>.
-        /// </summary>
-        /// <typeparam name="TArg1"></typeparam>
-/// <typeparam name="TArg2"></typeparam>
-        /// <param name="action"></param>
-        /// <returns></returns>
-        public static ActionActivity<TArg1, TArg2> Invoke<TArg1, TArg2>(Action<TArg1, TArg2> action)
-        {
-            Contract.Requires<ArgumentNullException>(action != null);
-
-            return new ActionActivity<TArg1, TArg2>((_arg1, _arg2, context) => action(_arg1, _arg2), null, null);
-        }
-        
         /// <summary>
         /// Returns a <see cref="Activity"/> that executes <paramref name="action"/> with arguments.
         /// </summary>
-        /// <typeparam name="TArg1"></typeparam>
+/// <typeparam name="TArg1"></typeparam>
 /// <typeparam name="TArg2"></typeparam>
         /// <param name="action"></param>
-        /// <param name="arg1"></param>
+/// <param name="arg1"></param>
 /// <param name="arg2"></param>
         /// <returns></returns>
         public static ActionActivity<TArg1, TArg2> Invoke<TArg1, TArg2>(Action<TArg1, TArg2> action, InArgument<TArg1> arg1, InArgument<TArg2> arg2)
         {
             Contract.Requires<ArgumentNullException>(action != null);
 
-            return new ActionActivity<TArg1, TArg2>((_arg1, _arg2, context) => action(_arg1, _arg2), arg1, arg2);
+            return new ActionActivity<TArg1, TArg2>(action, arg1, arg2);
         }
-        
-        /// <summary>
-        /// Returns a <see cref="Activity"/> that executes <paramref name="action"/> with arguments.
-        /// </summary>
-        /// <typeparam name="TArg1"></typeparam>
-/// <typeparam name="TArg2"></typeparam>
-        /// <param name="action"></param>
-        /// <param name="arg1"></param>
-/// <param name="arg2"></param>
-        /// <returns></returns>
-        public static ActionActivity<TArg1, TArg2> Invoke<TArg1, TArg2>(Action<TArg1, TArg2> action, DelegateInArgument<TArg1> arg1, DelegateInArgument<TArg2> arg2)
-        {
-            Contract.Requires<ArgumentNullException>(action != null);
 
-            return new ActionActivity<TArg1, TArg2>((_arg1, _arg2, context) => action(_arg1, _arg2), arg1, arg2);
-        }
-        
         /// <summary>
         /// Returns a <see cref="Activity"/> that executes <paramref name="action"/> with arguments.
         /// </summary>
-        /// <typeparam name="TArg1"></typeparam>
+/// <typeparam name="TArg1"></typeparam>
 /// <typeparam name="TArg2"></typeparam>
         /// <param name="action"></param>
-        /// <param name="arg1"></param>
+/// <param name="arg1"></param>
 /// <param name="arg2"></param>
         /// <returns></returns>
         public static ActionActivity<TArg1, TArg2> Invoke<TArg1, TArg2>(InArgument<TArg1> arg1, InArgument<TArg2> arg2, Action<TArg1, TArg2> action)
         {
             Contract.Requires<ArgumentNullException>(action != null);
 
-            return new ActionActivity<TArg1, TArg2>((_arg1, _arg2, context) => action(_arg1, _arg2), arg1, arg2);
+            return new ActionActivity<TArg1, TArg2>(action, arg1, arg2);
         }
-        
+
         /// <summary>
         /// Returns a <see cref="Activity"/> that executes <paramref name="action"/> with arguments.
         /// </summary>
-        /// <typeparam name="TArg1"></typeparam>
+/// <typeparam name="TArg1"></typeparam>
 /// <typeparam name="TArg2"></typeparam>
         /// <param name="action"></param>
-        /// <param name="arg1"></param>
+/// <param name="arg1"></param>
+/// <param name="arg2"></param>
+        /// <returns></returns>
+        public static ActionActivity<TArg1, TArg2> Invoke<TArg1, TArg2>(Action<TArg1, TArg2> action, DelegateInArgument<TArg1> arg1, DelegateInArgument<TArg2> arg2)
+        {
+            Contract.Requires<ArgumentNullException>(action != null);
+
+            return new ActionActivity<TArg1, TArg2>(action, arg1, arg2);
+        }
+
+        /// <summary>
+        /// Returns a <see cref="Activity"/> that executes <paramref name="action"/> with arguments.
+        /// </summary>
+/// <typeparam name="TArg1"></typeparam>
+/// <typeparam name="TArg2"></typeparam>
+        /// <param name="action"></param>
+/// <param name="arg1"></param>
 /// <param name="arg2"></param>
         /// <returns></returns>
         public static ActionActivity<TArg1, TArg2> Invoke<TArg1, TArg2>(DelegateInArgument<TArg1> arg1, DelegateInArgument<TArg2> arg2, Action<TArg1, TArg2> action)
         {
             Contract.Requires<ArgumentNullException>(action != null);
 
-            return new ActionActivity<TArg1, TArg2>((_arg1, _arg2, context) => action(_arg1, _arg2), arg1, arg2);
-        }
-
-        /// <summary>
-        /// Returns a <see cref="Activity"/> that executes <paramref name="action"/> with arguments and the execution context.
-        /// </summary>
-        /// <typeparam name="TArg1"></typeparam>
-/// <typeparam name="TArg2"></typeparam>
-        /// <param name="action"></param>
-        /// <param name="arg1"></param>
-/// <param name="arg2"></param>
-        /// <returns></returns>
-        public static ActionActivity<TArg1, TArg2> InvokeWithContext<TArg1, TArg2>(Action<TArg1, TArg2, ActivityContext> action, InArgument<TArg1> arg1, InArgument<TArg2> arg2)
-        {
-            Contract.Requires<ArgumentNullException>(action != null);
-
             return new ActionActivity<TArg1, TArg2>(action, arg1, arg2);
         }
-
-        /// <summary>
-        /// Returns a <see cref="Activity"/> that executes <paramref name="action"/> with arguments and the execution context.
-        /// </summary>
-        /// <typeparam name="TArg1"></typeparam>
-/// <typeparam name="TArg2"></typeparam>
-        /// <param name="action"></param>
-        /// <param name="arg1"></param>
-/// <param name="arg2"></param>
-        /// <returns></returns>
-        public static ActionActivity<TArg1, TArg2> InvokeWithContext<TArg1, TArg2>(Action<TArg1, TArg2, ActivityContext> action, DelegateInArgument<TArg1> arg1, DelegateInArgument<TArg2> arg2)
-        {
-            Contract.Requires<ArgumentNullException>(action != null);
-
-            return new ActionActivity<TArg1, TArg2>(action, arg1, arg2);
-        }
-        
-
-        /// <summary>
-        /// Returns a <see cref="Activity"/> that executes <paramref name="action"/> with arguments and the execution context.
-        /// </summary>
-        /// <typeparam name="TArg1"></typeparam>
-/// <typeparam name="TArg2"></typeparam>
-        /// <param name="action"></param>
-        /// <param name="arg1"></param>
-/// <param name="arg2"></param>
-        /// <returns></returns>
-        public static ActionActivity<TArg1, TArg2> InvokeWithContext<TArg1, TArg2>(InArgument<TArg1> arg1, InArgument<TArg2> arg2, Action<TArg1, TArg2, ActivityContext> action)
-        {
-            Contract.Requires<ArgumentNullException>(action != null);
-
-            return new ActionActivity<TArg1, TArg2>(action, arg1, arg2);
-        }
-        
-
-        /// <summary>
-        /// Returns a <see cref="Activity"/> that executes <paramref name="action"/> with arguments and the execution context.
-        /// </summary>
-        /// <typeparam name="TArg1"></typeparam>
-/// <typeparam name="TArg2"></typeparam>
-        /// <param name="action"></param>
-        /// <param name="arg1"></param>
-/// <param name="arg2"></param>
-        /// <returns></returns>
-        public static ActionActivity<TArg1, TArg2> InvokeWithContext<TArg1, TArg2>(DelegateInArgument<TArg1> arg1, DelegateInArgument<TArg2> arg2, Action<TArg1, TArg2, ActivityContext> action)
-        {
-            Contract.Requires<ArgumentNullException>(action != null);
-
-            return new ActionActivity<TArg1, TArg2>(action, arg1, arg2);
-        }
-
-        /// <summary>
-        /// Returns a <see cref="Activity"/> that executes <paramref name="action"/>.
-        /// </summary>
-        /// <typeparam name="TArg1"></typeparam>
-/// <typeparam name="TArg2"></typeparam>
-/// <typeparam name="TArg3"></typeparam>
-        /// <param name="action"></param>
-        /// <returns></returns>
-        public static ActionActivity<TArg1, TArg2, TArg3> Invoke<TArg1, TArg2, TArg3>(Action<TArg1, TArg2, TArg3> action)
-        {
-            Contract.Requires<ArgumentNullException>(action != null);
-
-            return new ActionActivity<TArg1, TArg2, TArg3>((_arg1, _arg2, _arg3, context) => action(_arg1, _arg2, _arg3), null, null, null);
-        }
-        
         /// <summary>
         /// Returns a <see cref="Activity"/> that executes <paramref name="action"/> with arguments.
         /// </summary>
-        /// <typeparam name="TArg1"></typeparam>
+/// <typeparam name="TArg1"></typeparam>
 /// <typeparam name="TArg2"></typeparam>
 /// <typeparam name="TArg3"></typeparam>
         /// <param name="action"></param>
-        /// <param name="arg1"></param>
+/// <param name="arg1"></param>
 /// <param name="arg2"></param>
 /// <param name="arg3"></param>
         /// <returns></returns>
@@ -310,35 +141,17 @@ namespace Cogito.Activities
         {
             Contract.Requires<ArgumentNullException>(action != null);
 
-            return new ActionActivity<TArg1, TArg2, TArg3>((_arg1, _arg2, _arg3, context) => action(_arg1, _arg2, _arg3), arg1, arg2, arg3);
+            return new ActionActivity<TArg1, TArg2, TArg3>(action, arg1, arg2, arg3);
         }
-        
-        /// <summary>
-        /// Returns a <see cref="Activity"/> that executes <paramref name="action"/> with arguments.
-        /// </summary>
-        /// <typeparam name="TArg1"></typeparam>
-/// <typeparam name="TArg2"></typeparam>
-/// <typeparam name="TArg3"></typeparam>
-        /// <param name="action"></param>
-        /// <param name="arg1"></param>
-/// <param name="arg2"></param>
-/// <param name="arg3"></param>
-        /// <returns></returns>
-        public static ActionActivity<TArg1, TArg2, TArg3> Invoke<TArg1, TArg2, TArg3>(Action<TArg1, TArg2, TArg3> action, DelegateInArgument<TArg1> arg1, DelegateInArgument<TArg2> arg2, DelegateInArgument<TArg3> arg3)
-        {
-            Contract.Requires<ArgumentNullException>(action != null);
 
-            return new ActionActivity<TArg1, TArg2, TArg3>((_arg1, _arg2, _arg3, context) => action(_arg1, _arg2, _arg3), arg1, arg2, arg3);
-        }
-        
         /// <summary>
         /// Returns a <see cref="Activity"/> that executes <paramref name="action"/> with arguments.
         /// </summary>
-        /// <typeparam name="TArg1"></typeparam>
+/// <typeparam name="TArg1"></typeparam>
 /// <typeparam name="TArg2"></typeparam>
 /// <typeparam name="TArg3"></typeparam>
         /// <param name="action"></param>
-        /// <param name="arg1"></param>
+/// <param name="arg1"></param>
 /// <param name="arg2"></param>
 /// <param name="arg3"></param>
         /// <returns></returns>
@@ -346,17 +159,35 @@ namespace Cogito.Activities
         {
             Contract.Requires<ArgumentNullException>(action != null);
 
-            return new ActionActivity<TArg1, TArg2, TArg3>((_arg1, _arg2, _arg3, context) => action(_arg1, _arg2, _arg3), arg1, arg2, arg3);
+            return new ActionActivity<TArg1, TArg2, TArg3>(action, arg1, arg2, arg3);
         }
-        
+
         /// <summary>
         /// Returns a <see cref="Activity"/> that executes <paramref name="action"/> with arguments.
         /// </summary>
-        /// <typeparam name="TArg1"></typeparam>
+/// <typeparam name="TArg1"></typeparam>
 /// <typeparam name="TArg2"></typeparam>
 /// <typeparam name="TArg3"></typeparam>
         /// <param name="action"></param>
-        /// <param name="arg1"></param>
+/// <param name="arg1"></param>
+/// <param name="arg2"></param>
+/// <param name="arg3"></param>
+        /// <returns></returns>
+        public static ActionActivity<TArg1, TArg2, TArg3> Invoke<TArg1, TArg2, TArg3>(Action<TArg1, TArg2, TArg3> action, DelegateInArgument<TArg1> arg1, DelegateInArgument<TArg2> arg2, DelegateInArgument<TArg3> arg3)
+        {
+            Contract.Requires<ArgumentNullException>(action != null);
+
+            return new ActionActivity<TArg1, TArg2, TArg3>(action, arg1, arg2, arg3);
+        }
+
+        /// <summary>
+        /// Returns a <see cref="Activity"/> that executes <paramref name="action"/> with arguments.
+        /// </summary>
+/// <typeparam name="TArg1"></typeparam>
+/// <typeparam name="TArg2"></typeparam>
+/// <typeparam name="TArg3"></typeparam>
+        /// <param name="action"></param>
+/// <param name="arg1"></param>
 /// <param name="arg2"></param>
 /// <param name="arg3"></param>
         /// <returns></returns>
@@ -364,108 +195,17 @@ namespace Cogito.Activities
         {
             Contract.Requires<ArgumentNullException>(action != null);
 
-            return new ActionActivity<TArg1, TArg2, TArg3>((_arg1, _arg2, _arg3, context) => action(_arg1, _arg2, _arg3), arg1, arg2, arg3);
-        }
-
-        /// <summary>
-        /// Returns a <see cref="Activity"/> that executes <paramref name="action"/> with arguments and the execution context.
-        /// </summary>
-        /// <typeparam name="TArg1"></typeparam>
-/// <typeparam name="TArg2"></typeparam>
-/// <typeparam name="TArg3"></typeparam>
-        /// <param name="action"></param>
-        /// <param name="arg1"></param>
-/// <param name="arg2"></param>
-/// <param name="arg3"></param>
-        /// <returns></returns>
-        public static ActionActivity<TArg1, TArg2, TArg3> InvokeWithContext<TArg1, TArg2, TArg3>(Action<TArg1, TArg2, TArg3, ActivityContext> action, InArgument<TArg1> arg1, InArgument<TArg2> arg2, InArgument<TArg3> arg3)
-        {
-            Contract.Requires<ArgumentNullException>(action != null);
-
             return new ActionActivity<TArg1, TArg2, TArg3>(action, arg1, arg2, arg3);
         }
-
-        /// <summary>
-        /// Returns a <see cref="Activity"/> that executes <paramref name="action"/> with arguments and the execution context.
-        /// </summary>
-        /// <typeparam name="TArg1"></typeparam>
-/// <typeparam name="TArg2"></typeparam>
-/// <typeparam name="TArg3"></typeparam>
-        /// <param name="action"></param>
-        /// <param name="arg1"></param>
-/// <param name="arg2"></param>
-/// <param name="arg3"></param>
-        /// <returns></returns>
-        public static ActionActivity<TArg1, TArg2, TArg3> InvokeWithContext<TArg1, TArg2, TArg3>(Action<TArg1, TArg2, TArg3, ActivityContext> action, DelegateInArgument<TArg1> arg1, DelegateInArgument<TArg2> arg2, DelegateInArgument<TArg3> arg3)
-        {
-            Contract.Requires<ArgumentNullException>(action != null);
-
-            return new ActionActivity<TArg1, TArg2, TArg3>(action, arg1, arg2, arg3);
-        }
-        
-
-        /// <summary>
-        /// Returns a <see cref="Activity"/> that executes <paramref name="action"/> with arguments and the execution context.
-        /// </summary>
-        /// <typeparam name="TArg1"></typeparam>
-/// <typeparam name="TArg2"></typeparam>
-/// <typeparam name="TArg3"></typeparam>
-        /// <param name="action"></param>
-        /// <param name="arg1"></param>
-/// <param name="arg2"></param>
-/// <param name="arg3"></param>
-        /// <returns></returns>
-        public static ActionActivity<TArg1, TArg2, TArg3> InvokeWithContext<TArg1, TArg2, TArg3>(InArgument<TArg1> arg1, InArgument<TArg2> arg2, InArgument<TArg3> arg3, Action<TArg1, TArg2, TArg3, ActivityContext> action)
-        {
-            Contract.Requires<ArgumentNullException>(action != null);
-
-            return new ActionActivity<TArg1, TArg2, TArg3>(action, arg1, arg2, arg3);
-        }
-        
-
-        /// <summary>
-        /// Returns a <see cref="Activity"/> that executes <paramref name="action"/> with arguments and the execution context.
-        /// </summary>
-        /// <typeparam name="TArg1"></typeparam>
-/// <typeparam name="TArg2"></typeparam>
-/// <typeparam name="TArg3"></typeparam>
-        /// <param name="action"></param>
-        /// <param name="arg1"></param>
-/// <param name="arg2"></param>
-/// <param name="arg3"></param>
-        /// <returns></returns>
-        public static ActionActivity<TArg1, TArg2, TArg3> InvokeWithContext<TArg1, TArg2, TArg3>(DelegateInArgument<TArg1> arg1, DelegateInArgument<TArg2> arg2, DelegateInArgument<TArg3> arg3, Action<TArg1, TArg2, TArg3, ActivityContext> action)
-        {
-            Contract.Requires<ArgumentNullException>(action != null);
-
-            return new ActionActivity<TArg1, TArg2, TArg3>(action, arg1, arg2, arg3);
-        }
-
-        /// <summary>
-        /// Returns a <see cref="Activity"/> that executes <paramref name="action"/>.
-        /// </summary>
-        /// <typeparam name="TArg1"></typeparam>
-/// <typeparam name="TArg2"></typeparam>
-/// <typeparam name="TArg3"></typeparam>
-/// <typeparam name="TArg4"></typeparam>
-        /// <param name="action"></param>
-        /// <returns></returns>
-        public static ActionActivity<TArg1, TArg2, TArg3, TArg4> Invoke<TArg1, TArg2, TArg3, TArg4>(Action<TArg1, TArg2, TArg3, TArg4> action)
-        {
-            Contract.Requires<ArgumentNullException>(action != null);
-
-            return new ActionActivity<TArg1, TArg2, TArg3, TArg4>((_arg1, _arg2, _arg3, _arg4, context) => action(_arg1, _arg2, _arg3, _arg4), null, null, null, null);
-        }
-        
         /// <summary>
         /// Returns a <see cref="Activity"/> that executes <paramref name="action"/> with arguments.
         /// </summary>
-        /// <typeparam name="TArg1"></typeparam>
+/// <typeparam name="TArg1"></typeparam>
 /// <typeparam name="TArg2"></typeparam>
 /// <typeparam name="TArg3"></typeparam>
 /// <typeparam name="TArg4"></typeparam>
         /// <param name="action"></param>
-        /// <param name="arg1"></param>
+/// <param name="arg1"></param>
 /// <param name="arg2"></param>
 /// <param name="arg3"></param>
 /// <param name="arg4"></param>
@@ -474,38 +214,18 @@ namespace Cogito.Activities
         {
             Contract.Requires<ArgumentNullException>(action != null);
 
-            return new ActionActivity<TArg1, TArg2, TArg3, TArg4>((_arg1, _arg2, _arg3, _arg4, context) => action(_arg1, _arg2, _arg3, _arg4), arg1, arg2, arg3, arg4);
+            return new ActionActivity<TArg1, TArg2, TArg3, TArg4>(action, arg1, arg2, arg3, arg4);
         }
-        
-        /// <summary>
-        /// Returns a <see cref="Activity"/> that executes <paramref name="action"/> with arguments.
-        /// </summary>
-        /// <typeparam name="TArg1"></typeparam>
-/// <typeparam name="TArg2"></typeparam>
-/// <typeparam name="TArg3"></typeparam>
-/// <typeparam name="TArg4"></typeparam>
-        /// <param name="action"></param>
-        /// <param name="arg1"></param>
-/// <param name="arg2"></param>
-/// <param name="arg3"></param>
-/// <param name="arg4"></param>
-        /// <returns></returns>
-        public static ActionActivity<TArg1, TArg2, TArg3, TArg4> Invoke<TArg1, TArg2, TArg3, TArg4>(Action<TArg1, TArg2, TArg3, TArg4> action, DelegateInArgument<TArg1> arg1, DelegateInArgument<TArg2> arg2, DelegateInArgument<TArg3> arg3, DelegateInArgument<TArg4> arg4)
-        {
-            Contract.Requires<ArgumentNullException>(action != null);
 
-            return new ActionActivity<TArg1, TArg2, TArg3, TArg4>((_arg1, _arg2, _arg3, _arg4, context) => action(_arg1, _arg2, _arg3, _arg4), arg1, arg2, arg3, arg4);
-        }
-        
         /// <summary>
         /// Returns a <see cref="Activity"/> that executes <paramref name="action"/> with arguments.
         /// </summary>
-        /// <typeparam name="TArg1"></typeparam>
+/// <typeparam name="TArg1"></typeparam>
 /// <typeparam name="TArg2"></typeparam>
 /// <typeparam name="TArg3"></typeparam>
 /// <typeparam name="TArg4"></typeparam>
         /// <param name="action"></param>
-        /// <param name="arg1"></param>
+/// <param name="arg1"></param>
 /// <param name="arg2"></param>
 /// <param name="arg3"></param>
 /// <param name="arg4"></param>
@@ -514,18 +234,38 @@ namespace Cogito.Activities
         {
             Contract.Requires<ArgumentNullException>(action != null);
 
-            return new ActionActivity<TArg1, TArg2, TArg3, TArg4>((_arg1, _arg2, _arg3, _arg4, context) => action(_arg1, _arg2, _arg3, _arg4), arg1, arg2, arg3, arg4);
+            return new ActionActivity<TArg1, TArg2, TArg3, TArg4>(action, arg1, arg2, arg3, arg4);
         }
-        
+
         /// <summary>
         /// Returns a <see cref="Activity"/> that executes <paramref name="action"/> with arguments.
         /// </summary>
-        /// <typeparam name="TArg1"></typeparam>
+/// <typeparam name="TArg1"></typeparam>
 /// <typeparam name="TArg2"></typeparam>
 /// <typeparam name="TArg3"></typeparam>
 /// <typeparam name="TArg4"></typeparam>
         /// <param name="action"></param>
-        /// <param name="arg1"></param>
+/// <param name="arg1"></param>
+/// <param name="arg2"></param>
+/// <param name="arg3"></param>
+/// <param name="arg4"></param>
+        /// <returns></returns>
+        public static ActionActivity<TArg1, TArg2, TArg3, TArg4> Invoke<TArg1, TArg2, TArg3, TArg4>(Action<TArg1, TArg2, TArg3, TArg4> action, DelegateInArgument<TArg1> arg1, DelegateInArgument<TArg2> arg2, DelegateInArgument<TArg3> arg3, DelegateInArgument<TArg4> arg4)
+        {
+            Contract.Requires<ArgumentNullException>(action != null);
+
+            return new ActionActivity<TArg1, TArg2, TArg3, TArg4>(action, arg1, arg2, arg3, arg4);
+        }
+
+        /// <summary>
+        /// Returns a <see cref="Activity"/> that executes <paramref name="action"/> with arguments.
+        /// </summary>
+/// <typeparam name="TArg1"></typeparam>
+/// <typeparam name="TArg2"></typeparam>
+/// <typeparam name="TArg3"></typeparam>
+/// <typeparam name="TArg4"></typeparam>
+        /// <param name="action"></param>
+/// <param name="arg1"></param>
 /// <param name="arg2"></param>
 /// <param name="arg3"></param>
 /// <param name="arg4"></param>
@@ -534,118 +274,18 @@ namespace Cogito.Activities
         {
             Contract.Requires<ArgumentNullException>(action != null);
 
-            return new ActionActivity<TArg1, TArg2, TArg3, TArg4>((_arg1, _arg2, _arg3, _arg4, context) => action(_arg1, _arg2, _arg3, _arg4), arg1, arg2, arg3, arg4);
-        }
-
-        /// <summary>
-        /// Returns a <see cref="Activity"/> that executes <paramref name="action"/> with arguments and the execution context.
-        /// </summary>
-        /// <typeparam name="TArg1"></typeparam>
-/// <typeparam name="TArg2"></typeparam>
-/// <typeparam name="TArg3"></typeparam>
-/// <typeparam name="TArg4"></typeparam>
-        /// <param name="action"></param>
-        /// <param name="arg1"></param>
-/// <param name="arg2"></param>
-/// <param name="arg3"></param>
-/// <param name="arg4"></param>
-        /// <returns></returns>
-        public static ActionActivity<TArg1, TArg2, TArg3, TArg4> InvokeWithContext<TArg1, TArg2, TArg3, TArg4>(Action<TArg1, TArg2, TArg3, TArg4, ActivityContext> action, InArgument<TArg1> arg1, InArgument<TArg2> arg2, InArgument<TArg3> arg3, InArgument<TArg4> arg4)
-        {
-            Contract.Requires<ArgumentNullException>(action != null);
-
             return new ActionActivity<TArg1, TArg2, TArg3, TArg4>(action, arg1, arg2, arg3, arg4);
         }
-
-        /// <summary>
-        /// Returns a <see cref="Activity"/> that executes <paramref name="action"/> with arguments and the execution context.
-        /// </summary>
-        /// <typeparam name="TArg1"></typeparam>
-/// <typeparam name="TArg2"></typeparam>
-/// <typeparam name="TArg3"></typeparam>
-/// <typeparam name="TArg4"></typeparam>
-        /// <param name="action"></param>
-        /// <param name="arg1"></param>
-/// <param name="arg2"></param>
-/// <param name="arg3"></param>
-/// <param name="arg4"></param>
-        /// <returns></returns>
-        public static ActionActivity<TArg1, TArg2, TArg3, TArg4> InvokeWithContext<TArg1, TArg2, TArg3, TArg4>(Action<TArg1, TArg2, TArg3, TArg4, ActivityContext> action, DelegateInArgument<TArg1> arg1, DelegateInArgument<TArg2> arg2, DelegateInArgument<TArg3> arg3, DelegateInArgument<TArg4> arg4)
-        {
-            Contract.Requires<ArgumentNullException>(action != null);
-
-            return new ActionActivity<TArg1, TArg2, TArg3, TArg4>(action, arg1, arg2, arg3, arg4);
-        }
-        
-
-        /// <summary>
-        /// Returns a <see cref="Activity"/> that executes <paramref name="action"/> with arguments and the execution context.
-        /// </summary>
-        /// <typeparam name="TArg1"></typeparam>
-/// <typeparam name="TArg2"></typeparam>
-/// <typeparam name="TArg3"></typeparam>
-/// <typeparam name="TArg4"></typeparam>
-        /// <param name="action"></param>
-        /// <param name="arg1"></param>
-/// <param name="arg2"></param>
-/// <param name="arg3"></param>
-/// <param name="arg4"></param>
-        /// <returns></returns>
-        public static ActionActivity<TArg1, TArg2, TArg3, TArg4> InvokeWithContext<TArg1, TArg2, TArg3, TArg4>(InArgument<TArg1> arg1, InArgument<TArg2> arg2, InArgument<TArg3> arg3, InArgument<TArg4> arg4, Action<TArg1, TArg2, TArg3, TArg4, ActivityContext> action)
-        {
-            Contract.Requires<ArgumentNullException>(action != null);
-
-            return new ActionActivity<TArg1, TArg2, TArg3, TArg4>(action, arg1, arg2, arg3, arg4);
-        }
-        
-
-        /// <summary>
-        /// Returns a <see cref="Activity"/> that executes <paramref name="action"/> with arguments and the execution context.
-        /// </summary>
-        /// <typeparam name="TArg1"></typeparam>
-/// <typeparam name="TArg2"></typeparam>
-/// <typeparam name="TArg3"></typeparam>
-/// <typeparam name="TArg4"></typeparam>
-        /// <param name="action"></param>
-        /// <param name="arg1"></param>
-/// <param name="arg2"></param>
-/// <param name="arg3"></param>
-/// <param name="arg4"></param>
-        /// <returns></returns>
-        public static ActionActivity<TArg1, TArg2, TArg3, TArg4> InvokeWithContext<TArg1, TArg2, TArg3, TArg4>(DelegateInArgument<TArg1> arg1, DelegateInArgument<TArg2> arg2, DelegateInArgument<TArg3> arg3, DelegateInArgument<TArg4> arg4, Action<TArg1, TArg2, TArg3, TArg4, ActivityContext> action)
-        {
-            Contract.Requires<ArgumentNullException>(action != null);
-
-            return new ActionActivity<TArg1, TArg2, TArg3, TArg4>(action, arg1, arg2, arg3, arg4);
-        }
-
-        /// <summary>
-        /// Returns a <see cref="Activity"/> that executes <paramref name="action"/>.
-        /// </summary>
-        /// <typeparam name="TArg1"></typeparam>
-/// <typeparam name="TArg2"></typeparam>
-/// <typeparam name="TArg3"></typeparam>
-/// <typeparam name="TArg4"></typeparam>
-/// <typeparam name="TArg5"></typeparam>
-        /// <param name="action"></param>
-        /// <returns></returns>
-        public static ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5> Invoke<TArg1, TArg2, TArg3, TArg4, TArg5>(Action<TArg1, TArg2, TArg3, TArg4, TArg5> action)
-        {
-            Contract.Requires<ArgumentNullException>(action != null);
-
-            return new ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5>((_arg1, _arg2, _arg3, _arg4, _arg5, context) => action(_arg1, _arg2, _arg3, _arg4, _arg5), null, null, null, null, null);
-        }
-        
         /// <summary>
         /// Returns a <see cref="Activity"/> that executes <paramref name="action"/> with arguments.
         /// </summary>
-        /// <typeparam name="TArg1"></typeparam>
+/// <typeparam name="TArg1"></typeparam>
 /// <typeparam name="TArg2"></typeparam>
 /// <typeparam name="TArg3"></typeparam>
 /// <typeparam name="TArg4"></typeparam>
 /// <typeparam name="TArg5"></typeparam>
         /// <param name="action"></param>
-        /// <param name="arg1"></param>
+/// <param name="arg1"></param>
 /// <param name="arg2"></param>
 /// <param name="arg3"></param>
 /// <param name="arg4"></param>
@@ -655,41 +295,19 @@ namespace Cogito.Activities
         {
             Contract.Requires<ArgumentNullException>(action != null);
 
-            return new ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5>((_arg1, _arg2, _arg3, _arg4, _arg5, context) => action(_arg1, _arg2, _arg3, _arg4, _arg5), arg1, arg2, arg3, arg4, arg5);
+            return new ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5>(action, arg1, arg2, arg3, arg4, arg5);
         }
-        
-        /// <summary>
-        /// Returns a <see cref="Activity"/> that executes <paramref name="action"/> with arguments.
-        /// </summary>
-        /// <typeparam name="TArg1"></typeparam>
-/// <typeparam name="TArg2"></typeparam>
-/// <typeparam name="TArg3"></typeparam>
-/// <typeparam name="TArg4"></typeparam>
-/// <typeparam name="TArg5"></typeparam>
-        /// <param name="action"></param>
-        /// <param name="arg1"></param>
-/// <param name="arg2"></param>
-/// <param name="arg3"></param>
-/// <param name="arg4"></param>
-/// <param name="arg5"></param>
-        /// <returns></returns>
-        public static ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5> Invoke<TArg1, TArg2, TArg3, TArg4, TArg5>(Action<TArg1, TArg2, TArg3, TArg4, TArg5> action, DelegateInArgument<TArg1> arg1, DelegateInArgument<TArg2> arg2, DelegateInArgument<TArg3> arg3, DelegateInArgument<TArg4> arg4, DelegateInArgument<TArg5> arg5)
-        {
-            Contract.Requires<ArgumentNullException>(action != null);
 
-            return new ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5>((_arg1, _arg2, _arg3, _arg4, _arg5, context) => action(_arg1, _arg2, _arg3, _arg4, _arg5), arg1, arg2, arg3, arg4, arg5);
-        }
-        
         /// <summary>
         /// Returns a <see cref="Activity"/> that executes <paramref name="action"/> with arguments.
         /// </summary>
-        /// <typeparam name="TArg1"></typeparam>
+/// <typeparam name="TArg1"></typeparam>
 /// <typeparam name="TArg2"></typeparam>
 /// <typeparam name="TArg3"></typeparam>
 /// <typeparam name="TArg4"></typeparam>
 /// <typeparam name="TArg5"></typeparam>
         /// <param name="action"></param>
-        /// <param name="arg1"></param>
+/// <param name="arg1"></param>
 /// <param name="arg2"></param>
 /// <param name="arg3"></param>
 /// <param name="arg4"></param>
@@ -699,19 +317,41 @@ namespace Cogito.Activities
         {
             Contract.Requires<ArgumentNullException>(action != null);
 
-            return new ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5>((_arg1, _arg2, _arg3, _arg4, _arg5, context) => action(_arg1, _arg2, _arg3, _arg4, _arg5), arg1, arg2, arg3, arg4, arg5);
+            return new ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5>(action, arg1, arg2, arg3, arg4, arg5);
         }
-        
+
         /// <summary>
         /// Returns a <see cref="Activity"/> that executes <paramref name="action"/> with arguments.
         /// </summary>
-        /// <typeparam name="TArg1"></typeparam>
+/// <typeparam name="TArg1"></typeparam>
 /// <typeparam name="TArg2"></typeparam>
 /// <typeparam name="TArg3"></typeparam>
 /// <typeparam name="TArg4"></typeparam>
 /// <typeparam name="TArg5"></typeparam>
         /// <param name="action"></param>
-        /// <param name="arg1"></param>
+/// <param name="arg1"></param>
+/// <param name="arg2"></param>
+/// <param name="arg3"></param>
+/// <param name="arg4"></param>
+/// <param name="arg5"></param>
+        /// <returns></returns>
+        public static ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5> Invoke<TArg1, TArg2, TArg3, TArg4, TArg5>(Action<TArg1, TArg2, TArg3, TArg4, TArg5> action, DelegateInArgument<TArg1> arg1, DelegateInArgument<TArg2> arg2, DelegateInArgument<TArg3> arg3, DelegateInArgument<TArg4> arg4, DelegateInArgument<TArg5> arg5)
+        {
+            Contract.Requires<ArgumentNullException>(action != null);
+
+            return new ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5>(action, arg1, arg2, arg3, arg4, arg5);
+        }
+
+        /// <summary>
+        /// Returns a <see cref="Activity"/> that executes <paramref name="action"/> with arguments.
+        /// </summary>
+/// <typeparam name="TArg1"></typeparam>
+/// <typeparam name="TArg2"></typeparam>
+/// <typeparam name="TArg3"></typeparam>
+/// <typeparam name="TArg4"></typeparam>
+/// <typeparam name="TArg5"></typeparam>
+        /// <param name="action"></param>
+/// <param name="arg1"></param>
 /// <param name="arg2"></param>
 /// <param name="arg3"></param>
 /// <param name="arg4"></param>
@@ -721,128 +361,19 @@ namespace Cogito.Activities
         {
             Contract.Requires<ArgumentNullException>(action != null);
 
-            return new ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5>((_arg1, _arg2, _arg3, _arg4, _arg5, context) => action(_arg1, _arg2, _arg3, _arg4, _arg5), arg1, arg2, arg3, arg4, arg5);
-        }
-
-        /// <summary>
-        /// Returns a <see cref="Activity"/> that executes <paramref name="action"/> with arguments and the execution context.
-        /// </summary>
-        /// <typeparam name="TArg1"></typeparam>
-/// <typeparam name="TArg2"></typeparam>
-/// <typeparam name="TArg3"></typeparam>
-/// <typeparam name="TArg4"></typeparam>
-/// <typeparam name="TArg5"></typeparam>
-        /// <param name="action"></param>
-        /// <param name="arg1"></param>
-/// <param name="arg2"></param>
-/// <param name="arg3"></param>
-/// <param name="arg4"></param>
-/// <param name="arg5"></param>
-        /// <returns></returns>
-        public static ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5> InvokeWithContext<TArg1, TArg2, TArg3, TArg4, TArg5>(Action<TArg1, TArg2, TArg3, TArg4, TArg5, ActivityContext> action, InArgument<TArg1> arg1, InArgument<TArg2> arg2, InArgument<TArg3> arg3, InArgument<TArg4> arg4, InArgument<TArg5> arg5)
-        {
-            Contract.Requires<ArgumentNullException>(action != null);
-
             return new ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5>(action, arg1, arg2, arg3, arg4, arg5);
         }
-
-        /// <summary>
-        /// Returns a <see cref="Activity"/> that executes <paramref name="action"/> with arguments and the execution context.
-        /// </summary>
-        /// <typeparam name="TArg1"></typeparam>
-/// <typeparam name="TArg2"></typeparam>
-/// <typeparam name="TArg3"></typeparam>
-/// <typeparam name="TArg4"></typeparam>
-/// <typeparam name="TArg5"></typeparam>
-        /// <param name="action"></param>
-        /// <param name="arg1"></param>
-/// <param name="arg2"></param>
-/// <param name="arg3"></param>
-/// <param name="arg4"></param>
-/// <param name="arg5"></param>
-        /// <returns></returns>
-        public static ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5> InvokeWithContext<TArg1, TArg2, TArg3, TArg4, TArg5>(Action<TArg1, TArg2, TArg3, TArg4, TArg5, ActivityContext> action, DelegateInArgument<TArg1> arg1, DelegateInArgument<TArg2> arg2, DelegateInArgument<TArg3> arg3, DelegateInArgument<TArg4> arg4, DelegateInArgument<TArg5> arg5)
-        {
-            Contract.Requires<ArgumentNullException>(action != null);
-
-            return new ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5>(action, arg1, arg2, arg3, arg4, arg5);
-        }
-        
-
-        /// <summary>
-        /// Returns a <see cref="Activity"/> that executes <paramref name="action"/> with arguments and the execution context.
-        /// </summary>
-        /// <typeparam name="TArg1"></typeparam>
-/// <typeparam name="TArg2"></typeparam>
-/// <typeparam name="TArg3"></typeparam>
-/// <typeparam name="TArg4"></typeparam>
-/// <typeparam name="TArg5"></typeparam>
-        /// <param name="action"></param>
-        /// <param name="arg1"></param>
-/// <param name="arg2"></param>
-/// <param name="arg3"></param>
-/// <param name="arg4"></param>
-/// <param name="arg5"></param>
-        /// <returns></returns>
-        public static ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5> InvokeWithContext<TArg1, TArg2, TArg3, TArg4, TArg5>(InArgument<TArg1> arg1, InArgument<TArg2> arg2, InArgument<TArg3> arg3, InArgument<TArg4> arg4, InArgument<TArg5> arg5, Action<TArg1, TArg2, TArg3, TArg4, TArg5, ActivityContext> action)
-        {
-            Contract.Requires<ArgumentNullException>(action != null);
-
-            return new ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5>(action, arg1, arg2, arg3, arg4, arg5);
-        }
-        
-
-        /// <summary>
-        /// Returns a <see cref="Activity"/> that executes <paramref name="action"/> with arguments and the execution context.
-        /// </summary>
-        /// <typeparam name="TArg1"></typeparam>
-/// <typeparam name="TArg2"></typeparam>
-/// <typeparam name="TArg3"></typeparam>
-/// <typeparam name="TArg4"></typeparam>
-/// <typeparam name="TArg5"></typeparam>
-        /// <param name="action"></param>
-        /// <param name="arg1"></param>
-/// <param name="arg2"></param>
-/// <param name="arg3"></param>
-/// <param name="arg4"></param>
-/// <param name="arg5"></param>
-        /// <returns></returns>
-        public static ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5> InvokeWithContext<TArg1, TArg2, TArg3, TArg4, TArg5>(DelegateInArgument<TArg1> arg1, DelegateInArgument<TArg2> arg2, DelegateInArgument<TArg3> arg3, DelegateInArgument<TArg4> arg4, DelegateInArgument<TArg5> arg5, Action<TArg1, TArg2, TArg3, TArg4, TArg5, ActivityContext> action)
-        {
-            Contract.Requires<ArgumentNullException>(action != null);
-
-            return new ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5>(action, arg1, arg2, arg3, arg4, arg5);
-        }
-
-        /// <summary>
-        /// Returns a <see cref="Activity"/> that executes <paramref name="action"/>.
-        /// </summary>
-        /// <typeparam name="TArg1"></typeparam>
-/// <typeparam name="TArg2"></typeparam>
-/// <typeparam name="TArg3"></typeparam>
-/// <typeparam name="TArg4"></typeparam>
-/// <typeparam name="TArg5"></typeparam>
-/// <typeparam name="TArg6"></typeparam>
-        /// <param name="action"></param>
-        /// <returns></returns>
-        public static ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6> Invoke<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6> action)
-        {
-            Contract.Requires<ArgumentNullException>(action != null);
-
-            return new ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>((_arg1, _arg2, _arg3, _arg4, _arg5, _arg6, context) => action(_arg1, _arg2, _arg3, _arg4, _arg5, _arg6), null, null, null, null, null, null);
-        }
-        
         /// <summary>
         /// Returns a <see cref="Activity"/> that executes <paramref name="action"/> with arguments.
         /// </summary>
-        /// <typeparam name="TArg1"></typeparam>
+/// <typeparam name="TArg1"></typeparam>
 /// <typeparam name="TArg2"></typeparam>
 /// <typeparam name="TArg3"></typeparam>
 /// <typeparam name="TArg4"></typeparam>
 /// <typeparam name="TArg5"></typeparam>
 /// <typeparam name="TArg6"></typeparam>
         /// <param name="action"></param>
-        /// <param name="arg1"></param>
+/// <param name="arg1"></param>
 /// <param name="arg2"></param>
 /// <param name="arg3"></param>
 /// <param name="arg4"></param>
@@ -853,44 +384,20 @@ namespace Cogito.Activities
         {
             Contract.Requires<ArgumentNullException>(action != null);
 
-            return new ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>((_arg1, _arg2, _arg3, _arg4, _arg5, _arg6, context) => action(_arg1, _arg2, _arg3, _arg4, _arg5, _arg6), arg1, arg2, arg3, arg4, arg5, arg6);
+            return new ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(action, arg1, arg2, arg3, arg4, arg5, arg6);
         }
-        
-        /// <summary>
-        /// Returns a <see cref="Activity"/> that executes <paramref name="action"/> with arguments.
-        /// </summary>
-        /// <typeparam name="TArg1"></typeparam>
-/// <typeparam name="TArg2"></typeparam>
-/// <typeparam name="TArg3"></typeparam>
-/// <typeparam name="TArg4"></typeparam>
-/// <typeparam name="TArg5"></typeparam>
-/// <typeparam name="TArg6"></typeparam>
-        /// <param name="action"></param>
-        /// <param name="arg1"></param>
-/// <param name="arg2"></param>
-/// <param name="arg3"></param>
-/// <param name="arg4"></param>
-/// <param name="arg5"></param>
-/// <param name="arg6"></param>
-        /// <returns></returns>
-        public static ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6> Invoke<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6> action, DelegateInArgument<TArg1> arg1, DelegateInArgument<TArg2> arg2, DelegateInArgument<TArg3> arg3, DelegateInArgument<TArg4> arg4, DelegateInArgument<TArg5> arg5, DelegateInArgument<TArg6> arg6)
-        {
-            Contract.Requires<ArgumentNullException>(action != null);
 
-            return new ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>((_arg1, _arg2, _arg3, _arg4, _arg5, _arg6, context) => action(_arg1, _arg2, _arg3, _arg4, _arg5, _arg6), arg1, arg2, arg3, arg4, arg5, arg6);
-        }
-        
         /// <summary>
         /// Returns a <see cref="Activity"/> that executes <paramref name="action"/> with arguments.
         /// </summary>
-        /// <typeparam name="TArg1"></typeparam>
+/// <typeparam name="TArg1"></typeparam>
 /// <typeparam name="TArg2"></typeparam>
 /// <typeparam name="TArg3"></typeparam>
 /// <typeparam name="TArg4"></typeparam>
 /// <typeparam name="TArg5"></typeparam>
 /// <typeparam name="TArg6"></typeparam>
         /// <param name="action"></param>
-        /// <param name="arg1"></param>
+/// <param name="arg1"></param>
 /// <param name="arg2"></param>
 /// <param name="arg3"></param>
 /// <param name="arg4"></param>
@@ -901,20 +408,44 @@ namespace Cogito.Activities
         {
             Contract.Requires<ArgumentNullException>(action != null);
 
-            return new ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>((_arg1, _arg2, _arg3, _arg4, _arg5, _arg6, context) => action(_arg1, _arg2, _arg3, _arg4, _arg5, _arg6), arg1, arg2, arg3, arg4, arg5, arg6);
+            return new ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(action, arg1, arg2, arg3, arg4, arg5, arg6);
         }
-        
+
         /// <summary>
         /// Returns a <see cref="Activity"/> that executes <paramref name="action"/> with arguments.
         /// </summary>
-        /// <typeparam name="TArg1"></typeparam>
+/// <typeparam name="TArg1"></typeparam>
 /// <typeparam name="TArg2"></typeparam>
 /// <typeparam name="TArg3"></typeparam>
 /// <typeparam name="TArg4"></typeparam>
 /// <typeparam name="TArg5"></typeparam>
 /// <typeparam name="TArg6"></typeparam>
         /// <param name="action"></param>
-        /// <param name="arg1"></param>
+/// <param name="arg1"></param>
+/// <param name="arg2"></param>
+/// <param name="arg3"></param>
+/// <param name="arg4"></param>
+/// <param name="arg5"></param>
+/// <param name="arg6"></param>
+        /// <returns></returns>
+        public static ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6> Invoke<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6> action, DelegateInArgument<TArg1> arg1, DelegateInArgument<TArg2> arg2, DelegateInArgument<TArg3> arg3, DelegateInArgument<TArg4> arg4, DelegateInArgument<TArg5> arg5, DelegateInArgument<TArg6> arg6)
+        {
+            Contract.Requires<ArgumentNullException>(action != null);
+
+            return new ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(action, arg1, arg2, arg3, arg4, arg5, arg6);
+        }
+
+        /// <summary>
+        /// Returns a <see cref="Activity"/> that executes <paramref name="action"/> with arguments.
+        /// </summary>
+/// <typeparam name="TArg1"></typeparam>
+/// <typeparam name="TArg2"></typeparam>
+/// <typeparam name="TArg3"></typeparam>
+/// <typeparam name="TArg4"></typeparam>
+/// <typeparam name="TArg5"></typeparam>
+/// <typeparam name="TArg6"></typeparam>
+        /// <param name="action"></param>
+/// <param name="arg1"></param>
 /// <param name="arg2"></param>
 /// <param name="arg3"></param>
 /// <param name="arg4"></param>
@@ -925,130 +456,12 @@ namespace Cogito.Activities
         {
             Contract.Requires<ArgumentNullException>(action != null);
 
-            return new ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>((_arg1, _arg2, _arg3, _arg4, _arg5, _arg6, context) => action(_arg1, _arg2, _arg3, _arg4, _arg5, _arg6), arg1, arg2, arg3, arg4, arg5, arg6);
-        }
-
-        /// <summary>
-        /// Returns a <see cref="Activity"/> that executes <paramref name="action"/> with arguments and the execution context.
-        /// </summary>
-        /// <typeparam name="TArg1"></typeparam>
-/// <typeparam name="TArg2"></typeparam>
-/// <typeparam name="TArg3"></typeparam>
-/// <typeparam name="TArg4"></typeparam>
-/// <typeparam name="TArg5"></typeparam>
-/// <typeparam name="TArg6"></typeparam>
-        /// <param name="action"></param>
-        /// <param name="arg1"></param>
-/// <param name="arg2"></param>
-/// <param name="arg3"></param>
-/// <param name="arg4"></param>
-/// <param name="arg5"></param>
-/// <param name="arg6"></param>
-        /// <returns></returns>
-        public static ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6> InvokeWithContext<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, ActivityContext> action, InArgument<TArg1> arg1, InArgument<TArg2> arg2, InArgument<TArg3> arg3, InArgument<TArg4> arg4, InArgument<TArg5> arg5, InArgument<TArg6> arg6)
-        {
-            Contract.Requires<ArgumentNullException>(action != null);
-
             return new ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(action, arg1, arg2, arg3, arg4, arg5, arg6);
         }
-
-        /// <summary>
-        /// Returns a <see cref="Activity"/> that executes <paramref name="action"/> with arguments and the execution context.
-        /// </summary>
-        /// <typeparam name="TArg1"></typeparam>
-/// <typeparam name="TArg2"></typeparam>
-/// <typeparam name="TArg3"></typeparam>
-/// <typeparam name="TArg4"></typeparam>
-/// <typeparam name="TArg5"></typeparam>
-/// <typeparam name="TArg6"></typeparam>
-        /// <param name="action"></param>
-        /// <param name="arg1"></param>
-/// <param name="arg2"></param>
-/// <param name="arg3"></param>
-/// <param name="arg4"></param>
-/// <param name="arg5"></param>
-/// <param name="arg6"></param>
-        /// <returns></returns>
-        public static ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6> InvokeWithContext<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, ActivityContext> action, DelegateInArgument<TArg1> arg1, DelegateInArgument<TArg2> arg2, DelegateInArgument<TArg3> arg3, DelegateInArgument<TArg4> arg4, DelegateInArgument<TArg5> arg5, DelegateInArgument<TArg6> arg6)
-        {
-            Contract.Requires<ArgumentNullException>(action != null);
-
-            return new ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(action, arg1, arg2, arg3, arg4, arg5, arg6);
-        }
-        
-
-        /// <summary>
-        /// Returns a <see cref="Activity"/> that executes <paramref name="action"/> with arguments and the execution context.
-        /// </summary>
-        /// <typeparam name="TArg1"></typeparam>
-/// <typeparam name="TArg2"></typeparam>
-/// <typeparam name="TArg3"></typeparam>
-/// <typeparam name="TArg4"></typeparam>
-/// <typeparam name="TArg5"></typeparam>
-/// <typeparam name="TArg6"></typeparam>
-        /// <param name="action"></param>
-        /// <param name="arg1"></param>
-/// <param name="arg2"></param>
-/// <param name="arg3"></param>
-/// <param name="arg4"></param>
-/// <param name="arg5"></param>
-/// <param name="arg6"></param>
-        /// <returns></returns>
-        public static ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6> InvokeWithContext<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(InArgument<TArg1> arg1, InArgument<TArg2> arg2, InArgument<TArg3> arg3, InArgument<TArg4> arg4, InArgument<TArg5> arg5, InArgument<TArg6> arg6, Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, ActivityContext> action)
-        {
-            Contract.Requires<ArgumentNullException>(action != null);
-
-            return new ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(action, arg1, arg2, arg3, arg4, arg5, arg6);
-        }
-        
-
-        /// <summary>
-        /// Returns a <see cref="Activity"/> that executes <paramref name="action"/> with arguments and the execution context.
-        /// </summary>
-        /// <typeparam name="TArg1"></typeparam>
-/// <typeparam name="TArg2"></typeparam>
-/// <typeparam name="TArg3"></typeparam>
-/// <typeparam name="TArg4"></typeparam>
-/// <typeparam name="TArg5"></typeparam>
-/// <typeparam name="TArg6"></typeparam>
-        /// <param name="action"></param>
-        /// <param name="arg1"></param>
-/// <param name="arg2"></param>
-/// <param name="arg3"></param>
-/// <param name="arg4"></param>
-/// <param name="arg5"></param>
-/// <param name="arg6"></param>
-        /// <returns></returns>
-        public static ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6> InvokeWithContext<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(DelegateInArgument<TArg1> arg1, DelegateInArgument<TArg2> arg2, DelegateInArgument<TArg3> arg3, DelegateInArgument<TArg4> arg4, DelegateInArgument<TArg5> arg5, DelegateInArgument<TArg6> arg6, Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, ActivityContext> action)
-        {
-            Contract.Requires<ArgumentNullException>(action != null);
-
-            return new ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(action, arg1, arg2, arg3, arg4, arg5, arg6);
-        }
-
-        /// <summary>
-        /// Returns a <see cref="Activity"/> that executes <paramref name="action"/>.
-        /// </summary>
-        /// <typeparam name="TArg1"></typeparam>
-/// <typeparam name="TArg2"></typeparam>
-/// <typeparam name="TArg3"></typeparam>
-/// <typeparam name="TArg4"></typeparam>
-/// <typeparam name="TArg5"></typeparam>
-/// <typeparam name="TArg6"></typeparam>
-/// <typeparam name="TArg7"></typeparam>
-        /// <param name="action"></param>
-        /// <returns></returns>
-        public static ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7> Invoke<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7> action)
-        {
-            Contract.Requires<ArgumentNullException>(action != null);
-
-            return new ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>((_arg1, _arg2, _arg3, _arg4, _arg5, _arg6, _arg7, context) => action(_arg1, _arg2, _arg3, _arg4, _arg5, _arg6, _arg7), null, null, null, null, null, null, null);
-        }
-        
         /// <summary>
         /// Returns a <see cref="Activity"/> that executes <paramref name="action"/> with arguments.
         /// </summary>
-        /// <typeparam name="TArg1"></typeparam>
+/// <typeparam name="TArg1"></typeparam>
 /// <typeparam name="TArg2"></typeparam>
 /// <typeparam name="TArg3"></typeparam>
 /// <typeparam name="TArg4"></typeparam>
@@ -1056,7 +469,7 @@ namespace Cogito.Activities
 /// <typeparam name="TArg6"></typeparam>
 /// <typeparam name="TArg7"></typeparam>
         /// <param name="action"></param>
-        /// <param name="arg1"></param>
+/// <param name="arg1"></param>
 /// <param name="arg2"></param>
 /// <param name="arg3"></param>
 /// <param name="arg4"></param>
@@ -1068,39 +481,13 @@ namespace Cogito.Activities
         {
             Contract.Requires<ArgumentNullException>(action != null);
 
-            return new ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>((_arg1, _arg2, _arg3, _arg4, _arg5, _arg6, _arg7, context) => action(_arg1, _arg2, _arg3, _arg4, _arg5, _arg6, _arg7), arg1, arg2, arg3, arg4, arg5, arg6, arg7);
+            return new ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(action, arg1, arg2, arg3, arg4, arg5, arg6, arg7);
         }
-        
-        /// <summary>
-        /// Returns a <see cref="Activity"/> that executes <paramref name="action"/> with arguments.
-        /// </summary>
-        /// <typeparam name="TArg1"></typeparam>
-/// <typeparam name="TArg2"></typeparam>
-/// <typeparam name="TArg3"></typeparam>
-/// <typeparam name="TArg4"></typeparam>
-/// <typeparam name="TArg5"></typeparam>
-/// <typeparam name="TArg6"></typeparam>
-/// <typeparam name="TArg7"></typeparam>
-        /// <param name="action"></param>
-        /// <param name="arg1"></param>
-/// <param name="arg2"></param>
-/// <param name="arg3"></param>
-/// <param name="arg4"></param>
-/// <param name="arg5"></param>
-/// <param name="arg6"></param>
-/// <param name="arg7"></param>
-        /// <returns></returns>
-        public static ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7> Invoke<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7> action, DelegateInArgument<TArg1> arg1, DelegateInArgument<TArg2> arg2, DelegateInArgument<TArg3> arg3, DelegateInArgument<TArg4> arg4, DelegateInArgument<TArg5> arg5, DelegateInArgument<TArg6> arg6, DelegateInArgument<TArg7> arg7)
-        {
-            Contract.Requires<ArgumentNullException>(action != null);
 
-            return new ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>((_arg1, _arg2, _arg3, _arg4, _arg5, _arg6, _arg7, context) => action(_arg1, _arg2, _arg3, _arg4, _arg5, _arg6, _arg7), arg1, arg2, arg3, arg4, arg5, arg6, arg7);
-        }
-        
         /// <summary>
         /// Returns a <see cref="Activity"/> that executes <paramref name="action"/> with arguments.
         /// </summary>
-        /// <typeparam name="TArg1"></typeparam>
+/// <typeparam name="TArg1"></typeparam>
 /// <typeparam name="TArg2"></typeparam>
 /// <typeparam name="TArg3"></typeparam>
 /// <typeparam name="TArg4"></typeparam>
@@ -1108,7 +495,7 @@ namespace Cogito.Activities
 /// <typeparam name="TArg6"></typeparam>
 /// <typeparam name="TArg7"></typeparam>
         /// <param name="action"></param>
-        /// <param name="arg1"></param>
+/// <param name="arg1"></param>
 /// <param name="arg2"></param>
 /// <param name="arg3"></param>
 /// <param name="arg4"></param>
@@ -1120,13 +507,13 @@ namespace Cogito.Activities
         {
             Contract.Requires<ArgumentNullException>(action != null);
 
-            return new ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>((_arg1, _arg2, _arg3, _arg4, _arg5, _arg6, _arg7, context) => action(_arg1, _arg2, _arg3, _arg4, _arg5, _arg6, _arg7), arg1, arg2, arg3, arg4, arg5, arg6, arg7);
+            return new ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(action, arg1, arg2, arg3, arg4, arg5, arg6, arg7);
         }
-        
+
         /// <summary>
         /// Returns a <see cref="Activity"/> that executes <paramref name="action"/> with arguments.
         /// </summary>
-        /// <typeparam name="TArg1"></typeparam>
+/// <typeparam name="TArg1"></typeparam>
 /// <typeparam name="TArg2"></typeparam>
 /// <typeparam name="TArg3"></typeparam>
 /// <typeparam name="TArg4"></typeparam>
@@ -1134,7 +521,33 @@ namespace Cogito.Activities
 /// <typeparam name="TArg6"></typeparam>
 /// <typeparam name="TArg7"></typeparam>
         /// <param name="action"></param>
-        /// <param name="arg1"></param>
+/// <param name="arg1"></param>
+/// <param name="arg2"></param>
+/// <param name="arg3"></param>
+/// <param name="arg4"></param>
+/// <param name="arg5"></param>
+/// <param name="arg6"></param>
+/// <param name="arg7"></param>
+        /// <returns></returns>
+        public static ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7> Invoke<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7> action, DelegateInArgument<TArg1> arg1, DelegateInArgument<TArg2> arg2, DelegateInArgument<TArg3> arg3, DelegateInArgument<TArg4> arg4, DelegateInArgument<TArg5> arg5, DelegateInArgument<TArg6> arg6, DelegateInArgument<TArg7> arg7)
+        {
+            Contract.Requires<ArgumentNullException>(action != null);
+
+            return new ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(action, arg1, arg2, arg3, arg4, arg5, arg6, arg7);
+        }
+
+        /// <summary>
+        /// Returns a <see cref="Activity"/> that executes <paramref name="action"/> with arguments.
+        /// </summary>
+/// <typeparam name="TArg1"></typeparam>
+/// <typeparam name="TArg2"></typeparam>
+/// <typeparam name="TArg3"></typeparam>
+/// <typeparam name="TArg4"></typeparam>
+/// <typeparam name="TArg5"></typeparam>
+/// <typeparam name="TArg6"></typeparam>
+/// <typeparam name="TArg7"></typeparam>
+        /// <param name="action"></param>
+/// <param name="arg1"></param>
 /// <param name="arg2"></param>
 /// <param name="arg3"></param>
 /// <param name="arg4"></param>
@@ -1146,139 +559,12 @@ namespace Cogito.Activities
         {
             Contract.Requires<ArgumentNullException>(action != null);
 
-            return new ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>((_arg1, _arg2, _arg3, _arg4, _arg5, _arg6, _arg7, context) => action(_arg1, _arg2, _arg3, _arg4, _arg5, _arg6, _arg7), arg1, arg2, arg3, arg4, arg5, arg6, arg7);
-        }
-
-        /// <summary>
-        /// Returns a <see cref="Activity"/> that executes <paramref name="action"/> with arguments and the execution context.
-        /// </summary>
-        /// <typeparam name="TArg1"></typeparam>
-/// <typeparam name="TArg2"></typeparam>
-/// <typeparam name="TArg3"></typeparam>
-/// <typeparam name="TArg4"></typeparam>
-/// <typeparam name="TArg5"></typeparam>
-/// <typeparam name="TArg6"></typeparam>
-/// <typeparam name="TArg7"></typeparam>
-        /// <param name="action"></param>
-        /// <param name="arg1"></param>
-/// <param name="arg2"></param>
-/// <param name="arg3"></param>
-/// <param name="arg4"></param>
-/// <param name="arg5"></param>
-/// <param name="arg6"></param>
-/// <param name="arg7"></param>
-        /// <returns></returns>
-        public static ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7> InvokeWithContext<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, ActivityContext> action, InArgument<TArg1> arg1, InArgument<TArg2> arg2, InArgument<TArg3> arg3, InArgument<TArg4> arg4, InArgument<TArg5> arg5, InArgument<TArg6> arg6, InArgument<TArg7> arg7)
-        {
-            Contract.Requires<ArgumentNullException>(action != null);
-
             return new ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(action, arg1, arg2, arg3, arg4, arg5, arg6, arg7);
         }
-
-        /// <summary>
-        /// Returns a <see cref="Activity"/> that executes <paramref name="action"/> with arguments and the execution context.
-        /// </summary>
-        /// <typeparam name="TArg1"></typeparam>
-/// <typeparam name="TArg2"></typeparam>
-/// <typeparam name="TArg3"></typeparam>
-/// <typeparam name="TArg4"></typeparam>
-/// <typeparam name="TArg5"></typeparam>
-/// <typeparam name="TArg6"></typeparam>
-/// <typeparam name="TArg7"></typeparam>
-        /// <param name="action"></param>
-        /// <param name="arg1"></param>
-/// <param name="arg2"></param>
-/// <param name="arg3"></param>
-/// <param name="arg4"></param>
-/// <param name="arg5"></param>
-/// <param name="arg6"></param>
-/// <param name="arg7"></param>
-        /// <returns></returns>
-        public static ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7> InvokeWithContext<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, ActivityContext> action, DelegateInArgument<TArg1> arg1, DelegateInArgument<TArg2> arg2, DelegateInArgument<TArg3> arg3, DelegateInArgument<TArg4> arg4, DelegateInArgument<TArg5> arg5, DelegateInArgument<TArg6> arg6, DelegateInArgument<TArg7> arg7)
-        {
-            Contract.Requires<ArgumentNullException>(action != null);
-
-            return new ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(action, arg1, arg2, arg3, arg4, arg5, arg6, arg7);
-        }
-        
-
-        /// <summary>
-        /// Returns a <see cref="Activity"/> that executes <paramref name="action"/> with arguments and the execution context.
-        /// </summary>
-        /// <typeparam name="TArg1"></typeparam>
-/// <typeparam name="TArg2"></typeparam>
-/// <typeparam name="TArg3"></typeparam>
-/// <typeparam name="TArg4"></typeparam>
-/// <typeparam name="TArg5"></typeparam>
-/// <typeparam name="TArg6"></typeparam>
-/// <typeparam name="TArg7"></typeparam>
-        /// <param name="action"></param>
-        /// <param name="arg1"></param>
-/// <param name="arg2"></param>
-/// <param name="arg3"></param>
-/// <param name="arg4"></param>
-/// <param name="arg5"></param>
-/// <param name="arg6"></param>
-/// <param name="arg7"></param>
-        /// <returns></returns>
-        public static ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7> InvokeWithContext<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(InArgument<TArg1> arg1, InArgument<TArg2> arg2, InArgument<TArg3> arg3, InArgument<TArg4> arg4, InArgument<TArg5> arg5, InArgument<TArg6> arg6, InArgument<TArg7> arg7, Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, ActivityContext> action)
-        {
-            Contract.Requires<ArgumentNullException>(action != null);
-
-            return new ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(action, arg1, arg2, arg3, arg4, arg5, arg6, arg7);
-        }
-        
-
-        /// <summary>
-        /// Returns a <see cref="Activity"/> that executes <paramref name="action"/> with arguments and the execution context.
-        /// </summary>
-        /// <typeparam name="TArg1"></typeparam>
-/// <typeparam name="TArg2"></typeparam>
-/// <typeparam name="TArg3"></typeparam>
-/// <typeparam name="TArg4"></typeparam>
-/// <typeparam name="TArg5"></typeparam>
-/// <typeparam name="TArg6"></typeparam>
-/// <typeparam name="TArg7"></typeparam>
-        /// <param name="action"></param>
-        /// <param name="arg1"></param>
-/// <param name="arg2"></param>
-/// <param name="arg3"></param>
-/// <param name="arg4"></param>
-/// <param name="arg5"></param>
-/// <param name="arg6"></param>
-/// <param name="arg7"></param>
-        /// <returns></returns>
-        public static ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7> InvokeWithContext<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(DelegateInArgument<TArg1> arg1, DelegateInArgument<TArg2> arg2, DelegateInArgument<TArg3> arg3, DelegateInArgument<TArg4> arg4, DelegateInArgument<TArg5> arg5, DelegateInArgument<TArg6> arg6, DelegateInArgument<TArg7> arg7, Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, ActivityContext> action)
-        {
-            Contract.Requires<ArgumentNullException>(action != null);
-
-            return new ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(action, arg1, arg2, arg3, arg4, arg5, arg6, arg7);
-        }
-
-        /// <summary>
-        /// Returns a <see cref="Activity"/> that executes <paramref name="action"/>.
-        /// </summary>
-        /// <typeparam name="TArg1"></typeparam>
-/// <typeparam name="TArg2"></typeparam>
-/// <typeparam name="TArg3"></typeparam>
-/// <typeparam name="TArg4"></typeparam>
-/// <typeparam name="TArg5"></typeparam>
-/// <typeparam name="TArg6"></typeparam>
-/// <typeparam name="TArg7"></typeparam>
-/// <typeparam name="TArg8"></typeparam>
-        /// <param name="action"></param>
-        /// <returns></returns>
-        public static ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8> Invoke<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8> action)
-        {
-            Contract.Requires<ArgumentNullException>(action != null);
-
-            return new ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>((_arg1, _arg2, _arg3, _arg4, _arg5, _arg6, _arg7, _arg8, context) => action(_arg1, _arg2, _arg3, _arg4, _arg5, _arg6, _arg7, _arg8), null, null, null, null, null, null, null, null);
-        }
-        
         /// <summary>
         /// Returns a <see cref="Activity"/> that executes <paramref name="action"/> with arguments.
         /// </summary>
-        /// <typeparam name="TArg1"></typeparam>
+/// <typeparam name="TArg1"></typeparam>
 /// <typeparam name="TArg2"></typeparam>
 /// <typeparam name="TArg3"></typeparam>
 /// <typeparam name="TArg4"></typeparam>
@@ -1287,7 +573,7 @@ namespace Cogito.Activities
 /// <typeparam name="TArg7"></typeparam>
 /// <typeparam name="TArg8"></typeparam>
         /// <param name="action"></param>
-        /// <param name="arg1"></param>
+/// <param name="arg1"></param>
 /// <param name="arg2"></param>
 /// <param name="arg3"></param>
 /// <param name="arg4"></param>
@@ -1300,41 +586,13 @@ namespace Cogito.Activities
         {
             Contract.Requires<ArgumentNullException>(action != null);
 
-            return new ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>((_arg1, _arg2, _arg3, _arg4, _arg5, _arg6, _arg7, _arg8, context) => action(_arg1, _arg2, _arg3, _arg4, _arg5, _arg6, _arg7, _arg8), arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
+            return new ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(action, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
         }
-        
-        /// <summary>
-        /// Returns a <see cref="Activity"/> that executes <paramref name="action"/> with arguments.
-        /// </summary>
-        /// <typeparam name="TArg1"></typeparam>
-/// <typeparam name="TArg2"></typeparam>
-/// <typeparam name="TArg3"></typeparam>
-/// <typeparam name="TArg4"></typeparam>
-/// <typeparam name="TArg5"></typeparam>
-/// <typeparam name="TArg6"></typeparam>
-/// <typeparam name="TArg7"></typeparam>
-/// <typeparam name="TArg8"></typeparam>
-        /// <param name="action"></param>
-        /// <param name="arg1"></param>
-/// <param name="arg2"></param>
-/// <param name="arg3"></param>
-/// <param name="arg4"></param>
-/// <param name="arg5"></param>
-/// <param name="arg6"></param>
-/// <param name="arg7"></param>
-/// <param name="arg8"></param>
-        /// <returns></returns>
-        public static ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8> Invoke<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8> action, DelegateInArgument<TArg1> arg1, DelegateInArgument<TArg2> arg2, DelegateInArgument<TArg3> arg3, DelegateInArgument<TArg4> arg4, DelegateInArgument<TArg5> arg5, DelegateInArgument<TArg6> arg6, DelegateInArgument<TArg7> arg7, DelegateInArgument<TArg8> arg8)
-        {
-            Contract.Requires<ArgumentNullException>(action != null);
 
-            return new ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>((_arg1, _arg2, _arg3, _arg4, _arg5, _arg6, _arg7, _arg8, context) => action(_arg1, _arg2, _arg3, _arg4, _arg5, _arg6, _arg7, _arg8), arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
-        }
-        
         /// <summary>
         /// Returns a <see cref="Activity"/> that executes <paramref name="action"/> with arguments.
         /// </summary>
-        /// <typeparam name="TArg1"></typeparam>
+/// <typeparam name="TArg1"></typeparam>
 /// <typeparam name="TArg2"></typeparam>
 /// <typeparam name="TArg3"></typeparam>
 /// <typeparam name="TArg4"></typeparam>
@@ -1343,7 +601,7 @@ namespace Cogito.Activities
 /// <typeparam name="TArg7"></typeparam>
 /// <typeparam name="TArg8"></typeparam>
         /// <param name="action"></param>
-        /// <param name="arg1"></param>
+/// <param name="arg1"></param>
 /// <param name="arg2"></param>
 /// <param name="arg3"></param>
 /// <param name="arg4"></param>
@@ -1356,13 +614,13 @@ namespace Cogito.Activities
         {
             Contract.Requires<ArgumentNullException>(action != null);
 
-            return new ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>((_arg1, _arg2, _arg3, _arg4, _arg5, _arg6, _arg7, _arg8, context) => action(_arg1, _arg2, _arg3, _arg4, _arg5, _arg6, _arg7, _arg8), arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
+            return new ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(action, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
         }
-        
+
         /// <summary>
         /// Returns a <see cref="Activity"/> that executes <paramref name="action"/> with arguments.
         /// </summary>
-        /// <typeparam name="TArg1"></typeparam>
+/// <typeparam name="TArg1"></typeparam>
 /// <typeparam name="TArg2"></typeparam>
 /// <typeparam name="TArg3"></typeparam>
 /// <typeparam name="TArg4"></typeparam>
@@ -1371,7 +629,35 @@ namespace Cogito.Activities
 /// <typeparam name="TArg7"></typeparam>
 /// <typeparam name="TArg8"></typeparam>
         /// <param name="action"></param>
-        /// <param name="arg1"></param>
+/// <param name="arg1"></param>
+/// <param name="arg2"></param>
+/// <param name="arg3"></param>
+/// <param name="arg4"></param>
+/// <param name="arg5"></param>
+/// <param name="arg6"></param>
+/// <param name="arg7"></param>
+/// <param name="arg8"></param>
+        /// <returns></returns>
+        public static ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8> Invoke<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8> action, DelegateInArgument<TArg1> arg1, DelegateInArgument<TArg2> arg2, DelegateInArgument<TArg3> arg3, DelegateInArgument<TArg4> arg4, DelegateInArgument<TArg5> arg5, DelegateInArgument<TArg6> arg6, DelegateInArgument<TArg7> arg7, DelegateInArgument<TArg8> arg8)
+        {
+            Contract.Requires<ArgumentNullException>(action != null);
+
+            return new ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(action, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
+        }
+
+        /// <summary>
+        /// Returns a <see cref="Activity"/> that executes <paramref name="action"/> with arguments.
+        /// </summary>
+/// <typeparam name="TArg1"></typeparam>
+/// <typeparam name="TArg2"></typeparam>
+/// <typeparam name="TArg3"></typeparam>
+/// <typeparam name="TArg4"></typeparam>
+/// <typeparam name="TArg5"></typeparam>
+/// <typeparam name="TArg6"></typeparam>
+/// <typeparam name="TArg7"></typeparam>
+/// <typeparam name="TArg8"></typeparam>
+        /// <param name="action"></param>
+/// <param name="arg1"></param>
 /// <param name="arg2"></param>
 /// <param name="arg3"></param>
 /// <param name="arg4"></param>
@@ -1381,120 +667,6 @@ namespace Cogito.Activities
 /// <param name="arg8"></param>
         /// <returns></returns>
         public static ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8> Invoke<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(DelegateInArgument<TArg1> arg1, DelegateInArgument<TArg2> arg2, DelegateInArgument<TArg3> arg3, DelegateInArgument<TArg4> arg4, DelegateInArgument<TArg5> arg5, DelegateInArgument<TArg6> arg6, DelegateInArgument<TArg7> arg7, DelegateInArgument<TArg8> arg8, Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8> action)
-        {
-            Contract.Requires<ArgumentNullException>(action != null);
-
-            return new ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>((_arg1, _arg2, _arg3, _arg4, _arg5, _arg6, _arg7, _arg8, context) => action(_arg1, _arg2, _arg3, _arg4, _arg5, _arg6, _arg7, _arg8), arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
-        }
-
-        /// <summary>
-        /// Returns a <see cref="Activity"/> that executes <paramref name="action"/> with arguments and the execution context.
-        /// </summary>
-        /// <typeparam name="TArg1"></typeparam>
-/// <typeparam name="TArg2"></typeparam>
-/// <typeparam name="TArg3"></typeparam>
-/// <typeparam name="TArg4"></typeparam>
-/// <typeparam name="TArg5"></typeparam>
-/// <typeparam name="TArg6"></typeparam>
-/// <typeparam name="TArg7"></typeparam>
-/// <typeparam name="TArg8"></typeparam>
-        /// <param name="action"></param>
-        /// <param name="arg1"></param>
-/// <param name="arg2"></param>
-/// <param name="arg3"></param>
-/// <param name="arg4"></param>
-/// <param name="arg5"></param>
-/// <param name="arg6"></param>
-/// <param name="arg7"></param>
-/// <param name="arg8"></param>
-        /// <returns></returns>
-        public static ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8> InvokeWithContext<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, ActivityContext> action, InArgument<TArg1> arg1, InArgument<TArg2> arg2, InArgument<TArg3> arg3, InArgument<TArg4> arg4, InArgument<TArg5> arg5, InArgument<TArg6> arg6, InArgument<TArg7> arg7, InArgument<TArg8> arg8)
-        {
-            Contract.Requires<ArgumentNullException>(action != null);
-
-            return new ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(action, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
-        }
-
-        /// <summary>
-        /// Returns a <see cref="Activity"/> that executes <paramref name="action"/> with arguments and the execution context.
-        /// </summary>
-        /// <typeparam name="TArg1"></typeparam>
-/// <typeparam name="TArg2"></typeparam>
-/// <typeparam name="TArg3"></typeparam>
-/// <typeparam name="TArg4"></typeparam>
-/// <typeparam name="TArg5"></typeparam>
-/// <typeparam name="TArg6"></typeparam>
-/// <typeparam name="TArg7"></typeparam>
-/// <typeparam name="TArg8"></typeparam>
-        /// <param name="action"></param>
-        /// <param name="arg1"></param>
-/// <param name="arg2"></param>
-/// <param name="arg3"></param>
-/// <param name="arg4"></param>
-/// <param name="arg5"></param>
-/// <param name="arg6"></param>
-/// <param name="arg7"></param>
-/// <param name="arg8"></param>
-        /// <returns></returns>
-        public static ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8> InvokeWithContext<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, ActivityContext> action, DelegateInArgument<TArg1> arg1, DelegateInArgument<TArg2> arg2, DelegateInArgument<TArg3> arg3, DelegateInArgument<TArg4> arg4, DelegateInArgument<TArg5> arg5, DelegateInArgument<TArg6> arg6, DelegateInArgument<TArg7> arg7, DelegateInArgument<TArg8> arg8)
-        {
-            Contract.Requires<ArgumentNullException>(action != null);
-
-            return new ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(action, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
-        }
-        
-
-        /// <summary>
-        /// Returns a <see cref="Activity"/> that executes <paramref name="action"/> with arguments and the execution context.
-        /// </summary>
-        /// <typeparam name="TArg1"></typeparam>
-/// <typeparam name="TArg2"></typeparam>
-/// <typeparam name="TArg3"></typeparam>
-/// <typeparam name="TArg4"></typeparam>
-/// <typeparam name="TArg5"></typeparam>
-/// <typeparam name="TArg6"></typeparam>
-/// <typeparam name="TArg7"></typeparam>
-/// <typeparam name="TArg8"></typeparam>
-        /// <param name="action"></param>
-        /// <param name="arg1"></param>
-/// <param name="arg2"></param>
-/// <param name="arg3"></param>
-/// <param name="arg4"></param>
-/// <param name="arg5"></param>
-/// <param name="arg6"></param>
-/// <param name="arg7"></param>
-/// <param name="arg8"></param>
-        /// <returns></returns>
-        public static ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8> InvokeWithContext<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(InArgument<TArg1> arg1, InArgument<TArg2> arg2, InArgument<TArg3> arg3, InArgument<TArg4> arg4, InArgument<TArg5> arg5, InArgument<TArg6> arg6, InArgument<TArg7> arg7, InArgument<TArg8> arg8, Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, ActivityContext> action)
-        {
-            Contract.Requires<ArgumentNullException>(action != null);
-
-            return new ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(action, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
-        }
-        
-
-        /// <summary>
-        /// Returns a <see cref="Activity"/> that executes <paramref name="action"/> with arguments and the execution context.
-        /// </summary>
-        /// <typeparam name="TArg1"></typeparam>
-/// <typeparam name="TArg2"></typeparam>
-/// <typeparam name="TArg3"></typeparam>
-/// <typeparam name="TArg4"></typeparam>
-/// <typeparam name="TArg5"></typeparam>
-/// <typeparam name="TArg6"></typeparam>
-/// <typeparam name="TArg7"></typeparam>
-/// <typeparam name="TArg8"></typeparam>
-        /// <param name="action"></param>
-        /// <param name="arg1"></param>
-/// <param name="arg2"></param>
-/// <param name="arg3"></param>
-/// <param name="arg4"></param>
-/// <param name="arg5"></param>
-/// <param name="arg6"></param>
-/// <param name="arg7"></param>
-/// <param name="arg8"></param>
-        /// <returns></returns>
-        public static ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8> InvokeWithContext<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(DelegateInArgument<TArg1> arg1, DelegateInArgument<TArg2> arg2, DelegateInArgument<TArg3> arg3, DelegateInArgument<TArg4> arg4, DelegateInArgument<TArg5> arg5, DelegateInArgument<TArg6> arg6, DelegateInArgument<TArg7> arg7, DelegateInArgument<TArg8> arg8, Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, ActivityContext> action)
         {
             Contract.Requires<ArgumentNullException>(action != null);
 
@@ -1532,7 +704,6 @@ namespace Cogito.Activities
         {
             return Activities.Delegate<TArg1>((arg1) =>
             {
-                activity.Argument1 = arg1;
                 return activity;
             });
         }
@@ -1550,7 +721,7 @@ namespace Cogito.Activities
         /// </summary>
         /// <param name="action"></param>
         /// <param name="arg1"></param>
-        public ActionActivity(Action<TArg1, ActivityContext> action = null, InArgument<TArg1> arg1 = null)
+        public ActionActivity(Action<TArg1> action = null, InArgument<TArg1> arg1 = null)
         {
             Action = action;
             Argument1 = arg1;
@@ -1561,7 +732,7 @@ namespace Cogito.Activities
         /// </summary>
         /// <param name="action"></param>
         /// <param name="arg1"></param>
-        public ActionActivity(InArgument<TArg1> arg1 = null, Action<TArg1, ActivityContext> action = null)
+        public ActionActivity(InArgument<TArg1> arg1 = null, Action<TArg1> action = null)
         {
             Argument1 = arg1;
             Action = action;
@@ -1571,7 +742,7 @@ namespace Cogito.Activities
         /// Gets or sets the action to be invoked.
         /// </summary>
         [RequiredArgument]
-        public Action<TArg1, ActivityContext> Action { get; set; }
+        public Action<TArg1> Action { get; set; }
 
         /// <summary>
         /// Argument to send to action.
@@ -1582,12 +753,13 @@ namespace Cogito.Activities
         /// <summary>
         /// Executes the function.
         /// </summary>
+        /// <param name="executor"></param>
         /// <param name="context"></param>
         /// <returns></returns>
-        protected override Task ExecuteAsync(AsyncCodeActivityContext context)
+        protected override Task ExecuteAsync(AsyncCodeActivityContext context, Func<Func<Task>, Task> executor)
         {
-            Action(context.GetValue(Argument1), context);
-            return Task.FromResult(true);
+            var arg1 = Argument1.Get(context);
+            return executor(() => { Action(arg1); return Task.FromResult(true); });
         }
 
     }
@@ -1622,8 +794,6 @@ namespace Cogito.Activities
         {
             return Activities.Delegate<TArg1, TArg2>((arg1, arg2) =>
             {
-                activity.Argument1 = arg1;
-                activity.Argument2 = arg2;
                 return activity;
             });
         }
@@ -1642,7 +812,7 @@ namespace Cogito.Activities
         /// <param name="action"></param>
         /// <param name="arg1"></param>
         /// <param name="arg2"></param>
-        public ActionActivity(Action<TArg1, TArg2, ActivityContext> action = null, InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null)
+        public ActionActivity(Action<TArg1, TArg2> action = null, InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null)
         {
             Action = action;
             Argument1 = arg1;
@@ -1655,7 +825,7 @@ namespace Cogito.Activities
         /// <param name="action"></param>
         /// <param name="arg1"></param>
         /// <param name="arg2"></param>
-        public ActionActivity(InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, Action<TArg1, TArg2, ActivityContext> action = null)
+        public ActionActivity(InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, Action<TArg1, TArg2> action = null)
         {
             Argument1 = arg1;
             Argument2 = arg2;
@@ -1666,7 +836,7 @@ namespace Cogito.Activities
         /// Gets or sets the action to be invoked.
         /// </summary>
         [RequiredArgument]
-        public Action<TArg1, TArg2, ActivityContext> Action { get; set; }
+        public Action<TArg1, TArg2> Action { get; set; }
 
         /// <summary>
         /// Argument to send to action.
@@ -1683,12 +853,14 @@ namespace Cogito.Activities
         /// <summary>
         /// Executes the function.
         /// </summary>
+        /// <param name="executor"></param>
         /// <param name="context"></param>
         /// <returns></returns>
-        protected override Task ExecuteAsync(AsyncCodeActivityContext context)
+        protected override Task ExecuteAsync(AsyncCodeActivityContext context, Func<Func<Task>, Task> executor)
         {
-            Action(context.GetValue(Argument1), context.GetValue(Argument2), context);
-            return Task.FromResult(true);
+            var arg1 = Argument1.Get(context);
+            var arg2 = Argument2.Get(context);
+            return executor(() => { Action(arg1, arg2); return Task.FromResult(true); });
         }
 
     }
@@ -1724,9 +896,6 @@ namespace Cogito.Activities
         {
             return Activities.Delegate<TArg1, TArg2, TArg3>((arg1, arg2, arg3) =>
             {
-                activity.Argument1 = arg1;
-                activity.Argument2 = arg2;
-                activity.Argument3 = arg3;
                 return activity;
             });
         }
@@ -1746,7 +915,7 @@ namespace Cogito.Activities
         /// <param name="arg1"></param>
         /// <param name="arg2"></param>
         /// <param name="arg3"></param>
-        public ActionActivity(Action<TArg1, TArg2, TArg3, ActivityContext> action = null, InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, InArgument<TArg3> arg3 = null)
+        public ActionActivity(Action<TArg1, TArg2, TArg3> action = null, InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, InArgument<TArg3> arg3 = null)
         {
             Action = action;
             Argument1 = arg1;
@@ -1761,7 +930,7 @@ namespace Cogito.Activities
         /// <param name="arg1"></param>
         /// <param name="arg2"></param>
         /// <param name="arg3"></param>
-        public ActionActivity(InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, InArgument<TArg3> arg3 = null, Action<TArg1, TArg2, TArg3, ActivityContext> action = null)
+        public ActionActivity(InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, InArgument<TArg3> arg3 = null, Action<TArg1, TArg2, TArg3> action = null)
         {
             Argument1 = arg1;
             Argument2 = arg2;
@@ -1773,7 +942,7 @@ namespace Cogito.Activities
         /// Gets or sets the action to be invoked.
         /// </summary>
         [RequiredArgument]
-        public Action<TArg1, TArg2, TArg3, ActivityContext> Action { get; set; }
+        public Action<TArg1, TArg2, TArg3> Action { get; set; }
 
         /// <summary>
         /// Argument to send to action.
@@ -1796,12 +965,15 @@ namespace Cogito.Activities
         /// <summary>
         /// Executes the function.
         /// </summary>
+        /// <param name="executor"></param>
         /// <param name="context"></param>
         /// <returns></returns>
-        protected override Task ExecuteAsync(AsyncCodeActivityContext context)
+        protected override Task ExecuteAsync(AsyncCodeActivityContext context, Func<Func<Task>, Task> executor)
         {
-            Action(context.GetValue(Argument1), context.GetValue(Argument2), context.GetValue(Argument3), context);
-            return Task.FromResult(true);
+            var arg1 = Argument1.Get(context);
+            var arg2 = Argument2.Get(context);
+            var arg3 = Argument3.Get(context);
+            return executor(() => { Action(arg1, arg2, arg3); return Task.FromResult(true); });
         }
 
     }
@@ -1838,10 +1010,6 @@ namespace Cogito.Activities
         {
             return Activities.Delegate<TArg1, TArg2, TArg3, TArg4>((arg1, arg2, arg3, arg4) =>
             {
-                activity.Argument1 = arg1;
-                activity.Argument2 = arg2;
-                activity.Argument3 = arg3;
-                activity.Argument4 = arg4;
                 return activity;
             });
         }
@@ -1862,7 +1030,7 @@ namespace Cogito.Activities
         /// <param name="arg2"></param>
         /// <param name="arg3"></param>
         /// <param name="arg4"></param>
-        public ActionActivity(Action<TArg1, TArg2, TArg3, TArg4, ActivityContext> action = null, InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, InArgument<TArg3> arg3 = null, InArgument<TArg4> arg4 = null)
+        public ActionActivity(Action<TArg1, TArg2, TArg3, TArg4> action = null, InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, InArgument<TArg3> arg3 = null, InArgument<TArg4> arg4 = null)
         {
             Action = action;
             Argument1 = arg1;
@@ -1879,7 +1047,7 @@ namespace Cogito.Activities
         /// <param name="arg2"></param>
         /// <param name="arg3"></param>
         /// <param name="arg4"></param>
-        public ActionActivity(InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, InArgument<TArg3> arg3 = null, InArgument<TArg4> arg4 = null, Action<TArg1, TArg2, TArg3, TArg4, ActivityContext> action = null)
+        public ActionActivity(InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, InArgument<TArg3> arg3 = null, InArgument<TArg4> arg4 = null, Action<TArg1, TArg2, TArg3, TArg4> action = null)
         {
             Argument1 = arg1;
             Argument2 = arg2;
@@ -1892,7 +1060,7 @@ namespace Cogito.Activities
         /// Gets or sets the action to be invoked.
         /// </summary>
         [RequiredArgument]
-        public Action<TArg1, TArg2, TArg3, TArg4, ActivityContext> Action { get; set; }
+        public Action<TArg1, TArg2, TArg3, TArg4> Action { get; set; }
 
         /// <summary>
         /// Argument to send to action.
@@ -1921,12 +1089,16 @@ namespace Cogito.Activities
         /// <summary>
         /// Executes the function.
         /// </summary>
+        /// <param name="executor"></param>
         /// <param name="context"></param>
         /// <returns></returns>
-        protected override Task ExecuteAsync(AsyncCodeActivityContext context)
+        protected override Task ExecuteAsync(AsyncCodeActivityContext context, Func<Func<Task>, Task> executor)
         {
-            Action(context.GetValue(Argument1), context.GetValue(Argument2), context.GetValue(Argument3), context.GetValue(Argument4), context);
-            return Task.FromResult(true);
+            var arg1 = Argument1.Get(context);
+            var arg2 = Argument2.Get(context);
+            var arg3 = Argument3.Get(context);
+            var arg4 = Argument4.Get(context);
+            return executor(() => { Action(arg1, arg2, arg3, arg4); return Task.FromResult(true); });
         }
 
     }
@@ -1964,11 +1136,6 @@ namespace Cogito.Activities
         {
             return Activities.Delegate<TArg1, TArg2, TArg3, TArg4, TArg5>((arg1, arg2, arg3, arg4, arg5) =>
             {
-                activity.Argument1 = arg1;
-                activity.Argument2 = arg2;
-                activity.Argument3 = arg3;
-                activity.Argument4 = arg4;
-                activity.Argument5 = arg5;
                 return activity;
             });
         }
@@ -1990,7 +1157,7 @@ namespace Cogito.Activities
         /// <param name="arg3"></param>
         /// <param name="arg4"></param>
         /// <param name="arg5"></param>
-        public ActionActivity(Action<TArg1, TArg2, TArg3, TArg4, TArg5, ActivityContext> action = null, InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, InArgument<TArg3> arg3 = null, InArgument<TArg4> arg4 = null, InArgument<TArg5> arg5 = null)
+        public ActionActivity(Action<TArg1, TArg2, TArg3, TArg4, TArg5> action = null, InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, InArgument<TArg3> arg3 = null, InArgument<TArg4> arg4 = null, InArgument<TArg5> arg5 = null)
         {
             Action = action;
             Argument1 = arg1;
@@ -2009,7 +1176,7 @@ namespace Cogito.Activities
         /// <param name="arg3"></param>
         /// <param name="arg4"></param>
         /// <param name="arg5"></param>
-        public ActionActivity(InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, InArgument<TArg3> arg3 = null, InArgument<TArg4> arg4 = null, InArgument<TArg5> arg5 = null, Action<TArg1, TArg2, TArg3, TArg4, TArg5, ActivityContext> action = null)
+        public ActionActivity(InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, InArgument<TArg3> arg3 = null, InArgument<TArg4> arg4 = null, InArgument<TArg5> arg5 = null, Action<TArg1, TArg2, TArg3, TArg4, TArg5> action = null)
         {
             Argument1 = arg1;
             Argument2 = arg2;
@@ -2023,7 +1190,7 @@ namespace Cogito.Activities
         /// Gets or sets the action to be invoked.
         /// </summary>
         [RequiredArgument]
-        public Action<TArg1, TArg2, TArg3, TArg4, TArg5, ActivityContext> Action { get; set; }
+        public Action<TArg1, TArg2, TArg3, TArg4, TArg5> Action { get; set; }
 
         /// <summary>
         /// Argument to send to action.
@@ -2058,12 +1225,17 @@ namespace Cogito.Activities
         /// <summary>
         /// Executes the function.
         /// </summary>
+        /// <param name="executor"></param>
         /// <param name="context"></param>
         /// <returns></returns>
-        protected override Task ExecuteAsync(AsyncCodeActivityContext context)
+        protected override Task ExecuteAsync(AsyncCodeActivityContext context, Func<Func<Task>, Task> executor)
         {
-            Action(context.GetValue(Argument1), context.GetValue(Argument2), context.GetValue(Argument3), context.GetValue(Argument4), context.GetValue(Argument5), context);
-            return Task.FromResult(true);
+            var arg1 = Argument1.Get(context);
+            var arg2 = Argument2.Get(context);
+            var arg3 = Argument3.Get(context);
+            var arg4 = Argument4.Get(context);
+            var arg5 = Argument5.Get(context);
+            return executor(() => { Action(arg1, arg2, arg3, arg4, arg5); return Task.FromResult(true); });
         }
 
     }
@@ -2102,12 +1274,6 @@ namespace Cogito.Activities
         {
             return Activities.Delegate<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>((arg1, arg2, arg3, arg4, arg5, arg6) =>
             {
-                activity.Argument1 = arg1;
-                activity.Argument2 = arg2;
-                activity.Argument3 = arg3;
-                activity.Argument4 = arg4;
-                activity.Argument5 = arg5;
-                activity.Argument6 = arg6;
                 return activity;
             });
         }
@@ -2130,7 +1296,7 @@ namespace Cogito.Activities
         /// <param name="arg4"></param>
         /// <param name="arg5"></param>
         /// <param name="arg6"></param>
-        public ActionActivity(Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, ActivityContext> action = null, InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, InArgument<TArg3> arg3 = null, InArgument<TArg4> arg4 = null, InArgument<TArg5> arg5 = null, InArgument<TArg6> arg6 = null)
+        public ActionActivity(Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6> action = null, InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, InArgument<TArg3> arg3 = null, InArgument<TArg4> arg4 = null, InArgument<TArg5> arg5 = null, InArgument<TArg6> arg6 = null)
         {
             Action = action;
             Argument1 = arg1;
@@ -2151,7 +1317,7 @@ namespace Cogito.Activities
         /// <param name="arg4"></param>
         /// <param name="arg5"></param>
         /// <param name="arg6"></param>
-        public ActionActivity(InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, InArgument<TArg3> arg3 = null, InArgument<TArg4> arg4 = null, InArgument<TArg5> arg5 = null, InArgument<TArg6> arg6 = null, Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, ActivityContext> action = null)
+        public ActionActivity(InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, InArgument<TArg3> arg3 = null, InArgument<TArg4> arg4 = null, InArgument<TArg5> arg5 = null, InArgument<TArg6> arg6 = null, Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6> action = null)
         {
             Argument1 = arg1;
             Argument2 = arg2;
@@ -2166,7 +1332,7 @@ namespace Cogito.Activities
         /// Gets or sets the action to be invoked.
         /// </summary>
         [RequiredArgument]
-        public Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, ActivityContext> Action { get; set; }
+        public Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6> Action { get; set; }
 
         /// <summary>
         /// Argument to send to action.
@@ -2207,12 +1373,18 @@ namespace Cogito.Activities
         /// <summary>
         /// Executes the function.
         /// </summary>
+        /// <param name="executor"></param>
         /// <param name="context"></param>
         /// <returns></returns>
-        protected override Task ExecuteAsync(AsyncCodeActivityContext context)
+        protected override Task ExecuteAsync(AsyncCodeActivityContext context, Func<Func<Task>, Task> executor)
         {
-            Action(context.GetValue(Argument1), context.GetValue(Argument2), context.GetValue(Argument3), context.GetValue(Argument4), context.GetValue(Argument5), context.GetValue(Argument6), context);
-            return Task.FromResult(true);
+            var arg1 = Argument1.Get(context);
+            var arg2 = Argument2.Get(context);
+            var arg3 = Argument3.Get(context);
+            var arg4 = Argument4.Get(context);
+            var arg5 = Argument5.Get(context);
+            var arg6 = Argument6.Get(context);
+            return executor(() => { Action(arg1, arg2, arg3, arg4, arg5, arg6); return Task.FromResult(true); });
         }
 
     }
@@ -2252,13 +1424,6 @@ namespace Cogito.Activities
         {
             return Activities.Delegate<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>((arg1, arg2, arg3, arg4, arg5, arg6, arg7) =>
             {
-                activity.Argument1 = arg1;
-                activity.Argument2 = arg2;
-                activity.Argument3 = arg3;
-                activity.Argument4 = arg4;
-                activity.Argument5 = arg5;
-                activity.Argument6 = arg6;
-                activity.Argument7 = arg7;
                 return activity;
             });
         }
@@ -2282,7 +1447,7 @@ namespace Cogito.Activities
         /// <param name="arg5"></param>
         /// <param name="arg6"></param>
         /// <param name="arg7"></param>
-        public ActionActivity(Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, ActivityContext> action = null, InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, InArgument<TArg3> arg3 = null, InArgument<TArg4> arg4 = null, InArgument<TArg5> arg5 = null, InArgument<TArg6> arg6 = null, InArgument<TArg7> arg7 = null)
+        public ActionActivity(Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7> action = null, InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, InArgument<TArg3> arg3 = null, InArgument<TArg4> arg4 = null, InArgument<TArg5> arg5 = null, InArgument<TArg6> arg6 = null, InArgument<TArg7> arg7 = null)
         {
             Action = action;
             Argument1 = arg1;
@@ -2305,7 +1470,7 @@ namespace Cogito.Activities
         /// <param name="arg5"></param>
         /// <param name="arg6"></param>
         /// <param name="arg7"></param>
-        public ActionActivity(InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, InArgument<TArg3> arg3 = null, InArgument<TArg4> arg4 = null, InArgument<TArg5> arg5 = null, InArgument<TArg6> arg6 = null, InArgument<TArg7> arg7 = null, Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, ActivityContext> action = null)
+        public ActionActivity(InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, InArgument<TArg3> arg3 = null, InArgument<TArg4> arg4 = null, InArgument<TArg5> arg5 = null, InArgument<TArg6> arg6 = null, InArgument<TArg7> arg7 = null, Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7> action = null)
         {
             Argument1 = arg1;
             Argument2 = arg2;
@@ -2321,7 +1486,7 @@ namespace Cogito.Activities
         /// Gets or sets the action to be invoked.
         /// </summary>
         [RequiredArgument]
-        public Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, ActivityContext> Action { get; set; }
+        public Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7> Action { get; set; }
 
         /// <summary>
         /// Argument to send to action.
@@ -2368,12 +1533,19 @@ namespace Cogito.Activities
         /// <summary>
         /// Executes the function.
         /// </summary>
+        /// <param name="executor"></param>
         /// <param name="context"></param>
         /// <returns></returns>
-        protected override Task ExecuteAsync(AsyncCodeActivityContext context)
+        protected override Task ExecuteAsync(AsyncCodeActivityContext context, Func<Func<Task>, Task> executor)
         {
-            Action(context.GetValue(Argument1), context.GetValue(Argument2), context.GetValue(Argument3), context.GetValue(Argument4), context.GetValue(Argument5), context.GetValue(Argument6), context.GetValue(Argument7), context);
-            return Task.FromResult(true);
+            var arg1 = Argument1.Get(context);
+            var arg2 = Argument2.Get(context);
+            var arg3 = Argument3.Get(context);
+            var arg4 = Argument4.Get(context);
+            var arg5 = Argument5.Get(context);
+            var arg6 = Argument6.Get(context);
+            var arg7 = Argument7.Get(context);
+            return executor(() => { Action(arg1, arg2, arg3, arg4, arg5, arg6, arg7); return Task.FromResult(true); });
         }
 
     }
@@ -2414,14 +1586,6 @@ namespace Cogito.Activities
         {
             return Activities.Delegate<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>((arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8) =>
             {
-                activity.Argument1 = arg1;
-                activity.Argument2 = arg2;
-                activity.Argument3 = arg3;
-                activity.Argument4 = arg4;
-                activity.Argument5 = arg5;
-                activity.Argument6 = arg6;
-                activity.Argument7 = arg7;
-                activity.Argument8 = arg8;
                 return activity;
             });
         }
@@ -2446,7 +1610,7 @@ namespace Cogito.Activities
         /// <param name="arg6"></param>
         /// <param name="arg7"></param>
         /// <param name="arg8"></param>
-        public ActionActivity(Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, ActivityContext> action = null, InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, InArgument<TArg3> arg3 = null, InArgument<TArg4> arg4 = null, InArgument<TArg5> arg5 = null, InArgument<TArg6> arg6 = null, InArgument<TArg7> arg7 = null, InArgument<TArg8> arg8 = null)
+        public ActionActivity(Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8> action = null, InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, InArgument<TArg3> arg3 = null, InArgument<TArg4> arg4 = null, InArgument<TArg5> arg5 = null, InArgument<TArg6> arg6 = null, InArgument<TArg7> arg7 = null, InArgument<TArg8> arg8 = null)
         {
             Action = action;
             Argument1 = arg1;
@@ -2471,7 +1635,7 @@ namespace Cogito.Activities
         /// <param name="arg6"></param>
         /// <param name="arg7"></param>
         /// <param name="arg8"></param>
-        public ActionActivity(InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, InArgument<TArg3> arg3 = null, InArgument<TArg4> arg4 = null, InArgument<TArg5> arg5 = null, InArgument<TArg6> arg6 = null, InArgument<TArg7> arg7 = null, InArgument<TArg8> arg8 = null, Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, ActivityContext> action = null)
+        public ActionActivity(InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, InArgument<TArg3> arg3 = null, InArgument<TArg4> arg4 = null, InArgument<TArg5> arg5 = null, InArgument<TArg6> arg6 = null, InArgument<TArg7> arg7 = null, InArgument<TArg8> arg8 = null, Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8> action = null)
         {
             Argument1 = arg1;
             Argument2 = arg2;
@@ -2488,7 +1652,7 @@ namespace Cogito.Activities
         /// Gets or sets the action to be invoked.
         /// </summary>
         [RequiredArgument]
-        public Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, ActivityContext> Action { get; set; }
+        public Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8> Action { get; set; }
 
         /// <summary>
         /// Argument to send to action.
@@ -2541,12 +1705,20 @@ namespace Cogito.Activities
         /// <summary>
         /// Executes the function.
         /// </summary>
+        /// <param name="executor"></param>
         /// <param name="context"></param>
         /// <returns></returns>
-        protected override Task ExecuteAsync(AsyncCodeActivityContext context)
+        protected override Task ExecuteAsync(AsyncCodeActivityContext context, Func<Func<Task>, Task> executor)
         {
-            Action(context.GetValue(Argument1), context.GetValue(Argument2), context.GetValue(Argument3), context.GetValue(Argument4), context.GetValue(Argument5), context.GetValue(Argument6), context.GetValue(Argument7), context.GetValue(Argument8), context);
-            return Task.FromResult(true);
+            var arg1 = Argument1.Get(context);
+            var arg2 = Argument2.Get(context);
+            var arg3 = Argument3.Get(context);
+            var arg4 = Argument4.Get(context);
+            var arg5 = Argument5.Get(context);
+            var arg6 = Argument6.Get(context);
+            var arg7 = Argument7.Get(context);
+            var arg8 = Argument8.Get(context);
+            return executor(() => { Action(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8); return Task.FromResult(true); });
         }
 
     }

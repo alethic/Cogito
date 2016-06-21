@@ -11,7 +11,7 @@ namespace Cogito.Activities.Tests
         [TestMethod]
         public void TestFuncActivity()
         {
-            var a = new FuncActivity<bool>(ctx => true);
+            var a = new FuncActivity<bool>(() => true);
             var b = WorkflowInvoker.Invoke(a);
             Assert.AreEqual(true, b);
         }

@@ -3,6 +3,7 @@ using System.Activities;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Cogito.Activities.Tests
@@ -25,12 +26,11 @@ namespace Cogito.Activities.Tests
                 WorkflowInvoker.Invoke(new Retry()
                 {
                     MaxAttempts = 5,
-                    Body = Activities.Invoke<int>(i =>
+                    Body = Activities.Delegate<int>(arg => Activities.Invoke(arg, i =>
                     {
                         runCount++;
                         throw new Exception("broke");
-                        return;
-                    }),
+                    })),
                     Catches =
                     {
                         new RetryCatch<Exception>(),
@@ -65,12 +65,11 @@ namespace Cogito.Activities.Tests
                 WorkflowInvoker.Invoke(new Retry()
                 {
                     MaxAttempts = 5,
-                    Body = Activities.Invoke<int>(i =>
+                    Body = Activities.Delegate<int>(arg => Activities.Invoke(arg, i =>
                     {
                         runCount++;
                         throw new Exception("broke");
-                        return;
-                    }),
+                    })),
                     Catches =
                     {
                         new RetryCatch<HttpRequestException>(),
@@ -103,11 +102,13 @@ namespace Cogito.Activities.Tests
                 var results = WorkflowInvoker.Invoke(new Retry()
                 {
                     MaxAttempts = 5,
-                    Body = Activities.Invoke<int>(i =>
+                    Body = Activities.Delegate<int>(arg => Activities.Invoke(arg, i =>
                     {
                         if (++runCount < 3)
                             throw new Exception("Exception");
-                    }),
+
+                        return;
+                    })),
                     Catches =
                     {
                         new RetryCatch<Exception>(),
@@ -135,7 +136,7 @@ namespace Cogito.Activities.Tests
                 var results = WorkflowInvoker.Invoke(new Retry()
                 {
                     MaxAttempts = 5,
-                    Body = Activities.Invoke<int>(i => { }),
+                    Body = Activities.InvokeAsync<int>(i => Task.FromResult(0)),
                 });
 
                 Assert.AreEqual(0, ((IEnumerable<Exception>)results["Attempts"]).ToArray().Length);
