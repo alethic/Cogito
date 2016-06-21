@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Activities;
+using System.Activities.Expressions;
 using System.Threading.Tasks;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -26,6 +27,20 @@ namespace Cogito.Activities.Tests
         }
 
         [TestMethod]
+        public void Test_resolve_func_activity_with_delegate_arg1()
+        {
+            var i = Activities.Invoke(j => true, new DelegateInArgument<int>());
+            Assert.IsTrue(i is FuncActivity<int, bool>);
+        }
+
+        [TestMethod]
+        public void Test_resolve_func_activity_with_activity_arg1()
+        {
+            var i = Activities.Invoke(j => true, new Literal<int>());
+            Assert.IsTrue(i is FuncActivity<int, bool>);
+        }
+
+        [TestMethod]
         public void Test_resolve_action_activity()
         {
             var i = Activities.Invoke(() => Console.WriteLine());
@@ -36,6 +51,20 @@ namespace Cogito.Activities.Tests
         public void Test_resolve_action_activity_with_arg1()
         {
             var i = Activities.Invoke(j => Console.WriteLine(), new InArgument<int>());
+            Assert.IsTrue(i is ActionActivity<int>);
+        }
+
+        [TestMethod]
+        public void Test_resolve_action_activity_with_delegate_arg1()
+        {
+            var i = Activities.Invoke(j => Console.WriteLine(), new DelegateInArgument<int>());
+            Assert.IsTrue(i is ActionActivity<int>);
+        }
+
+        [TestMethod]
+        public void Test_resolve_action_activity_with_activity_arg1()
+        {
+            var i = Activities.Invoke(j => Console.WriteLine(), new Literal<int>());
             Assert.IsTrue(i is ActionActivity<int>);
         }
 
@@ -54,6 +83,20 @@ namespace Cogito.Activities.Tests
         }
 
         [TestMethod]
+        public void Test_resolve_async_func_activity_with_delegate_arg1()
+        {
+            var i = Activities.Invoke(j => Task.FromResult(true), new DelegateInArgument<int>());
+            Assert.IsTrue(i is AsyncFuncActivity<int, bool>);
+        }
+
+        [TestMethod]
+        public void Test_resolve_async_func_activity_with_activity_arg1()
+        {
+            var i = Activities.Invoke(j => Task.FromResult(true), new Literal<int>());
+            Assert.IsTrue(i is AsyncFuncActivity<int, bool>);
+        }
+
+        [TestMethod]
         public void Test_resolve_async_action_activity()
         {
             var i = Activities.Invoke(() => Task.Run(() => { }));
@@ -64,6 +107,20 @@ namespace Cogito.Activities.Tests
         public void Test_resolve_async_action_activity_with_arg1()
         {
             var i = Activities.Invoke(j => Task.Run(() => { }), new InArgument<int>());
+            Assert.IsTrue(i is AsyncActionActivity<int>);
+        }
+
+        [TestMethod]
+        public void Test_resolve_async_action_activity_with_delegate_arg1()
+        {
+            var i = Activities.Invoke(j => Task.Run(() => { }), new DelegateInArgument<int>());
+            Assert.IsTrue(i is AsyncActionActivity<int>);
+        }
+
+        [TestMethod]
+        public void Test_resolve_async_action_activity_with_activity_arg1()
+        {
+            var i = Activities.Invoke(j => Task.Run(() => { }), new Literal<int>());
             Assert.IsTrue(i is AsyncActionActivity<int>);
         }
 
