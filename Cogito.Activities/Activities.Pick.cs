@@ -269,7 +269,7 @@ namespace Cogito.Activities
         /// <param name="bookmarkName"></param>
         /// <param name="action"></param>
         /// <returns></returns>
-        public static Pick BranchWait<TResult>(this Pick pick, InArgument<string> bookmarkName, Func<DelegateInArgument<TResult>, Activity> action)
+        public static Pick BranchWait<TResult>(this Pick pick, InArgument<string> bookmarkName, Func<InArgument<TResult>, Activity> action)
         {
             Contract.Requires<ArgumentNullException>(pick != null);
             Contract.Requires<ArgumentNullException>(bookmarkName != null);

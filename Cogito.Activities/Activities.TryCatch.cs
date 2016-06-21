@@ -68,7 +68,7 @@ namespace Cogito.Activities
         /// <param name="tryCatch"></param>
         /// <param name="action"></param>
         /// <returns></returns>
-        public static TryCatch Catch<TException>(this TryCatch tryCatch, Func<DelegateInArgument<TException>, Activity> action)
+        public static TryCatch Catch<TException>(this TryCatch tryCatch, Func<InArgument<TException>, Activity> action)
             where TException : Exception
         {
             Contract.Requires<ArgumentNullException>(tryCatch != null);

@@ -31,7 +31,7 @@ namespace Cogito.Activities
 
         public static SelectFuncActivity<TSource, TResult> Select<TSource, TResult>(this Activity<TSource[]> source, Func<TSource, TResult> select)
         {
-            return new SelectFuncActivity<TSource, TResult>(Invoke<TSource[], IEnumerable<TSource>>(source, i => i.AsEnumerable()), select);
+            return new SelectFuncActivity<TSource, TResult>(Invoke(source, i => i.AsEnumerable()), select);
         }
 
     }

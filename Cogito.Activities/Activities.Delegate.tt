@@ -24,7 +24,7 @@ namespace Cogito.Activities
             };
         }
 
-        public static ActivityAction<TArg> Delegate<TArg>(Func<DelegateInArgument<TArg>, Activity> create)
+        public static ActivityAction<TArg> Delegate<TArg>(Func<InArgument<TArg>, Activity> create)
         {
             Contract.Requires<ArgumentNullException>(create != null);
 
@@ -41,7 +41,7 @@ namespace Cogito.Activities
 for (int i = 2; i <= 8; i++)
 {
 #>
-        public static ActivityAction<<#= Repeat("TArg{0}", i, ", ") #>> Delegate<<#= Repeat("TArg{0}", i, ", ") #>>(Func<<#= Repeat("DelegateInArgument<TArg{0}>", i, ", ") #>, Activity> create)
+        public static ActivityAction<<#= Repeat("TArg{0}", i, ", ") #>> Delegate<<#= Repeat("TArg{0}", i, ", ") #>>(Func<<#= Repeat("InArgument<TArg{0}>", i, ", ") #>, Activity> create)
         {
             Contract.Requires<ArgumentNullException>(create != null);
 
@@ -72,7 +72,7 @@ for (int i = 2; i <= 8; i++)
 }
 #>
 
-        public static ActivityFunc<TResult> Delegate<TResult>(Func<DelegateOutArgument<TResult>, Activity<TResult>> create)
+        public static ActivityFunc<TResult> Delegate<TResult>(Func<OutArgument<TResult>, Activity<TResult>> create)
         {
             Contract.Requires<ArgumentNullException>(create != null);
 
@@ -85,7 +85,7 @@ for (int i = 2; i <= 8; i++)
             };
         }
 
-        public static ActivityFunc<TArg, TResult> Delegate<TArg, TResult>(Func<DelegateInArgument<TArg>, DelegateOutArgument<TResult>, Activity<TResult>> create)
+        public static ActivityFunc<TArg, TResult> Delegate<TArg, TResult>(Func<InArgument<TArg>, OutArgument<TResult>, Activity<TResult>> create)
         {
             Contract.Requires<ArgumentNullException>(create != null);
 
@@ -104,7 +104,7 @@ for (int i = 2; i <= 8; i++)
 for (int i = 2; i <= 8; i++)
 {
 #>
-        public static ActivityFunc<<#= Repeat("TArg{0}", i, ", ") #>, TResult> Delegate<<#= Repeat("TArg{0}", i, ", ") #>, TResult>(Func<<#= Repeat("DelegateInArgument<TArg{0}>", i, ", ") #>, DelegateOutArgument<TResult>, Activity<TResult>> create)
+        public static ActivityFunc<<#= Repeat("TArg{0}", i, ", ") #>, TResult> Delegate<<#= Repeat("TArg{0}", i, ", ") #>, TResult>(Func<<#= Repeat("InArgument<TArg{0}>", i, ", ") #>, OutArgument<TResult>, Activity<TResult>> create)
         {
             Contract.Requires<ArgumentNullException>(create != null);
 
@@ -152,7 +152,7 @@ for (int i = 2; i <= 8; i++)
             };
         }
 
-        public static ActivityFunc<TArg, TResult> Delegate<TArg, TResult>(Func<DelegateInArgument<TArg>, Activity<TResult>> create)
+        public static ActivityFunc<TArg, TResult> Delegate<TArg, TResult>(Func<InArgument<TArg>, Activity<TResult>> create)
         {
             Contract.Requires<ArgumentNullException>(create != null);
 
@@ -173,7 +173,7 @@ for (int i = 2; i <= 8; i++)
 for (int i = 2; i <= 8; i++)
 {
 #>
-        public static ActivityFunc<<#= Repeat("TArg{0}", i, ", ") #>, TResult> Delegate<<#= Repeat("TArg{0}", i, ", ") #>, TResult>(Func<<#= Repeat("DelegateInArgument<TArg{0}>", i, ", ") #>, Activity<TResult>> create)
+        public static ActivityFunc<<#= Repeat("TArg{0}", i, ", ") #>, TResult> Delegate<<#= Repeat("TArg{0}", i, ", ") #>, TResult>(Func<<#= Repeat("InArgument<TArg{0}>", i, ", ") #>, Activity<TResult>> create)
         {
             Contract.Requires<ArgumentNullException>(create != null);
 

@@ -29,13 +29,6 @@ namespace Cogito.Activities
             return new Wait(Invoke(bookmarkName, arg));
         }
 
-        public static Wait Wait<TWith>(Func<TWith, string> bookmarkName, DelegateInArgument<TWith> arg = null)
-        {
-            Contract.Requires<ArgumentNullException>(bookmarkName != null);
-
-            return new Wait(Invoke(bookmarkName, arg));
-        }
-
         public static Wait<TResult> Wait<TWith, TResult>(Func<TWith, string> bookmarkName, InArgument<TWith> arg = null)
         {
             Contract.Requires<ArgumentNullException>(bookmarkName != null);

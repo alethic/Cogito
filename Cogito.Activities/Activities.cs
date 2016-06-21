@@ -103,7 +103,7 @@ namespace Cogito.Activities
             return ThenParallel(activity, (IEnumerable<Activity>)next);
         }
 
-        public static ForEach<TElement> ForEach<TElement, TActivity>(this Activity<IEnumerable<TElement>> values, Func<DelegateInArgument<TElement>, TActivity> activity)
+        public static ForEach<TElement> ForEach<TElement, TActivity>(this Activity<IEnumerable<TElement>> values, Func<InArgument<TElement>, TActivity> activity)
             where TActivity : Activity
         {
             Contract.Requires<ArgumentNullException>(values != null);
@@ -122,7 +122,7 @@ namespace Cogito.Activities
             };
         }
 
-        public static ForEach<TElement> ForEach<TElement, TActivity>(this Activity<TElement[]> values, Func<DelegateInArgument<TElement>, TActivity> activity)
+        public static ForEach<TElement> ForEach<TElement, TActivity>(this Activity<TElement[]> values, Func<InArgument<TElement>, TActivity> activity)
             where TActivity : Activity
         {
             Contract.Requires<ArgumentNullException>(values != null);
@@ -131,7 +131,7 @@ namespace Cogito.Activities
             return ForEach(values.Select(i => i), activity);
         }
 
-        public static ParallelForEach<TElement> ParallelForEach<TElement, TActivity>(this Activity<IEnumerable<TElement>> values, Func<DelegateInArgument<TElement>, TActivity> activity)
+        public static ParallelForEach<TElement> ParallelForEach<TElement, TActivity>(this Activity<IEnumerable<TElement>> values, Func<InArgument<TElement>, TActivity> activity)
             where TActivity : Activity
         {
             Contract.Requires<ArgumentNullException>(values != null);
@@ -150,7 +150,7 @@ namespace Cogito.Activities
             };
         }
 
-        public static ParallelForEach<TElement> ParallelForEach<TElement, TActivity>(this Activity<TElement[]> values, Func<DelegateInArgument<TElement>, TActivity> activity)
+        public static ParallelForEach<TElement> ParallelForEach<TElement, TActivity>(this Activity<TElement[]> values, Func<InArgument<TElement>, TActivity> activity)
             where TActivity : Activity
         {
             Contract.Requires<ArgumentNullException>(values != null);
@@ -232,7 +232,7 @@ namespace Cogito.Activities
         /// <param name="count"></param>
         /// <param name="createAction"></param>
         /// <returns></returns>
-        public static Activity Range(int start, int count, Func<DelegateInArgument<int>, ActionActivity<int>> createAction)
+        public static Activity Range(int start, int count, Func<InArgument<int>, ActionActivity<int>> createAction)
         {
             return For(start, i => i - count < count, i => i + 1, createAction);
         }
