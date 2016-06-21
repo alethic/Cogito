@@ -27,7 +27,7 @@ namespace Cogito.Activities.Tests
                 WorkflowInvoker.Invoke(new Retry()
                 {
                     MaxAttempts = 5,
-                    Body = Activities.Delegate<int>(arg => Activities.Invoke(arg, i =>
+                    Body = Expressions.Delegate<int>(arg => Expressions.Invoke(arg, i =>
                     {
                         runCount++;
                         throw new Exception("broke");
@@ -66,7 +66,7 @@ namespace Cogito.Activities.Tests
                 WorkflowInvoker.Invoke(new Retry()
                 {
                     MaxAttempts = 5,
-                    Body = Activities.Delegate<int>(arg => Activities.Invoke(arg, i =>
+                    Body = Expressions.Delegate<int>(arg => Expressions.Invoke(arg, i =>
                     {
                         runCount++;
                         throw new Exception("broke");
@@ -103,7 +103,7 @@ namespace Cogito.Activities.Tests
                 var results = WorkflowInvoker.Invoke(new Retry()
                 {
                     MaxAttempts = 5,
-                    Body = Activities.Delegate<int>(arg => Activities.Invoke(arg, i =>
+                    Body = Expressions.Delegate<int>(arg => Expressions.Invoke(arg, i =>
                     {
                         if (++runCount < 3)
                             throw new Exception("Exception");
@@ -137,7 +137,7 @@ namespace Cogito.Activities.Tests
                 var results = WorkflowInvoker.Invoke(new Retry()
                 {
                     MaxAttempts = 5,
-                    Body = Activities.Delegate<int>(arg => Activities.Invoke(arg, i => Task.FromResult(0))),
+                    Body = Expressions.Delegate<int>(arg => Expressions.Invoke(arg, i => Task.FromResult(0))),
                 });
 
                 Assert.AreEqual(0, ((IEnumerable<Exception>)results["Attempts"]).ToArray().Length);

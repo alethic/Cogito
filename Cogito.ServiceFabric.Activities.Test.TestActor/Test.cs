@@ -9,7 +9,7 @@ using Microsoft.ServiceFabric.Actors;
 using Microsoft.ServiceFabric.Actors.Client;
 using Microsoft.ServiceFabric.Actors.Runtime;
 
-using static Cogito.Activities.Activities;
+using static Cogito.Activities.Expressions;
 
 namespace Cogito.ServiceFabric.Activities.Test.TestActor
 {

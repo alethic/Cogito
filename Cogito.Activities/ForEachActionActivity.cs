@@ -7,7 +7,7 @@ using System.Linq;
 namespace Cogito.Activities
 {
 
-    public static partial class Activities
+    public static partial class Expressions
     {
 
         public static ForEachActionActivity<TElement> ForEach<TElement>(InArgument<IEnumerable<TElement>> source, Action<TElement> action)

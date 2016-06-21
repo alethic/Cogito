@@ -30,12 +30,39 @@ namespace Cogito.Activities
         /// Starts or resumes a workflow instance asynchronously.
         /// </summary>
         /// <param name="self"></param>
+        /// <param name="instanceId"></param>
+        /// <param name="timeout"></param>
+        /// <returns></returns>
+        public static Task LoadAsync(this WorkflowApplication self, Guid instanceId, TimeSpan timeout)
+        {
+            Contract.Requires<ArgumentNullException>(self != null);
+
+            return Task.Factory.FromAsync(self.BeginLoad, self.EndLoad, instanceId, timeout, null);
+        }
+
+        /// <summary>
+        /// Starts or resumes a workflow instance asynchronously.
+        /// </summary>
+        /// <param name="self"></param>
         /// <returns></returns>
         public static Task RunAsync(this WorkflowApplication self)
         {
             Contract.Requires<ArgumentNullException>(self != null);
 
             return Task.Factory.FromAsync(self.BeginRun, self.EndRun, null);
+        }
+
+        /// <summary>
+        /// Starts or resumes a workflow instance asynchronously.
+        /// </summary>
+        /// <param name="self"></param>
+        /// <param name="timeout"></param>
+        /// <returns></returns>
+        public static Task RunAsync(this WorkflowApplication self, TimeSpan timeout)
+        {
+            Contract.Requires<ArgumentNullException>(self != null);
+
+            return Task.Factory.FromAsync(self.BeginRun, self.EndRun, timeout, null);
         }
 
         /// <summary>
@@ -117,24 +144,20 @@ namespace Cogito.Activities
         {
             Contract.Requires<ArgumentNullException>(self != null);
 
-            var tcs = new TaskCompletionSource<bool>();
-            self.BeginPersist(ar =>
-            {
-                try
-                {
-                    self.EndPersist(ar);
-                    tcs.SetResult(true);
-                }
-                catch (OperationCanceledException)
-                {
-                    tcs.SetCanceled();
-                }
-                catch (Exception e)
-                {
-                    tcs.SetException(e);
-                }
-            }, null);
-            return tcs.Task;
+            return Task.Factory.FromAsync(self.BeginPersist, self.EndPersist, null);
+        }
+
+        /// <summary>
+        /// Persists and a workflow instance to the instance store asychronously.
+        /// </summary>
+        /// <param name="self"></param>
+        /// <param name="timeout"></param>
+        /// <returns></returns>
+        public static Task PersistAsync(this WorkflowApplication self, TimeSpan timeout)
+        {
+            Contract.Requires<ArgumentNullException>(self != null);
+
+            return Task.Factory.FromAsync(self.BeginPersist, self.EndPersist, timeout, null);
         }
 
         /// <summary>

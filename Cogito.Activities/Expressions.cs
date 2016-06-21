@@ -8,7 +8,7 @@ using System.Diagnostics.Contracts;
 namespace Cogito.Activities
 {
 
-    public static partial class Activities
+    public static partial class Expressions
     {
 
         public static Delay Delay(InArgument<TimeSpan> duration)

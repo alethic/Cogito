@@ -6,7 +6,7 @@ using System.Linq;
 namespace Cogito.Activities
 {
 
-    public static partial class Activities
+    public static partial class Expressions
     {
 
         public static SelectActivity<TSource, TResult> Select<TSource, TResult>(this Activity<IEnumerable<TSource>> source, ActivityFunc<TSource, TResult> select)

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Cogito.Activities
 {
 
-    public static partial class Activities
+    public static partial class Expressions
     {
 
         public static SelectAsyncActionActivity<TSource, TResult> Select<TSource, TResult>(InArgument<IEnumerable<TSource>> source, Func<TSource, Task<TResult>> select)

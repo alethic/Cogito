@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 namespace Cogito.Activities
 {
 
-    public static partial class Activities
+    public static partial class Expressions
     {
 
 <#
@@ -93,7 +93,7 @@ for (int i = 1; i <= 8; i++)
 
         public static implicit operator ActivityAction<<#= Repeat("TArg{0}", i, ", ") #>>(AsyncActionActivity<<#= Repeat("TArg{0}", i, ", ") #>> activity)
         {
-            return Activities.Delegate<<#= Repeat("TArg{0}", i, ", ") #>>((<#= Repeat("arg{0}", i, ", ") #>) =>
+            return Expressions.Delegate<<#= Repeat("TArg{0}", i, ", ") #>>((<#= Repeat("arg{0}", i, ", ") #>) =>
             {
 <#
     for (int j = 1; j <= i; j++)

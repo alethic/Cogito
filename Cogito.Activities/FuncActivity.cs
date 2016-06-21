@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 namespace Cogito.Activities
 {
 
-    public static partial class Activities
+    public static partial class Expressions
     {
 
         public static FuncActivity<TResult> Invoke<TResult>(Func<TResult> func)
@@ -35,7 +35,7 @@ namespace Cogito.Activities
 
         public static implicit operator ActivityFunc<TResult>(FuncActivity<TResult> activity)
         {
-            return Activities.Delegate(() =>
+            return Expressions.Delegate(() =>
             {
                 return activity;
             });

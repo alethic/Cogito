@@ -147,19 +147,19 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="ActionActivity.cs" />
-    <None Include="Activities.Delegate.tt">
+    <None Include="Expressions.Delegate.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>Activities.Delegate.cs</LastGenOutput>
+      <LastGenOutput>Expressions.Delegate.cs</LastGenOutput>
     </None>
-    <Compile Include="Activities.Delegate.cs">
+    <Compile Include="Expressions.Delegate.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>Activities.Delegate.tt</DependentUpon>
+      <DependentUpon>Expressions.Delegate.tt</DependentUpon>
     </Compile>
-    <Compile Include="Activities.cs" />
-    <Compile Include="Activities.Assign.cs" />
-    <Compile Include="Activities.Throw.cs" />
-    <Compile Include="Activities.TryCatch.cs" />
+    <Compile Include="Expressions.cs" />
+    <Compile Include="Expressions.Assign.cs" />
+    <Compile Include="Expressions.Throw.cs" />
+    <Compile Include="Expressions.TryCatch.cs" />
     <Compile Include="AsyncTaskCodeActivity.cs" />
     <Compile Include="AsyncTaskExtension.cs" />
     <Compile Include="For.cs" />
@@ -202,7 +202,7 @@
     <Compile Include="WaitThenAction.cs" />
     <Compile Include="WaitThen.cs" />
     <Compile Include="WorkflowApplicationExtensions.cs" />
-    <Compile Include="Activities.While.cs" />
+    <Compile Include="Expressions.While.cs" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -233,7 +233,7 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Activities.Pick.cs" />
+    <Compile Include="Expressions.Pick.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Cogito.Activities.nuspec" />

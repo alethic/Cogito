@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 namespace Cogito.Activities
 {
 
-    public static partial class Activities
+    public static partial class Expressions
     {
 
         public static AsyncFuncActivity<TArg1, TResult> Invoke<TArg1, TResult>(Func<TArg1, Task<TResult>> func, InArgument<TArg1> arg1)
@@ -237,7 +237,7 @@ namespace Cogito.Activities
 
         public static implicit operator ActivityFunc<TArg1, TResult>(AsyncFuncActivity<TArg1, TResult> activity)
         {
-            return Activities.Delegate<TArg1, TResult>((arg1) =>
+            return Expressions.Delegate<TArg1, TResult>((arg1) =>
             {
                 activity.Argument1 = arg1;
                 return activity;
@@ -312,7 +312,7 @@ namespace Cogito.Activities
 
         public static implicit operator ActivityFunc<TArg1, TArg2, TResult>(AsyncFuncActivity<TArg1, TArg2, TResult> activity)
         {
-            return Activities.Delegate<TArg1, TArg2, TResult>((arg1, arg2) =>
+            return Expressions.Delegate<TArg1, TArg2, TResult>((arg1, arg2) =>
             {
                 activity.Argument1 = arg1;
                 activity.Argument2 = arg2;
@@ -399,7 +399,7 @@ namespace Cogito.Activities
 
         public static implicit operator ActivityFunc<TArg1, TArg2, TArg3, TResult>(AsyncFuncActivity<TArg1, TArg2, TArg3, TResult> activity)
         {
-            return Activities.Delegate<TArg1, TArg2, TArg3, TResult>((arg1, arg2, arg3) =>
+            return Expressions.Delegate<TArg1, TArg2, TArg3, TResult>((arg1, arg2, arg3) =>
             {
                 activity.Argument1 = arg1;
                 activity.Argument2 = arg2;
@@ -498,7 +498,7 @@ namespace Cogito.Activities
 
         public static implicit operator ActivityFunc<TArg1, TArg2, TArg3, TArg4, TResult>(AsyncFuncActivity<TArg1, TArg2, TArg3, TArg4, TResult> activity)
         {
-            return Activities.Delegate<TArg1, TArg2, TArg3, TArg4, TResult>((arg1, arg2, arg3, arg4) =>
+            return Expressions.Delegate<TArg1, TArg2, TArg3, TArg4, TResult>((arg1, arg2, arg3, arg4) =>
             {
                 activity.Argument1 = arg1;
                 activity.Argument2 = arg2;
@@ -609,7 +609,7 @@ namespace Cogito.Activities
 
         public static implicit operator ActivityFunc<TArg1, TArg2, TArg3, TArg4, TArg5, TResult>(AsyncFuncActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TResult> activity)
         {
-            return Activities.Delegate<TArg1, TArg2, TArg3, TArg4, TArg5, TResult>((arg1, arg2, arg3, arg4, arg5) =>
+            return Expressions.Delegate<TArg1, TArg2, TArg3, TArg4, TArg5, TResult>((arg1, arg2, arg3, arg4, arg5) =>
             {
                 activity.Argument1 = arg1;
                 activity.Argument2 = arg2;
@@ -732,7 +732,7 @@ namespace Cogito.Activities
 
         public static implicit operator ActivityFunc<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TResult>(AsyncFuncActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TResult> activity)
         {
-            return Activities.Delegate<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TResult>((arg1, arg2, arg3, arg4, arg5, arg6) =>
+            return Expressions.Delegate<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TResult>((arg1, arg2, arg3, arg4, arg5, arg6) =>
             {
                 activity.Argument1 = arg1;
                 activity.Argument2 = arg2;
@@ -867,7 +867,7 @@ namespace Cogito.Activities
 
         public static implicit operator ActivityFunc<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TResult>(AsyncFuncActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TResult> activity)
         {
-            return Activities.Delegate<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TResult>((arg1, arg2, arg3, arg4, arg5, arg6, arg7) =>
+            return Expressions.Delegate<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TResult>((arg1, arg2, arg3, arg4, arg5, arg6, arg7) =>
             {
                 activity.Argument1 = arg1;
                 activity.Argument2 = arg2;
@@ -1014,7 +1014,7 @@ namespace Cogito.Activities
 
         public static implicit operator ActivityFunc<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TResult>(AsyncFuncActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TResult> activity)
         {
-            return Activities.Delegate<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TResult>((arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8) =>
+            return Expressions.Delegate<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TResult>((arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8) =>
             {
                 activity.Argument1 = arg1;
                 activity.Argument2 = arg2;

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 namespace Cogito.Activities
 {
 
-    public static partial class Activities
+    public static partial class Expressions
     {
 
         /// <summary>
@@ -692,7 +692,7 @@ namespace Cogito.Activities
 
         public static implicit operator ActivityAction<TArg1>(AsyncActionActivity<TArg1> activity)
         {
-            return Activities.Delegate<TArg1>((arg1) =>
+            return Expressions.Delegate<TArg1>((arg1) =>
             {
                 activity.Argument1 = arg1;
                 return activity;
@@ -763,7 +763,7 @@ namespace Cogito.Activities
 
         public static implicit operator ActivityAction<TArg1, TArg2>(AsyncActionActivity<TArg1, TArg2> activity)
         {
-            return Activities.Delegate<TArg1, TArg2>((arg1, arg2) =>
+            return Expressions.Delegate<TArg1, TArg2>((arg1, arg2) =>
             {
                 activity.Argument1 = arg1;
                 activity.Argument2 = arg2;
@@ -846,7 +846,7 @@ namespace Cogito.Activities
 
         public static implicit operator ActivityAction<TArg1, TArg2, TArg3>(AsyncActionActivity<TArg1, TArg2, TArg3> activity)
         {
-            return Activities.Delegate<TArg1, TArg2, TArg3>((arg1, arg2, arg3) =>
+            return Expressions.Delegate<TArg1, TArg2, TArg3>((arg1, arg2, arg3) =>
             {
                 activity.Argument1 = arg1;
                 activity.Argument2 = arg2;
@@ -941,7 +941,7 @@ namespace Cogito.Activities
 
         public static implicit operator ActivityAction<TArg1, TArg2, TArg3, TArg4>(AsyncActionActivity<TArg1, TArg2, TArg3, TArg4> activity)
         {
-            return Activities.Delegate<TArg1, TArg2, TArg3, TArg4>((arg1, arg2, arg3, arg4) =>
+            return Expressions.Delegate<TArg1, TArg2, TArg3, TArg4>((arg1, arg2, arg3, arg4) =>
             {
                 activity.Argument1 = arg1;
                 activity.Argument2 = arg2;
@@ -1048,7 +1048,7 @@ namespace Cogito.Activities
 
         public static implicit operator ActivityAction<TArg1, TArg2, TArg3, TArg4, TArg5>(AsyncActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5> activity)
         {
-            return Activities.Delegate<TArg1, TArg2, TArg3, TArg4, TArg5>((arg1, arg2, arg3, arg4, arg5) =>
+            return Expressions.Delegate<TArg1, TArg2, TArg3, TArg4, TArg5>((arg1, arg2, arg3, arg4, arg5) =>
             {
                 activity.Argument1 = arg1;
                 activity.Argument2 = arg2;
@@ -1167,7 +1167,7 @@ namespace Cogito.Activities
 
         public static implicit operator ActivityAction<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(AsyncActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6> activity)
         {
-            return Activities.Delegate<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>((arg1, arg2, arg3, arg4, arg5, arg6) =>
+            return Expressions.Delegate<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>((arg1, arg2, arg3, arg4, arg5, arg6) =>
             {
                 activity.Argument1 = arg1;
                 activity.Argument2 = arg2;
@@ -1298,7 +1298,7 @@ namespace Cogito.Activities
 
         public static implicit operator ActivityAction<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(AsyncActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7> activity)
         {
-            return Activities.Delegate<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>((arg1, arg2, arg3, arg4, arg5, arg6, arg7) =>
+            return Expressions.Delegate<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>((arg1, arg2, arg3, arg4, arg5, arg6, arg7) =>
             {
                 activity.Argument1 = arg1;
                 activity.Argument2 = arg2;
@@ -1441,7 +1441,7 @@ namespace Cogito.Activities
 
         public static implicit operator ActivityAction<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(AsyncActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8> activity)
         {
-            return Activities.Delegate<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>((arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8) =>
+            return Expressions.Delegate<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>((arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8) =>
             {
                 activity.Argument1 = arg1;
                 activity.Argument2 = arg2;
