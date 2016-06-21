@@ -9,7 +9,7 @@ namespace Cogito.Activities
     public static partial class Activities
     {
 
-        public static AsyncActionActivity InvokeAsync(Func<Task> func)
+        public static AsyncActionActivity Invoke(Func<Task> func)
         {
             Contract.Requires<ArgumentNullException>(func != null);
 
