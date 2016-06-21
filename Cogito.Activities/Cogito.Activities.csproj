@@ -158,6 +158,7 @@
     </Compile>
     <Compile Include="Expressions.cs" />
     <Compile Include="Expressions.Assign.cs" />
+    <Compile Include="Expressions.If.cs" />
     <Compile Include="Expressions.ParallelForEach.cs" />
     <Compile Include="Expressions.ForEach.cs" />
     <Compile Include="Expressions.Throw.cs" />
