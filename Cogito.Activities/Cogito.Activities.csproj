@@ -158,6 +158,7 @@
     </Compile>
     <Compile Include="Expressions.cs" />
     <Compile Include="Expressions.Assign.cs" />
+    <Compile Include="Expressions.ForEach.cs" />
     <Compile Include="Expressions.Throw.cs" />
     <Compile Include="Expressions.TryCatch.cs" />
     <Compile Include="AsyncTaskCodeActivity.cs" />
@@ -171,8 +172,6 @@
     <Compile Include="RetryExceptionCaughtTrackingRecord.cs" />
     <Compile Include="RetryState.cs" />
     <Compile Include="SelectAsyncFuncActivity.cs" />
-    <Compile Include="ForEachAsyncActionActivity.cs" />
-    <Compile Include="ForEachActionActivity.cs" />
     <Compile Include="FormatActivity.cs" />
     <Compile Include="FuncActivity.Arguments.cs">
       <DependentUpon>FuncActivity.Arguments.tt</DependentUpon>
