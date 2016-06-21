@@ -1,15 +1,15 @@
 ﻿using System;
+using System.Diagnostics.Tracing;
 using System.Fabric;
 
-using Microsoft.Diagnostics.Tracing;
 using Microsoft.ServiceFabric.Actors.Runtime;
 
 namespace Cogito.ServiceFabric
 {
 
     [EventSource(Name ="Cogito-ServiceFabric")]
-    public sealed class EventSource :
-        Microsoft.Diagnostics.Tracing.EventSource
+    sealed class EventSource :
+        System.Diagnostics.Tracing.EventSource
     {
 
         public static EventSource Current = new EventSource();

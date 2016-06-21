@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Tracing;
 using System.Fabric;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Xml;
-
-using Microsoft.Diagnostics.Tracing;
 
 namespace Cogito.ServiceFabric.Activities
 {
@@ -15,7 +14,7 @@ namespace Cogito.ServiceFabric.Activities
     /// </summary>
     [EventSource(Name = "Cogito-ServiceFabric-Activities")]
     sealed partial class ActivityActorEventSource :
-        Microsoft.Diagnostics.Tracing.EventSource
+        System.Diagnostics.Tracing.EventSource
     {
 
         const string ITEMS_ELEMENT = "items";

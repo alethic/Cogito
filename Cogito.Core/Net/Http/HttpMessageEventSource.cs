@@ -1,13 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics.Contracts;
+using System.Diagnostics.Tracing;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Xml.Linq;
-
-using Cogito.Collections;
-
-using Microsoft.Diagnostics.Tracing;
 
 namespace Cogito.Net.Http
 {
@@ -20,7 +17,19 @@ namespace Cogito.Net.Http
         EventSource
     {
 
-        const string ACTIVITY_CORRELATION_KEY = "Cogito.Net.Http.HttpMessageEventSource.ActivityId";
+        #region EventData
+
+        [EventData]
+        public class HeaderData
+        {
+
+            public string Name { get; set; }
+
+            public IEnumerable<string> Values { get; set; }
+
+        }
+
+        #endregion
 
         /// <summary>
         /// Gets the current <see cref="HttpMessageEventSource"/>.
@@ -38,55 +47,46 @@ namespace Cogito.Net.Http
 
         #endregion
 
-        const int HttpRequestEventId = 1;
-        const int HttpResponseEventId = 2;
+        const int HttpRequestStartEventId = 1;
+        const int HttpRequestStopEventId = 2;
 
         /// <summary>
         /// Records a <see cref="HttpRequestMessage"/>.
         /// </summary>
         /// <param name="message"></param>
         [NonEvent]
-        public void HttpRequest(HttpRequestMessage message)
+        public void HttpRequestStart(HttpRequestMessage message)
         {
             Contract.Requires<ArgumentNullException>(message != null);
 
             if (IsEnabled())
-            {
-                // update message with correlation key
-                message.Properties.GetOrAdd(ACTIVITY_CORRELATION_KEY, _ => Guid.NewGuid());
-
-                HttpRequest(
-                    (Guid)message.Properties[ACTIVITY_CORRELATION_KEY],
+                HttpRequestStart(
                     message.Method.ToString(),
                     message.RequestUri.ToString(),
                     message.Version.ToString(),
-                    HeadersToXml(message.Headers) ?? "",
-                    HeadersToXml(message.Content?.Headers) ?? "");
-            }
+                    HeadersToXml(message.Headers),
+                    HeadersToXml(message.Content?.Headers));
         }
 
         /// <summary>
         /// Records a <see cref="HttpRequestMessage"/>.
         /// </summary>
-        /// <param name="correlationId"></param>
         /// <param name="method"></param>
         /// <param name="requestUri"></param>
         /// <param name="version"></param>
         /// <param name="headers"></param>
         /// <param name="contentHeaders"></param>
-        [Event(HttpRequestEventId, Level = EventLevel.Verbose, Message = "{0} {1} {2}")]
-        public void HttpRequest(
-            Guid correlationId,
+        [Event(HttpRequestStartEventId, Level = EventLevel.Verbose, Message = "{0} {1}")]
+        public void HttpRequestStart(
             string method,
             string requestUri,
             string version,
-            string headers,
-            string contentHeaders)
+            IEnumerable<HeaderData> headers,
+            IEnumerable<HeaderData> contentHeaders)
         {
             if (IsEnabled())
                 WriteEvent(
-                    HttpRequestEventId,
-                    correlationId,
+                    HttpRequestStartEventId,
                     method,
                     requestUri,
                     version,
@@ -99,26 +99,24 @@ namespace Cogito.Net.Http
         /// </summary>
         /// <param name="message"></param>
         [NonEvent]
-        public void HttpResponse(HttpResponseMessage message)
+        public void HttpRequestStop(HttpResponseMessage message)
         {
             Contract.Requires<ArgumentNullException>(message != null);
 
             if (IsEnabled())
-                HttpResponse(
-                    (Guid?)message.RequestMessage.Properties.GetOrDefault(ACTIVITY_CORRELATION_KEY) ?? Guid.Empty,
+                HttpRequestStop(
                     message.RequestMessage.Method.ToString(),
                     message.RequestMessage.RequestUri.ToString(),
                     message.RequestMessage.Version.ToString(),
                     (int)message.StatusCode,
                     message.ReasonPhrase ?? "",
-                    HeadersToXml(message.Headers) ?? "",
-                    HeadersToXml(message.Content?.Headers) ?? "");
+                    HeadersToXml(message.Headers),
+                    HeadersToXml(message.Content?.Headers));
         }
 
         /// <summary>
         /// Records a <see cref="HttpResponseMessage"/>.
         /// </summary>
-        /// <param name="correlationId"></param>
         /// <param name="method"></param>
         /// <param name="requestUri"></param>
         /// <param name="version"></param>
@@ -126,21 +124,19 @@ namespace Cogito.Net.Http
         /// <param name="reasonPhrase"></param>
         /// <param name="responseHeaders"></param>
         /// <param name="responseContentHeaders"></param>
-        [Event(HttpResponseEventId, Level = EventLevel.Verbose, Message = "{0} {1} {2} {4} {5}")]
-        public void HttpResponse(
-            Guid correlationId,
+        [Event(HttpRequestStopEventId, Level = EventLevel.Verbose, Message = "{0} {1} {2} {4}")]
+        public void HttpRequestStop(
             string method,
             string requestUri,
             string version,
             int statusCode,
             string reasonPhrase,
-            string responseHeaders,
-            string responseContentHeaders)
+            IEnumerable<HeaderData> responseHeaders,
+            IEnumerable<HeaderData> responseContentHeaders)
         {
             if (IsEnabled())
                 WriteEvent(
-                    HttpResponseEventId,
-                    correlationId,
+                    HttpRequestStopEventId,
                     method,
                     requestUri,
                     version,
@@ -155,9 +151,9 @@ namespace Cogito.Net.Http
         /// </summary>
         /// <param name="headers"></param>
         /// <returns></returns>
-        string HeadersToXml(HttpHeaders headers)
+        IEnumerable<HeaderData> HeadersToXml(HttpHeaders headers)
         {
-            return headers != null ? new XElement("Headers", headers.Select(i => new XElement(i.Key, i.Value))).ToString() : null;
+            return headers != null ? headers.Select(i => new HeaderData() { Name = i.Key, Values = i.Value }) : null;
         }
 
     }

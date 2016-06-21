@@ -2,9 +2,9 @@
 using System.Activities.Tracking;
 using System.Diagnostics;
 using System.Diagnostics.Contracts;
+using System.Diagnostics.Tracing;
 using System.Fabric;
 
-using Microsoft.Diagnostics.Tracing;
 
 namespace Cogito.ServiceFabric.Activities
 {

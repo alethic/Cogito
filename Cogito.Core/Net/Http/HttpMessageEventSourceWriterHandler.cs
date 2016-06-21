@@ -36,9 +36,9 @@ namespace Cogito.Net.Http
 
         protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
-            HttpMessageEventSource.Current.HttpRequest(request);
+            HttpMessageEventSource.Current.HttpRequestStart(request);
             var response = await base.SendAsync(request, cancellationToken);
-            HttpMessageEventSource.Current.HttpResponse(response);
+            HttpMessageEventSource.Current.HttpRequestStop(response);
 
             return response;
         }
