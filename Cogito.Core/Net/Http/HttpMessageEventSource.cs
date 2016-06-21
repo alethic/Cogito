@@ -51,6 +51,15 @@ namespace Cogito.Net.Http
         const int HttpRequestStopEventId = 2;
 
         /// <summary>
+        /// Initializes a new instance.
+        /// </summary>
+        HttpMessageEventSource()
+            : base(EventSourceSettings.EtwSelfDescribingEventFormat)
+        {
+
+        }
+
+        /// <summary>
         /// Records a <see cref="HttpRequestMessage"/>.
         /// </summary>
         /// <param name="message"></param>
