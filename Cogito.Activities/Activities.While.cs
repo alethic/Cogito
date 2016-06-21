@@ -11,19 +11,19 @@ namespace Cogito.Activities
     {
 
         /// <summary>
-        /// Executes <paramref name="activity"/> until <paramref name="condition"/> returns <c>false</c>.
+        /// Executes <paramref name="action"/> until <paramref name="condition"/> returns <c>false</c>.
         /// </summary>
         /// <param name="condition"></param>
-        /// <param name="activity"></param>
+        /// <param name="action"></param>
         /// <returns></returns>
-        public static While While(Activity<bool> condition, Activity activity)
+        public static While While(Activity<bool> condition, Activity action)
         {
             Contract.Requires<ArgumentNullException>(condition != null);
-            Contract.Requires<ArgumentNullException>(activity != null);
+            Contract.Requires<ArgumentNullException>(action != null);
 
             return new While(condition)
             {
-                Body = activity,
+                Body = action,
             };
         }
 
@@ -62,17 +62,17 @@ namespace Cogito.Activities
         }
 
         /// <summary>
-        /// Executes <paramref name="activity"/> until <paramref name="condition"/> returns <c>false</c>.
+        /// Executes <paramref name="action"/> until <paramref name="condition"/> returns <c>false</c>.
         /// </summary>
         /// <param name="condition"></param>
-        /// <param name="activity"></param>
+        /// <param name="action"></param>
         /// <returns></returns>
-        public static While While(Func<bool> condition, Activity activity)
+        public static While While(Func<bool> condition, Activity action)
         {
             Contract.Requires<ArgumentNullException>(condition != null);
-            Contract.Requires<ArgumentNullException>(activity != null);
+            Contract.Requires<ArgumentNullException>(action != null);
 
-            return While(Invoke(condition), activity);
+            return While(Invoke(condition), action);
         }
 
         /// <summary>
@@ -104,17 +104,17 @@ namespace Cogito.Activities
         }
 
         /// <summary>
-        /// Executes <paramref name="activity"/> until <paramref name="condition"/> returns <c>false</c>.
+        /// Executes <paramref name="action"/> until <paramref name="condition"/> returns <c>false</c>.
         /// </summary>
         /// <param name="condition"></param>
-        /// <param name="activity"></param>
+        /// <param name="action"></param>
         /// <returns></returns>
-        public static While While(Func<Task<bool>> condition, Activity activity)
+        public static While While(Func<Task<bool>> condition, Activity action)
         {
             Contract.Requires<ArgumentNullException>(condition != null);
-            Contract.Requires<ArgumentNullException>(activity != null);
+            Contract.Requires<ArgumentNullException>(action != null);
 
-            return While(Invoke(condition), activity);
+            return While(Invoke(condition), action);
         }
 
         /// <summary>
