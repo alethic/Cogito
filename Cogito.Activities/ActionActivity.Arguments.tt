@@ -96,7 +96,7 @@ for (int i = 1; i <= 8; i++)
         /// <param name="activity"></param>
         public static implicit operator ActivityAction<<#= Repeat("TArg{0}", i, ", ") #>>(ActionActivity<<#= Repeat("TArg{0}", i, ", ") #>> activity)
         {
-            return Activities.Delegate<<#= Repeat("TArg{0}", i, ", ") #>>((<#= Repeat("arg{0}", i, ", ") #>) =>
+            return Expressions.Delegate<<#= Repeat("TArg{0}", i, ", ") #>>((<#= Repeat("arg{0}", i, ", ") #>) =>
             {
 <#
     for (int j = 1; j <= i; j++)
@@ -117,7 +117,7 @@ for (int i = 1; i <= 8; i++)
         /// <param name="activity"></param>
         public static implicit operator ActivityDelegate(ActionActivity<<#= Repeat("TArg{0}", i, ", ") #>> activity)
         {
-            return Activities.Delegate<<#= Repeat("TArg{0}", i, ", ") #>>((<#= Repeat("arg{0}", i, ", ") #>) =>
+            return Expressions.Delegate<<#= Repeat("TArg{0}", i, ", ") #>>((<#= Repeat("arg{0}", i, ", ") #>) =>
             {
                 return activity;
             });

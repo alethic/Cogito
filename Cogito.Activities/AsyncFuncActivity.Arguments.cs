@@ -302,7 +302,7 @@ namespace Cogito.Activities
         }
 
     }
-
+    
     /// <summary>
     /// Provides an <see cref="Activity"/> that executes the given asynchronous function with 2 arguments.
     /// </summary>
@@ -389,7 +389,7 @@ namespace Cogito.Activities
         }
 
     }
-
+    
     /// <summary>
     /// Provides an <see cref="Activity"/> that executes the given asynchronous function with 3 arguments.
     /// </summary>
@@ -488,7 +488,7 @@ namespace Cogito.Activities
         }
 
     }
-
+    
     /// <summary>
     /// Provides an <see cref="Activity"/> that executes the given asynchronous function with 4 arguments.
     /// </summary>
@@ -599,7 +599,7 @@ namespace Cogito.Activities
         }
 
     }
-
+    
     /// <summary>
     /// Provides an <see cref="Activity"/> that executes the given asynchronous function with 5 arguments.
     /// </summary>
@@ -722,7 +722,7 @@ namespace Cogito.Activities
         }
 
     }
-
+    
     /// <summary>
     /// Provides an <see cref="Activity"/> that executes the given asynchronous function with 6 arguments.
     /// </summary>
@@ -857,7 +857,7 @@ namespace Cogito.Activities
         }
 
     }
-
+    
     /// <summary>
     /// Provides an <see cref="Activity"/> that executes the given asynchronous function with 7 arguments.
     /// </summary>
@@ -1004,7 +1004,7 @@ namespace Cogito.Activities
         }
 
     }
-
+    
     /// <summary>
     /// Provides an <see cref="Activity"/> that executes the given asynchronous function with 8 arguments.
     /// </summary>
@@ -1163,7 +1163,7 @@ namespace Cogito.Activities
         }
 
     }
-
+    
 
 }
 
