@@ -18,6 +18,8 @@ namespace Cogito.Activities
 <#
 for (int i = 1; i <= 8; i++)
 {
+    foreach (var argTypeName in new [] { "DelegateInArgument<TArg{0}>", "Activity<TArg{0}>" })
+    {
 #>
         /// <summary>
         /// Returns a <see cref="Activity"/> that executes <paramref name="action"/> with arguments.
@@ -27,7 +29,7 @@ for (int i = 1; i <= 8; i++)
 <# WriteArgParamsComments(i); #>
         /// <param name="displayName"></param>
         /// <returns></returns>
-        public static ActionActivity<<#= Repeat("TArg{0}", i, ", ") #>> Invoke<<#= Repeat("TArg{0}", i, ", ") #>>(Action<<#= Repeat("TArg{0}", i, ", ") #>> action, <#= Repeat("InArgument<TArg{0}> arg{0}", i, ", ") #>, [CallerMemberName] string displayName = null)
+        public static ActionActivity<<#= Repeat("TArg{0}", i, ", ") #>> Invoke<<#= Repeat("TArg{0}", i, ", ") #>>(Action<<#= Repeat("TArg{0}", i, ", ") #>> action, <#= Repeat(argTypeName + " arg{0}", i, ", ") #>, [CallerMemberName] string displayName = null)
         {
             Contract.Requires<ArgumentNullException>(action != null);
 
@@ -37,24 +39,8 @@ for (int i = 1; i <= 8; i++)
             };
         }
 
-        /// <summary>
-        /// Returns a <see cref="Activity"/> that executes <paramref name="action"/> with arguments.
-        /// </summary>
-<# WriteTypeParamsComments(i); #>
-        /// <param name="action"></param>
-<# WriteArgParamsComments(i); #>
-        /// <param name="displayName"></param>
-        /// <returns></returns>
-        public static ActionActivity<<#= Repeat("TArg{0}", i, ", ") #>> Invoke<<#= Repeat("TArg{0}", i, ", ") #>>(Action<<#= Repeat("TArg{0}", i, ", ") #>> action, <#= Repeat("Activity<TArg{0}> arg{0}", i, ", ") #>, [CallerMemberName] string displayName = null)
-        {
-            Contract.Requires<ArgumentNullException>(action != null);
-
-            return new ActionActivity<<#= Repeat("TArg{0}", i, ", ") #>>(action, <#= Repeat("arg{0}", i, ", ") #>)
-            {
-                DisplayName = displayName,
-            };
-        }
 <#
+    }
 }
 #>
 

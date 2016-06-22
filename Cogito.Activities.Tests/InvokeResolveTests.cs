@@ -25,21 +25,14 @@ namespace Cogito.Activities.Tests
         [TestMethod]
         public void Test_resolve_func_activity_with_arg1()
         {
-            var i = Expressions.Invoke(j => true, new InArgument<int>());
+            var i = Expressions.Invoke(j => true, new Literal<int>());
             Assert.IsTrue(i is FuncActivity<int, bool>);
         }
 
         [TestMethod]
         public void Test_resolve_func_activity_with_delegate_arg1()
         {
-            var i = Expressions.Invoke(j => true, (InArgument<int>)new DelegateInArgument<int>());
-            Assert.IsTrue(i is FuncActivity<int, bool>);
-        }
-
-        [TestMethod]
-        public void Test_resolve_func_activity_with_activity_arg1()
-        {
-            var i = Expressions.Invoke(j => true, new Literal<int>());
+            var i = Expressions.Invoke(j => true, new DelegateInArgument<int>());
             Assert.IsTrue(i is FuncActivity<int, bool>);
         }
 
@@ -53,21 +46,14 @@ namespace Cogito.Activities.Tests
         [TestMethod]
         public void Test_resolve_action_activity_with_arg1()
         {
-            var i = Expressions.Invoke(j => Console.WriteLine(), new InArgument<int>());
+            var i = Expressions.Invoke(j => Console.WriteLine(), new Literal<int>());
             Assert.IsTrue(i is ActionActivity<int>);
         }
 
         [TestMethod]
         public void Test_resolve_action_activity_with_delegate_arg1()
         {
-            var i = Expressions.Invoke(j => Console.WriteLine(), (InArgument<int>)new DelegateInArgument<int>());
-            Assert.IsTrue(i is ActionActivity<int>);
-        }
-
-        [TestMethod]
-        public void Test_resolve_action_activity_with_activity_arg1()
-        {
-            var i = Expressions.Invoke(j => Console.WriteLine(), new Literal<int>());
+            var i = Expressions.Invoke(j => Console.WriteLine(), new DelegateInArgument<int>());
             Assert.IsTrue(i is ActionActivity<int>);
         }
 
@@ -81,21 +67,14 @@ namespace Cogito.Activities.Tests
         [TestMethod]
         public void Test_resolve_async_func_activity_with_arg1()
         {
-            var i = Expressions.Invoke(j => Task.FromResult(true), new InArgument<int>());
+            var i = Expressions.Invoke(j => Task.FromResult(true), new Literal<int>());
             Assert.IsTrue(i is AsyncFuncActivity<int, bool>);
         }
 
         [TestMethod]
         public void Test_resolve_async_func_activity_with_delegate_arg1()
         {
-            var i = Expressions.Invoke(j => Task.FromResult(true), (InArgument<int>)new DelegateInArgument<int>());
-            Assert.IsTrue(i is AsyncFuncActivity<int, bool>);
-        }
-
-        [TestMethod]
-        public void Test_resolve_async_func_activity_with_activity_arg1()
-        {
-            var i = Expressions.Invoke(j => Task.FromResult(true), new Literal<int>());
+            var i = Expressions.Invoke(j => Task.FromResult(true), new DelegateInArgument<int>());
             Assert.IsTrue(i is AsyncFuncActivity<int, bool>);
         }
 
@@ -109,21 +88,14 @@ namespace Cogito.Activities.Tests
         [TestMethod]
         public void Test_resolve_async_action_activity_with_arg1()
         {
-            var i = Expressions.Invoke(j => Task.Run(() => { }), new InArgument<int>());
+            var i = Expressions.Invoke(j => Task.Run(() => { }), new Literal<int>());
             Assert.IsTrue(i is AsyncActionActivity<int>);
         }
 
         [TestMethod]
         public void Test_resolve_async_action_activity_with_delegate_arg1()
         {
-            var i = Expressions.Invoke(j => Task.Run(() => { }), (InArgument<int>)new DelegateInArgument<int>());
-            Assert.IsTrue(i is AsyncActionActivity<int>);
-        }
-
-        [TestMethod]
-        public void Test_resolve_async_action_activity_with_activity_arg1()
-        {
-            var i = Expressions.Invoke(j => Task.Run(() => { }), new Literal<int>());
+            var i = Expressions.Invoke(j => Task.Run(() => { }), new DelegateInArgument<int>());
             Assert.IsTrue(i is AsyncActionActivity<int>);
         }
 

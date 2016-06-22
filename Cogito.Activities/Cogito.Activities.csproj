@@ -142,9 +142,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActionActivity.Arguments.cs">
-      <DependentUpon>ActionActivity.Arguments.tt</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
+      <DependentUpon>ActionActivity.Arguments.tt</DependentUpon>
     </Compile>
     <Compile Include="ActionActivity.cs" />
     <None Include="Expressions.Delegate.tt">
@@ -159,10 +159,20 @@
     </Compile>
     <Compile Include="Expressions.cs" />
     <Compile Include="Expressions.Assign.cs" />
+    <Compile Include="Expressions.Cast.cs" />
     <Compile Include="Expressions.If.cs" />
     <Compile Include="Expressions.ParallelForEach.cs" />
     <Compile Include="Expressions.ForEach.cs" />
-    <Compile Include="Expressions.Throw.cs" />
+    <Content Include="Expressions.Throw.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Expressions.Throw1.cs</LastGenOutput>
+    </Content>
+    <Compile Include="Expressions.Throw1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Expressions.Throw.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Expressions.Throw.partial.cs" />
     <Compile Include="Expressions.TryCatch.cs" />
     <Compile Include="AsyncTaskCodeActivity.cs" />
     <Compile Include="AsyncTaskExtension.cs" />

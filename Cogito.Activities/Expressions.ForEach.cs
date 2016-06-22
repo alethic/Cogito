@@ -34,7 +34,7 @@ namespace Cogito.Activities
         /// <param name="source"></param>
         /// <param name="body"></param>
         /// <returns></returns>
-        public static ForEach<TElement> ForEach<TElement>(IEnumerable<TElement> source, Func<InArgument<TElement>, Activity> body)
+        public static ForEach<TElement> ForEach<TElement>(IEnumerable<TElement> source, Func<DelegateInArgument<TElement>, Activity> body)
         {
             Contract.Requires<ArgumentNullException>(source != null);
             Contract.Requires<ArgumentNullException>(body != null);
@@ -98,7 +98,7 @@ namespace Cogito.Activities
         /// <param name="source"></param>
         /// <param name="body"></param>
         /// <returns></returns>
-        public static ForEach<TElement> ForEach<TElement>(InArgument<IEnumerable<TElement>> source, Func<InArgument<TElement>, Activity> body)
+        public static ForEach<TElement> ForEach<TElement>(InArgument<IEnumerable<TElement>> source, Func<DelegateInArgument<TElement>, Activity> body)
         {
             Contract.Requires<ArgumentNullException>(source != null);
             Contract.Requires<ArgumentNullException>(body != null);
@@ -143,7 +143,7 @@ namespace Cogito.Activities
         /// <param name="source"></param>
         /// <param name="body"></param>
         /// <returns></returns>
-        public static ForEach<TElement> ForEach<TElement>(this Activity<IEnumerable<TElement>> source, Func<InArgument<TElement>, Activity> body)
+        public static ForEach<TElement> ForEach<TElement>(this Activity<IEnumerable<TElement>> source, Func<DelegateInArgument<TElement>, Activity> body)
         {
             Contract.Requires<ArgumentNullException>(source != null);
             Contract.Requires<ArgumentNullException>(body != null);
@@ -208,7 +208,7 @@ namespace Cogito.Activities
         /// <param name="source"></param>
         /// <param name="body"></param>
         /// <returns></returns>
-        public static ForEach<TElement> ForEach<TElement>(Func<IEnumerable<TElement>> source, Func<InArgument<TElement>, Activity> body)
+        public static ForEach<TElement> ForEach<TElement>(Func<IEnumerable<TElement>> source, Func<DelegateInArgument<TElement>, Activity> body)
         {
             Contract.Requires<ArgumentNullException>(source != null);
             Contract.Requires<ArgumentNullException>(body != null);
@@ -268,7 +268,7 @@ namespace Cogito.Activities
         /// <param name="source"></param>
         /// <param name="body"></param>
         /// <returns></returns>
-        public static ForEach<TElement> ForEach<TElement>(Func<Task<IEnumerable<TElement>>> source, Func<InArgument<TElement>, Activity> body)
+        public static ForEach<TElement> ForEach<TElement>(Func<Task<IEnumerable<TElement>>> source, Func<DelegateInArgument<TElement>, Activity> body)
         {
             Contract.Requires<ArgumentNullException>(source != null);
             Contract.Requires<ArgumentNullException>(body != null);
@@ -343,7 +343,7 @@ namespace Cogito.Activities
         /// <param name="source"></param>
         /// <param name="body"></param>
         /// <returns></returns>
-        public static ForEach<TElement> ForEach<TElement>(TElement[] source, Func<InArgument<TElement>, Activity> body)
+        public static ForEach<TElement> ForEach<TElement>(TElement[] source, Func<DelegateInArgument<TElement>, Activity> body)
         {
             Contract.Requires<ArgumentNullException>(source != null);
             Contract.Requires<ArgumentNullException>(body != null);
@@ -407,7 +407,7 @@ namespace Cogito.Activities
         /// <param name="source"></param>
         /// <param name="body"></param>
         /// <returns></returns>
-        public static ForEach<TElement> ForEach<TElement>(InArgument<TElement[]> source, Func<InArgument<TElement>, Activity> body)
+        public static ForEach<TElement> ForEach<TElement>(InArgument<TElement[]> source, Func<DelegateInArgument<TElement>, Activity> body)
         {
             Contract.Requires<ArgumentNullException>(source != null);
             Contract.Requires<ArgumentNullException>(body != null);
@@ -452,7 +452,7 @@ namespace Cogito.Activities
         /// <param name="source"></param>
         /// <param name="body"></param>
         /// <returns></returns>
-        public static ForEach<TElement> ForEach<TElement>(this Activity<TElement[]> source, Func<InArgument<TElement>, Activity> body)
+        public static ForEach<TElement> ForEach<TElement>(this Activity<TElement[]> source, Func<DelegateInArgument<TElement>, Activity> body)
         {
             Contract.Requires<ArgumentNullException>(source != null);
             Contract.Requires<ArgumentNullException>(body != null);
@@ -517,7 +517,7 @@ namespace Cogito.Activities
         /// <param name="source"></param>
         /// <param name="body"></param>
         /// <returns></returns>
-        public static ForEach<TElement> ForEach<TElement>(Func<TElement[]> source, Func<InArgument<TElement>, Activity> body)
+        public static ForEach<TElement> ForEach<TElement>(Func<TElement[]> source, Func<DelegateInArgument<TElement>, Activity> body)
         {
             Contract.Requires<ArgumentNullException>(source != null);
             Contract.Requires<ArgumentNullException>(body != null);
@@ -577,7 +577,7 @@ namespace Cogito.Activities
         /// <param name="source"></param>
         /// <param name="body"></param>
         /// <returns></returns>
-        public static ForEach<TElement> ForEach<TElement>(Func<Task<TElement[]>> source, Func<InArgument<TElement>, Activity> body)
+        public static ForEach<TElement> ForEach<TElement>(Func<Task<TElement[]>> source, Func<DelegateInArgument<TElement>, Activity> body)
         {
             Contract.Requires<ArgumentNullException>(source != null);
             Contract.Requires<ArgumentNullException>(body != null);

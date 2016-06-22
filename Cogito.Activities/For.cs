@@ -23,7 +23,7 @@ namespace Cogito.Activities
             InArgument<TValue> initial,
             Func<TValue, bool> condition,
             Func<TValue, TValue> increment,
-            Func<InArgument<TValue>, Activity> createAction)
+            Func<DelegateInArgument<TValue>, Activity> createAction)
         {
             Contract.Requires<ArgumentNullException>(initial != null);
             Contract.Requires<ArgumentNullException>(condition != null);
@@ -50,7 +50,7 @@ namespace Cogito.Activities
             InArgument<TValue> initial,
             ActivityFunc<TValue, bool> condition,
             ActivityFunc<TValue, TValue> increment,
-            Func<InArgument<TValue>, Activity> createAction)
+            Func<DelegateInArgument<TValue>, Activity> createAction)
         {
             Contract.Requires<ArgumentNullException>(initial != null);
             Contract.Requires<ArgumentNullException>(condition != null);

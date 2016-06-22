@@ -138,11 +138,11 @@ namespace Cogito.Activities
         /// </summary>
         /// <param name="start"></param>
         /// <param name="count"></param>
-        /// <param name="createAction"></param>
+        /// <param name="body"></param>
         /// <returns></returns>
-        public static Activity Range(int start, int count, Func<InArgument<int>, ActionActivity<int>> createAction)
+        public static Activity Range(int start, int count, Func<DelegateInArgument<int>, ActionActivity<int>> body)
         {
-            return For(start, i => i - count < count, i => i + 1, createAction);
+            return For(start, i => i - count < count, i => i + 1, body);
         }
 
         /// <summary>

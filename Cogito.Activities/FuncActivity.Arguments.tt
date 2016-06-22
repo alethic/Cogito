@@ -7,6 +7,7 @@
 using System;
 using System.Activities;
 using System.Diagnostics.Contracts;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
 namespace Cogito.Activities
@@ -18,6 +19,8 @@ namespace Cogito.Activities
 <#
 for (int i = 1; i <= 8; i++)
 {
+    foreach (var argTypeName in new [] { "DelegateInArgument<TArg{0}>", "Activity<TArg{0}>" })
+    {
 #>
         /// <summary>
         /// Returns a <see cref="Activity"/> that executes <paramref name="func"/>.
@@ -26,28 +29,18 @@ for (int i = 1; i <= 8; i++)
         /// <param name="func"></param>
 <# WriteArgParamsComments(i); #>
         /// <returns></returns>
-        public static FuncActivity<<#= Repeat("TArg{0}", i, ", ") #>, TResult> Invoke<<#= Repeat("TArg{0}", i, ", ") #>, TResult>(Func<<#= Repeat("TArg{0}", i, ", ") #>, TResult> func, <#= Repeat("InArgument<TArg{0}> arg{0}", i, ", ") #>)
+        public static FuncActivity<<#= Repeat("TArg{0}", i, ", ") #>, TResult> Invoke<<#= Repeat("TArg{0}", i, ", ") #>, TResult>(Func<<#= Repeat("TArg{0}", i, ", ") #>, TResult> func, <#= Repeat(argTypeName + " arg{0}", i, ", ") #>, [CallerMemberName] string displayName = null)
         {
             Contract.Requires<ArgumentNullException>(func != null);
 
-            return new FuncActivity<<#= Repeat("TArg{0}", i, ", ") #>, TResult>(func, <#= Repeat("arg{0}", i, ", ") #>);
-        }
-
-        /// <summary>
-        /// Returns a <see cref="Activity"/> that executes <paramref name="func"/>.
-        /// </summary>
-<# WriteTypeParamsComments(i); #>
-        /// <param name="func"></param>
-<# WriteArgParamsComments(i); #>
-        /// <returns></returns>
-        public static FuncActivity<<#= Repeat("TArg{0}", i, ", ") #>, TResult> Invoke<<#= Repeat("TArg{0}", i, ", ") #>, TResult>(Func<<#= Repeat("TArg{0}", i, ", ") #>, TResult> func, <#= Repeat("Activity<TArg{0}> arg{0}", i, ", ") #>)
-        {
-            Contract.Requires<ArgumentNullException>(func != null);
-
-            return new FuncActivity<<#= Repeat("TArg{0}", i, ", ") #>, TResult>(func, <#= Repeat("arg{0}", i, ", ") #>);
+            return new FuncActivity<<#= Repeat("TArg{0}", i, ", ") #>, TResult>(func, <#= Repeat("arg{0}", i, ", ") #>)
+            {
+                DisplayName = displayName,
+            };
         }
 
 <#
+    }
 }
 #>
     }
