@@ -19,6 +19,7 @@ namespace Cogito.Activities
         /// <param name="displayName"></param>
         /// <returns></returns>
         public static Cast<TOperand, TResult> Cast<TOperand, TResult>(DelegateInArgument<TOperand> operand, [CallerMemberName] string displayName = null)
+            where TOperand : TResult
         {
             Contract.Requires<ArgumentNullException>(operand != null);
 
@@ -38,6 +39,7 @@ namespace Cogito.Activities
         /// <param name="displayName"></param>
         /// <returns></returns>
         public static Cast<TOperand, TResult> Cast<TOperand, TResult>(this Activity<TOperand> operand, [CallerMemberName] string displayName = null)
+            where TOperand : TResult
         {
             Contract.Requires<ArgumentNullException>(operand != null);
 

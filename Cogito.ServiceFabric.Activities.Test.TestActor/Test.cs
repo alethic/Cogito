@@ -31,7 +31,8 @@ namespace Cogito.ServiceFabric.Activities.Test.TestActor
                 Delay(TimeSpan.FromSeconds(5)),
                 While(async () => { await Task.Delay(200); return true; },
                     Sequence(
-                        ParallelForEach(Enumerable.Range(0, 10), i => Debug.WriteLine(i)),
+                        Literal(Enumerable.Range(0, 10))
+                            .ParallelForEach(i => Debug.WriteLine(i)),
                         Delay(TimeSpan.FromSeconds(15)),
                         Invoke(() => DoThing2()))));
         }

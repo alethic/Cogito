@@ -151,6 +151,7 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Expressions.Delegate.cs</LastGenOutput>
     </None>
+    <Compile Include="Expressions.Literal.cs" />
     <Compile Include="Expressions.OrElse.cs" />
     <Compile Include="Expressions.Or.cs" />
     <Compile Include="Expressions.AndAlso.cs" />
