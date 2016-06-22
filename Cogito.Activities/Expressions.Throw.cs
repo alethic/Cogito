@@ -16,6 +16,58 @@ namespace Cogito.Activities
         /// </summary>
         /// <param name="exception"></param>
         /// <returns></returns>
+        public static Throw Throw<TArg1, TException>(Func<TArg1, TException> func, DelegateInArgument<TArg1> arg1, [CallerMemberName] string displayName = null)
+            where TException : Exception
+        {
+            Contract.Requires<ArgumentNullException>(func != null);
+
+            return Throw(Invoke<TArg1, TException>(func, arg1, displayName), displayName);
+        }
+
+        /// <summary>
+        /// Throws a <typeparam name="TException"/>.
+        /// </summary>
+        /// <param name="exception"></param>
+        /// <returns></returns>
+        public static Throw Throw<TArg1, TException>(Func<TArg1, Task<TException>> func, DelegateInArgument<TArg1> arg1, [CallerMemberName] string displayName = null)
+            where TException : Exception
+        {
+            Contract.Requires<ArgumentNullException>(func != null);
+
+            return Throw(Invoke<TArg1, TException>(func, arg1, displayName), displayName);
+        }
+
+        /// <summary>
+        /// Throws a <typeparam name="TException"/>.
+        /// </summary>
+        /// <param name="exception"></param>
+        /// <returns></returns>
+        public static Throw Throw<TArg1, TException>(Func<TArg1, TException> func, Activity<TArg1> arg1, [CallerMemberName] string displayName = null)
+            where TException : Exception
+        {
+            Contract.Requires<ArgumentNullException>(func != null);
+
+            return Throw(Invoke<TArg1, TException>(func, arg1, displayName), displayName);
+        }
+
+        /// <summary>
+        /// Throws a <typeparam name="TException"/>.
+        /// </summary>
+        /// <param name="exception"></param>
+        /// <returns></returns>
+        public static Throw Throw<TArg1, TException>(Func<TArg1, Task<TException>> func, Activity<TArg1> arg1, [CallerMemberName] string displayName = null)
+            where TException : Exception
+        {
+            Contract.Requires<ArgumentNullException>(func != null);
+
+            return Throw(Invoke<TArg1, TException>(func, arg1, displayName), displayName);
+        }
+
+        /// <summary>
+        /// Throws a <typeparam name="TException"/>.
+        /// </summary>
+        /// <param name="exception"></param>
+        /// <returns></returns>
         public static Throw Throw<TArg1, TArg2, TException>(Func<TArg1, TArg2, TException> func, DelegateInArgument<TArg1> arg1, DelegateInArgument<TArg2> arg2, [CallerMemberName] string displayName = null)
             where TException : Exception
         {
