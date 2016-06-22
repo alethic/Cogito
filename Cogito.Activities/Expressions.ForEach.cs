@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Activities;
-using System.Activities.Expressions;
 using System.Activities.Statements;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
@@ -14,535 +13,672 @@ namespace Cogito.Activities
     {
 
         /// <summary>
-        /// Executes <paramref name="body"/> for each element in <paramref name="source"/>.
+        /// Executes <paramref name="body"/> for each element in <paramref name="values"/>.
         /// </summary>
         /// <typeparam name="TElement"></typeparam>
-        /// <param name="source"></param>
+        /// <param name="values"></param>
         /// <param name="body"></param>
         /// <param name="displayName"></param>
         /// <returns></returns>
-        public static ForEach<TElement> ForEach<TElement>(DelegateInArgument<IEnumerable<TElement>> source, ActivityAction<TElement> body, [CallerMemberName] string displayName = null)
+        public static ForEach<TElement> ForEach<TElement>(DelegateInArgument<IEnumerable<TElement>> values, ActivityAction<TElement> body, [CallerMemberName] string displayName = null)
         {
-            Contract.Requires<ArgumentNullException>(source != null);
+            Contract.Requires<ArgumentNullException>(values != null);
             Contract.Requires<ArgumentNullException>(body != null);
 
             return new ForEach<TElement>()
             {
                 DisplayName = displayName,
-                Values = source,
+                Values = values,
                 Body = body,
             };
         }
 
         /// <summary>
-        /// Executes <paramref name="body"/> for each element in <paramref name="source"/>.
+        /// Executes <paramref name="body"/> for each element in <paramref name="values"/>.
         /// </summary>
         /// <typeparam name="TElement"></typeparam>
-        /// <param name="source"></param>
+        /// <param name="values"></param>
         /// <param name="body"></param>
         /// <param name="displayName"></param>
         /// <returns></returns>
-        public static ForEach<TElement> ForEach<TElement>(DelegateInArgument<IEnumerable<TElement>> source, Func<DelegateInArgument<TElement>, Activity> body, [CallerMemberName] string displayName = null)
+        public static ForEach<TElement> ForEach<TElement>(DelegateInArgument<IEnumerable<TElement>> values, Func<DelegateInArgument<TElement>, Activity> body, [CallerMemberName] string displayName = null)
         {
-            Contract.Requires<ArgumentNullException>(source != null);
+            Contract.Requires<ArgumentNullException>(values != null);
             Contract.Requires<ArgumentNullException>(body != null);
 
-            return ForEach(source, Delegate(body), displayName);
+            return ForEach(values, Delegate(body), displayName);
         }
 
         /// <summary>
-        /// Executes <paramref name="body"/> for each element in <paramref name="source"/>.
+        /// Executes <paramref name="body"/> for each element in <paramref name="values"/>.
         /// </summary>
         /// <typeparam name="TElement"></typeparam>
-        /// <param name="source"></param>
+        /// <param name="values"></param>
         /// <param name="body"></param>
         /// <returns></returns>
-        public static ForEach<TElement> ForEach<TElement>(DelegateInArgument<IEnumerable<TElement>> source, Action<TElement> body, [CallerMemberName] string displayName = null)
+        public static ForEach<TElement> ForEach<TElement>(DelegateInArgument<IEnumerable<TElement>> values, Action<TElement> body, [CallerMemberName] string displayName = null)
         {
-            Contract.Requires<ArgumentNullException>(source != null);
+            Contract.Requires<ArgumentNullException>(values != null);
             Contract.Requires<ArgumentNullException>(body != null);
 
-            return ForEach(source, Delegate<TElement>(arg => Invoke(body, arg, displayName)), displayName);
+            return ForEach(values, Delegate<TElement>(arg => Invoke(body, arg, displayName)), displayName);
         }
 
         /// <summary>
-        /// Executes <paramref name="body"/> for each element in <paramref name="source"/>.
+        /// Executes <paramref name="body"/> for each element in <paramref name="values"/>.
         /// </summary>
         /// <typeparam name="TElement"></typeparam>
-        /// <param name="source"></param>
-        /// <param name="body"></param>
-        /// <param name="displayName"></param>
-        /// <returns></returns>
-        public static ForEach<TElement> ForEach<TElement>(DelegateInArgument<IEnumerable<TElement>> source, Func<TElement, Task> body, [CallerMemberName] string displayName = null)
-        {
-            Contract.Requires<ArgumentNullException>(source != null);
-            Contract.Requires<ArgumentNullException>(body != null);
-
-            return ForEach(source, Delegate<TElement>(arg => Invoke(body, arg, displayName)), displayName);
-        }
-
-        /// <summary>
-        /// Executes <paramref name="body"/> for each element in <paramref name="source"/>.
-        /// </summary>
-        /// <typeparam name="TElement"></typeparam>
-        /// <param name="source"></param>
+        /// <param name="values"></param>
         /// <param name="body"></param>
         /// <param name="displayName"></param>
         /// <returns></returns>
-        public static ForEach<TElement> ForEach<TElement>(this Activity<IEnumerable<TElement>> source, Func<DelegateInArgument<TElement>, Activity> body, [CallerMemberName] string displayName = null)
+        public static ForEach<TElement> ForEach<TElement>(DelegateInArgument<IEnumerable<TElement>> values, Func<TElement, Task> body, [CallerMemberName] string displayName = null)
         {
-            Contract.Requires<ArgumentNullException>(source != null);
+            Contract.Requires<ArgumentNullException>(values != null);
             Contract.Requires<ArgumentNullException>(body != null);
 
-            return ForEach(source, Delegate(body), displayName);
+            return ForEach(values, Delegate<TElement>(arg => Invoke(body, arg, displayName)), displayName);
         }
 
         /// <summary>
-        /// Executes <paramref name="body"/> for each element in <paramref name="source"/>.
+        /// Executes <paramref name="body"/> for each element in <paramref name="values"/>.
         /// </summary>
         /// <typeparam name="TElement"></typeparam>
-        /// <param name="source"></param>
+        /// <param name="values"></param>
         /// <param name="body"></param>
         /// <param name="displayName"></param>
         /// <returns></returns>
-        public static ForEach<TElement> ForEach<TElement>(this Activity<IEnumerable<TElement>> source, ActivityAction<TElement> body, [CallerMemberName] string displayName = null)
+        public static ForEach<TElement> ForEach<TElement>(DelegateInArgument<TElement[]> values, ActivityAction<TElement> body, [CallerMemberName] string displayName = null)
         {
-            Contract.Requires<ArgumentNullException>(source != null);
+            Contract.Requires<ArgumentNullException>(values != null);
             Contract.Requires<ArgumentNullException>(body != null);
 
             return new ForEach<TElement>()
             {
                 DisplayName = displayName,
-                Values = source,
+                Values = As<TElement[], IEnumerable<TElement>>(values, displayName),
                 Body = body,
             };
         }
 
         /// <summary>
-        /// Executes <paramref name="body"/> for each element in <paramref name="source"/>.
+        /// Executes <paramref name="body"/> for each element in <paramref name="values"/>.
         /// </summary>
         /// <typeparam name="TElement"></typeparam>
-        /// <param name="source"></param>
+        /// <param name="values"></param>
         /// <param name="body"></param>
         /// <param name="displayName"></param>
         /// <returns></returns>
-        public static ForEach<TElement> ForEach<TElement>(this Activity<IEnumerable<TElement>> source, Action<TElement> body, [CallerMemberName] string displayName = null)
+        public static ForEach<TElement> ForEach<TElement>(DelegateInArgument<TElement[]> values, Func<DelegateInArgument<TElement>, Activity> body, [CallerMemberName] string displayName = null)
         {
-            Contract.Requires<ArgumentNullException>(source != null);
+            Contract.Requires<ArgumentNullException>(values != null);
             Contract.Requires<ArgumentNullException>(body != null);
 
-            return ForEach(source, Delegate<TElement>(arg => Invoke(body, arg, displayName)), displayName);
+            return ForEach(values, Delegate(body), displayName);
         }
 
         /// <summary>
-        /// Executes <paramref name="body"/> for each element in <paramref name="source"/>.
+        /// Executes <paramref name="body"/> for each element in <paramref name="values"/>.
         /// </summary>
         /// <typeparam name="TElement"></typeparam>
-        /// <param name="source"></param>
+        /// <param name="values"></param>
         /// <param name="body"></param>
         /// <param name="displayName"></param>
         /// <returns></returns>
-        public static ForEach<TElement> ForEach<TElement>(this Activity<IEnumerable<TElement>> source, Func<TElement, Task> body, [CallerMemberName] string displayName = null)
+        public static ForEach<TElement> ForEach<TElement>(DelegateInArgument<TElement[]> values, Action<TElement> body, [CallerMemberName] string displayName = null)
         {
-            Contract.Requires<ArgumentNullException>(source != null);
+            Contract.Requires<ArgumentNullException>(values != null);
             Contract.Requires<ArgumentNullException>(body != null);
 
-            return ForEach(source, Delegate<TElement>(arg => Invoke(body, arg, displayName)), displayName);
+            return ForEach(values, Delegate<TElement>(arg => Invoke(body, arg, displayName)), displayName);
         }
 
         /// <summary>
-        /// Executes <paramref name="body"/> for each element in <paramref name="source"/>.
+        /// Executes <paramref name="body"/> for each element in <paramref name="values"/>.
         /// </summary>
         /// <typeparam name="TElement"></typeparam>
-        /// <param name="source"></param>
+        /// <param name="values"></param>
         /// <param name="body"></param>
         /// <param name="displayName"></param>
         /// <returns></returns>
-        public static ForEach<TElement> ForEach<TElement>(Func<IEnumerable<TElement>> source, Func<DelegateInArgument<TElement>, Activity> body, [CallerMemberName] string displayName = null)
+        public static ForEach<TElement> ForEach<TElement>(DelegateInArgument<TElement[]> values, Func<TElement, Task> body, [CallerMemberName] string displayName = null)
         {
-            Contract.Requires<ArgumentNullException>(source != null);
+            Contract.Requires<ArgumentNullException>(values != null);
             Contract.Requires<ArgumentNullException>(body != null);
 
-            return ForEach(Invoke(source, displayName), Delegate(body), displayName);
+            return ForEach(values, Delegate<TElement>(arg => Invoke(body, arg, displayName)), displayName);
         }
 
         /// <summary>
-        /// Executes <paramref name="body"/> for each element in <paramref name="source"/>.
+        /// Executes <paramref name="body"/> for each element in <paramref name="values"/>.
         /// </summary>
         /// <typeparam name="TElement"></typeparam>
-        /// <param name="source"></param>
+        /// <param name="values"></param>
         /// <param name="body"></param>
         /// <param name="displayName"></param>
         /// <returns></returns>
-        public static ForEach<TElement> ForEach<TElement>(Func<IEnumerable<TElement>> source, ActivityAction<TElement> body, [CallerMemberName] string displayName = null)
+        public static ForEach<TElement> ForEach<TElement>(InArgument<IEnumerable<TElement>> values, ActivityAction<TElement> body, [CallerMemberName] string displayName = null)
         {
-            Contract.Requires<ArgumentNullException>(source != null);
-            Contract.Requires<ArgumentNullException>(body != null);
-
-            return ForEach(Invoke(source, displayName), body, displayName);
-        }
-
-        /// <summary>
-        /// Executes <paramref name="body"/> for each element in <paramref name="source"/>.
-        /// </summary>
-        /// <typeparam name="TElement"></typeparam>
-        /// <param name="source"></param>
-        /// <param name="body"></param>
-        /// <param name="displayName"></param>
-        /// <returns></returns>
-        public static ForEach<TElement> ForEach<TElement>(Func<IEnumerable<TElement>> source, Action<TElement> body, [CallerMemberName] string displayName = null)
-        {
-            Contract.Requires<ArgumentNullException>(source != null);
-            Contract.Requires<ArgumentNullException>(body != null);
-
-            return ForEach(Invoke(source, displayName), Delegate<TElement>(arg => Invoke(body, arg, displayName)), displayName);
-        }
-
-        /// <summary>
-        /// Executes <paramref name="body"/> for each element in <paramref name="source"/>.
-        /// </summary>
-        /// <typeparam name="TElement"></typeparam>
-        /// <param name="source"></param>
-        /// <param name="body"></param>
-        /// <param name="displayName"></param>
-        /// <returns></returns>
-        public static ForEach<TElement> ForEach<TElement>(Func<IEnumerable<TElement>> source, Func<TElement, Task> body, [CallerMemberName] string displayName = null)
-        {
-            Contract.Requires<ArgumentNullException>(source != null);
-            Contract.Requires<ArgumentNullException>(body != null);
-
-            return ForEach(Invoke(source, displayName), Delegate<TElement>(arg => Invoke(body, arg, displayName)), displayName);
-        }
-
-        /// <summary>
-        /// Executes <paramref name="body"/> for each element in <paramref name="source"/>.
-        /// </summary>
-        /// <typeparam name="TElement"></typeparam>
-        /// <param name="source"></param>
-        /// <param name="body"></param>
-        /// <param name="displayName"></param>
-        /// <returns></returns>
-        public static ForEach<TElement> ForEach<TElement>(Func<Task<IEnumerable<TElement>>> source, Func<DelegateInArgument<TElement>, Activity> body, [CallerMemberName] string displayName = null)
-        {
-            Contract.Requires<ArgumentNullException>(source != null);
-            Contract.Requires<ArgumentNullException>(body != null);
-
-            return ForEach(Invoke(source, displayName), Delegate(body), displayName);
-        }
-
-        /// <summary>
-        /// Executes <paramref name="body"/> for each element in <paramref name="source"/>.
-        /// </summary>
-        /// <typeparam name="TElement"></typeparam>
-        /// <param name="source"></param>
-        /// <param name="body"></param>
-        /// <param name="displayName"></param>
-        /// <returns></returns>
-        public static ForEach<TElement> ForEach<TElement>(Func<Task<IEnumerable<TElement>>> source, ActivityAction<TElement> body, [CallerMemberName] string displayName = null)
-        {
-            Contract.Requires<ArgumentNullException>(source != null);
-            Contract.Requires<ArgumentNullException>(body != null);
-
-            return ForEach(Invoke(source, displayName), body, displayName);
-        }
-
-        /// <summary>
-        /// Executes <paramref name="body"/> for each element in <paramref name="source"/>.
-        /// </summary>
-        /// <typeparam name="TElement"></typeparam>
-        /// <param name="source"></param>
-        /// <param name="body"></param>
-        /// <param name="displayName"></param>
-        /// <returns></returns>
-        public static ForEach<TElement> ForEach<TElement>(Func<Task<IEnumerable<TElement>>> source, Action<TElement> body, [CallerMemberName] string displayName = null)
-        {
-            Contract.Requires<ArgumentNullException>(source != null);
-            Contract.Requires<ArgumentNullException>(body != null);
-
-            return ForEach(Invoke(source, displayName), Delegate<TElement>(arg => Invoke(body, arg, displayName)), displayName);
-        }
-
-        /// <summary>
-        /// Executes <paramref name="body"/> for each element in <paramref name="source"/>.
-        /// </summary>
-        /// <typeparam name="TElement"></typeparam>
-        /// <param name="source"></param>
-        /// <param name="body"></param>
-        /// <param name="displayName"></param>
-        /// <returns></returns>
-        public static ForEach<TElement> ForEach<TElement>(Func<Task<IEnumerable<TElement>>> source, Func<TElement, Task> body, [CallerMemberName] string displayName = null)
-        {
-            Contract.Requires<ArgumentNullException>(source != null);
-            Contract.Requires<ArgumentNullException>(body != null);
-
-            return ForEach(Invoke(source, displayName), Delegate<TElement>(arg => Invoke(body, arg, displayName)), displayName);
-        }
-
-        /// <summary>
-        /// Executes <paramref name="body"/> for each element in <paramref name="source"/>.
-        /// </summary>
-        /// <typeparam name="TElement"></typeparam>
-        /// <param name="source"></param>
-        /// <param name="body"></param>
-        /// <param name="displayName"></param>
-        /// <returns></returns>
-        public static ForEach<TElement> ForEach<TElement>(DelegateInArgument<TElement[]> source, ActivityAction<TElement> body, [CallerMemberName] string displayName = null)
-        {
-            Contract.Requires<ArgumentNullException>(source != null);
+            Contract.Requires<ArgumentNullException>(values != null);
             Contract.Requires<ArgumentNullException>(body != null);
 
             return new ForEach<TElement>()
             {
                 DisplayName = displayName,
-                Values = As<TElement[], IEnumerable<TElement>>(source, displayName),
+                Values = values,
                 Body = body,
             };
         }
 
         /// <summary>
-        /// Executes <paramref name="body"/> for each element in <paramref name="source"/>.
+        /// Executes <paramref name="body"/> for each element in <paramref name="values"/>.
         /// </summary>
         /// <typeparam name="TElement"></typeparam>
-        /// <param name="source"></param>
+        /// <param name="values"></param>
         /// <param name="body"></param>
         /// <param name="displayName"></param>
         /// <returns></returns>
-        public static ForEach<TElement> ForEach<TElement>(DelegateInArgument<TElement[]> source, Func<DelegateInArgument<TElement>, Activity> body, [CallerMemberName] string displayName = null)
+        public static ForEach<TElement> ForEach<TElement>(InArgument<IEnumerable<TElement>> values, Func<DelegateInArgument<TElement>, Activity> body, [CallerMemberName] string displayName = null)
         {
-            Contract.Requires<ArgumentNullException>(source != null);
+            Contract.Requires<ArgumentNullException>(values != null);
             Contract.Requires<ArgumentNullException>(body != null);
 
-            return ForEach(source, Delegate(body), displayName);
+            return ForEach(values, Delegate(body), displayName);
         }
 
         /// <summary>
-        /// Executes <paramref name="body"/> for each element in <paramref name="source"/>.
+        /// Executes <paramref name="body"/> for each element in <paramref name="values"/>.
         /// </summary>
         /// <typeparam name="TElement"></typeparam>
-        /// <param name="source"></param>
+        /// <param name="values"></param>
         /// <param name="body"></param>
-        /// <param name="displayName"></param>
         /// <returns></returns>
-        public static ForEach<TElement> ForEach<TElement>(DelegateInArgument<TElement[]> source, Action<TElement> body, [CallerMemberName] string displayName = null)
+        public static ForEach<TElement> ForEach<TElement>(InArgument<IEnumerable<TElement>> values, Action<TElement> body, [CallerMemberName] string displayName = null)
         {
-            Contract.Requires<ArgumentNullException>(source != null);
+            Contract.Requires<ArgumentNullException>(values != null);
             Contract.Requires<ArgumentNullException>(body != null);
 
-            return ForEach(source, Delegate<TElement>(arg => Invoke(body, arg, displayName)), displayName);
+            return ForEach(values, Delegate<TElement>(arg => Invoke(body, arg, displayName)), displayName);
         }
 
         /// <summary>
-        /// Executes <paramref name="body"/> for each element in <paramref name="source"/>.
+        /// Executes <paramref name="body"/> for each element in <paramref name="values"/>.
         /// </summary>
         /// <typeparam name="TElement"></typeparam>
-        /// <param name="source"></param>
+        /// <param name="values"></param>
         /// <param name="body"></param>
         /// <param name="displayName"></param>
         /// <returns></returns>
-        public static ForEach<TElement> ForEach<TElement>(DelegateInArgument<TElement[]> source, Func<TElement, Task> body, [CallerMemberName] string displayName = null)
+        public static ForEach<TElement> ForEach<TElement>(InArgument<IEnumerable<TElement>> values, Func<TElement, Task> body, [CallerMemberName] string displayName = null)
         {
-            Contract.Requires<ArgumentNullException>(source != null);
+            Contract.Requires<ArgumentNullException>(values != null);
             Contract.Requires<ArgumentNullException>(body != null);
 
-            return ForEach(source, Delegate<TElement>(arg => Invoke(body, arg, displayName)), displayName);
+            return ForEach(values, Delegate<TElement>(arg => Invoke(body, arg, displayName)), displayName);
         }
 
         /// <summary>
-        /// Executes <paramref name="body"/> for each element in <paramref name="source"/>.
+        /// Executes <paramref name="body"/> for each element in <paramref name="values"/>.
         /// </summary>
         /// <typeparam name="TElement"></typeparam>
-        /// <param name="source"></param>
+        /// <param name="values"></param>
         /// <param name="body"></param>
         /// <param name="displayName"></param>
         /// <returns></returns>
-        public static ForEach<TElement> ForEach<TElement>(this Activity<TElement[]> source, Func<DelegateInArgument<TElement>, Activity> body, [CallerMemberName] string displayName = null)
+        public static ForEach<TElement> ForEach<TElement>(InArgument<TElement[]> values, ActivityAction<TElement> body, [CallerMemberName] string displayName = null)
         {
-            Contract.Requires<ArgumentNullException>(source != null);
-            Contract.Requires<ArgumentNullException>(body != null);
-
-
-            return ForEach(source, Delegate(body), displayName);
-        }
-
-        /// <summary>
-        /// Executes <paramref name="body"/> for each element in <paramref name="source"/>.
-        /// </summary>
-        /// <typeparam name="TElement"></typeparam>
-        /// <param name="source"></param>
-        /// <param name="body"></param>
-        /// <param name="displayName"></param>
-        /// <returns></returns>
-        public static ForEach<TElement> ForEach<TElement>(this Activity<TElement[]> source, ActivityAction<TElement> body, [CallerMemberName] string displayName = null)
-        {
-            Contract.Requires<ArgumentNullException>(source != null);
+            Contract.Requires<ArgumentNullException>(values != null);
             Contract.Requires<ArgumentNullException>(body != null);
 
             return new ForEach<TElement>()
             {
                 DisplayName = displayName,
-                Values = As<TElement[], IEnumerable<TElement>>(source),
+                Values = As<TElement[], IEnumerable<TElement>>(values, displayName),
                 Body = body,
             };
         }
 
         /// <summary>
-        /// Executes <paramref name="body"/> for each element in <paramref name="source"/>.
+        /// Executes <paramref name="body"/> for each element in <paramref name="values"/>.
         /// </summary>
         /// <typeparam name="TElement"></typeparam>
-        /// <param name="source"></param>
+        /// <param name="values"></param>
         /// <param name="body"></param>
         /// <param name="displayName"></param>
         /// <returns></returns>
-        public static ForEach<TElement> ForEach<TElement>(this Activity<TElement[]> source, Action<TElement> body, [CallerMemberName] string displayName = null)
+        public static ForEach<TElement> ForEach<TElement>(InArgument<TElement[]> values, Func<DelegateInArgument<TElement>, Activity> body, [CallerMemberName] string displayName = null)
         {
-            Contract.Requires<ArgumentNullException>(source != null);
+            Contract.Requires<ArgumentNullException>(values != null);
             Contract.Requires<ArgumentNullException>(body != null);
 
-            return ForEach(source, Delegate<TElement>(arg => Invoke(body, arg, displayName)), displayName);
+            return ForEach(values, Delegate(body), displayName);
         }
 
         /// <summary>
-        /// Executes <paramref name="body"/> for each element in <paramref name="source"/>.
+        /// Executes <paramref name="body"/> for each element in <paramref name="values"/>.
         /// </summary>
         /// <typeparam name="TElement"></typeparam>
-        /// <param name="source"></param>
+        /// <param name="values"></param>
         /// <param name="body"></param>
         /// <param name="displayName"></param>
         /// <returns></returns>
-        public static ForEach<TElement> ForEach<TElement>(this Activity<TElement[]> source, Func<TElement, Task> body, [CallerMemberName] string displayName = null)
+        public static ForEach<TElement> ForEach<TElement>(InArgument<TElement[]> values, Action<TElement> body, [CallerMemberName] string displayName = null)
         {
-            Contract.Requires<ArgumentNullException>(source != null);
+            Contract.Requires<ArgumentNullException>(values != null);
             Contract.Requires<ArgumentNullException>(body != null);
 
-            return ForEach(source, Delegate<TElement>(arg => Invoke(body, arg, displayName)), displayName);
+            return ForEach(values, Delegate<TElement>(arg => Invoke(body, arg, displayName)), displayName);
         }
 
         /// <summary>
-        /// Executes <paramref name="body"/> for each element in <paramref name="source"/>.
+        /// Executes <paramref name="body"/> for each element in <paramref name="values"/>.
         /// </summary>
         /// <typeparam name="TElement"></typeparam>
-        /// <param name="source"></param>
+        /// <param name="values"></param>
         /// <param name="body"></param>
         /// <param name="displayName"></param>
         /// <returns></returns>
-        public static ForEach<TElement> ForEach<TElement>(Func<TElement[]> source, Func<DelegateInArgument<TElement>, Activity> body, [CallerMemberName] string displayName = null)
+        public static ForEach<TElement> ForEach<TElement>(InArgument<TElement[]> values, Func<TElement, Task> body, [CallerMemberName] string displayName = null)
         {
-            Contract.Requires<ArgumentNullException>(source != null);
+            Contract.Requires<ArgumentNullException>(values != null);
             Contract.Requires<ArgumentNullException>(body != null);
 
-            return ForEach(Invoke(source, displayName), Delegate(body), displayName);
+            return ForEach(values, Delegate<TElement>(arg => Invoke(body, arg, displayName)), displayName);
         }
 
         /// <summary>
-        /// Executes <paramref name="body"/> for each element in <paramref name="source"/>.
+        /// Executes <paramref name="body"/> for each element in <paramref name="values"/>.
         /// </summary>
         /// <typeparam name="TElement"></typeparam>
-        /// <param name="source"></param>
+        /// <param name="values"></param>
         /// <param name="body"></param>
         /// <param name="displayName"></param>
         /// <returns></returns>
-        public static ForEach<TElement> ForEach<TElement>(Func<TElement[]> source, ActivityAction<TElement> body, [CallerMemberName] string displayName = null)
+        public static ForEach<TElement> ForEach<TElement>(this Activity<IEnumerable<TElement>> values, Func<DelegateInArgument<TElement>, Activity> body, [CallerMemberName] string displayName = null)
         {
-            Contract.Requires<ArgumentNullException>(source != null);
+            Contract.Requires<ArgumentNullException>(values != null);
             Contract.Requires<ArgumentNullException>(body != null);
 
-            return ForEach(Invoke(source, displayName), body, displayName);
+            return ForEach(values, Delegate(body), displayName);
         }
 
         /// <summary>
-        /// Executes <paramref name="body"/> for each element in <paramref name="source"/>.
+        /// Executes <paramref name="body"/> for each element in <paramref name="values"/>.
         /// </summary>
         /// <typeparam name="TElement"></typeparam>
-        /// <param name="source"></param>
+        /// <param name="values"></param>
         /// <param name="body"></param>
         /// <param name="displayName"></param>
         /// <returns></returns>
-        public static ForEach<TElement> ForEach<TElement>(Func<TElement[]> source, Action<TElement> body, [CallerMemberName] string displayName = null)
+        public static ForEach<TElement> ForEach<TElement>(this Activity<IEnumerable<TElement>> values, ActivityAction<TElement> body, [CallerMemberName] string displayName = null)
         {
-            Contract.Requires<ArgumentNullException>(source != null);
+            Contract.Requires<ArgumentNullException>(values != null);
             Contract.Requires<ArgumentNullException>(body != null);
 
-            return ForEach(Invoke(source, displayName), Delegate<TElement>(arg => Invoke(body, arg, displayName)), displayName);
+            return new ForEach<TElement>()
+            {
+                DisplayName = displayName,
+                Values = values,
+                Body = body,
+            };
         }
 
         /// <summary>
-        /// Executes <paramref name="body"/> for each element in <paramref name="source"/>.
+        /// Executes <paramref name="body"/> for each element in <paramref name="values"/>.
         /// </summary>
         /// <typeparam name="TElement"></typeparam>
-        /// <param name="source"></param>
+        /// <param name="values"></param>
         /// <param name="body"></param>
         /// <param name="displayName"></param>
         /// <returns></returns>
-        public static ForEach<TElement> ForEach<TElement>(Func<TElement[]> source, Func<TElement, Task> body, [CallerMemberName] string displayName = null)
+        public static ForEach<TElement> ForEach<TElement>(this Activity<IEnumerable<TElement>> values, Action<TElement> body, [CallerMemberName] string displayName = null)
         {
-            Contract.Requires<ArgumentNullException>(source != null);
+            Contract.Requires<ArgumentNullException>(values != null);
             Contract.Requires<ArgumentNullException>(body != null);
 
-            return ForEach(Invoke(source, displayName), Delegate<TElement>(arg => Invoke(body, arg, displayName)), displayName);
+            return ForEach(values, Delegate<TElement>(arg => Invoke(body, arg, displayName)), displayName);
         }
 
         /// <summary>
-        /// Executes <paramref name="body"/> for each element in <paramref name="source"/>.
+        /// Executes <paramref name="body"/> for each element in <paramref name="values"/>.
         /// </summary>
         /// <typeparam name="TElement"></typeparam>
-        /// <param name="source"></param>
+        /// <param name="values"></param>
         /// <param name="body"></param>
         /// <param name="displayName"></param>
         /// <returns></returns>
-        public static ForEach<TElement> ForEach<TElement>(Func<Task<TElement[]>> source, Func<DelegateInArgument<TElement>, Activity> body, [CallerMemberName] string displayName = null)
+        public static ForEach<TElement> ForEach<TElement>(this Activity<IEnumerable<TElement>> values, Func<TElement, Task> body, [CallerMemberName] string displayName = null)
         {
-            Contract.Requires<ArgumentNullException>(source != null);
+            Contract.Requires<ArgumentNullException>(values != null);
             Contract.Requires<ArgumentNullException>(body != null);
 
-            return ForEach(Invoke(source, displayName), Delegate(body), displayName);
+            return ForEach(values, Delegate<TElement>(arg => Invoke(body, arg, displayName)), displayName);
         }
 
         /// <summary>
-        /// Executes <paramref name="body"/> for each element in <paramref name="source"/>.
+        /// Executes <paramref name="body"/> for each element in <paramref name="values"/>.
         /// </summary>
         /// <typeparam name="TElement"></typeparam>
-        /// <param name="source"></param>
+        /// <param name="values"></param>
         /// <param name="body"></param>
         /// <param name="displayName"></param>
         /// <returns></returns>
-        public static ForEach<TElement> ForEach<TElement>(Func<Task<TElement[]>> source, ActivityAction<TElement> body, [CallerMemberName] string displayName = null)
+        public static ForEach<TElement> ForEach<TElement>(Func<IEnumerable<TElement>> values, Func<DelegateInArgument<TElement>, Activity> body, [CallerMemberName] string displayName = null)
         {
-            Contract.Requires<ArgumentNullException>(source != null);
+            Contract.Requires<ArgumentNullException>(values != null);
             Contract.Requires<ArgumentNullException>(body != null);
 
-            return ForEach(Invoke(source, displayName), body, displayName);
+            return ForEach(Invoke(values, displayName), Delegate(body), displayName);
         }
 
         /// <summary>
-        /// Executes <paramref name="body"/> for each element in <paramref name="source"/>.
+        /// Executes <paramref name="body"/> for each element in <paramref name="values"/>.
         /// </summary>
         /// <typeparam name="TElement"></typeparam>
-        /// <param name="source"></param>
+        /// <param name="values"></param>
         /// <param name="body"></param>
         /// <param name="displayName"></param>
         /// <returns></returns>
-        public static ForEach<TElement> ForEach<TElement>(Func<Task<TElement[]>> source, Action<TElement> body, [CallerMemberName] string displayName = null)
+        public static ForEach<TElement> ForEach<TElement>(Func<IEnumerable<TElement>> values, ActivityAction<TElement> body, [CallerMemberName] string displayName = null)
         {
-            Contract.Requires<ArgumentNullException>(source != null);
+            Contract.Requires<ArgumentNullException>(values != null);
             Contract.Requires<ArgumentNullException>(body != null);
 
-            return ForEach(Invoke(source, displayName), Delegate<TElement>(arg => Invoke(body, arg, displayName)), displayName);
+            return ForEach(Invoke(values, displayName), body, displayName);
         }
 
         /// <summary>
-        /// Executes <paramref name="body"/> for each element in <paramref name="source"/>.
+        /// Executes <paramref name="body"/> for each element in <paramref name="values"/>.
         /// </summary>
         /// <typeparam name="TElement"></typeparam>
-        /// <param name="source"></param>
+        /// <param name="values"></param>
         /// <param name="body"></param>
         /// <param name="displayName"></param>
         /// <returns></returns>
-        public static ForEach<TElement> ForEach<TElement>(Func<Task<TElement[]>> source, Func<TElement, Task> body, [CallerMemberName] string displayName = null)
+        public static ForEach<TElement> ForEach<TElement>(Func<IEnumerable<TElement>> values, Action<TElement> body, [CallerMemberName] string displayName = null)
         {
-            Contract.Requires<ArgumentNullException>(source != null);
+            Contract.Requires<ArgumentNullException>(values != null);
             Contract.Requires<ArgumentNullException>(body != null);
 
-            return ForEach(Invoke(source, displayName), Delegate<TElement>(arg => Invoke(body, arg, displayName)), displayName);
+            return ForEach(Invoke(values, displayName), Delegate<TElement>(arg => Invoke(body, arg, displayName)), displayName);
+        }
+
+        /// <summary>
+        /// Executes <paramref name="body"/> for each element in <paramref name="values"/>.
+        /// </summary>
+        /// <typeparam name="TElement"></typeparam>
+        /// <param name="values"></param>
+        /// <param name="body"></param>
+        /// <param name="displayName"></param>
+        /// <returns></returns>
+        public static ForEach<TElement> ForEach<TElement>(Func<IEnumerable<TElement>> values, Func<TElement, Task> body, [CallerMemberName] string displayName = null)
+        {
+            Contract.Requires<ArgumentNullException>(values != null);
+            Contract.Requires<ArgumentNullException>(body != null);
+
+            return ForEach(Invoke(values, displayName), Delegate<TElement>(arg => Invoke(body, arg, displayName)), displayName);
+        }
+
+        /// <summary>
+        /// Executes <paramref name="body"/> for each element in <paramref name="values"/>.
+        /// </summary>
+        /// <typeparam name="TElement"></typeparam>
+        /// <param name="values"></param>
+        /// <param name="body"></param>
+        /// <param name="displayName"></param>
+        /// <returns></returns>
+        public static ForEach<TElement> ForEach<TElement>(Func<Task<IEnumerable<TElement>>> values, Func<DelegateInArgument<TElement>, Activity> body, [CallerMemberName] string displayName = null)
+        {
+            Contract.Requires<ArgumentNullException>(values != null);
+            Contract.Requires<ArgumentNullException>(body != null);
+
+            return ForEach(Invoke(values, displayName), Delegate(body), displayName);
+        }
+
+        /// <summary>
+        /// Executes <paramref name="body"/> for each element in <paramref name="values"/>.
+        /// </summary>
+        /// <typeparam name="TElement"></typeparam>
+        /// <param name="values"></param>
+        /// <param name="body"></param>
+        /// <param name="displayName"></param>
+        /// <returns></returns>
+        public static ForEach<TElement> ForEach<TElement>(Func<Task<IEnumerable<TElement>>> values, ActivityAction<TElement> body, [CallerMemberName] string displayName = null)
+        {
+            Contract.Requires<ArgumentNullException>(values != null);
+            Contract.Requires<ArgumentNullException>(body != null);
+
+            return ForEach(Invoke(values, displayName), body, displayName);
+        }
+
+        /// <summary>
+        /// Executes <paramref name="body"/> for each element in <paramref name="values"/>.
+        /// </summary>
+        /// <typeparam name="TElement"></typeparam>
+        /// <param name="values"></param>
+        /// <param name="body"></param>
+        /// <param name="displayName"></param>
+        /// <returns></returns>
+        public static ForEach<TElement> ForEach<TElement>(Func<Task<IEnumerable<TElement>>> values, Action<TElement> body, [CallerMemberName] string displayName = null)
+        {
+            Contract.Requires<ArgumentNullException>(values != null);
+            Contract.Requires<ArgumentNullException>(body != null);
+
+            return ForEach(Invoke(values, displayName), Delegate<TElement>(arg => Invoke(body, arg, displayName)), displayName);
+        }
+
+        /// <summary>
+        /// Executes <paramref name="body"/> for each element in <paramref name="values"/>.
+        /// </summary>
+        /// <typeparam name="TElement"></typeparam>
+        /// <param name="values"></param>
+        /// <param name="body"></param>
+        /// <param name="displayName"></param>
+        /// <returns></returns>
+        public static ForEach<TElement> ForEach<TElement>(Func<Task<IEnumerable<TElement>>> values, Func<TElement, Task> body, [CallerMemberName] string displayName = null)
+        {
+            Contract.Requires<ArgumentNullException>(values != null);
+            Contract.Requires<ArgumentNullException>(body != null);
+
+            return ForEach(Invoke(values, displayName), Delegate<TElement>(arg => Invoke(body, arg, displayName)), displayName);
+        }
+
+        /// <summary>
+        /// Executes <paramref name="body"/> for each element in <paramref name="values"/>.
+        /// </summary>
+        /// <typeparam name="TElement"></typeparam>
+        /// <param name="values"></param>
+        /// <param name="body"></param>
+        /// <param name="displayName"></param>
+        /// <returns></returns>
+        public static ForEach<TElement> ForEach<TElement>(this Activity<TElement[]> values, Func<DelegateInArgument<TElement>, Activity> body, [CallerMemberName] string displayName = null)
+        {
+            Contract.Requires<ArgumentNullException>(values != null);
+            Contract.Requires<ArgumentNullException>(body != null);
+
+
+            return ForEach(values, Delegate(body), displayName);
+        }
+
+        /// <summary>
+        /// Executes <paramref name="body"/> for each element in <paramref name="values"/>.
+        /// </summary>
+        /// <typeparam name="TElement"></typeparam>
+        /// <param name="values"></param>
+        /// <param name="body"></param>
+        /// <param name="displayName"></param>
+        /// <returns></returns>
+        public static ForEach<TElement> ForEach<TElement>(this Activity<TElement[]> values, ActivityAction<TElement> body, [CallerMemberName] string displayName = null)
+        {
+            Contract.Requires<ArgumentNullException>(values != null);
+            Contract.Requires<ArgumentNullException>(body != null);
+
+            return new ForEach<TElement>()
+            {
+                DisplayName = displayName,
+                Values = As<TElement[], IEnumerable<TElement>>(values),
+                Body = body,
+            };
+        }
+
+        /// <summary>
+        /// Executes <paramref name="body"/> for each element in <paramref name="values"/>.
+        /// </summary>
+        /// <typeparam name="TElement"></typeparam>
+        /// <param name="values"></param>
+        /// <param name="body"></param>
+        /// <param name="displayName"></param>
+        /// <returns></returns>
+        public static ForEach<TElement> ForEach<TElement>(this Activity<TElement[]> values, Action<TElement> body, [CallerMemberName] string displayName = null)
+        {
+            Contract.Requires<ArgumentNullException>(values != null);
+            Contract.Requires<ArgumentNullException>(body != null);
+
+            return ForEach(values, Delegate<TElement>(arg => Invoke(body, arg, displayName)), displayName);
+        }
+
+        /// <summary>
+        /// Executes <paramref name="body"/> for each element in <paramref name="values"/>.
+        /// </summary>
+        /// <typeparam name="TElement"></typeparam>
+        /// <param name="values"></param>
+        /// <param name="body"></param>
+        /// <param name="displayName"></param>
+        /// <returns></returns>
+        public static ForEach<TElement> ForEach<TElement>(this Activity<TElement[]> values, Func<TElement, Task> body, [CallerMemberName] string displayName = null)
+        {
+            Contract.Requires<ArgumentNullException>(values != null);
+            Contract.Requires<ArgumentNullException>(body != null);
+
+            return ForEach(values, Delegate<TElement>(arg => Invoke(body, arg, displayName)), displayName);
+        }
+
+        /// <summary>
+        /// Executes <paramref name="body"/> for each element in <paramref name="values"/>.
+        /// </summary>
+        /// <typeparam name="TElement"></typeparam>
+        /// <param name="values"></param>
+        /// <param name="body"></param>
+        /// <param name="displayName"></param>
+        /// <returns></returns>
+        public static ForEach<TElement> ForEach<TElement>(Func<TElement[]> values, Func<DelegateInArgument<TElement>, Activity> body, [CallerMemberName] string displayName = null)
+        {
+            Contract.Requires<ArgumentNullException>(values != null);
+            Contract.Requires<ArgumentNullException>(body != null);
+
+            return ForEach(Invoke(values, displayName), Delegate(body), displayName);
+        }
+
+        /// <summary>
+        /// Executes <paramref name="body"/> for each element in <paramref name="values"/>.
+        /// </summary>
+        /// <typeparam name="TElement"></typeparam>
+        /// <param name="values"></param>
+        /// <param name="body"></param>
+        /// <param name="displayName"></param>
+        /// <returns></returns>
+        public static ForEach<TElement> ForEach<TElement>(Func<TElement[]> values, ActivityAction<TElement> body, [CallerMemberName] string displayName = null)
+        {
+            Contract.Requires<ArgumentNullException>(values != null);
+            Contract.Requires<ArgumentNullException>(body != null);
+
+            return ForEach(Invoke(values, displayName), body, displayName);
+        }
+
+        /// <summary>
+        /// Executes <paramref name="body"/> for each element in <paramref name="values"/>.
+        /// </summary>
+        /// <typeparam name="TElement"></typeparam>
+        /// <param name="values"></param>
+        /// <param name="body"></param>
+        /// <param name="displayName"></param>
+        /// <returns></returns>
+        public static ForEach<TElement> ForEach<TElement>(Func<TElement[]> values, Action<TElement> body, [CallerMemberName] string displayName = null)
+        {
+            Contract.Requires<ArgumentNullException>(values != null);
+            Contract.Requires<ArgumentNullException>(body != null);
+
+            return ForEach(Invoke(values, displayName), Delegate<TElement>(arg => Invoke(body, arg, displayName)), displayName);
+        }
+
+        /// <summary>
+        /// Executes <paramref name="body"/> for each element in <paramref name="values"/>.
+        /// </summary>
+        /// <typeparam name="TElement"></typeparam>
+        /// <param name="values"></param>
+        /// <param name="body"></param>
+        /// <param name="displayName"></param>
+        /// <returns></returns>
+        public static ForEach<TElement> ForEach<TElement>(Func<TElement[]> values, Func<TElement, Task> body, [CallerMemberName] string displayName = null)
+        {
+            Contract.Requires<ArgumentNullException>(values != null);
+            Contract.Requires<ArgumentNullException>(body != null);
+
+            return ForEach(Invoke(values, displayName), Delegate<TElement>(arg => Invoke(body, arg, displayName)), displayName);
+        }
+
+        /// <summary>
+        /// Executes <paramref name="body"/> for each element in <paramref name="values"/>.
+        /// </summary>
+        /// <typeparam name="TElement"></typeparam>
+        /// <param name="values"></param>
+        /// <param name="body"></param>
+        /// <param name="displayName"></param>
+        /// <returns></returns>
+        public static ForEach<TElement> ForEach<TElement>(Func<Task<TElement[]>> values, Func<DelegateInArgument<TElement>, Activity> body, [CallerMemberName] string displayName = null)
+        {
+            Contract.Requires<ArgumentNullException>(values != null);
+            Contract.Requires<ArgumentNullException>(body != null);
+
+            return ForEach(Invoke(values, displayName), Delegate(body), displayName);
+        }
+
+        /// <summary>
+        /// Executes <paramref name="body"/> for each element in <paramref name="values"/>.
+        /// </summary>
+        /// <typeparam name="TElement"></typeparam>
+        /// <param name="values"></param>
+        /// <param name="body"></param>
+        /// <param name="displayName"></param>
+        /// <returns></returns>
+        public static ForEach<TElement> ForEach<TElement>(Func<Task<TElement[]>> values, ActivityAction<TElement> body, [CallerMemberName] string displayName = null)
+        {
+            Contract.Requires<ArgumentNullException>(values != null);
+            Contract.Requires<ArgumentNullException>(body != null);
+
+            return ForEach(Invoke(values, displayName), body, displayName);
+        }
+
+        /// <summary>
+        /// Executes <paramref name="body"/> for each element in <paramref name="values"/>.
+        /// </summary>
+        /// <typeparam name="TElement"></typeparam>
+        /// <param name="values"></param>
+        /// <param name="body"></param>
+        /// <param name="displayName"></param>
+        /// <returns></returns>
+        public static ForEach<TElement> ForEach<TElement>(Func<Task<TElement[]>> values, Action<TElement> body, [CallerMemberName] string displayName = null)
+        {
+            Contract.Requires<ArgumentNullException>(values != null);
+            Contract.Requires<ArgumentNullException>(body != null);
+
+            return ForEach(Invoke(values, displayName), Delegate<TElement>(arg => Invoke(body, arg, displayName)), displayName);
+        }
+
+        /// <summary>
+        /// Executes <paramref name="body"/> for each element in <paramref name="values"/>.
+        /// </summary>
+        /// <typeparam name="TElement"></typeparam>
+        /// <param name="values"></param>
+        /// <param name="body"></param>
+        /// <param name="displayName"></param>
+        /// <returns></returns>
+        public static ForEach<TElement> ForEach<TElement>(Func<Task<TElement[]>> values, Func<TElement, Task> body, [CallerMemberName] string displayName = null)
+        {
+            Contract.Requires<ArgumentNullException>(values != null);
+            Contract.Requires<ArgumentNullException>(body != null);
+
+            return ForEach(Invoke(values, displayName), Delegate<TElement>(arg => Invoke(body, arg, displayName)), displayName);
         }
 
     }

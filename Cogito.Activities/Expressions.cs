@@ -116,17 +116,6 @@ namespace Cogito.Activities
             });
         }
 
-        public static Activity<TResult> As<TSource, TResult>(this Activity<TSource> source)
-            where TSource : TResult
-        {
-            Contract.Requires<ArgumentNullException>(source != null);
-
-            return new As<TSource, TResult>()
-            {
-                Operand = source,
-            };
-        }
-
         public static Parallel WithBranch(this Parallel parallel, Activity branch)
         {
             parallel.Branches.Add(branch);

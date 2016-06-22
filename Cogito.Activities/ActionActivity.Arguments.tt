@@ -18,7 +18,7 @@ namespace Cogito.Activities
 <#
 for (int i = 1; i <= 8; i++)
 {
-    foreach (var argTypeName in new [] { "DelegateInArgument<TArg{0}>", "Activity<TArg{0}>" })
+    foreach (var argTypeName in new [] { "InArgument<TArg{0}>", "DelegateInArgument<TArg{0}>", "Activity<TArg{0}>" })
     {
 #>
         /// <summary>
