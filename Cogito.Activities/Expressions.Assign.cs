@@ -12,120 +12,40 @@ namespace Cogito.Activities
         /// <summary>
         /// Assigns <paramref name="value"/> to <paramref name="to"/>.
         /// </summary>
-        /// <param name="value"></param>
         /// <param name="to"></param>
+        /// <param name="value"></param>
         /// <param name="displayName"></param>
         /// <returns></returns>
-        public static Assign<T> Assign<T>(InArgument<T> value, OutArgument<T> to, string displayName = null)
+        public static Assign<T> Assign<T>(OutArgument<T> to, InArgument<T> value, string displayName = null)
         {
-            Contract.Requires<ArgumentNullException>(value != null);
             Contract.Requires<ArgumentNullException>(to != null);
+            Contract.Requires<ArgumentNullException>(value != null);
 
             return new Assign<T>()
             {
                 DisplayName = displayName,
-                Value = value,
                 To = to,
+                Value = value,
             };
         }
 
         /// <summary>
         /// Assigns <paramref name="value"/> to <paramref name="to"/>.
         /// </summary>
-        /// <param name="value"></param>
         /// <param name="to"></param>
+        /// <param name="value"></param>
         /// <param name="displayName"></param>
         /// <returns></returns>
-        public static Assign<T> Assign<T>(InArgument<T> value, DelegateOutArgument<T> to, string displayName = null)
+        public static Assign<T> Assign<T>(OutArgument<T> to, DelegateInArgument<T> value, string displayName = null)
         {
-            Contract.Requires<ArgumentNullException>(value != null);
             Contract.Requires<ArgumentNullException>(to != null);
+            Contract.Requires<ArgumentNullException>(value != null);
 
             return new Assign<T>()
             {
                 DisplayName = displayName,
-                Value = value,
                 To = to,
-            };
-        }
-
-        /// <summary>
-        /// Assigns <paramref name="value"/> to <paramref name="to"/>.
-        /// </summary>
-        /// <param name="value"></param>
-        /// <param name="to"></param>
-        /// <param name="displayName"></param>
-        /// <returns></returns>
-        public static Assign<T> Assign<T>(InArgument<T> value, Variable<T> to, string displayName = null)
-        {
-            Contract.Requires<ArgumentNullException>(value != null);
-            Contract.Requires<ArgumentNullException>(to != null);
-
-            return new Assign<T>()
-            {
-                DisplayName = displayName,
                 Value = value,
-                To = to,
-            };
-        }
-
-        /// <summary>
-        /// Assigns <paramref name="value"/> to <paramref name="to"/>.
-        /// </summary>
-        /// <param name="value"></param>
-        /// <param name="to"></param>
-        /// <param name="displayName"></param>
-        /// <returns></returns>
-        public static Assign<T> Assign<T>(DelegateInArgument<T> value, OutArgument<T> to, string displayName = null)
-        {
-            Contract.Requires<ArgumentNullException>(value != null);
-            Contract.Requires<ArgumentNullException>(to != null);
-
-            return new Assign<T>()
-            {
-                DisplayName = displayName,
-                Value = value,
-                To = to,
-            };
-        }
-
-        /// <summary>
-        /// Assigns <paramref name="value"/> to <paramref name="to"/>.
-        /// </summary>
-        /// <param name="value"></param>
-        /// <param name="to"></param>
-        /// <param name="displayName"></param>
-        /// <returns></returns>
-        public static Assign<T> Assign<T>(DelegateInArgument<T> value, DelegateOutArgument<T> to, string displayName = null)
-        {
-            Contract.Requires<ArgumentNullException>(value != null);
-            Contract.Requires<ArgumentNullException>(to != null);
-
-            return new Assign<T>()
-            {
-                DisplayName = displayName,
-                Value = value,
-                To = to,
-            };
-        }
-
-        /// <summary>
-        /// Assigns <paramref name="value"/> to <paramref name="to"/>.
-        /// </summary>
-        /// <param name="value"></param>
-        /// <param name="to"></param>
-        /// <param name="displayName"></param>
-        /// <returns></returns>
-        public static Assign<T> Assign<T>(DelegateInArgument<T> value, Variable<T> to, string displayName = null)
-        {
-            Contract.Requires<ArgumentNullException>(value != null);
-            Contract.Requires<ArgumentNullException>(to != null);
-
-            return new Assign<T>()
-            {
-                DisplayName = displayName,
-                Value = value,
-                To = to,
             };
         }
 
@@ -133,20 +53,60 @@ namespace Cogito.Activities
         /// Assigns <paramref name="value"/> to <paramref name="to"/>.
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="value"></param>
         /// <param name="to"></param>
+        /// <param name="value"></param>
         /// <param name="displayName"></param>
         /// <returns></returns>
-        public static Assign<T> Assign<T>(this Activity<T> value, OutArgument<T> to, string displayName = null)
+        public static Assign<T> Assign<T>(OutArgument<T> to, Activity<T> value, string displayName = null)
         {
-            Contract.Requires<ArgumentNullException>(value != null);
             Contract.Requires<ArgumentNullException>(to != null);
+            Contract.Requires<ArgumentNullException>(value != null);
 
             return new Assign<T>()
             {
                 DisplayName = displayName,
-                Value = value,
                 To = to,
+                Value = value,
+            };
+        }
+
+        /// <summary>
+        /// Assigns <paramref name="value"/> to <paramref name="to"/>.
+        /// </summary>
+        /// <param name="to"></param>
+        /// <param name="value"></param>
+        /// <param name="displayName"></param>
+        /// <returns></returns>
+        public static Assign<T> Assign<T>(DelegateOutArgument<T> to, InArgument<T> value, string displayName = null)
+        {
+            Contract.Requires<ArgumentNullException>(to != null);
+            Contract.Requires<ArgumentNullException>(value != null);
+
+            return new Assign<T>()
+            {
+                DisplayName = displayName,
+                To = to,
+                Value = value,
+            };
+        }
+
+        /// <summary>
+        /// Assigns <paramref name="value"/> to <paramref name="to"/>.
+        /// </summary>
+        /// <param name="to"></param>
+        /// <param name="value"></param>
+        /// <param name="displayName"></param>
+        /// <returns></returns>
+        public static Assign<T> Assign<T>(DelegateOutArgument<T> to, DelegateInArgument<T> value, string displayName = null)
+        {
+            Contract.Requires<ArgumentNullException>(to != null);
+            Contract.Requires<ArgumentNullException>(value != null);
+
+            return new Assign<T>()
+            {
+                DisplayName = displayName,
+                To = to,
+                Value = value,
             };
         }
 
@@ -154,20 +114,60 @@ namespace Cogito.Activities
         /// Assigns <paramref name="value"/> to <paramref name="to"/>.
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="value"></param>
         /// <param name="to"></param>
+        /// <param name="value"></param>
         /// <param name="displayName"></param>
         /// <returns></returns>
-        public static Assign<T> Assign<T>(this Activity<T> value, DelegateOutArgument<T> to, string displayName = null)
+        public static Assign<T> Assign<T>(DelegateOutArgument<T> to, Activity<T> value, string displayName = null)
         {
-            Contract.Requires<ArgumentNullException>(value != null);
             Contract.Requires<ArgumentNullException>(to != null);
+            Contract.Requires<ArgumentNullException>(value != null);
 
             return new Assign<T>()
             {
                 DisplayName = displayName,
-                Value = value,
                 To = to,
+                Value = value,
+            };
+        }
+
+        /// <summary>
+        /// Assigns <paramref name="value"/> to <paramref name="to"/>.
+        /// </summary>
+        /// <param name="to"></param>
+        /// <param name="value"></param>
+        /// <param name="displayName"></param>
+        /// <returns></returns>
+        public static Assign<T> Assign<T>(this Variable<T> to, InArgument<T> value, string displayName = null)
+        {
+            Contract.Requires<ArgumentNullException>(to != null);
+            Contract.Requires<ArgumentNullException>(value != null);
+
+            return new Assign<T>()
+            {
+                DisplayName = displayName,
+                To = to,
+                Value = value,
+            };
+        }
+
+        /// <summary>
+        /// Assigns <paramref name="value"/> to <paramref name="to"/>.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="to"></param>
+        /// <param name="displayName"></param>
+        /// <returns></returns>
+        public static Assign<T> Assign<T>(this Variable<T> to, DelegateInArgument<T> value, string displayName = null)
+        {
+            Contract.Requires<ArgumentNullException>(to != null);
+            Contract.Requires<ArgumentNullException>(value != null);
+
+            return new Assign<T>()
+            {
+                DisplayName = displayName,
+                To = to,
+                Value = value,
             };
         }
 
@@ -175,20 +175,20 @@ namespace Cogito.Activities
         /// Assigns <paramref name="value"/> to <paramref name="to"/>.
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="value"></param>
         /// <param name="to"></param>
+        /// <param name="value"></param>
         /// <param name="displayName"></param>
         /// <returns></returns>
-        public static Assign<T> Assign<T>(this Activity<T> value, Variable<T> to, string displayName = null)
+        public static Assign<T> Assign<T>(this Variable<T> to, Activity<T> value, string displayName = null)
         {
-            Contract.Requires<ArgumentNullException>(value != null);
             Contract.Requires<ArgumentNullException>(to != null);
+            Contract.Requires<ArgumentNullException>(value != null);
 
             return new Assign<T>()
             {
                 DisplayName = displayName,
-                Value = value,
                 To = to,
+                Value = value,
             };
         }
 
