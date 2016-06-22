@@ -141,21 +141,35 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ActionActivity.Arguments.cs">
+    <Compile Include="ActionActivity.partial.cs">
+      <DependentUpon>ActionActivity.partial.tt</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>ActionActivity.Arguments.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Expressions.ActionActivity.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Expressions.ActionActivity.tt</DependentUpon>
     </Compile>
     <Compile Include="ActionActivity.cs" />
-    <None Include="Expressions.Delegate.tt">
+    <None Include="Expressions.Delegate.partial.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>Expressions.Delegate.cs</LastGenOutput>
+      <LastGenOutput>Expressions.Delegate.partial.cs</LastGenOutput>
     </None>
+    <Compile Include="ConstantValue.cs" />
+    <Compile Include="AsyncActionActivity.partial.cs">
+      <DependentUpon>AsyncActionActivity.partial.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Expressions.Delegate.cs" />
     <Compile Include="Expressions.GreaterThan.cs" />
+    <Compile Include="Expressions.Constant.cs" />
     <Compile Include="Expressions.LessThan.cs" />
     <Compile Include="Expressions.LessThanOrEqual.cs" />
     <Compile Include="Expressions.GreaterThanOrEqual.cs" />
     <Compile Include="Expressions.Equal.cs" />
+    <Compile Include="Expressions.LambdaValue.cs" />
     <Compile Include="Expressions.Literal.cs" />
     <Compile Include="Expressions.OrElse.cs" />
     <Compile Include="Expressions.Or.cs" />
@@ -163,10 +177,10 @@
     <Compile Include="Expressions.As.cs" />
     <Compile Include="Expressions.And.cs" />
     <Compile Include="Expressions.Delay.cs" />
-    <Compile Include="Expressions.Delegate.cs">
+    <Compile Include="Expressions.Delegate.partial.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>Expressions.Delegate.tt</DependentUpon>
+      <DependentUpon>Expressions.Delegate.partial.tt</DependentUpon>
     </Compile>
     <Compile Include="Expressions.cs" />
     <Compile Include="Expressions.Assign.cs" />
@@ -174,37 +188,42 @@
     <Compile Include="Expressions.If.cs" />
     <Compile Include="Expressions.ParallelForEach.cs" />
     <Compile Include="Expressions.ForEach.cs" />
-    <Compile Include="Expressions.Throw.cs">
+    <Compile Include="Expressions.Throw.partial.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>Expressions.Throw.tt</DependentUpon>
+      <DependentUpon>Expressions.Throw.partial.tt</DependentUpon>
     </Compile>
-    <Compile Include="Expressions.Throw.partial.cs" />
+    <Compile Include="Expressions.Throw.cs" />
     <Compile Include="Expressions.TryCatch.cs" />
     <Compile Include="AsyncTaskCodeActivity.cs" />
     <Compile Include="AsyncTaskExtension.cs" />
     <Compile Include="For.cs" />
+    <Compile Include="Expressions.FuncActivity.cs">
+      <DependentUpon>Expressions.FuncActivity.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="Retry.cs" />
     <Compile Include="RetryException.cs" />
     <Compile Include="RetryCatch.cs" />
     <Compile Include="RetryExceptionCaughtTrackingRecord.cs" />
     <Compile Include="RetryState.cs" />
     <Compile Include="FormatActivity.cs" />
-    <Compile Include="FuncActivity.Arguments.cs">
-      <DependentUpon>FuncActivity.Arguments.tt</DependentUpon>
+    <Compile Include="FuncActivity.partial.cs">
+      <DependentUpon>FuncActivity.partial.tt</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="FuncActivity.cs" />
-    <Compile Include="AsyncFuncActivity.Arguments.cs">
-      <DependentUpon>AsyncFuncActivity.Arguments.tt</DependentUpon>
+    <Compile Include="Expressions.AsyncFuncActivity.cs">
+      <DependentUpon>Expressions.AsyncFuncActivity.tt</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="AsyncActionActivity.Arguments.cs">
+    <Compile Include="Expressions.AsyncActionActivity.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>AsyncActionActivity.Arguments.tt</DependentUpon>
+      <DependentUpon>Expressions.AsyncActionActivity.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="AsyncActionActivity.cs" />
@@ -223,21 +242,21 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="ActionActivity.Arguments.tt">
+    <None Include="Expressions.ActionActivity.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>ActionActivity.Arguments.cs</LastGenOutput>
+      <LastGenOutput>Expressions.ActionActivity.cs</LastGenOutput>
     </None>
-    <None Include="FuncActivity.Arguments.tt">
+    <None Include="FuncActivity.partial.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>FuncActivity.Arguments.cs</LastGenOutput>
+      <LastGenOutput>FuncActivity.partial.cs</LastGenOutput>
     </None>
-    <None Include="AsyncFuncActivity.Arguments.tt">
+    <None Include="Expressions.AsyncFuncActivity.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>AsyncFuncActivity.Arguments.cs</LastGenOutput>
+      <LastGenOutput>Expressions.AsyncFuncActivity.cs</LastGenOutput>
     </None>
-    <None Include="AsyncActionActivity.Arguments.tt">
+    <None Include="Expressions.AsyncActionActivity.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>AsyncActionActivity.Arguments.cs</LastGenOutput>
+      <LastGenOutput>Expressions.AsyncActionActivity.cs</LastGenOutput>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -250,9 +269,27 @@
     <None Include="Cogito.Activities.nuspec" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Expressions.Throw.tt">
+    <None Include="Expressions.Throw.partial.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>Expressions.Throw.cs</LastGenOutput>
+      <LastGenOutput>Expressions.Throw.partial.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ActionActivity.partial.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ActionActivity.partial.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="AsyncActionActivity.partial.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>AsyncActionActivity.partial.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Expressions.FuncActivity.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Expressions.FuncActivity.cs</LastGenOutput>
     </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

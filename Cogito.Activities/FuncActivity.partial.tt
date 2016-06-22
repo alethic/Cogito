@@ -13,38 +13,6 @@ using System.Threading.Tasks;
 namespace Cogito.Activities
 {
 
-    public static partial class Expressions
-    {
-
-<#
-for (int i = 1; i <= 8; i++)
-{
-    foreach (var argTypeName in new [] { "InArgument<TArg{0}>", "DelegateInArgument<TArg{0}>", "Activity<TArg{0}>" })
-    {
-#>
-        /// <summary>
-        /// Returns a <see cref="Activity"/> that executes <paramref name="func"/>.
-        /// </summary>
-<# WriteTypeParamsComments(i); #>
-        /// <param name="func"></param>
-<# WriteArgParamsComments(i); #>
-        /// <returns></returns>
-        public static FuncActivity<<#= Repeat("TArg{0}", i, ", ") #>, TResult> Invoke<<#= Repeat("TArg{0}", i, ", ") #>, TResult>(Func<<#= Repeat("TArg{0}", i, ", ") #>, TResult> func, <#= Repeat(argTypeName + " arg{0}", i, ", ") #>, string displayName = null)
-        {
-            Contract.Requires<ArgumentNullException>(func != null);
-
-            return new FuncActivity<<#= Repeat("TArg{0}", i, ", ") #>, TResult>(func, <#= Repeat("arg{0}", i, ", ") #>)
-            {
-                DisplayName = displayName,
-            };
-        }
-
-<#
-    }
-}
-#>
-    }
-
 <#
 for (int i = 1; i <= 8; i++)
 {

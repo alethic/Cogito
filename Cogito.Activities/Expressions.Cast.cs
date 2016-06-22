@@ -2,7 +2,6 @@
 using System.Activities;
 using System.Activities.Expressions;
 using System.Diagnostics.Contracts;
-using System.Runtime.CompilerServices;
 
 namespace Cogito.Activities
 {

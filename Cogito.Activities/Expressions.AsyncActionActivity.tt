@@ -1,0 +1,74 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ output extension=".cs" #>
+using System;
+using System.Activities;
+using System.Diagnostics.Contracts;
+using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
+
+namespace Cogito.Activities
+{
+
+    public static partial class Expressions
+    {
+
+<#
+for (int i = 1; i <= 8; i++)
+{
+    foreach (var argTypeName in new [] { "InArgument<TArg{0}>", "DelegateInArgument<TArg{0}>", "Activity<TArg{0}>" })
+    {
+#>
+        /// <summary>
+        /// Returns a <see cref="Activity"/> that executes <paramref name="action"/> with arguments.
+        /// </summary>
+<# WriteTypeParamsComments(i); #>
+        /// <param name="action"></param>
+<# WriteArgParamsComments(i); #>
+        /// <param name="displayName"></param>
+        /// <returns></returns>
+        public static AsyncActionActivity<<#= Repeat("TArg{0}", i, ", ") #>> Invoke<<#= Repeat("TArg{0}", i, ", ") #>>(Func<<#= Repeat("TArg{0}", i, ", ") #>, Task> func, <#= Repeat(argTypeName + " arg{0}", i, ", ") #>, string displayName = null)
+        {
+            Contract.Requires<ArgumentNullException>(func != null);
+
+            return new AsyncActionActivity<<#= Repeat("TArg{0}", i, ", ") #>>(func, <#= Repeat("arg{0}", i, ", ") #>)
+            {
+                DisplayName = displayName,
+            };
+        }
+
+<#
+    }
+}
+#>
+    }
+
+}
+
+<#+
+
+string Repeat(string format, int count, string separator)
+{
+    return string.Join(separator, Enumerable.Range(1, count).Select(i => string.Format(format , i)));
+}
+
+void WriteTypeParamsComments(int count)
+{
+    for (int i = 1; i <= count; i++)
+    {
+        WriteLine("/// <typeparam name=\"TArg" + i + "\"></typeparam>");
+    }
+}
+
+void WriteArgParamsComments(int count)
+{
+    for (int i = 1; i <= count; i++)
+    {
+        WriteLine("/// <param name=\"arg" + i + "\"></param>");
+    }
+}
+
+#>

@@ -26,7 +26,6 @@ namespace Cogito.ServiceFabric.Activities
         readonly TaskPump pump;
         ActivityActorStateManager state;
         WorkflowApplication workflow;
-        DateTime lastDueDate;
 
         /// <summary>
         /// Initializes a new instance.
@@ -40,7 +39,7 @@ namespace Cogito.ServiceFabric.Activities
 
             // to enqueue task functions to execute in actor context
             pump = new TaskPump();
-            pump.TaskAdded += (s, a) => { if (pump.Count == 1) actor.InvokeWithTimer(pump.PumpAsync); };
+            pump.TaskAdded += (s, a) => actor.InvokeWithTimer(pump.PumpOneAsync);
         }
 
         /// <summary>

@@ -77,6 +77,18 @@ namespace Cogito.Threading
         }
 
         /// <summary>
+        /// Pumps a single outstanding task in the task queue.
+        /// </summary>
+        /// <returns></returns>
+        public async Task PumpOneAsync()
+        {
+            Func<Task<bool>> action;
+            if (queue.TryDequeue(out action))
+                if (!await action())
+                    throw new InvalidOperationException("Queued task did not return success.");
+        }
+
+        /// <summary>
         /// Pumps outstanding tasks in the task queue.
         /// </summary>
         /// <returns></returns>
