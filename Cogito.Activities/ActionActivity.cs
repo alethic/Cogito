@@ -2,6 +2,7 @@
 using System.Activities;
 using System.Activities.Statements;
 using System.Diagnostics.Contracts;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
 namespace Cogito.Activities
@@ -16,7 +17,7 @@ namespace Cogito.Activities
         /// <param name="action"></param>
         /// <param name="displayName"></param>
         /// <returns></returns>
-        public static ActionActivity Invoke(Action action, [CallerMemberInfo] string displayName = null)
+        public static ActionActivity Invoke(Action action, [CallerMemberName] string displayName = null)
         {
             Contract.Requires<ArgumentNullException>(action != null);
 

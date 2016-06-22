@@ -151,8 +151,11 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Expressions.Delegate.cs</LastGenOutput>
     </None>
-    <Compile Include="CallerMemberInfoAttribute.cs" />
+    <Compile Include="Expressions.OrElse.cs" />
+    <Compile Include="Expressions.Or.cs" />
+    <Compile Include="Expressions.AndAlso.cs" />
     <Compile Include="Expressions.As.cs" />
+    <Compile Include="Expressions.And.cs" />
     <Compile Include="Expressions.Delay.cs" />
     <Compile Include="Expressions.Delegate.cs">
       <AutoGen>True</AutoGen>
@@ -165,11 +168,7 @@
     <Compile Include="Expressions.If.cs" />
     <Compile Include="Expressions.ParallelForEach.cs" />
     <Compile Include="Expressions.ForEach.cs" />
-    <Content Include="Expressions.Throw.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>Expressions.Throw1.cs</LastGenOutput>
-    </Content>
-    <Compile Include="Expressions.Throw1.cs">
+    <Compile Include="Expressions.Throw.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Expressions.Throw.tt</DependentUpon>
@@ -243,6 +242,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Cogito.Activities.nuspec" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Expressions.Throw.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Expressions.Throw.cs</LastGenOutput>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
