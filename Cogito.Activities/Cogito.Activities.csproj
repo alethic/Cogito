@@ -163,6 +163,17 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="Expressions.Delegate.cs" />
+    <Compile Include="Expressions.InvokeFunc.partial.cs">
+      <DependentUpon>Expressions.InvokeFunc.partial.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Expressions.InvokeFunc.cs" />
+    <Compile Include="Expressions.InvokeAction.partial.cs">
+      <DependentUpon>Expressions.InvokeAction.partial.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="Expressions.GreaterThan.cs" />
     <Compile Include="Expressions.Constant.cs" />
     <Compile Include="Expressions.LessThan.cs" />
@@ -197,6 +208,7 @@
     <Compile Include="Expressions.TryCatch.cs" />
     <Compile Include="AsyncTaskCodeActivity.cs" />
     <Compile Include="AsyncTaskExtension.cs" />
+    <Compile Include="Expressions.InvokeAction.cs" />
     <Compile Include="For.cs" />
     <Compile Include="Expressions.FuncActivity.cs">
       <DependentUpon>Expressions.FuncActivity.tt</DependentUpon>
@@ -290,6 +302,18 @@
     <None Include="Expressions.FuncActivity.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Expressions.FuncActivity.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Expressions.InvokeAction.partial.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Expressions.InvokeAction.partial.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Expressions.InvokeFunc.partial.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Expressions.InvokeFunc.partial.cs</LastGenOutput>
     </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
