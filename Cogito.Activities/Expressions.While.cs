@@ -11,19 +11,19 @@ namespace Cogito.Activities
     {
 
         /// <summary>
-        /// Executes <paramref name="action"/> until <paramref name="condition"/> returns <c>false</c>.
+        /// Executes <paramref name="body"/> until <paramref name="condition"/> returns <c>false</c>.
         /// </summary>
         /// <param name="condition"></param>
-        /// <param name="action"></param>
+        /// <param name="body"></param>
         /// <returns></returns>
-        public static While While(Activity<bool> condition, Activity action)
+        public static While While(Activity<bool> condition, Activity body)
         {
             Contract.Requires<ArgumentNullException>(condition != null);
-            Contract.Requires<ArgumentNullException>(action != null);
+            Contract.Requires<ArgumentNullException>(body != null);
 
             return new While(condition)
             {
-                Body = action,
+                Body = body,
             };
         }
 
@@ -31,118 +31,45 @@ namespace Cogito.Activities
         /// Executes <paramref name="activity"/> until <paramref name="condition"/> returns <c>false</c>.
         /// </summary>
         /// <param name="condition"></param>
-        /// <param name="activity"></param>
+        /// <param name="body"></param>
         /// <returns></returns>
-        public static While While(Activity<bool> condition, Action action)
+        public static While While(Activity<bool> condition, Func<Task> body)
         {
             Contract.Requires<ArgumentNullException>(condition != null);
-            Contract.Requires<ArgumentNullException>(action != null);
+            Contract.Requires<ArgumentNullException>(body != null);
 
             return new While(condition)
             {
-                Body = Invoke(action),
+                Body = Invoke(body),
             };
         }
 
         /// <summary>
-        /// Executes <paramref name="activity"/> until <paramref name="condition"/> returns <c>false</c>.
+        /// Executes <paramref name="body"/> until <paramref name="condition"/> returns <c>false</c>.
         /// </summary>
         /// <param name="condition"></param>
-        /// <param name="activity"></param>
+        /// <param name="body"></param>
         /// <returns></returns>
-        public static While While(Activity<bool> condition, Func<Task> action)
+        public static While While(Func<Task<bool>> condition, Activity body)
         {
             Contract.Requires<ArgumentNullException>(condition != null);
-            Contract.Requires<ArgumentNullException>(action != null);
+            Contract.Requires<ArgumentNullException>(body != null);
 
-            return new While(condition)
-            {
-                Body = InvokeAsync(action),
-            };
+            return While(Invoke(condition), body);
         }
 
         /// <summary>
-        /// Executes <paramref name="action"/> until <paramref name="condition"/> returns <c>false</c>.
+        /// Executes <paramref name="body"/> until <paramref name="condition"/> returns <c>false</c>.
         /// </summary>
         /// <param name="condition"></param>
-        /// <param name="action"></param>
+        /// <param name="body"></param>
         /// <returns></returns>
-        public static While While(Func<bool> condition, Activity action)
+        public static While While(Func<Task<bool>> condition, Func<Task> body)
         {
             Contract.Requires<ArgumentNullException>(condition != null);
-            Contract.Requires<ArgumentNullException>(action != null);
+            Contract.Requires<ArgumentNullException>(body != null);
 
-            return While(Invoke(condition), action);
-        }
-
-        /// <summary>
-        /// Executes <paramref name="action"/> until <paramref name="condition"/> returns <c>false</c>.
-        /// </summary>
-        /// <param name="condition"></param>
-        /// <param name="action"></param>
-        /// <returns></returns>
-        public static While While(Func<bool> condition, Action action)
-        {
-            Contract.Requires<ArgumentNullException>(condition != null);
-            Contract.Requires<ArgumentNullException>(action != null);
-
-            return While(Invoke(condition), action);
-        }
-
-        /// <summary>
-        /// Executes <paramref name="action"/> until <paramref name="condition"/> returns <c>false</c>.
-        /// </summary>
-        /// <param name="condition"></param>
-        /// <param name="action"></param>
-        /// <returns></returns>
-        public static While While(Func<bool> condition, Func<Task> action)
-        {
-            Contract.Requires<ArgumentNullException>(condition != null);
-            Contract.Requires<ArgumentNullException>(action != null);
-
-            return While(Invoke(condition), action);
-        }
-
-        /// <summary>
-        /// Executes <paramref name="action"/> until <paramref name="condition"/> returns <c>false</c>.
-        /// </summary>
-        /// <param name="condition"></param>
-        /// <param name="action"></param>
-        /// <returns></returns>
-        public static While While(Func<Task<bool>> condition, Activity action)
-        {
-            Contract.Requires<ArgumentNullException>(condition != null);
-            Contract.Requires<ArgumentNullException>(action != null);
-
-            return While(InvokeAsync(condition), action);
-        }
-
-        /// <summary>
-        /// Executes <paramref name="action"/> until <paramref name="condition"/> returns <c>false</c>.
-        /// </summary>
-        /// <param name="condition"></param>
-        /// <param name="action"></param>
-        /// <returns></returns>
-        public static While While(Func<Task<bool>> condition, Action action)
-        {
-            Contract.Requires<ArgumentNullException>(condition != null);
-            Contract.Requires<ArgumentNullException>(action != null);
-
-            return While(InvokeAsync(condition), action);
-        }
-
-        /// <summary>
-        /// Executes <paramref name="action"/> until <paramref name="condition"/> returns <c>false</c>.
-        /// </summary>
-        /// <param name="condition"></param>
-        /// <param name="action"></param>
-        /// <returns></returns>
-        public static While While(Func<Task<bool>> condition, Func<Task> action)
-        {
-            Contract.Requires<ArgumentNullException>(condition != null);
-            Contract.Requires<ArgumentNullException>(action != null);
-
-            return While(InvokeAsync(condition), action);
+            return While(Invoke(condition), body);
         }
 
     }

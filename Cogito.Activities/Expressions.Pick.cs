@@ -90,22 +90,6 @@ namespace Cogito.Activities
         }
 
         /// <summary>
-        /// Creates a new <see cref="PickBranch"/> with the given <paramref name="trigger"/> and <paramref name="action"/>.
-        /// </summary>
-        /// <param name="pick"></param>
-        /// <param name="trigger"></param>
-        /// <param name="action"></param>
-        /// <returns></returns>
-        public static Pick Branch(this Pick pick, Activity trigger, Action action)
-        {
-            Contract.Requires<ArgumentNullException>(pick != null);
-            Contract.Requires<ArgumentNullException>(trigger != null);
-            Contract.Requires<ArgumentNullException>(action != null);
-
-            return pick.Branch(trigger, Invoke(action));
-        }
-
-        /// <summary>
         /// Creates a new <see cref="PickBranch"/> with the given <paramref name="trigger"/>.
         /// </summary>
         /// <param name="pick"></param>
@@ -119,85 +103,6 @@ namespace Cogito.Activities
 
             pick.Branches.Add(PickBranch(trigger));
             return pick;
-        }
-
-        /// <summary>
-        /// Creates a new <see cref="PickBranch"/> with the given <paramref name="trigger"/> and <paramref name="action"/>.
-        /// </summary>
-        /// <param name="pick"></param>
-        /// <param name="trigger"></param>
-        /// <param name="action"></param>
-        /// <returns></returns>
-        public static Pick Branch(this Pick pick, Action trigger, Activity action)
-        {
-            Contract.Requires<ArgumentNullException>(pick != null);
-            Contract.Requires<ArgumentNullException>(trigger != null);
-            Contract.Requires<ArgumentNullException>(action != null);
-
-            return pick.Branch(Invoke(trigger), action);
-        }
-
-        /// <summary>
-        /// Creates a new <see cref="PickBranch"/> with the given <paramref name="trigger"/> and <paramref name="action"/>.
-        /// </summary>
-        /// <param name="pick"></param>
-        /// <param name="trigger"></param>
-        /// <param name="action"></param>
-        /// <returns></returns>
-        public static Pick Branch(this Pick pick, Action trigger, Func<Task> action)
-        {
-            Contract.Requires<ArgumentNullException>(pick != null);
-            Contract.Requires<ArgumentNullException>(trigger != null);
-            Contract.Requires<ArgumentNullException>(action != null);
-
-            return pick.Branch(Invoke(trigger), Invoke(action));
-        }
-
-        /// <summary>
-        /// Creates a new <see cref="PickBranch"/> with the given <paramref name="trigger"/> and <paramref name="action"/>.
-        /// </summary>
-        /// <param name="pick"></param>
-        /// <param name="trigger"></param>
-        /// <param name="action"></param>
-        /// <returns></returns>
-        public static Pick Branch(this Pick pick, Action trigger, Action action)
-        {
-            Contract.Requires<ArgumentNullException>(pick != null);
-            Contract.Requires<ArgumentNullException>(trigger != null);
-            Contract.Requires<ArgumentNullException>(action != null);
-
-            return pick.Branch(Invoke(trigger), Invoke(action));
-        }
-
-        /// <summary>
-        /// Creates a new <see cref="PickBranch"/> with the given <paramref name="trigger"/>.
-        /// </summary>
-        /// <param name="pick"></param>
-        /// <param name="trigger"></param>
-        /// <param name="action"></param>
-        /// <returns></returns>
-        public static Pick Branch(this Pick pick, Action trigger)
-        {
-            Contract.Requires<ArgumentNullException>(pick != null);
-            Contract.Requires<ArgumentNullException>(trigger != null);
-
-            return pick.Branch(Invoke(trigger));
-        }
-
-        /// <summary>
-        /// Creates a new <see cref="PickBranch"/> with the given <paramref name="trigger"/> and <paramref name="action"/>.
-        /// </summary>
-        /// <param name="pick"></param>
-        /// <param name="trigger"></param>
-        /// <param name="action"></param>
-        /// <returns></returns>
-        public static Pick Branch(this Pick pick, Func<Task> trigger, Action action)
-        {
-            Contract.Requires<ArgumentNullException>(pick != null);
-            Contract.Requires<ArgumentNullException>(trigger != null);
-            Contract.Requires<ArgumentNullException>(action != null);
-
-            return pick.Branch(Invoke(trigger), Invoke(action));
         }
 
         /// <summary>

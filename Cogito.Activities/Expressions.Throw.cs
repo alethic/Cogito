@@ -52,26 +52,12 @@ namespace Cogito.Activities
         /// <param name="exception"></param>
         /// <param name="displayName"></param>
         /// <returns></returns>
-        public static Throw Throw<TException>(Func<TException> exception, string displayName = null)
-            where TException : Exception
-        {
-            Contract.Requires<ArgumentNullException>(exception != null);
-
-            return Throw(Invoke(exception, displayName), displayName);
-        }
-
-        /// <summary>
-        /// Throws a <typeparam name="TException"/>.
-        /// </summary>
-        /// <param name="exception"></param>
-        /// <param name="displayName"></param>
-        /// <returns></returns>
         public static Throw Throw<TException>(Func<Task<TException>> exception, string displayName = null)
             where TException : Exception
         {
             Contract.Requires<ArgumentNullException>(exception != null);
 
-            return Throw(InvokeAsync(exception, displayName), displayName);
+            return Throw(Invoke(exception, displayName), displayName);
         }
 
         /// <summary>
@@ -114,24 +100,11 @@ namespace Cogito.Activities
         /// <param name="exception"></param>
         /// <param name="displayName"></param>
         /// <returns></returns>
-        public static Throw Throw(Func<Exception> exception, string displayName = null)
-        {
-            Contract.Requires<ArgumentNullException>(exception != null);
-
-            return Throw(Invoke(exception, displayName), displayName);
-        }
-
-        /// <summary>
-        /// Throws a <typeparam name="Exception"/>.
-        /// </summary>
-        /// <param name="exception"></param>
-        /// <param name="displayName"></param>
-        /// <returns></returns>
         public static Throw Throw(Func<Task<Exception>> exception, string displayName = null)
         {
             Contract.Requires<ArgumentNullException>(exception != null);
 
-            return Throw(InvokeAsync(exception, displayName), displayName);
+            return Throw(Invoke(exception, displayName), displayName);
         }
 
     }

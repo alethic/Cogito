@@ -84,22 +84,6 @@ namespace Cogito.Activities
         /// <param name="tryCatch"></param>
         /// <param name="action"></param>
         /// <returns></returns>
-        public static TryCatch Catch<TException>(this TryCatch tryCatch, Action<TException> action)
-            where TException : Exception
-        {
-            Contract.Requires<ArgumentNullException>(tryCatch != null);
-            Contract.Requires<ArgumentNullException>(action != null);
-
-            return tryCatch.Catch<TException>(arg => Invoke(action, arg));
-        }
-
-        /// <summary>
-        /// Appends a new exception catcher to the <see cref="TryCatch"/> block.
-        /// </summary>
-        /// <typeparam name="TException"></typeparam>
-        /// <param name="tryCatch"></param>
-        /// <param name="action"></param>
-        /// <returns></returns>
         public static TryCatch Catch<TException>(this TryCatch tryCatch, Func<TException, Task> action)
             where TException : Exception
         {

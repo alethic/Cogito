@@ -54,21 +54,6 @@ namespace Cogito.Activities
         /// <typeparam name="TElement"></typeparam>
         /// <param name="values"></param>
         /// <param name="body"></param>
-        /// <returns></returns>
-        public static ParallelForEach<TElement> ParallelForEach<TElement>(DelegateInArgument<IEnumerable<TElement>> values, Action<TElement> body, string displayName = null)
-        {
-            Contract.Requires<ArgumentNullException>(values != null);
-            Contract.Requires<ArgumentNullException>(body != null);
-
-            return ParallelForEach(values, Delegate<TElement>(arg => Invoke<TElement>(body, arg, displayName)), displayName);
-        }
-
-        /// <summary>
-        /// Executes <paramref name="body"/> for each element in <paramref name="values"/>.
-        /// </summary>
-        /// <typeparam name="TElement"></typeparam>
-        /// <param name="values"></param>
-        /// <param name="body"></param>
         /// <param name="displayName"></param>
         /// <returns></returns>
         public static ParallelForEach<TElement> ParallelForEach<TElement>(DelegateInArgument<IEnumerable<TElement>> values, Func<TElement, Task> body, string displayName = null)
@@ -76,7 +61,7 @@ namespace Cogito.Activities
             Contract.Requires<ArgumentNullException>(values != null);
             Contract.Requires<ArgumentNullException>(body != null);
 
-            return ParallelForEach(values, Delegate<TElement>(arg => InvokeAsync<TElement>(body, arg, displayName)), displayName);
+            return ParallelForEach(values, Delegate<TElement>(arg => Invoke<TElement>(body, arg, displayName)), displayName);
         }
 
         /// <summary>
@@ -124,28 +109,12 @@ namespace Cogito.Activities
         /// <param name="body"></param>
         /// <param name="displayName"></param>
         /// <returns></returns>
-        public static ParallelForEach<TElement> ParallelForEach<TElement>(DelegateInArgument<TElement[]> values, Action<TElement> body, string displayName = null)
-        {
-            Contract.Requires<ArgumentNullException>(values != null);
-            Contract.Requires<ArgumentNullException>(body != null);
-
-            return ParallelForEach(values, Delegate<TElement>(arg => Invoke<TElement>(body, arg, displayName)), displayName);
-        }
-
-        /// <summary>
-        /// Executes <paramref name="body"/> for each element in <paramref name="values"/>.
-        /// </summary>
-        /// <typeparam name="TElement"></typeparam>
-        /// <param name="values"></param>
-        /// <param name="body"></param>
-        /// <param name="displayName"></param>
-        /// <returns></returns>
         public static ParallelForEach<TElement> ParallelForEach<TElement>(DelegateInArgument<TElement[]> values, Func<TElement, Task> body, string displayName = null)
         {
             Contract.Requires<ArgumentNullException>(values != null);
             Contract.Requires<ArgumentNullException>(body != null);
 
-            return ParallelForEach(values, Delegate<TElement>(arg => InvokeAsync<TElement>(body, arg, displayName)), displayName);
+            return ParallelForEach(values, Delegate<TElement>(arg => Invoke<TElement>(body, arg, displayName)), displayName);
         }
 
         /// <summary>
@@ -191,21 +160,6 @@ namespace Cogito.Activities
         /// <typeparam name="TElement"></typeparam>
         /// <param name="values"></param>
         /// <param name="body"></param>
-        /// <returns></returns>
-        public static ParallelForEach<TElement> ParallelForEach<TElement>(InArgument<IEnumerable<TElement>> values, Action<TElement> body, string displayName = null)
-        {
-            Contract.Requires<ArgumentNullException>(values != null);
-            Contract.Requires<ArgumentNullException>(body != null);
-
-            return ParallelForEach(values, Delegate<TElement>(arg => Invoke<TElement>(body, arg, displayName)), displayName);
-        }
-
-        /// <summary>
-        /// Executes <paramref name="body"/> for each element in <paramref name="values"/>.
-        /// </summary>
-        /// <typeparam name="TElement"></typeparam>
-        /// <param name="values"></param>
-        /// <param name="body"></param>
         /// <param name="displayName"></param>
         /// <returns></returns>
         public static ParallelForEach<TElement> ParallelForEach<TElement>(InArgument<IEnumerable<TElement>> values, Func<TElement, Task> body, string displayName = null)
@@ -213,7 +167,7 @@ namespace Cogito.Activities
             Contract.Requires<ArgumentNullException>(values != null);
             Contract.Requires<ArgumentNullException>(body != null);
 
-            return ParallelForEach(values, Delegate<TElement>(arg => InvokeAsync<TElement>(body, arg, displayName)), displayName);
+            return ParallelForEach(values, Delegate<TElement>(arg => Invoke<TElement>(body, arg, displayName)), displayName);
         }
 
         /// <summary>
@@ -261,28 +215,12 @@ namespace Cogito.Activities
         /// <param name="body"></param>
         /// <param name="displayName"></param>
         /// <returns></returns>
-        public static ParallelForEach<TElement> ParallelForEach<TElement>(InArgument<TElement[]> values, Action<TElement> body, string displayName = null)
-        {
-            Contract.Requires<ArgumentNullException>(values != null);
-            Contract.Requires<ArgumentNullException>(body != null);
-
-            return ParallelForEach(values, Delegate<TElement>(arg => Invoke<TElement>(body, arg, displayName)), displayName);
-        }
-
-        /// <summary>
-        /// Executes <paramref name="body"/> for each element in <paramref name="values"/>.
-        /// </summary>
-        /// <typeparam name="TElement"></typeparam>
-        /// <param name="values"></param>
-        /// <param name="body"></param>
-        /// <param name="displayName"></param>
-        /// <returns></returns>
         public static ParallelForEach<TElement> ParallelForEach<TElement>(InArgument<TElement[]> values, Func<TElement, Task> body, string displayName = null)
         {
             Contract.Requires<ArgumentNullException>(values != null);
             Contract.Requires<ArgumentNullException>(body != null);
 
-            return ParallelForEach(values, Delegate<TElement>(arg => InvokeAsync<TElement>(body, arg, displayName)), displayName);
+            return ParallelForEach(values, Delegate<TElement>(arg => Invoke<TElement>(body, arg, displayName)), displayName);
         }
 
         /// <summary>
@@ -330,7 +268,7 @@ namespace Cogito.Activities
         /// <param name="body"></param>
         /// <param name="displayName"></param>
         /// <returns></returns>
-        public static ParallelForEach<TElement> ParallelForEach<TElement>(this Activity<IEnumerable<TElement>> values, Action<TElement> body, string displayName = null)
+        public static ParallelForEach<TElement> ParallelForEach<TElement>(this Activity<IEnumerable<TElement>> values, Func<TElement, Task> body, string displayName = null)
         {
             Contract.Requires<ArgumentNullException>(values != null);
             Contract.Requires<ArgumentNullException>(body != null);
@@ -346,23 +284,7 @@ namespace Cogito.Activities
         /// <param name="body"></param>
         /// <param name="displayName"></param>
         /// <returns></returns>
-        public static ParallelForEach<TElement> ParallelForEach<TElement>(this Activity<IEnumerable<TElement>> values, Func<TElement, Task> body, string displayName = null)
-        {
-            Contract.Requires<ArgumentNullException>(values != null);
-            Contract.Requires<ArgumentNullException>(body != null);
-
-            return ParallelForEach(values, Delegate<TElement>(arg => InvokeAsync<TElement>(body, arg, displayName)), displayName);
-        }
-
-        /// <summary>
-        /// Executes <paramref name="body"/> for each element in <paramref name="values"/>.
-        /// </summary>
-        /// <typeparam name="TElement"></typeparam>
-        /// <param name="values"></param>
-        /// <param name="body"></param>
-        /// <param name="displayName"></param>
-        /// <returns></returns>
-        public static ParallelForEach<TElement> ParallelForEach<TElement>(Func<IEnumerable<TElement>> values, Func<DelegateInArgument<TElement>, Activity> body, string displayName = null)
+        public static ParallelForEach<TElement> ParallelForEach<TElement>(Func<Task<IEnumerable<TElement>>> values, Func<DelegateInArgument<TElement>, Activity> body, string displayName = null)
         {
             Contract.Requires<ArgumentNullException>(values != null);
             Contract.Requires<ArgumentNullException>(body != null);
@@ -378,7 +300,7 @@ namespace Cogito.Activities
         /// <param name="body"></param>
         /// <param name="displayName"></param>
         /// <returns></returns>
-        public static ParallelForEach<TElement> ParallelForEach<TElement>(Func<IEnumerable<TElement>> values, ActivityAction<TElement> body, string displayName = null)
+        public static ParallelForEach<TElement> ParallelForEach<TElement>(Func<Task<IEnumerable<TElement>>> values, ActivityAction<TElement> body, string displayName = null)
         {
             Contract.Requires<ArgumentNullException>(values != null);
             Contract.Requires<ArgumentNullException>(body != null);
@@ -394,92 +316,12 @@ namespace Cogito.Activities
         /// <param name="body"></param>
         /// <param name="displayName"></param>
         /// <returns></returns>
-        public static ParallelForEach<TElement> ParallelForEach<TElement>(Func<IEnumerable<TElement>> values, Action<TElement> body, string displayName = null)
-        {
-            Contract.Requires<ArgumentNullException>(values != null);
-            Contract.Requires<ArgumentNullException>(body != null);
-
-            return ParallelForEach(Invoke<IEnumerable<TElement>>(values, displayName), Delegate<TElement>(arg => Invoke<TElement>(body, arg, displayName)), displayName);
-        }
-
-        /// <summary>
-        /// Executes <paramref name="body"/> for each element in <paramref name="values"/>.
-        /// </summary>
-        /// <typeparam name="TElement"></typeparam>
-        /// <param name="values"></param>
-        /// <param name="body"></param>
-        /// <param name="displayName"></param>
-        /// <returns></returns>
-        public static ParallelForEach<TElement> ParallelForEach<TElement>(Func<IEnumerable<TElement>> values, Func<TElement, Task> body, string displayName = null)
-        {
-            Contract.Requires<ArgumentNullException>(values != null);
-            Contract.Requires<ArgumentNullException>(body != null);
-
-            return ParallelForEach(Invoke<IEnumerable<TElement>>(values, displayName), Delegate<TElement>(arg => InvokeAsync<TElement>(body, arg, displayName)), displayName);
-        }
-
-        /// <summary>
-        /// Executes <paramref name="body"/> for each element in <paramref name="values"/>.
-        /// </summary>
-        /// <typeparam name="TElement"></typeparam>
-        /// <param name="values"></param>
-        /// <param name="body"></param>
-        /// <param name="displayName"></param>
-        /// <returns></returns>
-        public static ParallelForEach<TElement> ParallelForEach<TElement>(Func<Task<IEnumerable<TElement>>> values, Func<DelegateInArgument<TElement>, Activity> body, string displayName = null)
-        {
-            Contract.Requires<ArgumentNullException>(values != null);
-            Contract.Requires<ArgumentNullException>(body != null);
-
-            return ParallelForEach(InvokeAsync<IEnumerable<TElement>>(values, displayName), Delegate(body), displayName);
-        }
-
-        /// <summary>
-        /// Executes <paramref name="body"/> for each element in <paramref name="values"/>.
-        /// </summary>
-        /// <typeparam name="TElement"></typeparam>
-        /// <param name="values"></param>
-        /// <param name="body"></param>
-        /// <param name="displayName"></param>
-        /// <returns></returns>
-        public static ParallelForEach<TElement> ParallelForEach<TElement>(Func<Task<IEnumerable<TElement>>> values, ActivityAction<TElement> body, string displayName = null)
-        {
-            Contract.Requires<ArgumentNullException>(values != null);
-            Contract.Requires<ArgumentNullException>(body != null);
-
-            return ParallelForEach(InvokeAsync<IEnumerable<TElement>>(values, displayName), body, displayName);
-        }
-
-        /// <summary>
-        /// Executes <paramref name="body"/> for each element in <paramref name="values"/>.
-        /// </summary>
-        /// <typeparam name="TElement"></typeparam>
-        /// <param name="values"></param>
-        /// <param name="body"></param>
-        /// <param name="displayName"></param>
-        /// <returns></returns>
-        public static ParallelForEach<TElement> ParallelForEach<TElement>(Func<Task<IEnumerable<TElement>>> values, Action<TElement> body, string displayName = null)
-        {
-            Contract.Requires<ArgumentNullException>(values != null);
-            Contract.Requires<ArgumentNullException>(body != null);
-
-            return ParallelForEach(InvokeAsync<IEnumerable<TElement>>(values, displayName), Delegate<TElement>(arg => Invoke<TElement>(body, arg, displayName)), displayName);
-        }
-
-        /// <summary>
-        /// Executes <paramref name="body"/> for each element in <paramref name="values"/>.
-        /// </summary>
-        /// <typeparam name="TElement"></typeparam>
-        /// <param name="values"></param>
-        /// <param name="body"></param>
-        /// <param name="displayName"></param>
-        /// <returns></returns>
         public static ParallelForEach<TElement> ParallelForEach<TElement>(Func<Task<IEnumerable<TElement>>> values, Func<TElement, Task> body, string displayName = null)
         {
             Contract.Requires<ArgumentNullException>(values != null);
             Contract.Requires<ArgumentNullException>(body != null);
 
-            return ParallelForEach(InvokeAsync<IEnumerable<TElement>>(values, displayName), Delegate<TElement>(arg => InvokeAsync<TElement>(body, arg, displayName)), displayName);
+            return ParallelForEach(Invoke<IEnumerable<TElement>>(values, displayName), Delegate<TElement>(arg => Invoke<TElement>(body, arg, displayName)), displayName);
         }
 
         /// <summary>
@@ -528,7 +370,7 @@ namespace Cogito.Activities
         /// <param name="body"></param>
         /// <param name="displayName"></param>
         /// <returns></returns>
-        public static ParallelForEach<TElement> ParallelForEach<TElement>(this Activity<TElement[]> values, Action<TElement> body, string displayName = null)
+        public static ParallelForEach<TElement> ParallelForEach<TElement>(this Activity<TElement[]> values, Func<TElement, Task> body, string displayName = null)
         {
             Contract.Requires<ArgumentNullException>(values != null);
             Contract.Requires<ArgumentNullException>(body != null);
@@ -544,23 +386,7 @@ namespace Cogito.Activities
         /// <param name="body"></param>
         /// <param name="displayName"></param>
         /// <returns></returns>
-        public static ParallelForEach<TElement> ParallelForEach<TElement>(this Activity<TElement[]> values, Func<TElement, Task> body, string displayName = null)
-        {
-            Contract.Requires<ArgumentNullException>(values != null);
-            Contract.Requires<ArgumentNullException>(body != null);
-
-            return ParallelForEach(values, Delegate<TElement>(arg => InvokeAsync<TElement>(body, arg, displayName)), displayName);
-        }
-
-        /// <summary>
-        /// Executes <paramref name="body"/> for each element in <paramref name="values"/>.
-        /// </summary>
-        /// <typeparam name="TElement"></typeparam>
-        /// <param name="values"></param>
-        /// <param name="body"></param>
-        /// <param name="displayName"></param>
-        /// <returns></returns>
-        public static ParallelForEach<TElement> ParallelForEach<TElement>(Func<TElement[]> values, Func<DelegateInArgument<TElement>, Activity> body, string displayName = null)
+        public static ParallelForEach<TElement> ParallelForEach<TElement>(Func<Task<TElement[]>> values, Func<DelegateInArgument<TElement>, Activity> body, string displayName = null)
         {
             Contract.Requires<ArgumentNullException>(values != null);
             Contract.Requires<ArgumentNullException>(body != null);
@@ -576,7 +402,7 @@ namespace Cogito.Activities
         /// <param name="body"></param>
         /// <param name="displayName"></param>
         /// <returns></returns>
-        public static ParallelForEach<TElement> ParallelForEach<TElement>(Func<TElement[]> values, ActivityAction<TElement> body, string displayName = null)
+        public static ParallelForEach<TElement> ParallelForEach<TElement>(Func<Task<TElement[]>> values, ActivityAction<TElement> body, string displayName = null)
         {
             Contract.Requires<ArgumentNullException>(values != null);
             Contract.Requires<ArgumentNullException>(body != null);
@@ -592,92 +418,12 @@ namespace Cogito.Activities
         /// <param name="body"></param>
         /// <param name="displayName"></param>
         /// <returns></returns>
-        public static ParallelForEach<TElement> ParallelForEach<TElement>(Func<TElement[]> values, Action<TElement> body, string displayName = null)
-        {
-            Contract.Requires<ArgumentNullException>(values != null);
-            Contract.Requires<ArgumentNullException>(body != null);
-
-            return ParallelForEach(Invoke<TElement[]>(values, displayName), Delegate<TElement>(arg => Invoke<TElement>(body, arg, displayName)), displayName);
-        }
-
-        /// <summary>
-        /// Executes <paramref name="body"/> for each element in <paramref name="values"/>.
-        /// </summary>
-        /// <typeparam name="TElement"></typeparam>
-        /// <param name="values"></param>
-        /// <param name="body"></param>
-        /// <param name="displayName"></param>
-        /// <returns></returns>
-        public static ParallelForEach<TElement> ParallelForEach<TElement>(Func<TElement[]> values, Func<TElement, Task> body, string displayName = null)
-        {
-            Contract.Requires<ArgumentNullException>(values != null);
-            Contract.Requires<ArgumentNullException>(body != null);
-
-            return ParallelForEach(Invoke<TElement[]>(values, displayName), Delegate<TElement>(arg => InvokeAsync<TElement>(body, arg, displayName)), displayName);
-        }
-
-        /// <summary>
-        /// Executes <paramref name="body"/> for each element in <paramref name="values"/>.
-        /// </summary>
-        /// <typeparam name="TElement"></typeparam>
-        /// <param name="values"></param>
-        /// <param name="body"></param>
-        /// <param name="displayName"></param>
-        /// <returns></returns>
-        public static ParallelForEach<TElement> ParallelForEach<TElement>(Func<Task<TElement[]>> values, Func<DelegateInArgument<TElement>, Activity> body, string displayName = null)
-        {
-            Contract.Requires<ArgumentNullException>(values != null);
-            Contract.Requires<ArgumentNullException>(body != null);
-
-            return ParallelForEach(InvokeAsync<TElement[]>(values, displayName), Delegate(body), displayName);
-        }
-
-        /// <summary>
-        /// Executes <paramref name="body"/> for each element in <paramref name="values"/>.
-        /// </summary>
-        /// <typeparam name="TElement"></typeparam>
-        /// <param name="values"></param>
-        /// <param name="body"></param>
-        /// <param name="displayName"></param>
-        /// <returns></returns>
-        public static ParallelForEach<TElement> ParallelForEach<TElement>(Func<Task<TElement[]>> values, ActivityAction<TElement> body, string displayName = null)
-        {
-            Contract.Requires<ArgumentNullException>(values != null);
-            Contract.Requires<ArgumentNullException>(body != null);
-
-            return ParallelForEach(InvokeAsync<TElement[]>(values, displayName), body, displayName);
-        }
-
-        /// <summary>
-        /// Executes <paramref name="body"/> for each element in <paramref name="values"/>.
-        /// </summary>
-        /// <typeparam name="TElement"></typeparam>
-        /// <param name="values"></param>
-        /// <param name="body"></param>
-        /// <param name="displayName"></param>
-        /// <returns></returns>
-        public static ParallelForEach<TElement> ParallelForEach<TElement>(Func<Task<TElement[]>> values, Action<TElement> body, string displayName = null)
-        {
-            Contract.Requires<ArgumentNullException>(values != null);
-            Contract.Requires<ArgumentNullException>(body != null);
-
-            return ParallelForEach(InvokeAsync<TElement[]>(values, displayName), Delegate<TElement>(arg => Invoke(body, arg, displayName)), displayName);
-        }
-
-        /// <summary>
-        /// Executes <paramref name="body"/> for each element in <paramref name="values"/>.
-        /// </summary>
-        /// <typeparam name="TElement"></typeparam>
-        /// <param name="values"></param>
-        /// <param name="body"></param>
-        /// <param name="displayName"></param>
-        /// <returns></returns>
         public static ParallelForEach<TElement> ParallelForEach<TElement>(Func<Task<TElement[]>> values, Func<TElement, Task> body, string displayName = null)
         {
             Contract.Requires<ArgumentNullException>(values != null);
             Contract.Requires<ArgumentNullException>(body != null);
 
-            return ParallelForEach(InvokeAsync<TElement[]>(values, displayName), Delegate<TElement>(arg => InvokeAsync<TElement>(body, arg, displayName)), displayName);
+            return ParallelForEach(Invoke<TElement[]>(values, displayName), Delegate<TElement>(arg => Invoke<TElement>(body, arg, displayName)), displayName);
         }
 
     }

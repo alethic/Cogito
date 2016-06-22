@@ -103,12 +103,10 @@ namespace Cogito.Activities.Tests
                 var results = WorkflowInvoker.Invoke(new Retry()
                 {
                     MaxAttempts = 5,
-                    Body = Expressions.Delegate<int>(arg => Expressions.Invoke<int>(i =>
+                    Body = Expressions.Delegate<int>(arg => Expressions.Invoke<int>(async i =>
                     {
                         if (++runCount < 3)
                             throw new Exception("Exception");
-
-                        return;
                     }, arg)),
                     Catches =
                     {

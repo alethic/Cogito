@@ -19,7 +19,7 @@ namespace Cogito.Activities
         /// <param name="displayName"></param>
         /// <param name="executor"></param>
         /// <returns></returns>
-        public static AsyncFuncActivity<TArg1, TResult> InvokeAsync<TArg1, TResult>(Func<TArg1, Task<TResult>> func, InArgument<TArg1> arg1, string displayName = null, AsyncTaskExecutor executor = null)
+        public static AsyncFuncActivity<TArg1, TResult> Invoke<TArg1, TResult>(Func<TArg1, Task<TResult>> func, InArgument<TArg1> arg1, string displayName = null, AsyncTaskExecutor executor = null)
         {
             Contract.Requires<ArgumentNullException>(func != null);
 
@@ -38,7 +38,7 @@ namespace Cogito.Activities
         /// <param name="displayName"></param>
         /// <param name="executor"></param>
         /// <returns></returns>
-        public static AsyncFuncActivity<TArg1, TResult> InvokeAsync<TArg1, TResult>(Func<TArg1, Task<TResult>> func, DelegateInArgument<TArg1> arg1, string displayName = null, AsyncTaskExecutor executor = null)
+        public static AsyncFuncActivity<TArg1, TResult> Invoke<TArg1, TResult>(Func<TArg1, Task<TResult>> func, DelegateInArgument<TArg1> arg1, string displayName = null, AsyncTaskExecutor executor = null)
         {
             Contract.Requires<ArgumentNullException>(func != null);
 
@@ -57,7 +57,7 @@ namespace Cogito.Activities
         /// <param name="displayName"></param>
         /// <param name="executor"></param>
         /// <returns></returns>
-        public static AsyncFuncActivity<TArg1, TResult> InvokeAsync<TArg1, TResult>(Func<TArg1, Task<TResult>> func, Activity<TArg1> arg1, string displayName = null, AsyncTaskExecutor executor = null)
+        public static AsyncFuncActivity<TArg1, TResult> Invoke<TArg1, TResult>(Func<TArg1, Task<TResult>> func, Activity<TArg1> arg1, string displayName = null, AsyncTaskExecutor executor = null)
         {
             Contract.Requires<ArgumentNullException>(func != null);
 
@@ -78,7 +78,7 @@ namespace Cogito.Activities
         /// <param name="displayName"></param>
         /// <param name="executor"></param>
         /// <returns></returns>
-        public static AsyncFuncActivity<TArg1, TArg2, TResult> InvokeAsync<TArg1, TArg2, TResult>(Func<TArg1, TArg2, Task<TResult>> func, InArgument<TArg1> arg1, InArgument<TArg2> arg2, string displayName = null, AsyncTaskExecutor executor = null)
+        public static AsyncFuncActivity<TArg1, TArg2, TResult> Invoke<TArg1, TArg2, TResult>(Func<TArg1, TArg2, Task<TResult>> func, InArgument<TArg1> arg1, InArgument<TArg2> arg2, string displayName = null, AsyncTaskExecutor executor = null)
         {
             Contract.Requires<ArgumentNullException>(func != null);
 
@@ -99,7 +99,7 @@ namespace Cogito.Activities
         /// <param name="displayName"></param>
         /// <param name="executor"></param>
         /// <returns></returns>
-        public static AsyncFuncActivity<TArg1, TArg2, TResult> InvokeAsync<TArg1, TArg2, TResult>(Func<TArg1, TArg2, Task<TResult>> func, DelegateInArgument<TArg1> arg1, DelegateInArgument<TArg2> arg2, string displayName = null, AsyncTaskExecutor executor = null)
+        public static AsyncFuncActivity<TArg1, TArg2, TResult> Invoke<TArg1, TArg2, TResult>(Func<TArg1, TArg2, Task<TResult>> func, DelegateInArgument<TArg1> arg1, DelegateInArgument<TArg2> arg2, string displayName = null, AsyncTaskExecutor executor = null)
         {
             Contract.Requires<ArgumentNullException>(func != null);
 
@@ -120,7 +120,7 @@ namespace Cogito.Activities
         /// <param name="displayName"></param>
         /// <param name="executor"></param>
         /// <returns></returns>
-        public static AsyncFuncActivity<TArg1, TArg2, TResult> InvokeAsync<TArg1, TArg2, TResult>(Func<TArg1, TArg2, Task<TResult>> func, Activity<TArg1> arg1, Activity<TArg2> arg2, string displayName = null, AsyncTaskExecutor executor = null)
+        public static AsyncFuncActivity<TArg1, TArg2, TResult> Invoke<TArg1, TArg2, TResult>(Func<TArg1, TArg2, Task<TResult>> func, Activity<TArg1> arg1, Activity<TArg2> arg2, string displayName = null, AsyncTaskExecutor executor = null)
         {
             Contract.Requires<ArgumentNullException>(func != null);
 
@@ -143,7 +143,7 @@ namespace Cogito.Activities
         /// <param name="displayName"></param>
         /// <param name="executor"></param>
         /// <returns></returns>
-        public static AsyncFuncActivity<TArg1, TArg2, TArg3, TResult> InvokeAsync<TArg1, TArg2, TArg3, TResult>(Func<TArg1, TArg2, TArg3, Task<TResult>> func, InArgument<TArg1> arg1, InArgument<TArg2> arg2, InArgument<TArg3> arg3, string displayName = null, AsyncTaskExecutor executor = null)
+        public static AsyncFuncActivity<TArg1, TArg2, TArg3, TResult> Invoke<TArg1, TArg2, TArg3, TResult>(Func<TArg1, TArg2, TArg3, Task<TResult>> func, InArgument<TArg1> arg1, InArgument<TArg2> arg2, InArgument<TArg3> arg3, string displayName = null, AsyncTaskExecutor executor = null)
         {
             Contract.Requires<ArgumentNullException>(func != null);
 
@@ -166,7 +166,7 @@ namespace Cogito.Activities
         /// <param name="displayName"></param>
         /// <param name="executor"></param>
         /// <returns></returns>
-        public static AsyncFuncActivity<TArg1, TArg2, TArg3, TResult> InvokeAsync<TArg1, TArg2, TArg3, TResult>(Func<TArg1, TArg2, TArg3, Task<TResult>> func, DelegateInArgument<TArg1> arg1, DelegateInArgument<TArg2> arg2, DelegateInArgument<TArg3> arg3, string displayName = null, AsyncTaskExecutor executor = null)
+        public static AsyncFuncActivity<TArg1, TArg2, TArg3, TResult> Invoke<TArg1, TArg2, TArg3, TResult>(Func<TArg1, TArg2, TArg3, Task<TResult>> func, DelegateInArgument<TArg1> arg1, DelegateInArgument<TArg2> arg2, DelegateInArgument<TArg3> arg3, string displayName = null, AsyncTaskExecutor executor = null)
         {
             Contract.Requires<ArgumentNullException>(func != null);
 
@@ -189,7 +189,7 @@ namespace Cogito.Activities
         /// <param name="displayName"></param>
         /// <param name="executor"></param>
         /// <returns></returns>
-        public static AsyncFuncActivity<TArg1, TArg2, TArg3, TResult> InvokeAsync<TArg1, TArg2, TArg3, TResult>(Func<TArg1, TArg2, TArg3, Task<TResult>> func, Activity<TArg1> arg1, Activity<TArg2> arg2, Activity<TArg3> arg3, string displayName = null, AsyncTaskExecutor executor = null)
+        public static AsyncFuncActivity<TArg1, TArg2, TArg3, TResult> Invoke<TArg1, TArg2, TArg3, TResult>(Func<TArg1, TArg2, TArg3, Task<TResult>> func, Activity<TArg1> arg1, Activity<TArg2> arg2, Activity<TArg3> arg3, string displayName = null, AsyncTaskExecutor executor = null)
         {
             Contract.Requires<ArgumentNullException>(func != null);
 
@@ -214,7 +214,7 @@ namespace Cogito.Activities
         /// <param name="displayName"></param>
         /// <param name="executor"></param>
         /// <returns></returns>
-        public static AsyncFuncActivity<TArg1, TArg2, TArg3, TArg4, TResult> InvokeAsync<TArg1, TArg2, TArg3, TArg4, TResult>(Func<TArg1, TArg2, TArg3, TArg4, Task<TResult>> func, InArgument<TArg1> arg1, InArgument<TArg2> arg2, InArgument<TArg3> arg3, InArgument<TArg4> arg4, string displayName = null, AsyncTaskExecutor executor = null)
+        public static AsyncFuncActivity<TArg1, TArg2, TArg3, TArg4, TResult> Invoke<TArg1, TArg2, TArg3, TArg4, TResult>(Func<TArg1, TArg2, TArg3, TArg4, Task<TResult>> func, InArgument<TArg1> arg1, InArgument<TArg2> arg2, InArgument<TArg3> arg3, InArgument<TArg4> arg4, string displayName = null, AsyncTaskExecutor executor = null)
         {
             Contract.Requires<ArgumentNullException>(func != null);
 
@@ -239,7 +239,7 @@ namespace Cogito.Activities
         /// <param name="displayName"></param>
         /// <param name="executor"></param>
         /// <returns></returns>
-        public static AsyncFuncActivity<TArg1, TArg2, TArg3, TArg4, TResult> InvokeAsync<TArg1, TArg2, TArg3, TArg4, TResult>(Func<TArg1, TArg2, TArg3, TArg4, Task<TResult>> func, DelegateInArgument<TArg1> arg1, DelegateInArgument<TArg2> arg2, DelegateInArgument<TArg3> arg3, DelegateInArgument<TArg4> arg4, string displayName = null, AsyncTaskExecutor executor = null)
+        public static AsyncFuncActivity<TArg1, TArg2, TArg3, TArg4, TResult> Invoke<TArg1, TArg2, TArg3, TArg4, TResult>(Func<TArg1, TArg2, TArg3, TArg4, Task<TResult>> func, DelegateInArgument<TArg1> arg1, DelegateInArgument<TArg2> arg2, DelegateInArgument<TArg3> arg3, DelegateInArgument<TArg4> arg4, string displayName = null, AsyncTaskExecutor executor = null)
         {
             Contract.Requires<ArgumentNullException>(func != null);
 
@@ -264,7 +264,7 @@ namespace Cogito.Activities
         /// <param name="displayName"></param>
         /// <param name="executor"></param>
         /// <returns></returns>
-        public static AsyncFuncActivity<TArg1, TArg2, TArg3, TArg4, TResult> InvokeAsync<TArg1, TArg2, TArg3, TArg4, TResult>(Func<TArg1, TArg2, TArg3, TArg4, Task<TResult>> func, Activity<TArg1> arg1, Activity<TArg2> arg2, Activity<TArg3> arg3, Activity<TArg4> arg4, string displayName = null, AsyncTaskExecutor executor = null)
+        public static AsyncFuncActivity<TArg1, TArg2, TArg3, TArg4, TResult> Invoke<TArg1, TArg2, TArg3, TArg4, TResult>(Func<TArg1, TArg2, TArg3, TArg4, Task<TResult>> func, Activity<TArg1> arg1, Activity<TArg2> arg2, Activity<TArg3> arg3, Activity<TArg4> arg4, string displayName = null, AsyncTaskExecutor executor = null)
         {
             Contract.Requires<ArgumentNullException>(func != null);
 
@@ -291,7 +291,7 @@ namespace Cogito.Activities
         /// <param name="displayName"></param>
         /// <param name="executor"></param>
         /// <returns></returns>
-        public static AsyncFuncActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TResult> InvokeAsync<TArg1, TArg2, TArg3, TArg4, TArg5, TResult>(Func<TArg1, TArg2, TArg3, TArg4, TArg5, Task<TResult>> func, InArgument<TArg1> arg1, InArgument<TArg2> arg2, InArgument<TArg3> arg3, InArgument<TArg4> arg4, InArgument<TArg5> arg5, string displayName = null, AsyncTaskExecutor executor = null)
+        public static AsyncFuncActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TResult> Invoke<TArg1, TArg2, TArg3, TArg4, TArg5, TResult>(Func<TArg1, TArg2, TArg3, TArg4, TArg5, Task<TResult>> func, InArgument<TArg1> arg1, InArgument<TArg2> arg2, InArgument<TArg3> arg3, InArgument<TArg4> arg4, InArgument<TArg5> arg5, string displayName = null, AsyncTaskExecutor executor = null)
         {
             Contract.Requires<ArgumentNullException>(func != null);
 
@@ -318,7 +318,7 @@ namespace Cogito.Activities
         /// <param name="displayName"></param>
         /// <param name="executor"></param>
         /// <returns></returns>
-        public static AsyncFuncActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TResult> InvokeAsync<TArg1, TArg2, TArg3, TArg4, TArg5, TResult>(Func<TArg1, TArg2, TArg3, TArg4, TArg5, Task<TResult>> func, DelegateInArgument<TArg1> arg1, DelegateInArgument<TArg2> arg2, DelegateInArgument<TArg3> arg3, DelegateInArgument<TArg4> arg4, DelegateInArgument<TArg5> arg5, string displayName = null, AsyncTaskExecutor executor = null)
+        public static AsyncFuncActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TResult> Invoke<TArg1, TArg2, TArg3, TArg4, TArg5, TResult>(Func<TArg1, TArg2, TArg3, TArg4, TArg5, Task<TResult>> func, DelegateInArgument<TArg1> arg1, DelegateInArgument<TArg2> arg2, DelegateInArgument<TArg3> arg3, DelegateInArgument<TArg4> arg4, DelegateInArgument<TArg5> arg5, string displayName = null, AsyncTaskExecutor executor = null)
         {
             Contract.Requires<ArgumentNullException>(func != null);
 
@@ -345,7 +345,7 @@ namespace Cogito.Activities
         /// <param name="displayName"></param>
         /// <param name="executor"></param>
         /// <returns></returns>
-        public static AsyncFuncActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TResult> InvokeAsync<TArg1, TArg2, TArg3, TArg4, TArg5, TResult>(Func<TArg1, TArg2, TArg3, TArg4, TArg5, Task<TResult>> func, Activity<TArg1> arg1, Activity<TArg2> arg2, Activity<TArg3> arg3, Activity<TArg4> arg4, Activity<TArg5> arg5, string displayName = null, AsyncTaskExecutor executor = null)
+        public static AsyncFuncActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TResult> Invoke<TArg1, TArg2, TArg3, TArg4, TArg5, TResult>(Func<TArg1, TArg2, TArg3, TArg4, TArg5, Task<TResult>> func, Activity<TArg1> arg1, Activity<TArg2> arg2, Activity<TArg3> arg3, Activity<TArg4> arg4, Activity<TArg5> arg5, string displayName = null, AsyncTaskExecutor executor = null)
         {
             Contract.Requires<ArgumentNullException>(func != null);
 
@@ -374,7 +374,7 @@ namespace Cogito.Activities
         /// <param name="displayName"></param>
         /// <param name="executor"></param>
         /// <returns></returns>
-        public static AsyncFuncActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TResult> InvokeAsync<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TResult>(Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, Task<TResult>> func, InArgument<TArg1> arg1, InArgument<TArg2> arg2, InArgument<TArg3> arg3, InArgument<TArg4> arg4, InArgument<TArg5> arg5, InArgument<TArg6> arg6, string displayName = null, AsyncTaskExecutor executor = null)
+        public static AsyncFuncActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TResult> Invoke<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TResult>(Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, Task<TResult>> func, InArgument<TArg1> arg1, InArgument<TArg2> arg2, InArgument<TArg3> arg3, InArgument<TArg4> arg4, InArgument<TArg5> arg5, InArgument<TArg6> arg6, string displayName = null, AsyncTaskExecutor executor = null)
         {
             Contract.Requires<ArgumentNullException>(func != null);
 
@@ -403,7 +403,7 @@ namespace Cogito.Activities
         /// <param name="displayName"></param>
         /// <param name="executor"></param>
         /// <returns></returns>
-        public static AsyncFuncActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TResult> InvokeAsync<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TResult>(Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, Task<TResult>> func, DelegateInArgument<TArg1> arg1, DelegateInArgument<TArg2> arg2, DelegateInArgument<TArg3> arg3, DelegateInArgument<TArg4> arg4, DelegateInArgument<TArg5> arg5, DelegateInArgument<TArg6> arg6, string displayName = null, AsyncTaskExecutor executor = null)
+        public static AsyncFuncActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TResult> Invoke<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TResult>(Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, Task<TResult>> func, DelegateInArgument<TArg1> arg1, DelegateInArgument<TArg2> arg2, DelegateInArgument<TArg3> arg3, DelegateInArgument<TArg4> arg4, DelegateInArgument<TArg5> arg5, DelegateInArgument<TArg6> arg6, string displayName = null, AsyncTaskExecutor executor = null)
         {
             Contract.Requires<ArgumentNullException>(func != null);
 
@@ -432,7 +432,7 @@ namespace Cogito.Activities
         /// <param name="displayName"></param>
         /// <param name="executor"></param>
         /// <returns></returns>
-        public static AsyncFuncActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TResult> InvokeAsync<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TResult>(Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, Task<TResult>> func, Activity<TArg1> arg1, Activity<TArg2> arg2, Activity<TArg3> arg3, Activity<TArg4> arg4, Activity<TArg5> arg5, Activity<TArg6> arg6, string displayName = null, AsyncTaskExecutor executor = null)
+        public static AsyncFuncActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TResult> Invoke<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TResult>(Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, Task<TResult>> func, Activity<TArg1> arg1, Activity<TArg2> arg2, Activity<TArg3> arg3, Activity<TArg4> arg4, Activity<TArg5> arg5, Activity<TArg6> arg6, string displayName = null, AsyncTaskExecutor executor = null)
         {
             Contract.Requires<ArgumentNullException>(func != null);
 
@@ -463,7 +463,7 @@ namespace Cogito.Activities
         /// <param name="displayName"></param>
         /// <param name="executor"></param>
         /// <returns></returns>
-        public static AsyncFuncActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TResult> InvokeAsync<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TResult>(Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, Task<TResult>> func, InArgument<TArg1> arg1, InArgument<TArg2> arg2, InArgument<TArg3> arg3, InArgument<TArg4> arg4, InArgument<TArg5> arg5, InArgument<TArg6> arg6, InArgument<TArg7> arg7, string displayName = null, AsyncTaskExecutor executor = null)
+        public static AsyncFuncActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TResult> Invoke<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TResult>(Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, Task<TResult>> func, InArgument<TArg1> arg1, InArgument<TArg2> arg2, InArgument<TArg3> arg3, InArgument<TArg4> arg4, InArgument<TArg5> arg5, InArgument<TArg6> arg6, InArgument<TArg7> arg7, string displayName = null, AsyncTaskExecutor executor = null)
         {
             Contract.Requires<ArgumentNullException>(func != null);
 
@@ -494,7 +494,7 @@ namespace Cogito.Activities
         /// <param name="displayName"></param>
         /// <param name="executor"></param>
         /// <returns></returns>
-        public static AsyncFuncActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TResult> InvokeAsync<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TResult>(Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, Task<TResult>> func, DelegateInArgument<TArg1> arg1, DelegateInArgument<TArg2> arg2, DelegateInArgument<TArg3> arg3, DelegateInArgument<TArg4> arg4, DelegateInArgument<TArg5> arg5, DelegateInArgument<TArg6> arg6, DelegateInArgument<TArg7> arg7, string displayName = null, AsyncTaskExecutor executor = null)
+        public static AsyncFuncActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TResult> Invoke<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TResult>(Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, Task<TResult>> func, DelegateInArgument<TArg1> arg1, DelegateInArgument<TArg2> arg2, DelegateInArgument<TArg3> arg3, DelegateInArgument<TArg4> arg4, DelegateInArgument<TArg5> arg5, DelegateInArgument<TArg6> arg6, DelegateInArgument<TArg7> arg7, string displayName = null, AsyncTaskExecutor executor = null)
         {
             Contract.Requires<ArgumentNullException>(func != null);
 
@@ -525,7 +525,7 @@ namespace Cogito.Activities
         /// <param name="displayName"></param>
         /// <param name="executor"></param>
         /// <returns></returns>
-        public static AsyncFuncActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TResult> InvokeAsync<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TResult>(Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, Task<TResult>> func, Activity<TArg1> arg1, Activity<TArg2> arg2, Activity<TArg3> arg3, Activity<TArg4> arg4, Activity<TArg5> arg5, Activity<TArg6> arg6, Activity<TArg7> arg7, string displayName = null, AsyncTaskExecutor executor = null)
+        public static AsyncFuncActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TResult> Invoke<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TResult>(Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, Task<TResult>> func, Activity<TArg1> arg1, Activity<TArg2> arg2, Activity<TArg3> arg3, Activity<TArg4> arg4, Activity<TArg5> arg5, Activity<TArg6> arg6, Activity<TArg7> arg7, string displayName = null, AsyncTaskExecutor executor = null)
         {
             Contract.Requires<ArgumentNullException>(func != null);
 
@@ -558,7 +558,7 @@ namespace Cogito.Activities
         /// <param name="displayName"></param>
         /// <param name="executor"></param>
         /// <returns></returns>
-        public static AsyncFuncActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TResult> InvokeAsync<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TResult>(Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, Task<TResult>> func, InArgument<TArg1> arg1, InArgument<TArg2> arg2, InArgument<TArg3> arg3, InArgument<TArg4> arg4, InArgument<TArg5> arg5, InArgument<TArg6> arg6, InArgument<TArg7> arg7, InArgument<TArg8> arg8, string displayName = null, AsyncTaskExecutor executor = null)
+        public static AsyncFuncActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TResult> Invoke<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TResult>(Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, Task<TResult>> func, InArgument<TArg1> arg1, InArgument<TArg2> arg2, InArgument<TArg3> arg3, InArgument<TArg4> arg4, InArgument<TArg5> arg5, InArgument<TArg6> arg6, InArgument<TArg7> arg7, InArgument<TArg8> arg8, string displayName = null, AsyncTaskExecutor executor = null)
         {
             Contract.Requires<ArgumentNullException>(func != null);
 
@@ -591,7 +591,7 @@ namespace Cogito.Activities
         /// <param name="displayName"></param>
         /// <param name="executor"></param>
         /// <returns></returns>
-        public static AsyncFuncActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TResult> InvokeAsync<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TResult>(Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, Task<TResult>> func, DelegateInArgument<TArg1> arg1, DelegateInArgument<TArg2> arg2, DelegateInArgument<TArg3> arg3, DelegateInArgument<TArg4> arg4, DelegateInArgument<TArg5> arg5, DelegateInArgument<TArg6> arg6, DelegateInArgument<TArg7> arg7, DelegateInArgument<TArg8> arg8, string displayName = null, AsyncTaskExecutor executor = null)
+        public static AsyncFuncActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TResult> Invoke<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TResult>(Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, Task<TResult>> func, DelegateInArgument<TArg1> arg1, DelegateInArgument<TArg2> arg2, DelegateInArgument<TArg3> arg3, DelegateInArgument<TArg4> arg4, DelegateInArgument<TArg5> arg5, DelegateInArgument<TArg6> arg6, DelegateInArgument<TArg7> arg7, DelegateInArgument<TArg8> arg8, string displayName = null, AsyncTaskExecutor executor = null)
         {
             Contract.Requires<ArgumentNullException>(func != null);
 
@@ -624,7 +624,7 @@ namespace Cogito.Activities
         /// <param name="displayName"></param>
         /// <param name="executor"></param>
         /// <returns></returns>
-        public static AsyncFuncActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TResult> InvokeAsync<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TResult>(Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, Task<TResult>> func, Activity<TArg1> arg1, Activity<TArg2> arg2, Activity<TArg3> arg3, Activity<TArg4> arg4, Activity<TArg5> arg5, Activity<TArg6> arg6, Activity<TArg7> arg7, Activity<TArg8> arg8, string displayName = null, AsyncTaskExecutor executor = null)
+        public static AsyncFuncActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TResult> Invoke<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TResult>(Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, Task<TResult>> func, Activity<TArg1> arg1, Activity<TArg2> arg2, Activity<TArg3> arg3, Activity<TArg4> arg4, Activity<TArg5> arg5, Activity<TArg6> arg6, Activity<TArg7> arg7, Activity<TArg8> arg8, string displayName = null, AsyncTaskExecutor executor = null)
         {
             Contract.Requires<ArgumentNullException>(func != null);
 

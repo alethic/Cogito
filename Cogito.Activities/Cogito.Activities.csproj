@@ -146,20 +146,9 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="ActionActivity.partial.cs">
-      <DependentUpon>ActionActivity.partial.tt</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <Compile Include="AsyncTaskExecutor.cs" />
     <Compile Include="AsyncTaskExecutorScope.cs" />
     <Compile Include="AsyncTaskExecutorHandle.cs" />
-    <Compile Include="Expressions.ActionActivity.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Expressions.ActionActivity.tt</DependentUpon>
-    </Compile>
-    <Compile Include="ActionActivity.cs" />
     <None Include="Expressions.Delegate.partial.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Expressions.Delegate.partial.cs</LastGenOutput>
@@ -201,12 +190,14 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Expressions.Delegate.partial.tt</DependentUpon>
     </Compile>
-    <Compile Include="Expressions.cs" />
+    <Compile Include="Expressions.Range.cs" />
     <Compile Include="Expressions.Assign.cs" />
     <Compile Include="Expressions.Cast.cs" />
     <Compile Include="Expressions.If.cs" />
+    <Compile Include="Expressions.Parallel.cs" />
     <Compile Include="Expressions.ParallelForEach.cs" />
     <Compile Include="Expressions.ForEach.cs" />
+    <Compile Include="Expressions.Sequence.cs" />
     <Compile Include="Expressions.Throw.partial.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -218,23 +209,12 @@
     <Compile Include="AsyncTaskExtension.cs" />
     <Compile Include="Expressions.InvokeAction.cs" />
     <Compile Include="For.cs" />
-    <Compile Include="Expressions.FuncActivity.cs">
-      <DependentUpon>Expressions.FuncActivity.tt</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <Compile Include="Retry.cs" />
     <Compile Include="RetryException.cs" />
     <Compile Include="RetryCatch.cs" />
     <Compile Include="RetryExceptionCaughtTrackingRecord.cs" />
     <Compile Include="RetryState.cs" />
     <Compile Include="FormatActivity.cs" />
-    <Compile Include="FuncActivity.partial.cs">
-      <DependentUpon>FuncActivity.partial.tt</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="FuncActivity.cs" />
     <Compile Include="Expressions.AsyncFuncActivity.cs">
       <DependentUpon>Expressions.AsyncFuncActivity.tt</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -264,14 +244,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Expressions.ActionActivity.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>Expressions.ActionActivity.cs</LastGenOutput>
-    </None>
-    <None Include="FuncActivity.partial.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>FuncActivity.partial.cs</LastGenOutput>
-    </None>
     <None Include="Expressions.AsyncFuncActivity.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Expressions.AsyncFuncActivity.cs</LastGenOutput>
@@ -297,21 +269,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="ActionActivity.partial.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>ActionActivity.partial.cs</LastGenOutput>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="AsyncActionActivity.partial.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>AsyncActionActivity.partial.cs</LastGenOutput>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Expressions.FuncActivity.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>Expressions.FuncActivity.cs</LastGenOutput>
     </None>
   </ItemGroup>
   <ItemGroup>

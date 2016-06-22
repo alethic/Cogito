@@ -3,39 +3,13 @@ using System.Activities;
 using System.Activities.Validation;
 using System.ComponentModel;
 using System.Diagnostics.Contracts;
+using System.Threading.Tasks;
 
 namespace Cogito.Activities
 {
 
     public static partial class Expressions
     {
-
-        /// <summary>
-        /// Creates a for loop.
-        /// </summary>
-        /// <typeparam name="TValue"></typeparam>
-        /// <param name="initial"></param>
-        /// <param name="condition"></param>
-        /// <param name="increment"></param>
-        /// <param name="createAction"></param>
-        /// <returns></returns>
-        public static For<TValue> For<TValue>(
-            InArgument<TValue> initial,
-            Func<TValue, bool> condition,
-            Func<TValue, TValue> increment,
-            Func<DelegateInArgument<TValue>, Activity> createAction)
-        {
-            Contract.Requires<ArgumentNullException>(initial != null);
-            Contract.Requires<ArgumentNullException>(condition != null);
-            Contract.Requires<ArgumentNullException>(increment != null);
-            Contract.Requires<ArgumentNullException>(createAction != null);
-
-            return For(
-                initial,
-                Delegate<TValue, bool>(arg => Invoke(condition, arg)),
-                Delegate<TValue, TValue>(arg => Invoke(increment, arg)),
-                createAction);
-        }
 
         /// <summary>
         /// Creates a for loop.
@@ -63,6 +37,35 @@ namespace Cogito.Activities
                 Condition = condition,
                 Increment = increment,
                 Action = Delegate(createAction),
+            };
+        }
+
+        /// <summary>
+        /// Creates a for loop.
+        /// </summary>
+        /// <typeparam name="TValue"></typeparam>
+        /// <param name="initial"></param>
+        /// <param name="condition"></param>
+        /// <param name="increment"></param>
+        /// <param name="action"></param>
+        /// <returns></returns>
+        public static For<TValue> For<TValue>(
+            InArgument<TValue> initial,
+            ActivityFunc<TValue, bool> condition,
+            ActivityFunc<TValue, TValue> increment,
+            Func<TValue, Task> action)
+        {
+            Contract.Requires<ArgumentNullException>(initial != null);
+            Contract.Requires<ArgumentNullException>(condition != null);
+            Contract.Requires<ArgumentNullException>(increment != null);
+            Contract.Requires<ArgumentNullException>(action != null);
+
+            return new For<TValue>()
+            {
+                Initial = initial,
+                Condition = condition,
+                Increment = increment,
+                Action = Delegate<TValue>(arg => Invoke(action, arg)),
             };
         }
 
