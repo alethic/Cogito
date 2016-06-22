@@ -7,6 +7,7 @@
 using System;
 using System.Activities;
 using System.Diagnostics.Contracts;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
 namespace Cogito.Activities
@@ -24,12 +25,16 @@ for (int i = 1; i <= 8; i++)
 <# WriteTypeParamsComments(i); #>
         /// <param name="action"></param>
 <# WriteArgParamsComments(i); #>
+        /// <param name="displayName"></param>
         /// <returns></returns>
-        public static ActionActivity<<#= Repeat("TArg{0}", i, ", ") #>> Invoke<<#= Repeat("TArg{0}", i, ", ") #>>(Action<<#= Repeat("TArg{0}", i, ", ") #>> action, <#= Repeat("InArgument<TArg{0}> arg{0}", i, ", ") #>)
+        public static ActionActivity<<#= Repeat("TArg{0}", i, ", ") #>> Invoke<<#= Repeat("TArg{0}", i, ", ") #>>(Action<<#= Repeat("TArg{0}", i, ", ") #>> action, <#= Repeat("InArgument<TArg{0}> arg{0}", i, ", ") #>, [CallerMemberName] string displayName = null)
         {
             Contract.Requires<ArgumentNullException>(action != null);
 
-            return new ActionActivity<<#= Repeat("TArg{0}", i, ", ") #>>(action, <#= Repeat("arg{0}", i, ", ") #>);
+            return new ActionActivity<<#= Repeat("TArg{0}", i, ", ") #>>(action, <#= Repeat("arg{0}", i, ", ") #>)
+            {
+                DisplayName = displayName,
+            };
         }
 
         /// <summary>
@@ -38,12 +43,16 @@ for (int i = 1; i <= 8; i++)
 <# WriteTypeParamsComments(i); #>
         /// <param name="action"></param>
 <# WriteArgParamsComments(i); #>
+        /// <param name="displayName"></param>
         /// <returns></returns>
-        public static ActionActivity<<#= Repeat("TArg{0}", i, ", ") #>> Invoke<<#= Repeat("TArg{0}", i, ", ") #>>(Action<<#= Repeat("TArg{0}", i, ", ") #>> action, <#= Repeat("Activity<TArg{0}> arg{0}", i, ", ") #>)
+        public static ActionActivity<<#= Repeat("TArg{0}", i, ", ") #>> Invoke<<#= Repeat("TArg{0}", i, ", ") #>>(Action<<#= Repeat("TArg{0}", i, ", ") #>> action, <#= Repeat("Activity<TArg{0}> arg{0}", i, ", ") #>, [CallerMemberName] string displayName = null)
         {
             Contract.Requires<ArgumentNullException>(action != null);
 
-            return new ActionActivity<<#= Repeat("TArg{0}", i, ", ") #>>(action, <#= Repeat("arg{0}", i, ", ") #>);
+            return new ActionActivity<<#= Repeat("TArg{0}", i, ", ") #>>(action, <#= Repeat("arg{0}", i, ", ") #>)
+            {
+                DisplayName = displayName,
+            };
         }
 <#
 }

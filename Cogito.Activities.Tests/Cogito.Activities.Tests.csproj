@@ -103,6 +103,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="AsyncFuncActivityTests.cs" />
     <Compile Include="AsyncActionActivityTests.cs" />
     <Compile Include="ActionActivityTests.cs" />
     <Compile Include="ForTests.cs" />
@@ -110,6 +111,7 @@
     <Compile Include="RetryTests.cs" />
     <Compile Include="FuncActivityTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WaitTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Cogito.Activities\Cogito.Activities.csproj">

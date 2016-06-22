@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Activities;
 using System.Diagnostics.Contracts;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
 namespace Cogito.Activities
@@ -14,12 +15,16 @@ namespace Cogito.Activities
 /// <typeparam name="TArg1"></typeparam>
         /// <param name="action"></param>
 /// <param name="arg1"></param>
+        /// <param name="displayName"></param>
         /// <returns></returns>
-        public static ActionActivity<TArg1> Invoke<TArg1>(Action<TArg1> action, InArgument<TArg1> arg1)
+        public static ActionActivity<TArg1> Invoke<TArg1>(Action<TArg1> action, InArgument<TArg1> arg1, [CallerMemberName] string displayName = null)
         {
             Contract.Requires<ArgumentNullException>(action != null);
 
-            return new ActionActivity<TArg1>(action, arg1);
+            return new ActionActivity<TArg1>(action, arg1)
+            {
+                DisplayName = displayName,
+            };
         }
 
         /// <summary>
@@ -28,29 +33,17 @@ namespace Cogito.Activities
 /// <typeparam name="TArg1"></typeparam>
         /// <param name="action"></param>
 /// <param name="arg1"></param>
+        /// <param name="displayName"></param>
         /// <returns></returns>
-        public static ActionActivity<TArg1> Invoke<TArg1>(Action<TArg1> action, Activity<TArg1> arg1)
+        public static ActionActivity<TArg1> Invoke<TArg1>(Action<TArg1> action, Activity<TArg1> arg1, [CallerMemberName] string displayName = null)
         {
             Contract.Requires<ArgumentNullException>(action != null);
 
-            return new ActionActivity<TArg1>(action, arg1);
+            return new ActionActivity<TArg1>(action, arg1)
+            {
+                DisplayName = displayName,
+            };
         }
-        /// <summary>
-        /// Returns a <see cref="Activity"/> that executes <paramref name="action"/> with arguments.
-        /// </summary>
-/// <typeparam name="TArg1"></typeparam>
-/// <typeparam name="TArg2"></typeparam>
-        /// <param name="action"></param>
-/// <param name="arg1"></param>
-/// <param name="arg2"></param>
-        /// <returns></returns>
-        public static ActionActivity<TArg1, TArg2> Invoke<TArg1, TArg2>(Action<TArg1, TArg2> action, InArgument<TArg1> arg1, InArgument<TArg2> arg2)
-        {
-            Contract.Requires<ArgumentNullException>(action != null);
-
-            return new ActionActivity<TArg1, TArg2>(action, arg1, arg2);
-        }
-
         /// <summary>
         /// Returns a <see cref="Activity"/> that executes <paramref name="action"/> with arguments.
         /// </summary>
@@ -59,31 +52,37 @@ namespace Cogito.Activities
         /// <param name="action"></param>
 /// <param name="arg1"></param>
 /// <param name="arg2"></param>
+        /// <param name="displayName"></param>
         /// <returns></returns>
-        public static ActionActivity<TArg1, TArg2> Invoke<TArg1, TArg2>(Action<TArg1, TArg2> action, Activity<TArg1> arg1, Activity<TArg2> arg2)
+        public static ActionActivity<TArg1, TArg2> Invoke<TArg1, TArg2>(Action<TArg1, TArg2> action, InArgument<TArg1> arg1, InArgument<TArg2> arg2, [CallerMemberName] string displayName = null)
         {
             Contract.Requires<ArgumentNullException>(action != null);
 
-            return new ActionActivity<TArg1, TArg2>(action, arg1, arg2);
+            return new ActionActivity<TArg1, TArg2>(action, arg1, arg2)
+            {
+                DisplayName = displayName,
+            };
         }
+
         /// <summary>
         /// Returns a <see cref="Activity"/> that executes <paramref name="action"/> with arguments.
         /// </summary>
 /// <typeparam name="TArg1"></typeparam>
 /// <typeparam name="TArg2"></typeparam>
-/// <typeparam name="TArg3"></typeparam>
         /// <param name="action"></param>
 /// <param name="arg1"></param>
 /// <param name="arg2"></param>
-/// <param name="arg3"></param>
+        /// <param name="displayName"></param>
         /// <returns></returns>
-        public static ActionActivity<TArg1, TArg2, TArg3> Invoke<TArg1, TArg2, TArg3>(Action<TArg1, TArg2, TArg3> action, InArgument<TArg1> arg1, InArgument<TArg2> arg2, InArgument<TArg3> arg3)
+        public static ActionActivity<TArg1, TArg2> Invoke<TArg1, TArg2>(Action<TArg1, TArg2> action, Activity<TArg1> arg1, Activity<TArg2> arg2, [CallerMemberName] string displayName = null)
         {
             Contract.Requires<ArgumentNullException>(action != null);
 
-            return new ActionActivity<TArg1, TArg2, TArg3>(action, arg1, arg2, arg3);
+            return new ActionActivity<TArg1, TArg2>(action, arg1, arg2)
+            {
+                DisplayName = displayName,
+            };
         }
-
         /// <summary>
         /// Returns a <see cref="Activity"/> that executes <paramref name="action"/> with arguments.
         /// </summary>
@@ -94,12 +93,38 @@ namespace Cogito.Activities
 /// <param name="arg1"></param>
 /// <param name="arg2"></param>
 /// <param name="arg3"></param>
+        /// <param name="displayName"></param>
         /// <returns></returns>
-        public static ActionActivity<TArg1, TArg2, TArg3> Invoke<TArg1, TArg2, TArg3>(Action<TArg1, TArg2, TArg3> action, Activity<TArg1> arg1, Activity<TArg2> arg2, Activity<TArg3> arg3)
+        public static ActionActivity<TArg1, TArg2, TArg3> Invoke<TArg1, TArg2, TArg3>(Action<TArg1, TArg2, TArg3> action, InArgument<TArg1> arg1, InArgument<TArg2> arg2, InArgument<TArg3> arg3, [CallerMemberName] string displayName = null)
         {
             Contract.Requires<ArgumentNullException>(action != null);
 
-            return new ActionActivity<TArg1, TArg2, TArg3>(action, arg1, arg2, arg3);
+            return new ActionActivity<TArg1, TArg2, TArg3>(action, arg1, arg2, arg3)
+            {
+                DisplayName = displayName,
+            };
+        }
+
+        /// <summary>
+        /// Returns a <see cref="Activity"/> that executes <paramref name="action"/> with arguments.
+        /// </summary>
+/// <typeparam name="TArg1"></typeparam>
+/// <typeparam name="TArg2"></typeparam>
+/// <typeparam name="TArg3"></typeparam>
+        /// <param name="action"></param>
+/// <param name="arg1"></param>
+/// <param name="arg2"></param>
+/// <param name="arg3"></param>
+        /// <param name="displayName"></param>
+        /// <returns></returns>
+        public static ActionActivity<TArg1, TArg2, TArg3> Invoke<TArg1, TArg2, TArg3>(Action<TArg1, TArg2, TArg3> action, Activity<TArg1> arg1, Activity<TArg2> arg2, Activity<TArg3> arg3, [CallerMemberName] string displayName = null)
+        {
+            Contract.Requires<ArgumentNullException>(action != null);
+
+            return new ActionActivity<TArg1, TArg2, TArg3>(action, arg1, arg2, arg3)
+            {
+                DisplayName = displayName,
+            };
         }
         /// <summary>
         /// Returns a <see cref="Activity"/> that executes <paramref name="action"/> with arguments.
@@ -113,12 +138,16 @@ namespace Cogito.Activities
 /// <param name="arg2"></param>
 /// <param name="arg3"></param>
 /// <param name="arg4"></param>
+        /// <param name="displayName"></param>
         /// <returns></returns>
-        public static ActionActivity<TArg1, TArg2, TArg3, TArg4> Invoke<TArg1, TArg2, TArg3, TArg4>(Action<TArg1, TArg2, TArg3, TArg4> action, InArgument<TArg1> arg1, InArgument<TArg2> arg2, InArgument<TArg3> arg3, InArgument<TArg4> arg4)
+        public static ActionActivity<TArg1, TArg2, TArg3, TArg4> Invoke<TArg1, TArg2, TArg3, TArg4>(Action<TArg1, TArg2, TArg3, TArg4> action, InArgument<TArg1> arg1, InArgument<TArg2> arg2, InArgument<TArg3> arg3, InArgument<TArg4> arg4, [CallerMemberName] string displayName = null)
         {
             Contract.Requires<ArgumentNullException>(action != null);
 
-            return new ActionActivity<TArg1, TArg2, TArg3, TArg4>(action, arg1, arg2, arg3, arg4);
+            return new ActionActivity<TArg1, TArg2, TArg3, TArg4>(action, arg1, arg2, arg3, arg4)
+            {
+                DisplayName = displayName,
+            };
         }
 
         /// <summary>
@@ -133,12 +162,16 @@ namespace Cogito.Activities
 /// <param name="arg2"></param>
 /// <param name="arg3"></param>
 /// <param name="arg4"></param>
+        /// <param name="displayName"></param>
         /// <returns></returns>
-        public static ActionActivity<TArg1, TArg2, TArg3, TArg4> Invoke<TArg1, TArg2, TArg3, TArg4>(Action<TArg1, TArg2, TArg3, TArg4> action, Activity<TArg1> arg1, Activity<TArg2> arg2, Activity<TArg3> arg3, Activity<TArg4> arg4)
+        public static ActionActivity<TArg1, TArg2, TArg3, TArg4> Invoke<TArg1, TArg2, TArg3, TArg4>(Action<TArg1, TArg2, TArg3, TArg4> action, Activity<TArg1> arg1, Activity<TArg2> arg2, Activity<TArg3> arg3, Activity<TArg4> arg4, [CallerMemberName] string displayName = null)
         {
             Contract.Requires<ArgumentNullException>(action != null);
 
-            return new ActionActivity<TArg1, TArg2, TArg3, TArg4>(action, arg1, arg2, arg3, arg4);
+            return new ActionActivity<TArg1, TArg2, TArg3, TArg4>(action, arg1, arg2, arg3, arg4)
+            {
+                DisplayName = displayName,
+            };
         }
         /// <summary>
         /// Returns a <see cref="Activity"/> that executes <paramref name="action"/> with arguments.
@@ -154,12 +187,16 @@ namespace Cogito.Activities
 /// <param name="arg3"></param>
 /// <param name="arg4"></param>
 /// <param name="arg5"></param>
+        /// <param name="displayName"></param>
         /// <returns></returns>
-        public static ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5> Invoke<TArg1, TArg2, TArg3, TArg4, TArg5>(Action<TArg1, TArg2, TArg3, TArg4, TArg5> action, InArgument<TArg1> arg1, InArgument<TArg2> arg2, InArgument<TArg3> arg3, InArgument<TArg4> arg4, InArgument<TArg5> arg5)
+        public static ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5> Invoke<TArg1, TArg2, TArg3, TArg4, TArg5>(Action<TArg1, TArg2, TArg3, TArg4, TArg5> action, InArgument<TArg1> arg1, InArgument<TArg2> arg2, InArgument<TArg3> arg3, InArgument<TArg4> arg4, InArgument<TArg5> arg5, [CallerMemberName] string displayName = null)
         {
             Contract.Requires<ArgumentNullException>(action != null);
 
-            return new ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5>(action, arg1, arg2, arg3, arg4, arg5);
+            return new ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5>(action, arg1, arg2, arg3, arg4, arg5)
+            {
+                DisplayName = displayName,
+            };
         }
 
         /// <summary>
@@ -176,12 +213,16 @@ namespace Cogito.Activities
 /// <param name="arg3"></param>
 /// <param name="arg4"></param>
 /// <param name="arg5"></param>
+        /// <param name="displayName"></param>
         /// <returns></returns>
-        public static ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5> Invoke<TArg1, TArg2, TArg3, TArg4, TArg5>(Action<TArg1, TArg2, TArg3, TArg4, TArg5> action, Activity<TArg1> arg1, Activity<TArg2> arg2, Activity<TArg3> arg3, Activity<TArg4> arg4, Activity<TArg5> arg5)
+        public static ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5> Invoke<TArg1, TArg2, TArg3, TArg4, TArg5>(Action<TArg1, TArg2, TArg3, TArg4, TArg5> action, Activity<TArg1> arg1, Activity<TArg2> arg2, Activity<TArg3> arg3, Activity<TArg4> arg4, Activity<TArg5> arg5, [CallerMemberName] string displayName = null)
         {
             Contract.Requires<ArgumentNullException>(action != null);
 
-            return new ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5>(action, arg1, arg2, arg3, arg4, arg5);
+            return new ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5>(action, arg1, arg2, arg3, arg4, arg5)
+            {
+                DisplayName = displayName,
+            };
         }
         /// <summary>
         /// Returns a <see cref="Activity"/> that executes <paramref name="action"/> with arguments.
@@ -199,12 +240,16 @@ namespace Cogito.Activities
 /// <param name="arg4"></param>
 /// <param name="arg5"></param>
 /// <param name="arg6"></param>
+        /// <param name="displayName"></param>
         /// <returns></returns>
-        public static ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6> Invoke<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6> action, InArgument<TArg1> arg1, InArgument<TArg2> arg2, InArgument<TArg3> arg3, InArgument<TArg4> arg4, InArgument<TArg5> arg5, InArgument<TArg6> arg6)
+        public static ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6> Invoke<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6> action, InArgument<TArg1> arg1, InArgument<TArg2> arg2, InArgument<TArg3> arg3, InArgument<TArg4> arg4, InArgument<TArg5> arg5, InArgument<TArg6> arg6, [CallerMemberName] string displayName = null)
         {
             Contract.Requires<ArgumentNullException>(action != null);
 
-            return new ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(action, arg1, arg2, arg3, arg4, arg5, arg6);
+            return new ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(action, arg1, arg2, arg3, arg4, arg5, arg6)
+            {
+                DisplayName = displayName,
+            };
         }
 
         /// <summary>
@@ -223,12 +268,16 @@ namespace Cogito.Activities
 /// <param name="arg4"></param>
 /// <param name="arg5"></param>
 /// <param name="arg6"></param>
+        /// <param name="displayName"></param>
         /// <returns></returns>
-        public static ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6> Invoke<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6> action, Activity<TArg1> arg1, Activity<TArg2> arg2, Activity<TArg3> arg3, Activity<TArg4> arg4, Activity<TArg5> arg5, Activity<TArg6> arg6)
+        public static ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6> Invoke<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6> action, Activity<TArg1> arg1, Activity<TArg2> arg2, Activity<TArg3> arg3, Activity<TArg4> arg4, Activity<TArg5> arg5, Activity<TArg6> arg6, [CallerMemberName] string displayName = null)
         {
             Contract.Requires<ArgumentNullException>(action != null);
 
-            return new ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(action, arg1, arg2, arg3, arg4, arg5, arg6);
+            return new ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(action, arg1, arg2, arg3, arg4, arg5, arg6)
+            {
+                DisplayName = displayName,
+            };
         }
         /// <summary>
         /// Returns a <see cref="Activity"/> that executes <paramref name="action"/> with arguments.
@@ -248,12 +297,16 @@ namespace Cogito.Activities
 /// <param name="arg5"></param>
 /// <param name="arg6"></param>
 /// <param name="arg7"></param>
+        /// <param name="displayName"></param>
         /// <returns></returns>
-        public static ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7> Invoke<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7> action, InArgument<TArg1> arg1, InArgument<TArg2> arg2, InArgument<TArg3> arg3, InArgument<TArg4> arg4, InArgument<TArg5> arg5, InArgument<TArg6> arg6, InArgument<TArg7> arg7)
+        public static ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7> Invoke<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7> action, InArgument<TArg1> arg1, InArgument<TArg2> arg2, InArgument<TArg3> arg3, InArgument<TArg4> arg4, InArgument<TArg5> arg5, InArgument<TArg6> arg6, InArgument<TArg7> arg7, [CallerMemberName] string displayName = null)
         {
             Contract.Requires<ArgumentNullException>(action != null);
 
-            return new ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(action, arg1, arg2, arg3, arg4, arg5, arg6, arg7);
+            return new ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(action, arg1, arg2, arg3, arg4, arg5, arg6, arg7)
+            {
+                DisplayName = displayName,
+            };
         }
 
         /// <summary>
@@ -274,12 +327,16 @@ namespace Cogito.Activities
 /// <param name="arg5"></param>
 /// <param name="arg6"></param>
 /// <param name="arg7"></param>
+        /// <param name="displayName"></param>
         /// <returns></returns>
-        public static ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7> Invoke<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7> action, Activity<TArg1> arg1, Activity<TArg2> arg2, Activity<TArg3> arg3, Activity<TArg4> arg4, Activity<TArg5> arg5, Activity<TArg6> arg6, Activity<TArg7> arg7)
+        public static ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7> Invoke<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7> action, Activity<TArg1> arg1, Activity<TArg2> arg2, Activity<TArg3> arg3, Activity<TArg4> arg4, Activity<TArg5> arg5, Activity<TArg6> arg6, Activity<TArg7> arg7, [CallerMemberName] string displayName = null)
         {
             Contract.Requires<ArgumentNullException>(action != null);
 
-            return new ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(action, arg1, arg2, arg3, arg4, arg5, arg6, arg7);
+            return new ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(action, arg1, arg2, arg3, arg4, arg5, arg6, arg7)
+            {
+                DisplayName = displayName,
+            };
         }
         /// <summary>
         /// Returns a <see cref="Activity"/> that executes <paramref name="action"/> with arguments.
@@ -301,12 +358,16 @@ namespace Cogito.Activities
 /// <param name="arg6"></param>
 /// <param name="arg7"></param>
 /// <param name="arg8"></param>
+        /// <param name="displayName"></param>
         /// <returns></returns>
-        public static ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8> Invoke<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8> action, InArgument<TArg1> arg1, InArgument<TArg2> arg2, InArgument<TArg3> arg3, InArgument<TArg4> arg4, InArgument<TArg5> arg5, InArgument<TArg6> arg6, InArgument<TArg7> arg7, InArgument<TArg8> arg8)
+        public static ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8> Invoke<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8> action, InArgument<TArg1> arg1, InArgument<TArg2> arg2, InArgument<TArg3> arg3, InArgument<TArg4> arg4, InArgument<TArg5> arg5, InArgument<TArg6> arg6, InArgument<TArg7> arg7, InArgument<TArg8> arg8, [CallerMemberName] string displayName = null)
         {
             Contract.Requires<ArgumentNullException>(action != null);
 
-            return new ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(action, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
+            return new ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(action, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8)
+            {
+                DisplayName = displayName,
+            };
         }
 
         /// <summary>
@@ -329,12 +390,16 @@ namespace Cogito.Activities
 /// <param name="arg6"></param>
 /// <param name="arg7"></param>
 /// <param name="arg8"></param>
+        /// <param name="displayName"></param>
         /// <returns></returns>
-        public static ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8> Invoke<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8> action, Activity<TArg1> arg1, Activity<TArg2> arg2, Activity<TArg3> arg3, Activity<TArg4> arg4, Activity<TArg5> arg5, Activity<TArg6> arg6, Activity<TArg7> arg7, Activity<TArg8> arg8)
+        public static ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8> Invoke<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8> action, Activity<TArg1> arg1, Activity<TArg2> arg2, Activity<TArg3> arg3, Activity<TArg4> arg4, Activity<TArg5> arg5, Activity<TArg6> arg6, Activity<TArg7> arg7, Activity<TArg8> arg8, [CallerMemberName] string displayName = null)
         {
             Contract.Requires<ArgumentNullException>(action != null);
 
-            return new ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(action, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
+            return new ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(action, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8)
+            {
+                DisplayName = displayName,
+            };
         }
 
     }

@@ -151,6 +151,7 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Expressions.Delegate.cs</LastGenOutput>
     </None>
+    <Compile Include="Expressions.Delay.cs" />
     <Compile Include="Expressions.Delegate.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -192,13 +193,10 @@
     <Compile Include="AsyncActionActivity.cs" />
     <Compile Include="AsyncFuncActivity.cs" />
     <Compile Include="Wait.cs" />
-    <Compile Include="WaitThenAsyncFunc.cs" />
-    <Compile Include="WaitThenFunc.cs" />
-    <Compile Include="WaitThenAsyncAction.cs" />
-    <Compile Include="WaitThenAction.cs" />
-    <Compile Include="WaitThen.cs" />
     <Compile Include="WorkflowApplicationExtensions.cs" />
     <Compile Include="Expressions.While.cs" />
+    <Compile Include="Expressions.WaitThen.cs" />
+    <Compile Include="Expressions.With.cs" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

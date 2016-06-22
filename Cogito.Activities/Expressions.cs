@@ -11,14 +11,6 @@ namespace Cogito.Activities
     public static partial class Expressions
     {
 
-        public static Delay Delay(InArgument<TimeSpan> duration)
-        {
-            return new Delay()
-            {
-                Duration = duration,
-            };
-        }
-
         public static Sequence Sequence(params Activity[] activities)
         {
             Contract.Requires<ArgumentNullException>(activities != null);

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Activities;
+using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Threading;
 using System.Threading.Tasks;
@@ -183,6 +184,46 @@ namespace Cogito.Activities
             Contract.Requires<ArgumentNullException>(self != null);
 
             return Task.Factory.FromAsync(self.BeginUnload, self.EndUnload, timeout, null);
+        }
+
+        /// <summary>
+        /// Returns a <see cref="Task"/> that waits for the completion of the workflow and propagates its results.
+        /// </summary>
+        /// <param name="self"></param>
+        /// <returns></returns>
+        public static Task<IDictionary<string, object>> WaitForCompletionAsync(this WorkflowApplication self)
+        {
+            Contract.Requires<ArgumentNullException>(self != null);
+
+            var tc = new TaskCompletionSource<IDictionary<string, object>>();
+            var cb = self.Completed;
+
+            self.Completed = args =>
+            {
+                switch (args.CompletionState)
+                {
+                    case ActivityInstanceState.Faulted:
+                        tc.SetException(args.TerminationException);
+                        break;
+                    case ActivityInstanceState.Canceled:
+                        tc.SetCanceled();
+                        break;
+                    case ActivityInstanceState.Closed:
+                        tc.SetResult(args.Outputs);
+                        break;
+                    case ActivityInstanceState.Executing:
+                        tc.SetException(new InvalidOperationException("Completed invoked while executing."));
+                        break;
+                    default:
+                        tc.SetException(new InvalidOperationException("Unknown ActivityInstanceState upon completion."));
+                        break;
+                }
+
+                // invoke user's original handler
+                cb?.Invoke(args);
+            };
+
+            return tc.Task;
         }
 
     }
