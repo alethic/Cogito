@@ -151,6 +151,11 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Expressions.Delegate.cs</LastGenOutput>
     </None>
+    <Compile Include="Expressions.GreaterThan.cs" />
+    <Compile Include="Expressions.LessThan.cs" />
+    <Compile Include="Expressions.LessThanOrEqual.cs" />
+    <Compile Include="Expressions.GreaterThanOrEqual.cs" />
+    <Compile Include="Expressions.Equal.cs" />
     <Compile Include="Expressions.Literal.cs" />
     <Compile Include="Expressions.OrElse.cs" />
     <Compile Include="Expressions.Or.cs" />

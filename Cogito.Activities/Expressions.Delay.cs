@@ -14,7 +14,7 @@ namespace Cogito.Activities
         /// </summary>
         /// <param name="duration"></param>
         /// <returns></returns>
-        public static Delay Delay(InArgument<TimeSpan> duration, [CallerMemberName] string displayName = null)
+        public static Delay Delay(InArgument<TimeSpan> duration, string displayName = null)
         {
             Contract.Requires<ArgumentNullException>(duration != null);
 

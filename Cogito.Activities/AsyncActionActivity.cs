@@ -16,7 +16,7 @@ namespace Cogito.Activities
         /// <param name="func"></param>
         /// <param name="displayName"></param>
         /// <returns></returns>
-        public static AsyncActionActivity Invoke(Func<Task> func, [CallerMemberName] string displayName = null)
+        public static AsyncActionActivity Invoke(Func<Task> func, string displayName = null)
         {
             Contract.Requires<ArgumentNullException>(func != null);
 

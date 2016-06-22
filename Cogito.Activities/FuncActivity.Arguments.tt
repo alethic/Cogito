@@ -29,7 +29,7 @@ for (int i = 1; i <= 8; i++)
         /// <param name="func"></param>
 <# WriteArgParamsComments(i); #>
         /// <returns></returns>
-        public static FuncActivity<<#= Repeat("TArg{0}", i, ", ") #>, TResult> Invoke<<#= Repeat("TArg{0}", i, ", ") #>, TResult>(Func<<#= Repeat("TArg{0}", i, ", ") #>, TResult> func, <#= Repeat(argTypeName + " arg{0}", i, ", ") #>, [CallerMemberName] string displayName = null)
+        public static FuncActivity<<#= Repeat("TArg{0}", i, ", ") #>, TResult> Invoke<<#= Repeat("TArg{0}", i, ", ") #>, TResult>(Func<<#= Repeat("TArg{0}", i, ", ") #>, TResult> func, <#= Repeat(argTypeName + " arg{0}", i, ", ") #>, string displayName = null)
         {
             Contract.Requires<ArgumentNullException>(func != null);
 

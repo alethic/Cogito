@@ -20,7 +20,7 @@ namespace Cogito.Activities
         /// <param name="right"></param>
         /// <param name="displayName"></param>
         /// <returns></returns>
-        public static AndAlso AndAlso(Activity<bool> left, Activity<bool> right, [CallerMemberName] string displayName = null)
+        public static AndAlso AndAlso(this Activity<bool> left, Activity<bool> right, string displayName = null)
         {
             Contract.Requires<ArgumentNullException>(left != null);
             Contract.Requires<ArgumentNullException>(right != null);

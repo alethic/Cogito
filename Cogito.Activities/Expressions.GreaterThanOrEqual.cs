@@ -2,7 +2,6 @@
 using System.Activities;
 using System.Activities.Expressions;
 using System.Diagnostics.Contracts;
-using System.Runtime.CompilerServices;
 
 namespace Cogito.Activities
 {
@@ -11,20 +10,20 @@ namespace Cogito.Activities
     {
 
         /// <summary>
-        /// Computes the logical OR of two values. To do this, both operands are evaluated to <see cref="Boolean"/>
-        /// values. If both operands are <c>false</c> then the expression returns <c>false</c>. If one or both
-        /// operands evaluate to <c>true</c>, the expression returns <c>true</c>.
+        /// Performs a relational test between two values. If the left operand is greater than or equal to the right operand, the expression returns true; otherwise, it returns false.
         /// </summary>
-        /// <param name="left"></param>
+        /// <typeparam name="TLeft"></typeparam>
+        /// <typeparam name="TRight"></typeparam>
+        /// <typeparam name="TResult"></typeparam>
         /// <param name="right"></param>
         /// <param name="displayName"></param>
         /// <returns></returns>
-        public static OrElse OrElse(Activity<bool> left, Activity<bool> right, string displayName = null)
+        public static GreaterThanOrEqual<TLeft, TRight, TResult> GreaterThanOrEqual<TLeft, TRight, TResult>(InArgument<TLeft> left, InArgument<TRight> right, string displayName = null)
         {
             Contract.Requires<ArgumentNullException>(left != null);
             Contract.Requires<ArgumentNullException>(right != null);
 
-            return new OrElse()
+            return new GreaterThanOrEqual<TLeft, TRight, TResult>()
             {
                 DisplayName = displayName,
                 Left = left,

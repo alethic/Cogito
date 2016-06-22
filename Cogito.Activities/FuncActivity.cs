@@ -10,7 +10,7 @@ namespace Cogito.Activities
     public static partial class Expressions
     {
 
-        public static FuncActivity<TResult> Invoke<TResult>(Func<TResult> func, [CallerMemberName] string displayName = null)
+        public static FuncActivity<TResult> Invoke<TResult>(Func<TResult> func, string displayName = null)
         {
             Contract.Requires<ArgumentNullException>(func != null);
 

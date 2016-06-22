@@ -11,20 +11,20 @@ namespace Cogito.Activities
     {
 
         /// <summary>
-        /// Computes the logical OR of two values. To do this, both operands are evaluated to <see cref="Boolean"/>
-        /// values. If both operands are <c>false</c> then the expression returns <c>false</c>. If one or both
-        /// operands evaluate to <c>true</c>, the expression returns <c>true</c>.
+        /// Performs an equality test between two values. If the two values are equal the expression returns <c>true</c>; otherwise, it returns <c>false</c>.
         /// </summary>
-        /// <param name="left"></param>
+        /// <typeparam name="TLeft"></typeparam>
+        /// <typeparam name="TRight"></typeparam>
+        /// <typeparam name="TResult"></typeparam>
         /// <param name="right"></param>
         /// <param name="displayName"></param>
         /// <returns></returns>
-        public static OrElse OrElse(Activity<bool> left, Activity<bool> right, string displayName = null)
+        public static Equal<TLeft, TRight, TResult> Equal<TLeft, TRight, TResult>(InArgument<TLeft> left, InArgument<TRight> right, string displayName = null)
         {
             Contract.Requires<ArgumentNullException>(left != null);
             Contract.Requires<ArgumentNullException>(right != null);
 
-            return new OrElse()
+            return new Equal<TLeft, TRight, TResult>()
             {
                 DisplayName = displayName,
                 Left = left,

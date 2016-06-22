@@ -20,7 +20,7 @@ namespace Cogito.Activities
         /// <param name="body"></param>
         /// <param name="displayName"></param>
         /// <returns></returns>
-        public static ParallelForEach<TElement> ParallelForEach<TElement>(DelegateInArgument<IEnumerable<TElement>> values, ActivityAction<TElement> body, [CallerMemberName] string displayName = null)
+        public static ParallelForEach<TElement> ParallelForEach<TElement>(DelegateInArgument<IEnumerable<TElement>> values, ActivityAction<TElement> body, string displayName = null)
         {
             Contract.Requires<ArgumentNullException>(values != null);
             Contract.Requires<ArgumentNullException>(body != null);
@@ -41,7 +41,7 @@ namespace Cogito.Activities
         /// <param name="body"></param>
         /// <param name="displayName"></param>
         /// <returns></returns>
-        public static ParallelForEach<TElement> ParallelForEach<TElement>(DelegateInArgument<IEnumerable<TElement>> values, Func<DelegateInArgument<TElement>, Activity> body, [CallerMemberName] string displayName = null)
+        public static ParallelForEach<TElement> ParallelForEach<TElement>(DelegateInArgument<IEnumerable<TElement>> values, Func<DelegateInArgument<TElement>, Activity> body, string displayName = null)
         {
             Contract.Requires<ArgumentNullException>(values != null);
             Contract.Requires<ArgumentNullException>(body != null);
@@ -56,7 +56,7 @@ namespace Cogito.Activities
         /// <param name="values"></param>
         /// <param name="body"></param>
         /// <returns></returns>
-        public static ParallelForEach<TElement> ParallelForEach<TElement>(DelegateInArgument<IEnumerable<TElement>> values, Action<TElement> body, [CallerMemberName] string displayName = null)
+        public static ParallelForEach<TElement> ParallelForEach<TElement>(DelegateInArgument<IEnumerable<TElement>> values, Action<TElement> body, string displayName = null)
         {
             Contract.Requires<ArgumentNullException>(values != null);
             Contract.Requires<ArgumentNullException>(body != null);
@@ -72,7 +72,7 @@ namespace Cogito.Activities
         /// <param name="body"></param>
         /// <param name="displayName"></param>
         /// <returns></returns>
-        public static ParallelForEach<TElement> ParallelForEach<TElement>(DelegateInArgument<IEnumerable<TElement>> values, Func<TElement, Task> body, [CallerMemberName] string displayName = null)
+        public static ParallelForEach<TElement> ParallelForEach<TElement>(DelegateInArgument<IEnumerable<TElement>> values, Func<TElement, Task> body, string displayName = null)
         {
             Contract.Requires<ArgumentNullException>(values != null);
             Contract.Requires<ArgumentNullException>(body != null);
@@ -88,7 +88,7 @@ namespace Cogito.Activities
         /// <param name="body"></param>
         /// <param name="displayName"></param>
         /// <returns></returns>
-        public static ParallelForEach<TElement> ParallelForEach<TElement>(DelegateInArgument<TElement[]> values, ActivityAction<TElement> body, [CallerMemberName] string displayName = null)
+        public static ParallelForEach<TElement> ParallelForEach<TElement>(DelegateInArgument<TElement[]> values, ActivityAction<TElement> body, string displayName = null)
         {
             Contract.Requires<ArgumentNullException>(values != null);
             Contract.Requires<ArgumentNullException>(body != null);
@@ -109,7 +109,7 @@ namespace Cogito.Activities
         /// <param name="body"></param>
         /// <param name="displayName"></param>
         /// <returns></returns>
-        public static ParallelForEach<TElement> ParallelForEach<TElement>(DelegateInArgument<TElement[]> values, Func<DelegateInArgument<TElement>, Activity> body, [CallerMemberName] string displayName = null)
+        public static ParallelForEach<TElement> ParallelForEach<TElement>(DelegateInArgument<TElement[]> values, Func<DelegateInArgument<TElement>, Activity> body, string displayName = null)
         {
             Contract.Requires<ArgumentNullException>(values != null);
             Contract.Requires<ArgumentNullException>(body != null);
@@ -125,7 +125,7 @@ namespace Cogito.Activities
         /// <param name="body"></param>
         /// <param name="displayName"></param>
         /// <returns></returns>
-        public static ParallelForEach<TElement> ParallelForEach<TElement>(DelegateInArgument<TElement[]> values, Action<TElement> body, [CallerMemberName] string displayName = null)
+        public static ParallelForEach<TElement> ParallelForEach<TElement>(DelegateInArgument<TElement[]> values, Action<TElement> body, string displayName = null)
         {
             Contract.Requires<ArgumentNullException>(values != null);
             Contract.Requires<ArgumentNullException>(body != null);
@@ -141,7 +141,7 @@ namespace Cogito.Activities
         /// <param name="body"></param>
         /// <param name="displayName"></param>
         /// <returns></returns>
-        public static ParallelForEach<TElement> ParallelForEach<TElement>(DelegateInArgument<TElement[]> values, Func<TElement, Task> body, [CallerMemberName] string displayName = null)
+        public static ParallelForEach<TElement> ParallelForEach<TElement>(DelegateInArgument<TElement[]> values, Func<TElement, Task> body, string displayName = null)
         {
             Contract.Requires<ArgumentNullException>(values != null);
             Contract.Requires<ArgumentNullException>(body != null);
@@ -157,7 +157,7 @@ namespace Cogito.Activities
         /// <param name="body"></param>
         /// <param name="displayName"></param>
         /// <returns></returns>
-        public static ParallelForEach<TElement> ParallelForEach<TElement>(InArgument<IEnumerable<TElement>> values, ActivityAction<TElement> body, [CallerMemberName] string displayName = null)
+        public static ParallelForEach<TElement> ParallelForEach<TElement>(InArgument<IEnumerable<TElement>> values, ActivityAction<TElement> body, string displayName = null)
         {
             Contract.Requires<ArgumentNullException>(values != null);
             Contract.Requires<ArgumentNullException>(body != null);
@@ -178,7 +178,7 @@ namespace Cogito.Activities
         /// <param name="body"></param>
         /// <param name="displayName"></param>
         /// <returns></returns>
-        public static ParallelForEach<TElement> ParallelForEach<TElement>(InArgument<IEnumerable<TElement>> values, Func<DelegateInArgument<TElement>, Activity> body, [CallerMemberName] string displayName = null)
+        public static ParallelForEach<TElement> ParallelForEach<TElement>(InArgument<IEnumerable<TElement>> values, Func<DelegateInArgument<TElement>, Activity> body, string displayName = null)
         {
             Contract.Requires<ArgumentNullException>(values != null);
             Contract.Requires<ArgumentNullException>(body != null);
@@ -193,7 +193,7 @@ namespace Cogito.Activities
         /// <param name="values"></param>
         /// <param name="body"></param>
         /// <returns></returns>
-        public static ParallelForEach<TElement> ParallelForEach<TElement>(InArgument<IEnumerable<TElement>> values, Action<TElement> body, [CallerMemberName] string displayName = null)
+        public static ParallelForEach<TElement> ParallelForEach<TElement>(InArgument<IEnumerable<TElement>> values, Action<TElement> body, string displayName = null)
         {
             Contract.Requires<ArgumentNullException>(values != null);
             Contract.Requires<ArgumentNullException>(body != null);
@@ -209,7 +209,7 @@ namespace Cogito.Activities
         /// <param name="body"></param>
         /// <param name="displayName"></param>
         /// <returns></returns>
-        public static ParallelForEach<TElement> ParallelForEach<TElement>(InArgument<IEnumerable<TElement>> values, Func<TElement, Task> body, [CallerMemberName] string displayName = null)
+        public static ParallelForEach<TElement> ParallelForEach<TElement>(InArgument<IEnumerable<TElement>> values, Func<TElement, Task> body, string displayName = null)
         {
             Contract.Requires<ArgumentNullException>(values != null);
             Contract.Requires<ArgumentNullException>(body != null);
@@ -225,7 +225,7 @@ namespace Cogito.Activities
         /// <param name="body"></param>
         /// <param name="displayName"></param>
         /// <returns></returns>
-        public static ParallelForEach<TElement> ParallelForEach<TElement>(InArgument<TElement[]> values, ActivityAction<TElement> body, [CallerMemberName] string displayName = null)
+        public static ParallelForEach<TElement> ParallelForEach<TElement>(InArgument<TElement[]> values, ActivityAction<TElement> body, string displayName = null)
         {
             Contract.Requires<ArgumentNullException>(values != null);
             Contract.Requires<ArgumentNullException>(body != null);
@@ -246,7 +246,7 @@ namespace Cogito.Activities
         /// <param name="body"></param>
         /// <param name="displayName"></param>
         /// <returns></returns>
-        public static ParallelForEach<TElement> ParallelForEach<TElement>(InArgument<TElement[]> values, Func<DelegateInArgument<TElement>, Activity> body, [CallerMemberName] string displayName = null)
+        public static ParallelForEach<TElement> ParallelForEach<TElement>(InArgument<TElement[]> values, Func<DelegateInArgument<TElement>, Activity> body, string displayName = null)
         {
             Contract.Requires<ArgumentNullException>(values != null);
             Contract.Requires<ArgumentNullException>(body != null);
@@ -262,7 +262,7 @@ namespace Cogito.Activities
         /// <param name="body"></param>
         /// <param name="displayName"></param>
         /// <returns></returns>
-        public static ParallelForEach<TElement> ParallelForEach<TElement>(InArgument<TElement[]> values, Action<TElement> body, [CallerMemberName] string displayName = null)
+        public static ParallelForEach<TElement> ParallelForEach<TElement>(InArgument<TElement[]> values, Action<TElement> body, string displayName = null)
         {
             Contract.Requires<ArgumentNullException>(values != null);
             Contract.Requires<ArgumentNullException>(body != null);
@@ -278,7 +278,7 @@ namespace Cogito.Activities
         /// <param name="body"></param>
         /// <param name="displayName"></param>
         /// <returns></returns>
-        public static ParallelForEach<TElement> ParallelForEach<TElement>(InArgument<TElement[]> values, Func<TElement, Task> body, [CallerMemberName] string displayName = null)
+        public static ParallelForEach<TElement> ParallelForEach<TElement>(InArgument<TElement[]> values, Func<TElement, Task> body, string displayName = null)
         {
             Contract.Requires<ArgumentNullException>(values != null);
             Contract.Requires<ArgumentNullException>(body != null);
@@ -294,7 +294,7 @@ namespace Cogito.Activities
         /// <param name="body"></param>
         /// <param name="displayName"></param>
         /// <returns></returns>
-        public static ParallelForEach<TElement> ParallelForEach<TElement>(this Activity<IEnumerable<TElement>> values, Func<DelegateInArgument<TElement>, Activity> body, [CallerMemberName] string displayName = null)
+        public static ParallelForEach<TElement> ParallelForEach<TElement>(this Activity<IEnumerable<TElement>> values, Func<DelegateInArgument<TElement>, Activity> body, string displayName = null)
         {
             Contract.Requires<ArgumentNullException>(values != null);
             Contract.Requires<ArgumentNullException>(body != null);
@@ -310,7 +310,7 @@ namespace Cogito.Activities
         /// <param name="body"></param>
         /// <param name="displayName"></param>
         /// <returns></returns>
-        public static ParallelForEach<TElement> ParallelForEach<TElement>(this Activity<IEnumerable<TElement>> values, ActivityAction<TElement> body, [CallerMemberName] string displayName = null)
+        public static ParallelForEach<TElement> ParallelForEach<TElement>(this Activity<IEnumerable<TElement>> values, ActivityAction<TElement> body, string displayName = null)
         {
             Contract.Requires<ArgumentNullException>(values != null);
             Contract.Requires<ArgumentNullException>(body != null);
@@ -331,7 +331,7 @@ namespace Cogito.Activities
         /// <param name="body"></param>
         /// <param name="displayName"></param>
         /// <returns></returns>
-        public static ParallelForEach<TElement> ParallelForEach<TElement>(this Activity<IEnumerable<TElement>> values, Action<TElement> body, [CallerMemberName] string displayName = null)
+        public static ParallelForEach<TElement> ParallelForEach<TElement>(this Activity<IEnumerable<TElement>> values, Action<TElement> body, string displayName = null)
         {
             Contract.Requires<ArgumentNullException>(values != null);
             Contract.Requires<ArgumentNullException>(body != null);
@@ -347,7 +347,7 @@ namespace Cogito.Activities
         /// <param name="body"></param>
         /// <param name="displayName"></param>
         /// <returns></returns>
-        public static ParallelForEach<TElement> ParallelForEach<TElement>(this Activity<IEnumerable<TElement>> values, Func<TElement, Task> body, [CallerMemberName] string displayName = null)
+        public static ParallelForEach<TElement> ParallelForEach<TElement>(this Activity<IEnumerable<TElement>> values, Func<TElement, Task> body, string displayName = null)
         {
             Contract.Requires<ArgumentNullException>(values != null);
             Contract.Requires<ArgumentNullException>(body != null);
@@ -363,7 +363,7 @@ namespace Cogito.Activities
         /// <param name="body"></param>
         /// <param name="displayName"></param>
         /// <returns></returns>
-        public static ParallelForEach<TElement> ParallelForEach<TElement>(Func<IEnumerable<TElement>> values, Func<DelegateInArgument<TElement>, Activity> body, [CallerMemberName] string displayName = null)
+        public static ParallelForEach<TElement> ParallelForEach<TElement>(Func<IEnumerable<TElement>> values, Func<DelegateInArgument<TElement>, Activity> body, string displayName = null)
         {
             Contract.Requires<ArgumentNullException>(values != null);
             Contract.Requires<ArgumentNullException>(body != null);
@@ -379,7 +379,7 @@ namespace Cogito.Activities
         /// <param name="body"></param>
         /// <param name="displayName"></param>
         /// <returns></returns>
-        public static ParallelForEach<TElement> ParallelForEach<TElement>(Func<IEnumerable<TElement>> values, ActivityAction<TElement> body, [CallerMemberName] string displayName = null)
+        public static ParallelForEach<TElement> ParallelForEach<TElement>(Func<IEnumerable<TElement>> values, ActivityAction<TElement> body, string displayName = null)
         {
             Contract.Requires<ArgumentNullException>(values != null);
             Contract.Requires<ArgumentNullException>(body != null);
@@ -395,7 +395,7 @@ namespace Cogito.Activities
         /// <param name="body"></param>
         /// <param name="displayName"></param>
         /// <returns></returns>
-        public static ParallelForEach<TElement> ParallelForEach<TElement>(Func<IEnumerable<TElement>> values, Action<TElement> body, [CallerMemberName] string displayName = null)
+        public static ParallelForEach<TElement> ParallelForEach<TElement>(Func<IEnumerable<TElement>> values, Action<TElement> body, string displayName = null)
         {
             Contract.Requires<ArgumentNullException>(values != null);
             Contract.Requires<ArgumentNullException>(body != null);
@@ -411,7 +411,7 @@ namespace Cogito.Activities
         /// <param name="body"></param>
         /// <param name="displayName"></param>
         /// <returns></returns>
-        public static ParallelForEach<TElement> ParallelForEach<TElement>(Func<IEnumerable<TElement>> values, Func<TElement, Task> body, [CallerMemberName] string displayName = null)
+        public static ParallelForEach<TElement> ParallelForEach<TElement>(Func<IEnumerable<TElement>> values, Func<TElement, Task> body, string displayName = null)
         {
             Contract.Requires<ArgumentNullException>(values != null);
             Contract.Requires<ArgumentNullException>(body != null);
@@ -427,7 +427,7 @@ namespace Cogito.Activities
         /// <param name="body"></param>
         /// <param name="displayName"></param>
         /// <returns></returns>
-        public static ParallelForEach<TElement> ParallelForEach<TElement>(Func<Task<IEnumerable<TElement>>> values, Func<DelegateInArgument<TElement>, Activity> body, [CallerMemberName] string displayName = null)
+        public static ParallelForEach<TElement> ParallelForEach<TElement>(Func<Task<IEnumerable<TElement>>> values, Func<DelegateInArgument<TElement>, Activity> body, string displayName = null)
         {
             Contract.Requires<ArgumentNullException>(values != null);
             Contract.Requires<ArgumentNullException>(body != null);
@@ -443,7 +443,7 @@ namespace Cogito.Activities
         /// <param name="body"></param>
         /// <param name="displayName"></param>
         /// <returns></returns>
-        public static ParallelForEach<TElement> ParallelForEach<TElement>(Func<Task<IEnumerable<TElement>>> values, ActivityAction<TElement> body, [CallerMemberName] string displayName = null)
+        public static ParallelForEach<TElement> ParallelForEach<TElement>(Func<Task<IEnumerable<TElement>>> values, ActivityAction<TElement> body, string displayName = null)
         {
             Contract.Requires<ArgumentNullException>(values != null);
             Contract.Requires<ArgumentNullException>(body != null);
@@ -459,7 +459,7 @@ namespace Cogito.Activities
         /// <param name="body"></param>
         /// <param name="displayName"></param>
         /// <returns></returns>
-        public static ParallelForEach<TElement> ParallelForEach<TElement>(Func<Task<IEnumerable<TElement>>> values, Action<TElement> body, [CallerMemberName] string displayName = null)
+        public static ParallelForEach<TElement> ParallelForEach<TElement>(Func<Task<IEnumerable<TElement>>> values, Action<TElement> body, string displayName = null)
         {
             Contract.Requires<ArgumentNullException>(values != null);
             Contract.Requires<ArgumentNullException>(body != null);
@@ -475,7 +475,7 @@ namespace Cogito.Activities
         /// <param name="body"></param>
         /// <param name="displayName"></param>
         /// <returns></returns>
-        public static ParallelForEach<TElement> ParallelForEach<TElement>(Func<Task<IEnumerable<TElement>>> values, Func<TElement, Task> body, [CallerMemberName] string displayName = null)
+        public static ParallelForEach<TElement> ParallelForEach<TElement>(Func<Task<IEnumerable<TElement>>> values, Func<TElement, Task> body, string displayName = null)
         {
             Contract.Requires<ArgumentNullException>(values != null);
             Contract.Requires<ArgumentNullException>(body != null);
@@ -491,7 +491,7 @@ namespace Cogito.Activities
         /// <param name="body"></param>
         /// <param name="displayName"></param>
         /// <returns></returns>
-        public static ParallelForEach<TElement> ParallelForEach<TElement>(this Activity<TElement[]> values, Func<DelegateInArgument<TElement>, Activity> body, [CallerMemberName] string displayName = null)
+        public static ParallelForEach<TElement> ParallelForEach<TElement>(this Activity<TElement[]> values, Func<DelegateInArgument<TElement>, Activity> body, string displayName = null)
         {
             Contract.Requires<ArgumentNullException>(values != null);
             Contract.Requires<ArgumentNullException>(body != null);
@@ -508,7 +508,7 @@ namespace Cogito.Activities
         /// <param name="body"></param>
         /// <param name="displayName"></param>
         /// <returns></returns>
-        public static ParallelForEach<TElement> ParallelForEach<TElement>(this Activity<TElement[]> values, ActivityAction<TElement> body, [CallerMemberName] string displayName = null)
+        public static ParallelForEach<TElement> ParallelForEach<TElement>(this Activity<TElement[]> values, ActivityAction<TElement> body, string displayName = null)
         {
             Contract.Requires<ArgumentNullException>(values != null);
             Contract.Requires<ArgumentNullException>(body != null);
@@ -529,7 +529,7 @@ namespace Cogito.Activities
         /// <param name="body"></param>
         /// <param name="displayName"></param>
         /// <returns></returns>
-        public static ParallelForEach<TElement> ParallelForEach<TElement>(this Activity<TElement[]> values, Action<TElement> body, [CallerMemberName] string displayName = null)
+        public static ParallelForEach<TElement> ParallelForEach<TElement>(this Activity<TElement[]> values, Action<TElement> body, string displayName = null)
         {
             Contract.Requires<ArgumentNullException>(values != null);
             Contract.Requires<ArgumentNullException>(body != null);
@@ -545,7 +545,7 @@ namespace Cogito.Activities
         /// <param name="body"></param>
         /// <param name="displayName"></param>
         /// <returns></returns>
-        public static ParallelForEach<TElement> ParallelForEach<TElement>(this Activity<TElement[]> values, Func<TElement, Task> body, [CallerMemberName] string displayName = null)
+        public static ParallelForEach<TElement> ParallelForEach<TElement>(this Activity<TElement[]> values, Func<TElement, Task> body, string displayName = null)
         {
             Contract.Requires<ArgumentNullException>(values != null);
             Contract.Requires<ArgumentNullException>(body != null);
@@ -561,7 +561,7 @@ namespace Cogito.Activities
         /// <param name="body"></param>
         /// <param name="displayName"></param>
         /// <returns></returns>
-        public static ParallelForEach<TElement> ParallelForEach<TElement>(Func<TElement[]> values, Func<DelegateInArgument<TElement>, Activity> body, [CallerMemberName] string displayName = null)
+        public static ParallelForEach<TElement> ParallelForEach<TElement>(Func<TElement[]> values, Func<DelegateInArgument<TElement>, Activity> body, string displayName = null)
         {
             Contract.Requires<ArgumentNullException>(values != null);
             Contract.Requires<ArgumentNullException>(body != null);
@@ -577,7 +577,7 @@ namespace Cogito.Activities
         /// <param name="body"></param>
         /// <param name="displayName"></param>
         /// <returns></returns>
-        public static ParallelForEach<TElement> ParallelForEach<TElement>(Func<TElement[]> values, ActivityAction<TElement> body, [CallerMemberName] string displayName = null)
+        public static ParallelForEach<TElement> ParallelForEach<TElement>(Func<TElement[]> values, ActivityAction<TElement> body, string displayName = null)
         {
             Contract.Requires<ArgumentNullException>(values != null);
             Contract.Requires<ArgumentNullException>(body != null);
@@ -593,7 +593,7 @@ namespace Cogito.Activities
         /// <param name="body"></param>
         /// <param name="displayName"></param>
         /// <returns></returns>
-        public static ParallelForEach<TElement> ParallelForEach<TElement>(Func<TElement[]> values, Action<TElement> body, [CallerMemberName] string displayName = null)
+        public static ParallelForEach<TElement> ParallelForEach<TElement>(Func<TElement[]> values, Action<TElement> body, string displayName = null)
         {
             Contract.Requires<ArgumentNullException>(values != null);
             Contract.Requires<ArgumentNullException>(body != null);
@@ -609,7 +609,7 @@ namespace Cogito.Activities
         /// <param name="body"></param>
         /// <param name="displayName"></param>
         /// <returns></returns>
-        public static ParallelForEach<TElement> ParallelForEach<TElement>(Func<TElement[]> values, Func<TElement, Task> body, [CallerMemberName] string displayName = null)
+        public static ParallelForEach<TElement> ParallelForEach<TElement>(Func<TElement[]> values, Func<TElement, Task> body, string displayName = null)
         {
             Contract.Requires<ArgumentNullException>(values != null);
             Contract.Requires<ArgumentNullException>(body != null);
@@ -625,7 +625,7 @@ namespace Cogito.Activities
         /// <param name="body"></param>
         /// <param name="displayName"></param>
         /// <returns></returns>
-        public static ParallelForEach<TElement> ParallelForEach<TElement>(Func<Task<TElement[]>> values, Func<DelegateInArgument<TElement>, Activity> body, [CallerMemberName] string displayName = null)
+        public static ParallelForEach<TElement> ParallelForEach<TElement>(Func<Task<TElement[]>> values, Func<DelegateInArgument<TElement>, Activity> body, string displayName = null)
         {
             Contract.Requires<ArgumentNullException>(values != null);
             Contract.Requires<ArgumentNullException>(body != null);
@@ -641,7 +641,7 @@ namespace Cogito.Activities
         /// <param name="body"></param>
         /// <param name="displayName"></param>
         /// <returns></returns>
-        public static ParallelForEach<TElement> ParallelForEach<TElement>(Func<Task<TElement[]>> values, ActivityAction<TElement> body, [CallerMemberName] string displayName = null)
+        public static ParallelForEach<TElement> ParallelForEach<TElement>(Func<Task<TElement[]>> values, ActivityAction<TElement> body, string displayName = null)
         {
             Contract.Requires<ArgumentNullException>(values != null);
             Contract.Requires<ArgumentNullException>(body != null);
@@ -657,7 +657,7 @@ namespace Cogito.Activities
         /// <param name="body"></param>
         /// <param name="displayName"></param>
         /// <returns></returns>
-        public static ParallelForEach<TElement> ParallelForEach<TElement>(Func<Task<TElement[]>> values, Action<TElement> body, [CallerMemberName] string displayName = null)
+        public static ParallelForEach<TElement> ParallelForEach<TElement>(Func<Task<TElement[]>> values, Action<TElement> body, string displayName = null)
         {
             Contract.Requires<ArgumentNullException>(values != null);
             Contract.Requires<ArgumentNullException>(body != null);
@@ -673,7 +673,7 @@ namespace Cogito.Activities
         /// <param name="body"></param>
         /// <param name="displayName"></param>
         /// <returns></returns>
-        public static ParallelForEach<TElement> ParallelForEach<TElement>(Func<Task<TElement[]>> values, Func<TElement, Task> body, [CallerMemberName] string displayName = null)
+        public static ParallelForEach<TElement> ParallelForEach<TElement>(Func<Task<TElement[]>> values, Func<TElement, Task> body, string displayName = null)
         {
             Contract.Requires<ArgumentNullException>(values != null);
             Contract.Requires<ArgumentNullException>(body != null);
