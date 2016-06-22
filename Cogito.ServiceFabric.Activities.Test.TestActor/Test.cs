@@ -4,7 +4,9 @@ using System.Activities.Expressions;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
+using Cogito.Net.Http;
 using Cogito.ServiceFabric.Activities.Test.TestActor.Interfaces;
 
 using Microsoft.ServiceFabric.Actors;
@@ -31,7 +33,7 @@ namespace Cogito.ServiceFabric.Activities.Test.TestActor
                 Delay(TimeSpan.FromSeconds(5)),
                 While(async () => { await Task.Delay(200); return true; },
                     Sequence(
-                        Literal(Enumerable.Range(0, 10))
+                        ConstantValue(Enumerable.Range(0, 10))
                             .ParallelForEach(i => Debug.WriteLine(i)),
                         Delay(TimeSpan.FromSeconds(15)),
                         Invoke(() => DoThing2()))));

@@ -1,10 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Diagnostics.Tracing;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
+
+using Newtonsoft.Json.Linq;
 
 namespace Cogito.Net.Http
 {
@@ -16,20 +17,6 @@ namespace Cogito.Net.Http
     sealed class HttpMessageEventSource :
         EventSource
     {
-
-        #region EventData
-
-        [EventData]
-        public class HeaderData
-        {
-
-            public string Name { get; set; }
-
-            public IEnumerable<string> Values { get; set; }
-
-        }
-
-        #endregion
 
         /// <summary>
         /// Gets the current <see cref="HttpMessageEventSource"/>.
@@ -51,15 +38,6 @@ namespace Cogito.Net.Http
         const int HttpRequestStopEventId = 2;
 
         /// <summary>
-        /// Initializes a new instance.
-        /// </summary>
-        HttpMessageEventSource()
-            : base(EventSourceSettings.EtwSelfDescribingEventFormat)
-        {
-
-        }
-
-        /// <summary>
         /// Records a <see cref="HttpRequestMessage"/>.
         /// </summary>
         /// <param name="message"></param>
@@ -73,8 +51,8 @@ namespace Cogito.Net.Http
                     message.Method.ToString(),
                     message.RequestUri.ToString(),
                     message.Version.ToString(),
-                    HeadersToXml(message.Headers),
-                    HeadersToXml(message.Content?.Headers));
+                    HeaderToData(message.Headers),
+                    HeaderToData(message.Content?.Headers));
         }
 
         /// <summary>
@@ -90,8 +68,8 @@ namespace Cogito.Net.Http
             string method,
             string requestUri,
             string version,
-            IEnumerable<HeaderData> headers,
-            IEnumerable<HeaderData> contentHeaders)
+            string headers,
+            string contentHeaders)
         {
             if (IsEnabled())
                 WriteEvent(
@@ -99,8 +77,8 @@ namespace Cogito.Net.Http
                     method,
                     requestUri,
                     version,
-                    headers,
-                    contentHeaders);
+                    headers ?? "",
+                    contentHeaders ?? "");
         }
 
         /// <summary>
@@ -119,8 +97,8 @@ namespace Cogito.Net.Http
                     message.RequestMessage.Version.ToString(),
                     (int)message.StatusCode,
                     message.ReasonPhrase ?? "",
-                    HeadersToXml(message.Headers),
-                    HeadersToXml(message.Content?.Headers));
+                    HeaderToData(message.Headers),
+                    HeaderToData(message.Content?.Headers));
         }
 
         /// <summary>
@@ -140,8 +118,8 @@ namespace Cogito.Net.Http
             string version,
             int statusCode,
             string reasonPhrase,
-            IEnumerable<HeaderData> responseHeaders,
-            IEnumerable<HeaderData> responseContentHeaders)
+            string responseHeaders,
+            string responseContentHeaders)
         {
             if (IsEnabled())
                 WriteEvent(
@@ -151,8 +129,8 @@ namespace Cogito.Net.Http
                     version,
                     statusCode,
                     reasonPhrase,
-                    responseHeaders,
-                    responseContentHeaders);
+                    responseHeaders ?? "",
+                    responseContentHeaders ?? "");
         }
 
         /// <summary>
@@ -160,9 +138,9 @@ namespace Cogito.Net.Http
         /// </summary>
         /// <param name="headers"></param>
         /// <returns></returns>
-        IEnumerable<HeaderData> HeadersToXml(HttpHeaders headers)
+        string HeaderToData(HttpHeaders headers)
         {
-            return headers != null ? headers.Select(i => new HeaderData() { Name = i.Key, Values = i.Value }) : null;
+            return headers != null ? new JObject(headers.Select(i => new JProperty(i.Key, i.Value))).ToString() : null;
         }
 
     }
