@@ -244,10 +244,10 @@
     <None Include="Cogito.Activities.nuspec" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Expressions.Throw.tt">
+    <None Include="Expressions.Throw.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Expressions.Throw.cs</LastGenOutput>
-    </Content>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
