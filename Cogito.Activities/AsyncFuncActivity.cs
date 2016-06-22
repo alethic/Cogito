@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Activities;
 using System.Diagnostics.Contracts;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
 namespace Cogito.Activities
@@ -10,7 +9,7 @@ namespace Cogito.Activities
     public static partial class Expressions
     {
 
-        public static AsyncFuncActivity<TResult> Invoke<TResult>(Func<Task<TResult>> func, string displayName = null)
+        public static AsyncFuncActivity<TResult> InvokeAsync<TResult>(Func<Task<TResult>> func, string displayName = null)
         {
             Contract.Requires<ArgumentNullException>(func != null);
 
@@ -20,7 +19,7 @@ namespace Cogito.Activities
             };
         }
 
-        public static AsyncFuncActivity<TValue1, TValue2> Then<TValue1, TValue2>(this Activity<TValue1> activity, Func<TValue1, Task<TValue2>> func)
+        public static AsyncFuncActivity<TValue1, TValue2> ThenAsync<TValue1, TValue2>(this Activity<TValue1> activity, Func<TValue1, Task<TValue2>> func)
         {
             Contract.Requires<ArgumentNullException>(activity != null);
             Contract.Requires<ArgumentNullException>(func != null);
@@ -39,10 +38,10 @@ namespace Cogito.Activities
 
         public static implicit operator ActivityFunc<TResult>(AsyncFuncActivity<TResult> activity)
         {
-            return Expressions.Delegate(() =>
+            return activity != null ? Expressions.Delegate(() =>
             {
                 return activity;
-            });
+            }) : null;
         }
 
         public static implicit operator ActivityDelegate(AsyncFuncActivity<TResult> activity)
@@ -67,17 +66,6 @@ namespace Cogito.Activities
         {
             Func = func;
             Result = result;
-        }
-
-        /// <summary>
-        /// Initializes a new instance.
-        /// </summary>
-        /// <param name="result"></param>
-        /// <param name="func"></param>
-        public AsyncFuncActivity(OutArgument<TResult> result = null, Func<Task<TResult>> func = null)
-        {
-            Result = result;
-            Func = func;
         }
 
         /// <summary>

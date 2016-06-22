@@ -71,7 +71,7 @@ namespace Cogito.Activities
         {
             Contract.Requires<ArgumentNullException>(exception != null);
 
-            return Throw(Invoke(exception, displayName), displayName);
+            return Throw(InvokeAsync(exception, displayName), displayName);
         }
 
         /// <summary>
@@ -131,7 +131,7 @@ namespace Cogito.Activities
         {
             Contract.Requires<ArgumentNullException>(exception != null);
 
-            return Throw(Invoke(exception, displayName), displayName);
+            return Throw(InvokeAsync(exception, displayName), displayName);
         }
 
     }

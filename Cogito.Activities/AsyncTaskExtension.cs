@@ -1,8 +1,4 @@
-﻿using System;
-using System.Diagnostics.Contracts;
-using System.Threading.Tasks;
-
-namespace Cogito.Activities
+﻿namespace Cogito.Activities
 {
 
     /// <summary>
@@ -11,47 +7,32 @@ namespace Cogito.Activities
     public class AsyncTaskExtension
     {
 
-        static readonly Lazy<AsyncTaskExtension> defaultValue;
-
-        /// <summary>
-        /// Initializes the static instance.
-        /// </summary>
-        static AsyncTaskExtension()
-        {
-            defaultValue = new Lazy<AsyncTaskExtension>(() => new AsyncTaskExtension(), true);
-        }
-
         /// <summary>
         /// Gets the default implementation.
         /// </summary>
-        public static AsyncTaskExtension Default
+        public static AsyncTaskExtension Default { get; private set; } = new AsyncTaskExtension();
+
+        /// <summary>
+        /// Locally configured <see cref="AsyncTaskExecutor"/>.
+        /// </summary>
+        AsyncTaskExecutor executor;
+
+        /// <summary>
+        /// Initializes a new instance.
+        /// </summary>
+        /// <param name="executor"></param>
+        public AsyncTaskExtension(AsyncTaskExecutor executor = null)
         {
-            get { return defaultValue.Value; }
+            this.executor = executor;
         }
 
         /// <summary>
-        /// Executes the action.
+        /// Gets the <see cref="AsyncTaskExecutor"/> used for submitting tasks from workflow activities.
         /// </summary>
-        /// <param name="action"></param>
-        /// <returns></returns>
-        public virtual Task ExecuteAsync(Func<Task> action)
+        public AsyncTaskExecutor Executor
         {
-            Contract.Requires<ArgumentNullException>(action != null);
-
-            return action();
-        }
-
-        /// <summary>
-        /// Executes the function.
-        /// </summary>
-        /// <typeparam name="TResult"></typeparam>
-        /// <param name="func"></param>
-        /// <returns></returns>
-        public virtual Task<TResult> ExecuteAsync<TResult>(Func<Task<TResult>> func)
-        {
-            Contract.Requires<ArgumentNullException>(func != null);
-
-            return func();
+            get { return executor ?? AsyncTaskExecutor.Default; }
+            set { executor = value; }
         }
 
     }

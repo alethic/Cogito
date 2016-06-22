@@ -4,14 +4,14 @@
 <#@ import namespace="System.Text" #>
 <#@ import namespace="System.Collections.Generic" #>
 <#@ output extension=".cs" #>
+<#@ include file="_.t4" #>
 using System;
 using System.Activities;
-using System.Diagnostics.Contracts;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
 namespace Cogito.Activities
 {
+
 <#
 for (int i = 1; i <= 8; i++)
 {
@@ -29,7 +29,7 @@ for (int i = 1; i <= 8; i++)
         /// <param name="activity"></param>
         public static implicit operator ActivityAction<<#= Repeat("TArg{0}", i, ", ") #>>(ActionActivity<<#= Repeat("TArg{0}", i, ", ") #>> activity)
         {
-            return Expressions.Delegate<<#= Repeat("TArg{0}", i, ", ") #>>((<#= Repeat("arg{0}", i, ", ") #>) =>
+            return activity != null ? Expressions.Delegate<<#= Repeat("TArg{0}", i, ", ") #>>((<#= Repeat("arg{0}", i, ", ") #>) =>
             {
 <#
     for (int j = 1; j <= i; j++)
@@ -40,7 +40,7 @@ for (int i = 1; i <= 8; i++)
     }
 #>
                 return activity;
-            });
+            }) : null;
         }
         
     
@@ -50,10 +50,7 @@ for (int i = 1; i <= 8; i++)
         /// <param name="activity"></param>
         public static implicit operator ActivityDelegate(ActionActivity<<#= Repeat("TArg{0}", i, ", ") #>> activity)
         {
-            return Expressions.Delegate<<#= Repeat("TArg{0}", i, ", ") #>>((<#= Repeat("arg{0}", i, ", ") #>) =>
-            {
-                return activity;
-            });
+            return activity;
         }
 
         /// <summary>
@@ -87,31 +84,6 @@ for (int i = 1; i <= 8; i++)
 <#
     }
 #>
-        }
-
-        /// <summary>
-        /// Initializes a new instance.
-        /// </summary>
-        /// <param name="action"></param>
-<#
-    for (int j = 1; j <= i; j++)
-    {
-#>
-        /// <param name="arg<#= j #>"></param>
-<#
-    }
-#>
-        public ActionActivity(<#= Repeat("InArgument<TArg{0}> arg{0} = null", i, ", ") #>, Action<<#= Repeat("TArg{0}", i, ", ") #>> action = null)
-        {
-<#
-    for (int j = 1; j <= i; j++)
-    {
-#>
-            Argument<#= j #> = arg<#= j #>;
-<#
-    }
-#>
-            Action = action;
         }
 
         /// <summary>
@@ -159,28 +131,3 @@ for (int i = 1; i <= 8; i++)
 #>
 
 }
-
-<#+
-
-string Repeat(string format, int count, string separator)
-{
-    return string.Join(separator, Enumerable.Range(1, count).Select(i => string.Format(format , i)));
-}
-
-void WriteTypeParamsComments(int count)
-{
-    for (int i = 1; i <= count; i++)
-    {
-        WriteLine("/// <typeparam name=\"TArg" + i + "\"></typeparam>");
-    }
-}
-
-void WriteArgParamsComments(int count)
-{
-    for (int i = 1; i <= count; i++)
-    {
-        WriteLine("/// <param name=\"arg" + i + "\"></param>");
-    }
-}
-
-#>

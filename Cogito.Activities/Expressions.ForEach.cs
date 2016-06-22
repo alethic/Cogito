@@ -3,7 +3,6 @@ using System.Activities;
 using System.Activities.Statements;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
 namespace Cogito.Activities
@@ -61,7 +60,7 @@ namespace Cogito.Activities
             Contract.Requires<ArgumentNullException>(values != null);
             Contract.Requires<ArgumentNullException>(body != null);
 
-            return ForEach(values, Delegate<TElement>(arg => Invoke(body, arg, displayName)), displayName);
+            return ForEach(values, Delegate<TElement>(arg => Invoke<TElement>(body, arg, displayName)), displayName);
         }
 
         /// <summary>
@@ -77,7 +76,7 @@ namespace Cogito.Activities
             Contract.Requires<ArgumentNullException>(values != null);
             Contract.Requires<ArgumentNullException>(body != null);
 
-            return ForEach(values, Delegate<TElement>(arg => Invoke(body, arg, displayName)), displayName);
+            return ForEach(values, Delegate<TElement>(arg => InvokeAsync<TElement>(body, arg, displayName)), displayName);
         }
 
         /// <summary>
@@ -130,7 +129,7 @@ namespace Cogito.Activities
             Contract.Requires<ArgumentNullException>(values != null);
             Contract.Requires<ArgumentNullException>(body != null);
 
-            return ForEach(values, Delegate<TElement>(arg => Invoke(body, arg, displayName)), displayName);
+            return ForEach(values, Delegate<TElement>(arg => Invoke<TElement>(body, arg, displayName)), displayName);
         }
 
         /// <summary>
@@ -146,7 +145,7 @@ namespace Cogito.Activities
             Contract.Requires<ArgumentNullException>(values != null);
             Contract.Requires<ArgumentNullException>(body != null);
 
-            return ForEach(values, Delegate<TElement>(arg => Invoke(body, arg, displayName)), displayName);
+            return ForEach(values, Delegate<TElement>(arg => InvokeAsync<TElement>(body, arg, displayName)), displayName);
         }
 
         /// <summary>
@@ -198,7 +197,7 @@ namespace Cogito.Activities
             Contract.Requires<ArgumentNullException>(values != null);
             Contract.Requires<ArgumentNullException>(body != null);
 
-            return ForEach(values, Delegate<TElement>(arg => Invoke(body, arg, displayName)), displayName);
+            return ForEach(values, Delegate<TElement>(arg => Invoke<TElement>(body, arg, displayName)), displayName);
         }
 
         /// <summary>
@@ -214,7 +213,7 @@ namespace Cogito.Activities
             Contract.Requires<ArgumentNullException>(values != null);
             Contract.Requires<ArgumentNullException>(body != null);
 
-            return ForEach(values, Delegate<TElement>(arg => Invoke(body, arg, displayName)), displayName);
+            return ForEach(values, Delegate<TElement>(arg => InvokeAsync<TElement>(body, arg, displayName)), displayName);
         }
 
         /// <summary>
@@ -267,7 +266,7 @@ namespace Cogito.Activities
             Contract.Requires<ArgumentNullException>(values != null);
             Contract.Requires<ArgumentNullException>(body != null);
 
-            return ForEach(values, Delegate<TElement>(arg => Invoke(body, arg, displayName)), displayName);
+            return ForEach(values, Delegate<TElement>(arg => Invoke<TElement>(body, arg, displayName)), displayName);
         }
 
         /// <summary>
@@ -283,7 +282,7 @@ namespace Cogito.Activities
             Contract.Requires<ArgumentNullException>(values != null);
             Contract.Requires<ArgumentNullException>(body != null);
 
-            return ForEach(values, Delegate<TElement>(arg => Invoke(body, arg, displayName)), displayName);
+            return ForEach(values, Delegate<TElement>(arg => InvokeAsync<TElement>(body, arg, displayName)), displayName);
         }
 
         /// <summary>
@@ -336,7 +335,7 @@ namespace Cogito.Activities
             Contract.Requires<ArgumentNullException>(values != null);
             Contract.Requires<ArgumentNullException>(body != null);
 
-            return ForEach(values, Delegate<TElement>(arg => Invoke(body, arg, displayName)), displayName);
+            return ForEach(values, Delegate<TElement>(arg => Invoke<TElement>(body, arg, displayName)), displayName);
         }
 
         /// <summary>
@@ -352,7 +351,7 @@ namespace Cogito.Activities
             Contract.Requires<ArgumentNullException>(values != null);
             Contract.Requires<ArgumentNullException>(body != null);
 
-            return ForEach(values, Delegate<TElement>(arg => Invoke(body, arg, displayName)), displayName);
+            return ForEach(values, Delegate<TElement>(arg => InvokeAsync<TElement>(body, arg, displayName)), displayName);
         }
 
         /// <summary>
@@ -368,7 +367,7 @@ namespace Cogito.Activities
             Contract.Requires<ArgumentNullException>(values != null);
             Contract.Requires<ArgumentNullException>(body != null);
 
-            return ForEach(Invoke(values, displayName), Delegate(body), displayName);
+            return ForEach(Invoke<IEnumerable<TElement>>(values, displayName), Delegate(body), displayName);
         }
 
         /// <summary>
@@ -384,7 +383,7 @@ namespace Cogito.Activities
             Contract.Requires<ArgumentNullException>(values != null);
             Contract.Requires<ArgumentNullException>(body != null);
 
-            return ForEach(Invoke(values, displayName), body, displayName);
+            return ForEach(Invoke<IEnumerable<TElement>>(values, displayName), body, displayName);
         }
 
         /// <summary>
@@ -400,7 +399,7 @@ namespace Cogito.Activities
             Contract.Requires<ArgumentNullException>(values != null);
             Contract.Requires<ArgumentNullException>(body != null);
 
-            return ForEach(Invoke(values, displayName), Delegate<TElement>(arg => Invoke(body, arg, displayName)), displayName);
+            return ForEach(Invoke<IEnumerable<TElement>>(values, displayName), Delegate<TElement>(arg => Invoke<TElement>(body, arg, displayName)), displayName);
         }
 
         /// <summary>
@@ -416,7 +415,7 @@ namespace Cogito.Activities
             Contract.Requires<ArgumentNullException>(values != null);
             Contract.Requires<ArgumentNullException>(body != null);
 
-            return ForEach(Invoke(values, displayName), Delegate<TElement>(arg => Invoke(body, arg, displayName)), displayName);
+            return ForEach(Invoke<IEnumerable<TElement>>(values, displayName), Delegate<TElement>(arg => InvokeAsync<TElement>(body, arg, displayName)), displayName);
         }
 
         /// <summary>
@@ -432,7 +431,7 @@ namespace Cogito.Activities
             Contract.Requires<ArgumentNullException>(values != null);
             Contract.Requires<ArgumentNullException>(body != null);
 
-            return ForEach(Invoke(values, displayName), Delegate(body), displayName);
+            return ForEach(InvokeAsync<IEnumerable<TElement>>(values, displayName), Delegate(body), displayName);
         }
 
         /// <summary>
@@ -448,7 +447,7 @@ namespace Cogito.Activities
             Contract.Requires<ArgumentNullException>(values != null);
             Contract.Requires<ArgumentNullException>(body != null);
 
-            return ForEach(Invoke(values, displayName), body, displayName);
+            return ForEach(InvokeAsync<IEnumerable<TElement>>(values, displayName), body, displayName);
         }
 
         /// <summary>
@@ -464,7 +463,7 @@ namespace Cogito.Activities
             Contract.Requires<ArgumentNullException>(values != null);
             Contract.Requires<ArgumentNullException>(body != null);
 
-            return ForEach(Invoke(values, displayName), Delegate<TElement>(arg => Invoke(body, arg, displayName)), displayName);
+            return ForEach(InvokeAsync<IEnumerable<TElement>>(values, displayName), Delegate<TElement>(arg => Invoke<TElement>(body, arg, displayName)), displayName);
         }
 
         /// <summary>
@@ -480,7 +479,7 @@ namespace Cogito.Activities
             Contract.Requires<ArgumentNullException>(values != null);
             Contract.Requires<ArgumentNullException>(body != null);
 
-            return ForEach(Invoke(values, displayName), Delegate<TElement>(arg => Invoke(body, arg, displayName)), displayName);
+            return ForEach(InvokeAsync<IEnumerable<TElement>>(values, displayName), Delegate<TElement>(arg => InvokeAsync<TElement>(body, arg, displayName)), displayName);
         }
 
         /// <summary>
@@ -534,7 +533,7 @@ namespace Cogito.Activities
             Contract.Requires<ArgumentNullException>(values != null);
             Contract.Requires<ArgumentNullException>(body != null);
 
-            return ForEach(values, Delegate<TElement>(arg => Invoke(body, arg, displayName)), displayName);
+            return ForEach(values, Delegate<TElement>(arg => Invoke<TElement>(body, arg, displayName)), displayName);
         }
 
         /// <summary>
@@ -550,7 +549,7 @@ namespace Cogito.Activities
             Contract.Requires<ArgumentNullException>(values != null);
             Contract.Requires<ArgumentNullException>(body != null);
 
-            return ForEach(values, Delegate<TElement>(arg => Invoke(body, arg, displayName)), displayName);
+            return ForEach(values, Delegate<TElement>(arg => InvokeAsync<TElement>(body, arg, displayName)), displayName);
         }
 
         /// <summary>
@@ -566,7 +565,7 @@ namespace Cogito.Activities
             Contract.Requires<ArgumentNullException>(values != null);
             Contract.Requires<ArgumentNullException>(body != null);
 
-            return ForEach(Invoke(values, displayName), Delegate(body), displayName);
+            return ForEach(Invoke<TElement[]>(values, displayName), Delegate(body), displayName);
         }
 
         /// <summary>
@@ -582,7 +581,7 @@ namespace Cogito.Activities
             Contract.Requires<ArgumentNullException>(values != null);
             Contract.Requires<ArgumentNullException>(body != null);
 
-            return ForEach(Invoke(values, displayName), body, displayName);
+            return ForEach(Invoke<TElement[]>(values, displayName), body, displayName);
         }
 
         /// <summary>
@@ -598,7 +597,7 @@ namespace Cogito.Activities
             Contract.Requires<ArgumentNullException>(values != null);
             Contract.Requires<ArgumentNullException>(body != null);
 
-            return ForEach(Invoke(values, displayName), Delegate<TElement>(arg => Invoke(body, arg, displayName)), displayName);
+            return ForEach(Invoke<TElement[]>(values, displayName), Delegate<TElement>(arg => Invoke<TElement>(body, arg, displayName)), displayName);
         }
 
         /// <summary>
@@ -614,7 +613,7 @@ namespace Cogito.Activities
             Contract.Requires<ArgumentNullException>(values != null);
             Contract.Requires<ArgumentNullException>(body != null);
 
-            return ForEach(Invoke(values, displayName), Delegate<TElement>(arg => Invoke(body, arg, displayName)), displayName);
+            return ForEach(Invoke<TElement[]>(values, displayName), Delegate<TElement>(arg => InvokeAsync<TElement>(body, arg, displayName)), displayName);
         }
 
         /// <summary>
@@ -630,7 +629,7 @@ namespace Cogito.Activities
             Contract.Requires<ArgumentNullException>(values != null);
             Contract.Requires<ArgumentNullException>(body != null);
 
-            return ForEach(Invoke(values, displayName), Delegate(body), displayName);
+            return ForEach(InvokeAsync<TElement[]>(values, displayName), Delegate(body), displayName);
         }
 
         /// <summary>
@@ -646,7 +645,7 @@ namespace Cogito.Activities
             Contract.Requires<ArgumentNullException>(values != null);
             Contract.Requires<ArgumentNullException>(body != null);
 
-            return ForEach(Invoke(values, displayName), body, displayName);
+            return ForEach(InvokeAsync<TElement[]>(values, displayName), body, displayName);
         }
 
         /// <summary>
@@ -662,7 +661,7 @@ namespace Cogito.Activities
             Contract.Requires<ArgumentNullException>(values != null);
             Contract.Requires<ArgumentNullException>(body != null);
 
-            return ForEach(Invoke(values, displayName), Delegate<TElement>(arg => Invoke(body, arg, displayName)), displayName);
+            return ForEach(InvokeAsync<TElement[]>(values, displayName), Delegate<TElement>(arg => Invoke(body, arg, displayName)), displayName);
         }
 
         /// <summary>
@@ -678,7 +677,7 @@ namespace Cogito.Activities
             Contract.Requires<ArgumentNullException>(values != null);
             Contract.Requires<ArgumentNullException>(body != null);
 
-            return ForEach(Invoke(values, displayName), Delegate<TElement>(arg => Invoke(body, arg, displayName)), displayName);
+            return ForEach(InvokeAsync<TElement[]>(values, displayName), Delegate<TElement>(arg => InvokeAsync<TElement>(body, arg, displayName)), displayName);
         }
 
     }

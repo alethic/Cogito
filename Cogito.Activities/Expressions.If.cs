@@ -123,7 +123,7 @@ namespace Cogito.Activities
             Contract.Requires<ArgumentNullException>(condition != null);
             Contract.Requires<ArgumentNullException>(then != null);
 
-            return If(Invoke(condition), then, @else);
+            return If(InvokeAsync(condition), then, @else);
         }
 
         /// <summary>
@@ -137,7 +137,7 @@ namespace Cogito.Activities
             Contract.Requires<ArgumentNullException>(condition != null);
             Contract.Requires<ArgumentNullException>(then != null);
 
-            return If(Invoke(condition), then, null);
+            return If(InvokeAsync(condition), then, null);
         }
 
         /// <summary>
@@ -243,7 +243,7 @@ namespace Cogito.Activities
             Contract.Requires<ArgumentNullException>(condition != null);
             Contract.Requires<ArgumentNullException>(then != null);
 
-            return If(Invoke(condition), Invoke(then), @else != null ? Invoke(@else) : null);
+            return If(InvokeAsync(condition), Invoke(then), @else != null ? Invoke(@else) : null);
         }
 
         /// <summary>
@@ -257,7 +257,7 @@ namespace Cogito.Activities
             Contract.Requires<ArgumentNullException>(condition != null);
             Contract.Requires<ArgumentNullException>(then != null);
 
-            return If(Invoke(condition), Invoke(then), null);
+            return If(InvokeAsync(condition), Invoke(then), null);
         }
 
         /// <summary>
@@ -273,7 +273,7 @@ namespace Cogito.Activities
             Contract.Requires<ArgumentNullException>(condition != null);
             Contract.Requires<ArgumentNullException>(then != null);
 
-            return If(condition, Invoke(then), @else != null ? Invoke(@else) : null);
+            return If(condition, InvokeAsync(then), @else != null ? InvokeAsync(@else) : null);
         }
 
         /// <summary>
@@ -287,7 +287,7 @@ namespace Cogito.Activities
             Contract.Requires<ArgumentNullException>(condition != null);
             Contract.Requires<ArgumentNullException>(then != null);
 
-            return If(condition, Invoke(then), null);
+            return If(condition, InvokeAsync(then), null);
         }
 
         /// <summary>
@@ -303,7 +303,7 @@ namespace Cogito.Activities
             Contract.Requires<ArgumentNullException>(condition != null);
             Contract.Requires<ArgumentNullException>(then != null);
 
-            return If(condition, Invoke(then), @else != null ? Invoke(@else) : null);
+            return If(condition, InvokeAsync(then), @else != null ? InvokeAsync(@else) : null);
         }
 
         /// <summary>
@@ -317,7 +317,7 @@ namespace Cogito.Activities
             Contract.Requires<ArgumentNullException>(condition != null);
             Contract.Requires<ArgumentNullException>(then != null);
 
-            return If(condition, Invoke(then), null);
+            return If(condition, InvokeAsync(then), null);
         }
 
         /// <summary>
@@ -333,7 +333,7 @@ namespace Cogito.Activities
             Contract.Requires<ArgumentNullException>(condition != null);
             Contract.Requires<ArgumentNullException>(then != null);
 
-            return If(Invoke(condition), Invoke(then), @else != null ? Invoke(@else) : null);
+            return If(Invoke(condition), InvokeAsync(then), @else != null ? InvokeAsync(@else) : null);
         }
 
         /// <summary>
@@ -347,7 +347,7 @@ namespace Cogito.Activities
             Contract.Requires<ArgumentNullException>(condition != null);
             Contract.Requires<ArgumentNullException>(then != null);
 
-            return If(Invoke(condition), Invoke(then), null);
+            return If(Invoke(condition), InvokeAsync(then), null);
         }
 
         /// <summary>
@@ -363,7 +363,7 @@ namespace Cogito.Activities
             Contract.Requires<ArgumentNullException>(condition != null);
             Contract.Requires<ArgumentNullException>(then != null);
 
-            return If(Invoke(condition), Invoke(then), @else != null ? Invoke(@else) : null);
+            return If(InvokeAsync(condition), InvokeAsync(then), @else != null ? InvokeAsync(@else) : null);
         }
 
         /// <summary>
@@ -377,7 +377,7 @@ namespace Cogito.Activities
             Contract.Requires<ArgumentNullException>(condition != null);
             Contract.Requires<ArgumentNullException>(then != null);
 
-            return If(Invoke(condition), Invoke(then), null);
+            return If(InvokeAsync(condition), InvokeAsync(then), null);
         }
 
         /// <summary>
@@ -393,7 +393,7 @@ namespace Cogito.Activities
             Contract.Requires<ArgumentNullException>(condition != null);
             Contract.Requires<ArgumentNullException>(then != null);
 
-            return If(condition, Invoke(then), @else != null ? Invoke(@else) : null);
+            return If(condition, InvokeAsync(then), @else != null ? Invoke(@else) : null);
         }
 
         /// <summary>
@@ -409,7 +409,7 @@ namespace Cogito.Activities
             Contract.Requires<ArgumentNullException>(condition != null);
             Contract.Requires<ArgumentNullException>(then != null);
 
-            return If(condition, Invoke(then), @else != null ? Invoke(@else) : null);
+            return If(condition, Invoke(then), @else != null ? InvokeAsync(@else) : null);
         }
 
         /// <summary>
@@ -425,7 +425,7 @@ namespace Cogito.Activities
             Contract.Requires<ArgumentNullException>(condition != null);
             Contract.Requires<ArgumentNullException>(then != null);
 
-            return If(Invoke(condition), Invoke(then), @else != null ? Invoke(@else) : null);
+            return If(Invoke(condition), InvokeAsync(then), @else != null ? Invoke(@else) : null);
         }
 
         /// <summary>
@@ -441,7 +441,7 @@ namespace Cogito.Activities
             Contract.Requires<ArgumentNullException>(condition != null);
             Contract.Requires<ArgumentNullException>(then != null);
 
-            return If(Invoke(condition), Invoke(then), @else != null ? Invoke(@else) : null);
+            return If(InvokeAsync(condition), InvokeAsync(then), @else != null ? Invoke(@else) : null);
         }
 
         /// <summary>
@@ -457,7 +457,7 @@ namespace Cogito.Activities
             Contract.Requires<ArgumentNullException>(condition != null);
             Contract.Requires<ArgumentNullException>(then != null);
 
-            return If(Invoke(condition), Invoke(then), @else != null ? Invoke(@else) : null);
+            return If(InvokeAsync(condition), Invoke(then), @else != null ? InvokeAsync(@else) : null);
         }
 
     }

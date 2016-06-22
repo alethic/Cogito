@@ -141,11 +141,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AsyncFuncActivity.partial.cs">
+      <DependentUpon>AsyncFuncActivity.partial.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="ActionActivity.partial.cs">
       <DependentUpon>ActionActivity.partial.tt</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
+    <Compile Include="AsyncTaskExecutor.cs" />
     <Compile Include="Expressions.ActionActivity.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -246,6 +252,7 @@
     <Compile Include="Expressions.WaitThen.cs" />
     <Compile Include="Expressions.With.cs" />
     <None Include="packages.config" />
+    <None Include="_.t4" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Cogito.Core\Cogito.Core.csproj">
@@ -314,6 +321,12 @@
     <None Include="Expressions.InvokeFunc.partial.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Expressions.InvokeFunc.partial.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="AsyncFuncActivity.partial.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>AsyncFuncActivity.partial.cs</LastGenOutput>
     </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

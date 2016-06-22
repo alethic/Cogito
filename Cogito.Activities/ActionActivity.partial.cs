@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Activities;
-using System.Diagnostics.Contracts;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
 namespace Cogito.Activities
 {
+
     /// <summary>
     /// Provides an <see cref="Activity"/> that executes the given action with 1 arguments.
     /// </summary>
@@ -19,11 +18,11 @@ namespace Cogito.Activities
         /// <param name="activity"></param>
         public static implicit operator ActivityAction<TArg1>(ActionActivity<TArg1> activity)
         {
-            return Expressions.Delegate<TArg1>((arg1) =>
+            return activity != null ? Expressions.Delegate<TArg1>((arg1) =>
             {
                 activity.Argument1 = arg1;
                 return activity;
-            });
+            }) : null;
         }
         
     
@@ -33,10 +32,7 @@ namespace Cogito.Activities
         /// <param name="activity"></param>
         public static implicit operator ActivityDelegate(ActionActivity<TArg1> activity)
         {
-            return Expressions.Delegate<TArg1>((arg1) =>
-            {
-                return activity;
-            });
+            return activity;
         }
 
         /// <summary>
@@ -56,17 +52,6 @@ namespace Cogito.Activities
         {
             Action = action;
             Argument1 = arg1;
-        }
-
-        /// <summary>
-        /// Initializes a new instance.
-        /// </summary>
-        /// <param name="action"></param>
-        /// <param name="arg1"></param>
-        public ActionActivity(InArgument<TArg1> arg1 = null, Action<TArg1> action = null)
-        {
-            Argument1 = arg1;
-            Action = action;
         }
 
         /// <summary>
@@ -108,12 +93,12 @@ namespace Cogito.Activities
         /// <param name="activity"></param>
         public static implicit operator ActivityAction<TArg1, TArg2>(ActionActivity<TArg1, TArg2> activity)
         {
-            return Expressions.Delegate<TArg1, TArg2>((arg1, arg2) =>
+            return activity != null ? Expressions.Delegate<TArg1, TArg2>((arg1, arg2) =>
             {
                 activity.Argument1 = arg1;
                 activity.Argument2 = arg2;
                 return activity;
-            });
+            }) : null;
         }
         
     
@@ -123,10 +108,7 @@ namespace Cogito.Activities
         /// <param name="activity"></param>
         public static implicit operator ActivityDelegate(ActionActivity<TArg1, TArg2> activity)
         {
-            return Expressions.Delegate<TArg1, TArg2>((arg1, arg2) =>
-            {
-                return activity;
-            });
+            return activity;
         }
 
         /// <summary>
@@ -148,19 +130,6 @@ namespace Cogito.Activities
             Action = action;
             Argument1 = arg1;
             Argument2 = arg2;
-        }
-
-        /// <summary>
-        /// Initializes a new instance.
-        /// </summary>
-        /// <param name="action"></param>
-        /// <param name="arg1"></param>
-        /// <param name="arg2"></param>
-        public ActionActivity(InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, Action<TArg1, TArg2> action = null)
-        {
-            Argument1 = arg1;
-            Argument2 = arg2;
-            Action = action;
         }
 
         /// <summary>
@@ -209,13 +178,13 @@ namespace Cogito.Activities
         /// <param name="activity"></param>
         public static implicit operator ActivityAction<TArg1, TArg2, TArg3>(ActionActivity<TArg1, TArg2, TArg3> activity)
         {
-            return Expressions.Delegate<TArg1, TArg2, TArg3>((arg1, arg2, arg3) =>
+            return activity != null ? Expressions.Delegate<TArg1, TArg2, TArg3>((arg1, arg2, arg3) =>
             {
                 activity.Argument1 = arg1;
                 activity.Argument2 = arg2;
                 activity.Argument3 = arg3;
                 return activity;
-            });
+            }) : null;
         }
         
     
@@ -225,10 +194,7 @@ namespace Cogito.Activities
         /// <param name="activity"></param>
         public static implicit operator ActivityDelegate(ActionActivity<TArg1, TArg2, TArg3> activity)
         {
-            return Expressions.Delegate<TArg1, TArg2, TArg3>((arg1, arg2, arg3) =>
-            {
-                return activity;
-            });
+            return activity;
         }
 
         /// <summary>
@@ -252,21 +218,6 @@ namespace Cogito.Activities
             Argument1 = arg1;
             Argument2 = arg2;
             Argument3 = arg3;
-        }
-
-        /// <summary>
-        /// Initializes a new instance.
-        /// </summary>
-        /// <param name="action"></param>
-        /// <param name="arg1"></param>
-        /// <param name="arg2"></param>
-        /// <param name="arg3"></param>
-        public ActionActivity(InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, InArgument<TArg3> arg3 = null, Action<TArg1, TArg2, TArg3> action = null)
-        {
-            Argument1 = arg1;
-            Argument2 = arg2;
-            Argument3 = arg3;
-            Action = action;
         }
 
         /// <summary>
@@ -322,14 +273,14 @@ namespace Cogito.Activities
         /// <param name="activity"></param>
         public static implicit operator ActivityAction<TArg1, TArg2, TArg3, TArg4>(ActionActivity<TArg1, TArg2, TArg3, TArg4> activity)
         {
-            return Expressions.Delegate<TArg1, TArg2, TArg3, TArg4>((arg1, arg2, arg3, arg4) =>
+            return activity != null ? Expressions.Delegate<TArg1, TArg2, TArg3, TArg4>((arg1, arg2, arg3, arg4) =>
             {
                 activity.Argument1 = arg1;
                 activity.Argument2 = arg2;
                 activity.Argument3 = arg3;
                 activity.Argument4 = arg4;
                 return activity;
-            });
+            }) : null;
         }
         
     
@@ -339,10 +290,7 @@ namespace Cogito.Activities
         /// <param name="activity"></param>
         public static implicit operator ActivityDelegate(ActionActivity<TArg1, TArg2, TArg3, TArg4> activity)
         {
-            return Expressions.Delegate<TArg1, TArg2, TArg3, TArg4>((arg1, arg2, arg3, arg4) =>
-            {
-                return activity;
-            });
+            return activity;
         }
 
         /// <summary>
@@ -368,23 +316,6 @@ namespace Cogito.Activities
             Argument2 = arg2;
             Argument3 = arg3;
             Argument4 = arg4;
-        }
-
-        /// <summary>
-        /// Initializes a new instance.
-        /// </summary>
-        /// <param name="action"></param>
-        /// <param name="arg1"></param>
-        /// <param name="arg2"></param>
-        /// <param name="arg3"></param>
-        /// <param name="arg4"></param>
-        public ActionActivity(InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, InArgument<TArg3> arg3 = null, InArgument<TArg4> arg4 = null, Action<TArg1, TArg2, TArg3, TArg4> action = null)
-        {
-            Argument1 = arg1;
-            Argument2 = arg2;
-            Argument3 = arg3;
-            Argument4 = arg4;
-            Action = action;
         }
 
         /// <summary>
@@ -447,7 +378,7 @@ namespace Cogito.Activities
         /// <param name="activity"></param>
         public static implicit operator ActivityAction<TArg1, TArg2, TArg3, TArg4, TArg5>(ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5> activity)
         {
-            return Expressions.Delegate<TArg1, TArg2, TArg3, TArg4, TArg5>((arg1, arg2, arg3, arg4, arg5) =>
+            return activity != null ? Expressions.Delegate<TArg1, TArg2, TArg3, TArg4, TArg5>((arg1, arg2, arg3, arg4, arg5) =>
             {
                 activity.Argument1 = arg1;
                 activity.Argument2 = arg2;
@@ -455,7 +386,7 @@ namespace Cogito.Activities
                 activity.Argument4 = arg4;
                 activity.Argument5 = arg5;
                 return activity;
-            });
+            }) : null;
         }
         
     
@@ -465,10 +396,7 @@ namespace Cogito.Activities
         /// <param name="activity"></param>
         public static implicit operator ActivityDelegate(ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5> activity)
         {
-            return Expressions.Delegate<TArg1, TArg2, TArg3, TArg4, TArg5>((arg1, arg2, arg3, arg4, arg5) =>
-            {
-                return activity;
-            });
+            return activity;
         }
 
         /// <summary>
@@ -496,25 +424,6 @@ namespace Cogito.Activities
             Argument3 = arg3;
             Argument4 = arg4;
             Argument5 = arg5;
-        }
-
-        /// <summary>
-        /// Initializes a new instance.
-        /// </summary>
-        /// <param name="action"></param>
-        /// <param name="arg1"></param>
-        /// <param name="arg2"></param>
-        /// <param name="arg3"></param>
-        /// <param name="arg4"></param>
-        /// <param name="arg5"></param>
-        public ActionActivity(InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, InArgument<TArg3> arg3 = null, InArgument<TArg4> arg4 = null, InArgument<TArg5> arg5 = null, Action<TArg1, TArg2, TArg3, TArg4, TArg5> action = null)
-        {
-            Argument1 = arg1;
-            Argument2 = arg2;
-            Argument3 = arg3;
-            Argument4 = arg4;
-            Argument5 = arg5;
-            Action = action;
         }
 
         /// <summary>
@@ -584,7 +493,7 @@ namespace Cogito.Activities
         /// <param name="activity"></param>
         public static implicit operator ActivityAction<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6> activity)
         {
-            return Expressions.Delegate<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>((arg1, arg2, arg3, arg4, arg5, arg6) =>
+            return activity != null ? Expressions.Delegate<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>((arg1, arg2, arg3, arg4, arg5, arg6) =>
             {
                 activity.Argument1 = arg1;
                 activity.Argument2 = arg2;
@@ -593,7 +502,7 @@ namespace Cogito.Activities
                 activity.Argument5 = arg5;
                 activity.Argument6 = arg6;
                 return activity;
-            });
+            }) : null;
         }
         
     
@@ -603,10 +512,7 @@ namespace Cogito.Activities
         /// <param name="activity"></param>
         public static implicit operator ActivityDelegate(ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6> activity)
         {
-            return Expressions.Delegate<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>((arg1, arg2, arg3, arg4, arg5, arg6) =>
-            {
-                return activity;
-            });
+            return activity;
         }
 
         /// <summary>
@@ -636,27 +542,6 @@ namespace Cogito.Activities
             Argument4 = arg4;
             Argument5 = arg5;
             Argument6 = arg6;
-        }
-
-        /// <summary>
-        /// Initializes a new instance.
-        /// </summary>
-        /// <param name="action"></param>
-        /// <param name="arg1"></param>
-        /// <param name="arg2"></param>
-        /// <param name="arg3"></param>
-        /// <param name="arg4"></param>
-        /// <param name="arg5"></param>
-        /// <param name="arg6"></param>
-        public ActionActivity(InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, InArgument<TArg3> arg3 = null, InArgument<TArg4> arg4 = null, InArgument<TArg5> arg5 = null, InArgument<TArg6> arg6 = null, Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6> action = null)
-        {
-            Argument1 = arg1;
-            Argument2 = arg2;
-            Argument3 = arg3;
-            Argument4 = arg4;
-            Argument5 = arg5;
-            Argument6 = arg6;
-            Action = action;
         }
 
         /// <summary>
@@ -733,7 +618,7 @@ namespace Cogito.Activities
         /// <param name="activity"></param>
         public static implicit operator ActivityAction<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7> activity)
         {
-            return Expressions.Delegate<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>((arg1, arg2, arg3, arg4, arg5, arg6, arg7) =>
+            return activity != null ? Expressions.Delegate<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>((arg1, arg2, arg3, arg4, arg5, arg6, arg7) =>
             {
                 activity.Argument1 = arg1;
                 activity.Argument2 = arg2;
@@ -743,7 +628,7 @@ namespace Cogito.Activities
                 activity.Argument6 = arg6;
                 activity.Argument7 = arg7;
                 return activity;
-            });
+            }) : null;
         }
         
     
@@ -753,10 +638,7 @@ namespace Cogito.Activities
         /// <param name="activity"></param>
         public static implicit operator ActivityDelegate(ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7> activity)
         {
-            return Expressions.Delegate<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>((arg1, arg2, arg3, arg4, arg5, arg6, arg7) =>
-            {
-                return activity;
-            });
+            return activity;
         }
 
         /// <summary>
@@ -788,29 +670,6 @@ namespace Cogito.Activities
             Argument5 = arg5;
             Argument6 = arg6;
             Argument7 = arg7;
-        }
-
-        /// <summary>
-        /// Initializes a new instance.
-        /// </summary>
-        /// <param name="action"></param>
-        /// <param name="arg1"></param>
-        /// <param name="arg2"></param>
-        /// <param name="arg3"></param>
-        /// <param name="arg4"></param>
-        /// <param name="arg5"></param>
-        /// <param name="arg6"></param>
-        /// <param name="arg7"></param>
-        public ActionActivity(InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, InArgument<TArg3> arg3 = null, InArgument<TArg4> arg4 = null, InArgument<TArg5> arg5 = null, InArgument<TArg6> arg6 = null, InArgument<TArg7> arg7 = null, Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7> action = null)
-        {
-            Argument1 = arg1;
-            Argument2 = arg2;
-            Argument3 = arg3;
-            Argument4 = arg4;
-            Argument5 = arg5;
-            Argument6 = arg6;
-            Argument7 = arg7;
-            Action = action;
         }
 
         /// <summary>
@@ -894,7 +753,7 @@ namespace Cogito.Activities
         /// <param name="activity"></param>
         public static implicit operator ActivityAction<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8> activity)
         {
-            return Expressions.Delegate<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>((arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8) =>
+            return activity != null ? Expressions.Delegate<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>((arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8) =>
             {
                 activity.Argument1 = arg1;
                 activity.Argument2 = arg2;
@@ -905,7 +764,7 @@ namespace Cogito.Activities
                 activity.Argument7 = arg7;
                 activity.Argument8 = arg8;
                 return activity;
-            });
+            }) : null;
         }
         
     
@@ -915,10 +774,7 @@ namespace Cogito.Activities
         /// <param name="activity"></param>
         public static implicit operator ActivityDelegate(ActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8> activity)
         {
-            return Expressions.Delegate<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>((arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8) =>
-            {
-                return activity;
-            });
+            return activity;
         }
 
         /// <summary>
@@ -952,31 +808,6 @@ namespace Cogito.Activities
             Argument6 = arg6;
             Argument7 = arg7;
             Argument8 = arg8;
-        }
-
-        /// <summary>
-        /// Initializes a new instance.
-        /// </summary>
-        /// <param name="action"></param>
-        /// <param name="arg1"></param>
-        /// <param name="arg2"></param>
-        /// <param name="arg3"></param>
-        /// <param name="arg4"></param>
-        /// <param name="arg5"></param>
-        /// <param name="arg6"></param>
-        /// <param name="arg7"></param>
-        /// <param name="arg8"></param>
-        public ActionActivity(InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, InArgument<TArg3> arg3 = null, InArgument<TArg4> arg4 = null, InArgument<TArg5> arg5 = null, InArgument<TArg6> arg6 = null, InArgument<TArg7> arg7 = null, InArgument<TArg8> arg8 = null, Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8> action = null)
-        {
-            Argument1 = arg1;
-            Argument2 = arg2;
-            Argument3 = arg3;
-            Argument4 = arg4;
-            Argument5 = arg5;
-            Argument6 = arg6;
-            Argument7 = arg7;
-            Argument8 = arg8;
-            Action = action;
         }
 
         /// <summary>
@@ -1056,4 +887,3 @@ namespace Cogito.Activities
 
 
 }
-

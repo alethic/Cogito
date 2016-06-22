@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Activities;
 using System.Diagnostics.Contracts;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
 namespace Cogito.Activities
@@ -16,7 +15,7 @@ namespace Cogito.Activities
         /// <param name="func"></param>
         /// <param name="displayName"></param>
         /// <returns></returns>
-        public static AsyncActionActivity Invoke(Func<Task> func, string displayName = null)
+        public static AsyncActionActivity InvokeAsync(Func<Task> func, string displayName = null)
         {
             Contract.Requires<ArgumentNullException>(func != null);
 
@@ -37,7 +36,7 @@ namespace Cogito.Activities
 
         public static implicit operator ActivityAction(AsyncActionActivity activity)
         {
-            return Expressions.Delegate(() => activity);
+            return activity != null ? Expressions.Delegate(() => activity) : null;
         }
 
         public static implicit operator ActivityDelegate(AsyncActionActivity activity)

@@ -4,11 +4,10 @@
 <#@ import namespace="System.Text" #>
 <#@ import namespace="System.Collections.Generic" #>
 <#@ output extension=".cs" #>
+<#@ include file="_.t4" #>
 using System;
 using System.Activities;
 using System.Diagnostics.Contracts;
-using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
 
 namespace Cogito.Activities
 {
@@ -25,7 +24,7 @@ for (int i = 1; i <= 8; i++)
         /// <summary>
         /// Returns a <see cref="Activity"/> that executes <paramref name="func"/>.
         /// </summary>
-<# WriteTypeParamsComments(i); #>
+<# WriteArgTypeParamsComments(i); #>
         /// <param name="func"></param>
 <# WriteArgParamsComments(i); #>
         /// <returns></returns>
@@ -46,28 +45,3 @@ for (int i = 1; i <= 8; i++)
     }
 
 }
-
-<#+
-
-string Repeat(string format, int count, string separator)
-{
-    return string.Join(separator, Enumerable.Range(1, count).Select(i => string.Format(format , i)));
-}
-
-void WriteTypeParamsComments(int count)
-{
-    for (int i = 1; i <= count; i++)
-    {
-        WriteLine("/// <typeparam name=\"TArg" + i + "\"></typeparam>");
-    }
-}
-
-void WriteArgParamsComments(int count)
-{
-    for (int i = 1; i <= count; i++)
-    {
-        WriteLine("/// <param name=\"arg" + i + "\"></param>");
-    }
-}
-
-#>

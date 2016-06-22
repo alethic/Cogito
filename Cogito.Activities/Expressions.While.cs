@@ -57,7 +57,7 @@ namespace Cogito.Activities
 
             return new While(condition)
             {
-                Body = Invoke(action),
+                Body = InvokeAsync(action),
             };
         }
 
@@ -114,7 +114,7 @@ namespace Cogito.Activities
             Contract.Requires<ArgumentNullException>(condition != null);
             Contract.Requires<ArgumentNullException>(action != null);
 
-            return While(Invoke(condition), action);
+            return While(InvokeAsync(condition), action);
         }
 
         /// <summary>
@@ -128,7 +128,7 @@ namespace Cogito.Activities
             Contract.Requires<ArgumentNullException>(condition != null);
             Contract.Requires<ArgumentNullException>(action != null);
 
-            return While(Invoke(condition), action);
+            return While(InvokeAsync(condition), action);
         }
 
         /// <summary>
@@ -142,7 +142,7 @@ namespace Cogito.Activities
             Contract.Requires<ArgumentNullException>(condition != null);
             Contract.Requires<ArgumentNullException>(action != null);
 
-            return While(Invoke(condition), action);
+            return While(InvokeAsync(condition), action);
         }
 
     }

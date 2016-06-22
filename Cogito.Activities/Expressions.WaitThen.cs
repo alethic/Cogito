@@ -117,7 +117,7 @@ namespace Cogito.Activities
             Contract.Requires<ArgumentNullException>(bookmarkName != null);
             Contract.Requires<ArgumentNullException>(func != null);
 
-            return WaitThen(bookmarkName, Delegate<TWait, TResult>((arg) => Invoke(func, arg)));
+            return WaitThen(bookmarkName, Delegate<TWait, TResult>((arg) => InvokeAsync(func, arg)));
         }
 
         /// <summary>
@@ -147,7 +147,7 @@ namespace Cogito.Activities
             Contract.Requires<ArgumentNullException>(bookmarkName != null);
             Contract.Requires<ArgumentNullException>(action != null);
 
-            return WaitThen(bookmarkName, Delegate<TWait>((arg) => Invoke(action, arg)));
+            return WaitThen(bookmarkName, Delegate<TWait>((arg) => InvokeAsync(action, arg)));
         }
 
     }

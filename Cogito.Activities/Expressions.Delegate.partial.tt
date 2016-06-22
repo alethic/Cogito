@@ -4,6 +4,7 @@
 <#@ import namespace="System.Text" #>
 <#@ import namespace="System.Collections.Generic" #>
 <#@ output extension=".cs" #>
+<#@ include file="_.t4" #>
 using System;
 using System.Activities;
 using System.Diagnostics.Contracts;
@@ -187,12 +188,3 @@ for (int i = 2; i <= 8; i++)
     }
 
 }
-
-<#+
-
-string Repeat(string format, int count, string separator)
-{
-    return string.Join(separator, Enumerable.Range(1, count).Select(i => string.Format(format , i)));
-}
-
-#>

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Activities;
 using System.Diagnostics.Contracts;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
 namespace Cogito.Activities
@@ -16,11 +15,11 @@ namespace Cogito.Activities
 
         public static implicit operator ActivityAction<TArg1>(AsyncActionActivity<TArg1> activity)
         {
-            return Expressions.Delegate<TArg1>((arg1) =>
+            return activity != null ? Expressions.Delegate<TArg1>((arg1) =>
             {
                 activity.Argument1 = arg1;
                 return activity;
-            });
+            }) : null;
         }
 
         public static implicit operator ActivityDelegate(AsyncActionActivity<TArg1> activity)
@@ -44,18 +43,7 @@ namespace Cogito.Activities
         public AsyncActionActivity(Func<TArg1, Task> action = null, InArgument<TArg1> arg1 = null)
         {
             Action = action;
-            Argument1 = arg1 ?? new InArgument<TArg1>(default(TArg1));
-        }
-
-        /// <summary>
-        /// Initializes a new instance.
-        /// </summary>
-        /// <param name="action"></param>
-        /// <param name="arg1"></param>
-        public AsyncActionActivity(InArgument<TArg1> arg1 = null, Func<TArg1, Task> action = null)
-        {
-            Argument1 = arg1 ?? new InArgument<TArg1>(default(TArg1));
-            Action = action;
+            Argument1 = arg1;
         }
 
         /// <summary>
@@ -87,12 +75,12 @@ namespace Cogito.Activities
 
         public static implicit operator ActivityAction<TArg1, TArg2>(AsyncActionActivity<TArg1, TArg2> activity)
         {
-            return Expressions.Delegate<TArg1, TArg2>((arg1, arg2) =>
+            return activity != null ? Expressions.Delegate<TArg1, TArg2>((arg1, arg2) =>
             {
                 activity.Argument1 = arg1;
                 activity.Argument2 = arg2;
                 return activity;
-            });
+            }) : null;
         }
 
         public static implicit operator ActivityDelegate(AsyncActionActivity<TArg1, TArg2> activity)
@@ -117,21 +105,8 @@ namespace Cogito.Activities
         public AsyncActionActivity(Func<TArg1, TArg2, Task> action = null, InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null)
         {
             Action = action;
-            Argument1 = arg1 ?? new InArgument<TArg1>(default(TArg1));
-            Argument2 = arg2 ?? new InArgument<TArg2>(default(TArg2));
-        }
-
-        /// <summary>
-        /// Initializes a new instance.
-        /// </summary>
-        /// <param name="action"></param>
-        /// <param name="arg1"></param>
-        /// <param name="arg2"></param>
-        public AsyncActionActivity(InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, Func<TArg1, TArg2, Task> action = null)
-        {
-            Argument1 = arg1 ?? new InArgument<TArg1>(default(TArg1));
-            Argument2 = arg2 ?? new InArgument<TArg2>(default(TArg2));
-            Action = action;
+            Argument1 = arg1;
+            Argument2 = arg2;
         }
 
         /// <summary>
@@ -170,13 +145,13 @@ namespace Cogito.Activities
 
         public static implicit operator ActivityAction<TArg1, TArg2, TArg3>(AsyncActionActivity<TArg1, TArg2, TArg3> activity)
         {
-            return Expressions.Delegate<TArg1, TArg2, TArg3>((arg1, arg2, arg3) =>
+            return activity != null ? Expressions.Delegate<TArg1, TArg2, TArg3>((arg1, arg2, arg3) =>
             {
                 activity.Argument1 = arg1;
                 activity.Argument2 = arg2;
                 activity.Argument3 = arg3;
                 return activity;
-            });
+            }) : null;
         }
 
         public static implicit operator ActivityDelegate(AsyncActionActivity<TArg1, TArg2, TArg3> activity)
@@ -202,24 +177,9 @@ namespace Cogito.Activities
         public AsyncActionActivity(Func<TArg1, TArg2, TArg3, Task> action = null, InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, InArgument<TArg3> arg3 = null)
         {
             Action = action;
-            Argument1 = arg1 ?? new InArgument<TArg1>(default(TArg1));
-            Argument2 = arg2 ?? new InArgument<TArg2>(default(TArg2));
-            Argument3 = arg3 ?? new InArgument<TArg3>(default(TArg3));
-        }
-
-        /// <summary>
-        /// Initializes a new instance.
-        /// </summary>
-        /// <param name="action"></param>
-        /// <param name="arg1"></param>
-        /// <param name="arg2"></param>
-        /// <param name="arg3"></param>
-        public AsyncActionActivity(InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, InArgument<TArg3> arg3 = null, Func<TArg1, TArg2, TArg3, Task> action = null)
-        {
-            Argument1 = arg1 ?? new InArgument<TArg1>(default(TArg1));
-            Argument2 = arg2 ?? new InArgument<TArg2>(default(TArg2));
-            Argument3 = arg3 ?? new InArgument<TArg3>(default(TArg3));
-            Action = action;
+            Argument1 = arg1;
+            Argument2 = arg2;
+            Argument3 = arg3;
         }
 
         /// <summary>
@@ -265,14 +225,14 @@ namespace Cogito.Activities
 
         public static implicit operator ActivityAction<TArg1, TArg2, TArg3, TArg4>(AsyncActionActivity<TArg1, TArg2, TArg3, TArg4> activity)
         {
-            return Expressions.Delegate<TArg1, TArg2, TArg3, TArg4>((arg1, arg2, arg3, arg4) =>
+            return activity != null ? Expressions.Delegate<TArg1, TArg2, TArg3, TArg4>((arg1, arg2, arg3, arg4) =>
             {
                 activity.Argument1 = arg1;
                 activity.Argument2 = arg2;
                 activity.Argument3 = arg3;
                 activity.Argument4 = arg4;
                 return activity;
-            });
+            }) : null;
         }
 
         public static implicit operator ActivityDelegate(AsyncActionActivity<TArg1, TArg2, TArg3, TArg4> activity)
@@ -299,27 +259,10 @@ namespace Cogito.Activities
         public AsyncActionActivity(Func<TArg1, TArg2, TArg3, TArg4, Task> action = null, InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, InArgument<TArg3> arg3 = null, InArgument<TArg4> arg4 = null)
         {
             Action = action;
-            Argument1 = arg1 ?? new InArgument<TArg1>(default(TArg1));
-            Argument2 = arg2 ?? new InArgument<TArg2>(default(TArg2));
-            Argument3 = arg3 ?? new InArgument<TArg3>(default(TArg3));
-            Argument4 = arg4 ?? new InArgument<TArg4>(default(TArg4));
-        }
-
-        /// <summary>
-        /// Initializes a new instance.
-        /// </summary>
-        /// <param name="action"></param>
-        /// <param name="arg1"></param>
-        /// <param name="arg2"></param>
-        /// <param name="arg3"></param>
-        /// <param name="arg4"></param>
-        public AsyncActionActivity(InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, InArgument<TArg3> arg3 = null, InArgument<TArg4> arg4 = null, Func<TArg1, TArg2, TArg3, TArg4, Task> action = null)
-        {
-            Argument1 = arg1 ?? new InArgument<TArg1>(default(TArg1));
-            Argument2 = arg2 ?? new InArgument<TArg2>(default(TArg2));
-            Argument3 = arg3 ?? new InArgument<TArg3>(default(TArg3));
-            Argument4 = arg4 ?? new InArgument<TArg4>(default(TArg4));
-            Action = action;
+            Argument1 = arg1;
+            Argument2 = arg2;
+            Argument3 = arg3;
+            Argument4 = arg4;
         }
 
         /// <summary>
@@ -372,7 +315,7 @@ namespace Cogito.Activities
 
         public static implicit operator ActivityAction<TArg1, TArg2, TArg3, TArg4, TArg5>(AsyncActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5> activity)
         {
-            return Expressions.Delegate<TArg1, TArg2, TArg3, TArg4, TArg5>((arg1, arg2, arg3, arg4, arg5) =>
+            return activity != null ? Expressions.Delegate<TArg1, TArg2, TArg3, TArg4, TArg5>((arg1, arg2, arg3, arg4, arg5) =>
             {
                 activity.Argument1 = arg1;
                 activity.Argument2 = arg2;
@@ -380,7 +323,7 @@ namespace Cogito.Activities
                 activity.Argument4 = arg4;
                 activity.Argument5 = arg5;
                 return activity;
-            });
+            }) : null;
         }
 
         public static implicit operator ActivityDelegate(AsyncActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5> activity)
@@ -408,30 +351,11 @@ namespace Cogito.Activities
         public AsyncActionActivity(Func<TArg1, TArg2, TArg3, TArg4, TArg5, Task> action = null, InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, InArgument<TArg3> arg3 = null, InArgument<TArg4> arg4 = null, InArgument<TArg5> arg5 = null)
         {
             Action = action;
-            Argument1 = arg1 ?? new InArgument<TArg1>(default(TArg1));
-            Argument2 = arg2 ?? new InArgument<TArg2>(default(TArg2));
-            Argument3 = arg3 ?? new InArgument<TArg3>(default(TArg3));
-            Argument4 = arg4 ?? new InArgument<TArg4>(default(TArg4));
-            Argument5 = arg5 ?? new InArgument<TArg5>(default(TArg5));
-        }
-
-        /// <summary>
-        /// Initializes a new instance.
-        /// </summary>
-        /// <param name="action"></param>
-        /// <param name="arg1"></param>
-        /// <param name="arg2"></param>
-        /// <param name="arg3"></param>
-        /// <param name="arg4"></param>
-        /// <param name="arg5"></param>
-        public AsyncActionActivity(InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, InArgument<TArg3> arg3 = null, InArgument<TArg4> arg4 = null, InArgument<TArg5> arg5 = null, Func<TArg1, TArg2, TArg3, TArg4, TArg5, Task> action = null)
-        {
-            Argument1 = arg1 ?? new InArgument<TArg1>(default(TArg1));
-            Argument2 = arg2 ?? new InArgument<TArg2>(default(TArg2));
-            Argument3 = arg3 ?? new InArgument<TArg3>(default(TArg3));
-            Argument4 = arg4 ?? new InArgument<TArg4>(default(TArg4));
-            Argument5 = arg5 ?? new InArgument<TArg5>(default(TArg5));
-            Action = action;
+            Argument1 = arg1;
+            Argument2 = arg2;
+            Argument3 = arg3;
+            Argument4 = arg4;
+            Argument5 = arg5;
         }
 
         /// <summary>
@@ -491,7 +415,7 @@ namespace Cogito.Activities
 
         public static implicit operator ActivityAction<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(AsyncActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6> activity)
         {
-            return Expressions.Delegate<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>((arg1, arg2, arg3, arg4, arg5, arg6) =>
+            return activity != null ? Expressions.Delegate<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>((arg1, arg2, arg3, arg4, arg5, arg6) =>
             {
                 activity.Argument1 = arg1;
                 activity.Argument2 = arg2;
@@ -500,7 +424,7 @@ namespace Cogito.Activities
                 activity.Argument5 = arg5;
                 activity.Argument6 = arg6;
                 return activity;
-            });
+            }) : null;
         }
 
         public static implicit operator ActivityDelegate(AsyncActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6> activity)
@@ -529,33 +453,12 @@ namespace Cogito.Activities
         public AsyncActionActivity(Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, Task> action = null, InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, InArgument<TArg3> arg3 = null, InArgument<TArg4> arg4 = null, InArgument<TArg5> arg5 = null, InArgument<TArg6> arg6 = null)
         {
             Action = action;
-            Argument1 = arg1 ?? new InArgument<TArg1>(default(TArg1));
-            Argument2 = arg2 ?? new InArgument<TArg2>(default(TArg2));
-            Argument3 = arg3 ?? new InArgument<TArg3>(default(TArg3));
-            Argument4 = arg4 ?? new InArgument<TArg4>(default(TArg4));
-            Argument5 = arg5 ?? new InArgument<TArg5>(default(TArg5));
-            Argument6 = arg6 ?? new InArgument<TArg6>(default(TArg6));
-        }
-
-        /// <summary>
-        /// Initializes a new instance.
-        /// </summary>
-        /// <param name="action"></param>
-        /// <param name="arg1"></param>
-        /// <param name="arg2"></param>
-        /// <param name="arg3"></param>
-        /// <param name="arg4"></param>
-        /// <param name="arg5"></param>
-        /// <param name="arg6"></param>
-        public AsyncActionActivity(InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, InArgument<TArg3> arg3 = null, InArgument<TArg4> arg4 = null, InArgument<TArg5> arg5 = null, InArgument<TArg6> arg6 = null, Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, Task> action = null)
-        {
-            Argument1 = arg1 ?? new InArgument<TArg1>(default(TArg1));
-            Argument2 = arg2 ?? new InArgument<TArg2>(default(TArg2));
-            Argument3 = arg3 ?? new InArgument<TArg3>(default(TArg3));
-            Argument4 = arg4 ?? new InArgument<TArg4>(default(TArg4));
-            Argument5 = arg5 ?? new InArgument<TArg5>(default(TArg5));
-            Argument6 = arg6 ?? new InArgument<TArg6>(default(TArg6));
-            Action = action;
+            Argument1 = arg1;
+            Argument2 = arg2;
+            Argument3 = arg3;
+            Argument4 = arg4;
+            Argument5 = arg5;
+            Argument6 = arg6;
         }
 
         /// <summary>
@@ -622,7 +525,7 @@ namespace Cogito.Activities
 
         public static implicit operator ActivityAction<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(AsyncActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7> activity)
         {
-            return Expressions.Delegate<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>((arg1, arg2, arg3, arg4, arg5, arg6, arg7) =>
+            return activity != null ? Expressions.Delegate<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>((arg1, arg2, arg3, arg4, arg5, arg6, arg7) =>
             {
                 activity.Argument1 = arg1;
                 activity.Argument2 = arg2;
@@ -632,7 +535,7 @@ namespace Cogito.Activities
                 activity.Argument6 = arg6;
                 activity.Argument7 = arg7;
                 return activity;
-            });
+            }) : null;
         }
 
         public static implicit operator ActivityDelegate(AsyncActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7> activity)
@@ -662,36 +565,13 @@ namespace Cogito.Activities
         public AsyncActionActivity(Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, Task> action = null, InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, InArgument<TArg3> arg3 = null, InArgument<TArg4> arg4 = null, InArgument<TArg5> arg5 = null, InArgument<TArg6> arg6 = null, InArgument<TArg7> arg7 = null)
         {
             Action = action;
-            Argument1 = arg1 ?? new InArgument<TArg1>(default(TArg1));
-            Argument2 = arg2 ?? new InArgument<TArg2>(default(TArg2));
-            Argument3 = arg3 ?? new InArgument<TArg3>(default(TArg3));
-            Argument4 = arg4 ?? new InArgument<TArg4>(default(TArg4));
-            Argument5 = arg5 ?? new InArgument<TArg5>(default(TArg5));
-            Argument6 = arg6 ?? new InArgument<TArg6>(default(TArg6));
-            Argument7 = arg7 ?? new InArgument<TArg7>(default(TArg7));
-        }
-
-        /// <summary>
-        /// Initializes a new instance.
-        /// </summary>
-        /// <param name="action"></param>
-        /// <param name="arg1"></param>
-        /// <param name="arg2"></param>
-        /// <param name="arg3"></param>
-        /// <param name="arg4"></param>
-        /// <param name="arg5"></param>
-        /// <param name="arg6"></param>
-        /// <param name="arg7"></param>
-        public AsyncActionActivity(InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, InArgument<TArg3> arg3 = null, InArgument<TArg4> arg4 = null, InArgument<TArg5> arg5 = null, InArgument<TArg6> arg6 = null, InArgument<TArg7> arg7 = null, Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, Task> action = null)
-        {
-            Argument1 = arg1 ?? new InArgument<TArg1>(default(TArg1));
-            Argument2 = arg2 ?? new InArgument<TArg2>(default(TArg2));
-            Argument3 = arg3 ?? new InArgument<TArg3>(default(TArg3));
-            Argument4 = arg4 ?? new InArgument<TArg4>(default(TArg4));
-            Argument5 = arg5 ?? new InArgument<TArg5>(default(TArg5));
-            Argument6 = arg6 ?? new InArgument<TArg6>(default(TArg6));
-            Argument7 = arg7 ?? new InArgument<TArg7>(default(TArg7));
-            Action = action;
+            Argument1 = arg1;
+            Argument2 = arg2;
+            Argument3 = arg3;
+            Argument4 = arg4;
+            Argument5 = arg5;
+            Argument6 = arg6;
+            Argument7 = arg7;
         }
 
         /// <summary>
@@ -765,7 +645,7 @@ namespace Cogito.Activities
 
         public static implicit operator ActivityAction<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(AsyncActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8> activity)
         {
-            return Expressions.Delegate<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>((arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8) =>
+            return activity != null ? Expressions.Delegate<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>((arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8) =>
             {
                 activity.Argument1 = arg1;
                 activity.Argument2 = arg2;
@@ -776,7 +656,7 @@ namespace Cogito.Activities
                 activity.Argument7 = arg7;
                 activity.Argument8 = arg8;
                 return activity;
-            });
+            }) : null;
         }
 
         public static implicit operator ActivityDelegate(AsyncActionActivity<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8> activity)
@@ -807,39 +687,14 @@ namespace Cogito.Activities
         public AsyncActionActivity(Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, Task> action = null, InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, InArgument<TArg3> arg3 = null, InArgument<TArg4> arg4 = null, InArgument<TArg5> arg5 = null, InArgument<TArg6> arg6 = null, InArgument<TArg7> arg7 = null, InArgument<TArg8> arg8 = null)
         {
             Action = action;
-            Argument1 = arg1 ?? new InArgument<TArg1>(default(TArg1));
-            Argument2 = arg2 ?? new InArgument<TArg2>(default(TArg2));
-            Argument3 = arg3 ?? new InArgument<TArg3>(default(TArg3));
-            Argument4 = arg4 ?? new InArgument<TArg4>(default(TArg4));
-            Argument5 = arg5 ?? new InArgument<TArg5>(default(TArg5));
-            Argument6 = arg6 ?? new InArgument<TArg6>(default(TArg6));
-            Argument7 = arg7 ?? new InArgument<TArg7>(default(TArg7));
-            Argument8 = arg8 ?? new InArgument<TArg8>(default(TArg8));
-        }
-
-        /// <summary>
-        /// Initializes a new instance.
-        /// </summary>
-        /// <param name="action"></param>
-        /// <param name="arg1"></param>
-        /// <param name="arg2"></param>
-        /// <param name="arg3"></param>
-        /// <param name="arg4"></param>
-        /// <param name="arg5"></param>
-        /// <param name="arg6"></param>
-        /// <param name="arg7"></param>
-        /// <param name="arg8"></param>
-        public AsyncActionActivity(InArgument<TArg1> arg1 = null, InArgument<TArg2> arg2 = null, InArgument<TArg3> arg3 = null, InArgument<TArg4> arg4 = null, InArgument<TArg5> arg5 = null, InArgument<TArg6> arg6 = null, InArgument<TArg7> arg7 = null, InArgument<TArg8> arg8 = null, Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, Task> action = null)
-        {
-            Argument1 = arg1 ?? new InArgument<TArg1>(default(TArg1));
-            Argument2 = arg2 ?? new InArgument<TArg2>(default(TArg2));
-            Argument3 = arg3 ?? new InArgument<TArg3>(default(TArg3));
-            Argument4 = arg4 ?? new InArgument<TArg4>(default(TArg4));
-            Argument5 = arg5 ?? new InArgument<TArg5>(default(TArg5));
-            Argument6 = arg6 ?? new InArgument<TArg6>(default(TArg6));
-            Argument7 = arg7 ?? new InArgument<TArg7>(default(TArg7));
-            Argument8 = arg8 ?? new InArgument<TArg8>(default(TArg8));
-            Action = action;
+            Argument1 = arg1;
+            Argument2 = arg2;
+            Argument3 = arg3;
+            Argument4 = arg4;
+            Argument5 = arg5;
+            Argument6 = arg6;
+            Argument7 = arg7;
+            Argument8 = arg8;
         }
 
         /// <summary>
@@ -913,4 +768,3 @@ namespace Cogito.Activities
 
 
 }
-

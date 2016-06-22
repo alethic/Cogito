@@ -170,7 +170,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ActivityActorAsyncTaskExtension.cs" />
+    <Compile Include="ActivityAsyncTaskExtension.cs" />
     <Compile Include="ActivityActorBase.cs" />
     <Compile Include="ActivityActorCore.cs" />
     <Compile Include="ActivityActorEventSource.TrackingRecord.cs">
@@ -179,6 +179,7 @@
       <DependentUpon>ActivityActorEventSource.TrackingRecord.tt</DependentUpon>
     </Compile>
     <Compile Include="ActivityActorState.cs" />
+    <Compile Include="ActivityAsyncTaskExecutor.cs" />
     <Compile Include="ActivityActorTrackingParticipant.cs" />
     <Compile Include="ActivityActorTrackingParticipant.TrackingRecord.cs">
       <AutoGen>True</AutoGen>

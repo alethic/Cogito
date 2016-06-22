@@ -2,7 +2,6 @@
 using System.Activities;
 using System.Activities.Statements;
 using System.Diagnostics.Contracts;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
 namespace Cogito.Activities
@@ -34,7 +33,7 @@ namespace Cogito.Activities
         {
             Contract.Requires<ArgumentNullException>(func != null);
 
-            return Throw(Invoke<TArg1, TException>(func, arg1, displayName), displayName);
+            return Throw(InvokeAsync<TArg1, TException>(func, arg1, displayName), displayName);
         }
 
         /// <summary>
@@ -60,7 +59,7 @@ namespace Cogito.Activities
         {
             Contract.Requires<ArgumentNullException>(func != null);
 
-            return Throw(Invoke<TArg1, TException>(func, arg1, displayName), displayName);
+            return Throw(InvokeAsync<TArg1, TException>(func, arg1, displayName), displayName);
         }
 
         /// <summary>
@@ -86,7 +85,7 @@ namespace Cogito.Activities
         {
             Contract.Requires<ArgumentNullException>(func != null);
 
-            return Throw(Invoke<TArg1, TException>(func, arg1, displayName), displayName);
+            return Throw(InvokeAsync<TArg1, TException>(func, arg1, displayName), displayName);
         }
 
         /// <summary>
@@ -112,7 +111,7 @@ namespace Cogito.Activities
         {
             Contract.Requires<ArgumentNullException>(func != null);
 
-            return Throw(Invoke<TArg1, TArg2, TException>(func, arg1, arg2, displayName), displayName);
+            return Throw(InvokeAsync<TArg1, TArg2, TException>(func, arg1, arg2, displayName), displayName);
         }
 
         /// <summary>
@@ -138,7 +137,7 @@ namespace Cogito.Activities
         {
             Contract.Requires<ArgumentNullException>(func != null);
 
-            return Throw(Invoke<TArg1, TArg2, TException>(func, arg1, arg2, displayName), displayName);
+            return Throw(InvokeAsync<TArg1, TArg2, TException>(func, arg1, arg2, displayName), displayName);
         }
 
         /// <summary>
@@ -164,7 +163,7 @@ namespace Cogito.Activities
         {
             Contract.Requires<ArgumentNullException>(func != null);
 
-            return Throw(Invoke<TArg1, TArg2, TException>(func, arg1, arg2, displayName), displayName);
+            return Throw(InvokeAsync<TArg1, TArg2, TException>(func, arg1, arg2, displayName), displayName);
         }
 
         /// <summary>
@@ -190,7 +189,7 @@ namespace Cogito.Activities
         {
             Contract.Requires<ArgumentNullException>(func != null);
 
-            return Throw(Invoke<TArg1, TArg2, TArg3, TException>(func, arg1, arg2, arg3, displayName), displayName);
+            return Throw(InvokeAsync<TArg1, TArg2, TArg3, TException>(func, arg1, arg2, arg3, displayName), displayName);
         }
 
         /// <summary>
@@ -216,7 +215,7 @@ namespace Cogito.Activities
         {
             Contract.Requires<ArgumentNullException>(func != null);
 
-            return Throw(Invoke<TArg1, TArg2, TArg3, TException>(func, arg1, arg2, arg3, displayName), displayName);
+            return Throw(InvokeAsync<TArg1, TArg2, TArg3, TException>(func, arg1, arg2, arg3, displayName), displayName);
         }
 
         /// <summary>
@@ -242,7 +241,7 @@ namespace Cogito.Activities
         {
             Contract.Requires<ArgumentNullException>(func != null);
 
-            return Throw(Invoke<TArg1, TArg2, TArg3, TException>(func, arg1, arg2, arg3, displayName), displayName);
+            return Throw(InvokeAsync<TArg1, TArg2, TArg3, TException>(func, arg1, arg2, arg3, displayName), displayName);
         }
 
         /// <summary>
@@ -268,7 +267,7 @@ namespace Cogito.Activities
         {
             Contract.Requires<ArgumentNullException>(func != null);
 
-            return Throw(Invoke<TArg1, TArg2, TArg3, TArg4, TException>(func, arg1, arg2, arg3, arg4, displayName), displayName);
+            return Throw(InvokeAsync<TArg1, TArg2, TArg3, TArg4, TException>(func, arg1, arg2, arg3, arg4, displayName), displayName);
         }
 
         /// <summary>
@@ -294,7 +293,7 @@ namespace Cogito.Activities
         {
             Contract.Requires<ArgumentNullException>(func != null);
 
-            return Throw(Invoke<TArg1, TArg2, TArg3, TArg4, TException>(func, arg1, arg2, arg3, arg4, displayName), displayName);
+            return Throw(InvokeAsync<TArg1, TArg2, TArg3, TArg4, TException>(func, arg1, arg2, arg3, arg4, displayName), displayName);
         }
 
         /// <summary>
@@ -320,7 +319,7 @@ namespace Cogito.Activities
         {
             Contract.Requires<ArgumentNullException>(func != null);
 
-            return Throw(Invoke<TArg1, TArg2, TArg3, TArg4, TException>(func, arg1, arg2, arg3, arg4, displayName), displayName);
+            return Throw(InvokeAsync<TArg1, TArg2, TArg3, TArg4, TException>(func, arg1, arg2, arg3, arg4, displayName), displayName);
         }
 
         /// <summary>
@@ -346,7 +345,7 @@ namespace Cogito.Activities
         {
             Contract.Requires<ArgumentNullException>(func != null);
 
-            return Throw(Invoke<TArg1, TArg2, TArg3, TArg4, TArg5, TException>(func, arg1, arg2, arg3, arg4, arg5, displayName), displayName);
+            return Throw(InvokeAsync<TArg1, TArg2, TArg3, TArg4, TArg5, TException>(func, arg1, arg2, arg3, arg4, arg5, displayName), displayName);
         }
 
         /// <summary>
@@ -372,7 +371,7 @@ namespace Cogito.Activities
         {
             Contract.Requires<ArgumentNullException>(func != null);
 
-            return Throw(Invoke<TArg1, TArg2, TArg3, TArg4, TArg5, TException>(func, arg1, arg2, arg3, arg4, arg5, displayName), displayName);
+            return Throw(InvokeAsync<TArg1, TArg2, TArg3, TArg4, TArg5, TException>(func, arg1, arg2, arg3, arg4, arg5, displayName), displayName);
         }
 
         /// <summary>
@@ -398,7 +397,7 @@ namespace Cogito.Activities
         {
             Contract.Requires<ArgumentNullException>(func != null);
 
-            return Throw(Invoke<TArg1, TArg2, TArg3, TArg4, TArg5, TException>(func, arg1, arg2, arg3, arg4, arg5, displayName), displayName);
+            return Throw(InvokeAsync<TArg1, TArg2, TArg3, TArg4, TArg5, TException>(func, arg1, arg2, arg3, arg4, arg5, displayName), displayName);
         }
 
         /// <summary>
@@ -424,7 +423,7 @@ namespace Cogito.Activities
         {
             Contract.Requires<ArgumentNullException>(func != null);
 
-            return Throw(Invoke<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TException>(func, arg1, arg2, arg3, arg4, arg5, arg6, displayName), displayName);
+            return Throw(InvokeAsync<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TException>(func, arg1, arg2, arg3, arg4, arg5, arg6, displayName), displayName);
         }
 
         /// <summary>
@@ -450,7 +449,7 @@ namespace Cogito.Activities
         {
             Contract.Requires<ArgumentNullException>(func != null);
 
-            return Throw(Invoke<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TException>(func, arg1, arg2, arg3, arg4, arg5, arg6, displayName), displayName);
+            return Throw(InvokeAsync<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TException>(func, arg1, arg2, arg3, arg4, arg5, arg6, displayName), displayName);
         }
 
         /// <summary>
@@ -476,7 +475,7 @@ namespace Cogito.Activities
         {
             Contract.Requires<ArgumentNullException>(func != null);
 
-            return Throw(Invoke<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TException>(func, arg1, arg2, arg3, arg4, arg5, arg6, displayName), displayName);
+            return Throw(InvokeAsync<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TException>(func, arg1, arg2, arg3, arg4, arg5, arg6, displayName), displayName);
         }
 
         /// <summary>
@@ -502,7 +501,7 @@ namespace Cogito.Activities
         {
             Contract.Requires<ArgumentNullException>(func != null);
 
-            return Throw(Invoke<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TException>(func, arg1, arg2, arg3, arg4, arg5, arg6, arg7, displayName), displayName);
+            return Throw(InvokeAsync<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TException>(func, arg1, arg2, arg3, arg4, arg5, arg6, arg7, displayName), displayName);
         }
 
         /// <summary>
@@ -528,7 +527,7 @@ namespace Cogito.Activities
         {
             Contract.Requires<ArgumentNullException>(func != null);
 
-            return Throw(Invoke<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TException>(func, arg1, arg2, arg3, arg4, arg5, arg6, arg7, displayName), displayName);
+            return Throw(InvokeAsync<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TException>(func, arg1, arg2, arg3, arg4, arg5, arg6, arg7, displayName), displayName);
         }
 
         /// <summary>
@@ -554,7 +553,7 @@ namespace Cogito.Activities
         {
             Contract.Requires<ArgumentNullException>(func != null);
 
-            return Throw(Invoke<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TException>(func, arg1, arg2, arg3, arg4, arg5, arg6, arg7, displayName), displayName);
+            return Throw(InvokeAsync<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TException>(func, arg1, arg2, arg3, arg4, arg5, arg6, arg7, displayName), displayName);
         }
 
         /// <summary>
@@ -580,7 +579,7 @@ namespace Cogito.Activities
         {
             Contract.Requires<ArgumentNullException>(func != null);
 
-            return Throw(Invoke<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TException>(func, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, displayName), displayName);
+            return Throw(InvokeAsync<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TException>(func, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, displayName), displayName);
         }
 
         /// <summary>
@@ -606,7 +605,7 @@ namespace Cogito.Activities
         {
             Contract.Requires<ArgumentNullException>(func != null);
 
-            return Throw(Invoke<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TException>(func, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, displayName), displayName);
+            return Throw(InvokeAsync<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TException>(func, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, displayName), displayName);
         }
 
         /// <summary>
@@ -632,10 +631,9 @@ namespace Cogito.Activities
         {
             Contract.Requires<ArgumentNullException>(func != null);
 
-            return Throw(Invoke<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TException>(func, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, displayName), displayName);
+            return Throw(InvokeAsync<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TException>(func, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, displayName), displayName);
         }
 
     }
 
 }
-

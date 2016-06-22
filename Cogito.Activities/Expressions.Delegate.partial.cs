@@ -556,4 +556,3 @@ namespace Cogito.Activities
     }
 
 }
-

@@ -197,7 +197,7 @@ namespace Cogito.ServiceFabric.Activities
                 });
             };
 
-            workflow.Extensions.Add(() => new ActivityActorAsyncTaskExtension(this));
+            workflow.Extensions.Add(() => new ActivityAsyncTaskExtension(this));
             workflow.Extensions.Add(() => new ActivityActorTrackingParticipant(actor));
             workflow.Extensions.Add(() => new ActivityActorExtension(actor));
 

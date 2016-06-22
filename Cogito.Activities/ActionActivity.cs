@@ -2,7 +2,6 @@
 using System.Activities;
 using System.Activities.Statements;
 using System.Diagnostics.Contracts;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
 namespace Cogito.Activities
@@ -54,10 +53,7 @@ namespace Cogito.Activities
         /// <param name="activity"></param>
         public static implicit operator ActivityAction(ActionActivity activity)
         {
-            return Expressions.Delegate(() =>
-            {
-                return activity;
-            });
+            return activity != null ? Expressions.Delegate(() => activity) : null;
         }
 
         /// <summary>
