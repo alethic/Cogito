@@ -98,7 +98,7 @@ for (int j = 1; j <= i; j++)
 <#
 }
 #>
-        protected override Task<TResult> ExecuteAsync(AsyncCodeActivityContext context, Func<Func<Task<TResult>>, Task<TResult>> executor)
+        protected override Task<TResult> ExecuteAsync(AsyncCodeActivityContext context, AsyncTaskExecutor executor)
         {
 <#
     for (int j = 1; j <= i; j++)
@@ -108,7 +108,7 @@ for (int j = 1; j <= i; j++)
 <#
     }
 #>
-            return executor(() => Func(<#= Repeat("arg{0}", i, ", ") #>));
+            return Func != null ? executor.ExecuteAsync(() => Func(<#= Repeat("arg{0}", i, ", ") #>)) : null;
         }
 
     }

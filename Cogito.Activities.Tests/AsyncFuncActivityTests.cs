@@ -24,7 +24,7 @@ namespace Cogito.Activities.Tests
         [TestMethod]
         public void Test_async_func_activity_invoke()
         {
-            var a = Invoke(async i => await Task.FromResult(i), new Literal<int>(1));
+            var a = InvokeAsync(async i => await Task.FromResult(i), new Literal<int>(1));
             var b = WorkflowInvoker.Invoke(a);
             Assert.AreEqual(1, b);
         }

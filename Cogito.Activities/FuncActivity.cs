@@ -80,9 +80,9 @@ namespace Cogito.Activities
         /// <param name="executor"></param>
         /// <param name="context"></param>
         /// <returns></returns>
-        protected override Task<TResult> ExecuteAsync(AsyncCodeActivityContext context, Func<Func<Task<TResult>>, Task<TResult>> executor)
+        protected override Task<TResult> ExecuteAsync(AsyncCodeActivityContext context, AsyncTaskExecutor executor)
         {
-            return executor(() => Task.FromResult(Func()));
+            return Func != null ? executor.ExecuteAsync(() => Task.FromResult(Func())) : null;
         }
 
     }

@@ -27,14 +27,17 @@ for (int i = 1; i <= 8; i++)
 <# WriteArgTypeParamsComments(i); #>
         /// <param name="func"></param>
 <# WriteArgParamsComments(i); #>
+        /// <param name="displayName"></param>
+        /// <param name="executor"></param>
         /// <returns></returns>
-        public static FuncActivity<<#= Repeat("TArg{0}", i, ", ") #>, TResult> Invoke<<#= Repeat("TArg{0}", i, ", ") #>, TResult>(Func<<#= Repeat("TArg{0}", i, ", ") #>, TResult> func, <#= Repeat(argTypeName + " arg{0}", i, ", ") #>, string displayName = null)
+        public static FuncActivity<<#= Repeat("TArg{0}", i, ", ") #>, TResult> Invoke<<#= Repeat("TArg{0}", i, ", ") #>, TResult>(Func<<#= Repeat("TArg{0}", i, ", ") #>, TResult> func, <#= Repeat(argTypeName + " arg{0}", i, ", ") #>, string displayName = null, AsyncTaskExecutor executor = null)
         {
             Contract.Requires<ArgumentNullException>(func != null);
 
             return new FuncActivity<<#= Repeat("TArg{0}", i, ", ") #>, TResult>(func, <#= Repeat("arg{0}", i, ", ") #>)
             {
                 DisplayName = displayName,
+                Executor = executor,
             };
         }
 

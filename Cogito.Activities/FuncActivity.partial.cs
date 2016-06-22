@@ -64,10 +64,10 @@ namespace Cogito.Activities
         /// <param name="executor"></param>
         /// <param name="context"></param>
         /// <returns></returns>
-        protected override Task<TResult> ExecuteAsync(AsyncCodeActivityContext context, Func<Func<Task<TResult>>, Task<TResult>> executor)
+        protected override Task<TResult> ExecuteAsync(AsyncCodeActivityContext context, AsyncTaskExecutor executor)
         {
             var arg1 = Argument1.Get(context);
-            return executor(() => Task.FromResult(Func(arg1)));
+            return Func != null ? executor.ExecuteAsync(() => Task.FromResult(Func(arg1))) : null;
         }
 
     }
@@ -140,11 +140,11 @@ namespace Cogito.Activities
         /// <param name="executor"></param>
         /// <param name="context"></param>
         /// <returns></returns>
-        protected override Task<TResult> ExecuteAsync(AsyncCodeActivityContext context, Func<Func<Task<TResult>>, Task<TResult>> executor)
+        protected override Task<TResult> ExecuteAsync(AsyncCodeActivityContext context, AsyncTaskExecutor executor)
         {
             var arg1 = Argument1.Get(context);
             var arg2 = Argument2.Get(context);
-            return executor(() => Task.FromResult(Func(arg1, arg2)));
+            return Func != null ? executor.ExecuteAsync(() => Task.FromResult(Func(arg1, arg2))) : null;
         }
 
     }
@@ -226,12 +226,12 @@ namespace Cogito.Activities
         /// <param name="executor"></param>
         /// <param name="context"></param>
         /// <returns></returns>
-        protected override Task<TResult> ExecuteAsync(AsyncCodeActivityContext context, Func<Func<Task<TResult>>, Task<TResult>> executor)
+        protected override Task<TResult> ExecuteAsync(AsyncCodeActivityContext context, AsyncTaskExecutor executor)
         {
             var arg1 = Argument1.Get(context);
             var arg2 = Argument2.Get(context);
             var arg3 = Argument3.Get(context);
-            return executor(() => Task.FromResult(Func(arg1, arg2, arg3)));
+            return Func != null ? executor.ExecuteAsync(() => Task.FromResult(Func(arg1, arg2, arg3))) : null;
         }
 
     }
@@ -322,13 +322,13 @@ namespace Cogito.Activities
         /// <param name="executor"></param>
         /// <param name="context"></param>
         /// <returns></returns>
-        protected override Task<TResult> ExecuteAsync(AsyncCodeActivityContext context, Func<Func<Task<TResult>>, Task<TResult>> executor)
+        protected override Task<TResult> ExecuteAsync(AsyncCodeActivityContext context, AsyncTaskExecutor executor)
         {
             var arg1 = Argument1.Get(context);
             var arg2 = Argument2.Get(context);
             var arg3 = Argument3.Get(context);
             var arg4 = Argument4.Get(context);
-            return executor(() => Task.FromResult(Func(arg1, arg2, arg3, arg4)));
+            return Func != null ? executor.ExecuteAsync(() => Task.FromResult(Func(arg1, arg2, arg3, arg4))) : null;
         }
 
     }
@@ -428,14 +428,14 @@ namespace Cogito.Activities
         /// <param name="executor"></param>
         /// <param name="context"></param>
         /// <returns></returns>
-        protected override Task<TResult> ExecuteAsync(AsyncCodeActivityContext context, Func<Func<Task<TResult>>, Task<TResult>> executor)
+        protected override Task<TResult> ExecuteAsync(AsyncCodeActivityContext context, AsyncTaskExecutor executor)
         {
             var arg1 = Argument1.Get(context);
             var arg2 = Argument2.Get(context);
             var arg3 = Argument3.Get(context);
             var arg4 = Argument4.Get(context);
             var arg5 = Argument5.Get(context);
-            return executor(() => Task.FromResult(Func(arg1, arg2, arg3, arg4, arg5)));
+            return Func != null ? executor.ExecuteAsync(() => Task.FromResult(Func(arg1, arg2, arg3, arg4, arg5))) : null;
         }
 
     }
@@ -544,7 +544,7 @@ namespace Cogito.Activities
         /// <param name="executor"></param>
         /// <param name="context"></param>
         /// <returns></returns>
-        protected override Task<TResult> ExecuteAsync(AsyncCodeActivityContext context, Func<Func<Task<TResult>>, Task<TResult>> executor)
+        protected override Task<TResult> ExecuteAsync(AsyncCodeActivityContext context, AsyncTaskExecutor executor)
         {
             var arg1 = Argument1.Get(context);
             var arg2 = Argument2.Get(context);
@@ -552,7 +552,7 @@ namespace Cogito.Activities
             var arg4 = Argument4.Get(context);
             var arg5 = Argument5.Get(context);
             var arg6 = Argument6.Get(context);
-            return executor(() => Task.FromResult(Func(arg1, arg2, arg3, arg4, arg5, arg6)));
+            return Func != null ? executor.ExecuteAsync(() => Task.FromResult(Func(arg1, arg2, arg3, arg4, arg5, arg6))) : null;
         }
 
     }
@@ -670,7 +670,7 @@ namespace Cogito.Activities
         /// <param name="executor"></param>
         /// <param name="context"></param>
         /// <returns></returns>
-        protected override Task<TResult> ExecuteAsync(AsyncCodeActivityContext context, Func<Func<Task<TResult>>, Task<TResult>> executor)
+        protected override Task<TResult> ExecuteAsync(AsyncCodeActivityContext context, AsyncTaskExecutor executor)
         {
             var arg1 = Argument1.Get(context);
             var arg2 = Argument2.Get(context);
@@ -679,7 +679,7 @@ namespace Cogito.Activities
             var arg5 = Argument5.Get(context);
             var arg6 = Argument6.Get(context);
             var arg7 = Argument7.Get(context);
-            return executor(() => Task.FromResult(Func(arg1, arg2, arg3, arg4, arg5, arg6, arg7)));
+            return Func != null ? executor.ExecuteAsync(() => Task.FromResult(Func(arg1, arg2, arg3, arg4, arg5, arg6, arg7))) : null;
         }
 
     }
@@ -806,7 +806,7 @@ namespace Cogito.Activities
         /// <param name="executor"></param>
         /// <param name="context"></param>
         /// <returns></returns>
-        protected override Task<TResult> ExecuteAsync(AsyncCodeActivityContext context, Func<Func<Task<TResult>>, Task<TResult>> executor)
+        protected override Task<TResult> ExecuteAsync(AsyncCodeActivityContext context, AsyncTaskExecutor executor)
         {
             var arg1 = Argument1.Get(context);
             var arg2 = Argument2.Get(context);
@@ -816,7 +816,7 @@ namespace Cogito.Activities
             var arg6 = Argument6.Get(context);
             var arg7 = Argument7.Get(context);
             var arg8 = Argument8.Get(context);
-            return executor(() => Task.FromResult(Func(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8)));
+            return Func != null ? executor.ExecuteAsync(() => Task.FromResult(Func(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8))) : null;
         }
 
     }

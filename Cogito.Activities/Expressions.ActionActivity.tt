@@ -29,14 +29,16 @@ for (int i = 1; i <= 8; i++)
         /// <param name="action"></param>
 <# WriteArgParamsComments(i); #>
         /// <param name="displayName"></param>
+        /// <param name="executor"></param>
         /// <returns></returns>
-        public static ActionActivity<<#= Repeat("TArg{0}", i, ", ") #>> Invoke<<#= Repeat("TArg{0}", i, ", ") #>>(Action<<#= Repeat("TArg{0}", i, ", ") #>> action, <#= Repeat(argTypeName + " arg{0}", i, ", ") #>, string displayName = null)
+        public static ActionActivity<<#= Repeat("TArg{0}", i, ", ") #>> Invoke<<#= Repeat("TArg{0}", i, ", ") #>>(Action<<#= Repeat("TArg{0}", i, ", ") #>> action, <#= Repeat(argTypeName + " arg{0}", i, ", ") #>, string displayName = null, AsyncTaskExecutor executor = null)
         {
             Contract.Requires<ArgumentNullException>(action != null);
 
             return new ActionActivity<<#= Repeat("TArg{0}", i, ", ") #>>(action, <#= Repeat("arg{0}", i, ", ") #>)
             {
                 DisplayName = displayName,
+                Executor = null,
             };
         }
 

@@ -14,6 +14,15 @@ namespace Cogito.Activities
         AsyncCodeActivity
     {
 
+        /// <summary>
+        /// Allows the user to override the executor used to schedule tasks.
+        /// </summary>
+        public AsyncTaskExecutor Executor { get; set; }
+
+        /// <summary>
+        /// Initializes the activity metadata.
+        /// </summary>
+        /// <param name="metadata"></param>
         protected override void CacheMetadata(CodeActivityMetadata metadata)
         {
             base.CacheMetadata(metadata);
@@ -21,11 +30,23 @@ namespace Cogito.Activities
             metadata.AddDefaultExtensionProvider(() => AsyncTaskExtension.Default);
         }
 
+        /// <summary>
+        /// Invoked to begin the task.
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="callback"></param>
+        /// <param name="state"></param>
+        /// <returns></returns>
         protected sealed override IAsyncResult BeginExecute(AsyncCodeActivityContext context, AsyncCallback callback, object state)
         {
             return (ExecuteInternalAsync(context) ?? Task.FromResult(true)).ToAsyncBegin(callback, state);
         }
 
+        /// <summary>
+        /// Invoked when the task is ended.
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="result"></param>
         protected sealed override void EndExecute(AsyncCodeActivityContext context, IAsyncResult result)
         {
             ((Task)result).ToAsyncEnd();
@@ -38,7 +59,11 @@ namespace Cogito.Activities
         /// <returns></returns>
         Task ExecuteInternalAsync(AsyncCodeActivityContext context)
         {
-            return ExecuteAsync(context, context.GetExtension<AsyncTaskExtension>().Executor.ExecuteAsync);
+            // search local, for an executor scope, or default to the extension
+            return ExecuteAsync(context,
+                Executor ?? 
+                context.GetProperty<AsyncTaskExecutorHandle>()?.Executor ?? 
+                context.GetExtension<AsyncTaskExtension>().Executor);
         }
 
         /// <summary>
@@ -48,7 +73,7 @@ namespace Cogito.Activities
         /// <param name="context"></param>
         /// <param name="executor"></param>
         /// <returns></returns>
-        protected abstract Task ExecuteAsync(AsyncCodeActivityContext context, Func<Func<Task>, Task> executor);
+        protected abstract Task ExecuteAsync(AsyncCodeActivityContext context, AsyncTaskExecutor executor);
 
     }
 
@@ -60,6 +85,15 @@ namespace Cogito.Activities
         AsyncCodeActivity<TResult>
     {
 
+        /// <summary>
+        /// Allows the user to override the executor used to schedule tasks.
+        /// </summary>
+        public AsyncTaskExecutor Executor { get; set; }
+
+        /// <summary>
+        /// Initializes the activity metadata.
+        /// </summary>
+        /// <param name="metadata"></param>
         protected override void CacheMetadata(CodeActivityMetadata metadata)
         {
             base.CacheMetadata(metadata);
@@ -67,11 +101,24 @@ namespace Cogito.Activities
             metadata.AddDefaultExtensionProvider(() => AsyncTaskExtension.Default);
         }
 
+        /// <summary>
+        /// Invoked to begin the task.
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="callback"></param>
+        /// <param name="state"></param>
+        /// <returns></returns>
         protected sealed override IAsyncResult BeginExecute(AsyncCodeActivityContext context, AsyncCallback callback, object state)
         {
             return (ExecuteInternalAsync(context) ?? Task.FromResult(default(TResult))).ToAsyncBegin(callback, state);
         }
 
+        /// <summary>
+        /// Invoked when the task is ended.
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="result"></param>
+        /// <returns></returns>
         protected sealed override TResult EndExecute(AsyncCodeActivityContext context, IAsyncResult result)
         {
             return ((Task<TResult>)result).ToAsyncEnd();
@@ -84,7 +131,11 @@ namespace Cogito.Activities
         /// <returns></returns>
         Task<TResult> ExecuteInternalAsync(AsyncCodeActivityContext context)
         {
-            return ExecuteAsync(context, context.GetExtension<AsyncTaskExtension>().Executor.ExecuteAsync);
+            // search local, for an executor scope, or default to the extension
+            return ExecuteAsync(context,
+                Executor ??
+                context.GetProperty<AsyncTaskExecutorHandle>()?.Executor ??
+                context.GetExtension<AsyncTaskExtension>().Executor);
         }
 
         /// <summary>
@@ -94,7 +145,7 @@ namespace Cogito.Activities
         /// <param name="context"></param>
         /// <param name="executor"></param>
         /// <returns></returns>
-        protected abstract Task<TResult> ExecuteAsync(AsyncCodeActivityContext context, Func<Func<Task<TResult>>, Task<TResult>> executor);
+        protected abstract Task<TResult> ExecuteAsync(AsyncCodeActivityContext context, AsyncTaskExecutor executor);
 
     }
 

@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Diagnostics.Contracts;
+using System.Runtime.Remoting.Messaging;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Cogito.Activities
 {
 
     /// <summary>
-    /// Provides functionality to schedule and execute an async task.
+    /// Provides functionality to schedule and execute an async task. The default implementation simply invokes the
+    /// function directly from the workflow executor thread.
     /// </summary>
     public class AsyncTaskExecutor
     {

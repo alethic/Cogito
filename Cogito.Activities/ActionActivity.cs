@@ -93,10 +93,11 @@ namespace Cogito.Activities
         /// Executes the function.
         /// </summary>
         /// <param name="context"></param>
+        /// <param name="executor"></param>
         /// <returns></returns>
-        protected override Task ExecuteAsync(AsyncCodeActivityContext context, Func<Func<Task>, Task> executor)
+        protected override Task ExecuteAsync(AsyncCodeActivityContext context, AsyncTaskExecutor executor)
         {
-            return executor(() => { Action(); return Task.FromResult(true); });
+            return Action != null ? executor.ExecuteAsync(() => { Action(); return Task.FromResult(true); }) : null;
         }
 
     }

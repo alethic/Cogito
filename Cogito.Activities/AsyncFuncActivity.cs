@@ -74,9 +74,9 @@ namespace Cogito.Activities
         [RequiredArgument]
         public Func<Task<TResult>> Func { get; set; }
 
-        protected override Task<TResult> ExecuteAsync(AsyncCodeActivityContext context, Func<Func<Task<TResult>>, Task<TResult>> executor)
+        protected override Task<TResult> ExecuteAsync(AsyncCodeActivityContext context, AsyncTaskExecutor executor)
         {
-            return executor(Func);
+            return Func != null ? executor.ExecuteAsync(Func) : null;
         }
 
     }

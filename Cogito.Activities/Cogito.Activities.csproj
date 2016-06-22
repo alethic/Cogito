@@ -152,6 +152,8 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="AsyncTaskExecutor.cs" />
+    <Compile Include="AsyncTaskExecutorScope.cs" />
+    <Compile Include="AsyncTaskExecutorHandle.cs" />
     <Compile Include="Expressions.ActionActivity.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -246,6 +248,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="AsyncActionActivity.cs" />
     <Compile Include="AsyncFuncActivity.cs" />
+    <Compile Include="ThreadPoolAsyncTaskExecutor.cs" />
     <Compile Include="Wait.cs" />
     <Compile Include="WorkflowApplicationExtensions.cs" />
     <Compile Include="Expressions.While.cs" />
