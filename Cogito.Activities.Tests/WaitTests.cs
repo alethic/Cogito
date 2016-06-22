@@ -14,20 +14,22 @@ namespace Cogito.Activities.Tests
         public async Task Test_wait()
         {
             var wf = new WorkflowApplication(new Wait("Bookmark"));
+            var rs = wf.WaitForCompletionAsync();
             await wf.RunAsync();
             await Task.Delay(1000);
             Assert.AreEqual(BookmarkResumptionResult.Success, await wf.ResumeBookmarkAsync("Bookmark", null));
-            await wf.WaitForCompletionAsync();
+            await rs;
         }
 
         [TestMethod]
         public async Task Test_wait_result()
         {
             var wf = new WorkflowApplication(new Wait<string>("Bookmark"));
+            var rs = wf.WaitForCompletionAsync();
             await wf.RunAsync();
             await Task.Delay(1000);
             Assert.AreEqual(BookmarkResumptionResult.Success, await wf.ResumeBookmarkAsync("Bookmark", "Done"));
-            Assert.AreEqual("Done", (string)(await wf.WaitForCompletionAsync())["Result"]);
+            Assert.AreEqual("Done", (string)(await rs)["Result"]);
         }
 
     }

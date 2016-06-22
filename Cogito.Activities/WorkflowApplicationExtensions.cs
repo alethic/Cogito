@@ -187,7 +187,9 @@ namespace Cogito.Activities
         }
 
         /// <summary>
-        /// Returns a <see cref="Task"/> that waits for the completion of the workflow and propagates its results.
+        /// Returns a <see cref="Task"/> that waits for the completion of the workflow and propagates its results. Be
+        /// sure to invoke this method and save the task before starting the workflow. Once it completes, further
+        /// events will not be raised.
         /// </summary>
         /// <param name="self"></param>
         /// <returns></returns>
