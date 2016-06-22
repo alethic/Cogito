@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Activities;
 using System.Diagnostics.Contracts;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
 namespace Cogito.Activities
@@ -9,11 +10,14 @@ namespace Cogito.Activities
     public static partial class Expressions
     {
 
-        public static FuncActivity<TResult> Invoke<TResult>(Func<TResult> func)
+        public static FuncActivity<TResult> Invoke<TResult>(Func<TResult> func, [CallerMemberName] string displayName = null)
         {
             Contract.Requires<ArgumentNullException>(func != null);
 
-            return new FuncActivity<TResult>(func);
+            return new FuncActivity<TResult>(func)
+            {
+                DisplayName = displayName
+            };
         }
 
         public static FuncActivity<TSource, TResult> ThenWith<TSource, TResult>(this Activity<TSource> activity, Func<TSource, TResult> func)

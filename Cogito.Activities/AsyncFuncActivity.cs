@@ -9,11 +9,14 @@ namespace Cogito.Activities
     public static partial class Expressions
     {
 
-        public static AsyncFuncActivity<TResult> Invoke<TResult>(Func<Task<TResult>> func)
+        public static AsyncFuncActivity<TResult> Invoke<TResult>(Func<Task<TResult>> func, [CallerMemberInfo] string displayName = null)
         {
             Contract.Requires<ArgumentNullException>(func != null);
 
-            return new AsyncFuncActivity<TResult>(func);
+            return new AsyncFuncActivity<TResult>(func)
+            {
+                DisplayName = displayName,
+            };
         }
 
         public static AsyncFuncActivity<TValue1, TValue2> Then<TValue1, TValue2>(this Activity<TValue1> activity, Func<TValue1, Task<TValue2>> func)

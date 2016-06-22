@@ -2,6 +2,7 @@
 using System.Activities;
 using System.Activities.Statements;
 using System.Diagnostics.Contracts;
+using System.Runtime.CompilerServices;
 
 namespace Cogito.Activities
 {
@@ -14,32 +15,16 @@ namespace Cogito.Activities
         /// </summary>
         /// <param name="value"></param>
         /// <param name="to"></param>
+        /// <param name="displayName"></param>
         /// <returns></returns>
-        public static Assign Assign(this InArgument value, OutArgument to)
-        {
-            Contract.Requires<ArgumentNullException>(value != null);
-            Contract.Requires<ArgumentNullException>(to != null);
-
-            return new Assign()
-            {
-                Value = value,
-                To = to,
-            };
-        }
-
-        /// <summary>
-        /// Assigns <paramref name="value"/> to <paramref name="to"/>.
-        /// </summary>
-        /// <param name="value"></param>
-        /// <param name="to"></param>
-        /// <returns></returns>
-        public static Assign<T> Assign<T>(this InArgument<T> value, OutArgument<T> to)
+        public static Assign<T> Assign<T>(DelegateInArgument<T> value, DelegateOutArgument<T> to, [CallerMemberName] string displayName = null)
         {
             Contract.Requires<ArgumentNullException>(value != null);
             Contract.Requires<ArgumentNullException>(to != null);
 
             return new Assign<T>()
             {
+                DisplayName = displayName,
                 Value = value,
                 To = to,
             };
@@ -51,13 +36,19 @@ namespace Cogito.Activities
         /// <typeparam name="T"></typeparam>
         /// <param name="value"></param>
         /// <param name="to"></param>
+        /// <param name="displayName"></param>
         /// <returns></returns>
-        public static Assign<T> Assign<T>(this Activity<T> value, OutArgument<T> to)
+        public static Assign<T> Assign<T>(this Activity<T> value, DelegateOutArgument<T> to, [CallerMemberName] string displayName = null)
         {
             Contract.Requires<ArgumentNullException>(value != null);
             Contract.Requires<ArgumentNullException>(to != null);
 
-            return Assign((InArgument<T>)value, to);
+            return new Assign<T>()
+            {
+                DisplayName = displayName,
+                Value = value,
+                To = to,
+            };
         }
 
     }

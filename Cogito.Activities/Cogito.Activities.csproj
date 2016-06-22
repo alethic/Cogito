@@ -151,6 +151,8 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Expressions.Delegate.cs</LastGenOutput>
     </None>
+    <Compile Include="CallerMemberInfoAttribute.cs" />
+    <Compile Include="Expressions.As.cs" />
     <Compile Include="Expressions.Delay.cs" />
     <Compile Include="Expressions.Delegate.cs">
       <AutoGen>True</AutoGen>

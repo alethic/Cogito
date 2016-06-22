@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Activities;
 using System.Activities.Statements;
+using System.Diagnostics.Contracts;
 using System.Threading.Tasks;
 
 namespace Cogito.Activities
@@ -13,10 +14,16 @@ namespace Cogito.Activities
         /// Returns a <see cref="Activity"/> that executes <paramref name="action"/>.
         /// </summary>
         /// <param name="action"></param>
+        /// <param name="displayName"></param>
         /// <returns></returns>
-        public static ActionActivity Invoke(Action action)
+        public static ActionActivity Invoke(Action action, [CallerMemberInfo] string displayName = null)
         {
-            return new ActionActivity(action);
+            Contract.Requires<ArgumentNullException>(action != null);
+
+            return new ActionActivity(action)
+            {
+                DisplayName = displayName,
+            };
         }
 
         /// <summary>
@@ -31,6 +38,7 @@ namespace Cogito.Activities
         }
 
     }
+
 
     /// <summary>
     /// Provides an <see cref="Activity"/> that executes the given function.
