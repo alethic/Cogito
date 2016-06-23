@@ -170,6 +170,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActivityActorValidationServices.cs" />
     <Compile Include="ActivityAsyncTaskExtension.cs" />
     <Compile Include="ActivityActorBase.cs" />
     <Compile Include="ActivityActorCore.cs" />

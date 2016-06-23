@@ -106,6 +106,15 @@ namespace Cogito.ServiceFabric.Activities
         protected abstract Activity CreateActivity();
 
         /// <summary>
+        /// Creates a new instance of <see cref="Activity"/>.
+        /// </summary>
+        /// <returns></returns>
+        internal Activity CreateActivityInternal()
+        {
+            return CreateActivity();
+        }
+
+        /// <summary>
         /// Creates the set of activity parameters to be passed to the workflow.
         /// </summary>
         /// <returns></returns>
