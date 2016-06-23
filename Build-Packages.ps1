@@ -12,6 +12,8 @@ param(
     [Parameter(Mandatory=$true)]
     [string]$Version,
 
+    [bool]$UpdateVersion,
+
     [string]$NuGetExe
 
 )
@@ -54,6 +56,12 @@ foreach ($i in $NuSpecFiles)
     $f = [System.IO.Path]::ChangeExtension($i.FullName, ".csproj")
     if (Test-Path $f)
     {
-    	& $NuGetExe pack -OutputDirectory `"$OutputDirectory`" -Version `"$Version`" -Properties Configuration=$BuildConfiguration `"$f`"
+        # manually update version to support $version$ elsewhere in file
+        if ($UpdateVersion -eq $true) {
+            Write-Host "updating"
+            (Get-Content $i).Replace('$version$', $Version) | Set-Content $i
+        }
+
+        & $NuGetExe pack -OutputDirectory `"$OutputDirectory`" -Version `"$Version`" -Properties Configuration=$BuildConfiguration `"$f`"
     }
 }
