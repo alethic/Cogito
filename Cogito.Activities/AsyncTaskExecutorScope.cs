@@ -1,7 +1,43 @@
-﻿using System.Activities;
+﻿using System;
+using System.Activities;
+using System.Diagnostics.Contracts;
 
 namespace Cogito.Activities
 {
+
+    public static partial class Expressions
+    {
+
+        /// <summary>
+        /// Executes the <paramref name="body"/> using a given <see cref="Cogito.Activities.AsyncTaskExecutor" />.
+        /// </summary>
+        /// <param name="executor">Provides execution services to nested activities.</param>
+        /// <param name="body"></param>
+        /// <returns></returns>
+        public static AsyncTaskExecutorScope WithAsyncTaskExecutor(this Activity body, AsyncTaskExecutor executor)
+        {
+            Contract.Requires<ArgumentNullException>(executor != null);
+            Contract.Requires<ArgumentNullException>(body != null);
+
+            return new AsyncTaskExecutorScope(executor, body);
+        }
+
+        /// <summary>
+        /// Executes the <paramref name="body"/> using a given <see cref="Cogito.Activities.AsyncTaskExecutor" />.
+        /// </summary>
+        /// <typeparam name="TResult"></typeparam>
+        /// <param name="body"></param>
+        /// <param name="executor">Provides execution services to nested activities.</param>
+        /// <returns></returns>
+        public static AsyncTaskExecutorScope<TResult> WithAsyncTaskExecutor<TResult>(this Activity<TResult> body, AsyncTaskExecutor executor)
+        {
+            Contract.Requires<ArgumentNullException>(body != null);
+            Contract.Requires<ArgumentNullException>(executor != null);
+
+            return new AsyncTaskExecutorScope<TResult>(executor, body);
+        }
+
+    }
 
     /// <summary>
     /// Forces children async activities to use the given <see cref="AsyncTaskExecutor"/> to schedule work.
