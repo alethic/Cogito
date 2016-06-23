@@ -25,11 +25,13 @@ namespace Cogito.ServiceFabric.Http
         /// <summary>
         /// Initializes a new instance.
         /// </summary>
+        /// <param name="context"></param>
         /// <param name="appRoot"></param>
         /// <param name="endpointName"></param>
         public OwinStatelessService(StatelessServiceContext context, string appRoot, string endpointName = "HttpServiceEndpoint")
             : base(context)
         {
+            Contract.Requires<ArgumentNullException>(context != null);
             Contract.Requires<ArgumentNullException>(appRoot != null);
             Contract.Requires<ArgumentNullException>(endpointName != null);
 
@@ -43,7 +45,7 @@ namespace Cogito.ServiceFabric.Http
         /// <returns></returns>
         protected override IEnumerable<ServiceInstanceListener> CreateServiceInstanceListeners()
         {
-            yield return new ServiceInstanceListener(p => new OwinCommunicationListener(endpointName, appRoot, ConfigureInternal, p));
+            yield return new ServiceInstanceListener(ctx => new OwinCommunicationListener(ConfigureInternal, ctx, endpointName, appRoot));
         }
 
         /// <summary>
