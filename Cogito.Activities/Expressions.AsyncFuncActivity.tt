@@ -8,7 +8,6 @@
 using System;
 using System.Activities;
 using System.Diagnostics.Contracts;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
 namespace Cogito.Activities
@@ -35,6 +34,14 @@ for (int i = 1; i <= 8; i++)
         public static AsyncFuncActivity<<#= Repeat("TArg{0}", i, ", ") #>, TResult> Invoke<<#= Repeat("TArg{0}", i, ", ") #>, TResult>(Func<<#= Repeat("TArg{0}", i, ", ") #>, Task<TResult>> func, <#= Repeat(argTypeName + " arg{0}", i, ", ") #>, string displayName = null, AsyncTaskExecutor executor = null)
         {
             Contract.Requires<ArgumentNullException>(func != null);
+<#
+        for (int j = 1; j <= i; j++)
+        {
+#>
+            Contract.Requires<ArgumentNullException>(arg<#= j #> != null);
+<#
+        }
+#>
 
             return new AsyncFuncActivity<<#= Repeat("TArg{0}", i, ", ") #>, TResult>(func, <#= Repeat("arg{0}", i, ", ") #>)
             {

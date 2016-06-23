@@ -33,16 +33,24 @@ for (int i = 2; i <= 8; i++)
         public static InvokeFunc<<#= Repeat("TArg{0}", i, ", ") #>, TResult> InvokeFunc<<#= Repeat("TArg{0}", i, ", ") #>, TResult>(ActivityFunc<<#= Repeat("TArg{0}", i, ", ") #>, TResult> func, <#= Repeat(argTypeName + " arg{0}", i, ", ") #>, string displayName = null)
         {
             Contract.Requires<ArgumentNullException>(func != null);
+<#
+        for (int j = 1; j <= i; j++)
+        {
+#>
+            Contract.Requires<ArgumentNullException>(arg<#= j #> != null);
+<#
+        }
+#>
             
             return new InvokeFunc<<#= Repeat("TArg{0}", i, ", ") #>, TResult>()
             {
 <#
-    for (int j = 1; j <= i; j++)
-    {
+        for (int j = 1; j <= i; j++)
+        {
 #>
                 Argument<#= j #> = arg<#= j #>,
 <#
-    }
+        }
 #>
                 Func = func,
             };

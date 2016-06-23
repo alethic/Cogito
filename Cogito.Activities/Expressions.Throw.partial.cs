@@ -19,6 +19,7 @@ namespace Cogito.Activities
             where TException : Exception
         {
             Contract.Requires<ArgumentNullException>(func != null);
+            Contract.Requires<ArgumentNullException>(arg1 != null);
 
             return Throw(Invoke<TArg1, TException>(func, arg1, displayName), displayName);
         }
@@ -32,6 +33,7 @@ namespace Cogito.Activities
             where TException : Exception
         {
             Contract.Requires<ArgumentNullException>(func != null);
+            Contract.Requires<ArgumentNullException>(arg1 != null);
 
             return Throw(Invoke<TArg1, TException>(func, arg1, displayName), displayName);
         }
@@ -45,6 +47,7 @@ namespace Cogito.Activities
             where TException : Exception
         {
             Contract.Requires<ArgumentNullException>(func != null);
+            Contract.Requires<ArgumentNullException>(arg1 != null);
 
             return Throw(Invoke<TArg1, TException>(func, arg1, displayName), displayName);
         }
@@ -58,6 +61,8 @@ namespace Cogito.Activities
             where TException : Exception
         {
             Contract.Requires<ArgumentNullException>(func != null);
+            Contract.Requires<ArgumentNullException>(arg1 != null);
+            Contract.Requires<ArgumentNullException>(arg2 != null);
 
             return Throw(Invoke<TArg1, TArg2, TException>(func, arg1, arg2, displayName), displayName);
         }
@@ -71,6 +76,8 @@ namespace Cogito.Activities
             where TException : Exception
         {
             Contract.Requires<ArgumentNullException>(func != null);
+            Contract.Requires<ArgumentNullException>(arg1 != null);
+            Contract.Requires<ArgumentNullException>(arg2 != null);
 
             return Throw(Invoke<TArg1, TArg2, TException>(func, arg1, arg2, displayName), displayName);
         }
@@ -84,6 +91,8 @@ namespace Cogito.Activities
             where TException : Exception
         {
             Contract.Requires<ArgumentNullException>(func != null);
+            Contract.Requires<ArgumentNullException>(arg1 != null);
+            Contract.Requires<ArgumentNullException>(arg2 != null);
 
             return Throw(Invoke<TArg1, TArg2, TException>(func, arg1, arg2, displayName), displayName);
         }
@@ -97,6 +106,9 @@ namespace Cogito.Activities
             where TException : Exception
         {
             Contract.Requires<ArgumentNullException>(func != null);
+            Contract.Requires<ArgumentNullException>(arg1 != null);
+            Contract.Requires<ArgumentNullException>(arg2 != null);
+            Contract.Requires<ArgumentNullException>(arg3 != null);
 
             return Throw(Invoke<TArg1, TArg2, TArg3, TException>(func, arg1, arg2, arg3, displayName), displayName);
         }
@@ -110,6 +122,9 @@ namespace Cogito.Activities
             where TException : Exception
         {
             Contract.Requires<ArgumentNullException>(func != null);
+            Contract.Requires<ArgumentNullException>(arg1 != null);
+            Contract.Requires<ArgumentNullException>(arg2 != null);
+            Contract.Requires<ArgumentNullException>(arg3 != null);
 
             return Throw(Invoke<TArg1, TArg2, TArg3, TException>(func, arg1, arg2, arg3, displayName), displayName);
         }
@@ -123,6 +138,9 @@ namespace Cogito.Activities
             where TException : Exception
         {
             Contract.Requires<ArgumentNullException>(func != null);
+            Contract.Requires<ArgumentNullException>(arg1 != null);
+            Contract.Requires<ArgumentNullException>(arg2 != null);
+            Contract.Requires<ArgumentNullException>(arg3 != null);
 
             return Throw(Invoke<TArg1, TArg2, TArg3, TException>(func, arg1, arg2, arg3, displayName), displayName);
         }
@@ -136,6 +154,10 @@ namespace Cogito.Activities
             where TException : Exception
         {
             Contract.Requires<ArgumentNullException>(func != null);
+            Contract.Requires<ArgumentNullException>(arg1 != null);
+            Contract.Requires<ArgumentNullException>(arg2 != null);
+            Contract.Requires<ArgumentNullException>(arg3 != null);
+            Contract.Requires<ArgumentNullException>(arg4 != null);
 
             return Throw(Invoke<TArg1, TArg2, TArg3, TArg4, TException>(func, arg1, arg2, arg3, arg4, displayName), displayName);
         }
@@ -149,6 +171,10 @@ namespace Cogito.Activities
             where TException : Exception
         {
             Contract.Requires<ArgumentNullException>(func != null);
+            Contract.Requires<ArgumentNullException>(arg1 != null);
+            Contract.Requires<ArgumentNullException>(arg2 != null);
+            Contract.Requires<ArgumentNullException>(arg3 != null);
+            Contract.Requires<ArgumentNullException>(arg4 != null);
 
             return Throw(Invoke<TArg1, TArg2, TArg3, TArg4, TException>(func, arg1, arg2, arg3, arg4, displayName), displayName);
         }
@@ -162,6 +188,10 @@ namespace Cogito.Activities
             where TException : Exception
         {
             Contract.Requires<ArgumentNullException>(func != null);
+            Contract.Requires<ArgumentNullException>(arg1 != null);
+            Contract.Requires<ArgumentNullException>(arg2 != null);
+            Contract.Requires<ArgumentNullException>(arg3 != null);
+            Contract.Requires<ArgumentNullException>(arg4 != null);
 
             return Throw(Invoke<TArg1, TArg2, TArg3, TArg4, TException>(func, arg1, arg2, arg3, arg4, displayName), displayName);
         }
@@ -175,6 +205,11 @@ namespace Cogito.Activities
             where TException : Exception
         {
             Contract.Requires<ArgumentNullException>(func != null);
+            Contract.Requires<ArgumentNullException>(arg1 != null);
+            Contract.Requires<ArgumentNullException>(arg2 != null);
+            Contract.Requires<ArgumentNullException>(arg3 != null);
+            Contract.Requires<ArgumentNullException>(arg4 != null);
+            Contract.Requires<ArgumentNullException>(arg5 != null);
 
             return Throw(Invoke<TArg1, TArg2, TArg3, TArg4, TArg5, TException>(func, arg1, arg2, arg3, arg4, arg5, displayName), displayName);
         }
@@ -188,6 +223,11 @@ namespace Cogito.Activities
             where TException : Exception
         {
             Contract.Requires<ArgumentNullException>(func != null);
+            Contract.Requires<ArgumentNullException>(arg1 != null);
+            Contract.Requires<ArgumentNullException>(arg2 != null);
+            Contract.Requires<ArgumentNullException>(arg3 != null);
+            Contract.Requires<ArgumentNullException>(arg4 != null);
+            Contract.Requires<ArgumentNullException>(arg5 != null);
 
             return Throw(Invoke<TArg1, TArg2, TArg3, TArg4, TArg5, TException>(func, arg1, arg2, arg3, arg4, arg5, displayName), displayName);
         }
@@ -201,6 +241,11 @@ namespace Cogito.Activities
             where TException : Exception
         {
             Contract.Requires<ArgumentNullException>(func != null);
+            Contract.Requires<ArgumentNullException>(arg1 != null);
+            Contract.Requires<ArgumentNullException>(arg2 != null);
+            Contract.Requires<ArgumentNullException>(arg3 != null);
+            Contract.Requires<ArgumentNullException>(arg4 != null);
+            Contract.Requires<ArgumentNullException>(arg5 != null);
 
             return Throw(Invoke<TArg1, TArg2, TArg3, TArg4, TArg5, TException>(func, arg1, arg2, arg3, arg4, arg5, displayName), displayName);
         }
@@ -214,6 +259,12 @@ namespace Cogito.Activities
             where TException : Exception
         {
             Contract.Requires<ArgumentNullException>(func != null);
+            Contract.Requires<ArgumentNullException>(arg1 != null);
+            Contract.Requires<ArgumentNullException>(arg2 != null);
+            Contract.Requires<ArgumentNullException>(arg3 != null);
+            Contract.Requires<ArgumentNullException>(arg4 != null);
+            Contract.Requires<ArgumentNullException>(arg5 != null);
+            Contract.Requires<ArgumentNullException>(arg6 != null);
 
             return Throw(Invoke<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TException>(func, arg1, arg2, arg3, arg4, arg5, arg6, displayName), displayName);
         }
@@ -227,6 +278,12 @@ namespace Cogito.Activities
             where TException : Exception
         {
             Contract.Requires<ArgumentNullException>(func != null);
+            Contract.Requires<ArgumentNullException>(arg1 != null);
+            Contract.Requires<ArgumentNullException>(arg2 != null);
+            Contract.Requires<ArgumentNullException>(arg3 != null);
+            Contract.Requires<ArgumentNullException>(arg4 != null);
+            Contract.Requires<ArgumentNullException>(arg5 != null);
+            Contract.Requires<ArgumentNullException>(arg6 != null);
 
             return Throw(Invoke<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TException>(func, arg1, arg2, arg3, arg4, arg5, arg6, displayName), displayName);
         }
@@ -240,6 +297,12 @@ namespace Cogito.Activities
             where TException : Exception
         {
             Contract.Requires<ArgumentNullException>(func != null);
+            Contract.Requires<ArgumentNullException>(arg1 != null);
+            Contract.Requires<ArgumentNullException>(arg2 != null);
+            Contract.Requires<ArgumentNullException>(arg3 != null);
+            Contract.Requires<ArgumentNullException>(arg4 != null);
+            Contract.Requires<ArgumentNullException>(arg5 != null);
+            Contract.Requires<ArgumentNullException>(arg6 != null);
 
             return Throw(Invoke<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TException>(func, arg1, arg2, arg3, arg4, arg5, arg6, displayName), displayName);
         }
@@ -253,6 +316,13 @@ namespace Cogito.Activities
             where TException : Exception
         {
             Contract.Requires<ArgumentNullException>(func != null);
+            Contract.Requires<ArgumentNullException>(arg1 != null);
+            Contract.Requires<ArgumentNullException>(arg2 != null);
+            Contract.Requires<ArgumentNullException>(arg3 != null);
+            Contract.Requires<ArgumentNullException>(arg4 != null);
+            Contract.Requires<ArgumentNullException>(arg5 != null);
+            Contract.Requires<ArgumentNullException>(arg6 != null);
+            Contract.Requires<ArgumentNullException>(arg7 != null);
 
             return Throw(Invoke<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TException>(func, arg1, arg2, arg3, arg4, arg5, arg6, arg7, displayName), displayName);
         }
@@ -266,6 +336,13 @@ namespace Cogito.Activities
             where TException : Exception
         {
             Contract.Requires<ArgumentNullException>(func != null);
+            Contract.Requires<ArgumentNullException>(arg1 != null);
+            Contract.Requires<ArgumentNullException>(arg2 != null);
+            Contract.Requires<ArgumentNullException>(arg3 != null);
+            Contract.Requires<ArgumentNullException>(arg4 != null);
+            Contract.Requires<ArgumentNullException>(arg5 != null);
+            Contract.Requires<ArgumentNullException>(arg6 != null);
+            Contract.Requires<ArgumentNullException>(arg7 != null);
 
             return Throw(Invoke<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TException>(func, arg1, arg2, arg3, arg4, arg5, arg6, arg7, displayName), displayName);
         }
@@ -279,6 +356,13 @@ namespace Cogito.Activities
             where TException : Exception
         {
             Contract.Requires<ArgumentNullException>(func != null);
+            Contract.Requires<ArgumentNullException>(arg1 != null);
+            Contract.Requires<ArgumentNullException>(arg2 != null);
+            Contract.Requires<ArgumentNullException>(arg3 != null);
+            Contract.Requires<ArgumentNullException>(arg4 != null);
+            Contract.Requires<ArgumentNullException>(arg5 != null);
+            Contract.Requires<ArgumentNullException>(arg6 != null);
+            Contract.Requires<ArgumentNullException>(arg7 != null);
 
             return Throw(Invoke<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TException>(func, arg1, arg2, arg3, arg4, arg5, arg6, arg7, displayName), displayName);
         }
@@ -292,6 +376,14 @@ namespace Cogito.Activities
             where TException : Exception
         {
             Contract.Requires<ArgumentNullException>(func != null);
+            Contract.Requires<ArgumentNullException>(arg1 != null);
+            Contract.Requires<ArgumentNullException>(arg2 != null);
+            Contract.Requires<ArgumentNullException>(arg3 != null);
+            Contract.Requires<ArgumentNullException>(arg4 != null);
+            Contract.Requires<ArgumentNullException>(arg5 != null);
+            Contract.Requires<ArgumentNullException>(arg6 != null);
+            Contract.Requires<ArgumentNullException>(arg7 != null);
+            Contract.Requires<ArgumentNullException>(arg8 != null);
 
             return Throw(Invoke<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TException>(func, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, displayName), displayName);
         }
@@ -305,6 +397,14 @@ namespace Cogito.Activities
             where TException : Exception
         {
             Contract.Requires<ArgumentNullException>(func != null);
+            Contract.Requires<ArgumentNullException>(arg1 != null);
+            Contract.Requires<ArgumentNullException>(arg2 != null);
+            Contract.Requires<ArgumentNullException>(arg3 != null);
+            Contract.Requires<ArgumentNullException>(arg4 != null);
+            Contract.Requires<ArgumentNullException>(arg5 != null);
+            Contract.Requires<ArgumentNullException>(arg6 != null);
+            Contract.Requires<ArgumentNullException>(arg7 != null);
+            Contract.Requires<ArgumentNullException>(arg8 != null);
 
             return Throw(Invoke<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TException>(func, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, displayName), displayName);
         }
@@ -318,6 +418,14 @@ namespace Cogito.Activities
             where TException : Exception
         {
             Contract.Requires<ArgumentNullException>(func != null);
+            Contract.Requires<ArgumentNullException>(arg1 != null);
+            Contract.Requires<ArgumentNullException>(arg2 != null);
+            Contract.Requires<ArgumentNullException>(arg3 != null);
+            Contract.Requires<ArgumentNullException>(arg4 != null);
+            Contract.Requires<ArgumentNullException>(arg5 != null);
+            Contract.Requires<ArgumentNullException>(arg6 != null);
+            Contract.Requires<ArgumentNullException>(arg7 != null);
+            Contract.Requires<ArgumentNullException>(arg8 != null);
 
             return Throw(Invoke<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TException>(func, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, displayName), displayName);
         }
