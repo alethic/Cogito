@@ -7,6 +7,9 @@ using Microsoft.ServiceFabric.Services.Communication.Client;
 namespace Cogito.ServiceFabric.Http
 {
 
+    /// <summary>
+    /// Attempts to handle exceptions from the <see cref="HttpCommunicationClient"/> in a graceful manner.
+    /// </summary>
     public class HttpExceptionHandler :
         IExceptionHandler
     {

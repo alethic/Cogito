@@ -21,7 +21,6 @@ namespace Cogito.ServiceFabric.Http
         /// <summary>
         /// Initializes a new instance.
         /// </summary>
-        /// <param name="http"></param>
         /// <param name="baseAddress"></param>
         public HttpCommunicationClient(Uri baseAddress)
         {
@@ -32,7 +31,7 @@ namespace Cogito.ServiceFabric.Http
         }
 
         /// <summary>
-        /// Gets the <see cref="HttpCliet"/> instance used to communicate with the service.
+        /// Gets the <see cref="HttpClient"/> instance used to communicate with the service.
         /// </summary>
         public HttpClient Http
         {
@@ -75,6 +74,5 @@ namespace Cogito.ServiceFabric.Http
         ResolvedServicePartition ICommunicationClient.ResolvedServicePartition { get; set; }
 
     }
-
 
 }
