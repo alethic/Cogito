@@ -9,11 +9,11 @@ namespace Cogito.ServiceFabric.Activities.Test.TestActor.Interfaces
         IActor
     {
 
-        Task Run();
+        Task CallMe1(ITest test1);
 
-        Task<int> GetNumber();
+        Task CallMe2();
 
-        Task SetNumber(int value);
+        Task Start();
 
     }
 

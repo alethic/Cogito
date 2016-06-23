@@ -4,6 +4,7 @@ using System.Diagnostics.Contracts;
 using System.Linq;
 
 using Microsoft.ServiceFabric.Actors;
+using Microsoft.ServiceFabric.Actors.Client;
 
 namespace Cogito.ServiceFabric
 {

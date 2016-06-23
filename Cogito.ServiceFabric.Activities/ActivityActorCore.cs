@@ -34,6 +34,14 @@ namespace Cogito.ServiceFabric.Activities
         }
 
         /// <summary>
+        /// Gets a reference to the workflow host.
+        /// </summary>
+        internal ActivityWorkflowHost Host
+        {
+            get { return host; }
+        }
+
+        /// <summary>
         /// Overrides the <see cref="OnActivateAsync"/> method so it can be reimplemented above.
         /// </summary>
         /// <returns></returns>
@@ -96,6 +104,15 @@ namespace Cogito.ServiceFabric.Activities
         /// </summary>
         /// <returns></returns>
         protected abstract Activity CreateActivity();
+
+        /// <summary>
+        /// Creates a new instance of <see cref="Activity"/>.
+        /// </summary>
+        /// <returns></returns>
+        internal Activity CreateActivityInternal()
+        {
+            return CreateActivity();
+        }
 
         /// <summary>
         /// Creates the set of activity parameters to be passed to the workflow.
@@ -186,7 +203,7 @@ namespace Cogito.ServiceFabric.Activities
         /// </summary>
         /// <param name="args"></param>
         /// <returns></returns>
-        protected virtual Task OnIdle(WorkflowApplicationIdleEventArgs args)
+        protected virtual Task OnIdleAsync(WorkflowApplicationIdleEventArgs args)
         {
             return Task.FromResult(true);
         }
@@ -215,9 +232,9 @@ namespace Cogito.ServiceFabric.Activities
         /// Invoked when the activity workflow is persisted to the <see cref="IActorStateManager"/>.
         /// </summary>
         /// <returns></returns>
-        protected virtual async Task OnPersistedAsync()
+        protected virtual Task OnPersistedAsync()
         {
-            await SaveStateAsync();
+            return SaveStateAsync();
         }
 
         /// <summary>
@@ -391,6 +408,11 @@ namespace Cogito.ServiceFabric.Activities
             UnregisterTimer(timer);
         }
 
+        void IActivityActorInternal.InvokeWithTimer(Func<Task> action)
+        {
+            InvokeWithTimer(action);
+        }
+
         Task IActivityActorInternal.InvokeWithTimerAsync(Func<Task> action)
         {
             return InvokeWithTimerAsync(action);
@@ -421,37 +443,37 @@ namespace Cogito.ServiceFabric.Activities
             return UnregisterReminderAsync(reminder);
         }
 
-        async Task IActivityActorInternal.OnPersisted()
+        async Task IActivityActorInternal.OnPersistedAsync()
         {
             await OnPersistedAsync();
         }
 
-        Task IActivityActorInternal.OnUnhandledException(WorkflowApplicationUnhandledExceptionEventArgs args)
+        Task IActivityActorInternal.OnUnhandledExceptionAsync(WorkflowApplicationUnhandledExceptionEventArgs args)
         {
             return OnUnhandledExceptionAsync(args);
         }
 
-        Task IActivityActorInternal.OnAborted(WorkflowApplicationAbortedEventArgs args)
+        Task IActivityActorInternal.OnAbortedAsync(WorkflowApplicationAbortedEventArgs args)
         {
             return OnAbortedAsync(args);
         }
 
-        Task IActivityActorInternal.OnPersistableIdle(WorkflowApplicationIdleEventArgs args)
+        Task IActivityActorInternal.OnPersistableIdleAsync(WorkflowApplicationIdleEventArgs args)
         {
             return OnPersistableIdleAsync(args);
         }
 
-        Task IActivityActorInternal.OnIdle(WorkflowApplicationIdleEventArgs args)
+        Task IActivityActorInternal.OnIdleAsync(WorkflowApplicationIdleEventArgs args)
         {
-            return OnIdle(args);
+            return OnIdleAsync(args);
         }
 
-        Task IActivityActorInternal.OnCompleted(WorkflowApplicationCompletedEventArgs args)
+        Task IActivityActorInternal.OnCompletedAsync(WorkflowApplicationCompletedEventArgs args)
         {
             return OnCompletedAsync(args);
         }
 
-        Task IActivityActorInternal.OnUnloaded(WorkflowApplicationEventArgs args)
+        Task IActivityActorInternal.OnUnloadedAsync(WorkflowApplicationEventArgs args)
         {
             return OnUnloadedAsync(args);
         }

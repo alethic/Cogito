@@ -10,7 +10,7 @@ namespace Cogito.Net.Http
     /// <summary>
     /// Intercepts HTTP messages and writes them to the event source.
     /// </summary>
-    public class HttpEventSourceWriterHandler :
+    public class HttpMessageEventSourceWriterHandler :
         DelegatingHandler
     {
 
@@ -19,7 +19,7 @@ namespace Cogito.Net.Http
         /// </summary>
         /// <param name="eventSource"></param>
         /// <param name="innerHandler"></param>
-        public HttpEventSourceWriterHandler(HttpMessageHandler innerHandler)
+        public HttpMessageEventSourceWriterHandler(HttpMessageHandler innerHandler)
             : base(innerHandler)
         {
             Contract.Requires<ArgumentNullException>(innerHandler != null);
@@ -28,7 +28,7 @@ namespace Cogito.Net.Http
         /// <summary>
         /// Initializes a new instance.
         /// </summary>
-        public HttpEventSourceWriterHandler()
+        public HttpMessageEventSourceWriterHandler()
             : this(new HttpClientHandler())
         {
 
@@ -36,9 +36,9 @@ namespace Cogito.Net.Http
 
         protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
-            HttpMessageEventSource.Current.Request(request);
+            HttpMessageEventSource.Current.HttpRequestStart(request);
             var response = await base.SendAsync(request, cancellationToken);
-            HttpMessageEventSource.Current.Response(response);
+            HttpMessageEventSource.Current.HttpRequestStop(response);
 
             return response;
         }

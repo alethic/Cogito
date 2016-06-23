@@ -177,21 +177,31 @@ namespace Cogito.ServiceFabric
         /// Schedules the given action using an actor timer.
         /// </summary>
         /// <param name="action"></param>
-        protected Task InvokeWithTimerAsync(Func<Task> action)
+        protected void InvokeWithTimer(Func<Task> action)
         {
             Contract.Requires<ArgumentNullException>(action != null);
 
             // hoist timer so it can be unregistered
             IActorTimer timer = null;
-            var cs = new TaskCompletionSource<bool>();
 
             // schedule timer
             timer = RegisterTimer(
-                async o => { UnregisterTimer(timer); await cs.SafeTrySetFromAsync(action); },
+                async o => { UnregisterTimer(timer); await action(); },
                 null,
                 TimeSpan.FromMilliseconds(1),
                 TimeSpan.FromMilliseconds(-1));
+        }
 
+        /// <summary>
+        /// Schedules the given action using an actor timer.
+        /// </summary>
+        /// <param name="action"></param>
+        protected Task InvokeWithTimerAsync(Func<Task> action)
+        {
+            Contract.Requires<ArgumentNullException>(action != null);
+
+            var cs = new TaskCompletionSource<bool>();
+            InvokeWithTimer(async () => await cs.SafeTrySetFromAsync(action));
             return cs.Task;
         }
 
@@ -203,18 +213,31 @@ namespace Cogito.ServiceFabric
         {
             Contract.Requires<ArgumentNullException>(func != null);
 
-            // hoist timer so it can be unregistered
-            IActorTimer timer = null;
             var cs = new TaskCompletionSource<TResult>();
-
-            // schedule timer
-            timer = RegisterTimer(
-                async o => { UnregisterTimer(timer); await cs.SafeTrySetFromAsync(func); },
-                null,
-                TimeSpan.FromMilliseconds(1),
-                TimeSpan.FromMilliseconds(-1));
-
+            InvokeWithTimer(async () => await cs.SafeTrySetFromAsync(func));
             return cs.Task;
+        }
+
+        /// <summary>
+        /// This method is invoked just before invoking an actor method.
+        /// </summary>
+        /// <param name="actorMethodContext"></param>
+        /// <returns></returns>
+        protected override Task OnPreActorMethodAsync(ActorMethodContext actorMethodContext)
+        {
+            EventSource.Current.ActorMethodPre(this, actorMethodContext);
+            return base.OnPreActorMethodAsync(actorMethodContext);
+        }
+
+        /// <summary>
+        /// This method is invoked after an actor method has finished execution.
+        /// </summary>
+        /// <param name="actorMethodContext"></param>
+        /// <returns></returns>
+        protected override Task OnPostActorMethodAsync(ActorMethodContext actorMethodContext)
+        {
+            EventSource.Current.ActorMethodPost(this, actorMethodContext);
+            return base.OnPostActorMethodAsync(actorMethodContext);
         }
 
     }

@@ -68,6 +68,12 @@ namespace Cogito.ServiceFabric.Activities
         /// Invokes the given action once on an actor timer.
         /// </summary>
         /// <param name="action"></param>
+        void InvokeWithTimer(Func<Task> action);
+
+        /// <summary>
+        /// Invokes the given action once on an actor timer.
+        /// </summary>
+        /// <param name="action"></param>
         Task InvokeWithTimerAsync(Func<Task> action);
 
         /// <summary>
@@ -112,49 +118,49 @@ namespace Cogito.ServiceFabric.Activities
         /// Invoked when the activity workflow is persisted to the <see cref="IActorStateManager"/>.
         /// </summary>
         /// <returns></returns>
-        Task OnPersisted();
+        Task OnPersistedAsync();
 
         /// <summary>
         /// Invoked when an unhandled <see cref="Exception"/> occurs.
         /// </summary>
         /// <param name="args"></param>
         /// <returns></returns>
-        Task OnUnhandledException(WorkflowApplicationUnhandledExceptionEventArgs args);
+        Task OnUnhandledExceptionAsync(WorkflowApplicationUnhandledExceptionEventArgs args);
 
         /// <summary>
         /// Invoked when the workflow is aborted.
         /// </summary>
         /// <param name="args"></param>
         /// <returns></returns>
-        Task OnAborted(WorkflowApplicationAbortedEventArgs args);
+        Task OnAbortedAsync(WorkflowApplicationAbortedEventArgs args);
 
         /// <summary>
         /// Invoked when the workflow goes idle.
         /// </summary>
         /// <param name="args"></param>
         /// <returns></returns>
-        Task OnIdle(WorkflowApplicationIdleEventArgs args);
+        Task OnIdleAsync(WorkflowApplicationIdleEventArgs args);
 
         /// <summary>
         /// Invoked when the workflow goes idle and is persitable.
         /// </summary>
         /// <param name="args"></param>
         /// <returns></returns>
-        Task OnPersistableIdle(WorkflowApplicationIdleEventArgs args);
+        Task OnPersistableIdleAsync(WorkflowApplicationIdleEventArgs args);
 
         /// <summary>
         /// Invoked when the workflow is completed.
         /// </summary>
         /// <param name="args"></param>
         /// <returns></returns>
-        Task OnCompleted(WorkflowApplicationCompletedEventArgs args);
+        Task OnCompletedAsync(WorkflowApplicationCompletedEventArgs args);
 
         /// <summary>
         /// Invoked when the workflow is unloaded.
         /// </summary>
         /// <param name="args"></param>
         /// <returns></returns>
-        Task OnUnloaded(WorkflowApplicationEventArgs args);
+        Task OnUnloadedAsync(WorkflowApplicationEventArgs args);
 
     }
 

@@ -1,36 +1,36 @@
 ﻿using System;
 using System.Activities;
-using System.Activities.Statements;
+using System.Diagnostics.Contracts;
 
 namespace Cogito.Activities
 {
 
-    public static partial class Activities
+    public static partial class Expressions
     {
 
+        /// <summary>
+        /// Waits for a bookmark with the given name before continuing.
+        /// </summary>
+        /// <param name="bookmarkName"></param>
+        /// <returns></returns>
         public static Wait Wait(InArgument<string> bookmarkName)
         {
+            Contract.Requires<ArgumentNullException>(bookmarkName != null);
+
             return new Wait(bookmarkName);
         }
 
+        /// <summary>
+        /// Waits for a bookmark with the given name before continuing.
+        /// </summary>
+        /// <typeparam name="TResult"></typeparam>
+        /// <param name="bookmarkName"></param>
+        /// <returns></returns>
         public static Wait<TResult> Wait<TResult>(InArgument<string> bookmarkName)
         {
+            Contract.Requires<ArgumentNullException>(bookmarkName != null);
+
             return new Wait<TResult>(bookmarkName);
-        }
-
-        public static Wait Wait<TWith>(Func<TWith, string> bookmarkName, InArgument<TWith> arg)
-        {
-            return new Wait(Invoke(bookmarkName, arg));
-        }
-
-        public static Wait Wait<TWith>(Func<TWith, string> bookmarkName, DelegateInArgument<TWith> arg)
-        {
-            return new Wait(Invoke(bookmarkName, arg));
-        }
-
-        public static Wait<TResult> Wait<TWith, TResult>(Func<TWith, string> bookmarkName, InArgument<TWith> arg)
-        {
-            return new Wait<TResult>(Invoke(bookmarkName, arg));
         }
 
     }

@@ -1,41 +1,30 @@
 ﻿using System;
 using System.Activities;
-using System.Activities.Statements;
+using System.Diagnostics.Contracts;
 using System.Threading.Tasks;
 
 namespace Cogito.Activities
 {
 
-    public static partial class Activities
+    public static partial class Expressions
     {
 
-        public static AsyncActionActivity Invoke(Func<Task> func)
+        /// <summary>
+        /// Returns an <see cref="Activity"/> that executes <paramref name="func"/>.
+        /// </summary>
+        /// <param name="func"></param>
+        /// <param name="displayName"></param>
+        /// <param name="exector"></param>
+        /// <returns></returns>
+        public static AsyncActionActivity Invoke(Func<Task> func, string displayName = null, AsyncTaskExecutor exector = null)
         {
-            return new AsyncActionActivity(context => func());
-        }
-        public static AsyncActionActivity InvokeWithContext(Func<ActivityContext, Task> func)
-        {
-            return new AsyncActionActivity(func);
-        }
+            Contract.Requires<ArgumentNullException>(func != null);
 
-        public static Sequence Then(this Activity activity, Func<Task> action)
-        {
-            return Then(activity, new AsyncActionActivity(contxt => action()));
-        }
-
-        public static Sequence Then(this Activity activity, Func<ActivityContext, Task> action)
-        {
-            return Then(activity, new AsyncActionActivity(action));
-        }
-
-        public static AsyncActionActivity<TResult> Then<TResult>(this Activity<TResult> activity, Func<TResult, Task> action)
-        {
-            return new AsyncActionActivity<TResult>((arg, context) => action(arg), activity);
-        }
-
-        public static AsyncActionActivity<TResult> Then<TResult>(this Activity<TResult> activity, Func<TResult, ActivityContext, Task> action)
-        {
-            return new AsyncActionActivity<TResult>(action, activity);
+            return new AsyncActionActivity(func)
+            {
+                DisplayName = displayName,
+                Executor = exector,
+            };
         }
 
     }
@@ -49,7 +38,12 @@ namespace Cogito.Activities
 
         public static implicit operator ActivityAction(AsyncActionActivity activity)
         {
-            return Activities.Delegate(() => activity);
+            return activity != null ? Expressions.Delegate(() => activity) : null;
+        }
+
+        public static implicit operator ActivityDelegate(AsyncActionActivity activity)
+        {
+            return activity;
         }
 
         /// <summary>
@@ -64,7 +58,7 @@ namespace Cogito.Activities
         /// Initializes a new instance.
         /// </summary>
         /// <param name="action"></param>
-        public AsyncActionActivity(Func<ActivityContext, Task> action)
+        public AsyncActionActivity(Func<Task> action)
             : this()
         {
             Action = action;
@@ -74,11 +68,17 @@ namespace Cogito.Activities
         /// Gets or sets the action to be invoked.
         /// </summary>
         [RequiredArgument]
-        public Func<ActivityContext, Task> Action { get; set; }
+        public Func<Task> Action { get; set; }
 
-        protected override Task ExecuteAsync(AsyncCodeActivityContext context)
+        /// <summary>
+        /// Executes the activity.
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="executor"></param>
+        /// <returns></returns>
+        protected override Task ExecuteAsync(AsyncCodeActivityContext context, AsyncTaskExecutor executor)
         {
-            return Action(context);
+            return Action != null ? executor.ExecuteAsync(Action) : null;
         }
 
     }

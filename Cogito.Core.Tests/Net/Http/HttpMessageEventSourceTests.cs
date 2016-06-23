@@ -1,15 +1,10 @@
-﻿using System;
-using System.Diagnostics.Eventing.Reader;
-using System.Net;
+﻿using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using Cogito.Net.Http;
-using Microsoft.Diagnostics.Tracing;
-using Microsoft.Diagnostics.Tracing.Session;
-using Microsoft.Practices.EnterpriseLibrary.SemanticLogging.Utility;
-using Microsoft.Samples.Eventing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Cogito.Tests.Net.Http
+namespace Cogito.Core.Tests.Net.Http
 {
 
     [TestClass]
@@ -17,33 +12,20 @@ namespace Cogito.Tests.Net.Http
     {
 
         [TestMethod]
-        public void Test_EventSource()
+        public void Test_event()
         {
-            EventSourceAnalyzer.InspectAll(HttpMessageEventSource.Current);
+            var request = new HttpRequestMessage(HttpMethod.Get, "http://www.temp.com");
+            request.Content = new StringContent("hi");
+            request.Content.Headers.ContentType = new MediaTypeHeaderValue("text/plain");
+
+            var response = new HttpResponseMessage(HttpStatusCode.OK);
+            response.Content = new StringContent("hello");
+            response.Content.Headers.ContentType = new MediaTypeHeaderValue("text/plain");
+            response.RequestMessage = request;
+
+            HttpMessageEventSource.Current.HttpRequestStart(request);
+            HttpMessageEventSource.Current.HttpRequestStop(response);
         }
-
-        //[TestMethod]
-        //public void Test_Request()
-        //{
-        //    using (var session = new TraceEventSession("MyRealTimeSession"))
-        //    {
-        //        session.Source.Dynamic.All += data => Console.WriteLine("GOT Event " + data);
-        //        session.EnableProvider(TraceEventProviders.GetEventSourceGuidFromName("Cogito-Net-Http-Messages"));
-
-        //        HttpMessageEventSource.Current.Request(new HttpRequestMessage(HttpMethod.Get, new Uri("http://www.tempuri.com"))
-        //        {
-
-        //        });
-
-        //        session.Source.Process();
-        //    }
-        //}
-
-        //[TestMethod]
-        //public void Test_Response()
-        //{
-        //    HttpMessageEventSource.Current.Response(new HttpResponseMessage(HttpStatusCode.OK));
-        //}
 
     }
 

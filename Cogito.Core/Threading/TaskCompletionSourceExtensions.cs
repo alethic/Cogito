@@ -91,7 +91,7 @@ namespace Cogito.Threading
         /// <param name="self"></param>
         /// <param name="task"></param>
         /// <returns></returns>
-        public static async Task<bool> SafeTrySetFromAsync<TResult>(this TaskCompletionSource<TResult> self, Task<TResult> task)
+        static async Task<bool> SafeTrySetFromAsync<TResult>(this TaskCompletionSource<TResult> self, Task<TResult> task)
         {
             Contract.Requires<ArgumentNullException>(self != null);
             Contract.Requires<ArgumentNullException>(task != null);
@@ -116,7 +116,7 @@ namespace Cogito.Threading
         /// <param name="self"></param>
         /// <param name="task"></param>
         /// <returns></returns>
-        public static async Task<bool> SafeTrySetFromAsync<TResult>(this TaskCompletionSource<TResult> self, Task task)
+        static async Task<bool> SafeTrySetFromAsync<TResult>(this TaskCompletionSource<TResult> self, Task task)
         {
             Contract.Requires<ArgumentNullException>(self != null);
             Contract.Requires<ArgumentNullException>(task != null);

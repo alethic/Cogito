@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace Cogito.ServiceFabric.Activities.Test.TestActor
 {
     [EventSource(Name = "MyCompany-Cogito.ServiceFabric.Activities.Test.Application-Cogito.ServiceFabric.Activities.Test.TestActor")]
-    internal sealed class ActorEventSource : EventSource
+    internal sealed class ActorEventSource : System.Diagnostics.Tracing.EventSource
     {
         public static readonly ActorEventSource Current = new ActorEventSource();
 

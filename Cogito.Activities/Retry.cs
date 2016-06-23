@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Activities;
 using System.Activities.Statements;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics.Contracts;
@@ -11,7 +10,7 @@ using System.Threading.Tasks;
 namespace Cogito.Activities
 {
 
-    public static partial class Activities
+    public static partial class Expressions
     {
 
         /// <summary>
@@ -221,38 +220,6 @@ namespace Cogito.Activities
             Contract.Requires<ArgumentNullException>(@catch != null);
 
             return Catch(retry, Delegate<TException, int>((exception, attempts) => @catch));
-        }
-
-        /// <summary>
-        /// Handles a <see cref="Exception"/> for the given <see cref="Retry"/>.
-        /// </summary>
-        /// <typeparam name="TException"></typeparam>
-        /// <param name="retry"></param>
-        /// <param name="catch"></param>
-        /// <returns></returns>
-        public static Retry Catch<TException>(this Retry retry, Action<TException> @catch)
-            where TException : Exception
-        {
-            Contract.Requires<ArgumentNullException>(retry != null);
-            Contract.Requires<ArgumentNullException>(@catch != null);
-
-            return Catch(retry, Delegate<TException, int>((exception, attempts) => Invoke(@catch, exception)));
-        }
-
-        /// <summary>
-        /// Handles a <see cref="Exception"/> for the given <see cref="Retry"/>.
-        /// </summary>
-        /// <typeparam name="TException"></typeparam>
-        /// <param name="retry"></param>
-        /// <param name="catch"></param>
-        /// <returns></returns>
-        public static Retry Catch<TException>(this Retry retry, Action<TException, int> @catch)
-            where TException : Exception
-        {
-            Contract.Requires<ArgumentNullException>(retry != null);
-            Contract.Requires<ArgumentNullException>(@catch != null);
-
-            return Catch(retry, Delegate<TException, int>((exception, attempts) => Invoke(@catch, exception, attempts)));
         }
 
         /// <summary>

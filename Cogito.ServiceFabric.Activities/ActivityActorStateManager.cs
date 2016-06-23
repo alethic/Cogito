@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Runtime.DurableInstancing;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+
+using Cogito.Collections;
 
 using Microsoft.ServiceFabric.Actors.Runtime;
 
@@ -17,234 +20,195 @@ namespace Cogito.ServiceFabric.Activities
     class ActivityActorStateManager
     {
 
-        const string KEY_PREFIX = "__ActivityActorState__";
+        const string STATE_NAME = "__ActivityActorState__";
 
-        /// <summary>
-        /// Creates a key for storing objects in the state manager.
-        /// </summary>
-        /// <param name="objectName"></param>
-        /// <returns></returns>
-        static string FormatKey(string objectName)
-        {
-            Contract.Requires<ArgumentNullException>(objectName != null);
+        readonly ActivityWorkflowHost host;
 
-            return KEY_PREFIX + objectName;
-        }
-
-
-        readonly Lazy<IActorStateManager> state;
+        // instance state
+        Guid instanceOwnerId;
+        Guid instanceId;
+        InstanceState instanceState;
+        ImmutableDictionary<XName, object> instanceData = ImmutableDictionary<XName, object>.Empty;
+        ImmutableDictionary<XName, object> instanceMetadata = ImmutableDictionary<XName, object>.Empty;
 
         /// <summary>
         /// Initializes a new instance.
         /// </summary>
-        /// <param name="stateFunc"></param>
-        public ActivityActorStateManager(Func<IActorStateManager> stateFunc)
+        /// <param name="host"></param>
+        public ActivityActorStateManager(ActivityWorkflowHost host)
         {
-            Contract.Requires<ArgumentNullException>(stateFunc != null);
+            Contract.Requires<ArgumentNullException>(host != null);
 
-            this.state = new Lazy<IActorStateManager>(stateFunc);
+            this.host = host;
+        }                            
+
+        /// <summary>
+        /// Gets or sets the instance owner id.
+        /// </summary>
+        public Guid InstanceOwnerId
+        {
+            get { return instanceOwnerId; }
+            set { instanceOwnerId = value; }
         }
 
         /// <summary>
-        /// Gets the instance owner id.
+        /// Gets or sets the instance id.
         /// </summary>
-        public async Task<Guid> GetInstanceOwnerId()
+        public Guid InstanceId
         {
-            var item = await state.Value.TryGetStateAsync<Guid>(FormatKey("InstanceOwnerId"));
-            return item.HasValue ? item.Value : Guid.Empty;
+            get { return instanceId; }
+            set { instanceId = value; }
         }
 
         /// <summary>
-        /// Sets the instance owner id.
+        /// Gets or sets the instance state.
         /// </summary>
+        public InstanceState InstanceState
+        {
+            get { return instanceState; }
+            set { instanceState = value; }
+        }
+
+        /// <summary>
+        /// Sets an instance data item.
+        /// </summary>
+        /// <param name="name"></param>
         /// <param name="value"></param>
+        public void SetInstanceData(XName name, object value)
+        {
+            instanceData = instanceData.SetItem(name, value);
+        }
+
+        /// <summary>
+        /// Gets an instance data item.
+        /// </summary>
+        /// <param name="name"></param>
         /// <returns></returns>
-        public Task SetInstanceOwnerId(Guid value)
+        public object GetInstanceData(XName name)
         {
-            return state.Value.SetStateAsync(FormatKey("InstanceOwnerId"), value);
+            return instanceData.GetValueOrDefault(name);
         }
 
         /// <summary>
-        /// Gets the status.
+        /// Gets the available instance data names.
         /// </summary>
-        public async Task<InstanceState> GetInstanceState()
+        /// <returns></returns>
+        public IEnumerable<XName> GetInstanceDataNames()
         {
-            var item = await state.Value.TryGetStateAsync<InstanceState>(FormatKey("InstanceState"));
-            return item.HasValue ? item.Value : default(InstanceState);
+            return instanceData.Keys;
         }
 
         /// <summary>
-        /// Sets the status.
+        /// Clears the instance metadata.
         /// </summary>
+        public void ClearInstanceData()
+        {
+            instanceData = instanceData.Clear();
+        }
+
+        /// <summary>
+        /// Sets an instance metadata item.
+        /// </summary>
+        /// <param name="name"></param>
         /// <param name="value"></param>
-        /// <returns></returns>
-        public Task SetInstanceState(InstanceState value)
+        public void SetInstanceMetadata(XName name, object value)
         {
-            return state.Value.SetStateAsync(FormatKey("InstanceState"), value);
+            instanceMetadata = instanceMetadata.SetItem(name, value);
         }
 
         /// <summary>
-        /// Gets the instance id.
+        /// Gets an instance metadata item.
         /// </summary>
+        /// <param name="name"></param>
         /// <returns></returns>
-        public async Task<Guid> GetInstanceId()
+        public object GetInstanceMetadata(XName name)
         {
-            var item = await state.Value.TryGetStateAsync<Guid>(FormatKey("InstanceId"));
-            return item.HasValue ? item.Value : Guid.Empty;
+            return instanceMetadata.GetValueOrDefault(name);
         }
 
         /// <summary>
-        /// Sets the instance id.
+        /// Gets the available instance data names.
         /// </summary>
-        /// <param name="value"></param>
         /// <returns></returns>
-        public Task SetInstanceId(Guid value)
+        public IEnumerable<XName> GetInstanceMetadataNames()
         {
-            return state.Value.SetStateAsync(FormatKey("InstanceId"), value);
+            return instanceMetadata.Keys;
         }
 
         /// <summary>
-        /// Gets the instance data items.
+        /// Clears the instance metadata.
+        /// </summary>
+        public void ClearInstanceMetadata()
+        {
+            instanceMetadata = instanceMetadata.Clear();
+        }
+
+        /// <summary> 
+        /// Loads the state from the actor. Should be invoked from a context with an actor lock.
         /// </summary>
         /// <returns></returns>
-        public async Task<IEnumerable<XName>> GetInstanceDataItems()
+        public async Task LoadAsync()
         {
-            var prefix = FormatKey("InstanceData") + "::";
-
-            return (await state.Value.GetStateNamesAsync())
-                .Where(i => i.StartsWith(prefix))
-                .Select(i => i.Substring(prefix.Length))
-                .Select(i => XName.Get(i))
-                .ToArray();
+            var state = await host.Actor.StateManager.TryGetStateAsync<ActivityActorState>(STATE_NAME);
+            if (state.HasValue)
+            {
+                instanceOwnerId = state.Value.InstanceOwnerId;
+                instanceId = state.Value.InstanceId;
+                instanceState= state.Value.InstanceState;
+                instanceData = state.Value.InstanceData.ToImmutableDictionary();
+                instanceMetadata = state.Value.InstanceMetadata.ToImmutableDictionary();
+            }
+            else
+            {
+                instanceOwnerId = Guid.Empty;
+                instanceId = Guid.Empty;
+                instanceState = InstanceState.Unknown;
+                instanceData = ImmutableDictionary<XName, object>.Empty;
+                instanceMetadata = ImmutableDictionary<XName, object>.Empty;
+            }
         }
 
         /// <summary>
-        /// Gets the instance data with the specified key.
-        /// </summary>
-        /// <param name="key"></param>
-        /// <returns></returns>
-        public async Task<object> GetInstanceData(XName key)
-        {
-            var item = await state.Value.TryGetStateAsync<ActivityActorInstanceValue>(FormatKey("InstanceData") + "::" + key);
-            return item.HasValue ? item.Value.Value : null;
-        }
-
-        /// <summary>
-        /// Gets the instance data with the specified key.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="key"></param>
-        /// <returns></returns>
-        public async Task<T> GetInstanceData<T>(XName key)
-        {
-            return (T)await GetInstanceData(key);
-        }
-
-        /// <summary>
-        /// Sets the instance data with the specified key.
-        /// </summary>
-        /// <param name="key"></param>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        public Task SetInstanceData(XName key, object value)
-        {
-            return state.Value.SetStateAsync(FormatKey("InstanceData") + "::" + key, new ActivityActorInstanceValue() { Value = value });
-        }
-
-        /// <summary>
-        /// Clears all stored instance data.
+        /// Saves the state to the actor. Should be invoked from a context with an actor lock.
         /// </summary>
         /// <returns></returns>
-        public async Task ClearInstanceData()
+        public async Task SaveAsync()
         {
-            foreach (var key in await GetInstanceDataItems())
-                await state.Value.RemoveStateAsync(FormatKey("InstanceData") + "::" + key);
-        }
-
-        /// <summary>
-        /// Gets the instance metadata items.
-        /// </summary>
-        /// <returns></returns>
-        public async Task<IEnumerable<XName>> GetInstanceMetadataItems()
-        {
-            var prefix = FormatKey("InstanceMetadata") + "::";
-
-            return (await state.Value.GetStateNamesAsync())
-                .Where(i => i.StartsWith(prefix))
-                .Select(i => i.Substring(prefix.Length))
-                .Select(i => XName.Get(i))
-                .ToArray();
-        }
-
-        /// <summary>
-        /// Gets the instance metadata with the specified key.
-        /// </summary>
-        /// <param name="key"></param>
-        public async Task<object> GetInstanceMetadata(XName key)
-        {
-            var item = await state.Value.TryGetStateAsync<ActivityActorInstanceValue>(FormatKey("InstanceMetadata") + "::" + key);
-            return item.HasValue ? item.Value.Value : null;
-        }
-
-        /// <summary>
-        /// Gets the instance metadata with the specified key.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="key"></param>
-        /// <returns></returns>
-        public async Task<T> GetInstanceMetadata<T>(XName key)
-        {
-            return (T)await GetInstanceMetadata(key);
-        }
-
-        /// <summary>
-        /// Sets the instance data with the specified key.
-        /// </summary>
-        /// <param name="key"></param>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        public Task SetInstanceMetadata(XName key, object value)
-        {
-            return state.Value.SetStateAsync(FormatKey("InstanceMetadata") + "::" + key, new ActivityActorInstanceValue() { Value = value });
-        }
-
-        /// <summary>
-        /// Clears all stored instance metadata.
-        /// </summary>
-        /// <returns></returns>
-        public async Task ClearInstanceMetadata()
-        {
-            foreach (var key in await GetInstanceMetadataItems())
-                await state.Value.RemoveStateAsync(FormatKey("InstanceMetadata" + "::" + key));
+            await host.Actor.StateManager.SetStateAsync(STATE_NAME, new ActivityActorState()
+            {
+                InstanceOwnerId = instanceOwnerId,
+                InstanceId = instanceId,
+                InstanceState = instanceState,
+                InstanceData = instanceData.ToArray(),
+                InstanceMetadata = instanceMetadata.ToArray(),
+            });
         }
 
         /// <summary>
         /// Raised by the instance store after persistence.
         /// </summary>
-        public Func<Task> Persisted;
+        public Action Persisted;
 
         /// <summary>
         /// Raises the Persisted event.
         /// </summary>
-        public async Task OnPersisted()
+        public void OnPersisted()
         {
-            if (Persisted != null)
-                await Persisted();
+            Persisted?.Invoke();
         }
 
         /// <summary>
         /// Raised by the instance store upon completion.
         /// </summary>
-        public Func<Task> Completed;
+        public Action Completed;
 
         /// <summary>
         /// Raises the Completed event.
         /// </summary>
         /// <returns></returns>
-        public async Task OnCompleted()
+        public void OnCompleted()
         {
-            if (Completed != null)
-                await Completed();
+            Completed?.Invoke();
         }
 
     }

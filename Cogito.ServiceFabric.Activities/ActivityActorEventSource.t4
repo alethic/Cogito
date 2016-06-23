@@ -50,14 +50,14 @@ class Arg
 
 RecordType[] recordTypes = new[]
 {
-    new RecordType(10, typeof(ActivityScheduledRecord), "ActivityScheduled", new[] { "ActivityScheduled" }, new[] 
+    new RecordType(110, typeof(ActivityScheduledRecord), "ActivityScheduled", new[] { "ActivityScheduled" }, new[] 
     {
         new Arg("string", "activityName", "record.Activity?.Name"),
         new Arg("string", "activityId", "record.Activity?.Id"),
         new Arg("string", "activityInstanceId", "record.Activity?.InstanceId"),
         new Arg("string", "activityTypeName", "record.Activity?.TypeName")
     }),
-    new RecordType(20, typeof(ActivityStateRecord), "ActivityState", new[] { "ActivityState" }, new[]
+    new RecordType(120, typeof(ActivityStateRecord), "ActivityState", new[] { "ActivityState" }, new[]
     {
         new Arg("string", "state", "record.State"),
         new Arg("string", "activityName", "record.Activity?.Name"),
@@ -67,20 +67,20 @@ RecordType[] recordTypes = new[]
         new Arg("string", "arguments", "PrepareDictionary(record.Arguments)"),
         new Arg("string", "variables", "PrepareDictionary(record.Variables)"),
     }),
-    new RecordType(30, typeof(BookmarkResumptionRecord), "BookmarkResumption", new[] { "BookmarkResumption" }, new[]
+    new RecordType(130, typeof(BookmarkResumptionRecord), "BookmarkResumption", new[] { "BookmarkResumption" }, new[]
     {
         new Arg("string", "bookmarkName", "record.BookmarkName"),
         new Arg("Guid", "bookmarkScope", "record.BookmarkScope"),
         new Arg("string", "payload", "null"),
     }),
-    new RecordType(40, typeof(CancelRequestedRecord), "CancelRequested", new[] { "CancelRequested" }, new[] 
+    new RecordType(140, typeof(CancelRequestedRecord), "CancelRequested", new[] { "CancelRequested" }, new[] 
     {
         new Arg("string", "activityName", "record.Activity?.Name"),
         new Arg("string", "activityId", "record.Activity?.Id"),
         new Arg("string", "activityInstanceId", "record.Activity?.InstanceId"),
         new Arg("string", "activityTypeName", "record.Activity?.TypeName")
     }),
-    new RecordType(50, typeof(FaultPropagationRecord), "FaultPropagation", new[] { "FaultPropagation" }, new[]
+    new RecordType(150, typeof(FaultPropagationRecord), "FaultPropagation", new[] { "FaultPropagation" }, new[]
     {
         new Arg("string", "faultMessage", "record.Fault?.Message"),
         new Arg("string", "faultSourceName", "record.FaultSource?.Name"),
@@ -92,34 +92,34 @@ RecordType[] recordTypes = new[]
         new Arg("string", "faultHandlerInstanceId", "record.FaultHandler?.InstanceId"),
         new Arg("string", "faultHandlerTypeName", "record.FaultHandler?.TypeName"),
     }),
-    new RecordType(60, typeof(WorkflowInstanceRecord), "WorkflowInstance", new[] { "WorkflowInstance" }, new[]
+    new RecordType(160, typeof(WorkflowInstanceRecord), "WorkflowInstance", new[] { "WorkflowInstance" }, new[]
     {
         new Arg("string", "state", "record.State"),
         new Arg("string", "workflowDefinitionIdentityName", "record.WorkflowDefinitionIdentity?.Name"),
         new Arg("string", "activityDefinitionId", "record.ActivityDefinitionId"),
     }),
-    new RecordType(70, typeof(WorkflowInstanceAbortedRecord), "WorkflowInstanceAborted", new[] { "WorkflowInstance", "WorkflowInstanceAborted" }, new[]
-    {
-        new Arg("string", "state", "record.State"),
-        new Arg("string", "workflowDefinitionIdentityName", "record.WorkflowDefinitionIdentity?.Name"),
-        new Arg("string", "activityDefinitionId", "record.ActivityDefinitionId"),
-        new Arg("string", "reason", "record.Reason"),
-    }),
-    new RecordType(80, typeof(WorkflowInstanceSuspendedRecord), "WorkflowInstanceSuspended", new[] { "WorkflowInstance", "WorkflowInstanceSuspended" }, new[]
+    new RecordType(170, typeof(WorkflowInstanceAbortedRecord), "WorkflowInstanceAborted", new[] { "WorkflowInstance", "WorkflowInstanceAborted" }, new[]
     {
         new Arg("string", "state", "record.State"),
         new Arg("string", "workflowDefinitionIdentityName", "record.WorkflowDefinitionIdentity?.Name"),
         new Arg("string", "activityDefinitionId", "record.ActivityDefinitionId"),
         new Arg("string", "reason", "record.Reason"),
     }),
-    new RecordType(90, typeof(WorkflowInstanceTerminatedRecord), "WorkflowInstanceTerminated", new[] { "WorkflowInstance", "WorkflowInstanceTerminated" }, new[]
+    new RecordType(180, typeof(WorkflowInstanceSuspendedRecord), "WorkflowInstanceSuspended", new[] { "WorkflowInstance", "WorkflowInstanceSuspended" }, new[]
     {
         new Arg("string", "state", "record.State"),
         new Arg("string", "workflowDefinitionIdentityName", "record.WorkflowDefinitionIdentity?.Name"),
         new Arg("string", "activityDefinitionId", "record.ActivityDefinitionId"),
         new Arg("string", "reason", "record.Reason"),
     }),
-    new RecordType(100, typeof(WorkflowInstanceUnhandledExceptionRecord), "WorkflowInstanceUnhandledException", new[] { "WorkflowInstance", "WorkflowInstanceUnhandledException" }, new[]
+    new RecordType(190, typeof(WorkflowInstanceTerminatedRecord), "WorkflowInstanceTerminated", new[] { "WorkflowInstance", "WorkflowInstanceTerminated" }, new[]
+    {
+        new Arg("string", "state", "record.State"),
+        new Arg("string", "workflowDefinitionIdentityName", "record.WorkflowDefinitionIdentity?.Name"),
+        new Arg("string", "activityDefinitionId", "record.ActivityDefinitionId"),
+        new Arg("string", "reason", "record.Reason"),
+    }),
+    new RecordType(200, typeof(WorkflowInstanceUnhandledExceptionRecord), "WorkflowInstanceUnhandledException", new[] { "WorkflowInstance", "WorkflowInstanceUnhandledException" }, new[]
     {
         new Arg("string", "state", "record.State"),
         new Arg("string", "workflowDefinitionIdentityName", "record.WorkflowDefinitionIdentity?.Name"),
@@ -130,14 +130,14 @@ RecordType[] recordTypes = new[]
         new Arg("string", "faultSourceTypeName", "record.FaultSource?.TypeName"),
         new Arg("string", "exception", "record.UnhandledException?.Message"),
     }),
-    new RecordType(110, typeof(WorkflowInstanceUpdatedRecord), "WorkflowInstanceUpdated", new[] { "WorkflowInstance", "WorkflowInstanceUpdated" }, new[]
+    new RecordType(210, typeof(WorkflowInstanceUpdatedRecord), "WorkflowInstanceUpdated", new[] { "WorkflowInstance", "WorkflowInstanceUpdated" }, new[]
     {
         new Arg("string", "state", "record.State"),
         new Arg("string", "workflowDefinitionIdentityName", "record.WorkflowDefinitionIdentity?.Name"),
         new Arg("string", "activityDefinitionId", "record.ActivityDefinitionId"),
         new Arg("bool", "isSuccessful", "record.IsSuccessful"),
     }),
-    new RecordType(200, typeof(CustomTrackingRecord), "CustomTracking", new[] { "CustomTracking" }, new[]
+    new RecordType(300, typeof(CustomTrackingRecord), "CustomTracking", new[] { "CustomTracking" }, new[]
     {
         new Arg("string", "name", "record.Name"),
         new Arg("string", "activityName", "record.Activity?.Name"),
@@ -155,7 +155,7 @@ void GenerateRecord(RecordType recordType)
 {
 #>
 
-    partial class ActivityActorEventSource
+    sealed partial class ActivityActorEventSource
     {
 
 <#+

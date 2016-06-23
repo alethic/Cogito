@@ -10,15 +10,15 @@ namespace Cogito.Activities.Tests
     {
 
         [TestMethod]
-        public void Test_For()
+        public void Test_for()
         {
             var c = 0;
             var a = new For<int>()
             {
                 Initial = 0,
-                Increment = Activities.DelegateFunc<int, int>(arg => Activities.Invoke(i => i + 1, arg)),
-                Condition = Activities.DelegateFunc<int, bool>(arg => Activities.Invoke(i => i < 10, arg)),
-                Action = Activities.Delegate<int>(arg => Activities.Invoke(i => { Console.WriteLine(i); c++; }, arg)),
+                Increment = Expressions.Delegate<int, int>(arg => Expressions.Invoke(async i => i + 1, arg)),
+                Condition = Expressions.Delegate<int, bool>(arg => Expressions.Invoke(async i => i < 10, arg)),
+                Action = Expressions.Delegate<int>(arg => Expressions.Invoke(async i => { Console.WriteLine(i); c++; }, arg)),
             };
 
             var b = WorkflowInvoker.Invoke(a);
@@ -26,15 +26,15 @@ namespace Cogito.Activities.Tests
         }
 
         [TestMethod]
-        public void Test_For_Start()
+        public void Test_for_with_offset()
         {
             var c = 0;
             var a = new For<int>()
             {
                 Initial = 5,
-                Increment = Activities.DelegateFunc<int, int>(arg => Activities.Invoke(i => i + 1, arg)),
-                Condition = Activities.DelegateFunc<int, bool>(arg => Activities.Invoke(i => i < 15, arg)),
-                Action = Activities.Delegate<int>(arg => Activities.Invoke(i => { Console.WriteLine(i); c++; }, arg)),
+                Increment = Expressions.Delegate<int, int>(arg => Expressions.Invoke(async i => i + 1, arg)),
+                Condition = Expressions.Delegate<int, bool>(arg => Expressions.Invoke(async i => i < 15, arg)),
+                Action = Expressions.Delegate<int>(arg => Expressions.Invoke(async i => { Console.WriteLine(i); c++; }, arg)),
             };
 
             var b = WorkflowInvoker.Invoke(a);
@@ -42,22 +42,22 @@ namespace Cogito.Activities.Tests
         }
 
         [TestMethod]
-        public void Test_Range()
+        public void Test_range()
         {
             var t = 0;
             var c = 0;
-            var a = Activities.Range(0, 10, i => { t = i; c++; });
+            var a = Expressions.Range(0, 10, async i => { t = i; c++; });
             var b = WorkflowInvoker.Invoke(a);
             Assert.AreEqual(10, c);
             Assert.AreEqual(9, t);
         }
 
         [TestMethod]
-        public void Test_Range_Offset()
+        public void Test_range_with_offset()
         {
             var t = 0;
             var c = 0;
-            var a = Activities.Range(5, 10, i => { t = i; c++; });
+            var a = Expressions.Range(5, 10, async i => { t = i; c++; });
             var b = WorkflowInvoker.Invoke(a);
             Assert.AreEqual(10, c);
             Assert.AreEqual(14, t);

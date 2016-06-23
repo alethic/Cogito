@@ -14,7 +14,7 @@ namespace Cogito.Activities.Tests
         public void TestAsyncActionActivity()
         {
             var c = false;
-            var a = new AsyncActionActivity(ctx => Task.Run(() => c = true));
+            var a = new AsyncActionActivity(() => Task.Run(() => c = true));
             var b = WorkflowInvoker.Invoke(a);
             Assert.AreEqual(true, c);
         }

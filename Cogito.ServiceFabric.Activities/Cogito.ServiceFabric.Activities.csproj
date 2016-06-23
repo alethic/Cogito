@@ -154,6 +154,10 @@
     <Reference Include="System" />
     <Reference Include="System.Activities" />
     <Reference Include="System.Activities.DurableInstancing" />
+    <Reference Include="System.Collections.Immutable, Version=1.1.37.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Collections.Immutable.1.1.37\lib\dotnet\System.Collections.Immutable.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Core" />
     <Reference Include="System.Fabric, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=AMD64">
       <HintPath>..\packages\Microsoft.ServiceFabric.5.1.150\lib\net45\System.Fabric.dll</HintPath>
@@ -166,7 +170,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ActivityActorAsyncTaskExtension.cs" />
+    <Compile Include="ActivityActorValidationServices.cs" />
+    <Compile Include="ActivityAsyncTaskExtension.cs" />
     <Compile Include="ActivityActorBase.cs" />
     <Compile Include="ActivityActorCore.cs" />
     <Compile Include="ActivityActorEventSource.TrackingRecord.cs">
@@ -174,6 +179,8 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ActivityActorEventSource.TrackingRecord.tt</DependentUpon>
     </Compile>
+    <Compile Include="ActivityActorState.cs" />
+    <Compile Include="ActivityAsyncTaskExecutor.cs" />
     <Compile Include="ActivityActorTrackingParticipant.cs" />
     <Compile Include="ActivityActorTrackingParticipant.TrackingRecord.cs">
       <AutoGen>True</AutoGen>
@@ -188,11 +195,10 @@
     <Compile Include="ActivityActorExtension.cs" />
     <Compile Include="ActivityActorStateManager.cs" />
     <Compile Include="ActivityActorInstanceStore.cs" />
-    <Compile Include="ActivityActorInstanceValueAsString.cs" />
+    <Compile Include="ActivityActorInstanceValueAsXml.cs" />
     <Compile Include="IActivityActor.cs" />
     <Compile Include="IActivityActorInternal.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ActivityActorInstanceValue.cs" />
     <None Include="ActivityActorTrackingParticipant.TrackingRecord.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>ActivityActorTrackingParticipant.TrackingRecord.cs</LastGenOutput>
@@ -232,13 +238,10 @@
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\Microsoft.ServiceFabric.Actors.2.1.150\build\Microsoft.ServiceFabric.Actors.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.ServiceFabric.Actors.2.1.150\build\Microsoft.ServiceFabric.Actors.targets'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets'))" />
   </Target>
   <Import Project="..\packages\Microsoft.ServiceFabric.Actors.2.1.150\build\Microsoft.ServiceFabric.Actors.targets" Condition="Exists('..\packages\Microsoft.ServiceFabric.Actors.2.1.150\build\Microsoft.ServiceFabric.Actors.targets')" />
-  <Import Project="..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" />
-  <Target Name="EnsureBclBuildImported" BeforeTargets="BeforeBuild" Condition="'$(BclBuildImported)' == ''">
-    <Error Condition="!Exists('..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" Text="This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=317567." HelpKeyword="BCLBUILD2001" />
-    <Error Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" Text="The build restored NuGet packages. Build the project again to include these packages in the build. For more information, see http://go.microsoft.com/fwlink/?LinkID=317568." HelpKeyword="BCLBUILD2002" />
-  </Target>
+  <Import Project="..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

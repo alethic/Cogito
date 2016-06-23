@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Cogito.Activities</RootNamespace>
     <AssemblyName>Cogito.Activities</AssemblyName>
-    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <CodeContractsAssemblyMode>1</CodeContractsAssemblyMode>
     <TargetFrameworkProfile />
@@ -141,68 +141,101 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ActionActivity.Arguments.cs">
-      <DependentUpon>ActionActivity.Arguments.tt</DependentUpon>
+    <Compile Include="AsyncFuncActivity.partial.cs">
+      <DependentUpon>AsyncFuncActivity.partial.tt</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="ActionActivity.cs" />
-    <None Include="Activities.Delegate.tt">
+    <Compile Include="AsyncTaskExecutor.cs" />
+    <Compile Include="AsyncTaskExecutorScope.cs" />
+    <Compile Include="AsyncTaskExecutorHandle.cs" />
+    <None Include="Expressions.Delegate.partial.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>Activities.Delegate.cs</LastGenOutput>
+      <LastGenOutput>Expressions.Delegate.partial.cs</LastGenOutput>
     </None>
-    <Compile Include="Activities.Delegate.cs">
+    <Compile Include="ConstantValue.cs" />
+    <Compile Include="AsyncActionActivity.partial.cs">
+      <DependentUpon>AsyncActionActivity.partial.tt</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>Activities.Delegate.tt</DependentUpon>
     </Compile>
-    <Compile Include="Activities.cs" />
-    <Compile Include="Activities.Assign.cs" />
-    <Compile Include="Activities.Throw.cs" />
-    <Compile Include="Activities.TryCatch.cs" />
+    <Compile Include="Expressions.Delegate.cs" />
+    <Compile Include="Expressions.InvokeFunc.partial.cs">
+      <DependentUpon>Expressions.InvokeFunc.partial.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Expressions.InvokeFunc.cs" />
+    <Compile Include="Expressions.InvokeAction.partial.cs">
+      <DependentUpon>Expressions.InvokeAction.partial.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Expressions.GreaterThan.cs" />
+    <Compile Include="Expressions.Constant.cs" />
+    <Compile Include="Expressions.LessThan.cs" />
+    <Compile Include="Expressions.LessThanOrEqual.cs" />
+    <Compile Include="Expressions.GreaterThanOrEqual.cs" />
+    <Compile Include="Expressions.Equal.cs" />
+    <Compile Include="Expressions.LambdaValue.cs" />
+    <Compile Include="Expressions.Literal.cs" />
+    <Compile Include="Expressions.OrElse.cs" />
+    <Compile Include="Expressions.Or.cs" />
+    <Compile Include="Expressions.AndAlso.cs" />
+    <Compile Include="Expressions.As.cs" />
+    <Compile Include="Expressions.And.cs" />
+    <Compile Include="Expressions.Delay.cs" />
+    <Compile Include="Expressions.Delegate.partial.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Expressions.Delegate.partial.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Expressions.Range.cs" />
+    <Compile Include="Expressions.Assign.cs" />
+    <Compile Include="Expressions.Cast.cs" />
+    <Compile Include="Expressions.If.cs" />
+    <Compile Include="Expressions.Parallel.cs" />
+    <Compile Include="Expressions.ParallelForEach.cs" />
+    <Compile Include="Expressions.ForEach.cs" />
+    <Compile Include="Expressions.Sequence.cs" />
+    <Compile Include="Expressions.Throw.partial.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Expressions.Throw.partial.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Expressions.Throw.cs" />
+    <Compile Include="Expressions.TryCatch.cs" />
     <Compile Include="AsyncTaskCodeActivity.cs" />
     <Compile Include="AsyncTaskExtension.cs" />
+    <Compile Include="Expressions.InvokeAction.cs" />
     <Compile Include="For.cs" />
-    <Compile Include="ParallelForEachAsyncActionActivity.cs" />
-    <Compile Include="ParallelForEachActionActivity.cs" />
     <Compile Include="Retry.cs" />
     <Compile Include="RetryException.cs" />
     <Compile Include="RetryCatch.cs" />
     <Compile Include="RetryExceptionCaughtTrackingRecord.cs" />
     <Compile Include="RetryState.cs" />
-    <Compile Include="SelectAsyncFuncActivity.cs" />
-    <Compile Include="ForEachAsyncActionActivity.cs" />
-    <Compile Include="ForEachActionActivity.cs" />
     <Compile Include="FormatActivity.cs" />
-    <Compile Include="FuncActivity.Arguments.cs">
-      <DependentUpon>FuncActivity.Arguments.tt</DependentUpon>
+    <Compile Include="Expressions.AsyncFuncActivity.cs">
+      <DependentUpon>Expressions.AsyncFuncActivity.tt</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="FuncActivity.cs" />
-    <Compile Include="AsyncFuncActivity.Arguments.cs">
-      <DependentUpon>AsyncFuncActivity.Arguments.tt</DependentUpon>
+    <Compile Include="Expressions.AsyncActionActivity.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="AsyncActionActivity.Arguments.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>AsyncActionActivity.Arguments.tt</DependentUpon>
+      <DependentUpon>Expressions.AsyncActionActivity.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="AsyncActionActivity.cs" />
     <Compile Include="AsyncFuncActivity.cs" />
-    <Compile Include="SelectFuncActivity.cs" />
-    <Compile Include="SelectActivity.cs" />
+    <Compile Include="ThreadPoolAsyncTaskExecutor.cs" />
     <Compile Include="Wait.cs" />
-    <Compile Include="WaitThenAsyncFunc.cs" />
-    <Compile Include="WaitThenFunc.cs" />
-    <Compile Include="WaitThenAsyncAction.cs" />
-    <Compile Include="WaitThenAction.cs" />
-    <Compile Include="WaitThen.cs" />
     <Compile Include="WorkflowApplicationExtensions.cs" />
+    <Compile Include="Expressions.While.cs" />
+    <Compile Include="Expressions.WaitThen.cs" />
+    <Compile Include="Expressions.With.cs" />
     <None Include="packages.config" />
+    <None Include="_.t4" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Cogito.Core\Cogito.Core.csproj">
@@ -211,37 +244,61 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="ActionActivity.Arguments.tt">
+    <None Include="Expressions.AsyncFuncActivity.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>ActionActivity.Arguments.cs</LastGenOutput>
+      <LastGenOutput>Expressions.AsyncFuncActivity.cs</LastGenOutput>
     </None>
-    <None Include="FuncActivity.Arguments.tt">
+    <None Include="Expressions.AsyncActionActivity.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>FuncActivity.Arguments.cs</LastGenOutput>
-    </None>
-    <None Include="AsyncFuncActivity.Arguments.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>AsyncFuncActivity.Arguments.cs</LastGenOutput>
-    </None>
-    <None Include="AsyncActionActivity.Arguments.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>AsyncActionActivity.Arguments.cs</LastGenOutput>
+      <LastGenOutput>Expressions.AsyncActionActivity.cs</LastGenOutput>
     </None>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Activities.Pick.cs" />
+    <Compile Include="Expressions.Pick.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Cogito.Activities.nuspec" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Expressions.Throw.partial.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Expressions.Throw.partial.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="AsyncActionActivity.partial.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>AsyncActionActivity.partial.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Expressions.InvokeAction.partial.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Expressions.InvokeAction.partial.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Expressions.InvokeFunc.partial.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Expressions.InvokeFunc.partial.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="AsyncFuncActivity.partial.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>AsyncFuncActivity.partial.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" />
-  <Target Name="EnsureBclBuildImported" BeforeTargets="BeforeBuild" Condition="'$(BclBuildImported)' == ''">
-    <Error Condition="!Exists('..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" Text="This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=317567." HelpKeyword="BCLBUILD2001" />
-    <Error Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" Text="The build restored NuGet packages. Build the project again to include these packages in the build. For more information, see http://go.microsoft.com/fwlink/?LinkID=317568." HelpKeyword="BCLBUILD2002" />
+  <Import Project="..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets'))" />
   </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

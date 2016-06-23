@@ -6,8 +6,8 @@
     <Parameter Name="Test2ActorService_MinReplicaSetSize" DefaultValue="2" />
     <Parameter Name="Test2ActorService_TargetReplicaSetSize" DefaultValue="3" />
     <Parameter Name="TestActorService_PartitionCount" DefaultValue="10" />
-    <Parameter Name="TestActorService_MinReplicaSetSize" DefaultValue="1" />
-    <Parameter Name="TestActorService_TargetReplicaSetSize" DefaultValue="1" />
+    <Parameter Name="TestActorService_MinReplicaSetSize" DefaultValue="3" />
+    <Parameter Name="TestActorService_TargetReplicaSetSize" DefaultValue="3" />
   </Parameters>
   <ServiceManifestImport>
     <ServiceManifestRef ServiceManifestName="Cogito.ServiceFabric.Activities.Test.TestActorPkg" ServiceManifestVersion="1.0.0" />
@@ -27,7 +27,7 @@
         <UniformInt64Partition PartitionCount="[Test2ActorService_PartitionCount]" LowKey="-9223372036854775808" HighKey="9223372036854775807" />
       </StatefulService>
     </Service>
-    <Service Name="TestActorService" GeneratedIdRef="dae3a4bc-1cd0-435c-aa02-70b7fad3e868|None">
+    <Service Name="TestActorService" GeneratedIdRef="b33e0163-a1f6-469d-be9d-fa23e901c594|Persisted">
       <StatefulService ServiceTypeName="TestActorServiceType" TargetReplicaSetSize="[TestActorService_TargetReplicaSetSize]" MinReplicaSetSize="[TestActorService_MinReplicaSetSize]">
         <UniformInt64Partition PartitionCount="[TestActorService_PartitionCount]" LowKey="-9223372036854775808" HighKey="9223372036854775807" />
       </StatefulService>
