@@ -15,16 +15,16 @@ namespace Cogito.Activities
         /// <typeparam name="TResult"></typeparam>
         /// <param name="func"></param>
         /// <param name="displayName"></param>
-        /// <param name="exector"></param>
+        /// <param name="executor"></param>
         /// <returns></returns>
-        public static AsyncFuncActivity<TResult> Invoke<TResult>(Func<Task<TResult>> func, string displayName = null, AsyncTaskExecutor exector = null)
+        public static AsyncFuncActivity<TResult> Invoke<TResult>(Func<Task<TResult>> func, string displayName = null, AsyncTaskExecutor executor = null)
         {
             Contract.Requires<ArgumentNullException>(func != null);
 
             return new AsyncFuncActivity<TResult>(func)
             {
                 DisplayName = displayName,
-                Executor = exector,
+                Executor = executor,
             };
         }
 
