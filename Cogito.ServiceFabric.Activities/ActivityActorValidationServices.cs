@@ -1,5 +1,7 @@
-﻿using System.Activities;
+﻿using System;
+using System.Activities;
 using System.Activities.Validation;
+using System.Diagnostics.Contracts;
 
 namespace Cogito.ServiceFabric.Activities
 {
@@ -20,6 +22,8 @@ namespace Cogito.ServiceFabric.Activities
         /// <returns></returns>
         public static ValidationResults Validate(ActivityActor toValidate)
         {
+            Contract.Requires<ArgumentNullException>(toValidate != null);
+
             return ActivityValidationServices.Validate(toValidate.CreateActivityInternal());
         }
 
@@ -33,7 +37,10 @@ namespace Cogito.ServiceFabric.Activities
         /// <returns></returns>
         public static ValidationResults Validate(ActivityActor toValidate, ValidationSettings settings)
         {
-            return ActivityValidationServices.Validate(toValidate.CreateActivityInternal());
+            Contract.Requires<ArgumentNullException>(toValidate != null);
+            Contract.Requires<ArgumentNullException>(settings != null);
+
+            return ActivityValidationServices.Validate(toValidate.CreateActivityInternal(), settings);
         }
 
     }
