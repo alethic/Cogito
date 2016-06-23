@@ -22,10 +22,10 @@ namespace Cogito.ServiceFabric.Http
         ICommunicationListener
     {
 
+        readonly Action<IAppBuilder> configure;
+        readonly ServiceContext serviceContext;
         readonly string endpointName;
         readonly string appRoot;
-        readonly Action<IAppBuilder> configure;
-        readonly ServiceContext context;
 
         string listeningAddress;
         string publishAddress;
@@ -35,30 +35,30 @@ namespace Cogito.ServiceFabric.Http
         /// Initializes a new instance.
         /// </summary>
         /// <param name="configure"></param>
-        /// <param name="context"></param>
+        /// <param name="serviceContext"></param>
         public OwinCommunicationListener(
             Action<IAppBuilder> configure,
-            ServiceContext context)
-            : this(null, configure, context)
+            ServiceContext serviceContext)
+            : this(configure, serviceContext, null)
         {
             Contract.Requires<ArgumentNullException>(configure != null);
-            Contract.Requires<ArgumentNullException>(context != null);
+            Contract.Requires<ArgumentNullException>(serviceContext != null);
         }
 
         /// <summary>
         /// Initializes a new instance.
         /// </summary>
-        /// <param name="appRoot"></param>
         /// <param name="configure"></param>
-        /// <param name="context"></param>
+        /// <param name="serviceContext"></param>
+        /// <param name="appRoot"></param>
         public OwinCommunicationListener(
-            string appRoot,
             Action<IAppBuilder> configure,
-            ServiceContext context)
-            : this("HttpServiceEndpoint", appRoot, configure, context)
+            ServiceContext serviceContext,
+            string appRoot)
+            : this(configure, serviceContext, "HttpServiceEndpoint", appRoot)
         {
             Contract.Requires<ArgumentNullException>(configure != null);
-            Contract.Requires<ArgumentNullException>(context != null);
+            Contract.Requires<ArgumentNullException>(serviceContext != null);
         }
 
         /// <summary>
@@ -67,22 +67,27 @@ namespace Cogito.ServiceFabric.Http
         /// <param name="endpointName"></param>
         /// <param name="appRoot"></param>
         /// <param name="configure"></param>
-        /// <param name="context"></param>
+        /// <param name="serviceContext"></param>
         public OwinCommunicationListener(
-            string endpointName,
-            string appRoot,
             Action<IAppBuilder> configure,
-            ServiceContext context)
+            ServiceContext serviceContext,
+            string endpointName,
+            string appRoot)
         {
-            Contract.Requires<ArgumentNullException>(endpointName != null);
             Contract.Requires<ArgumentNullException>(configure != null);
-            Contract.Requires<ArgumentNullException>(context != null);
+            Contract.Requires<ArgumentNullException>(serviceContext != null);
+            Contract.Requires<ArgumentNullException>(endpointName != null);
 
+            this.configure = configure;
+            this.serviceContext = serviceContext;
             this.endpointName = endpointName;
             this.appRoot = appRoot;
-            this.configure = configure;
-            this.context = context;
         }
+
+        ///// <summary>
+        ///// Gets or sets whether the communication listener listens when the node is a secondary.
+        ///// </summary>
+        //public bool ListenOnSecondary { get; set; }
 
         /// <summary>
         /// Opens the communication channel.
@@ -96,18 +101,13 @@ namespace Cogito.ServiceFabric.Http
             if (nodeContext == null)
                 throw new FabricServiceNotFoundException("Could not obtain node context.");
 
-            // listen address is that which we directly listen to
-            listeningAddress = GetListenerUri();
-
-            // publish address is that which we are accessible to by other nodes
-            publishAddress = listeningAddress.Replace("+", nodeContext.IPAddressOrFQDN);
+            // listening address has +, publish address has real node address
+            listeningAddress = GetUri("+");
+            publishAddress = GetUri(nodeContext.IPAddressOrFQDN);
 
             try
             {
-                // start listening
                 serverHandle = WebApp.Start(listeningAddress, configure);
-
-                // allow clients to contact us
                 return publishAddress;
             }
             catch (Exception ex)
@@ -123,14 +123,17 @@ namespace Cogito.ServiceFabric.Http
         /// <summary>
         /// Gets the service listener URI.
         /// </summary>
+        /// <param name="host"></param>
         /// <returns></returns>
-        string GetListenerUri()
+        string GetUri(string host)
         {
-            if (context is StatefulServiceContext)
-                return GetListenerUri((StatefulServiceContext)context);
+            Contract.Requires<ArgumentNullException>(host != null);
 
-            if (context is StatelessServiceContext)
-                return GetListenerUri((StatelessServiceContext)context);
+            if (serviceContext is StatefulServiceContext)
+                return GetUri((StatefulServiceContext)serviceContext, host);
+
+            if (serviceContext is StatelessServiceContext)
+                return GetUri((StatelessServiceContext)serviceContext, host);
 
             throw new InvalidOperationException();
         }
@@ -139,18 +142,24 @@ namespace Cogito.ServiceFabric.Http
         /// Gets the service listener URI.
         /// </summary>
         /// <param name="context"></param>
+        /// <param name="host"></param>
         /// <returns></returns>
-        string GetListenerUri(StatefulServiceContext context)
+        string GetUri(StatefulServiceContext context, string host)
         {
+            Contract.Requires<ArgumentNullException>(context != null);
+            Contract.Requires<ArgumentNullException>(host != null);
+
             var serviceEndpoint = context.CodePackageActivationContext.GetEndpoint(endpointName);
             if (serviceEndpoint == null)
                 throw new NullReferenceException(endpointName);
 
             return string.Format(
                 CultureInfo.InvariantCulture,
-                "{0}://+:{1}/{2}/{3}/{4}",
+                "{0}://{1}:{2}/{3}{4}/{5}",
                 GetSchema(serviceEndpoint),
+                host,
                 serviceEndpoint.Port,
+                string.IsNullOrWhiteSpace(appRoot) ? string.Empty : appRoot.TrimEnd('/') + '/',
                 context.PartitionId,
                 context.ReplicaId,
                 Guid.NewGuid());
@@ -160,17 +169,22 @@ namespace Cogito.ServiceFabric.Http
         /// Gets the service listener URI.
         /// </summary>
         /// <param name="context"></param>
+        /// <param name="host"></param>
         /// <returns></returns>
-        string GetListenerUri(StatelessServiceContext context)
+        string GetUri(StatelessServiceContext context, string host)
         {
+            Contract.Requires<ArgumentNullException>(context != null);
+            Contract.Requires<ArgumentNullException>(host != null);
+
             var serviceEndpoint = context.CodePackageActivationContext.GetEndpoint(endpointName);
             if (serviceEndpoint == null)
                 throw new NullReferenceException(endpointName);
 
             return string.Format(
                 CultureInfo.InvariantCulture,
-                "{0}://+:{1}/{2}",
+                "{0}://{1}:{2}/{3}",
                 GetSchema(serviceEndpoint),
+                host,
                 serviceEndpoint.Port,
                 string.IsNullOrWhiteSpace(appRoot) ? string.Empty : appRoot.TrimEnd('/') + '/');
         }
@@ -191,7 +205,7 @@ namespace Cogito.ServiceFabric.Http
                 case EndpointProtocol.Https:
                     return "https";
                 default:
-                    throw new FabricEndpointNotFoundException("Unsupported endpoint protocol.");
+                    throw new FabricEndpointNotFoundException($"Unsupported endpoint protocol for {nameof(OwinCommunicationListener)}.");
             }
         }
 
