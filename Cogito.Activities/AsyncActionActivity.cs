@@ -10,18 +10,20 @@ namespace Cogito.Activities
     {
 
         /// <summary>
-        /// Returns a <see cref="Activity"/> that executes <paramref name="func"/>.
+        /// Returns an <see cref="Activity"/> that executes <paramref name="func"/>.
         /// </summary>
         /// <param name="func"></param>
         /// <param name="displayName"></param>
+        /// <param name="exector"></param>
         /// <returns></returns>
-        public static AsyncActionActivity Invoke(Func<Task> func, string displayName = null)
+        public static AsyncActionActivity Invoke(Func<Task> func, string displayName = null, AsyncTaskExecutor exector = null)
         {
             Contract.Requires<ArgumentNullException>(func != null);
 
             return new AsyncActionActivity(func)
             {
                 DisplayName = displayName,
+                Executor = exector,
             };
         }
 
