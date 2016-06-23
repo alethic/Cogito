@@ -25,6 +25,7 @@ namespace Cogito.ServiceFabric.Http
         /// <summary>
         /// Initializes a new instance.
         /// </summary>
+        /// <param name="context"></param>
         /// <param name="appRoot"></param>
         /// <param name="endpointName"></param>
         public OwinStatefulService(StatefulServiceContext context, string appRoot, string endpointName = "HttpServiceEndpoint")
@@ -43,7 +44,7 @@ namespace Cogito.ServiceFabric.Http
         /// <returns></returns>
         protected override IEnumerable<ServiceReplicaListener> CreateServiceReplicaListeners()
         {
-            yield return new ServiceReplicaListener(p => new OwinCommunicationListener(endpointName, appRoot, ConfigureInternal, p));
+            yield return new ServiceReplicaListener(ctx => new OwinCommunicationListener(ConfigureInternal, ctx, endpointName, appRoot));
         }
 
         /// <summary>
