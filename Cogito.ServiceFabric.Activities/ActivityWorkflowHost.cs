@@ -18,9 +18,9 @@ namespace Cogito.ServiceFabric.Activities
     class ActivityWorkflowHost
     {
 
-        internal static readonly XNamespace WorkflowNamespace = "urn:schemas-microsoft-com:System.Activities/4.0/properties";
-        internal static readonly XName ActivityTimerExpirationTimeKey = WorkflowNamespace + "TimerExpirationTime";
-        internal static readonly string ActivityTimerExpirationReminderName = "Cogito.Fabric.Activities::TimerExpirationReminder";
+        static readonly XNamespace WorkflowNamespace = "urn:schemas-microsoft-com:System.Activities/4.0/properties";
+        static readonly XName ActivityTimerExpirationTimeKey = WorkflowNamespace + "TimerExpirationTime";
+        static readonly string ActivityTimerExpirationReminderName = "Cogito.ServiceFabric.Activities::TimerExpirationReminder";
 
         readonly IActivityActorInternal actor;
         readonly TaskPump pump;
