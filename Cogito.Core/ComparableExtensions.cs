@@ -36,7 +36,7 @@ namespace Cogito
         public static bool Between<T>(this T self, T left, T right, IntervalMode mode = IntervalMode.Open)
             where T : IComparable<T>
         {
-            return Between(self, left, right, mode == IntervalMode.Open || mode == IntervalMode.SemiOpenLeft, mode == IntervalMode.Open || mode == IntervalMode.SemiOpenRight);
+            return Between(self, left, right, mode == IntervalMode.Open || mode == IntervalMode.HalfOpenLeft, mode == IntervalMode.Open || mode == IntervalMode.HalfOpenRight);
         }
 
         /// <summary>

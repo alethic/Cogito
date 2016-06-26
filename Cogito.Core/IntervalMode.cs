@@ -20,12 +20,12 @@
         /// <summary>
         /// Returns <c>true</c> for values that match the value on the left, or are greater than the value on the left or less than the value on the right.
         /// </summary>
-        SemiOpenLeft,
+        HalfOpenLeft,
 
         /// <summary>
         /// Returns <c>true</c> for values that match the value on the right, or are greater than the value on the left or greater than the value on the right.
         /// </summary>
-        SemiOpenRight,
+        HalfOpenRight,
 
     }
 

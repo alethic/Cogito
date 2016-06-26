@@ -25,18 +25,18 @@ namespace Cogito.Core.Tests
             Assert.IsFalse(11.Between(1, 10, IntervalMode.Closed));
 
             // left open
-            Assert.IsFalse(0.Between(1, 10, IntervalMode.SemiOpenLeft));
-            Assert.IsTrue(1.Between(1, 10, IntervalMode.SemiOpenLeft));
-            Assert.IsTrue(5.Between(1, 10, IntervalMode.SemiOpenLeft));
-            Assert.IsFalse(10.Between(1, 10, IntervalMode.SemiOpenLeft));
-            Assert.IsFalse(11.Between(1, 10, IntervalMode.SemiOpenLeft));
+            Assert.IsFalse(0.Between(1, 10, IntervalMode.HalfOpenLeft));
+            Assert.IsTrue(1.Between(1, 10, IntervalMode.HalfOpenLeft));
+            Assert.IsTrue(5.Between(1, 10, IntervalMode.HalfOpenLeft));
+            Assert.IsFalse(10.Between(1, 10, IntervalMode.HalfOpenLeft));
+            Assert.IsFalse(11.Between(1, 10, IntervalMode.HalfOpenLeft));
 
             // right open
-            Assert.IsFalse(0.Between(1, 10, IntervalMode.SemiOpenRight));
-            Assert.IsFalse(1.Between(1, 10, IntervalMode.SemiOpenRight));
-            Assert.IsTrue(5.Between(1, 10, IntervalMode.SemiOpenRight));
-            Assert.IsTrue(10.Between(1, 10, IntervalMode.SemiOpenRight));
-            Assert.IsFalse(11.Between(1, 10, IntervalMode.SemiOpenRight));
+            Assert.IsFalse(0.Between(1, 10, IntervalMode.HalfOpenRight));
+            Assert.IsFalse(1.Between(1, 10, IntervalMode.HalfOpenRight));
+            Assert.IsTrue(5.Between(1, 10, IntervalMode.HalfOpenRight));
+            Assert.IsTrue(10.Between(1, 10, IntervalMode.HalfOpenRight));
+            Assert.IsFalse(11.Between(1, 10, IntervalMode.HalfOpenRight));
         }
 
     }
