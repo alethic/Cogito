@@ -1,4 +1,4 @@
-﻿namespace Cogito.Core
+﻿namespace Cogito
 {
 
     /// <summary>
