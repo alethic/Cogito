@@ -131,6 +131,7 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IntervalMode.cs" />
     <Compile Include="CodeDom\Compiler\CodeDomProviderExtensions.cs" />
     <Compile Include="Collections\CollectionExtensions.cs" />
     <Compile Include="Collections\DelegateEqualityComparer.cs" />
@@ -147,6 +148,7 @@
     <Compile Include="Collections\LinkedListExtensions.cs" />
     <Compile Include="Collections\MergedDictionary.cs" />
     <Compile Include="Collections\NameValueCollectionExtensions.cs" />
+    <Compile Include="ComparableExtensions.cs" />
     <Compile Include="Components\ComponentAttribute.cs" />
     <Compile Include="Components\ComponentConfigurationSection.cs" />
     <Compile Include="Components\ComponentTypeConfigurationElementCollection.cs" />

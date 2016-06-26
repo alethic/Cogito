@@ -113,6 +113,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="ComparableExtensionsTests.cs" />
     <Compile Include="Dynamic\ElasticObjectTests.cs" />
     <Compile Include="ExceptionExtensionsTests.cs" />
     <Compile Include="Linq\CombinatorialsTests.cs" />
