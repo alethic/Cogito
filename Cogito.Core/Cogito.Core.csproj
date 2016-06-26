@@ -131,6 +131,9 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Collections\IInterval.cs" />
+    <Compile Include="Collections\Interval.cs" />
+    <Compile Include="Collections\IntervalTree.cs" />
     <Compile Include="Math\IntervalMode.cs" />
     <Compile Include="CodeDom\Compiler\CodeDomProviderExtensions.cs" />
     <Compile Include="Collections\CollectionExtensions.cs" />
