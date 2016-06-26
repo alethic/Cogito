@@ -1,6 +1,7 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Cogito.Math;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Cogito.Core.Tests
+namespace Cogito.Core.Math.Tests
 {
 
     [TestClass]

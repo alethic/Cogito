@@ -1,4 +1,4 @@
-﻿namespace Cogito
+﻿namespace Cogito.Math
 {
 
     /// <summary>

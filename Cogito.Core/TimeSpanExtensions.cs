@@ -17,7 +17,7 @@ namespace Cogito
         /// <returns></returns>
         public static TimeSpan Max(this TimeSpan value1, TimeSpan value2)
         {
-            return TimeSpan.FromTicks(Math.Max(value1.Ticks, value2.Ticks));
+            return TimeSpan.FromTicks(System.Math.Max(value1.Ticks, value2.Ticks));
         }
 
         /// <summary>
@@ -28,7 +28,7 @@ namespace Cogito
         /// <returns></returns>
         public static TimeSpan Min(this TimeSpan value1, TimeSpan value2)
         {
-            return TimeSpan.FromTicks(Math.Min(value1.Ticks, value2.Ticks));
+            return TimeSpan.FromTicks(System.Math.Min(value1.Ticks, value2.Ticks));
         }
 
     }

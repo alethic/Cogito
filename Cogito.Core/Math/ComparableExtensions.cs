@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Cogito
+namespace Cogito.Math
 {
 
 
