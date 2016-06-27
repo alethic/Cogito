@@ -68,6 +68,7 @@ namespace Cogito.Core.Tests.Collections
             Assert.IsTrue(t.ContainsOverlappingInterval(Interval.Create(0, 5)));
             Assert.IsTrue(t.ContainsOverlappingInterval(Interval.Create(6, 7)));
             Assert.IsTrue(t.ContainsOverlappingInterval(Interval.Create(8, 15)));
+            Assert.IsTrue(t.ContainsOverlappingInterval(Interval.Create(0, 20)));
             Assert.IsFalse(t.ContainsOverlappingInterval(Interval.Create(1, 4)));
         }
 
