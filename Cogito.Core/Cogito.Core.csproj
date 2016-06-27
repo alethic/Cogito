@@ -205,9 +205,9 @@
     <Compile Include="StringExtensions.cs" />
     <Content Include="STuple.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>STuple1.cs</LastGenOutput>
+      <LastGenOutput>STuple.cs</LastGenOutput>
     </Content>
-    <Compile Include="STuple1.cs">
+    <Compile Include="STuple.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>STuple.tt</DependentUpon>
