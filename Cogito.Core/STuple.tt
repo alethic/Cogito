@@ -14,7 +14,7 @@ namespace Cogito
     public static class STuple
     {
 <#
-for (int i = 2; i <= 8; i++)
+for (int i = 1; i <= 8; i++)
 {
 #>
 
@@ -67,7 +67,7 @@ for (int i = 2; i <= 8; i++)
     }
 
 <#
-for (int i = 2; i <= 8; i++)
+for (int i = 1; i <= 8; i++)
 {
 #>
     [Serializable]
@@ -148,7 +148,20 @@ for (int j = 1; j <= i; j++)
 
         int IStructuralEquatable.GetHashCode(IEqualityComparer comparer)
         {
+<#
+if (i == 1)
+{
+#>
+            return comparer.GetHashCode(item1);
+<#
+}
+else
+{
+#>
             return STuple.CombineHashCodes(<#= Repeat("comparer.GetHashCode(item{0})", i, ", ") #>);
+<#
+}
+#>
         }
 
         int IComparable.CompareTo(object obj)
@@ -176,7 +189,6 @@ for (int j = 1; j <= i; j++)
 <#
 }
 #>
-
             return 0;
         }
 

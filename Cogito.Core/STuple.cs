@@ -9,6 +9,14 @@ namespace Cogito
     {
 
         /// <summary>
+        /// Creates a new 1-tuple.
+        /// </summary>
+        public static STuple<T1> Create<T1>(T1 item1)
+        {
+            return new STuple<T1>(item1);
+        }
+
+        /// <summary>
         /// Creates a new 2-tuple.
         /// </summary>
         public static STuple<T1, T2> Create<T1, T2>(T1 item1, T2 item2)
@@ -102,6 +110,87 @@ namespace Cogito
     }
 
     [Serializable]
+    public struct STuple<T1> :
+        IStructuralEquatable, IStructuralComparable, IComparable
+    {
+
+        readonly T1 item1;
+
+        /// <summary>
+        /// Initializes a new instance.
+        /// </summary>
+        /// <param name="item1"></param>
+        public STuple(T1 item1)
+        {
+            this.item1 = item1;
+        }
+
+        public T1 Item1
+        {
+            get { return item1; }
+        }
+
+        /// <summary>
+        /// Gets the size of the tuple.
+        /// </summary>
+        public int Size
+        {
+            get { return 1; }
+        }
+
+        public override bool Equals(object obj)
+        {
+            return ((IStructuralEquatable)this).Equals(obj, EqualityComparer<Object>.Default);
+        }
+
+        bool IStructuralEquatable.Equals(object other, IEqualityComparer comparer)
+        {
+            if (ReferenceEquals(other, null))
+                return false;
+
+            var t = (STuple<T1>)other;
+            return comparer.Equals(item1, t.item1);
+        }
+
+        public override int GetHashCode()
+        {
+            return ((IStructuralEquatable)this).GetHashCode(EqualityComparer<Object>.Default);
+        }
+
+        int IStructuralEquatable.GetHashCode(IEqualityComparer comparer)
+        {
+            return comparer.GetHashCode(item1);
+        }
+
+        int IComparable.CompareTo(object obj)
+        {
+            return ((IStructuralComparable)this).CompareTo(obj, Comparer<Object>.Default);
+        }
+
+        int IStructuralComparable.CompareTo(object other, IComparer comparer)
+        {
+            if (ReferenceEquals(other, null))
+                return 1;
+            if (ReferenceEquals(comparer, null))
+                throw new ArgumentNullException("comparer");
+
+            var t = (STuple<T1>)other;
+            int c = 0;
+
+            if ((c = comparer.Compare(item1, t.item1)) != 0)
+                return c;
+
+            return 0;
+        }
+
+        public override string ToString()
+        {
+            return $"({item1})";
+        }
+
+    }
+
+    [Serializable]
     public struct STuple<T1, T2> :
         IStructuralEquatable, IStructuralComparable, IComparable
     {
@@ -181,7 +270,6 @@ namespace Cogito
 
             if ((c = comparer.Compare(item2, t.item2)) != 0)
                 return c;
-
 
             return 0;
         }
@@ -283,7 +371,6 @@ namespace Cogito
 
             if ((c = comparer.Compare(item3, t.item3)) != 0)
                 return c;
-
 
             return 0;
         }
@@ -395,7 +482,6 @@ namespace Cogito
 
             if ((c = comparer.Compare(item4, t.item4)) != 0)
                 return c;
-
 
             return 0;
         }
@@ -517,7 +603,6 @@ namespace Cogito
 
             if ((c = comparer.Compare(item5, t.item5)) != 0)
                 return c;
-
 
             return 0;
         }
@@ -649,7 +734,6 @@ namespace Cogito
 
             if ((c = comparer.Compare(item6, t.item6)) != 0)
                 return c;
-
 
             return 0;
         }
@@ -791,7 +875,6 @@ namespace Cogito
 
             if ((c = comparer.Compare(item7, t.item7)) != 0)
                 return c;
-
 
             return 0;
         }
@@ -943,7 +1026,6 @@ namespace Cogito
 
             if ((c = comparer.Compare(item8, t.item8)) != 0)
                 return c;
-
 
             return 0;
         }
