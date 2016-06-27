@@ -60,6 +60,17 @@ namespace Cogito.Core.Tests.Collections
             Assert.IsTrue(t.FindAt(11).Length == 0);
         }
 
+        [TestMethod]
+        public void Test_find_overlapping()
+        {
+            var t = new IntervalTree<int>();
+            t.Add(5, 10);
+            Assert.IsTrue(t.ContainsOverlappingInterval(Interval.Create(0, 5)));
+            Assert.IsTrue(t.ContainsOverlappingInterval(Interval.Create(6, 7)));
+            Assert.IsTrue(t.ContainsOverlappingInterval(Interval.Create(8, 15)));
+            Assert.IsFalse(t.ContainsOverlappingInterval(Interval.Create(1, 4)));
+        }
+
     }
 
 }
