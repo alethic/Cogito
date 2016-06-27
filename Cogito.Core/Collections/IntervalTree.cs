@@ -500,7 +500,7 @@ namespace Cogito.Collections
         }
 
         /// <summary>
-        /// Returns <c>true</c> if multiple intervals exist at the specified point.
+        /// Returns <c>true</c> if intervals exist between the given interval.
         /// </summary>
         /// <param name="item"></param>
         /// <returns></returns>
@@ -1049,7 +1049,29 @@ namespace Cogito.Collections
         /// <param name="end"></param>
         public void Add(TPoint start, TPoint end)
         {
-            base.Add(Interval.Create(start, end));
+            Add(Interval.Create(start, end));
+        }
+
+        /// <summary>
+        /// Returns <c>true</c> if intervals exist between the given points.
+        /// </summary>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
+        /// <returns></returns>
+        public bool ContainsOverlappingInterval(TPoint start, TPoint end)
+        {
+            return ContainsOverlappingInterval(Interval.Create(start, end));
+        }
+
+        /// <summary>
+        /// Returns the set of intervals that overlap with the given interval.
+        /// </summary>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
+        /// <returns></returns>
+        public IInterval<TPoint>[] FindOverlapping(TPoint start, TPoint end)
+        {
+            return FindOverlapping(Interval.Create(start, end));
         }
 
     }
