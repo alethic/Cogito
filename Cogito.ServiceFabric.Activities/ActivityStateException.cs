@@ -13,9 +13,18 @@ namespace Cogito.ServiceFabric.Activities
         /// <summary>
         /// Initializes a new instance.
         /// </summary>
-        /// <param name="message"></param>
         public ActivityStateException()
-            : base("Activity state is invalid for the current operation.")
+            : this("Activity state is invalid for the current operation.")
+        {
+
+        }
+
+        /// <summary>
+        /// Initializes a new instance.
+        /// </summary>
+        /// <param name="message"></param>
+        public ActivityStateException(string message)
+            : base(message)
         {
 
         }

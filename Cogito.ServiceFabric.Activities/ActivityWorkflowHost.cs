@@ -98,6 +98,11 @@ namespace Cogito.ServiceFabric.Activities
         {
             if (workflow == null)
                 throw new ActivityStateException();
+            if (state.InstanceId == Guid.Empty)
+                throw new ActivityStateException();
+            if (state.InstanceState == InstanceState.Unknown ||
+                state.InstanceState == InstanceState.Completed)
+                throw new ActivityStateException();
         }
 
         /// <summary>
