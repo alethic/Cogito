@@ -148,8 +148,6 @@ for (int j = 1; j <= i; j++)
 
         int IStructuralEquatable.GetHashCode(IEqualityComparer comparer)
         {
-            Contract.Requires
-
 <#
 if (i == 1)
 {
