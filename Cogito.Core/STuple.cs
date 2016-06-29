@@ -159,6 +159,8 @@ namespace Cogito
 
         int IStructuralEquatable.GetHashCode(IEqualityComparer comparer)
         {
+            Contract.Requires
+
             return comparer.GetHashCode(item1);
         }
 
@@ -247,6 +249,8 @@ namespace Cogito
 
         int IStructuralEquatable.GetHashCode(IEqualityComparer comparer)
         {
+            Contract.Requires
+
             return STuple.CombineHashCodes(comparer.GetHashCode(item1), comparer.GetHashCode(item2));
         }
 
@@ -345,6 +349,8 @@ namespace Cogito
 
         int IStructuralEquatable.GetHashCode(IEqualityComparer comparer)
         {
+            Contract.Requires
+
             return STuple.CombineHashCodes(comparer.GetHashCode(item1), comparer.GetHashCode(item2), comparer.GetHashCode(item3));
         }
 
@@ -453,6 +459,8 @@ namespace Cogito
 
         int IStructuralEquatable.GetHashCode(IEqualityComparer comparer)
         {
+            Contract.Requires
+
             return STuple.CombineHashCodes(comparer.GetHashCode(item1), comparer.GetHashCode(item2), comparer.GetHashCode(item3), comparer.GetHashCode(item4));
         }
 
@@ -571,6 +579,8 @@ namespace Cogito
 
         int IStructuralEquatable.GetHashCode(IEqualityComparer comparer)
         {
+            Contract.Requires
+
             return STuple.CombineHashCodes(comparer.GetHashCode(item1), comparer.GetHashCode(item2), comparer.GetHashCode(item3), comparer.GetHashCode(item4), comparer.GetHashCode(item5));
         }
 
@@ -699,6 +709,8 @@ namespace Cogito
 
         int IStructuralEquatable.GetHashCode(IEqualityComparer comparer)
         {
+            Contract.Requires
+
             return STuple.CombineHashCodes(comparer.GetHashCode(item1), comparer.GetHashCode(item2), comparer.GetHashCode(item3), comparer.GetHashCode(item4), comparer.GetHashCode(item5), comparer.GetHashCode(item6));
         }
 
@@ -837,6 +849,8 @@ namespace Cogito
 
         int IStructuralEquatable.GetHashCode(IEqualityComparer comparer)
         {
+            Contract.Requires
+
             return STuple.CombineHashCodes(comparer.GetHashCode(item1), comparer.GetHashCode(item2), comparer.GetHashCode(item3), comparer.GetHashCode(item4), comparer.GetHashCode(item5), comparer.GetHashCode(item6), comparer.GetHashCode(item7));
         }
 
@@ -985,6 +999,8 @@ namespace Cogito
 
         int IStructuralEquatable.GetHashCode(IEqualityComparer comparer)
         {
+            Contract.Requires
+
             return STuple.CombineHashCodes(comparer.GetHashCode(item1), comparer.GetHashCode(item2), comparer.GetHashCode(item3), comparer.GetHashCode(item4), comparer.GetHashCode(item5), comparer.GetHashCode(item6), comparer.GetHashCode(item7), comparer.GetHashCode(item8));
         }
 

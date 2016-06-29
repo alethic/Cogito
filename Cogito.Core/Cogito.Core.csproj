@@ -203,10 +203,10 @@
     <Compile Include="Reflection\TypeExtensions.cs" />
     <Compile Include="IO\Media\IMediaTypeResolver.cs" />
     <Compile Include="StringExtensions.cs" />
-    <Content Include="STuple.tt">
+    <None Include="STuple.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>STuple.cs</LastGenOutput>
-    </Content>
+    </None>
     <Compile Include="STuple.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
