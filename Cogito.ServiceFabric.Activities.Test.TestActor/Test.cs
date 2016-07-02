@@ -29,13 +29,7 @@ namespace Cogito.ServiceFabric.Activities.Test.TestActor
         protected override Activity CreateActivity()
         {
             return Sequence(
-                Wait("Start"),
-                ForEach(async () => Enumerable.Range(0, 5).Select(i => ActorProxy.Create<ITest2>(ActorId.CreateRandom())).ToArray(),
-                   arg => Sequence(
-                       Invoke(async () => await DoThing1()),
-                       Delay(TimeSpan.FromSeconds(10)),
-                       new Persist()
-                       )));
+                Wait("Start"));
         }
 
         async Task DoThing1()
