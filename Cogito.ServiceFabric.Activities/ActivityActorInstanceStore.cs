@@ -4,14 +4,15 @@ using System.Activities.Hosting;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics.Contracts;
-using System.IO;
 using System.Linq;
 using System.Runtime.DurableInstancing;
 using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters;
 using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Linq;
 
+using Cogito.ServiceFabric.Activities.Serialization;
 using Cogito.Threading;
 
 namespace Cogito.ServiceFabric.Activities
@@ -36,7 +37,7 @@ namespace Cogito.ServiceFabric.Activities
             Contract.Requires<ArgumentNullException>(state != null);
 
             this.state = state;
-            this.serializer = new NetDataContractSerializer();
+            this.serializer = new NetDataContractSerializer(new StreamingContext(StreamingContextStates.All), int.MaxValue, false, FormatterAssemblyStyle.Full, new ActivitySurrogateSelector());
         }
 
         /// <summary>

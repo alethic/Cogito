@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Activities;
 using System.Activities.Expressions;
+using System.Activities.Statements;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -29,14 +30,12 @@ namespace Cogito.ServiceFabric.Activities.Test.TestActor
         {
             return Sequence(
                 Wait("Start"),
-                Invoke(() => DoThing1()),
-                Delay(TimeSpan.FromSeconds(5)),
-                While(async () => { await Task.Delay(200); return true; },
-                    Sequence(
-                        ConstantValue(Enumerable.Range(0, 10))
-                            .ParallelForEach(async i => Debug.WriteLine(i)),
-                        Delay(TimeSpan.FromSeconds(15)),
-                        Invoke(() => DoThing2()))));
+                ForEach(async () => Enumerable.Range(0, 5).Select(i => ActorProxy.Create<ITest2>(ActorId.CreateRandom())).ToArray(),
+                   arg => Sequence(
+                       Invoke(async () => await DoThing1()),
+                       Delay(TimeSpan.FromSeconds(10)),
+                       new Persist()
+                       )));
         }
 
         async Task DoThing1()

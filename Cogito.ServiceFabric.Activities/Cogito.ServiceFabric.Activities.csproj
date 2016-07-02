@@ -189,6 +189,7 @@
       <DependentUpon>ActivityActorTrackingParticipant.TrackingRecord.tt</DependentUpon>
     </Compile>
     <Compile Include="ActivityStateException.cs" />
+    <Compile Include="Serialization\ActivitySurrogateSelector.cs" />
     <Compile Include="ActivityWorkflowHost.cs" />
     <Compile Include="ActivityActorEventSource.cs" />
     <Compile Include="ActivityActor.cs" />
@@ -200,6 +201,9 @@
     <Compile Include="IActivityActor.cs" />
     <Compile Include="IActivityActorInternal.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Serialization\ActorProxyReferenceSerializationSurrogate.cs" />
+    <Compile Include="Serialization\ActorProxySerializationSurrogate.cs" />
+    <Compile Include="Serialization\ActorProxyReference.cs" />
     <None Include="ActivityActorTrackingParticipant.TrackingRecord.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>ActivityActorTrackingParticipant.TrackingRecord.cs</LastGenOutput>
