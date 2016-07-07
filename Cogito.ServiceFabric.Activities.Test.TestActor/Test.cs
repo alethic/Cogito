@@ -1,13 +1,7 @@
-﻿using System;
-using System.Activities;
-using System.Activities.Expressions;
-using System.Activities.Statements;
-using System.Collections.Generic;
+﻿using System.Activities;
 using System.Diagnostics;
-using System.Linq;
-using System.Net.Http;
 using System.Threading.Tasks;
-using Cogito.Net.Http;
+
 using Cogito.ServiceFabric.Activities.Test.TestActor.Interfaces;
 
 using Microsoft.ServiceFabric.Actors;

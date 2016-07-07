@@ -109,22 +109,21 @@ namespace Cogito.ServiceFabric
         protected sealed override async Task RunAsync(CancellationToken cancellationToken)
         {
             // enter method
-            await RunEnterAsync(cancellationToken);
+            await RunEnterAsync();
 
             // repeat run task until signaled to exit
             while (!cancellationToken.IsCancellationRequested)
                 await RunLoopAsync(cancellationToken);
 
             // exit method
-            await RunExitAsync(new CancellationTokenSource(TimeSpan.FromSeconds(5)).Token);
+            await RunExitAsync();
         }
 
         /// <summary>
         /// Invoked when the service is run.
         /// </summary>
-        /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        protected virtual Task RunEnterAsync(CancellationToken cancellationToken)
+        protected virtual Task RunEnterAsync()
         {
             return Task.FromResult(true);
         }
@@ -132,9 +131,8 @@ namespace Cogito.ServiceFabric
         /// <summary>
         /// Invoked when the service is exiting. Canceled after 5 seconds.
         /// </summary>
-        /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        protected virtual Task RunExitAsync(CancellationToken cancellationToken)
+        protected virtual Task RunExitAsync()
         {
             return Task.FromResult(true);
         }
