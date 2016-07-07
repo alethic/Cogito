@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Fabric;
 using System.Fabric.Health;
-using System.Threading;
-using System.Threading.Tasks;
 
 using Microsoft.ServiceFabric.Services.Communication.Runtime;
 using Microsoft.ServiceFabric.Services.Remoting;
@@ -101,59 +99,16 @@ namespace Cogito.ServiceFabric
         }
 
         /// <summary>
-        /// Default implementation of RunAsync. Configures the service and dispatches to the RunTaskAsync method until
-        /// canceled.
+        /// Reports an <see cref="Exception"/> as health information.
         /// </summary>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
-        protected sealed override async Task RunAsync(CancellationToken cancellationToken)
+        /// <param name="e"></param>
+        /// <param name="state"></param>
+        /// <param name="timeToLive"></param>
+        protected void ReportException(Exception e, HealthState state = HealthState.Error, TimeSpan? timeToLive = null)
         {
-            try
-            {
-                // enter method
-                await RunEnterAsync();
+            Contract.Requires<ArgumentNullException>(e != null);
 
-                // repeat run task until signaled to exit
-                while (!cancellationToken.IsCancellationRequested)
-                    await RunLoopAsync(cancellationToken);
-            }
-            catch (TaskCanceledException)
-            {
-                // ignore
-            }
-            finally
-            {
-                // exit method
-                await RunExitAsync();
-            }
-        }
-
-        /// <summary>
-        /// Invoked when the service is run.
-        /// </summary>
-        /// <returns></returns>
-        protected virtual Task RunEnterAsync()
-        {
-            return Task.FromResult(true);
-        }
-
-        /// <summary>
-        /// Invoked when the service is exiting. Canceled after 5 seconds.
-        /// </summary>
-        /// <returns></returns>
-        protected virtual Task RunExitAsync()
-        {
-            return Task.FromResult(true);
-        }
-
-        /// <summary>
-        /// Override this method to implement the run loop.
-        /// </summary>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
-        protected virtual async Task RunLoopAsync(CancellationToken cancellationToken)
-        {
-            await Task.Delay(TimeSpan.FromSeconds(5), cancellationToken);
+            ReportHealth(GetType().FullName, "RunAsync", state, e.Message + "\n" + e.StackTrace, timeToLive: timeToLive, removeWhenExpired: true);
         }
 
         /// <summary>
