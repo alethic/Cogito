@@ -80,11 +80,11 @@ namespace Cogito.ServiceFabric
         /// <param name="timeToLive"></param>
         /// <param name="removeWhenExpired"></param>
         protected void ReportHealth(
-            string sourceId, 
-            string property, 
-            HealthState state, 
-            string description = null, 
-            TimeSpan? timeToLive = null, 
+            string sourceId,
+            string property,
+            HealthState state,
+            string description = null,
+            TimeSpan? timeToLive = null,
             bool? removeWhenExpired = null)
         {
             Contract.Requires<ArgumentNullException>(sourceId != null);
@@ -108,15 +108,24 @@ namespace Cogito.ServiceFabric
         /// <returns></returns>
         protected sealed override async Task RunAsync(CancellationToken cancellationToken)
         {
-            // enter method
-            await RunEnterAsync();
+            try
+            {
+                // enter method
+                await RunEnterAsync();
 
-            // repeat run task until signaled to exit
-            while (!cancellationToken.IsCancellationRequested)
-                await RunLoopAsync(cancellationToken);
-
-            // exit method
-            await RunExitAsync();
+                // repeat run task until signaled to exit
+                while (!cancellationToken.IsCancellationRequested)
+                    await RunLoopAsync(cancellationToken);
+            }
+            catch (TaskCanceledException)
+            {
+                // ignore
+            }
+            finally
+            {
+                // exit method
+                await RunExitAsync();
+            }
         }
 
         /// <summary>
@@ -144,14 +153,7 @@ namespace Cogito.ServiceFabric
         /// <returns></returns>
         protected virtual async Task RunLoopAsync(CancellationToken cancellationToken)
         {
-            try
-            {
-                await Task.Delay(TimeSpan.FromSeconds(5), cancellationToken);
-            }
-            catch (TaskCanceledException)
-            {
-                // ignore
-            }
+            await Task.Delay(TimeSpan.FromSeconds(5), cancellationToken);
         }
 
         /// <summary>
