@@ -193,7 +193,6 @@
     <Compile Include="ActivityWorkflowHost.cs" />
     <Compile Include="ActivityActorEventSource.cs" />
     <Compile Include="ActivityActor.cs" />
-    <Compile Include="ActivityActorException.cs" />
     <Compile Include="ActivityActorExtension.cs" />
     <Compile Include="ActivityActorStateManager.cs" />
     <Compile Include="ActivityActorInstanceStore.cs" />
