@@ -12,7 +12,7 @@ It's fairly simple to use. Just extend `ActivityActor` (or `ActivityActor<T>`), 
 
 It also comes along with a helpful set of static methods to make coding Activities much easier. Witness this full example of an Actor that wakes up every 15 minutes to do some work:
 
-`
+
     using Cogito.ServiceFabric.Activities
     using static Cogito.Activities.Expressions;
     
@@ -41,7 +41,7 @@ It also comes along with a helpful set of static methods to make coding Activiti
         }
 
     }
-`
+
 
 You could override `CreateActivity` to load an `Activity` designed in the visual designer as XAML, too, of course.
 
