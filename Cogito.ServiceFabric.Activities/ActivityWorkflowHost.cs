@@ -57,6 +57,8 @@ namespace Cogito.ServiceFabric.Activities
         /// <returns></returns>
         async Task InvokeAndPump(Func<Task> action)
         {
+            Contract.Requires<ArgumentNullException>(action != null);
+
             var t = action();
             await pump.PumpAsync();
             await t;
@@ -70,6 +72,8 @@ namespace Cogito.ServiceFabric.Activities
         /// <returns></returns>
         async Task<TResult> InvokeAndPump<TResult>(Func<Task<TResult>> func)
         {
+            Contract.Requires<ArgumentNullException>(func != null);
+
             var t = func();
             await pump.PumpAsync();
             return await t;
