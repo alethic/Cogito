@@ -101,6 +101,36 @@ namespace Cogito.ServiceFabric
         }
 
         /// <summary>
+        /// Reports an <see cref="Exception"/> as health information.
+        /// </summary>
+        /// <param name="sourceId"></param>
+        /// <param name="property"></param>
+        /// <param name="exception"></param>
+        /// <param name="state"></param>
+        /// <param name="timeToLive"></param>
+        /// <param name="removeWhenExpired"></param>
+        protected void ReportException(
+            string sourceId,
+            string property,
+            Exception exception,
+            HealthState state = HealthState.Error,
+            TimeSpan? timeToLive = null,
+            bool? removeWhenExpired = null)
+        {
+            Contract.Requires<ArgumentNullException>(sourceId != null);
+            Contract.Requires<ArgumentNullException>(property != null);
+            Contract.Requires<ArgumentNullException>(exception != null);
+
+            ReportHealth(
+                sourceId,
+                property,
+                HealthState.Error,
+                exception.ToString(),
+                timeToLive,
+                removeWhenExpired);
+        }
+
+        /// <summary>
         /// Default implementation of RunAsync. Configures the service and dispatches to the RunTaskAsync method until
         /// canceled.
         /// </summary>

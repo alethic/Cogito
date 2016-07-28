@@ -101,14 +101,31 @@ namespace Cogito.ServiceFabric
         /// <summary>
         /// Reports an <see cref="Exception"/> as health information.
         /// </summary>
-        /// <param name="e"></param>
+        /// <param name="sourceId"></param>
+        /// <param name="property"></param>
+        /// <param name="exception"></param>
         /// <param name="state"></param>
         /// <param name="timeToLive"></param>
-        protected void ReportException(Exception e, HealthState state = HealthState.Error, TimeSpan? timeToLive = null)
+        /// <param name="removeWhenExpired"></param>
+        protected void ReportException(
+            string sourceId,
+            string property,
+            Exception exception,
+            HealthState state = HealthState.Error,
+            TimeSpan? timeToLive = null,
+            bool? removeWhenExpired = null)
         {
-            Contract.Requires<ArgumentNullException>(e != null);
+            Contract.Requires<ArgumentNullException>(sourceId != null);
+            Contract.Requires<ArgumentNullException>(property != null);
+            Contract.Requires<ArgumentNullException>(exception != null);
 
-            ReportHealth(GetType().FullName, "RunAsync", state, e.Message + "\n" + e.StackTrace, timeToLive: timeToLive, removeWhenExpired: true);
+            ReportHealth(
+                sourceId,
+                property,
+                HealthState.Error,
+                exception.ToString(),
+                timeToLive,
+                removeWhenExpired);
         }
 
         /// <summary>
