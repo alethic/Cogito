@@ -119,11 +119,15 @@ namespace Cogito.ServiceFabric
             Contract.Requires<ArgumentNullException>(property != null);
             Contract.Requires<ArgumentNullException>(exception != null);
 
+            var description = exception.ToString();
+            if (description.Length > 4096)
+                description = description.Substring(0, 4096);
+
             ReportHealth(
                 sourceId,
                 property,
                 HealthState.Error,
-                exception.ToString(),
+                description,
                 timeToLive,
                 removeWhenExpired);
         }
