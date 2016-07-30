@@ -87,6 +87,7 @@ namespace Cogito.ServiceFabric
         {
             Contract.Requires<ArgumentNullException>(sourceId != null);
             Contract.Requires<ArgumentNullException>(property != null);
+            Contract.Requires<ArgumentOutOfRangeException>(description == null || description.Length <= 4000);
 
             var i = new HealthInformation(sourceId, property, state);
             if (description != null)
@@ -119,15 +120,11 @@ namespace Cogito.ServiceFabric
             Contract.Requires<ArgumentNullException>(property != null);
             Contract.Requires<ArgumentNullException>(exception != null);
 
-            var description = exception.ToString();
-            if (description.Length > 4096)
-                description = description.Substring(0, 4096);
-
             ReportHealth(
                 sourceId,
                 property,
-                HealthState.Error,
-                description,
+                state,
+                exception.ToString().Left(4000),
                 timeToLive,
                 removeWhenExpired);
         }
