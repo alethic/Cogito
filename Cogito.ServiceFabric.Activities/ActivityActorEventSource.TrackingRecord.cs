@@ -5,7 +5,6 @@ using System.Diagnostics.Contracts;
 using System.Diagnostics.Tracing;
 using System.Fabric;
 
-
 namespace Cogito.ServiceFabric.Activities
 {
 
