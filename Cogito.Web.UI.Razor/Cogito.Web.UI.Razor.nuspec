@@ -15,11 +15,11 @@
         <projectUrl>https://github.com/wasabii/Cogito</projectUrl>
         <iconUrl>https://cloverluxussc.blob.core.windows.net/public/cogito-nuget-icon.png</iconUrl>
         <dependencies>
-            <dependency id="Cogito.Composition"/>
-            <dependency id="Cogito.Core"/>
-            <dependency id="Cogito.IO"/>
-            <dependency id="Cogito.Web.Razor" />
-            <dependency id="Cogito.Web.UI" />
+            <dependency id="Cogito.Composition" version="$version$" />
+            <dependency id="Cogito.Core" version="$version$" />
+            <dependency id="Cogito.IO" version="$version$" />
+            <dependency id="Cogito.Web.Razor" version="$version$" />
+            <dependency id="Cogito.Web.UI" version="$version$" />
         </dependencies>
     </metadata>
 </package>
