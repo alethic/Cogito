@@ -15,6 +15,10 @@ using Microsoft.ApplicationInsights.DataContracts;
 namespace Cogito.Activities.ApplicationInsights
 {
 
+    /// <summary>
+    /// Exports Windows Workflow tracking activities to Application Insights. Add as an extension to a workflow
+    /// instance, and initialize with a <see cref="TelemetryClient"/> instance.
+    /// </summary>
     public partial class ApplicationInsightsTrackingParticipant :
         TrackingParticipant
     {
@@ -33,7 +37,7 @@ namespace Cogito.Activities.ApplicationInsights
         /// </summary>
         /// <param name="telemetryClient"></param>
         /// <param name="parentOperationId"></param>
-        public ApplicationInsightsTrackingParticipant(TelemetryClient telemetryClient, string parentOperationId)
+        public ApplicationInsightsTrackingParticipant(TelemetryClient telemetryClient, string parentOperationId = null)
         {
             Contract.Requires<ArgumentNullException>(telemetryClient != null);
 
