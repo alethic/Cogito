@@ -19,21 +19,21 @@ namespace Cogito.Activities.ApplicationInsights
         {
             Contract.Requires<ArgumentNullException>(record != null);
 
-			switch (record.Level)
-			{
-				case TraceLevel.Verbose:
-					ActivityScheduledTrack(record, SeverityLevel.Verbose);
-					break;
-				case TraceLevel.Info:
-					ActivityScheduledTrack(record, SeverityLevel.Information);
-					break;
-				case TraceLevel.Warning:
-					ActivityScheduledTrack(record, SeverityLevel.Warning);
-					break;
-				case TraceLevel.Error:
-					ActivityScheduledTrack(record, SeverityLevel.Error);
-					break;
-			}
+            switch (record.Level)
+            {
+                case TraceLevel.Verbose:
+                    ActivityScheduledTrack(record, SeverityLevel.Verbose);
+                    break;
+                case TraceLevel.Info:
+                    ActivityScheduledTrack(record, SeverityLevel.Information);
+                    break;
+                case TraceLevel.Warning:
+                    ActivityScheduledTrack(record, SeverityLevel.Warning);
+                    break;
+                case TraceLevel.Error:
+                    ActivityScheduledTrack(record, SeverityLevel.Error);
+                    break;
+            }
         }
 
         /// <summary>
@@ -72,21 +72,21 @@ namespace Cogito.Activities.ApplicationInsights
         {
             Contract.Requires<ArgumentNullException>(record != null);
 
-			switch (record.Level)
-			{
-				case TraceLevel.Verbose:
-					ActivityStateTrack(record, SeverityLevel.Verbose);
-					break;
-				case TraceLevel.Info:
-					ActivityStateTrack(record, SeverityLevel.Information);
-					break;
-				case TraceLevel.Warning:
-					ActivityStateTrack(record, SeverityLevel.Warning);
-					break;
-				case TraceLevel.Error:
-					ActivityStateTrack(record, SeverityLevel.Error);
-					break;
-			}
+            switch (record.Level)
+            {
+                case TraceLevel.Verbose:
+                    ActivityStateTrack(record, SeverityLevel.Verbose);
+                    break;
+                case TraceLevel.Info:
+                    ActivityStateTrack(record, SeverityLevel.Information);
+                    break;
+                case TraceLevel.Warning:
+                    ActivityStateTrack(record, SeverityLevel.Warning);
+                    break;
+                case TraceLevel.Error:
+                    ActivityStateTrack(record, SeverityLevel.Error);
+                    break;
+            }
         }
 
         /// <summary>
@@ -128,21 +128,21 @@ namespace Cogito.Activities.ApplicationInsights
         {
             Contract.Requires<ArgumentNullException>(record != null);
 
-			switch (record.Level)
-			{
-				case TraceLevel.Verbose:
-					BookmarkResumptionTrack(record, SeverityLevel.Verbose);
-					break;
-				case TraceLevel.Info:
-					BookmarkResumptionTrack(record, SeverityLevel.Information);
-					break;
-				case TraceLevel.Warning:
-					BookmarkResumptionTrack(record, SeverityLevel.Warning);
-					break;
-				case TraceLevel.Error:
-					BookmarkResumptionTrack(record, SeverityLevel.Error);
-					break;
-			}
+            switch (record.Level)
+            {
+                case TraceLevel.Verbose:
+                    BookmarkResumptionTrack(record, SeverityLevel.Verbose);
+                    break;
+                case TraceLevel.Info:
+                    BookmarkResumptionTrack(record, SeverityLevel.Information);
+                    break;
+                case TraceLevel.Warning:
+                    BookmarkResumptionTrack(record, SeverityLevel.Warning);
+                    break;
+                case TraceLevel.Error:
+                    BookmarkResumptionTrack(record, SeverityLevel.Error);
+                    break;
+            }
         }
 
         /// <summary>
@@ -180,21 +180,21 @@ namespace Cogito.Activities.ApplicationInsights
         {
             Contract.Requires<ArgumentNullException>(record != null);
 
-			switch (record.Level)
-			{
-				case TraceLevel.Verbose:
-					CancelRequestedTrack(record, SeverityLevel.Verbose);
-					break;
-				case TraceLevel.Info:
-					CancelRequestedTrack(record, SeverityLevel.Information);
-					break;
-				case TraceLevel.Warning:
-					CancelRequestedTrack(record, SeverityLevel.Warning);
-					break;
-				case TraceLevel.Error:
-					CancelRequestedTrack(record, SeverityLevel.Error);
-					break;
-			}
+            switch (record.Level)
+            {
+                case TraceLevel.Verbose:
+                    CancelRequestedTrack(record, SeverityLevel.Verbose);
+                    break;
+                case TraceLevel.Info:
+                    CancelRequestedTrack(record, SeverityLevel.Information);
+                    break;
+                case TraceLevel.Warning:
+                    CancelRequestedTrack(record, SeverityLevel.Warning);
+                    break;
+                case TraceLevel.Error:
+                    CancelRequestedTrack(record, SeverityLevel.Error);
+                    break;
+            }
         }
 
         /// <summary>
@@ -233,21 +233,21 @@ namespace Cogito.Activities.ApplicationInsights
         {
             Contract.Requires<ArgumentNullException>(record != null);
 
-			switch (record.Level)
-			{
-				case TraceLevel.Verbose:
-					FaultPropagationTrack(record, SeverityLevel.Verbose);
-					break;
-				case TraceLevel.Info:
-					FaultPropagationTrack(record, SeverityLevel.Information);
-					break;
-				case TraceLevel.Warning:
-					FaultPropagationTrack(record, SeverityLevel.Warning);
-					break;
-				case TraceLevel.Error:
-					FaultPropagationTrack(record, SeverityLevel.Error);
-					break;
-			}
+            switch (record.Level)
+            {
+                case TraceLevel.Verbose:
+                    FaultPropagationTrack(record, SeverityLevel.Verbose);
+                    break;
+                case TraceLevel.Info:
+                    FaultPropagationTrack(record, SeverityLevel.Information);
+                    break;
+                case TraceLevel.Warning:
+                    FaultPropagationTrack(record, SeverityLevel.Warning);
+                    break;
+                case TraceLevel.Error:
+                    FaultPropagationTrack(record, SeverityLevel.Error);
+                    break;
+            }
         }
 
         /// <summary>
@@ -292,21 +292,21 @@ namespace Cogito.Activities.ApplicationInsights
         {
             Contract.Requires<ArgumentNullException>(record != null);
 
-			switch (record.Level)
-			{
-				case TraceLevel.Verbose:
-					WorkflowInstanceTrack(record, SeverityLevel.Verbose);
-					break;
-				case TraceLevel.Info:
-					WorkflowInstanceTrack(record, SeverityLevel.Information);
-					break;
-				case TraceLevel.Warning:
-					WorkflowInstanceTrack(record, SeverityLevel.Warning);
-					break;
-				case TraceLevel.Error:
-					WorkflowInstanceTrack(record, SeverityLevel.Error);
-					break;
-			}
+            switch (record.Level)
+            {
+                case TraceLevel.Verbose:
+                    WorkflowInstanceTrack(record, SeverityLevel.Verbose);
+                    break;
+                case TraceLevel.Info:
+                    WorkflowInstanceTrack(record, SeverityLevel.Information);
+                    break;
+                case TraceLevel.Warning:
+                    WorkflowInstanceTrack(record, SeverityLevel.Warning);
+                    break;
+                case TraceLevel.Error:
+                    WorkflowInstanceTrack(record, SeverityLevel.Error);
+                    break;
+            }
         }
 
         /// <summary>
@@ -344,21 +344,21 @@ namespace Cogito.Activities.ApplicationInsights
         {
             Contract.Requires<ArgumentNullException>(record != null);
 
-			switch (record.Level)
-			{
-				case TraceLevel.Verbose:
-					WorkflowInstanceAbortedTrack(record, SeverityLevel.Verbose);
-					break;
-				case TraceLevel.Info:
-					WorkflowInstanceAbortedTrack(record, SeverityLevel.Information);
-					break;
-				case TraceLevel.Warning:
-					WorkflowInstanceAbortedTrack(record, SeverityLevel.Warning);
-					break;
-				case TraceLevel.Error:
-					WorkflowInstanceAbortedTrack(record, SeverityLevel.Error);
-					break;
-			}
+            switch (record.Level)
+            {
+                case TraceLevel.Verbose:
+                    WorkflowInstanceAbortedTrack(record, SeverityLevel.Verbose);
+                    break;
+                case TraceLevel.Info:
+                    WorkflowInstanceAbortedTrack(record, SeverityLevel.Information);
+                    break;
+                case TraceLevel.Warning:
+                    WorkflowInstanceAbortedTrack(record, SeverityLevel.Warning);
+                    break;
+                case TraceLevel.Error:
+                    WorkflowInstanceAbortedTrack(record, SeverityLevel.Error);
+                    break;
+            }
         }
 
         /// <summary>
@@ -397,21 +397,21 @@ namespace Cogito.Activities.ApplicationInsights
         {
             Contract.Requires<ArgumentNullException>(record != null);
 
-			switch (record.Level)
-			{
-				case TraceLevel.Verbose:
-					WorkflowInstanceSuspendedTrack(record, SeverityLevel.Verbose);
-					break;
-				case TraceLevel.Info:
-					WorkflowInstanceSuspendedTrack(record, SeverityLevel.Information);
-					break;
-				case TraceLevel.Warning:
-					WorkflowInstanceSuspendedTrack(record, SeverityLevel.Warning);
-					break;
-				case TraceLevel.Error:
-					WorkflowInstanceSuspendedTrack(record, SeverityLevel.Error);
-					break;
-			}
+            switch (record.Level)
+            {
+                case TraceLevel.Verbose:
+                    WorkflowInstanceSuspendedTrack(record, SeverityLevel.Verbose);
+                    break;
+                case TraceLevel.Info:
+                    WorkflowInstanceSuspendedTrack(record, SeverityLevel.Information);
+                    break;
+                case TraceLevel.Warning:
+                    WorkflowInstanceSuspendedTrack(record, SeverityLevel.Warning);
+                    break;
+                case TraceLevel.Error:
+                    WorkflowInstanceSuspendedTrack(record, SeverityLevel.Error);
+                    break;
+            }
         }
 
         /// <summary>
@@ -450,21 +450,21 @@ namespace Cogito.Activities.ApplicationInsights
         {
             Contract.Requires<ArgumentNullException>(record != null);
 
-			switch (record.Level)
-			{
-				case TraceLevel.Verbose:
-					WorkflowInstanceTerminatedTrack(record, SeverityLevel.Verbose);
-					break;
-				case TraceLevel.Info:
-					WorkflowInstanceTerminatedTrack(record, SeverityLevel.Information);
-					break;
-				case TraceLevel.Warning:
-					WorkflowInstanceTerminatedTrack(record, SeverityLevel.Warning);
-					break;
-				case TraceLevel.Error:
-					WorkflowInstanceTerminatedTrack(record, SeverityLevel.Error);
-					break;
-			}
+            switch (record.Level)
+            {
+                case TraceLevel.Verbose:
+                    WorkflowInstanceTerminatedTrack(record, SeverityLevel.Verbose);
+                    break;
+                case TraceLevel.Info:
+                    WorkflowInstanceTerminatedTrack(record, SeverityLevel.Information);
+                    break;
+                case TraceLevel.Warning:
+                    WorkflowInstanceTerminatedTrack(record, SeverityLevel.Warning);
+                    break;
+                case TraceLevel.Error:
+                    WorkflowInstanceTerminatedTrack(record, SeverityLevel.Error);
+                    break;
+            }
         }
 
         /// <summary>
@@ -503,21 +503,21 @@ namespace Cogito.Activities.ApplicationInsights
         {
             Contract.Requires<ArgumentNullException>(record != null);
 
-			switch (record.Level)
-			{
-				case TraceLevel.Verbose:
-					WorkflowInstanceUnhandledExceptionTrack(record, SeverityLevel.Verbose);
-					break;
-				case TraceLevel.Info:
-					WorkflowInstanceUnhandledExceptionTrack(record, SeverityLevel.Information);
-					break;
-				case TraceLevel.Warning:
-					WorkflowInstanceUnhandledExceptionTrack(record, SeverityLevel.Warning);
-					break;
-				case TraceLevel.Error:
-					WorkflowInstanceUnhandledExceptionTrack(record, SeverityLevel.Error);
-					break;
-			}
+            switch (record.Level)
+            {
+                case TraceLevel.Verbose:
+                    WorkflowInstanceUnhandledExceptionTrack(record, SeverityLevel.Verbose);
+                    break;
+                case TraceLevel.Info:
+                    WorkflowInstanceUnhandledExceptionTrack(record, SeverityLevel.Information);
+                    break;
+                case TraceLevel.Warning:
+                    WorkflowInstanceUnhandledExceptionTrack(record, SeverityLevel.Warning);
+                    break;
+                case TraceLevel.Error:
+                    WorkflowInstanceUnhandledExceptionTrack(record, SeverityLevel.Error);
+                    break;
+            }
         }
 
         /// <summary>
@@ -560,21 +560,21 @@ namespace Cogito.Activities.ApplicationInsights
         {
             Contract.Requires<ArgumentNullException>(record != null);
 
-			switch (record.Level)
-			{
-				case TraceLevel.Verbose:
-					WorkflowInstanceUpdatedTrack(record, SeverityLevel.Verbose);
-					break;
-				case TraceLevel.Info:
-					WorkflowInstanceUpdatedTrack(record, SeverityLevel.Information);
-					break;
-				case TraceLevel.Warning:
-					WorkflowInstanceUpdatedTrack(record, SeverityLevel.Warning);
-					break;
-				case TraceLevel.Error:
-					WorkflowInstanceUpdatedTrack(record, SeverityLevel.Error);
-					break;
-			}
+            switch (record.Level)
+            {
+                case TraceLevel.Verbose:
+                    WorkflowInstanceUpdatedTrack(record, SeverityLevel.Verbose);
+                    break;
+                case TraceLevel.Info:
+                    WorkflowInstanceUpdatedTrack(record, SeverityLevel.Information);
+                    break;
+                case TraceLevel.Warning:
+                    WorkflowInstanceUpdatedTrack(record, SeverityLevel.Warning);
+                    break;
+                case TraceLevel.Error:
+                    WorkflowInstanceUpdatedTrack(record, SeverityLevel.Error);
+                    break;
+            }
         }
 
         /// <summary>
@@ -613,21 +613,21 @@ namespace Cogito.Activities.ApplicationInsights
         {
             Contract.Requires<ArgumentNullException>(record != null);
 
-			switch (record.Level)
-			{
-				case TraceLevel.Verbose:
-					CustomTrackingTrack(record, SeverityLevel.Verbose);
-					break;
-				case TraceLevel.Info:
-					CustomTrackingTrack(record, SeverityLevel.Information);
-					break;
-				case TraceLevel.Warning:
-					CustomTrackingTrack(record, SeverityLevel.Warning);
-					break;
-				case TraceLevel.Error:
-					CustomTrackingTrack(record, SeverityLevel.Error);
-					break;
-			}
+            switch (record.Level)
+            {
+                case TraceLevel.Verbose:
+                    CustomTrackingTrack(record, SeverityLevel.Verbose);
+                    break;
+                case TraceLevel.Info:
+                    CustomTrackingTrack(record, SeverityLevel.Information);
+                    break;
+                case TraceLevel.Warning:
+                    CustomTrackingTrack(record, SeverityLevel.Warning);
+                    break;
+                case TraceLevel.Error:
+                    CustomTrackingTrack(record, SeverityLevel.Error);
+                    break;
+            }
         }
 
         /// <summary>
