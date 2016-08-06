@@ -148,14 +148,14 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="ApplicationInsightsTrackingParticipant.Track.tt">
+    <None Include="ApplicationInsightsTrackingParticipant.Track.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>ApplicationInsightsTrackingParticipant.Track.cs</LastGenOutput>
-    </Content>
-    <Content Include="ApplicationInsightsTrackingParticipant.TrackRecord.tt">
+    </None>
+    <None Include="ApplicationInsightsTrackingParticipant.TrackRecord.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>ApplicationInsightsTrackingParticipant.TrackRecord.cs</LastGenOutput>
-    </Content>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="ApplicationInsightsTrackingParticipant.t4" />
