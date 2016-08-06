@@ -44,6 +44,7 @@ if ([string]::IsNullOrWhiteSpace($NuGetExe))
 }
 
 # test nuget
+Write-Host "Path to NuGet.exe: $($NuGetExe)"
 if (!(Test-Path $NuGetExe))
 {
     Write-Error "Could not locate NuGet.exe"
