@@ -1,0 +1,230 @@
+﻿<#+
+string[] eLevels = new[] { "Verbose", "Info", "Warning", "Error" };
+string[] tLevels = new[] { "Verbose", "Information", "Warning", "Error" };
+#>
+
+<#+
+
+class RecordType
+{
+
+    public RecordType(Type type, string name, Property[] properties)
+    {
+        Type = type;
+        Name = name;
+        Properties = properties;
+    }
+
+    public Type Type { get; set; }
+
+    public string Name { get; set; }
+
+    public Property[] Properties { get; set; }
+
+}
+
+class Property
+{
+
+    public Property(string type, string name, string expr)
+    {
+        Type = type;
+        Name = name;
+        Expr = expr;
+    }
+
+    public string Type { get; set; }
+
+    public string Name { get; set; }
+
+    public string Expr { get; set; }
+
+}
+
+
+RecordType[] recordTypes = new[]
+{
+    new RecordType(typeof(ActivityScheduledRecord), "ActivityScheduled", new[] 
+    {
+        new Property("string", "activityName", "record.Activity?.Name"),
+        new Property("string", "activityId", "record.Activity?.Id"),
+        new Property("string", "activityInstanceId", "record.Activity?.InstanceId"),
+        new Property("string", "activityTypeName", "record.Activity?.TypeName")
+    }),
+    new RecordType(typeof(ActivityStateRecord), "ActivityState", new[]
+    {
+        new Property("string", "state", "record.State"),
+        new Property("string", "activityName", "record.Activity?.Name"),
+        new Property("string", "activityId", "record.Activity?.Id"),
+        new Property("string", "activityInstanceId", "record.Activity?.InstanceId"),
+        new Property("string", "activityTypeName", "record.Activity?.TypeName"),
+        new Property("string", "arguments", "PrepareDictionary(record.Arguments)"),
+        new Property("string", "variables", "PrepareDictionary(record.Variables)"),
+    }),
+    new RecordType(typeof(BookmarkResumptionRecord), "BookmarkResumption", new[]
+    {
+        new Property("string", "bookmarkName", "record.BookmarkName"),
+        new Property("string", "bookmarkScope", "record.BookmarkScope.ToString()"),
+        new Property("string", "payload", "null"),
+    }),
+    new RecordType(typeof(CancelRequestedRecord), "CancelRequested", new[] 
+    {
+        new Property("string", "activityName", "record.Activity?.Name"),
+        new Property("string", "activityId", "record.Activity?.Id"),
+        new Property("string", "activityInstanceId", "record.Activity?.InstanceId"),
+        new Property("string", "activityTypeName", "record.Activity?.TypeName")
+    }),
+    new RecordType(typeof(FaultPropagationRecord), "FaultPropagation", new[]
+    {
+        new Property("string", "fault", "record.Fault?.ToString()"),
+        new Property("string", "faultMessage", "record.Fault?.Message"),
+        new Property("string", "faultSourceName", "record.FaultSource?.Name"),
+        new Property("string", "faultSourceId", "record.FaultSource?.Id"),
+        new Property("string", "faultSourceInstanceId", "record.FaultSource?.InstanceId"),
+        new Property("string", "faultSourceTypeName", "record.FaultSource?.TypeName"),
+        new Property("string", "faultHandlerName", "record.FaultHandler?.Name"),
+        new Property("string", "faultHandlerId", "record.FaultHandler?.Id"),
+        new Property("string", "faultHandlerInstanceId", "record.FaultHandler?.InstanceId"),
+        new Property("string", "faultHandlerTypeName", "record.FaultHandler?.TypeName"),
+    }),
+    new RecordType(typeof(WorkflowInstanceRecord), "WorkflowInstance", new[]
+    {
+        new Property("string", "state", "record.State"),
+        new Property("string", "workflowDefinitionIdentityName", "record.WorkflowDefinitionIdentity?.Name"),
+        new Property("string", "activityDefinitionId", "record.ActivityDefinitionId"),
+    }),
+    new RecordType(typeof(WorkflowInstanceAbortedRecord), "WorkflowInstanceAborted", new[]
+    {
+        new Property("string", "state", "record.State"),
+        new Property("string", "workflowDefinitionIdentityName", "record.WorkflowDefinitionIdentity?.Name"),
+        new Property("string", "activityDefinitionId", "record.ActivityDefinitionId"),
+        new Property("string", "reason", "record.Reason"),
+    }),
+    new RecordType(typeof(WorkflowInstanceSuspendedRecord), "WorkflowInstanceSuspended", new[]
+    {
+        new Property("string", "state", "record.State"),
+        new Property("string", "workflowDefinitionIdentityName", "record.WorkflowDefinitionIdentity?.Name"),
+        new Property("string", "activityDefinitionId", "record.ActivityDefinitionId"),
+        new Property("string", "reason", "record.Reason"),
+    }),
+    new RecordType(typeof(WorkflowInstanceTerminatedRecord), "WorkflowInstanceTerminated", new[]
+    {
+        new Property("string", "state", "record.State"),
+        new Property("string", "workflowDefinitionIdentityName", "record.WorkflowDefinitionIdentity?.Name"),
+        new Property("string", "activityDefinitionId", "record.ActivityDefinitionId"),
+        new Property("string", "reason", "record.Reason"),
+    }),
+    new RecordType(typeof(WorkflowInstanceUnhandledExceptionRecord), "WorkflowInstanceUnhandledException", new[]
+    {
+        new Property("string", "state", "record.State"),
+        new Property("string", "workflowDefinitionIdentityName", "record.WorkflowDefinitionIdentity?.Name"),
+        new Property("string", "activityDefinitionId", "record.ActivityDefinitionId"),
+        new Property("string", "faultSourceName", "record.FaultSource?.Name"),
+        new Property("string", "faultSourceId", "record.FaultSource?.Id"),
+        new Property("string", "faultSourceInstanceId", "record.FaultSource?.InstanceId"),
+        new Property("string", "faultSourceTypeName", "record.FaultSource?.TypeName"),
+        new Property("string", "unhandledException", "record.UnhandledException?.ToString()"),
+    }),
+    new RecordType(typeof(WorkflowInstanceUpdatedRecord), "WorkflowInstanceUpdated", new[]
+    {
+        new Property("string", "state", "record.State"),
+        new Property("string", "workflowDefinitionIdentityName", "record.WorkflowDefinitionIdentity?.Name"),
+        new Property("string", "activityDefinitionId", "record.ActivityDefinitionId"),
+        new Property("string", "isSuccessful", "record.IsSuccessful ? \"true\" : \"false\""),
+    }),
+    new RecordType(typeof(CustomTrackingRecord), "CustomTracking", new[]
+    {
+        new Property("string", "name", "record.Name"),
+        new Property("string", "activityName", "record.Activity?.Name"),
+        new Property("string", "activityId", "record.Activity?.Id"),
+        new Property("string", "activityInstanceId", "record.Activity?.InstanceId"),
+        new Property("string", "activityTypeName", "record.Activity?.TypeName"),
+        new Property("string", "data", "PrepareDictionary(record.Data)"),
+    }),
+};
+
+#>
+
+<#+
+void GenerateRecord(RecordType recordType)
+{
+#>
+
+    sealed partial class ApplicationInsightsTrackingParticipant
+    {
+        
+<#+
+    GenerateRecordMethod(recordType);
+    GenerateEventMethods(recordType);
+#>
+
+    }
+<#+
+}
+#>
+
+<#+
+void GenerateRecordMethod(RecordType recordType)
+{
+#>
+        /// <summary>
+        /// Records an event.
+        /// </summary>
+        /// <param name="record"></param>
+        internal void <#= recordType.Name #>(<#= recordType.Type.Name #> record)
+        {
+            Contract.Requires<ArgumentNullException>(record != null);
+
+			switch (record.Level)
+			{
+<#+
+for (int i = 0; i < eLevels.Length; i++)
+{
+#>
+				case TraceLevel.<#= eLevels[i] #>:
+					<#= recordType.Name #>Track(record, SeverityLevel.<#= tLevels[i] #>);
+					break;
+<#+
+}
+#>
+			}
+        }
+<#+
+}
+#>
+
+<#+
+void GenerateEventMethods(RecordType recordType)
+{
+#>
+
+        /// <summary>
+        /// Records an event.
+        /// </summary>
+        /// <param name="record"></param>
+        /// <param name="severityLevel"></param>
+        internal void <#= recordType.Name #>Track(<#= recordType.Type.Name #> record, SeverityLevel severityLevel)
+        {
+            Contract.Requires<ArgumentNullException>(record != null);
+
+            var telemetry = new TraceTelemetry();
+            telemetry.Context.Operation.Id = record.InstanceId.ToString();
+            telemetry.Timestamp = record.EventTime;
+            telemetry.Sequence = record.RecordNumber.ToString();
+            telemetry.Message = "<#= recordType.Name #>";
+            telemetry.SeverityLevel = severityLevel;
+            telemetry.Properties["annotations"] = PrepareAnnotations(record.Annotations);
+<#+
+        foreach (var property in recordType.Properties)
+        {
+#>
+            telemetry.Properties["<#= property.Name #>"] = <#= property.Expr #>;
+<#+
+        }
+#>
+            TrackTelemetry(telemetry);
+        }
+<#+
+
+}
+#>
