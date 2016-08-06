@@ -40,7 +40,7 @@ foreach ($NuSpecFile in $NuSpecFiles)
 # discover location of NuGet.exe from agent if not specified
 if ([string]::IsNullOrWhiteSpace($NuGetExe))
 {
-    $NuGetExe = "$($env:AGENT_HOMEDIRECTORY)\agent\Worker\tools\NuGet.exe"
+    $NuGetExe = "$($env:AGENT_HOMEDIRECTORY)\externals\nuget\nuget.exe"
 }
 
 # test nuget
