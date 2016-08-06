@@ -53,7 +53,7 @@ namespace Cogito.ServiceFabric.Activities
                         (record.Activity?.Id) ?? string.Empty,
                         (record.Activity?.InstanceId) ?? string.Empty,
                         (record.Activity?.TypeName) ?? string.Empty,
-                        string.Format(message, args));
+                        string.Format(message ?? string.Empty, args));
                     return;
                 }
 
@@ -77,7 +77,7 @@ namespace Cogito.ServiceFabric.Activities
                         (record.Activity?.Id) ?? string.Empty,
                         (record.Activity?.InstanceId) ?? string.Empty,
                         (record.Activity?.TypeName) ?? string.Empty,
-                        string.Format(message, args));
+                        string.Format(message ?? string.Empty, args));
                     return;
                 }
 
@@ -101,7 +101,7 @@ namespace Cogito.ServiceFabric.Activities
                         (record.Activity?.Id) ?? string.Empty,
                         (record.Activity?.InstanceId) ?? string.Empty,
                         (record.Activity?.TypeName) ?? string.Empty,
-                        string.Format(message, args));
+                        string.Format(message ?? string.Empty, args));
                     return;
                 }
 
@@ -125,7 +125,7 @@ namespace Cogito.ServiceFabric.Activities
                         (record.Activity?.Id) ?? string.Empty,
                         (record.Activity?.InstanceId) ?? string.Empty,
                         (record.Activity?.TypeName) ?? string.Empty,
-                        string.Format(message, args));
+                        string.Format(message ?? string.Empty, args));
                     return;
                 }
 
@@ -459,7 +459,7 @@ namespace Cogito.ServiceFabric.Activities
                         (record.Activity?.TypeName) ?? string.Empty,
                         (PrepareDictionary(record.Arguments)) ?? string.Empty,
                         (PrepareDictionary(record.Variables)) ?? string.Empty,
-                        string.Format(message, args));
+                        string.Format(message ?? string.Empty, args));
                     return;
                 }
 
@@ -486,7 +486,7 @@ namespace Cogito.ServiceFabric.Activities
                         (record.Activity?.TypeName) ?? string.Empty,
                         (PrepareDictionary(record.Arguments)) ?? string.Empty,
                         (PrepareDictionary(record.Variables)) ?? string.Empty,
-                        string.Format(message, args));
+                        string.Format(message ?? string.Empty, args));
                     return;
                 }
 
@@ -513,7 +513,7 @@ namespace Cogito.ServiceFabric.Activities
                         (record.Activity?.TypeName) ?? string.Empty,
                         (PrepareDictionary(record.Arguments)) ?? string.Empty,
                         (PrepareDictionary(record.Variables)) ?? string.Empty,
-                        string.Format(message, args));
+                        string.Format(message ?? string.Empty, args));
                     return;
                 }
 
@@ -540,7 +540,7 @@ namespace Cogito.ServiceFabric.Activities
                         (record.Activity?.TypeName) ?? string.Empty,
                         (PrepareDictionary(record.Arguments)) ?? string.Empty,
                         (PrepareDictionary(record.Variables)) ?? string.Empty,
-                        string.Format(message, args));
+                        string.Format(message ?? string.Empty, args));
                     return;
                 }
 
@@ -906,7 +906,7 @@ namespace Cogito.ServiceFabric.Activities
                         (record.BookmarkName) ?? string.Empty,
                         record.BookmarkScope,
                         (null) ?? string.Empty,
-                        string.Format(message, args));
+                        string.Format(message ?? string.Empty, args));
                     return;
                 }
 
@@ -929,7 +929,7 @@ namespace Cogito.ServiceFabric.Activities
                         (record.BookmarkName) ?? string.Empty,
                         record.BookmarkScope,
                         (null) ?? string.Empty,
-                        string.Format(message, args));
+                        string.Format(message ?? string.Empty, args));
                     return;
                 }
 
@@ -952,7 +952,7 @@ namespace Cogito.ServiceFabric.Activities
                         (record.BookmarkName) ?? string.Empty,
                         record.BookmarkScope,
                         (null) ?? string.Empty,
-                        string.Format(message, args));
+                        string.Format(message ?? string.Empty, args));
                     return;
                 }
 
@@ -975,7 +975,7 @@ namespace Cogito.ServiceFabric.Activities
                         (record.BookmarkName) ?? string.Empty,
                         record.BookmarkScope,
                         (null) ?? string.Empty,
-                        string.Format(message, args));
+                        string.Format(message ?? string.Empty, args));
                     return;
                 }
 
@@ -1294,7 +1294,7 @@ namespace Cogito.ServiceFabric.Activities
                         (record.Activity?.Id) ?? string.Empty,
                         (record.Activity?.InstanceId) ?? string.Empty,
                         (record.Activity?.TypeName) ?? string.Empty,
-                        string.Format(message, args));
+                        string.Format(message ?? string.Empty, args));
                     return;
                 }
 
@@ -1318,7 +1318,7 @@ namespace Cogito.ServiceFabric.Activities
                         (record.Activity?.Id) ?? string.Empty,
                         (record.Activity?.InstanceId) ?? string.Empty,
                         (record.Activity?.TypeName) ?? string.Empty,
-                        string.Format(message, args));
+                        string.Format(message ?? string.Empty, args));
                     return;
                 }
 
@@ -1342,7 +1342,7 @@ namespace Cogito.ServiceFabric.Activities
                         (record.Activity?.Id) ?? string.Empty,
                         (record.Activity?.InstanceId) ?? string.Empty,
                         (record.Activity?.TypeName) ?? string.Empty,
-                        string.Format(message, args));
+                        string.Format(message ?? string.Empty, args));
                     return;
                 }
 
@@ -1366,7 +1366,7 @@ namespace Cogito.ServiceFabric.Activities
                         (record.Activity?.Id) ?? string.Empty,
                         (record.Activity?.InstanceId) ?? string.Empty,
                         (record.Activity?.TypeName) ?? string.Empty,
-                        string.Format(message, args));
+                        string.Format(message ?? string.Empty, args));
                     return;
                 }
 
@@ -1693,6 +1693,7 @@ namespace Cogito.ServiceFabric.Activities
                         record.RecordNumber,
                         record.EventTime.ToFileTimeUtc(),
                         PrepareAnnotations(record.Annotations),
+                        (record.Fault?.ToString()) ?? string.Empty,
                         (record.Fault?.Message) ?? string.Empty,
                         (record.FaultSource?.Name) ?? string.Empty,
                         (record.FaultSource?.Id) ?? string.Empty,
@@ -1702,7 +1703,7 @@ namespace Cogito.ServiceFabric.Activities
                         (record.FaultHandler?.Id) ?? string.Empty,
                         (record.FaultHandler?.InstanceId) ?? string.Empty,
                         (record.FaultHandler?.TypeName) ?? string.Empty,
-                        string.Format(message, args));
+                        string.Format(message ?? string.Empty, args));
                     return;
                 }
 
@@ -1722,6 +1723,7 @@ namespace Cogito.ServiceFabric.Activities
                         record.RecordNumber,
                         record.EventTime.ToFileTimeUtc(),
                         PrepareAnnotations(record.Annotations),
+                        (record.Fault?.ToString()) ?? string.Empty,
                         (record.Fault?.Message) ?? string.Empty,
                         (record.FaultSource?.Name) ?? string.Empty,
                         (record.FaultSource?.Id) ?? string.Empty,
@@ -1731,7 +1733,7 @@ namespace Cogito.ServiceFabric.Activities
                         (record.FaultHandler?.Id) ?? string.Empty,
                         (record.FaultHandler?.InstanceId) ?? string.Empty,
                         (record.FaultHandler?.TypeName) ?? string.Empty,
-                        string.Format(message, args));
+                        string.Format(message ?? string.Empty, args));
                     return;
                 }
 
@@ -1751,6 +1753,7 @@ namespace Cogito.ServiceFabric.Activities
                         record.RecordNumber,
                         record.EventTime.ToFileTimeUtc(),
                         PrepareAnnotations(record.Annotations),
+                        (record.Fault?.ToString()) ?? string.Empty,
                         (record.Fault?.Message) ?? string.Empty,
                         (record.FaultSource?.Name) ?? string.Empty,
                         (record.FaultSource?.Id) ?? string.Empty,
@@ -1760,7 +1763,7 @@ namespace Cogito.ServiceFabric.Activities
                         (record.FaultHandler?.Id) ?? string.Empty,
                         (record.FaultHandler?.InstanceId) ?? string.Empty,
                         (record.FaultHandler?.TypeName) ?? string.Empty,
-                        string.Format(message, args));
+                        string.Format(message ?? string.Empty, args));
                     return;
                 }
 
@@ -1780,6 +1783,7 @@ namespace Cogito.ServiceFabric.Activities
                         record.RecordNumber,
                         record.EventTime.ToFileTimeUtc(),
                         PrepareAnnotations(record.Annotations),
+                        (record.Fault?.ToString()) ?? string.Empty,
                         (record.Fault?.Message) ?? string.Empty,
                         (record.FaultSource?.Name) ?? string.Empty,
                         (record.FaultSource?.Id) ?? string.Empty,
@@ -1789,7 +1793,7 @@ namespace Cogito.ServiceFabric.Activities
                         (record.FaultHandler?.Id) ?? string.Empty,
                         (record.FaultHandler?.InstanceId) ?? string.Empty,
                         (record.FaultHandler?.TypeName) ?? string.Empty,
-                        string.Format(message, args));
+                        string.Format(message ?? string.Empty, args));
                     return;
                 }
 
@@ -1813,6 +1817,7 @@ namespace Cogito.ServiceFabric.Activities
         /// <param name="recordNumber"></param>
         /// <param name="eventTime"></param>
         /// <param name="annotations"></param>
+        /// <param name="fault"></param>
         /// <param name="faultMessage"></param>
         /// <param name="faultSourceName"></param>
         /// <param name="faultSourceId"></param>
@@ -1826,7 +1831,7 @@ namespace Cogito.ServiceFabric.Activities
         [Event(
             FaultPropagationVerboseEventId,
             Level = EventLevel.Verbose,
-            Message = "{22}",
+            Message = "{23}",
             Keywords = Keywords.FaultPropagation)]
         internal void FaultPropagationVerbose(
             string actorType,
@@ -1842,6 +1847,7 @@ namespace Cogito.ServiceFabric.Activities
             long recordNumber,
             long eventTime,
             string annotations,
+            string fault,
             string faultMessage,
             string faultSourceName,
             string faultSourceId,
@@ -1868,6 +1874,7 @@ namespace Cogito.ServiceFabric.Activities
                 recordNumber,
                 eventTime,
                 annotations,
+                fault,
                 faultMessage,
                 faultSourceName,
                 faultSourceId,
@@ -1897,6 +1904,7 @@ namespace Cogito.ServiceFabric.Activities
         /// <param name="recordNumber"></param>
         /// <param name="eventTime"></param>
         /// <param name="annotations"></param>
+        /// <param name="fault"></param>
         /// <param name="faultMessage"></param>
         /// <param name="faultSourceName"></param>
         /// <param name="faultSourceId"></param>
@@ -1910,7 +1918,7 @@ namespace Cogito.ServiceFabric.Activities
         [Event(
             FaultPropagationInfoEventId,
             Level = EventLevel.Informational,
-            Message = "{22}",
+            Message = "{23}",
             Keywords = Keywords.FaultPropagation)]
         internal void FaultPropagationInfo(
             string actorType,
@@ -1926,6 +1934,7 @@ namespace Cogito.ServiceFabric.Activities
             long recordNumber,
             long eventTime,
             string annotations,
+            string fault,
             string faultMessage,
             string faultSourceName,
             string faultSourceId,
@@ -1952,6 +1961,7 @@ namespace Cogito.ServiceFabric.Activities
                 recordNumber,
                 eventTime,
                 annotations,
+                fault,
                 faultMessage,
                 faultSourceName,
                 faultSourceId,
@@ -1981,6 +1991,7 @@ namespace Cogito.ServiceFabric.Activities
         /// <param name="recordNumber"></param>
         /// <param name="eventTime"></param>
         /// <param name="annotations"></param>
+        /// <param name="fault"></param>
         /// <param name="faultMessage"></param>
         /// <param name="faultSourceName"></param>
         /// <param name="faultSourceId"></param>
@@ -1994,7 +2005,7 @@ namespace Cogito.ServiceFabric.Activities
         [Event(
             FaultPropagationWarningEventId,
             Level = EventLevel.Warning,
-            Message = "{22}",
+            Message = "{23}",
             Keywords = Keywords.FaultPropagation)]
         internal void FaultPropagationWarning(
             string actorType,
@@ -2010,6 +2021,7 @@ namespace Cogito.ServiceFabric.Activities
             long recordNumber,
             long eventTime,
             string annotations,
+            string fault,
             string faultMessage,
             string faultSourceName,
             string faultSourceId,
@@ -2036,6 +2048,7 @@ namespace Cogito.ServiceFabric.Activities
                 recordNumber,
                 eventTime,
                 annotations,
+                fault,
                 faultMessage,
                 faultSourceName,
                 faultSourceId,
@@ -2065,6 +2078,7 @@ namespace Cogito.ServiceFabric.Activities
         /// <param name="recordNumber"></param>
         /// <param name="eventTime"></param>
         /// <param name="annotations"></param>
+        /// <param name="fault"></param>
         /// <param name="faultMessage"></param>
         /// <param name="faultSourceName"></param>
         /// <param name="faultSourceId"></param>
@@ -2078,7 +2092,7 @@ namespace Cogito.ServiceFabric.Activities
         [Event(
             FaultPropagationErrorEventId,
             Level = EventLevel.Error,
-            Message = "{22}",
+            Message = "{23}",
             Keywords = Keywords.FaultPropagation)]
         internal void FaultPropagationError(
             string actorType,
@@ -2094,6 +2108,7 @@ namespace Cogito.ServiceFabric.Activities
             long recordNumber,
             long eventTime,
             string annotations,
+            string fault,
             string faultMessage,
             string faultSourceName,
             string faultSourceId,
@@ -2120,6 +2135,7 @@ namespace Cogito.ServiceFabric.Activities
                 recordNumber,
                 eventTime,
                 annotations,
+                fault,
                 faultMessage,
                 faultSourceName,
                 faultSourceId,
@@ -2179,7 +2195,7 @@ namespace Cogito.ServiceFabric.Activities
                         (record.State) ?? string.Empty,
                         (record.WorkflowDefinitionIdentity?.Name) ?? string.Empty,
                         (record.ActivityDefinitionId) ?? string.Empty,
-                        string.Format(message, args));
+                        string.Format(message ?? string.Empty, args));
                     return;
                 }
 
@@ -2202,7 +2218,7 @@ namespace Cogito.ServiceFabric.Activities
                         (record.State) ?? string.Empty,
                         (record.WorkflowDefinitionIdentity?.Name) ?? string.Empty,
                         (record.ActivityDefinitionId) ?? string.Empty,
-                        string.Format(message, args));
+                        string.Format(message ?? string.Empty, args));
                     return;
                 }
 
@@ -2225,7 +2241,7 @@ namespace Cogito.ServiceFabric.Activities
                         (record.State) ?? string.Empty,
                         (record.WorkflowDefinitionIdentity?.Name) ?? string.Empty,
                         (record.ActivityDefinitionId) ?? string.Empty,
-                        string.Format(message, args));
+                        string.Format(message ?? string.Empty, args));
                     return;
                 }
 
@@ -2248,7 +2264,7 @@ namespace Cogito.ServiceFabric.Activities
                         (record.State) ?? string.Empty,
                         (record.WorkflowDefinitionIdentity?.Name) ?? string.Empty,
                         (record.ActivityDefinitionId) ?? string.Empty,
-                        string.Format(message, args));
+                        string.Format(message ?? string.Empty, args));
                     return;
                 }
 
@@ -2567,7 +2583,7 @@ namespace Cogito.ServiceFabric.Activities
                         (record.WorkflowDefinitionIdentity?.Name) ?? string.Empty,
                         (record.ActivityDefinitionId) ?? string.Empty,
                         (record.Reason) ?? string.Empty,
-                        string.Format(message, args));
+                        string.Format(message ?? string.Empty, args));
                     return;
                 }
 
@@ -2591,7 +2607,7 @@ namespace Cogito.ServiceFabric.Activities
                         (record.WorkflowDefinitionIdentity?.Name) ?? string.Empty,
                         (record.ActivityDefinitionId) ?? string.Empty,
                         (record.Reason) ?? string.Empty,
-                        string.Format(message, args));
+                        string.Format(message ?? string.Empty, args));
                     return;
                 }
 
@@ -2615,7 +2631,7 @@ namespace Cogito.ServiceFabric.Activities
                         (record.WorkflowDefinitionIdentity?.Name) ?? string.Empty,
                         (record.ActivityDefinitionId) ?? string.Empty,
                         (record.Reason) ?? string.Empty,
-                        string.Format(message, args));
+                        string.Format(message ?? string.Empty, args));
                     return;
                 }
 
@@ -2639,7 +2655,7 @@ namespace Cogito.ServiceFabric.Activities
                         (record.WorkflowDefinitionIdentity?.Name) ?? string.Empty,
                         (record.ActivityDefinitionId) ?? string.Empty,
                         (record.Reason) ?? string.Empty,
-                        string.Format(message, args));
+                        string.Format(message ?? string.Empty, args));
                     return;
                 }
 
@@ -2970,7 +2986,7 @@ namespace Cogito.ServiceFabric.Activities
                         (record.WorkflowDefinitionIdentity?.Name) ?? string.Empty,
                         (record.ActivityDefinitionId) ?? string.Empty,
                         (record.Reason) ?? string.Empty,
-                        string.Format(message, args));
+                        string.Format(message ?? string.Empty, args));
                     return;
                 }
 
@@ -2994,7 +3010,7 @@ namespace Cogito.ServiceFabric.Activities
                         (record.WorkflowDefinitionIdentity?.Name) ?? string.Empty,
                         (record.ActivityDefinitionId) ?? string.Empty,
                         (record.Reason) ?? string.Empty,
-                        string.Format(message, args));
+                        string.Format(message ?? string.Empty, args));
                     return;
                 }
 
@@ -3018,7 +3034,7 @@ namespace Cogito.ServiceFabric.Activities
                         (record.WorkflowDefinitionIdentity?.Name) ?? string.Empty,
                         (record.ActivityDefinitionId) ?? string.Empty,
                         (record.Reason) ?? string.Empty,
-                        string.Format(message, args));
+                        string.Format(message ?? string.Empty, args));
                     return;
                 }
 
@@ -3042,7 +3058,7 @@ namespace Cogito.ServiceFabric.Activities
                         (record.WorkflowDefinitionIdentity?.Name) ?? string.Empty,
                         (record.ActivityDefinitionId) ?? string.Empty,
                         (record.Reason) ?? string.Empty,
-                        string.Format(message, args));
+                        string.Format(message ?? string.Empty, args));
                     return;
                 }
 
@@ -3373,7 +3389,7 @@ namespace Cogito.ServiceFabric.Activities
                         (record.WorkflowDefinitionIdentity?.Name) ?? string.Empty,
                         (record.ActivityDefinitionId) ?? string.Empty,
                         (record.Reason) ?? string.Empty,
-                        string.Format(message, args));
+                        string.Format(message ?? string.Empty, args));
                     return;
                 }
 
@@ -3397,7 +3413,7 @@ namespace Cogito.ServiceFabric.Activities
                         (record.WorkflowDefinitionIdentity?.Name) ?? string.Empty,
                         (record.ActivityDefinitionId) ?? string.Empty,
                         (record.Reason) ?? string.Empty,
-                        string.Format(message, args));
+                        string.Format(message ?? string.Empty, args));
                     return;
                 }
 
@@ -3421,7 +3437,7 @@ namespace Cogito.ServiceFabric.Activities
                         (record.WorkflowDefinitionIdentity?.Name) ?? string.Empty,
                         (record.ActivityDefinitionId) ?? string.Empty,
                         (record.Reason) ?? string.Empty,
-                        string.Format(message, args));
+                        string.Format(message ?? string.Empty, args));
                     return;
                 }
 
@@ -3445,7 +3461,7 @@ namespace Cogito.ServiceFabric.Activities
                         (record.WorkflowDefinitionIdentity?.Name) ?? string.Empty,
                         (record.ActivityDefinitionId) ?? string.Empty,
                         (record.Reason) ?? string.Empty,
-                        string.Format(message, args));
+                        string.Format(message ?? string.Empty, args));
                     return;
                 }
 
@@ -3780,7 +3796,7 @@ namespace Cogito.ServiceFabric.Activities
                         (record.FaultSource?.InstanceId) ?? string.Empty,
                         (record.FaultSource?.TypeName) ?? string.Empty,
                         (record.UnhandledException?.Message) ?? string.Empty,
-                        string.Format(message, args));
+                        string.Format(message ?? string.Empty, args));
                     return;
                 }
 
@@ -3808,7 +3824,7 @@ namespace Cogito.ServiceFabric.Activities
                         (record.FaultSource?.InstanceId) ?? string.Empty,
                         (record.FaultSource?.TypeName) ?? string.Empty,
                         (record.UnhandledException?.Message) ?? string.Empty,
-                        string.Format(message, args));
+                        string.Format(message ?? string.Empty, args));
                     return;
                 }
 
@@ -3836,7 +3852,7 @@ namespace Cogito.ServiceFabric.Activities
                         (record.FaultSource?.InstanceId) ?? string.Empty,
                         (record.FaultSource?.TypeName) ?? string.Empty,
                         (record.UnhandledException?.Message) ?? string.Empty,
-                        string.Format(message, args));
+                        string.Format(message ?? string.Empty, args));
                     return;
                 }
 
@@ -3864,7 +3880,7 @@ namespace Cogito.ServiceFabric.Activities
                         (record.FaultSource?.InstanceId) ?? string.Empty,
                         (record.FaultSource?.TypeName) ?? string.Empty,
                         (record.UnhandledException?.Message) ?? string.Empty,
-                        string.Format(message, args));
+                        string.Format(message ?? string.Empty, args));
                     return;
                 }
 
@@ -4243,7 +4259,7 @@ namespace Cogito.ServiceFabric.Activities
                         (record.WorkflowDefinitionIdentity?.Name) ?? string.Empty,
                         (record.ActivityDefinitionId) ?? string.Empty,
                         record.IsSuccessful,
-                        string.Format(message, args));
+                        string.Format(message ?? string.Empty, args));
                     return;
                 }
 
@@ -4267,7 +4283,7 @@ namespace Cogito.ServiceFabric.Activities
                         (record.WorkflowDefinitionIdentity?.Name) ?? string.Empty,
                         (record.ActivityDefinitionId) ?? string.Empty,
                         record.IsSuccessful,
-                        string.Format(message, args));
+                        string.Format(message ?? string.Empty, args));
                     return;
                 }
 
@@ -4291,7 +4307,7 @@ namespace Cogito.ServiceFabric.Activities
                         (record.WorkflowDefinitionIdentity?.Name) ?? string.Empty,
                         (record.ActivityDefinitionId) ?? string.Empty,
                         record.IsSuccessful,
-                        string.Format(message, args));
+                        string.Format(message ?? string.Empty, args));
                     return;
                 }
 
@@ -4315,7 +4331,7 @@ namespace Cogito.ServiceFabric.Activities
                         (record.WorkflowDefinitionIdentity?.Name) ?? string.Empty,
                         (record.ActivityDefinitionId) ?? string.Empty,
                         record.IsSuccessful,
-                        string.Format(message, args));
+                        string.Format(message ?? string.Empty, args));
                     return;
                 }
 
@@ -4648,7 +4664,7 @@ namespace Cogito.ServiceFabric.Activities
                         (record.Activity?.InstanceId) ?? string.Empty,
                         (record.Activity?.TypeName) ?? string.Empty,
                         (PrepareDictionary(record.Data)) ?? string.Empty,
-                        string.Format(message, args));
+                        string.Format(message ?? string.Empty, args));
                     return;
                 }
 
@@ -4674,7 +4690,7 @@ namespace Cogito.ServiceFabric.Activities
                         (record.Activity?.InstanceId) ?? string.Empty,
                         (record.Activity?.TypeName) ?? string.Empty,
                         (PrepareDictionary(record.Data)) ?? string.Empty,
-                        string.Format(message, args));
+                        string.Format(message ?? string.Empty, args));
                     return;
                 }
 
@@ -4700,7 +4716,7 @@ namespace Cogito.ServiceFabric.Activities
                         (record.Activity?.InstanceId) ?? string.Empty,
                         (record.Activity?.TypeName) ?? string.Empty,
                         (PrepareDictionary(record.Data)) ?? string.Empty,
-                        string.Format(message, args));
+                        string.Format(message ?? string.Empty, args));
                     return;
                 }
 
@@ -4726,7 +4742,7 @@ namespace Cogito.ServiceFabric.Activities
                         (record.Activity?.InstanceId) ?? string.Empty,
                         (record.Activity?.TypeName) ?? string.Empty,
                         (PrepareDictionary(record.Data)) ?? string.Empty,
-                        string.Format(message, args));
+                        string.Format(message ?? string.Empty, args));
                     return;
                 }
 

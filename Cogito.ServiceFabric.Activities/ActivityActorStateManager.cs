@@ -40,7 +40,7 @@ namespace Cogito.ServiceFabric.Activities
             Contract.Requires<ArgumentNullException>(host != null);
 
             this.host = host;
-        }                            
+        }
 
         /// <summary>
         /// Gets or sets the instance owner id.
@@ -154,7 +154,7 @@ namespace Cogito.ServiceFabric.Activities
             {
                 instanceOwnerId = state.Value.InstanceOwnerId;
                 instanceId = state.Value.InstanceId;
-                instanceState= state.Value.InstanceState;
+                instanceState = state.Value.InstanceState;
                 instanceData = state.Value.InstanceData.ToImmutableDictionary();
                 instanceMetadata = state.Value.InstanceMetadata.ToImmutableDictionary();
             }

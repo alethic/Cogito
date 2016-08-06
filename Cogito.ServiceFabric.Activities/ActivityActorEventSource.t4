@@ -82,6 +82,7 @@ RecordType[] recordTypes = new[]
     }),
     new RecordType(150, typeof(FaultPropagationRecord), "FaultPropagation", new[] { "FaultPropagation" }, new[]
     {
+        new Arg("string", "fault", "record.Fault?.ToString()"),
         new Arg("string", "faultMessage", "record.Fault?.Message"),
         new Arg("string", "faultSourceName", "record.FaultSource?.Name"),
         new Arg("string", "faultSourceId", "record.FaultSource?.Id"),
@@ -235,7 +236,7 @@ for (int i = 0; i < tLevels.Length; i++)
         }
     }
 #>
-                        string.Format(message, args));
+                        string.Format(message ?? string.Empty, args));
                     return;
                 }
 
