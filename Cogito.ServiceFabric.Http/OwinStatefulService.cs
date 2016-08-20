@@ -56,10 +56,10 @@ namespace Cogito.ServiceFabric.Http
             Contract.Requires<ArgumentNullException>(app != null);
 
             // attach service to context
-            app.Use(async (context, func) =>
+            app.Use(async (context, next) =>
             {
                 context.SetService(this);
-                await func();
+                await next();
             });
 
             // begin user configuration
@@ -74,7 +74,11 @@ namespace Cogito.ServiceFabric.Http
         {
             Contract.Requires<ArgumentNullException>(app != null);
 
-            app.Run(OnRequest);
+            app.Use(async (context, next) =>
+            {
+                await OnRequest(context);
+                await next();
+            });
         }
 
         /// <summary>

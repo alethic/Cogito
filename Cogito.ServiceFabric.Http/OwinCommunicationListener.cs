@@ -244,6 +244,10 @@ namespace Cogito.ServiceFabric.Http
                 {
                     // no-op
                 }
+                finally
+                {
+                    serverHandle = null;
+                }
             }
         }
 

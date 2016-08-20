@@ -75,7 +75,11 @@ namespace Cogito.ServiceFabric.Http
         {
             Contract.Requires<ArgumentNullException>(app != null);
 
-            app.Run(OnRequest);
+            app.Use(async (context, next) =>
+            {
+                await OnRequest(context);
+                await next();
+            });
         }
 
         /// <summary>
