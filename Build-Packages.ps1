@@ -12,6 +12,8 @@ param(
     [Parameter(Mandatory=$true)]
     [string]$Version,
 
+    [bool]$UpdateVersion,
+
     [string]$NuGetExe
 
 )
@@ -38,10 +40,11 @@ foreach ($NuSpecFile in $NuSpecFiles)
 # discover location of NuGet.exe from agent if not specified
 if ([string]::IsNullOrWhiteSpace($NuGetExe))
 {
-    $NuGetExe = "$($env:AGENT_HOMEDIRECTORY)\agent\Worker\tools\NuGet.exe"
+    $NuGetExe = "$($env:AGENT_HOMEDIRECTORY)\externals\nuget\nuget.exe"
 }
 
 # test nuget
+Write-Host "Path to NuGet.exe: $($NuGetExe)"
 if (!(Test-Path $NuGetExe))
 {
     Write-Error "Could not locate NuGet.exe"
@@ -54,6 +57,12 @@ foreach ($i in $NuSpecFiles)
     $f = [System.IO.Path]::ChangeExtension($i.FullName, ".csproj")
     if (Test-Path $f)
     {
-    	& $NuGetExe pack -OutputDirectory `"$OutputDirectory`" -Version `"$Version`" -Properties Configuration=$BuildConfiguration `"$f`"
+        # manually update version to support $version$ elsewhere in file
+        if ($UpdateVersion -eq $true) {
+            Write-Host "updating"
+            (Get-Content $i).Replace('$version$', $Version) | Set-Content $i
+        }
+
+        & $NuGetExe pack -OutputDirectory `"$OutputDirectory`" -Version `"$Version`" -Properties Configuration=$BuildConfiguration `"$f`"
     }
 }

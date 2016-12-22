@@ -55,7 +55,7 @@ namespace Cogito
             Contract.Requires(divisor != 0L);
 
             long mod;
-            Math.DivRem(dividend, divisor, out mod);
+            System.Math.DivRem(dividend, divisor, out mod);
             if (mod < 0)
                 mod += divisor;
             return mod;

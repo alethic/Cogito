@@ -114,8 +114,8 @@
     <DocumentationFile>bin\Release\Cogito.Core.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.8.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -131,6 +131,10 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Collections\IInterval.cs" />
+    <Compile Include="Collections\Interval.cs" />
+    <Compile Include="Collections\IntervalTree.cs" />
+    <Compile Include="Math\IntervalMode.cs" />
     <Compile Include="CodeDom\Compiler\CodeDomProviderExtensions.cs" />
     <Compile Include="Collections\CollectionExtensions.cs" />
     <Compile Include="Collections\DelegateEqualityComparer.cs" />
@@ -147,6 +151,7 @@
     <Compile Include="Collections\LinkedListExtensions.cs" />
     <Compile Include="Collections\MergedDictionary.cs" />
     <Compile Include="Collections\NameValueCollectionExtensions.cs" />
+    <Compile Include="Math\ComparableExtensions.cs" />
     <Compile Include="Components\ComponentAttribute.cs" />
     <Compile Include="Components\ComponentConfigurationSection.cs" />
     <Compile Include="Components\ComponentTypeConfigurationElementCollection.cs" />
@@ -198,7 +203,15 @@
     <Compile Include="Reflection\TypeExtensions.cs" />
     <Compile Include="IO\Media\IMediaTypeResolver.cs" />
     <Compile Include="StringExtensions.cs" />
-    <Compile Include="STuple.cs" />
+    <None Include="STuple.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>STuple.cs</LastGenOutput>
+    </None>
+    <Compile Include="STuple.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>STuple.tt</DependentUpon>
+    </Compile>
     <Compile Include="Text\StringBuilderExtensions.cs" />
     <Compile Include="Threading\AsyncLock.cs" />
     <Compile Include="Threading\AsyncManualResetEvent.cs" />
@@ -232,6 +245,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Diagnostics\Tracing\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />

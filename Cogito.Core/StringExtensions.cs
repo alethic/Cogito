@@ -108,7 +108,7 @@ namespace Cogito
         {
             Contract.Requires<ArgumentNullException>(self != null);
 
-            return self.Substring(0, Math.Min(self.Length, count));
+            return self.Substring(0, System.Math.Min(self.Length, count));
         }
 
         /// <summary>

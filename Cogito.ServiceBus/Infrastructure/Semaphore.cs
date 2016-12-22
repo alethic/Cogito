@@ -270,7 +270,7 @@ namespace Cogito.ServiceBus.Infrastructure
 
                     // update counts
                     peers = ordered.Length;
-                    consumed = Math.Min(resources, peers);
+                    consumed = System.Math.Min(resources, peers);
 
                     // determine whether we are one of the running nodes
                     var running = ordered.Take(resources).ToArray();

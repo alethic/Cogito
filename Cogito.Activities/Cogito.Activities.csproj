@@ -209,6 +209,7 @@
     <Compile Include="AsyncTaskExtension.cs" />
     <Compile Include="Expressions.InvokeAction.cs" />
     <Compile Include="For.cs" />
+    <Compile Include="Expressions.NoPersist.cs" />
     <Compile Include="Retry.cs" />
     <Compile Include="RetryException.cs" />
     <Compile Include="RetryCatch.cs" />

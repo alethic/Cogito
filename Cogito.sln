@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.25123.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cogito.Composition", "Cogito.Composition\Cogito.Composition.csproj", "{7BC455C8-108C-4B5A-BF25-F20EEE0A8140}"
 EndProject
@@ -62,33 +62,19 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cogito.Activities", "Cogito
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cogito.Activities.Tests", "Cogito.Activities.Tests\Cogito.Activities.Tests.csproj", "{88B353BD-0A88-4CF9-9442-660692437E6E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cogito.ServiceFabric", "Cogito.ServiceFabric\Cogito.ServiceFabric.csproj", "{45C4E98F-C300-4869-A3A3-531B56BDC3D9}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cogito.ServiceFabric.Activities", "Cogito.ServiceFabric.Activities\Cogito.ServiceFabric.Activities.csproj", "{A37AD75B-3315-4E60-98B2-137EB68CE303}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cogito.ServiceFabric.Http", "Cogito.ServiceFabric.Http\Cogito.ServiceFabric.Http.csproj", "{9AD67BF7-8707-4388-AD34-545CE9EAADEA}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cogito.ServiceFabric.Activities.Test.Activities", "Cogito.ServiceFabric.Activities.Test.Activities\Cogito.ServiceFabric.Activities.Test.Activities.csproj", "{58B7FC57-2117-4BEE-A7D5-69CA21398199}"
-EndProject
-Project("{A07B5EB6-E848-4116-A8D0-A826331D98C6}") = "Cogito.ServiceFabric.Activities.Test.Application", "Cogito.ServiceFabric.Activities.Test.Application\Cogito.ServiceFabric.Activities.Test.Application.sfproj", "{C91F9AC9-9B49-4B1E-BC77-32821380E219}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cogito.ServiceFabric.Activities.Test.TestActor", "Cogito.ServiceFabric.Activities.Test.TestActor\Cogito.ServiceFabric.Activities.Test.TestActor.csproj", "{D2DE259F-760A-42EF-8075-888FD50EAB18}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cogito.ServiceFabric.Activities.Test.TestActor.Interfaces", "Cogito.ServiceFabric.Activities.Test.TestActor.Interfaces\Cogito.ServiceFabric.Activities.Test.TestActor.Interfaces.csproj", "{F86DB8EA-DA52-40D6-B5AF-2ACFF7DE4892}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cogito.ServiceFabric.Activities.Test.TestWebService", "Cogito.ServiceFabric.Activities.Test.TestWebService\Cogito.ServiceFabric.Activities.Test.TestWebService.csproj", "{35F3823E-7FAD-4273-A641-BD8C25A867A9}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cogito.ServiceFabric.Activities.Tests", "Cogito.ServiceFabric.Activities.Tests\Cogito.ServiceFabric.Activities.Tests.csproj", "{0ECBDA32-F6F2-4316-9511-EF78E7038E83}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cogito.Web.Http.Tests.Web.Site", "Cogito.Web.Http.Tests.Web.Site\Cogito.Web.Http.Tests.Web.Site.csproj", "{17C1E98F-4DD0-4D59-80AA-DE58077D9D18}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cogito.ServiceFabric.Test.Web.Service", "Cogito.ServiceFabric.Test.Web.Service\Cogito.ServiceFabric.Test.Web.Service.csproj", "{B0B02484-594E-4DE6-BF7E-5282431123EF}"
-EndProject
-Project("{A07B5EB6-E848-4116-A8D0-A826331D98C6}") = "Cogito.ServiceFabric.Test.Application", "Cogito.ServiceFabric.Test.Application\Cogito.ServiceFabric.Test.Application.sfproj", "{F8E665E6-E512-40C3-BA09-E7DCED1F55C2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cogito.ServiceBus", "Cogito.ServiceBus\Cogito.ServiceBus.csproj", "{2F9A61CA-5F20-4F98-90E5-6BF972BB87C5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cogito.ServiceBus.MassTransit", "Cogito.ServiceBus.MassTransit\Cogito.ServiceBus.MassTransit.csproj", "{16506209-6820-4070-9690-C78C6369EC60}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{47124194-A785-4685-8D61-0E38F4D538D1}"
+	ProjectSection(SolutionItems) = preProject
+		Build-Packages.ps1 = Build-Packages.ps1
+		Publish-Packages.ps1 = Publish-Packages.ps1
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cogito.Activities.ApplicationInsights", "Cogito.Activities.ApplicationInsights\Cogito.Activities.ApplicationInsights.csproj", "{E1FC296F-843F-48AB-AAE3-47F47E4BED7E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -204,56 +190,10 @@ Global
 		{88B353BD-0A88-4CF9-9442-660692437E6E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{88B353BD-0A88-4CF9-9442-660692437E6E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{88B353BD-0A88-4CF9-9442-660692437E6E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{45C4E98F-C300-4869-A3A3-531B56BDC3D9}.Debug|Any CPU.ActiveCfg = Debug|x64
-		{45C4E98F-C300-4869-A3A3-531B56BDC3D9}.Debug|Any CPU.Build.0 = Debug|x64
-		{45C4E98F-C300-4869-A3A3-531B56BDC3D9}.Release|Any CPU.ActiveCfg = Release|x64
-		{45C4E98F-C300-4869-A3A3-531B56BDC3D9}.Release|Any CPU.Build.0 = Release|x64
-		{A37AD75B-3315-4E60-98B2-137EB68CE303}.Debug|Any CPU.ActiveCfg = Debug|x64
-		{A37AD75B-3315-4E60-98B2-137EB68CE303}.Debug|Any CPU.Build.0 = Debug|x64
-		{A37AD75B-3315-4E60-98B2-137EB68CE303}.Release|Any CPU.ActiveCfg = Release|x64
-		{A37AD75B-3315-4E60-98B2-137EB68CE303}.Release|Any CPU.Build.0 = Release|x64
-		{9AD67BF7-8707-4388-AD34-545CE9EAADEA}.Debug|Any CPU.ActiveCfg = Debug|x64
-		{9AD67BF7-8707-4388-AD34-545CE9EAADEA}.Debug|Any CPU.Build.0 = Debug|x64
-		{9AD67BF7-8707-4388-AD34-545CE9EAADEA}.Release|Any CPU.ActiveCfg = Release|x64
-		{9AD67BF7-8707-4388-AD34-545CE9EAADEA}.Release|Any CPU.Build.0 = Release|x64
-		{58B7FC57-2117-4BEE-A7D5-69CA21398199}.Debug|Any CPU.ActiveCfg = Debug|x64
-		{58B7FC57-2117-4BEE-A7D5-69CA21398199}.Debug|Any CPU.Build.0 = Debug|x64
-		{58B7FC57-2117-4BEE-A7D5-69CA21398199}.Release|Any CPU.ActiveCfg = Release|x64
-		{58B7FC57-2117-4BEE-A7D5-69CA21398199}.Release|Any CPU.Build.0 = Release|x64
-		{C91F9AC9-9B49-4B1E-BC77-32821380E219}.Debug|Any CPU.ActiveCfg = Debug|x64
-		{C91F9AC9-9B49-4B1E-BC77-32821380E219}.Debug|Any CPU.Build.0 = Debug|x64
-		{C91F9AC9-9B49-4B1E-BC77-32821380E219}.Debug|Any CPU.Deploy.0 = Debug|x64
-		{C91F9AC9-9B49-4B1E-BC77-32821380E219}.Release|Any CPU.ActiveCfg = Release|x64
-		{C91F9AC9-9B49-4B1E-BC77-32821380E219}.Release|Any CPU.Build.0 = Release|x64
-		{D2DE259F-760A-42EF-8075-888FD50EAB18}.Debug|Any CPU.ActiveCfg = Debug|x64
-		{D2DE259F-760A-42EF-8075-888FD50EAB18}.Debug|Any CPU.Build.0 = Debug|x64
-		{D2DE259F-760A-42EF-8075-888FD50EAB18}.Release|Any CPU.ActiveCfg = Release|x64
-		{D2DE259F-760A-42EF-8075-888FD50EAB18}.Release|Any CPU.Build.0 = Release|x64
-		{F86DB8EA-DA52-40D6-B5AF-2ACFF7DE4892}.Debug|Any CPU.ActiveCfg = Debug|x64
-		{F86DB8EA-DA52-40D6-B5AF-2ACFF7DE4892}.Debug|Any CPU.Build.0 = Debug|x64
-		{F86DB8EA-DA52-40D6-B5AF-2ACFF7DE4892}.Release|Any CPU.ActiveCfg = Release|x64
-		{F86DB8EA-DA52-40D6-B5AF-2ACFF7DE4892}.Release|Any CPU.Build.0 = Release|x64
-		{35F3823E-7FAD-4273-A641-BD8C25A867A9}.Debug|Any CPU.ActiveCfg = Debug|x64
-		{35F3823E-7FAD-4273-A641-BD8C25A867A9}.Debug|Any CPU.Build.0 = Debug|x64
-		{35F3823E-7FAD-4273-A641-BD8C25A867A9}.Release|Any CPU.ActiveCfg = Release|x64
-		{35F3823E-7FAD-4273-A641-BD8C25A867A9}.Release|Any CPU.Build.0 = Release|x64
-		{0ECBDA32-F6F2-4316-9511-EF78E7038E83}.Debug|Any CPU.ActiveCfg = Debug|x64
-		{0ECBDA32-F6F2-4316-9511-EF78E7038E83}.Debug|Any CPU.Build.0 = Debug|x64
-		{0ECBDA32-F6F2-4316-9511-EF78E7038E83}.Release|Any CPU.ActiveCfg = Release|x64
-		{0ECBDA32-F6F2-4316-9511-EF78E7038E83}.Release|Any CPU.Build.0 = Release|x64
 		{17C1E98F-4DD0-4D59-80AA-DE58077D9D18}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{17C1E98F-4DD0-4D59-80AA-DE58077D9D18}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{17C1E98F-4DD0-4D59-80AA-DE58077D9D18}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{17C1E98F-4DD0-4D59-80AA-DE58077D9D18}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B0B02484-594E-4DE6-BF7E-5282431123EF}.Debug|Any CPU.ActiveCfg = Debug|x64
-		{B0B02484-594E-4DE6-BF7E-5282431123EF}.Debug|Any CPU.Build.0 = Debug|x64
-		{B0B02484-594E-4DE6-BF7E-5282431123EF}.Release|Any CPU.ActiveCfg = Release|x64
-		{B0B02484-594E-4DE6-BF7E-5282431123EF}.Release|Any CPU.Build.0 = Release|x64
-		{F8E665E6-E512-40C3-BA09-E7DCED1F55C2}.Debug|Any CPU.ActiveCfg = Debug|x64
-		{F8E665E6-E512-40C3-BA09-E7DCED1F55C2}.Debug|Any CPU.Build.0 = Debug|x64
-		{F8E665E6-E512-40C3-BA09-E7DCED1F55C2}.Debug|Any CPU.Deploy.0 = Debug|x64
-		{F8E665E6-E512-40C3-BA09-E7DCED1F55C2}.Release|Any CPU.ActiveCfg = Release|x64
-		{F8E665E6-E512-40C3-BA09-E7DCED1F55C2}.Release|Any CPU.Build.0 = Release|x64
 		{2F9A61CA-5F20-4F98-90E5-6BF972BB87C5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2F9A61CA-5F20-4F98-90E5-6BF972BB87C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2F9A61CA-5F20-4F98-90E5-6BF972BB87C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -262,6 +202,10 @@ Global
 		{16506209-6820-4070-9690-C78C6369EC60}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{16506209-6820-4070-9690-C78C6369EC60}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{16506209-6820-4070-9690-C78C6369EC60}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E1FC296F-843F-48AB-AAE3-47F47E4BED7E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E1FC296F-843F-48AB-AAE3-47F47E4BED7E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E1FC296F-843F-48AB-AAE3-47F47E4BED7E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E1FC296F-843F-48AB-AAE3-47F47E4BED7E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -279,14 +223,6 @@ Global
 		{3614F477-D432-4600-B20A-280671B60E49} = {87130765-A579-4878-B462-70139F28B475}
 		{F289D297-D2E5-4A24-94D9-A5928026E89A} = {87130765-A579-4878-B462-70139F28B475}
 		{88B353BD-0A88-4CF9-9442-660692437E6E} = {87130765-A579-4878-B462-70139F28B475}
-		{58B7FC57-2117-4BEE-A7D5-69CA21398199} = {87130765-A579-4878-B462-70139F28B475}
-		{C91F9AC9-9B49-4B1E-BC77-32821380E219} = {87130765-A579-4878-B462-70139F28B475}
-		{D2DE259F-760A-42EF-8075-888FD50EAB18} = {87130765-A579-4878-B462-70139F28B475}
-		{F86DB8EA-DA52-40D6-B5AF-2ACFF7DE4892} = {87130765-A579-4878-B462-70139F28B475}
-		{35F3823E-7FAD-4273-A641-BD8C25A867A9} = {87130765-A579-4878-B462-70139F28B475}
-		{0ECBDA32-F6F2-4316-9511-EF78E7038E83} = {87130765-A579-4878-B462-70139F28B475}
 		{17C1E98F-4DD0-4D59-80AA-DE58077D9D18} = {87130765-A579-4878-B462-70139F28B475}
-		{B0B02484-594E-4DE6-BF7E-5282431123EF} = {87130765-A579-4878-B462-70139F28B475}
-		{F8E665E6-E512-40C3-BA09-E7DCED1F55C2} = {87130765-A579-4878-B462-70139F28B475}
 	EndGlobalSection
 EndGlobal

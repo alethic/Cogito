@@ -15,7 +15,7 @@
         <projectUrl>https://github.com/wasabii/Cogito</projectUrl>
         <iconUrl>https://cloverluxussc.blob.core.windows.net/public/cogito-nuget-icon.png</iconUrl>
         <dependencies>
-            <dependency id="Cogito.Composition" />
+            <dependency id="Cogito.Composition" version="$version$" />
         </dependencies>
     </metadata>
 </package>

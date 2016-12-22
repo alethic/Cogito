@@ -1,0 +1,235 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ output extension=".cs" #>
+using System;
+using System.Collections;
+using System.Collections.Generic;
+
+namespace Cogito
+{
+
+    public static class STuple
+    {
+<#
+for (int i = 1; i <= 8; i++)
+{
+#>
+
+        /// <summary>
+        /// Creates a new <#= i #>-tuple.
+        /// </summary>
+        public static STuple<<#= Repeat("T{0}", i, ", ") #>> Create<<#= Repeat("T{0}", i, ", ") #>>(<#= Repeat("T{0} item{0}", i, ", ") #>)
+        {
+            return new STuple<<#= Repeat("T{0}", i, ", ") #>>(<#= Repeat("item{0}", i, ", ") #>);
+        }
+<#
+}
+#>
+
+        internal static int CombineHashCodes(int h1, int h2)
+        {
+            return (((h1 << 5) + h1) ^ h2);
+        }
+ 
+        internal static int CombineHashCodes(int h1, int h2, int h3)
+        {
+            return CombineHashCodes(CombineHashCodes(h1, h2), h3);
+        }
+ 
+        internal static int CombineHashCodes(int h1, int h2, int h3, int h4)
+        {
+            return CombineHashCodes(CombineHashCodes(h1, h2), CombineHashCodes(h3, h4));
+        }
+ 
+        internal static int CombineHashCodes(int h1, int h2, int h3, int h4, int h5)
+        {
+            return CombineHashCodes(CombineHashCodes(h1, h2, h3, h4), h5);
+        }
+ 
+        internal static int CombineHashCodes(int h1, int h2, int h3, int h4, int h5, int h6)
+        {
+            return CombineHashCodes(CombineHashCodes(h1, h2, h3, h4), CombineHashCodes(h5, h6));
+        }
+ 
+        internal static int CombineHashCodes(int h1, int h2, int h3, int h4, int h5, int h6, int h7)
+        {
+            return CombineHashCodes(CombineHashCodes(h1, h2, h3, h4), CombineHashCodes(h5, h6, h7));
+        }
+ 
+        internal static int CombineHashCodes(int h1, int h2, int h3, int h4, int h5, int h6, int h7, int h8)
+        {
+            return CombineHashCodes(CombineHashCodes(h1, h2, h3, h4), CombineHashCodes(h5, h6, h7, h8));
+        }
+
+    }
+
+<#
+for (int i = 1; i <= 8; i++)
+{
+#>
+    [Serializable]
+    public struct STuple<<#= Repeat("T{0}", i, ", ") #>> :
+        IStructuralEquatable, IStructuralComparable, IComparable
+    {
+
+<#
+for (int j = 1; j <= i; j++)
+{
+#>
+        readonly T<#= j #> item<#= j #>;
+<#
+}
+#>
+
+        /// <summary>
+        /// Initializes a new instance.
+        /// </summary>
+<#
+for (int j = 1; j <= i; j++)
+{
+#>
+        /// <param name="item<#= j #>"></param>
+<#
+}
+#>
+        public STuple(<#= Repeat("T{0} item{0}", i, ", ") #>)
+        {
+<#
+for (int j = 1; j <= i; j++)
+{
+#>
+            this.item<#= j #> = item<#= j #>;
+<#
+}
+#>
+        }
+
+<#
+for (int j = 1; j <= i; j++)
+{
+#>
+        public T<#= j #> Item<#= j #>
+        {
+            get { return item<#= j #>; }
+        }
+<#
+}
+#>
+
+        /// <summary>
+        /// Gets the size of the tuple.
+        /// </summary>
+        public int Size
+        {
+            get { return <#= i #>; }
+        }
+
+        public override bool Equals(object obj)
+        {
+            return ((IStructuralEquatable)this).Equals(obj, EqualityComparer<Object>.Default);
+        }
+
+        bool IStructuralEquatable.Equals(object other, IEqualityComparer comparer)
+        {
+            if (ReferenceEquals(other, null))
+                return false;
+
+            var t = (STuple<<#= Repeat("T{0}", i, ", ") #>>)other;
+            return <#= Repeat("comparer.Equals(item{0}, t.item{0})", i, " && ") #>;
+        }
+
+        public override int GetHashCode()
+        {
+            return ((IStructuralEquatable)this).GetHashCode(EqualityComparer<Object>.Default);
+        }
+
+        int IStructuralEquatable.GetHashCode(IEqualityComparer comparer)
+        {
+<#
+if (i == 1)
+{
+#>
+            return comparer.GetHashCode(item1);
+<#
+}
+else
+{
+#>
+            return STuple.CombineHashCodes(<#= Repeat("comparer.GetHashCode(item{0})", i, ", ") #>);
+<#
+}
+#>
+        }
+
+        int IComparable.CompareTo(object obj)
+        {
+            return ((IStructuralComparable)this).CompareTo(obj, Comparer<Object>.Default);
+        }
+
+        int IStructuralComparable.CompareTo(object other, IComparer comparer)
+        {
+            if (ReferenceEquals(other, null))
+                return 1;
+            if (ReferenceEquals(comparer, null))
+                throw new ArgumentNullException("comparer");
+
+            var t = (STuple<<#= Repeat("T{0}", i, ", ") #>>)other;
+            int c = 0;
+
+<#
+for (int j = 1; j <= i; j++)
+{
+#>
+            if ((c = comparer.Compare(item<#= j #>, t.item<#= j #>)) != 0)
+                return c;
+
+<#
+}
+#>
+            return 0;
+        }
+
+        public override string ToString()
+        {
+            return $"(<#= Repeat("{{item{0}}}", i, ", ") #>)";
+        }
+
+    }
+
+<#
+}
+#>
+
+}
+
+<#+
+
+string Repeat(string format, int count, string separator)
+{
+    return string.Join(separator, Enumerable.Range(1, count).Select(i => string.Format(format , i)));
+}
+
+void WriteArgTypeParamsComments(int count)
+{
+    for (int i = 1; i <= count; i++)
+    {
+#>
+        /// <typeparam name="TArg<#= i #>"></typeparam>
+<#+
+    }
+}
+
+void WriteArgParamsComments(int count)
+{
+    for (int i = 1; i <= count; i++)
+    {
+#>
+        /// <param name="arg<#= i #>"></param>
+<#+
+    }
+}
+
+#>
