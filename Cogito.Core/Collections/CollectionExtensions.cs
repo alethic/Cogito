@@ -61,22 +61,6 @@ namespace Cogito.Collections
             self.RemoveRange(self.Except(keep).ToArray());
         }
 
-        /// <summary>
-        /// Removes all of the items where the predicate matches.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="self"></param>
-        /// <param name="where"></param>
-        public static void RemoveWhere<T>(this ICollection<T> self, Func<T, bool> where)
-        {
-            if (self == null)
-                throw new ArgumentNullException(nameof(self));
-            if (where == null)
-                throw new ArgumentNullException(nameof(where));
-
-            self.RemoveRange(self.Where(where).ToArray());
-        }
-
     }
 
 }
