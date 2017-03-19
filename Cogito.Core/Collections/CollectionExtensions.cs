@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
 using System.Linq;
 
 namespace Cogito.Collections
@@ -20,8 +19,10 @@ namespace Cogito.Collections
         /// <param name="add"></param>
         public static void AddRange<T>(this ICollection<T> self, IEnumerable<T> add)
         {
-            Contract.Requires<ArgumentNullException>(self != null);
-            Contract.Requires<ArgumentNullException>(add != null);
+            if (self == null)
+                throw new ArgumentNullException(nameof(self));
+            if (add == null)
+                throw new ArgumentNullException(nameof(add));
 
             foreach (var i in add)
                 self.Add(i);
@@ -35,8 +36,10 @@ namespace Cogito.Collections
         /// <param name="remove"></param>
         public static void RemoveRange<T>(this ICollection<T> self, IEnumerable<T> remove)
         {
-            Contract.Requires<ArgumentNullException>(self != null);
-            Contract.Requires<ArgumentNullException>(remove != null);
+            if (self == null)
+                throw new ArgumentNullException(nameof(self));
+            if (remove == null)
+                throw new ArgumentNullException(nameof(remove));
 
             foreach (var i in remove)
                 self.Remove(i);
@@ -50,10 +53,28 @@ namespace Cogito.Collections
         /// <param name="keep"></param>
         public static void RemoveExceptRange<T>(this ICollection<T> self, IEnumerable<T> keep)
         {
-            Contract.Requires<ArgumentNullException>(self != null);
-            Contract.Requires<ArgumentNullException>(keep != null);
-            
+            if (self == null)
+                throw new ArgumentNullException(nameof(self));
+            if (keep == null)
+                throw new ArgumentNullException(nameof(keep));
+
             self.RemoveRange(self.Except(keep).ToArray());
+        }
+
+        /// <summary>
+        /// Removes all of the items where the predicate matches.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="self"></param>
+        /// <param name="where"></param>
+        public static void RemoveWhere<T>(this ICollection<T> self, Func<T, bool> where)
+        {
+            if (self == null)
+                throw new ArgumentNullException(nameof(self));
+            if (where == null)
+                throw new ArgumentNullException(nameof(where));
+
+            self.RemoveRange(self.Where(where).ToArray());
         }
 
     }
