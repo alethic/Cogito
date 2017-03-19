@@ -67,7 +67,7 @@ namespace Cogito.Collections
         /// <typeparam name="T"></typeparam>
         /// <param name="self"></param>
         /// <param name="where"></param>
-        public static void RemoveWhere<T>(this ICollection<T> self, Func<T, bool> where)
+        public static void RemoveWhere<T>(this ICollection<T> self, Predicate<T> where)
         {
             if (self == null)
                 throw new ArgumentNullException(nameof(self));
