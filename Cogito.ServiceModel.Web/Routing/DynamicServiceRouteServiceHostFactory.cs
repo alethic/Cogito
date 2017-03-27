@@ -21,7 +21,10 @@ namespace Cogito.ServiceModel.Web.Routing
         public DynamicServiceRouteServiceHostFactory(ServiceHostFactoryBase primary) :
             base()
         {
-            this.primary = primary ?? throw new ArgumentNullException(nameof(primary));
+            if (primary == null)
+                throw new ArgumentNullException(nameof(primary));
+
+            this.primary = primary;
         }
 
         public override ServiceHostBase CreateServiceHost(string constructorString, Uri[] baseAddresses)
