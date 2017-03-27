@@ -17,7 +17,6 @@ namespace Cogito.Net.Http
         /// <summary>
         /// Initializes a new instance.
         /// </summary>
-        /// <param name="eventSource"></param>
         /// <param name="innerHandler"></param>
         public HttpMessageEventSourceWriterHandler(HttpMessageHandler innerHandler)
             : base(innerHandler)
