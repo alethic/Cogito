@@ -1,4 +1,5 @@
-﻿using System.Web.Routing;
+﻿using System.ServiceModel;
+using System.Web.Routing;
 
 namespace Cogito.ServiceModel.Web.Routing
 {
@@ -8,6 +9,14 @@ namespace Cogito.ServiceModel.Web.Routing
     /// </summary>
     public class DynamicServiceRouteMessageProperty
     {
+
+        /// <summary>
+        /// Gets the value of this property for the current <see cref="OperationContext"/>.
+        /// </summary>
+        public static DynamicServiceRouteMessageProperty Current
+        {
+            get { return (DynamicServiceRouteMessageProperty)OperationContext.Current.IncomingMessageProperties[Key]; }
+        }
 
         /// <summary>
         /// Key of the property in message property dictionaries.
