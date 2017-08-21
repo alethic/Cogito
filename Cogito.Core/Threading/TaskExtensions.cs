@@ -22,7 +22,8 @@ namespace Cogito.Threading
         /// <returns></returns>
         public static IAsyncResult ToAsyncBegin<TResult>(this Task<TResult> task, AsyncCallback callback, object state)
         {
-            Contract.Requires<ArgumentNullException>(task != null);
+            if (task == null)
+                throw new ArgumentNullException(nameof(task));
 
             var ec = ExecutionContext.Capture();
             var cs = new TaskCompletionSource<TResult>(state);
@@ -48,7 +49,8 @@ namespace Cogito.Threading
         /// <returns></returns>
         public static IAsyncResult ToAsyncBegin(this Task task, AsyncCallback callback, object state)
         {
-            Contract.Requires<ArgumentNullException>(task != null);
+            if (task == null)
+                throw new ArgumentNullException(nameof(task));
 
             var ec = ExecutionContext.Capture();
             var cs = new TaskCompletionSource<object>(state);
@@ -61,7 +63,7 @@ namespace Cogito.Threading
                 if (callback != null)
                     ExecutionContext.Run(ec, __ => callback((Task)__), cs.Task);
             });
-            
+
             return cs.Task;
         }
 
@@ -72,7 +74,8 @@ namespace Cogito.Threading
         /// <returns></returns>
         public static TResult ToAsyncEnd<TResult>(this Task<TResult> task)
         {
-            Contract.Requires<ArgumentNullException>(task != null);
+            if (task == null)
+                throw new ArgumentNullException(nameof(task));
 
             return task.GetAwaiter().GetResult();
         }
@@ -84,7 +87,8 @@ namespace Cogito.Threading
         /// <returns></returns>
         public static void ToAsyncEnd(this Task task)
         {
-            Contract.Requires<ArgumentNullException>(task != null);
+            if (task == null)
+                throw new ArgumentNullException(nameof(task));
 
             task.GetAwaiter().GetResult();
         }
