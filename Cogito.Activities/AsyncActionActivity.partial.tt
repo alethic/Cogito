@@ -7,7 +7,6 @@
 <#@ include file="_.t4" #>
 using System;
 using System.Activities;
-using System.Diagnostics.Contracts;
 using System.Threading.Tasks;
 
 namespace Cogito.Activities

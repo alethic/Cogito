@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Activities;
 using System.Activities.Statements;
-using System.Diagnostics.Contracts;
-using System.Runtime.CompilerServices;
 
 namespace Cogito.Activities
 {
@@ -16,7 +14,8 @@ namespace Cogito.Activities
         /// <returns></returns>
         public static Delay Delay(InArgument<TimeSpan> duration, string displayName = null)
         {
-            Contract.Requires<ArgumentNullException>(duration != null);
+            if (duration == null)
+                throw new ArgumentNullException(nameof(duration));
 
             return new Delay()
             {

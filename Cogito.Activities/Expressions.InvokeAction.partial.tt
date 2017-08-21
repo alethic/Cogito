@@ -8,7 +8,6 @@
 using System;
 using System.Activities;
 using System.Activities.Statements;
-using System.Diagnostics.Contracts;
 
 namespace Cogito.Activities
 {
@@ -32,12 +31,14 @@ for (int i = 2; i <= 8; i++)
         /// <returns></returns>
         public static InvokeAction<<#= Repeat("TArg{0}", i, ", ") #>> InvokeAction<<#= Repeat("TArg{0}", i, ", ") #>>(ActivityAction<<#= Repeat("TArg{0}", i, ", ") #>> action, <#= Repeat(argTypeName + " arg{0}", i, ", ") #>, string displayName = null)
         {
-            Contract.Requires<ArgumentNullException>(action != null);
+            if (action == null)
+                throw new ArgumentNullException(nameof(action));
 <#
         for (int j = 1; j <= i; j++)
         {
 #>
-            Contract.Requires<ArgumentNullException>(arg<#= j #> != null);
+            if (arg<#= j #> == null)
+                throw new ArgumentNullException(nameof(arg<#= j #>));
 <#
         }
 #>

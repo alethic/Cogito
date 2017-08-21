@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Activities;
 using System.Activities.Expressions;
-using System.Diagnostics.Contracts;
 
 namespace Cogito.Activities
 {
@@ -18,7 +17,8 @@ namespace Cogito.Activities
         /// <returns></returns>
         public static InvokeFunc<TResult> InvokeFunc<TResult>(ActivityFunc<TResult> func, string displayName = null)
         {
-            Contract.Requires<ArgumentNullException>(func != null);
+            if (func == null)
+                throw new ArgumentNullException(nameof(func));
 
             return new InvokeFunc<TResult>()
             {
@@ -37,7 +37,8 @@ namespace Cogito.Activities
         /// <returns></returns>
         public static InvokeFunc<TArg, TResult> InvokeFunc<TArg, TResult>(ActivityFunc<TArg, TResult> func, InArgument<TArg> arg, string displayName = null)
         {
-            Contract.Requires<ArgumentNullException>(func != null);
+            if (func == null)
+                throw new ArgumentNullException(nameof(func));
 
             return new InvokeFunc<TArg, TResult>()
             {
@@ -57,7 +58,8 @@ namespace Cogito.Activities
         /// <returns></returns>
         public static InvokeFunc<TArg, TResult> InvokeFunc<TArg, TResult>(ActivityFunc<TArg, TResult> func, DelegateInArgument<TArg> arg, string displayName = null)
         {
-            Contract.Requires<ArgumentNullException>(func != null);
+            if (func == null)
+                throw new ArgumentNullException(nameof(func));
 
             return new InvokeFunc<TArg, TResult>()
             {
@@ -77,7 +79,8 @@ namespace Cogito.Activities
         /// <returns></returns>
         public static InvokeFunc<TArg, TResult> InvokeFunc<TArg, TResult>(ActivityFunc<TArg, TResult> func, Activity<TArg> arg, string displayName = null)
         {
-            Contract.Requires<ArgumentNullException>(func != null);
+            if (func == null)
+                throw new ArgumentNullException(nameof(func));
 
             return new InvokeFunc<TArg, TResult>()
             {
@@ -97,7 +100,8 @@ namespace Cogito.Activities
         /// <returns></returns>
         public static InvokeFunc<TArg, TResult> InvokeFunc<TArg, TResult>(ActivityFunc<TArg, TResult> func, Variable<TArg> arg, string displayName = null)
         {
-            Contract.Requires<ArgumentNullException>(func != null);
+            if (func == null)
+                throw new ArgumentNullException(nameof(func));
 
             return new InvokeFunc<TArg, TResult>()
             {

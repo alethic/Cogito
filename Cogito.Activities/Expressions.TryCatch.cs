@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Activities;
 using System.Activities.Statements;
-using System.Diagnostics.Contracts;
 using System.Threading.Tasks;
 
 namespace Cogito.Activities
@@ -17,7 +16,8 @@ namespace Cogito.Activities
         /// <returns></returns>
         public static TryCatch Try(params Activity[] activities)
         {
-            Contract.Requires<ArgumentNullException>(activities != null);
+            if (activities == null)
+                throw new ArgumentNullException(nameof(activities));
 
             return new TryCatch()
             {
@@ -32,7 +32,8 @@ namespace Cogito.Activities
         /// <returns></returns>
         public static TryCatch Try(Activity activity)
         {
-            Contract.Requires<ArgumentNullException>(activity != null);
+            if (activity == null)
+                throw new ArgumentNullException(nameof(activity));
 
             return new TryCatch()
             {
@@ -49,7 +50,8 @@ namespace Cogito.Activities
         public static TryCatch Catch<TException>(this TryCatch tryCatch)
             where TException : Exception
         {
-            Contract.Requires<ArgumentNullException>(tryCatch != null);
+            if (tryCatch == null)
+                throw new ArgumentNullException(nameof(tryCatch));
 
             tryCatch.Catches.Add(new Catch<TException>());
 
@@ -66,8 +68,10 @@ namespace Cogito.Activities
         public static TryCatch Catch<TException>(this TryCatch tryCatch, ActivityAction<TException> action)
             where TException : Exception
         {
-            Contract.Requires<ArgumentNullException>(tryCatch != null);
-            Contract.Requires<ArgumentNullException>(action != null);
+            if (tryCatch == null)
+                throw new ArgumentNullException(nameof(tryCatch));
+            if (action == null)
+                throw new ArgumentNullException(nameof(action));
 
             tryCatch.Catches.Add(new Catch<TException>()
             {
@@ -87,8 +91,10 @@ namespace Cogito.Activities
         public static TryCatch Catch<TException>(this TryCatch tryCatch, Func<DelegateInArgument<TException>, Activity> action)
             where TException : Exception
         {
-            Contract.Requires<ArgumentNullException>(tryCatch != null);
-            Contract.Requires<ArgumentNullException>(action != null);
+            if (tryCatch == null)
+                throw new ArgumentNullException(nameof(tryCatch));
+            if (action == null)
+                throw new ArgumentNullException(nameof(action));
 
             return tryCatch.Catch(Delegate(action));
         }
@@ -103,8 +109,10 @@ namespace Cogito.Activities
         public static TryCatch Catch<TException>(this TryCatch tryCatch, Func<TException, Task> action)
             where TException : Exception
         {
-            Contract.Requires<ArgumentNullException>(tryCatch != null);
-            Contract.Requires<ArgumentNullException>(action != null);
+            if (tryCatch == null)
+                throw new ArgumentNullException(nameof(tryCatch));
+            if (action == null)
+                throw new ArgumentNullException(nameof(action));
 
             return tryCatch.Catch<TException>(arg => Invoke(action, arg));
         }

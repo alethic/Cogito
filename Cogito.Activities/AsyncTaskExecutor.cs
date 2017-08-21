@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics.Contracts;
 using System.Threading.Tasks;
 
 namespace Cogito.Activities
@@ -25,7 +24,8 @@ namespace Cogito.Activities
         /// <returns></returns>
         public virtual Task ExecuteAsync(Func<Task> action)
         {
-            Contract.Requires<ArgumentNullException>(action != null);
+            if (action == null)
+                throw new ArgumentNullException(nameof(action));
 
             return action();
         }
@@ -38,7 +38,8 @@ namespace Cogito.Activities
         /// <returns></returns>
         public virtual Task<TResult> ExecuteAsync<TResult>(Func<Task<TResult>> func)
         {
-            Contract.Requires<ArgumentNullException>(func != null);
+            if (func == null)
+                throw new ArgumentNullException(nameof(func));
 
             return func();
         }

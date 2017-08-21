@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Activities;
-using System.Diagnostics.Contracts;
 
 namespace Cogito.Activities
 {
@@ -16,8 +15,10 @@ namespace Cogito.Activities
         /// <returns></returns>
         public static AsyncTaskExecutorScope WithAsyncTaskExecutor(this Activity body, AsyncTaskExecutor executor)
         {
-            Contract.Requires<ArgumentNullException>(executor != null);
-            Contract.Requires<ArgumentNullException>(body != null);
+            if (executor == null)
+                throw new ArgumentNullException(nameof(executor));
+            if (body == null)
+                throw new ArgumentNullException(nameof(body));
 
             return new AsyncTaskExecutorScope(executor, body);
         }
@@ -31,8 +32,10 @@ namespace Cogito.Activities
         /// <returns></returns>
         public static AsyncTaskExecutorScope<TResult> WithAsyncTaskExecutor<TResult>(this Activity<TResult> body, AsyncTaskExecutor executor)
         {
-            Contract.Requires<ArgumentNullException>(body != null);
-            Contract.Requires<ArgumentNullException>(executor != null);
+            if (body == null)
+                throw new ArgumentNullException(nameof(body));
+            if (executor == null)
+                throw new ArgumentNullException(nameof(executor));
 
             return new AsyncTaskExecutorScope<TResult>(executor, body);
         }

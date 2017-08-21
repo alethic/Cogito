@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Activities;
 using System.Activities.Statements;
-using System.Diagnostics.Contracts;
 
 namespace Cogito.Activities
 {
@@ -17,7 +16,8 @@ namespace Cogito.Activities
         /// <returns></returns>
         public static Parallel Parallel(Activity<bool> condition, params Activity[] branches)
         {
-            Contract.Requires<ArgumentNullException>(branches != null);
+            if (branches == null)
+                throw new ArgumentNullException(nameof(branches));
 
             var parallel = new Parallel()
             {
@@ -37,7 +37,8 @@ namespace Cogito.Activities
         /// <returns></returns>
         public static Parallel Parallel(params Activity[] branches)
         {
-            Contract.Requires<ArgumentNullException>(branches != null);
+            if (branches == null)
+                throw new ArgumentNullException(nameof(branches));
 
             var parallel = new Parallel();
             foreach (var i in branches)

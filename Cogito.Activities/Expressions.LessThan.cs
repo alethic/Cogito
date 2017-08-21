@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Activities;
 using System.Activities.Expressions;
-using System.Diagnostics.Contracts;
-using System.Runtime.CompilerServices;
 
 namespace Cogito.Activities
 {
@@ -21,8 +19,10 @@ namespace Cogito.Activities
         /// <returns></returns>
         public static LessThanOrEqual<TLeft, TRight, TResult> LessThanOrEqual<TLeft, TRight, TResult>(InArgument<TLeft> left, InArgument<TRight> right, string displayName = null)
         {
-            Contract.Requires<ArgumentNullException>(left != null);
-            Contract.Requires<ArgumentNullException>(right != null);
+            if (left == null)
+                throw new ArgumentNullException(nameof(left));
+            if (right == null)
+                throw new ArgumentNullException(nameof(right));
 
             return new LessThanOrEqual<TLeft, TRight, TResult>()
             {

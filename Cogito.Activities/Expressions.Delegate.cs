@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Activities;
-using System.Diagnostics.Contracts;
 
 namespace Cogito.Activities
 {
@@ -9,7 +8,8 @@ namespace Cogito.Activities
 
         public static ActivityAction Delegate(Func<Activity> create)
         {
-            Contract.Requires<ArgumentNullException>(create != null);
+            if (create == null)
+                throw new ArgumentNullException(nameof(create));
 
             return new ActivityAction()
             {
@@ -19,7 +19,8 @@ namespace Cogito.Activities
 
         public static ActivityAction<TArg> Delegate<TArg>(Func<DelegateInArgument<TArg>, Activity> create)
         {
-            Contract.Requires<ArgumentNullException>(create != null);
+            if (create == null)
+                throw new ArgumentNullException(nameof(create));
 
             var arg = new DelegateInArgument<TArg>();
 

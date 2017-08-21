@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Activities;
 using System.Activities.Statements;
-using System.Diagnostics.Contracts;
 using System.Threading.Tasks;
 
 namespace Cogito.Activities
@@ -18,8 +17,10 @@ namespace Cogito.Activities
         /// <returns></returns>
         public static While While(Activity<bool> condition, Activity body)
         {
-            Contract.Requires<ArgumentNullException>(condition != null);
-            Contract.Requires<ArgumentNullException>(body != null);
+            if (condition == null)
+                throw new ArgumentNullException(nameof(condition));
+            if (body == null)
+                throw new ArgumentNullException(nameof(body));
 
             return new While(condition)
             {
@@ -35,8 +36,10 @@ namespace Cogito.Activities
         /// <returns></returns>
         public static While While(Activity<bool> condition, Func<Task> body)
         {
-            Contract.Requires<ArgumentNullException>(condition != null);
-            Contract.Requires<ArgumentNullException>(body != null);
+            if (condition == null)
+                throw new ArgumentNullException(nameof(condition));
+            if (body == null)
+                throw new ArgumentNullException(nameof(body));
 
             return new While(condition)
             {
@@ -52,8 +55,10 @@ namespace Cogito.Activities
         /// <returns></returns>
         public static While While(Func<Task<bool>> condition, Activity body)
         {
-            Contract.Requires<ArgumentNullException>(condition != null);
-            Contract.Requires<ArgumentNullException>(body != null);
+            if (condition == null)
+                throw new ArgumentNullException(nameof(condition));
+            if (body == null)
+                throw new ArgumentNullException(nameof(body));
 
             return While(Invoke(condition), body);
         }
@@ -66,8 +71,10 @@ namespace Cogito.Activities
         /// <returns></returns>
         public static While While(Func<Task<bool>> condition, Func<Task> body)
         {
-            Contract.Requires<ArgumentNullException>(condition != null);
-            Contract.Requires<ArgumentNullException>(body != null);
+            if (condition == null)
+                throw new ArgumentNullException(nameof(condition));
+            if (body == null)
+                throw new ArgumentNullException(nameof(body));
 
             return While(Invoke(condition), body);
         }

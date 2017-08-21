@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Activities;
 using System.Activities.Statements;
-using System.Diagnostics.Contracts;
 using System.Threading.Tasks;
 
 namespace Cogito.Activities
@@ -19,7 +18,8 @@ namespace Cogito.Activities
         public static Throw Throw<TException>(DelegateInArgument<TException> exception, string displayName = null)
             where TException : Exception
         {
-            Contract.Requires<ArgumentNullException>(exception != null);
+            if (exception == null)
+                throw new ArgumentNullException(nameof(exception));
 
             return new Throw()
             {
@@ -37,7 +37,8 @@ namespace Cogito.Activities
         public static Throw Throw<TException>(Activity<TException> exception, string displayName = null)
             where TException : Exception
         {
-            Contract.Requires<ArgumentNullException>(exception != null);
+            if (exception == null)
+                throw new ArgumentNullException(nameof(exception));
 
             return new Throw()
             {
@@ -55,7 +56,8 @@ namespace Cogito.Activities
         public static Throw Throw<TException>(Func<Task<TException>> exception, string displayName = null)
             where TException : Exception
         {
-            Contract.Requires<ArgumentNullException>(exception != null);
+            if (exception == null)
+                throw new ArgumentNullException(nameof(exception));
 
             return Throw(Invoke(exception, displayName), displayName);
         }
@@ -68,7 +70,8 @@ namespace Cogito.Activities
         /// <returns></returns>
         public static Throw Throw(DelegateInArgument<Exception> exception, string displayName = null)
         {
-            Contract.Requires<ArgumentNullException>(exception != null);
+            if (exception == null)
+                throw new ArgumentNullException(nameof(exception));
 
             return new Throw()
             {
@@ -85,7 +88,8 @@ namespace Cogito.Activities
         /// <returns></returns>
         public static Throw Throw(Activity<Exception> exception, string displayName = null)
         {
-            Contract.Requires<ArgumentNullException>(exception != null);
+            if (exception == null)
+                throw new ArgumentNullException(nameof(exception));
 
             return new Throw()
             {
@@ -102,7 +106,8 @@ namespace Cogito.Activities
         /// <returns></returns>
         public static Throw Throw(Func<Task<Exception>> exception, string displayName = null)
         {
-            Contract.Requires<ArgumentNullException>(exception != null);
+            if (exception == null)
+                throw new ArgumentNullException(nameof(exception));
 
             return Throw(Invoke(exception, displayName), displayName);
         }

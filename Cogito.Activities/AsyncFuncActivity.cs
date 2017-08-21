@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Activities;
-using System.Diagnostics.Contracts;
 using System.Threading.Tasks;
 
 namespace Cogito.Activities
@@ -19,7 +18,8 @@ namespace Cogito.Activities
         /// <returns></returns>
         public static AsyncFuncActivity<TResult> Invoke<TResult>(Func<Task<TResult>> func, string displayName = null, AsyncTaskExecutor executor = null)
         {
-            Contract.Requires<ArgumentNullException>(func != null);
+            if (func == null)
+                throw new ArgumentNullException(nameof(func));
 
             return new AsyncFuncActivity<TResult>(func)
             {
@@ -30,8 +30,10 @@ namespace Cogito.Activities
 
         public static AsyncFuncActivity<TValue1, TValue2> ThenAsync<TValue1, TValue2>(this Activity<TValue1> activity, Func<TValue1, Task<TValue2>> func)
         {
-            Contract.Requires<ArgumentNullException>(activity != null);
-            Contract.Requires<ArgumentNullException>(func != null);
+            if (activity == null)
+                throw new ArgumentNullException(nameof(activity));
+            if (func == null)
+                throw new ArgumentNullException(nameof(func));
 
             return new AsyncFuncActivity<TValue1, TValue2>(func, activity);
         }

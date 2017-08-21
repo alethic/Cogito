@@ -2,7 +2,6 @@
 using System.Activities;
 using System.Activities.Expressions;
 using System.Activities.Statements;
-using System.Diagnostics.Contracts;
 using System.Threading.Tasks;
 
 namespace Cogito.Activities
@@ -18,7 +17,8 @@ namespace Cogito.Activities
         /// <returns></returns>
         public static Pick Pick(params PickBranch[] branches)
         {
-            Contract.Requires<ArgumentNullException>(branches != null);
+            if (branches == null)
+                throw new ArgumentNullException(nameof(branches));
 
             var pick = new Pick();
             foreach (var i in branches)
@@ -34,7 +34,8 @@ namespace Cogito.Activities
         /// <returns></returns>
         public static PickBranch PickBranch(Activity trigger, Activity action = null)
         {
-            Contract.Requires<ArgumentNullException>(trigger != null);
+            if (trigger == null)
+                throw new ArgumentNullException(nameof(trigger));
 
             return new PickBranch()
             {
@@ -52,8 +53,10 @@ namespace Cogito.Activities
         /// <returns></returns>
         public static PickBranch PickBranch<T>(ActivityFunc<T> trigger, ActivityAction<T> action)
         {
-            Contract.Requires<ArgumentNullException>(trigger != null);
-            Contract.Requires<ArgumentNullException>(action != null);
+            if (trigger == null)
+                throw new ArgumentNullException(nameof(trigger));
+            if (action == null)
+                throw new ArgumentNullException(nameof(action));
 
             var arg = new Variable<T>();
 
@@ -82,8 +85,10 @@ namespace Cogito.Activities
         /// <returns></returns>
         public static Pick Branch(this Pick pick, Activity trigger, Activity action)
         {
-            Contract.Requires<ArgumentNullException>(pick != null);
-            Contract.Requires<ArgumentNullException>(trigger != null);
+            if (pick == null)
+                throw new ArgumentNullException(nameof(pick));
+            if (trigger == null)
+                throw new ArgumentNullException(nameof(trigger));
 
             pick.Branches.Add(PickBranch(trigger, action));
             return pick;
@@ -98,8 +103,10 @@ namespace Cogito.Activities
         /// <returns></returns>
         public static Pick Branch(this Pick pick, Activity trigger)
         {
-            Contract.Requires<ArgumentNullException>(pick != null);
-            Contract.Requires<ArgumentNullException>(trigger != null);
+            if (pick == null)
+                throw new ArgumentNullException(nameof(pick));
+            if (trigger == null)
+                throw new ArgumentNullException(nameof(trigger));
 
             pick.Branches.Add(PickBranch(trigger));
             return pick;
@@ -114,9 +121,12 @@ namespace Cogito.Activities
         /// <returns></returns>
         public static Pick Branch(this Pick pick, Func<Task> trigger, Func<Task> action)
         {
-            Contract.Requires<ArgumentNullException>(pick != null);
-            Contract.Requires<ArgumentNullException>(trigger != null);
-            Contract.Requires<ArgumentNullException>(action != null);
+            if (pick == null)
+                throw new ArgumentNullException(nameof(pick));
+            if (trigger == null)
+                throw new ArgumentNullException(nameof(trigger));
+            if (action == null)
+                throw new ArgumentNullException(nameof(action));
 
             return pick.Branch(Invoke(trigger), Invoke(action));
         }
@@ -130,8 +140,10 @@ namespace Cogito.Activities
         /// <returns></returns>
         public static Pick Branch(this Pick pick, Func<Task> trigger)
         {
-            Contract.Requires<ArgumentNullException>(pick != null);
-            Contract.Requires<ArgumentNullException>(trigger != null);
+            if (pick == null)
+                throw new ArgumentNullException(nameof(pick));
+            if (trigger == null)
+                throw new ArgumentNullException(nameof(trigger));
 
             return pick.Branch(Invoke(trigger));
         }
@@ -144,8 +156,10 @@ namespace Cogito.Activities
         /// <returns></returns>
         public static Pick BranchWait(this Pick pick, InArgument<string> bookmarkName)
         {
-            Contract.Requires<ArgumentNullException>(pick != null);
-            Contract.Requires<ArgumentNullException>(bookmarkName != null);
+            if (pick == null)
+                throw new ArgumentNullException(nameof(pick));
+            if (bookmarkName == null)
+                throw new ArgumentNullException(nameof(bookmarkName));
 
             return pick.Branch(Wait(bookmarkName));
         }
@@ -159,9 +173,12 @@ namespace Cogito.Activities
         /// <returns></returns>
         public static Pick BranchWait(this Pick pick, InArgument<string> bookmarkName, Activity action)
         {
-            Contract.Requires<ArgumentNullException>(pick != null);
-            Contract.Requires<ArgumentNullException>(bookmarkName != null);
-            Contract.Requires<ArgumentNullException>(action != null);
+            if (pick == null)
+                throw new ArgumentNullException(nameof(pick));
+            if (bookmarkName == null)
+                throw new ArgumentNullException(nameof(bookmarkName));
+            if (action == null)
+                throw new ArgumentNullException(nameof(action));
 
             return pick.Branch(Wait(bookmarkName), action);
         }
@@ -176,9 +193,12 @@ namespace Cogito.Activities
         /// <returns></returns>
         public static Pick BranchWait<TResult>(this Pick pick, InArgument<string> bookmarkName, Func<InArgument<TResult>, Activity> action)
         {
-            Contract.Requires<ArgumentNullException>(pick != null);
-            Contract.Requires<ArgumentNullException>(bookmarkName != null);
-            Contract.Requires<ArgumentNullException>(action != null);
+            if (pick == null)
+                throw new ArgumentNullException(nameof(pick));
+            if (bookmarkName == null)
+                throw new ArgumentNullException(nameof(bookmarkName));
+            if (action == null)
+                throw new ArgumentNullException(nameof(action));
 
             var arg = new DelegateInArgument<TResult>();
 
@@ -198,7 +218,8 @@ namespace Cogito.Activities
         /// <returns></returns>
         public static Pick PickAny(params Activity[] activities)
         {
-            Contract.Requires<ArgumentNullException>(activities != null);
+            if (activities == null)
+                throw new ArgumentNullException(nameof(activities));
 
             var pick = new Pick();
 

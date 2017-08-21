@@ -2,7 +2,6 @@
 using System.Activities;
 using System.Activities.Validation;
 using System.ComponentModel;
-using System.Diagnostics.Contracts;
 using System.Threading.Tasks;
 
 namespace Cogito.Activities
@@ -26,10 +25,14 @@ namespace Cogito.Activities
             ActivityFunc<TValue, TValue> increment,
             Func<DelegateInArgument<TValue>, Activity> createAction)
         {
-            Contract.Requires<ArgumentNullException>(initial != null);
-            Contract.Requires<ArgumentNullException>(condition != null);
-            Contract.Requires<ArgumentNullException>(increment != null);
-            Contract.Requires<ArgumentNullException>(createAction != null);
+            if (initial == null)
+                throw new ArgumentNullException(nameof(initial));
+            if (condition == null)
+                throw new ArgumentNullException(nameof(condition));
+            if (increment == null)
+                throw new ArgumentNullException(nameof(increment));
+            if (createAction == null)
+                throw new ArgumentNullException(nameof(createAction));
 
             return new For<TValue>()
             {
@@ -55,10 +58,14 @@ namespace Cogito.Activities
             ActivityFunc<TValue, TValue> increment,
             Func<TValue, Task> action)
         {
-            Contract.Requires<ArgumentNullException>(initial != null);
-            Contract.Requires<ArgumentNullException>(condition != null);
-            Contract.Requires<ArgumentNullException>(increment != null);
-            Contract.Requires<ArgumentNullException>(action != null);
+            if (initial == null)
+                throw new ArgumentNullException(nameof(initial));
+            if (condition == null)
+                throw new ArgumentNullException(nameof(condition));
+            if (increment == null)
+                throw new ArgumentNullException(nameof(increment));
+            if (action == null)
+                throw new ArgumentNullException(nameof(action));
 
             return new For<TValue>()
             {

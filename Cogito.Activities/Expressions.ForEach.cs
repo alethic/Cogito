@@ -2,7 +2,6 @@
 using System.Activities;
 using System.Activities.Statements;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
 using System.Threading.Tasks;
 
 namespace Cogito.Activities
@@ -21,8 +20,10 @@ namespace Cogito.Activities
         /// <returns></returns>
         public static ForEach<TElement> ForEach<TElement>(DelegateInArgument<IEnumerable<TElement>> values, ActivityAction<TElement> body, string displayName = null)
         {
-            Contract.Requires<ArgumentNullException>(values != null);
-            Contract.Requires<ArgumentNullException>(body != null);
+            if (values == null)
+                throw new ArgumentNullException(nameof(values));
+            if (body == null)
+                throw new ArgumentNullException(nameof(body));
 
             return new ForEach<TElement>()
             {
@@ -42,8 +43,10 @@ namespace Cogito.Activities
         /// <returns></returns>
         public static ForEach<TElement> ForEach<TElement>(DelegateInArgument<IEnumerable<TElement>> values, Func<DelegateInArgument<TElement>, Activity> body, string displayName = null)
         {
-            Contract.Requires<ArgumentNullException>(values != null);
-            Contract.Requires<ArgumentNullException>(body != null);
+            if (values == null)
+                throw new ArgumentNullException(nameof(values));
+            if (body == null)
+                throw new ArgumentNullException(nameof(body));
 
             return ForEach(values, Delegate(body), displayName);
         }
@@ -58,8 +61,10 @@ namespace Cogito.Activities
         /// <returns></returns>
         public static ForEach<TElement> ForEach<TElement>(DelegateInArgument<IEnumerable<TElement>> values, Func<TElement, Task> body, string displayName = null)
         {
-            Contract.Requires<ArgumentNullException>(values != null);
-            Contract.Requires<ArgumentNullException>(body != null);
+            if (values == null)
+                throw new ArgumentNullException(nameof(values));
+            if (body == null)
+                throw new ArgumentNullException(nameof(body));
 
             return ForEach(values, Delegate<TElement>(arg => Invoke<TElement>(body, arg, displayName)), displayName);
         }
@@ -74,8 +79,10 @@ namespace Cogito.Activities
         /// <returns></returns>
         public static ForEach<TElement> ForEach<TElement>(DelegateInArgument<TElement[]> values, ActivityAction<TElement> body, string displayName = null)
         {
-            Contract.Requires<ArgumentNullException>(values != null);
-            Contract.Requires<ArgumentNullException>(body != null);
+            if (values == null)
+                throw new ArgumentNullException(nameof(values));
+            if (body == null)
+                throw new ArgumentNullException(nameof(body));
 
             return new ForEach<TElement>()
             {
@@ -95,8 +102,10 @@ namespace Cogito.Activities
         /// <returns></returns>
         public static ForEach<TElement> ForEach<TElement>(DelegateInArgument<TElement[]> values, Func<DelegateInArgument<TElement>, Activity> body, string displayName = null)
         {
-            Contract.Requires<ArgumentNullException>(values != null);
-            Contract.Requires<ArgumentNullException>(body != null);
+            if (values == null)
+                throw new ArgumentNullException(nameof(values));
+            if (body == null)
+                throw new ArgumentNullException(nameof(body));
 
             return ForEach(values, Delegate(body), displayName);
         }
@@ -111,8 +120,10 @@ namespace Cogito.Activities
         /// <returns></returns>
         public static ForEach<TElement> ForEach<TElement>(DelegateInArgument<TElement[]> values, Func<TElement, Task> body, string displayName = null)
         {
-            Contract.Requires<ArgumentNullException>(values != null);
-            Contract.Requires<ArgumentNullException>(body != null);
+            if (values == null)
+                throw new ArgumentNullException(nameof(values));
+            if (body == null)
+                throw new ArgumentNullException(nameof(body));
 
             return ForEach(values, Delegate<TElement>(arg => Invoke<TElement>(body, arg, displayName)), displayName);
         }
@@ -127,8 +138,10 @@ namespace Cogito.Activities
         /// <returns></returns>
         public static ForEach<TElement> ForEach<TElement>(InArgument<IEnumerable<TElement>> values, ActivityAction<TElement> body, string displayName = null)
         {
-            Contract.Requires<ArgumentNullException>(values != null);
-            Contract.Requires<ArgumentNullException>(body != null);
+            if (values == null)
+                throw new ArgumentNullException(nameof(values));
+            if (body == null)
+                throw new ArgumentNullException(nameof(body));
 
             return new ForEach<TElement>()
             {
@@ -148,8 +161,10 @@ namespace Cogito.Activities
         /// <returns></returns>
         public static ForEach<TElement> ForEach<TElement>(InArgument<IEnumerable<TElement>> values, Func<DelegateInArgument<TElement>, Activity> body, string displayName = null)
         {
-            Contract.Requires<ArgumentNullException>(values != null);
-            Contract.Requires<ArgumentNullException>(body != null);
+            if (values == null)
+                throw new ArgumentNullException(nameof(values));
+            if (body == null)
+                throw new ArgumentNullException(nameof(body));
 
             return ForEach(values, Delegate(body), displayName);
         }
@@ -164,8 +179,10 @@ namespace Cogito.Activities
         /// <returns></returns>
         public static ForEach<TElement> ForEach<TElement>(InArgument<IEnumerable<TElement>> values, Func<TElement, Task> body, string displayName = null)
         {
-            Contract.Requires<ArgumentNullException>(values != null);
-            Contract.Requires<ArgumentNullException>(body != null);
+            if (values == null)
+                throw new ArgumentNullException(nameof(values));
+            if (body == null)
+                throw new ArgumentNullException(nameof(body));
 
             return ForEach(values, Delegate<TElement>(arg => Invoke<TElement>(body, arg, displayName)), displayName);
         }
@@ -180,8 +197,10 @@ namespace Cogito.Activities
         /// <returns></returns>
         public static ForEach<TElement> ForEach<TElement>(InArgument<TElement[]> values, ActivityAction<TElement> body, string displayName = null)
         {
-            Contract.Requires<ArgumentNullException>(values != null);
-            Contract.Requires<ArgumentNullException>(body != null);
+            if (values == null)
+                throw new ArgumentNullException(nameof(values));
+            if (body == null)
+                throw new ArgumentNullException(nameof(body));
 
             return new ForEach<TElement>()
             {
@@ -201,8 +220,10 @@ namespace Cogito.Activities
         /// <returns></returns>
         public static ForEach<TElement> ForEach<TElement>(InArgument<TElement[]> values, Func<DelegateInArgument<TElement>, Activity> body, string displayName = null)
         {
-            Contract.Requires<ArgumentNullException>(values != null);
-            Contract.Requires<ArgumentNullException>(body != null);
+            if (values == null)
+                throw new ArgumentNullException(nameof(values));
+            if (body == null)
+                throw new ArgumentNullException(nameof(body));
 
             return ForEach(values, Delegate(body), displayName);
         }
@@ -217,8 +238,10 @@ namespace Cogito.Activities
         /// <returns></returns>
         public static ForEach<TElement> ForEach<TElement>(InArgument<TElement[]> values, Func<TElement, Task> body, string displayName = null)
         {
-            Contract.Requires<ArgumentNullException>(values != null);
-            Contract.Requires<ArgumentNullException>(body != null);
+            if (values == null)
+                throw new ArgumentNullException(nameof(values));
+            if (body == null)
+                throw new ArgumentNullException(nameof(body));
 
             return ForEach(values, Delegate<TElement>(arg => Invoke<TElement>(body, arg, displayName)), displayName);
         }
@@ -233,8 +256,10 @@ namespace Cogito.Activities
         /// <returns></returns>
         public static ForEach<TElement> ForEach<TElement>(this Activity<IEnumerable<TElement>> values, Func<DelegateInArgument<TElement>, Activity> body, string displayName = null)
         {
-            Contract.Requires<ArgumentNullException>(values != null);
-            Contract.Requires<ArgumentNullException>(body != null);
+            if (values == null)
+                throw new ArgumentNullException(nameof(values));
+            if (body == null)
+                throw new ArgumentNullException(nameof(body));
 
             return ForEach(values, Delegate(body), displayName);
         }
@@ -249,8 +274,10 @@ namespace Cogito.Activities
         /// <returns></returns>
         public static ForEach<TElement> ForEach<TElement>(this Activity<IEnumerable<TElement>> values, ActivityAction<TElement> body, string displayName = null)
         {
-            Contract.Requires<ArgumentNullException>(values != null);
-            Contract.Requires<ArgumentNullException>(body != null);
+            if (values == null)
+                throw new ArgumentNullException(nameof(values));
+            if (body == null)
+                throw new ArgumentNullException(nameof(body));
 
             return new ForEach<TElement>()
             {
@@ -270,8 +297,10 @@ namespace Cogito.Activities
         /// <returns></returns>
         public static ForEach<TElement> ForEach<TElement>(this Activity<IEnumerable<TElement>> values, Func<TElement, Task> body, string displayName = null)
         {
-            Contract.Requires<ArgumentNullException>(values != null);
-            Contract.Requires<ArgumentNullException>(body != null);
+            if (values == null)
+                throw new ArgumentNullException(nameof(values));
+            if (body == null)
+                throw new ArgumentNullException(nameof(body));
 
             return ForEach(values, Delegate<TElement>(arg => Invoke<TElement>(body, arg, displayName)), displayName);
         }
@@ -286,8 +315,10 @@ namespace Cogito.Activities
         /// <returns></returns>
         public static ForEach<TElement> ForEach<TElement>(Func<Task<IEnumerable<TElement>>> values, Func<DelegateInArgument<TElement>, Activity> body, string displayName = null)
         {
-            Contract.Requires<ArgumentNullException>(values != null);
-            Contract.Requires<ArgumentNullException>(body != null);
+            if (values == null)
+                throw new ArgumentNullException(nameof(values));
+            if (body == null)
+                throw new ArgumentNullException(nameof(body));
 
             return ForEach(Invoke<IEnumerable<TElement>>(values, displayName), Delegate(body), displayName);
         }
@@ -302,8 +333,10 @@ namespace Cogito.Activities
         /// <returns></returns>
         public static ForEach<TElement> ForEach<TElement>(Func<Task<IEnumerable<TElement>>> values, ActivityAction<TElement> body, string displayName = null)
         {
-            Contract.Requires<ArgumentNullException>(values != null);
-            Contract.Requires<ArgumentNullException>(body != null);
+            if (values == null)
+                throw new ArgumentNullException(nameof(values));
+            if (body == null)
+                throw new ArgumentNullException(nameof(body));
 
             return ForEach(Invoke<IEnumerable<TElement>>(values, displayName), body, displayName);
         }
@@ -318,8 +351,10 @@ namespace Cogito.Activities
         /// <returns></returns>
         public static ForEach<TElement> ForEach<TElement>(Func<Task<IEnumerable<TElement>>> values, Func<TElement, Task> body, string displayName = null)
         {
-            Contract.Requires<ArgumentNullException>(values != null);
-            Contract.Requires<ArgumentNullException>(body != null);
+            if (values == null)
+                throw new ArgumentNullException(nameof(values));
+            if (body == null)
+                throw new ArgumentNullException(nameof(body));
 
             return ForEach(Invoke<IEnumerable<TElement>>(values, displayName), Delegate<TElement>(arg => Invoke<TElement>(body, arg, displayName)), displayName);
         }
@@ -334,8 +369,10 @@ namespace Cogito.Activities
         /// <returns></returns>
         public static ForEach<TElement> ForEach<TElement>(this Activity<TElement[]> values, Func<DelegateInArgument<TElement>, Activity> body, string displayName = null)
         {
-            Contract.Requires<ArgumentNullException>(values != null);
-            Contract.Requires<ArgumentNullException>(body != null);
+            if (values == null)
+                throw new ArgumentNullException(nameof(values));
+            if (body == null)
+                throw new ArgumentNullException(nameof(body));
 
 
             return ForEach(values, Delegate(body), displayName);
@@ -351,8 +388,10 @@ namespace Cogito.Activities
         /// <returns></returns>
         public static ForEach<TElement> ForEach<TElement>(this Activity<TElement[]> values, ActivityAction<TElement> body, string displayName = null)
         {
-            Contract.Requires<ArgumentNullException>(values != null);
-            Contract.Requires<ArgumentNullException>(body != null);
+            if (values == null)
+                throw new ArgumentNullException(nameof(values));
+            if (body == null)
+                throw new ArgumentNullException(nameof(body));
 
             return new ForEach<TElement>()
             {
@@ -372,8 +411,10 @@ namespace Cogito.Activities
         /// <returns></returns>
         public static ForEach<TElement> ForEach<TElement>(this Activity<TElement[]> values, Func<TElement, Task> body, string displayName = null)
         {
-            Contract.Requires<ArgumentNullException>(values != null);
-            Contract.Requires<ArgumentNullException>(body != null);
+            if (values == null)
+                throw new ArgumentNullException(nameof(values));
+            if (body == null)
+                throw new ArgumentNullException(nameof(body));
 
             return ForEach(values, Delegate<TElement>(arg => Invoke<TElement>(body, arg, displayName)), displayName);
         }
@@ -388,8 +429,10 @@ namespace Cogito.Activities
         /// <returns></returns>
         public static ForEach<TElement> ForEach<TElement>(Func<Task<TElement[]>> values, Func<DelegateInArgument<TElement>, Activity> body, string displayName = null)
         {
-            Contract.Requires<ArgumentNullException>(values != null);
-            Contract.Requires<ArgumentNullException>(body != null);
+            if (values == null)
+                throw new ArgumentNullException(nameof(values));
+            if (body == null)
+                throw new ArgumentNullException(nameof(body));
 
             return ForEach(Invoke<TElement[]>(values, displayName), Delegate(body), displayName);
         }
@@ -404,8 +447,10 @@ namespace Cogito.Activities
         /// <returns></returns>
         public static ForEach<TElement> ForEach<TElement>(Func<Task<TElement[]>> values, ActivityAction<TElement> body, string displayName = null)
         {
-            Contract.Requires<ArgumentNullException>(values != null);
-            Contract.Requires<ArgumentNullException>(body != null);
+            if (values == null)
+                throw new ArgumentNullException(nameof(values));
+            if (body == null)
+                throw new ArgumentNullException(nameof(body));
 
             return ForEach(Invoke<TElement[]>(values, displayName), body, displayName);
         }
@@ -420,8 +465,10 @@ namespace Cogito.Activities
         /// <returns></returns>
         public static ForEach<TElement> ForEach<TElement>(Func<Task<TElement[]>> values, Func<TElement, Task> body, string displayName = null)
         {
-            Contract.Requires<ArgumentNullException>(values != null);
-            Contract.Requires<ArgumentNullException>(body != null);
+            if (values == null)
+                throw new ArgumentNullException(nameof(values));
+            if (body == null)
+                throw new ArgumentNullException(nameof(body));
 
             return ForEach(Invoke<TElement[]>(values, displayName), Delegate<TElement>(arg => Invoke<TElement>(body, arg, displayName)), displayName);
         }

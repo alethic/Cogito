@@ -3,7 +3,6 @@ using System.Activities;
 using System.Activities.Statements;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -22,9 +21,12 @@ namespace Cogito.Activities
         /// <returns></returns>
         public static Retry Retry(this ActivityAction<int> activity, InArgument<int> maxAttempts, InArgument<TimeSpan> delay, params RetryCatch[] catches)
         {
-            Contract.Requires<ArgumentNullException>(activity != null);
-            Contract.Requires<ArgumentNullException>(maxAttempts != null);
-            Contract.Requires<ArgumentNullException>(catches != null);
+            if (activity == null)
+                throw new ArgumentNullException(nameof(activity));
+            if (maxAttempts == null)
+                throw new ArgumentNullException(nameof(maxAttempts));
+            if (catches == null)
+                throw new ArgumentNullException(nameof(catches));
 
             var retry = new Retry()
             {
@@ -49,9 +51,12 @@ namespace Cogito.Activities
         /// <returns></returns>
         public static Retry Retry(this Activity activity, InArgument<int> maxAttempts, InArgument<TimeSpan> delay, params RetryCatch[] catches)
         {
-            Contract.Requires<ArgumentNullException>(activity != null);
-            Contract.Requires<ArgumentNullException>(maxAttempts != null);
-            Contract.Requires<ArgumentNullException>(catches != null);
+            if (activity == null)
+                throw new ArgumentNullException(nameof(activity));
+            if (maxAttempts == null)
+                throw new ArgumentNullException(nameof(maxAttempts));
+            if (catches == null)
+                throw new ArgumentNullException(nameof(catches));
 
             return Retry(Delegate<int>(arg => activity), maxAttempts, delay, catches);
         }
@@ -65,9 +70,12 @@ namespace Cogito.Activities
         /// <returns></returns>
         public static Retry Retry(this Activity activity, InArgument<int> maxAttempts, params RetryCatch[] catches)
         {
-            Contract.Requires<ArgumentNullException>(activity != null);
-            Contract.Requires<ArgumentNullException>(maxAttempts != null);
-            Contract.Requires<ArgumentNullException>(catches != null);
+            if (activity == null)
+                throw new ArgumentNullException(nameof(activity));
+            if (maxAttempts == null)
+                throw new ArgumentNullException(nameof(maxAttempts));
+            if (catches == null)
+                throw new ArgumentNullException(nameof(catches));
 
             return Retry(activity, maxAttempts, null, catches);
         }
@@ -83,9 +91,12 @@ namespace Cogito.Activities
         public static Retry Retry<TException>(this ActivityAction<int> activity, InArgument<int> maxAttempts, InArgument<TimeSpan> delay, ActivityAction<TException, int> @catch)
             where TException : Exception
         {
-            Contract.Requires<ArgumentNullException>(activity != null);
-            Contract.Requires<ArgumentNullException>(maxAttempts != null);
-            Contract.Requires<ArgumentNullException>(@catch != null);
+            if (activity == null)
+                throw new ArgumentNullException(nameof(activity));
+            if (maxAttempts == null)
+                throw new ArgumentNullException(nameof(maxAttempts));
+            if (@catch == null)
+                throw new ArgumentNullException(nameof(@catch));
 
             return Retry(activity, maxAttempts, delay, new RetryCatch<TException>() { Action = @catch });
         }
@@ -100,9 +111,12 @@ namespace Cogito.Activities
         public static Retry Retry<TException>(this ActivityAction<int> activity, InArgument<int> maxAttempts, ActivityAction<TException, int> @catch)
             where TException : Exception
         {
-            Contract.Requires<ArgumentNullException>(activity != null);
-            Contract.Requires<ArgumentNullException>(maxAttempts != null);
-            Contract.Requires<ArgumentNullException>(@catch != null);
+            if (activity == null)
+                throw new ArgumentNullException(nameof(activity));
+            if (maxAttempts == null)
+                throw new ArgumentNullException(nameof(maxAttempts));
+            if (@catch == null)
+                throw new ArgumentNullException(nameof(@catch));
 
             return Retry(activity, maxAttempts, null, @catch);
         }
@@ -118,9 +132,12 @@ namespace Cogito.Activities
         public static Retry Retry<TException>(this Activity activity, InArgument<int> maxAttempts, InArgument<TimeSpan> delay, ActivityAction<TException, int> @catch)
             where TException : Exception
         {
-            Contract.Requires<ArgumentNullException>(activity != null);
-            Contract.Requires<ArgumentNullException>(maxAttempts != null);
-            Contract.Requires<ArgumentNullException>(@catch != null);
+            if (activity == null)
+                throw new ArgumentNullException(nameof(activity));
+            if (maxAttempts == null)
+                throw new ArgumentNullException(nameof(maxAttempts));
+            if (@catch == null)
+                throw new ArgumentNullException(nameof(@catch));
 
             return Retry(activity, maxAttempts, delay, new RetryCatch<TException>() { Action = @catch });
         }
@@ -136,9 +153,12 @@ namespace Cogito.Activities
         public static Retry Retry<TException>(this Activity activity, InArgument<int> maxAttempts, ActivityAction<TException, int> @catch)
             where TException : Exception
         {
-            Contract.Requires<ArgumentNullException>(activity != null);
-            Contract.Requires<ArgumentNullException>(maxAttempts != null);
-            Contract.Requires<ArgumentNullException>(@catch != null);
+            if (activity == null)
+                throw new ArgumentNullException(nameof(activity));
+            if (maxAttempts == null)
+                throw new ArgumentNullException(nameof(maxAttempts));
+            if (@catch == null)
+                throw new ArgumentNullException(nameof(@catch));
 
             return Retry(activity, maxAttempts, null, @catch);
         }
@@ -151,8 +171,10 @@ namespace Cogito.Activities
         /// <returns></returns>
         public static Retry WithAttempts(this Retry retry, InArgument<int> maxAttempts)
         {
-            Contract.Requires<ArgumentNullException>(retry != null);
-            Contract.Requires<ArgumentNullException>(maxAttempts != null);
+            if (retry == null)
+                throw new ArgumentNullException(nameof(retry));
+            if (maxAttempts == null)
+                throw new ArgumentNullException(nameof(maxAttempts));
 
             retry.MaxAttempts = maxAttempts;
             return retry;
@@ -166,8 +188,10 @@ namespace Cogito.Activities
         /// <returns></returns>
         public static Retry WithDelay(this Retry retry, InArgument<TimeSpan> delay)
         {
-            Contract.Requires<ArgumentNullException>(retry != null);
-            Contract.Requires<ArgumentNullException>(delay != null);
+            if (retry == null)
+                throw new ArgumentNullException(nameof(retry));
+            if (delay == null)
+                throw new ArgumentNullException(nameof(delay));
 
             retry.Delay = delay;
             return retry;
@@ -182,7 +206,8 @@ namespace Cogito.Activities
         public static Retry Catch<TException>(this Retry retry)
             where TException : Exception
         {
-            Contract.Requires<ArgumentNullException>(retry != null);
+            if (retry == null)
+                throw new ArgumentNullException(nameof(retry));
 
             retry.Catches.Add(new RetryCatch<TException>() { Action = null });
             return retry;
@@ -199,8 +224,10 @@ namespace Cogito.Activities
         public static Retry Catch<TException>(this Retry retry, ActivityAction<TException, int> @catch)
             where TException : Exception
         {
-            Contract.Requires<ArgumentNullException>(retry != null);
-            Contract.Requires<ArgumentNullException>(@catch != null);
+            if (retry == null)
+                throw new ArgumentNullException(nameof(retry));
+            if (@catch == null)
+                throw new ArgumentNullException(nameof(@catch));
 
             retry.Catches.Add(new RetryCatch<TException>() { Action = @catch });
             return retry;
@@ -216,8 +243,10 @@ namespace Cogito.Activities
         public static Retry Catch<TException>(this Retry retry, Activity @catch)
             where TException : Exception
         {
-            Contract.Requires<ArgumentNullException>(retry != null);
-            Contract.Requires<ArgumentNullException>(@catch != null);
+            if (retry == null)
+                throw new ArgumentNullException(nameof(retry));
+            if (@catch == null)
+                throw new ArgumentNullException(nameof(@catch));
 
             return Catch(retry, Delegate<TException, int>((exception, attempts) => @catch));
         }
@@ -232,8 +261,10 @@ namespace Cogito.Activities
         public static Retry Catch<TException>(this Retry retry, Func<TException, Task> @catch)
             where TException : Exception
         {
-            Contract.Requires<ArgumentNullException>(retry != null);
-            Contract.Requires<ArgumentNullException>(@catch != null);
+            if (retry == null)
+                throw new ArgumentNullException(nameof(retry));
+            if (@catch == null)
+                throw new ArgumentNullException(nameof(@catch));
 
             return Catch(retry, Delegate<TException, int>((exception, attempts) => Invoke(@catch, exception)));
         }
@@ -248,8 +279,10 @@ namespace Cogito.Activities
         public static Retry Catch<TException>(this Retry retry, Func<TException, int, Task> @catch)
             where TException : Exception
         {
-            Contract.Requires<ArgumentNullException>(retry != null);
-            Contract.Requires<ArgumentNullException>(@catch != null);
+            if (retry == null)
+                throw new ArgumentNullException(nameof(retry));
+            if (@catch == null)
+                throw new ArgumentNullException(nameof(@catch));
 
             return Catch(retry, Delegate<TException, int>((exception, attempts) => Invoke(@catch, exception, attempts)));
         }

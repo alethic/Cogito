@@ -7,7 +7,6 @@
 <#@ include file="_.t4" #>
 using System;
 using System.Activities;
-using System.Diagnostics.Contracts;
 using System.Threading.Tasks;
 
 namespace Cogito.Activities
@@ -33,12 +32,14 @@ for (int i = 1; i <= 8; i++)
         /// <returns></returns>
         public static AsyncFuncActivity<<#= Repeat("TArg{0}", i, ", ") #>, TResult> Invoke<<#= Repeat("TArg{0}", i, ", ") #>, TResult>(Func<<#= Repeat("TArg{0}", i, ", ") #>, Task<TResult>> func, <#= Repeat(argTypeName + " arg{0}", i, ", ") #>, string displayName = null, AsyncTaskExecutor executor = null)
         {
-            Contract.Requires<ArgumentNullException>(func != null);
+            if (func == null)
+                throw new ArgumentNullException(nameof(func));
 <#
         for (int j = 1; j <= i; j++)
         {
 #>
-            Contract.Requires<ArgumentNullException>(arg<#= j #> != null);
+            if (arg<#= j #> == null)
+                throw new ArgumentNullException(nameof(arg<#= j #>));
 <#
         }
 #>

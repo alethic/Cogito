@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Activities;
-using System.Diagnostics.Contracts;
 using System.Threading.Tasks;
 
 namespace Cogito.Activities
@@ -18,7 +17,8 @@ namespace Cogito.Activities
         /// <returns></returns>
         public static AsyncActionActivity Invoke(Func<Task> func, string displayName = null, AsyncTaskExecutor executor = null)
         {
-            Contract.Requires<ArgumentNullException>(func != null);
+            if (func != null)
+                throw new ArgumentNullException(nameof(func));
 
             return new AsyncActionActivity(func)
             {

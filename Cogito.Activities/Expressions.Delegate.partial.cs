@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Activities;
-using System.Diagnostics.Contracts;
 
 namespace Cogito.Activities
 {
@@ -10,7 +9,8 @@ namespace Cogito.Activities
 
         public static ActivityAction<TArg1, TArg2> Delegate<TArg1, TArg2>(Func<DelegateInArgument<TArg1>, DelegateInArgument<TArg2>, Activity> create)
         {
-            Contract.Requires<ArgumentNullException>(create != null);
+            if (create == null)
+                throw new ArgumentNullException(nameof(create));
 
             var arg1 = new DelegateInArgument<TArg1>();
             var arg2 = new DelegateInArgument<TArg2>();
@@ -25,7 +25,8 @@ namespace Cogito.Activities
 
         public static ActivityAction<TArg1, TArg2, TArg3> Delegate<TArg1, TArg2, TArg3>(Func<DelegateInArgument<TArg1>, DelegateInArgument<TArg2>, DelegateInArgument<TArg3>, Activity> create)
         {
-            Contract.Requires<ArgumentNullException>(create != null);
+            if (create == null)
+                throw new ArgumentNullException(nameof(create));
 
             var arg1 = new DelegateInArgument<TArg1>();
             var arg2 = new DelegateInArgument<TArg2>();
@@ -42,7 +43,8 @@ namespace Cogito.Activities
 
         public static ActivityAction<TArg1, TArg2, TArg3, TArg4> Delegate<TArg1, TArg2, TArg3, TArg4>(Func<DelegateInArgument<TArg1>, DelegateInArgument<TArg2>, DelegateInArgument<TArg3>, DelegateInArgument<TArg4>, Activity> create)
         {
-            Contract.Requires<ArgumentNullException>(create != null);
+            if (create == null)
+                throw new ArgumentNullException(nameof(create));
 
             var arg1 = new DelegateInArgument<TArg1>();
             var arg2 = new DelegateInArgument<TArg2>();
@@ -61,7 +63,8 @@ namespace Cogito.Activities
 
         public static ActivityAction<TArg1, TArg2, TArg3, TArg4, TArg5> Delegate<TArg1, TArg2, TArg3, TArg4, TArg5>(Func<DelegateInArgument<TArg1>, DelegateInArgument<TArg2>, DelegateInArgument<TArg3>, DelegateInArgument<TArg4>, DelegateInArgument<TArg5>, Activity> create)
         {
-            Contract.Requires<ArgumentNullException>(create != null);
+            if (create == null)
+                throw new ArgumentNullException(nameof(create));
 
             var arg1 = new DelegateInArgument<TArg1>();
             var arg2 = new DelegateInArgument<TArg2>();
@@ -82,7 +85,8 @@ namespace Cogito.Activities
 
         public static ActivityAction<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6> Delegate<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(Func<DelegateInArgument<TArg1>, DelegateInArgument<TArg2>, DelegateInArgument<TArg3>, DelegateInArgument<TArg4>, DelegateInArgument<TArg5>, DelegateInArgument<TArg6>, Activity> create)
         {
-            Contract.Requires<ArgumentNullException>(create != null);
+            if (create == null)
+                throw new ArgumentNullException(nameof(create));
 
             var arg1 = new DelegateInArgument<TArg1>();
             var arg2 = new DelegateInArgument<TArg2>();
@@ -105,7 +109,8 @@ namespace Cogito.Activities
 
         public static ActivityAction<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7> Delegate<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(Func<DelegateInArgument<TArg1>, DelegateInArgument<TArg2>, DelegateInArgument<TArg3>, DelegateInArgument<TArg4>, DelegateInArgument<TArg5>, DelegateInArgument<TArg6>, DelegateInArgument<TArg7>, Activity> create)
         {
-            Contract.Requires<ArgumentNullException>(create != null);
+            if (create == null)
+                throw new ArgumentNullException(nameof(create));
 
             var arg1 = new DelegateInArgument<TArg1>();
             var arg2 = new DelegateInArgument<TArg2>();
@@ -130,7 +135,8 @@ namespace Cogito.Activities
 
         public static ActivityAction<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8> Delegate<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(Func<DelegateInArgument<TArg1>, DelegateInArgument<TArg2>, DelegateInArgument<TArg3>, DelegateInArgument<TArg4>, DelegateInArgument<TArg5>, DelegateInArgument<TArg6>, DelegateInArgument<TArg7>, DelegateInArgument<TArg8>, Activity> create)
         {
-            Contract.Requires<ArgumentNullException>(create != null);
+            if (create == null)
+                throw new ArgumentNullException(nameof(create));
 
             var arg1 = new DelegateInArgument<TArg1>();
             var arg2 = new DelegateInArgument<TArg2>();
@@ -158,7 +164,8 @@ namespace Cogito.Activities
 
         public static ActivityFunc<TResult> Delegate<TResult>(Func<DelegateOutArgument<TResult>, Activity<TResult>> create)
         {
-            Contract.Requires<ArgumentNullException>(create != null);
+            if (create == null)
+                throw new ArgumentNullException(nameof(create));
 
             var result = new DelegateOutArgument<TResult>();
 
@@ -171,7 +178,8 @@ namespace Cogito.Activities
 
         public static ActivityFunc<TArg, TResult> Delegate<TArg, TResult>(Func<DelegateInArgument<TArg>, DelegateOutArgument<TResult>, Activity<TResult>> create)
         {
-            Contract.Requires<ArgumentNullException>(create != null);
+            if (create == null)
+                throw new ArgumentNullException(nameof(create));
 
             var arg = new DelegateInArgument<TArg>();
             var result = new DelegateOutArgument<TResult>();
@@ -186,7 +194,8 @@ namespace Cogito.Activities
 
         public static ActivityFunc<TArg1, TArg2, TResult> Delegate<TArg1, TArg2, TResult>(Func<DelegateInArgument<TArg1>, DelegateInArgument<TArg2>, DelegateOutArgument<TResult>, Activity<TResult>> create)
         {
-            Contract.Requires<ArgumentNullException>(create != null);
+            if (create == null)
+                throw new ArgumentNullException(nameof(create));
 
             var arg1 = new DelegateInArgument<TArg1>();
             var arg2 = new DelegateInArgument<TArg2>();
@@ -203,7 +212,8 @@ namespace Cogito.Activities
 
         public static ActivityFunc<TArg1, TArg2, TArg3, TResult> Delegate<TArg1, TArg2, TArg3, TResult>(Func<DelegateInArgument<TArg1>, DelegateInArgument<TArg2>, DelegateInArgument<TArg3>, DelegateOutArgument<TResult>, Activity<TResult>> create)
         {
-            Contract.Requires<ArgumentNullException>(create != null);
+            if (create == null)
+                throw new ArgumentNullException(nameof(create));
 
             var arg1 = new DelegateInArgument<TArg1>();
             var arg2 = new DelegateInArgument<TArg2>();
@@ -222,7 +232,8 @@ namespace Cogito.Activities
 
         public static ActivityFunc<TArg1, TArg2, TArg3, TArg4, TResult> Delegate<TArg1, TArg2, TArg3, TArg4, TResult>(Func<DelegateInArgument<TArg1>, DelegateInArgument<TArg2>, DelegateInArgument<TArg3>, DelegateInArgument<TArg4>, DelegateOutArgument<TResult>, Activity<TResult>> create)
         {
-            Contract.Requires<ArgumentNullException>(create != null);
+            if (create == null)
+                throw new ArgumentNullException(nameof(create));
 
             var arg1 = new DelegateInArgument<TArg1>();
             var arg2 = new DelegateInArgument<TArg2>();
@@ -243,7 +254,8 @@ namespace Cogito.Activities
 
         public static ActivityFunc<TArg1, TArg2, TArg3, TArg4, TArg5, TResult> Delegate<TArg1, TArg2, TArg3, TArg4, TArg5, TResult>(Func<DelegateInArgument<TArg1>, DelegateInArgument<TArg2>, DelegateInArgument<TArg3>, DelegateInArgument<TArg4>, DelegateInArgument<TArg5>, DelegateOutArgument<TResult>, Activity<TResult>> create)
         {
-            Contract.Requires<ArgumentNullException>(create != null);
+            if (create == null)
+                throw new ArgumentNullException(nameof(create));
 
             var arg1 = new DelegateInArgument<TArg1>();
             var arg2 = new DelegateInArgument<TArg2>();
@@ -266,7 +278,8 @@ namespace Cogito.Activities
 
         public static ActivityFunc<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TResult> Delegate<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TResult>(Func<DelegateInArgument<TArg1>, DelegateInArgument<TArg2>, DelegateInArgument<TArg3>, DelegateInArgument<TArg4>, DelegateInArgument<TArg5>, DelegateInArgument<TArg6>, DelegateOutArgument<TResult>, Activity<TResult>> create)
         {
-            Contract.Requires<ArgumentNullException>(create != null);
+            if (create == null)
+                throw new ArgumentNullException(nameof(create));
 
             var arg1 = new DelegateInArgument<TArg1>();
             var arg2 = new DelegateInArgument<TArg2>();
@@ -291,7 +304,8 @@ namespace Cogito.Activities
 
         public static ActivityFunc<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TResult> Delegate<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TResult>(Func<DelegateInArgument<TArg1>, DelegateInArgument<TArg2>, DelegateInArgument<TArg3>, DelegateInArgument<TArg4>, DelegateInArgument<TArg5>, DelegateInArgument<TArg6>, DelegateInArgument<TArg7>, DelegateOutArgument<TResult>, Activity<TResult>> create)
         {
-            Contract.Requires<ArgumentNullException>(create != null);
+            if (create == null)
+                throw new ArgumentNullException(nameof(create));
 
             var arg1 = new DelegateInArgument<TArg1>();
             var arg2 = new DelegateInArgument<TArg2>();
@@ -318,7 +332,8 @@ namespace Cogito.Activities
 
         public static ActivityFunc<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TResult> Delegate<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TResult>(Func<DelegateInArgument<TArg1>, DelegateInArgument<TArg2>, DelegateInArgument<TArg3>, DelegateInArgument<TArg4>, DelegateInArgument<TArg5>, DelegateInArgument<TArg6>, DelegateInArgument<TArg7>, DelegateInArgument<TArg8>, DelegateOutArgument<TResult>, Activity<TResult>> create)
         {
-            Contract.Requires<ArgumentNullException>(create != null);
+            if (create == null)
+                throw new ArgumentNullException(nameof(create));
 
             var arg1 = new DelegateInArgument<TArg1>();
             var arg2 = new DelegateInArgument<TArg2>();
@@ -348,7 +363,8 @@ namespace Cogito.Activities
 
         public static ActivityFunc<TResult> Delegate<TResult>(Func<Activity<TResult>> create)
         {
-            Contract.Requires<ArgumentNullException>(create != null);
+            if (create == null)
+                throw new ArgumentNullException(nameof(create));
 
             var result = new DelegateOutArgument<TResult>();
             var action = create();
@@ -363,7 +379,8 @@ namespace Cogito.Activities
 
         public static ActivityFunc<TArg, TResult> Delegate<TArg, TResult>(Func<DelegateInArgument<TArg>, Activity<TResult>> create)
         {
-            Contract.Requires<ArgumentNullException>(create != null);
+            if (create == null)
+                throw new ArgumentNullException(nameof(create));
 
             var arg = new DelegateInArgument<TArg>();
             var result = new DelegateOutArgument<TResult>();
@@ -380,7 +397,8 @@ namespace Cogito.Activities
 
         public static ActivityFunc<TArg1, TArg2, TResult> Delegate<TArg1, TArg2, TResult>(Func<DelegateInArgument<TArg1>, DelegateInArgument<TArg2>, Activity<TResult>> create)
         {
-            Contract.Requires<ArgumentNullException>(create != null);
+            if (create == null)
+                throw new ArgumentNullException(nameof(create));
 
             var arg1 = new DelegateInArgument<TArg1>();
             var arg2 = new DelegateInArgument<TArg2>();
@@ -399,7 +417,8 @@ namespace Cogito.Activities
 
         public static ActivityFunc<TArg1, TArg2, TArg3, TResult> Delegate<TArg1, TArg2, TArg3, TResult>(Func<DelegateInArgument<TArg1>, DelegateInArgument<TArg2>, DelegateInArgument<TArg3>, Activity<TResult>> create)
         {
-            Contract.Requires<ArgumentNullException>(create != null);
+            if (create == null)
+                throw new ArgumentNullException(nameof(create));
 
             var arg1 = new DelegateInArgument<TArg1>();
             var arg2 = new DelegateInArgument<TArg2>();
@@ -420,7 +439,8 @@ namespace Cogito.Activities
 
         public static ActivityFunc<TArg1, TArg2, TArg3, TArg4, TResult> Delegate<TArg1, TArg2, TArg3, TArg4, TResult>(Func<DelegateInArgument<TArg1>, DelegateInArgument<TArg2>, DelegateInArgument<TArg3>, DelegateInArgument<TArg4>, Activity<TResult>> create)
         {
-            Contract.Requires<ArgumentNullException>(create != null);
+            if (create == null)
+                throw new ArgumentNullException(nameof(create));
 
             var arg1 = new DelegateInArgument<TArg1>();
             var arg2 = new DelegateInArgument<TArg2>();
@@ -443,7 +463,8 @@ namespace Cogito.Activities
 
         public static ActivityFunc<TArg1, TArg2, TArg3, TArg4, TArg5, TResult> Delegate<TArg1, TArg2, TArg3, TArg4, TArg5, TResult>(Func<DelegateInArgument<TArg1>, DelegateInArgument<TArg2>, DelegateInArgument<TArg3>, DelegateInArgument<TArg4>, DelegateInArgument<TArg5>, Activity<TResult>> create)
         {
-            Contract.Requires<ArgumentNullException>(create != null);
+            if (create == null)
+                throw new ArgumentNullException(nameof(create));
 
             var arg1 = new DelegateInArgument<TArg1>();
             var arg2 = new DelegateInArgument<TArg2>();
@@ -468,7 +489,8 @@ namespace Cogito.Activities
 
         public static ActivityFunc<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TResult> Delegate<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TResult>(Func<DelegateInArgument<TArg1>, DelegateInArgument<TArg2>, DelegateInArgument<TArg3>, DelegateInArgument<TArg4>, DelegateInArgument<TArg5>, DelegateInArgument<TArg6>, Activity<TResult>> create)
         {
-            Contract.Requires<ArgumentNullException>(create != null);
+            if (create == null)
+                throw new ArgumentNullException(nameof(create));
 
             var arg1 = new DelegateInArgument<TArg1>();
             var arg2 = new DelegateInArgument<TArg2>();
@@ -495,7 +517,8 @@ namespace Cogito.Activities
 
         public static ActivityFunc<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TResult> Delegate<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TResult>(Func<DelegateInArgument<TArg1>, DelegateInArgument<TArg2>, DelegateInArgument<TArg3>, DelegateInArgument<TArg4>, DelegateInArgument<TArg5>, DelegateInArgument<TArg6>, DelegateInArgument<TArg7>, Activity<TResult>> create)
         {
-            Contract.Requires<ArgumentNullException>(create != null);
+            if (create == null)
+                throw new ArgumentNullException(nameof(create));
 
             var arg1 = new DelegateInArgument<TArg1>();
             var arg2 = new DelegateInArgument<TArg2>();
@@ -524,7 +547,8 @@ namespace Cogito.Activities
 
         public static ActivityFunc<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TResult> Delegate<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TResult>(Func<DelegateInArgument<TArg1>, DelegateInArgument<TArg2>, DelegateInArgument<TArg3>, DelegateInArgument<TArg4>, DelegateInArgument<TArg5>, DelegateInArgument<TArg6>, DelegateInArgument<TArg7>, DelegateInArgument<TArg8>, Activity<TResult>> create)
         {
-            Contract.Requires<ArgumentNullException>(create != null);
+            if (create == null)
+                throw new ArgumentNullException(nameof(create));
 
             var arg1 = new DelegateInArgument<TArg1>();
             var arg2 = new DelegateInArgument<TArg2>();

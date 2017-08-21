@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Activities;
-using System.Diagnostics.Contracts;
 
 namespace Cogito.Activities
 {
@@ -15,7 +14,8 @@ namespace Cogito.Activities
         /// <returns></returns>
         public static Wait Wait(InArgument<string> bookmarkName)
         {
-            Contract.Requires<ArgumentNullException>(bookmarkName != null);
+            if (bookmarkName == null)
+                throw new ArgumentNullException(nameof(bookmarkName));
 
             return new Wait(bookmarkName);
         }
@@ -28,7 +28,8 @@ namespace Cogito.Activities
         /// <returns></returns>
         public static Wait<TResult> Wait<TResult>(InArgument<string> bookmarkName)
         {
-            Contract.Requires<ArgumentNullException>(bookmarkName != null);
+            if (bookmarkName == null)
+                throw new ArgumentNullException(nameof(bookmarkName));
 
             return new Wait<TResult>(bookmarkName);
         }

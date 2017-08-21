@@ -2,7 +2,6 @@
 using System.Activities;
 using System.Activities.Statements;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
 
 namespace Cogito.Activities
 {
@@ -17,7 +16,8 @@ namespace Cogito.Activities
         /// <returns></returns>
         public static Sequence Sequence(params Activity[] activities)
         {
-            Contract.Requires<ArgumentNullException>(activities != null);
+            if (activities == null)
+                throw new ArgumentNullException(nameof(activities));
 
             return Sequence((IEnumerable<Activity>)activities);
         }
@@ -29,7 +29,8 @@ namespace Cogito.Activities
         /// <returns></returns>
         public static Sequence Sequence(IEnumerable<Activity> activities)
         {
-            Contract.Requires<ArgumentNullException>(activities != null);
+            if (activities == null)
+                throw new ArgumentNullException(nameof(activities));
 
             var sequence = new Sequence();
             foreach (var i in activities)

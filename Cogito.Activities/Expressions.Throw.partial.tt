@@ -31,12 +31,14 @@ for (int i = 1; i <= 8; i++)
         public static Throw Throw<<#= Repeat("TArg{0}", i, ", ") #>, TException>(Func<<#= Repeat("TArg{0}", i, ", ") #>, Task<TException>> func, <#= Repeat(argTypeName + " arg{0}", i, ", ") #>, string displayName = null)
             where TException : Exception
         {
-            Contract.Requires<ArgumentNullException>(func != null);
+            if (func == null)
+                throw new ArgumentNullException(nameof(func));
 <#
         for (int j = 1; j <= i; j++)
         {
 #>
-            Contract.Requires<ArgumentNullException>(arg<#= j #> != null);
+            if (arg<#= j #> == null)
+                throw new ArgumentNullException(nameof(arg<#= j #>));
 <#
         }
 #>

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Activities;
-using System.Diagnostics.Contracts;
 using System.Threading.Tasks;
 
 namespace Cogito.Activities
@@ -18,7 +17,8 @@ namespace Cogito.Activities
         /// <returns></returns>
         public static Activity Range(int start, int count, Func<DelegateInArgument<int>, Activity<int>> action)
         {
-            Contract.Requires<ArgumentNullException>(action != null);
+            if (action == null)
+                throw new ArgumentNullException(nameof(action));
 
             return For(
                 start,
@@ -36,7 +36,8 @@ namespace Cogito.Activities
         /// <returns></returns>
         public static Activity Range(int start, int count, Func<int, Task> action)
         {
-            Contract.Requires<ArgumentNullException>(action != null);
+            if (action == null)
+                throw new ArgumentNullException(nameof(action));
 
             return For(
                 start,

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Activities;
 using System.Activities.Statements;
-using System.Diagnostics.Contracts;
 
 namespace Cogito.Activities
 {
@@ -17,7 +16,8 @@ namespace Cogito.Activities
         /// <returns></returns>
         public static NoPersistScope WithNoPersist(this Activity activity)
         {
-            Contract.Requires<ArgumentNullException>(activity != null);
+            if (activity == null)
+                throw new ArgumentNullException(nameof(activity));
 
             return new NoPersistScope()
             {

@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Activities;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace Cogito.Activities
@@ -22,7 +20,8 @@ namespace Cogito.Activities
         /// <returns></returns>
         public static Task LoadAsync(this WorkflowApplication self, Guid instanceId)
         {
-            Contract.Requires<ArgumentNullException>(self != null);
+            if (self == null)
+                throw new ArgumentNullException(nameof(self));
 
             return Task.Factory.FromAsync(self.BeginLoad, self.EndLoad, instanceId, null);
         }
@@ -36,7 +35,8 @@ namespace Cogito.Activities
         /// <returns></returns>
         public static Task LoadAsync(this WorkflowApplication self, Guid instanceId, TimeSpan timeout)
         {
-            Contract.Requires<ArgumentNullException>(self != null);
+            if (self == null)
+                throw new ArgumentNullException(nameof(self));
 
             return Task.Factory.FromAsync(self.BeginLoad, self.EndLoad, instanceId, timeout, null);
         }
@@ -48,7 +48,8 @@ namespace Cogito.Activities
         /// <returns></returns>
         public static Task RunAsync(this WorkflowApplication self)
         {
-            Contract.Requires<ArgumentNullException>(self != null);
+            if (self == null)
+                throw new ArgumentNullException(nameof(self));
 
             return Task.Factory.FromAsync(self.BeginRun, self.EndRun, null);
         }
@@ -61,7 +62,8 @@ namespace Cogito.Activities
         /// <returns></returns>
         public static Task RunAsync(this WorkflowApplication self, TimeSpan timeout)
         {
-            Contract.Requires<ArgumentNullException>(self != null);
+            if (self == null)
+                throw new ArgumentNullException(nameof(self));
 
             return Task.Factory.FromAsync(self.BeginRun, self.EndRun, timeout, null);
         }
@@ -77,8 +79,10 @@ namespace Cogito.Activities
         /// <returns></returns>
         public static Task<BookmarkResumptionResult> ResumeBookmarkAsync(this WorkflowApplication self, Bookmark bookmark, object value)
         {
-            Contract.Requires<ArgumentNullException>(self != null);
-            Contract.Requires<ArgumentNullException>(bookmark != null);
+            if (self == null)
+                throw new ArgumentNullException(nameof(self));
+            if (bookmark == null)
+                throw new ArgumentNullException(nameof(bookmark));
 
             return Task.Factory.FromAsync(self.BeginResumeBookmark, self.EndResumeBookmark, bookmark, value, null);
         }
@@ -94,8 +98,10 @@ namespace Cogito.Activities
         /// <returns></returns>
         public static Task<BookmarkResumptionResult> ResumeBookmarkAsync(this WorkflowApplication self, string bookmarkName, object value)
         {
-            Contract.Requires<ArgumentNullException>(self != null);
-            Contract.Requires<ArgumentNullException>(bookmarkName != null);
+            if (self == null)
+                throw new ArgumentNullException(nameof(self));
+            if (bookmarkName == null)
+                throw new ArgumentNullException(nameof(bookmarkName));
 
             return Task.Factory.FromAsync(self.BeginResumeBookmark, self.EndResumeBookmark, bookmarkName, value, null);
         }
@@ -112,8 +118,10 @@ namespace Cogito.Activities
         /// <returns></returns>
         public static Task<BookmarkResumptionResult> ResumeBookmarkAsync(this WorkflowApplication self, Bookmark bookmark, object value, TimeSpan timeout)
         {
-            Contract.Requires<ArgumentNullException>(self != null);
-            Contract.Requires<ArgumentNullException>(bookmark != null);
+            if (self == null)
+                throw new ArgumentNullException(nameof(self));
+            if (bookmark == null)
+                throw new ArgumentNullException(nameof(bookmark));
 
             return Task.Factory.FromAsync(self.BeginResumeBookmark, self.EndResumeBookmark, bookmark, value, timeout, null);
         }
@@ -130,8 +138,10 @@ namespace Cogito.Activities
         /// <returns></returns>
         public static Task<BookmarkResumptionResult> ResumeBookmarkAsync(this WorkflowApplication self, string bookmarkName, object value, TimeSpan timeout)
         {
-            Contract.Requires<ArgumentNullException>(self != null);
-            Contract.Requires<ArgumentNullException>(bookmarkName != null);
+            if (self == null)
+                throw new ArgumentNullException(nameof(self));
+            if (bookmarkName == null)
+                throw new ArgumentNullException(nameof(bookmarkName));
 
             return Task.Factory.FromAsync(self.BeginResumeBookmark, self.EndResumeBookmark, bookmarkName, value, timeout, null);
         }
@@ -143,7 +153,8 @@ namespace Cogito.Activities
         /// <returns></returns>
         public static Task PersistAsync(this WorkflowApplication self)
         {
-            Contract.Requires<ArgumentNullException>(self != null);
+            if (self == null)
+                throw new ArgumentNullException(nameof(self));
 
             return Task.Factory.FromAsync(self.BeginPersist, self.EndPersist, null);
         }
@@ -156,7 +167,8 @@ namespace Cogito.Activities
         /// <returns></returns>
         public static Task PersistAsync(this WorkflowApplication self, TimeSpan timeout)
         {
-            Contract.Requires<ArgumentNullException>(self != null);
+            if (self == null)
+                throw new ArgumentNullException(nameof(self));
 
             return Task.Factory.FromAsync(self.BeginPersist, self.EndPersist, timeout, null);
         }
@@ -168,7 +180,8 @@ namespace Cogito.Activities
         /// <returns></returns>
         public static Task UnloadAsync(this WorkflowApplication self)
         {
-            Contract.Requires<ArgumentNullException>(self != null);
+            if (self == null)
+                throw new ArgumentNullException(nameof(self));
 
             return Task.Factory.FromAsync(self.BeginUnload, self.EndUnload, null);
         }
@@ -181,7 +194,8 @@ namespace Cogito.Activities
         /// <returns></returns>
         public static Task UnloadAsync(this WorkflowApplication self, TimeSpan timeout)
         {
-            Contract.Requires<ArgumentNullException>(self != null);
+            if (self == null)
+                throw new ArgumentNullException(nameof(self));
 
             return Task.Factory.FromAsync(self.BeginUnload, self.EndUnload, timeout, null);
         }
@@ -195,7 +209,8 @@ namespace Cogito.Activities
         /// <returns></returns>
         public static Task<IDictionary<string, object>> WaitForCompletionAsync(this WorkflowApplication self)
         {
-            Contract.Requires<ArgumentNullException>(self != null);
+            if (self == null)
+                throw new ArgumentNullException(nameof(self));
 
             var tc = new TaskCompletionSource<IDictionary<string, object>>();
             var cb = self.Completed;

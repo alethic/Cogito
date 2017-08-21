@@ -2,7 +2,6 @@
 using System.Activities;
 using System.Activities.Expressions;
 using System.Activities.Statements;
-using System.Diagnostics.Contracts;
 using System.Threading.Tasks;
 
 namespace Cogito.Activities
@@ -21,8 +20,10 @@ namespace Cogito.Activities
         /// <returns></returns>
         public static Activity<TResult> WaitThen<TWait, TResult>(InArgument<string> bookmarkName, ActivityFunc<TWait, TResult> func)
         {
-            Contract.Requires<ArgumentNullException>(bookmarkName != null);
-            Contract.Requires<ArgumentNullException>(func != null);
+            if (bookmarkName == null)
+                throw new ArgumentNullException(nameof(bookmarkName));
+            if (func == null)
+                throw new ArgumentNullException(nameof(func));
 
             var waitVar = new Variable<TWait>();
             var rsltArg = new DelegateOutArgument<TResult>();
@@ -64,8 +65,10 @@ namespace Cogito.Activities
         /// <returns></returns>
         public static Activity WaitThen<TWait>(InArgument<string> bookmarkName, ActivityAction<TWait> func)
         {
-            Contract.Requires<ArgumentNullException>(bookmarkName != null);
-            Contract.Requires<ArgumentNullException>(func != null);
+            if (bookmarkName == null)
+                throw new ArgumentNullException(nameof(bookmarkName));
+            if (func == null)
+                throw new ArgumentNullException(nameof(func));
 
             var waitVar = new Variable<TWait>();
             
@@ -98,8 +101,10 @@ namespace Cogito.Activities
         /// <returns></returns>
         public static Activity<TResult> WaitThen<TWait, TResult>(InArgument<string> bookmarkName, Func<TWait, Task<TResult>> func)
         {
-            Contract.Requires<ArgumentNullException>(bookmarkName != null);
-            Contract.Requires<ArgumentNullException>(func != null);
+            if (bookmarkName == null)
+                throw new ArgumentNullException(nameof(bookmarkName));
+            if (func == null)
+                throw new ArgumentNullException(nameof(func));
 
             return WaitThen(bookmarkName, Delegate<TWait, TResult>((arg) => Invoke(func, arg)));
         }
@@ -113,8 +118,10 @@ namespace Cogito.Activities
         /// <returns></returns>
         public static Activity WaitThen<TWait>(InArgument<string> bookmarkName, Func<TWait, Task> action)
         {
-            Contract.Requires<ArgumentNullException>(bookmarkName != null);
-            Contract.Requires<ArgumentNullException>(action != null);
+            if (bookmarkName == null)
+                throw new ArgumentNullException(nameof(bookmarkName));
+            if (action == null)
+                throw new ArgumentNullException(nameof(action));
 
             return WaitThen(bookmarkName, Delegate<TWait>((arg) => Invoke(action, arg)));
         }

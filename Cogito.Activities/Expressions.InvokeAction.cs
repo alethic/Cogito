@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Activities;
 using System.Activities.Statements;
-using System.Diagnostics.Contracts;
 
 namespace Cogito.Activities
 {
@@ -17,7 +16,8 @@ namespace Cogito.Activities
         /// <returns></returns>
         public static InvokeAction InvokeAction(ActivityAction action, string displayName = null)
         {
-            Contract.Requires<ArgumentNullException>(action != null);
+            if (action == null)
+                throw new ArgumentNullException(nameof(action));
 
             return new InvokeAction()
             {
@@ -36,7 +36,8 @@ namespace Cogito.Activities
         /// <returns></returns>
         public static InvokeAction<TArg> InvokeDelegate<TArg>(ActivityAction<TArg> action, InArgument<TArg> arg, string displayName = null)
         {
-            Contract.Requires<ArgumentNullException>(action != null);
+            if (action == null)
+                throw new ArgumentNullException(nameof(action));
 
             return new InvokeAction<TArg>()
             {
@@ -56,7 +57,8 @@ namespace Cogito.Activities
         /// <returns></returns>
         public static InvokeAction<TArg> InvokeDelegate<TArg>(ActivityAction<TArg> action, DelegateInArgument<TArg> arg, string displayName = null)
         {
-            Contract.Requires<ArgumentNullException>(action != null);
+            if (action == null)
+                throw new ArgumentNullException(nameof(action));
 
             return new InvokeAction<TArg>()
             {
@@ -76,7 +78,8 @@ namespace Cogito.Activities
         /// <returns></returns>
         public static InvokeAction<TArg> InvokeDelegate<TArg>(ActivityAction<TArg> action, Activity<TArg> arg, string displayName = null)
         {
-            Contract.Requires<ArgumentNullException>(action != null);
+            if (action == null)
+                throw new ArgumentNullException(nameof(action));
 
             return new InvokeAction<TArg>()
             {
@@ -96,7 +99,8 @@ namespace Cogito.Activities
         /// <returns></returns>
         public static InvokeAction<TArg> InvokeDelegate<TArg>(ActivityAction<TArg> action, Variable<TArg> arg, string displayName = null)
         {
-            Contract.Requires<ArgumentNullException>(action != null);
+            if (action == null)
+                throw new ArgumentNullException(nameof(action));
 
             return new InvokeAction<TArg>()
             {

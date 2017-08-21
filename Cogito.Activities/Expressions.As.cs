@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Activities;
 using System.Activities.Expressions;
-using System.Diagnostics.Contracts;
-using System.Runtime.CompilerServices;
 
 namespace Cogito.Activities
 {
@@ -21,7 +19,8 @@ namespace Cogito.Activities
         public static As<TOperand, TResult> As<TOperand, TResult>(DelegateInArgument<TOperand> operand, string displayName = null)
             where TOperand : TResult
         {
-            Contract.Requires<ArgumentNullException>(operand != null);
+            if (operand == null)
+                throw new ArgumentNullException(nameof(operand));
 
             return new As<TOperand, TResult>()
             {
@@ -41,7 +40,8 @@ namespace Cogito.Activities
         public static As<TOperand, TResult> As<TOperand, TResult>(InArgument<TOperand> operand, string displayName = null)
             where TOperand : TResult
         {
-            Contract.Requires<ArgumentNullException>(operand != null);
+            if (operand == null)
+                throw new ArgumentNullException(nameof(operand));
 
             return new As<TOperand, TResult>()
             {
@@ -61,7 +61,8 @@ namespace Cogito.Activities
         public static As<TOperand, TResult> As<TOperand, TResult>(this Activity<TOperand> operand, string displayName = null)
             where TOperand : TResult
         {
-            Contract.Requires<ArgumentNullException>(operand != null);
+            if (operand == null)
+                throw new ArgumentNullException(nameof(operand));
 
             return new As<TOperand, TResult>()
             {

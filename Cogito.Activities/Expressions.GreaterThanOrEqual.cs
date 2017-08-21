@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Activities;
 using System.Activities.Expressions;
-using System.Diagnostics.Contracts;
 
 namespace Cogito.Activities
 {
@@ -20,8 +19,10 @@ namespace Cogito.Activities
         /// <returns></returns>
         public static GreaterThanOrEqual<TLeft, TRight, TResult> GreaterThanOrEqual<TLeft, TRight, TResult>(InArgument<TLeft> left, InArgument<TRight> right, string displayName = null)
         {
-            Contract.Requires<ArgumentNullException>(left != null);
-            Contract.Requires<ArgumentNullException>(right != null);
+            if (left == null)
+                throw new ArgumentNullException(nameof(left));
+            if (right == null)
+                throw new ArgumentNullException(nameof(right));
 
             return new GreaterThanOrEqual<TLeft, TRight, TResult>()
             {

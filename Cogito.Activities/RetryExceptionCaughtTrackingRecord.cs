@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Activities.Tracking;
-using System.Diagnostics.Contracts;
 
 namespace Cogito.Activities
 {
@@ -17,7 +16,8 @@ namespace Cogito.Activities
         public RetryExceptionCaughtTrackingRecord(Exception e, int attempts) : 
             base(e.Message)
         {
-            Contract.Requires<ArgumentNullException>(e != null);
+            if (e == null)
+                throw new ArgumentNullException(nameof(e));
         }
 
     }

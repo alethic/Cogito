@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Activities;
 using System.Activities.Statements;
-using System.Diagnostics.Contracts;
 using System.Threading.Tasks;
 
 namespace Cogito.Activities
@@ -20,8 +19,10 @@ namespace Cogito.Activities
         /// <returns></returns>
         public static If If(InArgument<bool> condition, Activity then, Activity @else)
         {
-            Contract.Requires<ArgumentNullException>(condition != null);
-            Contract.Requires<ArgumentNullException>(then != null);
+            if (condition == null)
+                throw new ArgumentNullException(nameof(condition));
+            if (then == null)
+                throw new ArgumentNullException(nameof(then));
 
             return new If()
             {
@@ -39,8 +40,10 @@ namespace Cogito.Activities
         /// <param name="then"></param>
         public static If If(InArgument<bool> condition, Activity then)
         {
-            Contract.Requires<ArgumentNullException>(condition != null);
-            Contract.Requires<ArgumentNullException>(then != null);
+            if (condition == null)
+                throw new ArgumentNullException(nameof(condition));
+            if (then == null)
+                throw new ArgumentNullException(nameof(then));
 
             return If(condition, then, null);
         }
@@ -55,8 +58,10 @@ namespace Cogito.Activities
         /// <returns></returns>
         public static If If(Activity<bool> condition, Activity then, Activity @else)
         {
-            Contract.Requires<ArgumentNullException>(condition != null);
-            Contract.Requires<ArgumentNullException>(then != null);
+            if (condition == null)
+                throw new ArgumentNullException(nameof(condition));
+            if (then == null)
+                throw new ArgumentNullException(nameof(then));
 
             return new If()
             {
@@ -74,8 +79,10 @@ namespace Cogito.Activities
         /// <param name="then"></param>
         public static If If(Activity<bool> condition, Activity then)
         {
-            Contract.Requires<ArgumentNullException>(condition != null);
-            Contract.Requires<ArgumentNullException>(then != null);
+            if (condition == null)
+                throw new ArgumentNullException(nameof(condition));
+            if (then == null)
+                throw new ArgumentNullException(nameof(then));
 
             return If(condition, then, null);
         }
@@ -90,8 +97,10 @@ namespace Cogito.Activities
         /// <returns></returns>
         public static If If(Func<Task<bool>> condition, Activity then, Activity @else)
         {
-            Contract.Requires<ArgumentNullException>(condition != null);
-            Contract.Requires<ArgumentNullException>(then != null);
+            if (condition == null)
+                throw new ArgumentNullException(nameof(condition));
+            if (then == null)
+                throw new ArgumentNullException(nameof(then));
 
             return If(Invoke(condition), then, @else);
         }
@@ -104,8 +113,10 @@ namespace Cogito.Activities
         /// <param name="then"></param>
         public static If If(Func<Task<bool>> condition, Activity then)
         {
-            Contract.Requires<ArgumentNullException>(condition != null);
-            Contract.Requires<ArgumentNullException>(then != null);
+            if (condition == null)
+                throw new ArgumentNullException(nameof(condition));
+            if (then == null)
+                throw new ArgumentNullException(nameof(then));
 
             return If(Invoke(condition), then, null);
         }
@@ -120,8 +131,10 @@ namespace Cogito.Activities
         /// <returns></returns>
         public static If If(InArgument<bool> condition, Func<Task> then, Func<Task> @else)
         {
-            Contract.Requires<ArgumentNullException>(condition != null);
-            Contract.Requires<ArgumentNullException>(then != null);
+            if (condition == null)
+                throw new ArgumentNullException(nameof(condition));
+            if (then == null)
+                throw new ArgumentNullException(nameof(then));
 
             return If(condition, Invoke(then), @else != null ? Invoke(@else) : null);
         }
@@ -134,8 +147,10 @@ namespace Cogito.Activities
         /// <param name="then"></param>
         public static If If(InArgument<bool> condition, Func<Task> then)
         {
-            Contract.Requires<ArgumentNullException>(condition != null);
-            Contract.Requires<ArgumentNullException>(then != null);
+            if (condition == null)
+                throw new ArgumentNullException(nameof(condition));
+            if (then == null)
+                throw new ArgumentNullException(nameof(then));
 
             return If(condition, Invoke(then), null);
         }
@@ -150,8 +165,10 @@ namespace Cogito.Activities
         /// <returns></returns>
         public static If If(Activity<bool> condition, Func<Task> then, Func<Task> @else)
         {
-            Contract.Requires<ArgumentNullException>(condition != null);
-            Contract.Requires<ArgumentNullException>(then != null);
+            if (condition == null)
+                throw new ArgumentNullException(nameof(condition));
+            if (then == null)
+                throw new ArgumentNullException(nameof(then));
 
             return If(condition, Invoke(then), @else != null ? Invoke(@else) : null);
         }
@@ -164,8 +181,10 @@ namespace Cogito.Activities
         /// <param name="then"></param>
         public static If If(Activity<bool> condition, Func<Task> then)
         {
-            Contract.Requires<ArgumentNullException>(condition != null);
-            Contract.Requires<ArgumentNullException>(then != null);
+            if (condition == null)
+                throw new ArgumentNullException(nameof(condition));
+            if (then == null)
+                throw new ArgumentNullException(nameof(then));
 
             return If(condition, Invoke(then), null);
         }
@@ -180,8 +199,10 @@ namespace Cogito.Activities
         /// <returns></returns>
         public static If If(Func<Task<bool>> condition, Func<Task> then, Func<Task> @else)
         {
-            Contract.Requires<ArgumentNullException>(condition != null);
-            Contract.Requires<ArgumentNullException>(then != null);
+            if (condition == null)
+                throw new ArgumentNullException(nameof(condition));
+            if (then == null)
+                throw new ArgumentNullException(nameof(then));
 
             return If(Invoke(condition), Invoke(then), @else != null ? Invoke(@else) : null);
         }
@@ -194,8 +215,10 @@ namespace Cogito.Activities
         /// <param name="then"></param>
         public static If If(Func<Task<bool>> condition, Func<Task> then)
         {
-            Contract.Requires<ArgumentNullException>(condition != null);
-            Contract.Requires<ArgumentNullException>(then != null);
+            if (condition == null)
+                throw new ArgumentNullException(nameof(condition));
+            if (then == null)
+                throw new ArgumentNullException(nameof(then));
 
             return If(Invoke(condition), Invoke(then), null);
         }

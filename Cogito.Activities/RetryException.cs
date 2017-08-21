@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
 using System.Linq;
 
 namespace Cogito.Activities
@@ -23,7 +22,8 @@ namespace Cogito.Activities
         public RetryException(params Exception[] attempts)
             : base($"Permanent failure after {attempts.Length} attempts.")
         {
-            Contract.Requires<ArgumentNullException>(attempts != null);
+            if (attempts == null)
+                throw new ArgumentNullException(nameof(attempts));
 
             this.attempts = attempts;
         }
@@ -35,7 +35,8 @@ namespace Cogito.Activities
         public RetryException(IEnumerable<Exception> attempts)
             : this(attempts.ToArray())
         {
-            Contract.Requires<ArgumentNullException>(attempts != null);
+            if (attempts == null)
+                throw new ArgumentNullException(nameof(attempts));
         }
 
         /// <summary>

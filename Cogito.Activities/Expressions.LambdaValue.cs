@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Activities;
 using System.Activities.Expressions;
-using System.Diagnostics.Contracts;
 using System.Linq.Expressions;
 
 namespace Cogito.Activities
@@ -18,7 +17,8 @@ namespace Cogito.Activities
         /// <returns></returns>
         public static LambdaValue<TResult> LambdaValue<TResult>(Expression<Func<ActivityContext, TResult>> lambdaValue)
         {
-            Contract.Requires<ArgumentNullException>(lambdaValue != null);
+            if (lambdaValue == null)
+                throw new ArgumentNullException(nameof(lambdaValue));
 
             return new LambdaValue<TResult>(lambdaValue);
         }

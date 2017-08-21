@@ -2,7 +2,6 @@
 using System.Activities;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics.Contracts;
 using System.Linq;
 
 using Cogito.Linq;
@@ -43,7 +42,8 @@ namespace Cogito.Activities
         public FormatActivity(InArgument<string> format, params InArgument<object>[] args)
             : this(format)
         {
-            Contract.Requires<ArgumentNullException>(args != null);
+            if (args == null)
+                throw new ArgumentNullException(nameof(args));
 
             foreach (var i in args)
                 Arguments.Add(i);
