@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
 
 namespace Cogito.Collections
 {
@@ -22,9 +21,7 @@ namespace Cogito.Collections
         /// <param name="equals"></param>
         public DelegateEqualityComparer(Func<T, T, bool> equals)
         {
-            Contract.Requires<ArgumentNullException>(equals != null);
-
-            this.equals = equals;
+            this.equals = equals ?? throw new ArgumentNullException(nameof(equals));
             this.getHashCode = x => x.GetHashCode();
         }
 
@@ -35,11 +32,8 @@ namespace Cogito.Collections
         /// <param name="getHashCode"></param>
         public DelegateEqualityComparer(Func<T, T, bool> equals, Func<T, int> getHashCode)
         {
-            Contract.Requires<ArgumentNullException>(equals != null);
-            Contract.Requires<ArgumentNullException>(getHashCode != null);
-
-            this.equals = equals;
-            this.getHashCode = getHashCode;
+            this.equals = equals ?? throw new ArgumentNullException(nameof(equals));
+            this.getHashCode = getHashCode ?? throw new ArgumentNullException(nameof(getHashCode));
         }
 
         /// <summary>
