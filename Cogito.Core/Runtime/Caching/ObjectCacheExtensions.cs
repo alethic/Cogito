@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Runtime.Caching;
 
@@ -128,7 +127,8 @@ namespace Cogito.Runtime.Caching
                 throw new ArgumentNullException(nameof(func));
             if (keys == null)
                 throw new ArgumentNullException(nameof(keys));
-            Contract.Requires<ArgumentOutOfRangeException>(keys.Length > 0);
+            if (keys.Length == 0)
+                throw new ArgumentOutOfRangeException(nameof(keys));
 
             // generate unique key for keys
             var k = string.Join("##", Enumerable.Empty<object>()

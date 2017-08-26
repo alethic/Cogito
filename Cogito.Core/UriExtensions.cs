@@ -20,7 +20,8 @@ namespace Cogito
         {
             if (self == null)
                 throw new ArgumentNullException(nameof(self));
-            Contract.Requires<ArgumentOutOfRangeException>(self.IsAbsoluteUri);
+            if (!self.IsAbsoluteUri)
+                throw new ArgumentOutOfRangeException(nameof(self));
             if (path == null)
                 throw new ArgumentNullException(nameof(path));
 
@@ -46,7 +47,8 @@ namespace Cogito
         {
             if (self == null)
                 throw new ArgumentNullException(nameof(self));
-            Contract.Requires<ArgumentOutOfRangeException>(self.IsAbsoluteUri);
+            if (!self.IsAbsoluteUri)
+                throw new ArgumentOutOfRangeException(nameof(self));
             if (paths == null)
                 throw new ArgumentNullException(nameof(paths));
 

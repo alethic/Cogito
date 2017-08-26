@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics.Contracts;
 using System.Runtime.Serialization;
 
 namespace Cogito.IO.Media
@@ -42,7 +41,8 @@ namespace Cogito.IO.Media
         /// <param name="value"></param>
         MediaRangePart(string value)
         {
-            Contract.Requires<ArgumentNullException>(!string.IsNullOrEmpty(value));
+            if (string.IsNullOrEmpty(value))
+                throw new ArgumentNullException(nameof(value));
 
             this.value = value;
         }

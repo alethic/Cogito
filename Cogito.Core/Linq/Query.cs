@@ -30,7 +30,8 @@ namespace Cogito.Core.Linq
                 throw new ArgumentNullException(nameof(provider));
             if (expression == null)
                 throw new ArgumentNullException(nameof(expression));
-            Contract.Requires<ArgumentOutOfRangeException>(typeof(IQueryable<T>).IsAssignableFrom(expression.Type));
+            if (!typeof(IQueryable<T>).IsAssignableFrom(expression.Type))
+                throw new ArgumentOutOfRangeException(nameof(expression));
 
             this.provider = provider;
             this.expression = expression;

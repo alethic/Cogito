@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
 using System.Linq;
 
 namespace Cogito.Linq
@@ -24,8 +23,10 @@ namespace Cogito.Linq
         {
             if (self == null)
                 throw new ArgumentNullException(nameof(self));
-            Contract.Requires<ArgumentOutOfRangeException>(size >= 1);
-            Contract.Requires<ArgumentOutOfRangeException>(size <= self.Count());
+            if (size < 1)
+                throw new ArgumentOutOfRangeException(nameof(size));
+            if (size > self.Count())
+                throw new ArgumentOutOfRangeException(nameof(size));
 
             return Combinations(self.ToArray(), size);
         }
@@ -42,8 +43,10 @@ namespace Cogito.Linq
         {
             if (self == null)
                 throw new ArgumentNullException(nameof(self));
-            Contract.Requires<ArgumentOutOfRangeException>(size >= 1);
-            Contract.Requires<ArgumentOutOfRangeException>(size <= self.Length);
+            if (size < 1)
+                throw new ArgumentOutOfRangeException(nameof(size));
+            if (size > self.Length)
+                throw new ArgumentOutOfRangeException(nameof(size));
 
             // replace input with incrementing series
             var a = new int[size];
@@ -156,7 +159,8 @@ namespace Cogito.Linq
         {
             if (self == null)
                 throw new ArgumentNullException(nameof(self));
-            Contract.Requires<ArgumentOutOfRangeException>(size <= self.Count());
+            if (size > self.Count())
+                throw new ArgumentNullException(nameof(size));
 
             return Variations(self.ToArray(), size);
         }
@@ -172,7 +176,8 @@ namespace Cogito.Linq
         {
             if (self == null)
                 throw new ArgumentNullException(nameof(self));
-            Contract.Requires<ArgumentOutOfRangeException>(size <= self.Length);
+            if (size > self.Length)
+                throw new ArgumentOutOfRangeException(nameof(size));
 
             foreach (var combination in Combinations(self, size))
                 foreach (var permutation in Permutations(combination))
@@ -188,10 +193,14 @@ namespace Cogito.Linq
         /// <returns></returns>
         static T[] MapOutput<T>(T[] input, int[] indexes)
         {
-            Contract.Requires<ArgumentOutOfRangeException>(input != null);
-            Contract.Requires<ArgumentOutOfRangeException>(indexes != null);
-            Contract.Requires<ArgumentOutOfRangeException>(input.Length >= 0);
-            Contract.Requires<ArgumentOutOfRangeException>(indexes.Length >= 0);
+            if (input == null)
+                throw new ArgumentNullException(nameof(input));
+            if (indexes == null)
+                throw new ArgumentNullException(nameof(indexes));
+            if (input.Length < 0)
+                throw new ArgumentOutOfRangeException(nameof(input));
+            if (indexes.Length < 0)
+                throw new ArgumentOutOfRangeException(nameof(indexes));
 
             var output = new T[indexes.Length];
             for (int i = 0; i < indexes.Length; i++)

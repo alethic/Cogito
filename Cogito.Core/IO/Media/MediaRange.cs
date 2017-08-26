@@ -78,7 +78,8 @@ namespace Cogito.IO.Media
         {
             if (value == null)
                 throw new ArgumentNullException(nameof(value));
-            Contract.Requires<ArgumentOutOfRangeException>(!string.IsNullOrWhiteSpace(value));
+            if (string.IsNullOrWhiteSpace(value))
+                throw new ArgumentOutOfRangeException(nameof(value));
 
             if (value.Equals("*"))
                 value = "*/*";

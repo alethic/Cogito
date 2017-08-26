@@ -37,13 +37,8 @@ namespace Cogito.Collections
         /// </summary>
         public DemandDictionary(TryFunc<TKey, TValue> getter, IDictionary<TKey, TValue> cache)
         {
-            if (getter == null)
-                throw new ArgumentNullException(nameof(getter));
-            if (cache == null)
-                throw new ArgumentNullException(nameof(cache));
-
-            this.getter = getter;
-            this.cache = cache;
+            this.getter = getter ?? throw new ArgumentNullException(nameof(getter));
+            this.cache = cache ?? throw new ArgumentNullException(nameof(cache));
         }
 
         /// <summary>

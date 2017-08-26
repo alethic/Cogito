@@ -23,10 +23,7 @@ namespace Cogito.Components
         public DefaultComponentProvider(
             [ImportMany] IEnumerable<IComponent> components)
         {
-            if (components == null)
-                throw new ArgumentNullException(nameof(components));
-
-            this.components = components;
+            this.components = components ?? throw new ArgumentNullException(nameof(components));
         }
 
         public IEnumerable<IComponent> Components

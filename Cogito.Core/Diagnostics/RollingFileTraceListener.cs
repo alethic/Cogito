@@ -27,7 +27,8 @@ namespace Cogito.Diagnostics
         {
             if (fileName == null)
                 throw new ArgumentNullException(nameof(fileName));
-            Contract.Requires<ArgumentOutOfRangeException>(fileName.Length >= 2);
+            if (fileName.Length < 2)
+                throw new ArgumentOutOfRangeException(nameof(fileName));
 
             // resolve template FileInfo
             filePath = ResolveFilePath(fileName);

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
@@ -17,7 +16,8 @@ namespace Cogito.Linq.Expressions
         /// <returns>A <see cref="MemberInfo"/> instance if the member could be found; otherwise <see langword="null"/>.</returns>
         public static MemberInfo GetTargetMemberInfo(this Expression self)
         {
-            Contract.Requires<ArgumentOutOfRangeException>(self != null);
+            if (self == null)
+                throw new ArgumentNullException(nameof(self));
 
             switch (self.NodeType)
             {
@@ -44,8 +44,10 @@ namespace Cogito.Linq.Expressions
         /// <returns></returns>
         public static string GetPropertyOrFieldPath<TInput, TResult>(this Expression<Func<TInput, TResult>> self)
         {
-            Contract.Requires<ArgumentOutOfRangeException>(self != null);
-            Contract.Requires<ArgumentOutOfRangeException>(self.Body != null);
+            if (self == null)
+                throw new ArgumentNullException(nameof(self));
+            if (self.Body == null)
+                throw new ArgumentException(nameof(self));
 
             var path = new LinkedList<string>();
             MemberExpression expr;

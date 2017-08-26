@@ -119,7 +119,7 @@ namespace Cogito.IO.Media
         /// <returns>The value for the parameter. If the parameter is not defined then null is returned.</returns>
         public string this[string name]
         {
-            get { Contract.Requires<ArgumentNullException>(!string.IsNullOrEmpty(name)); return (parameters.ContainsKey(name)) ? parameters[name] : null; }
+            get { if (string.IsNullOrEmpty(name)) throw new ArgumentNullException(nameof(name)); return (parameters.ContainsKey(name)) ? parameters[name] : null; }
         }
 
         /// <summary>
