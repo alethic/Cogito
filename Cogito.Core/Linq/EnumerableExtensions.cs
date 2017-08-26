@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
 using System.Linq;
 
 namespace Cogito.Linq
@@ -21,8 +20,10 @@ namespace Cogito.Linq
         /// <param name="action">Lambda Function to be performed on all elements in List</param>
         public static void ForEach<T>(this IEnumerable<T> source, Action<T> action)
         {
-            Contract.Requires<ArgumentNullException>(source != null);
-            Contract.Requires<ArgumentNullException>(action != null);
+            if (source == null)
+                throw new ArgumentNullException(nameof(source));
+            if (action == null)
+                throw new ArgumentNullException(nameof(action));
 
             foreach (T item in source)
                 action(item);
@@ -58,7 +59,8 @@ namespace Cogito.Linq
         /// <returns></returns>
         public static IEnumerable<T> Append<T>(this IEnumerable<T> source, T o)
         {
-            Contract.Requires<ArgumentNullException>(source != null);
+            if (source == null)
+                throw new ArgumentNullException(nameof(source));
 
             foreach (T t in source)
                 yield return t;
@@ -74,7 +76,8 @@ namespace Cogito.Linq
         /// <returns></returns>
         public static IEnumerable<T> Prepend<T>(this IEnumerable<T> source, T o)
         {
-            Contract.Requires<ArgumentNullException>(source != null);
+            if (source == null)
+                throw new ArgumentNullException(nameof(source));
 
             yield return o;
             foreach (T t in source)
@@ -90,8 +93,10 @@ namespace Cogito.Linq
         /// <returns></returns>
         public static IEnumerable<T> Recurse<T>(this IEnumerable<T> source, Func<T, IEnumerable<T>> children)
         {
-            Contract.Requires<ArgumentNullException>(source != null);
-            Contract.Requires<ArgumentNullException>(children != null);
+            if (source == null)
+                throw new ArgumentNullException(nameof(source));
+            if (children == null)
+                throw new ArgumentNullException(nameof(children));
 
             foreach (T t in source)
             {
@@ -110,7 +115,8 @@ namespace Cogito.Linq
         /// <returns></returns>
         public static IEnumerable<T> Recurse<T>(this T target, Func<T, T> nextFunc)
         {
-            Contract.Requires<ArgumentNullException>(nextFunc != null);
+            if (nextFunc == null)
+                throw new ArgumentNullException(nameof(nextFunc));
 
             // yield existing item
             yield return target;
@@ -131,7 +137,8 @@ namespace Cogito.Linq
         /// <returns></returns>
         public static IEnumerable<T> InsertBeforeEach<T>(this IEnumerable<T> source, T value)
         {
-            Contract.Requires<ArgumentNullException>(source != null);
+            if (source == null)
+                throw new ArgumentNullException(nameof(source));
 
             foreach (var i in source)
             {
@@ -149,7 +156,8 @@ namespace Cogito.Linq
         /// <returns></returns>
         public static IEnumerable<T> InsertAfterEach<T>(this IEnumerable<T> source, T value)
         {
-            Contract.Requires<ArgumentNullException>(source != null);
+            if (source == null)
+                throw new ArgumentNullException(nameof(source));
 
             foreach (var i in source)
             {
@@ -166,7 +174,8 @@ namespace Cogito.Linq
         /// <returns></returns>
         public static IEnumerable<IEnumerable<T>> Explode<T>(this IEnumerable<T> source)
         {
-            Contract.Requires<ArgumentNullException>(source != null);
+            if (source == null)
+                throw new ArgumentNullException(nameof(source));
 
             foreach (var i in source)
                 yield return Enumerable.Empty<T>().Prepend(i);
@@ -180,7 +189,8 @@ namespace Cogito.Linq
         /// <returns></returns>
         public static LinkedList<T> ToLinkedList<T>(this IEnumerable<T> source)
         {
-            Contract.Requires<ArgumentNullException>(source != null);
+            if (source == null)
+                throw new ArgumentNullException(nameof(source));
 
             return new LinkedList<T>(source);
         }
@@ -193,7 +203,8 @@ namespace Cogito.Linq
         /// <returns></returns>
         public static HashSet<T> ToHashSet<T>(this IEnumerable<T> source)
         {
-            Contract.Requires<ArgumentNullException>(source != null);
+            if (source == null)
+                throw new ArgumentNullException(nameof(source));
 
             return new HashSet<T>(source);
         }
@@ -207,7 +218,8 @@ namespace Cogito.Linq
         /// <returns></returns>
         public static IEnumerable<T> Tee<T>(this IEnumerable<T> source)
         {
-            Contract.Requires<ArgumentNullException>(source != null);
+            if (source == null)
+                throw new ArgumentNullException(nameof(source));
 
             return Tee(source, false);
         }
@@ -221,7 +233,8 @@ namespace Cogito.Linq
         /// <returns></returns>
         public static IEnumerable<T> Tee<T>(this IEnumerable<T> source, bool threadSafe)
         {
-            Contract.Requires<ArgumentNullException>(source != null);
+            if (source == null)
+                throw new ArgumentNullException(nameof(source));
 
             if (threadSafe)
                 return TeeInternalThreadSafe<T>(source.GetEnumerator(), new List<T>());
@@ -305,7 +318,8 @@ namespace Cogito.Linq
 
         public static IEnumerable<IEnumerable<T>> Transpose<T>(this IEnumerable<IEnumerable<T>> source)
         {
-            Contract.Requires<ArgumentNullException>(source != null);
+            if (source == null)
+                throw new ArgumentNullException(nameof(source));
 
             var enumerators = source
                 .Select(e => e.GetEnumerator())
@@ -333,8 +347,10 @@ namespace Cogito.Linq
         /// <returns></returns>
         public static bool ContainsAll<T>(this IEnumerable<T> source, IEnumerable<T> items)
         {
-            Contract.Requires<ArgumentNullException>(source != null);
-            Contract.Requires<ArgumentNullException>(items != null);
+            if (source == null)
+                throw new ArgumentNullException(nameof(source));
+            if (items == null)
+                throw new ArgumentNullException(nameof(items));
 
             return !items.Except(source).Any();
         }
@@ -350,8 +366,10 @@ namespace Cogito.Linq
         /// <returns></returns>
         public static IEnumerable<IGrouping<TKey, TElement>> GroupAdjacent<TElement, TKey>(this IEnumerable<TElement> source, Func<TElement, TKey> keySelector)
         {
-            Contract.Requires<ArgumentNullException>(source != null);
-            Contract.Requires<ArgumentNullException>(keySelector != null);
+            if (source == null)
+                throw new ArgumentNullException(nameof(source));
+            if (keySelector == null)
+                throw new ArgumentNullException(nameof(keySelector));
 
             var last = default(TKey);
             var haveLast = false;

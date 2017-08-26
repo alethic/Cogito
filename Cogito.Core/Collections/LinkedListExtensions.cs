@@ -19,7 +19,8 @@ namespace Cogito.Collections
         /// <returns></returns>
         public static IEnumerable<LinkedListNode<T>> Forward<T>(this LinkedList<T> self)
         {
-            Contract.Requires<ArgumentNullException>(self != null);
+            if (self == null)
+                throw new ArgumentNullException(nameof(self));
 
             return Forward<T>(self.First);
         }

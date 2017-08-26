@@ -39,9 +39,7 @@ namespace Cogito.Activities.ApplicationInsights
         /// <param name="parentOperationId"></param>
         public ApplicationInsightsTrackingParticipant(TelemetryClient telemetryClient, string parentOperationId = null)
         {
-            Contract.Requires<ArgumentNullException>(telemetryClient != null);
-
-            this.telemetryClient = telemetryClient;
+            this.telemetryClient = telemetryClient ?? throw new ArgumentNullException(nameof(telemetryClient));
             this.parentOperationId = parentOperationId;
         }
 
@@ -64,7 +62,8 @@ namespace Cogito.Activities.ApplicationInsights
         /// <param name="telemetry"></param>
         void TrackTelemetry(ITelemetry telemetry)
         {
-            Contract.Requires<ArgumentNullException>(telemetry != null);
+            if (telemetry == null)
+                throw new ArgumentNullException(nameof(telemetry));
 
             // reference parent operation
             if (parentOperationId != null)

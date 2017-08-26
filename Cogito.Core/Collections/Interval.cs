@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics.Contracts;
 
 namespace Cogito.Collections
 {
@@ -19,8 +18,10 @@ namespace Cogito.Collections
         public static Interval<TPoint> Create<TPoint>(TPoint start, TPoint end)
             where TPoint : IComparable<TPoint>
         {
-            Contract.Requires<ArgumentNullException>(!ReferenceEquals(start, null));
-            Contract.Requires<ArgumentNullException>(!ReferenceEquals(end, null));
+            if (ReferenceEquals(start, null))
+                throw new ArgumentNullException(nameof(start));
+            if (ReferenceEquals(end, null))
+                throw new ArgumentNullException(nameof(end));
 
             return new Interval<TPoint>(start, end);
         }
@@ -35,8 +36,10 @@ namespace Cogito.Collections
         public static Interval<TValue, TPoint> Create<TValue, TPoint>(TValue value, TPoint start, TPoint end)
             where TPoint : IComparable<TPoint>
         {
-            Contract.Requires<ArgumentNullException>(!ReferenceEquals(start, null));
-            Contract.Requires<ArgumentNullException>(!ReferenceEquals(end, null));
+            if (ReferenceEquals(start, null))
+                throw new ArgumentNullException(nameof(start));
+            if (ReferenceEquals(end, null))
+                throw new ArgumentNullException(nameof(end));
 
             return new Interval<TValue, TPoint>(value, start, end);
         }
@@ -60,8 +63,10 @@ namespace Cogito.Collections
         /// <param name="end"></param>
         public Interval(TPoint start, TPoint end)
         {
-            Contract.Requires<ArgumentNullException>(!ReferenceEquals(start, null));
-            Contract.Requires<ArgumentNullException>(!ReferenceEquals(end, null));
+            if (ReferenceEquals(start, null))
+                throw new ArgumentNullException(nameof(start));
+            if (ReferenceEquals(end, null))
+                throw new ArgumentNullException(nameof(end));
 
             Start = start;
             End = end;
@@ -97,8 +102,10 @@ namespace Cogito.Collections
         public Interval(TValue value, TPoint start, TPoint end)
             : base(start, end)
         {
-            Contract.Requires<ArgumentNullException>(!ReferenceEquals(start, null));
-            Contract.Requires<ArgumentNullException>(!ReferenceEquals(end, null));
+            if (ReferenceEquals(start, null))
+                throw new ArgumentNullException(nameof(start));
+            if (ReferenceEquals(end, null))
+                throw new ArgumentNullException(nameof(end));
 
             Value = value;
         }

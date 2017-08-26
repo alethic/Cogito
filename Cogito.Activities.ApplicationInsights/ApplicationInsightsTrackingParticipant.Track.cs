@@ -17,7 +17,8 @@ namespace Cogito.Activities.ApplicationInsights
         /// <param name="record"></param>
         internal void ActivityScheduled(ActivityScheduledRecord record)
         {
-            Contract.Requires<ArgumentNullException>(record != null);
+            if (record == null)
+                throw new ArgumentNullException(nameof(record));
 
             switch (record.Level)
             {
@@ -43,7 +44,8 @@ namespace Cogito.Activities.ApplicationInsights
         /// <param name="severityLevel"></param>
         internal void ActivityScheduledTrack(ActivityScheduledRecord record, SeverityLevel severityLevel)
         {
-            Contract.Requires<ArgumentNullException>(record != null);
+            if (record == null)
+                throw new ArgumentNullException(nameof(record));
 
             var telemetry = new TraceTelemetry();
             telemetry.Context.Operation.Id = record.InstanceId.ToString();
@@ -70,7 +72,8 @@ namespace Cogito.Activities.ApplicationInsights
         /// <param name="record"></param>
         internal void ActivityState(ActivityStateRecord record)
         {
-            Contract.Requires<ArgumentNullException>(record != null);
+            if (record == null)
+                throw new ArgumentNullException(nameof(record));
 
             switch (record.Level)
             {
@@ -96,7 +99,8 @@ namespace Cogito.Activities.ApplicationInsights
         /// <param name="severityLevel"></param>
         internal void ActivityStateTrack(ActivityStateRecord record, SeverityLevel severityLevel)
         {
-            Contract.Requires<ArgumentNullException>(record != null);
+            if (record == null)
+                throw new ArgumentNullException(nameof(record));
 
             var telemetry = new TraceTelemetry();
             telemetry.Context.Operation.Id = record.InstanceId.ToString();
@@ -126,7 +130,8 @@ namespace Cogito.Activities.ApplicationInsights
         /// <param name="record"></param>
         internal void BookmarkResumption(BookmarkResumptionRecord record)
         {
-            Contract.Requires<ArgumentNullException>(record != null);
+            if (record == null)
+                throw new ArgumentNullException(nameof(record));
 
             switch (record.Level)
             {
@@ -152,7 +157,8 @@ namespace Cogito.Activities.ApplicationInsights
         /// <param name="severityLevel"></param>
         internal void BookmarkResumptionTrack(BookmarkResumptionRecord record, SeverityLevel severityLevel)
         {
-            Contract.Requires<ArgumentNullException>(record != null);
+            if (record == null)
+                throw new ArgumentNullException(nameof(record));
 
             var telemetry = new TraceTelemetry();
             telemetry.Context.Operation.Id = record.InstanceId.ToString();
@@ -178,7 +184,8 @@ namespace Cogito.Activities.ApplicationInsights
         /// <param name="record"></param>
         internal void CancelRequested(CancelRequestedRecord record)
         {
-            Contract.Requires<ArgumentNullException>(record != null);
+            if (record == null)
+                throw new ArgumentNullException(nameof(record));
 
             switch (record.Level)
             {
@@ -204,7 +211,8 @@ namespace Cogito.Activities.ApplicationInsights
         /// <param name="severityLevel"></param>
         internal void CancelRequestedTrack(CancelRequestedRecord record, SeverityLevel severityLevel)
         {
-            Contract.Requires<ArgumentNullException>(record != null);
+            if (record == null)
+                throw new ArgumentNullException(nameof(record));
 
             var telemetry = new TraceTelemetry();
             telemetry.Context.Operation.Id = record.InstanceId.ToString();
@@ -231,7 +239,8 @@ namespace Cogito.Activities.ApplicationInsights
         /// <param name="record"></param>
         internal void FaultPropagation(FaultPropagationRecord record)
         {
-            Contract.Requires<ArgumentNullException>(record != null);
+            if (record == null)
+                throw new ArgumentNullException(nameof(record));
 
             switch (record.Level)
             {
@@ -257,7 +266,8 @@ namespace Cogito.Activities.ApplicationInsights
         /// <param name="severityLevel"></param>
         internal void FaultPropagationTrack(FaultPropagationRecord record, SeverityLevel severityLevel)
         {
-            Contract.Requires<ArgumentNullException>(record != null);
+            if (record == null)
+                throw new ArgumentNullException(nameof(record));
 
             var telemetry = new TraceTelemetry();
             telemetry.Context.Operation.Id = record.InstanceId.ToString();
@@ -290,7 +300,8 @@ namespace Cogito.Activities.ApplicationInsights
         /// <param name="record"></param>
         internal void WorkflowInstance(WorkflowInstanceRecord record)
         {
-            Contract.Requires<ArgumentNullException>(record != null);
+            if (record == null)
+                throw new ArgumentNullException(nameof(record));
 
             switch (record.Level)
             {
@@ -316,7 +327,8 @@ namespace Cogito.Activities.ApplicationInsights
         /// <param name="severityLevel"></param>
         internal void WorkflowInstanceTrack(WorkflowInstanceRecord record, SeverityLevel severityLevel)
         {
-            Contract.Requires<ArgumentNullException>(record != null);
+            if (record == null)
+                throw new ArgumentNullException(nameof(record));
 
             var telemetry = new TraceTelemetry();
             telemetry.Context.Operation.Id = record.InstanceId.ToString();
@@ -342,7 +354,8 @@ namespace Cogito.Activities.ApplicationInsights
         /// <param name="record"></param>
         internal void WorkflowInstanceAborted(WorkflowInstanceAbortedRecord record)
         {
-            Contract.Requires<ArgumentNullException>(record != null);
+            if (record == null)
+                throw new ArgumentNullException(nameof(record));
 
             switch (record.Level)
             {
@@ -368,7 +381,8 @@ namespace Cogito.Activities.ApplicationInsights
         /// <param name="severityLevel"></param>
         internal void WorkflowInstanceAbortedTrack(WorkflowInstanceAbortedRecord record, SeverityLevel severityLevel)
         {
-            Contract.Requires<ArgumentNullException>(record != null);
+            if (record == null)
+                throw new ArgumentNullException(nameof(record));
 
             var telemetry = new TraceTelemetry();
             telemetry.Context.Operation.Id = record.InstanceId.ToString();
@@ -395,7 +409,8 @@ namespace Cogito.Activities.ApplicationInsights
         /// <param name="record"></param>
         internal void WorkflowInstanceSuspended(WorkflowInstanceSuspendedRecord record)
         {
-            Contract.Requires<ArgumentNullException>(record != null);
+            if (record == null)
+                throw new ArgumentNullException(nameof(record));
 
             switch (record.Level)
             {
@@ -421,7 +436,8 @@ namespace Cogito.Activities.ApplicationInsights
         /// <param name="severityLevel"></param>
         internal void WorkflowInstanceSuspendedTrack(WorkflowInstanceSuspendedRecord record, SeverityLevel severityLevel)
         {
-            Contract.Requires<ArgumentNullException>(record != null);
+            if (record == null)
+                throw new ArgumentNullException(nameof(record));
 
             var telemetry = new TraceTelemetry();
             telemetry.Context.Operation.Id = record.InstanceId.ToString();
@@ -448,7 +464,8 @@ namespace Cogito.Activities.ApplicationInsights
         /// <param name="record"></param>
         internal void WorkflowInstanceTerminated(WorkflowInstanceTerminatedRecord record)
         {
-            Contract.Requires<ArgumentNullException>(record != null);
+            if (record == null)
+                throw new ArgumentNullException(nameof(record));
 
             switch (record.Level)
             {
@@ -474,7 +491,8 @@ namespace Cogito.Activities.ApplicationInsights
         /// <param name="severityLevel"></param>
         internal void WorkflowInstanceTerminatedTrack(WorkflowInstanceTerminatedRecord record, SeverityLevel severityLevel)
         {
-            Contract.Requires<ArgumentNullException>(record != null);
+            if (record == null)
+                throw new ArgumentNullException(nameof(record));
 
             var telemetry = new TraceTelemetry();
             telemetry.Context.Operation.Id = record.InstanceId.ToString();
@@ -501,7 +519,8 @@ namespace Cogito.Activities.ApplicationInsights
         /// <param name="record"></param>
         internal void WorkflowInstanceUnhandledException(WorkflowInstanceUnhandledExceptionRecord record)
         {
-            Contract.Requires<ArgumentNullException>(record != null);
+            if (record == null)
+                throw new ArgumentNullException(nameof(record));
 
             switch (record.Level)
             {
@@ -527,7 +546,8 @@ namespace Cogito.Activities.ApplicationInsights
         /// <param name="severityLevel"></param>
         internal void WorkflowInstanceUnhandledExceptionTrack(WorkflowInstanceUnhandledExceptionRecord record, SeverityLevel severityLevel)
         {
-            Contract.Requires<ArgumentNullException>(record != null);
+            if (record == null)
+                throw new ArgumentNullException(nameof(record));
 
             var telemetry = new TraceTelemetry();
             telemetry.Context.Operation.Id = record.InstanceId.ToString();
@@ -558,7 +578,8 @@ namespace Cogito.Activities.ApplicationInsights
         /// <param name="record"></param>
         internal void WorkflowInstanceUpdated(WorkflowInstanceUpdatedRecord record)
         {
-            Contract.Requires<ArgumentNullException>(record != null);
+            if (record == null)
+                throw new ArgumentNullException(nameof(record));
 
             switch (record.Level)
             {
@@ -584,7 +605,8 @@ namespace Cogito.Activities.ApplicationInsights
         /// <param name="severityLevel"></param>
         internal void WorkflowInstanceUpdatedTrack(WorkflowInstanceUpdatedRecord record, SeverityLevel severityLevel)
         {
-            Contract.Requires<ArgumentNullException>(record != null);
+            if (record == null)
+                throw new ArgumentNullException(nameof(record));
 
             var telemetry = new TraceTelemetry();
             telemetry.Context.Operation.Id = record.InstanceId.ToString();
@@ -611,7 +633,8 @@ namespace Cogito.Activities.ApplicationInsights
         /// <param name="record"></param>
         internal void CustomTracking(CustomTrackingRecord record)
         {
-            Contract.Requires<ArgumentNullException>(record != null);
+            if (record == null)
+                throw new ArgumentNullException(nameof(record));
 
             switch (record.Level)
             {
@@ -637,7 +660,8 @@ namespace Cogito.Activities.ApplicationInsights
         /// <param name="severityLevel"></param>
         internal void CustomTrackingTrack(CustomTrackingRecord record, SeverityLevel severityLevel)
         {
-            Contract.Requires<ArgumentNullException>(record != null);
+            if (record == null)
+                throw new ArgumentNullException(nameof(record));
 
             var telemetry = new TraceTelemetry();
             telemetry.Context.Operation.Id = record.InstanceId.ToString();

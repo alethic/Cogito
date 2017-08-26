@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Reflection;
 
@@ -22,7 +21,8 @@ namespace Cogito.Reflection
         /// <returns></returns>
         public static IEnumerable<Type> GetAssignableTypes(this Type self)
         {
-            Contract.Requires<ArgumentNullException>(self != null);
+            if (self == null)
+                throw new ArgumentNullException(nameof(self));
 
             // chain of base types and all implemented interfaces
             return self
@@ -37,7 +37,8 @@ namespace Cogito.Reflection
         /// <returns></returns>
         public static IEnumerable<Type> GetTypeAndBaseTypes(this Type self)
         {
-            Contract.Requires<ArgumentNullException>(self != null);
+            if (self == null)
+                throw new ArgumentNullException(nameof(self));
 
             return self.Recurse(i => i.BaseType);
         }
@@ -50,9 +51,12 @@ namespace Cogito.Reflection
         /// <returns></returns>
         public static MemberInfo GetPropertyOrField(this Type self, string name)
         {
-            Contract.Requires<ArgumentNullException>(self != null);
-            Contract.Requires<ArgumentNullException>(name != null);
-            Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(name));
+            if (self == null)
+                throw new ArgumentNullException(nameof(self));
+            if (name == null)
+                throw new ArgumentNullException(nameof(name));
+            if (string.IsNullOrWhiteSpace(name))
+                throw new ArgumentNullException(nameof(name));
 
             return GetPropertyOrField(self, name, StringComparison.Ordinal);
         }
@@ -66,9 +70,12 @@ namespace Cogito.Reflection
         /// <returns></returns>
         public static MemberInfo GetPropertyOrField(this Type self, string name, StringComparison comparisontype)
         {
-            Contract.Requires<ArgumentNullException>(self != null);
-            Contract.Requires<ArgumentNullException>(name != null);
-            Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(name));
+            if (self == null)
+                throw new ArgumentNullException(nameof(self));
+            if (name == null)
+                throw new ArgumentNullException(nameof(name));
+            if (string.IsNullOrWhiteSpace(name))
+                throw new ArgumentNullException(nameof(name));
 
             return self
                 .GetMembers(BindingFlags.Public | BindingFlags.Instance)
@@ -123,7 +130,7 @@ namespace Cogito.Reflection
                 foreach (var iface in ifaces)
                 {
                     var ienum = FindIEnumerable(iface);
-                    if (ienum != null) 
+                    if (ienum != null)
                         return ienum;
                 }
             }

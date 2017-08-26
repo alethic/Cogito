@@ -6,10 +6,6 @@ namespace Cogito.Activities.ApplicationInsights
 	public partial class ApplicationInsightsTrackingParticipant
 	{
 
-        /// <summary>
-        /// Tracks an incoming <see cref="TrackingRecord"/> by dispatching it to the appropriate implementation.
-        /// </summary>
-        /// <param name="record"></param>
 		void TrackRecord(TrackingRecord record)
 		{
 			if (record is CustomTrackingRecord)

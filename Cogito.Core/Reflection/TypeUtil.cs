@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
 using System.Linq;
 
 namespace Cogito.Reflection
@@ -20,7 +19,8 @@ namespace Cogito.Reflection
         /// <returns></returns>
         public static IEnumerable<Type> GetMostCompatibleTypes(IEnumerable<Type> types)
         {
-            Contract.Requires<ArgumentNullException>(types != null);
+            if (types == null)
+                throw new ArgumentNullException(nameof(types));
 
             // first type serves as reference hierarchy
             var t = types.FirstOrDefault();

@@ -173,21 +173,22 @@ void GenerateRecordMethod(RecordType recordType)
         /// <param name="record"></param>
         internal void <#= recordType.Name #>(<#= recordType.Type.Name #> record)
         {
-            Contract.Requires<ArgumentNullException>(record != null);
+            if (record == null)
+                throw new ArgumentNullException(nameof(record));
 
-			switch (record.Level)
-			{
+            switch (record.Level)
+            {
 <#+
 for (int i = 0; i < eLevels.Length; i++)
 {
 #>
-				case TraceLevel.<#= eLevels[i] #>:
-					<#= recordType.Name #>Track(record, SeverityLevel.<#= tLevels[i] #>);
-					break;
+                case TraceLevel.<#= eLevels[i] #>:
+                    <#= recordType.Name #>Track(record, SeverityLevel.<#= tLevels[i] #>);
+                    break;
 <#+
 }
 #>
-			}
+            }
         }
 <#+
 }
@@ -205,7 +206,8 @@ void GenerateEventMethods(RecordType recordType)
         /// <param name="severityLevel"></param>
         internal void <#= recordType.Name #>Track(<#= recordType.Type.Name #> record, SeverityLevel severityLevel)
         {
-            Contract.Requires<ArgumentNullException>(record != null);
+            if (record == null)
+                throw new ArgumentNullException(nameof(record));
 
             var telemetry = new TraceTelemetry();
             telemetry.Context.Operation.Id = record.InstanceId.ToString();

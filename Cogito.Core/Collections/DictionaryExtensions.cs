@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -26,8 +25,10 @@ namespace Cogito.Collections
         /// <returns></returns>
         public static TValue GetOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> self, TKey key)
         {
-            Contract.Requires<ArgumentNullException>(self != null);
-            Contract.Requires<ArgumentNullException>(key != null);
+            if (self == null)
+                throw new ArgumentNullException(nameof(self));
+            if (key == null)
+                throw new ArgumentNullException(nameof(key));
 
             TValue v;
             return self.TryGetValue(key, out v) ? v : default(TValue);
@@ -41,8 +42,10 @@ namespace Cogito.Collections
         /// <returns></returns>
         public static object GetOrDefault(this IDictionary self, object key)
         {
-            Contract.Requires<ArgumentNullException>(self != null);
-            Contract.Requires<ArgumentNullException>(key != null);
+            if (self == null)
+                throw new ArgumentNullException(nameof(self));
+            if (key == null)
+                throw new ArgumentNullException(nameof(key));
 
             return self.Contains(key) ? self[key] : null;
         }
@@ -58,9 +61,12 @@ namespace Cogito.Collections
         /// <returns></returns>
         public static TValue GetOrAdd<TKey, TValue>(this IDictionary<TKey, TValue> self, TKey key, Func<TKey, TValue> create)
         {
-            Contract.Requires<ArgumentNullException>(self != null);
-            Contract.Requires<ArgumentNullException>(key != null);
-            Contract.Requires<ArgumentNullException>(create != null);
+            if (self == null)
+                throw new ArgumentNullException(nameof(self));
+            if (key == null)
+                throw new ArgumentNullException(nameof(key));
+            if (create == null)
+                throw new ArgumentNullException(nameof(create));
 
             // ConcurrentDictionary provides it's own thread-safe version
             if (self is ConcurrentDictionary<TKey, TValue>)
@@ -81,9 +87,12 @@ namespace Cogito.Collections
         /// <returns></returns>
         public static async Task<TValue> GetOrAddAsync<TKey, TValue>(this IDictionary<TKey, TValue> self, TKey key, Func<TKey, Task<TValue>> create)
         {
-            Contract.Requires<ArgumentNullException>(self != null);
-            Contract.Requires<ArgumentNullException>(key != null);
-            Contract.Requires<ArgumentNullException>(create != null);
+            if (self == null)
+                throw new ArgumentNullException(nameof(self));
+            if (key == null)
+                throw new ArgumentNullException(nameof(key));
+            if (create == null)
+                throw new ArgumentNullException(nameof(create));
 
             TValue v;
             return self.TryGetValue(key, out v) ? v : self[key] = await create(key);
@@ -99,8 +108,10 @@ namespace Cogito.Collections
         /// <returns></returns>
         public static IDictionary<TKey, TValue> Merge<TKey, TValue>(this IDictionary<TKey, TValue> source, IDictionary<TKey, TValue> second)
         {
-            Contract.Requires<ArgumentNullException>(source != null);
-            Contract.Requires<ArgumentNullException>(second != null);
+            if (source == null)
+                throw new ArgumentNullException(nameof(source));
+            if (second == null)
+                throw new ArgumentNullException(nameof(second));
 
             var d = new Dictionary<TKey, TValue>(source);
 
@@ -121,7 +132,8 @@ namespace Cogito.Collections
         /// <returns></returns>
         public static IDictionary<TKey, TElement> ToDictionary<TKey, TElement>(this IEnumerable<KeyValuePair<TKey, TElement>> source)
         {
-            Contract.Requires<ArgumentNullException>(source != null);
+            if (source == null)
+                throw new ArgumentNullException(nameof(source));
 
             return source.ToDictionary(i => i.Key, i => i.Value);
         }
@@ -157,7 +169,8 @@ namespace Cogito.Collections
         /// <returns></returns>
         public static NameValueCollection ToNameValueCollection(this IDictionary<string, string> source)
         {
-            Contract.Requires<ArgumentNullException>(source != null);
+            if (source == null)
+                throw new ArgumentNullException(nameof(source));
 
             var c = new NameValueCollection();
 
