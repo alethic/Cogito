@@ -9,6 +9,7 @@ namespace Cogito.IO.FileSystem
 
     internal static class InternalStringHelper
     {
+
         private static char DIR_SEPARATOR_CHAR = Path.DirectorySeparatorChar;
         private static string DIR_SEPARATOR_STRING = Path.DirectorySeparatorChar.ToString();
         private const string CURRENT_DIR_SINGLEDOT = ".";
@@ -249,7 +250,7 @@ namespace Cogito.IO.FileSystem
             List<string> relativeDirs = new List<string>();
             string[] pathFromDirs = pathFrom.Split(DIR_SEPARATOR_CHAR);
             string[] pathToDirs = pathTo.Split(DIR_SEPARATOR_CHAR);
-            int length = Math.Min(pathFromDirs.Length, pathToDirs.Length);
+            int length = System.Math.Min(pathFromDirs.Length, pathToDirs.Length);
             int lastCommonRoot = -1;
 
             // find common root

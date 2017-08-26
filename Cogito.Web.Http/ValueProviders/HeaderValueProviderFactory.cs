@@ -1,5 +1,4 @@
-﻿using System.ComponentModel.Composition;
-using System.Globalization;
+﻿using System.Globalization;
 using System.Web.Http.Controllers;
 using System.Web.Http.ValueProviders;
 
@@ -8,7 +7,6 @@ using Cogito.Collections;
 namespace Cogito.Web.Http.ValueProviders
 {
 
-    [Export(typeof(ValueProviderFactory))]
     public class HeaderValueProviderFactory :
         ValueProviderFactory,
         IHeaderValueProviderFactory

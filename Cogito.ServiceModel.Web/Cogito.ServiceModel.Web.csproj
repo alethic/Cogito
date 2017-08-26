@@ -1,66 +1,35 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
-  <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{B9A68866-2FE4-48B1-A0AB-933B7F6A464D}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Cogito.ServiceModel.Web</RootNamespace>
-    <AssemblyName>Cogito.ServiceModel.Web</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Runtime.Caching" />
-    <Reference Include="System.ServiceModel" />
-    <Reference Include="System.ServiceModel.Activation" />
-    <Reference Include="System.Web" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Net.Http" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Routing\DynamicServiceRoute.cs" />
-    <Compile Include="Routing\DynamicServiceRouteAttribute.cs" />
-    <Compile Include="Routing\DynamicServiceRouteEndpointBehavior.cs" />
-    <Compile Include="Routing\DynamicServiceRouteExtensions.cs" />
-    <Compile Include="Routing\DynamicServiceRouteInfo.cs" />
-    <Compile Include="Routing\DynamicServiceRouteMessageInspector.cs" />
-    <Compile Include="Routing\DynamicServiceRouteMessageProperty.cs" />
-    <Compile Include="Routing\DynamicServiceRouteServiceHostFactory.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Cogito.Core\Cogito.Core.csproj">
-      <Project>{133c2d12-bda9-4806-ba0a-70ec83bec9bd}</Project>
-      <Name>Cogito.Core</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Cogito.ServiceModel.Web.nuspec">
-      <SubType>Designer</SubType>
-    </None>
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net451</TargetFramework>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <Version>0.0.1</Version>
+        <Authors>Jerome Haltom</Authors>
+        <Company />
+        <Description>Various utilities for WCF web support.</Description>
+        <PackageId>Cogito.ServiceModel.Web</PackageId>
+        <Product>Cogito.ServiceModel.Web</Product>
+        <Copyright>Jerome Haltom</Copyright>
+        <PackageLicenseUrl>https://raw.github.com/wasabii/Cogito/master/LICENSE</PackageLicenseUrl>
+        <PackageProjectUrl>https://github.com/wasabii/Cogito</PackageProjectUrl>
+        <PackageIconUrl>https://cloverluxussc.blob.core.windows.net/public/cogito-nuget-icon.png</PackageIconUrl>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.AspNet.WebApi.Client" Version="5.2.3" />
+        <PackageReference Include="Microsoft.AspNet.WebApi.Core" Version="5.2.3" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Cogito.Core\Cogito.Core.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <Reference Include="System.Runtime.Caching" />
+        <Reference Include="System.ServiceModel" />
+        <Reference Include="System.ServiceModel.Activation" />
+        <Reference Include="System.ServiceModel.Web" />
+        <Reference Include="System.Web" />
+    </ItemGroup>
+
 </Project>

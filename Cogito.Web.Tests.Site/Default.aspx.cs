@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Web.UI;
 
-using Cogito.Composition;
-using Cogito.Composition.Hosting;
-using Cogito.Composition.Scoping;
-
 namespace Cogito.Web.Tests.Site
 {
 
@@ -14,7 +10,7 @@ namespace Cogito.Web.Tests.Site
 
         protected void Page_Load(object sender, EventArgs args)
         {
-            var scope = ContainerManager.GetDefaultTypeResolver().Resolve<IScopeTypeResolver>().Resolve<ITypeResolver, IWebRequestScope>();
+
         }
 
     }

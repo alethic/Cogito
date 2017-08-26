@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics.Contracts;
 
 using Owin;
 
@@ -19,7 +18,8 @@ namespace Cogito.Owin
         /// <returns></returns>
         public static IAppBuilder UseReverseProxyRewrite(this IAppBuilder app)
         {
-            Contract.Requires<ArgumentNullException>(app != null);
+            if (app == null)
+                throw new ArgumentNullException(nameof(app));
 
             app.Use((context, next) =>
             {
