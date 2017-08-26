@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Web.UI;
 
@@ -23,9 +22,12 @@ namespace Cogito.Web.UI
         public static TControl GetOrAdd<TControl>(this ControlCollection controls, Predicate<TControl> predicate, Func<TControl> create)
             where TControl : Control
         {
-            Contract.Requires<ArgumentNullException>(controls != null);
-            Contract.Requires<ArgumentNullException>(predicate != null);
-            Contract.Requires<ArgumentNullException>(create != null);
+            if (controls == null)
+                throw new ArgumentNullException(nameof(controls));
+            if (predicate == null)
+                throw new ArgumentNullException(nameof(predicate));
+            if (create == null)
+                throw new ArgumentNullException(nameof(create));
 
             // find existing
             var control = controls
@@ -50,8 +52,10 @@ namespace Cogito.Web.UI
         public static TControl GetOrAdd<TControl>(this ControlCollection controls, Predicate<TControl> predicate)
             where TControl : Control, new()
         {
-            Contract.Requires<ArgumentNullException>(controls != null);
-            Contract.Requires<ArgumentNullException>(predicate != null);
+            if (controls == null)
+                throw new ArgumentNullException(nameof(controls));
+            if (predicate == null)
+                throw new ArgumentNullException(nameof(predicate));
 
             return controls.GetOrAdd(predicate, () => new TControl());
         }
@@ -66,8 +70,10 @@ namespace Cogito.Web.UI
         public static TControl GetOrAdd<TControl>(this ControlCollection controls, Func<TControl> create)
             where TControl : Control
         {
-            Contract.Requires<ArgumentNullException>(controls != null);
-            Contract.Requires<ArgumentNullException>(create != null);
+            if (controls == null)
+                throw new ArgumentNullException(nameof(controls));
+            if (create == null)
+                throw new ArgumentNullException(nameof(create));
 
             return controls.GetOrAdd<TControl>(_ => true, create);
         }
@@ -81,7 +87,8 @@ namespace Cogito.Web.UI
         public static TControl GetOrAdd<TControl>(this ControlCollection controls)
             where TControl : Control, new()
         {
-            Contract.Requires<ArgumentNullException>(controls != null);
+            if (controls == null)
+                throw new ArgumentNullException(nameof(controls));
 
             return controls.GetOrAdd(() => new TControl());
         }

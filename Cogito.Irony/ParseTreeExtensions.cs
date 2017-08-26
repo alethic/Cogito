@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Xml.Linq;
 
@@ -22,7 +21,8 @@ namespace Cogito.Irony
         /// <param name="parseTree"></param>
         public static void ThrowParseErrors(this ParseTree parseTree)
         {
-            Contract.Requires<ArgumentNullException>(parseTree != null);
+            if (parseTree == null)
+                throw new ArgumentNullException(nameof(parseTree));
 
             if (parseTree.HasErrors())
                 throw new AggregateException(parseTree.ParserMessages
@@ -37,8 +37,10 @@ namespace Cogito.Irony
         /// <returns></returns>
         public static XDocument ToXDocument(this ParseTree parseTree)
         {
-            Contract.Requires<ArgumentNullException>(parseTree != null);
-            Contract.Requires<ArgumentNullException>(parseTree.Root != null);
+            if (parseTree == null)
+                throw new ArgumentNullException(nameof(parseTree));
+            if (parseTree.Root == null)
+                throw new ArgumentNullException(nameof(parseTree));
 
             return new XDocument(
                 ToXElement(parseTree.Root));
@@ -51,8 +53,10 @@ namespace Cogito.Irony
         /// <returns></returns>
         public static XElement ToXElement(this ParseTreeNode node)
         {
-            Contract.Requires<ArgumentNullException>(node != null);
-            Contract.Requires<ArgumentNullException>(node.Term != null);
+            if (node == null)
+                throw new ArgumentNullException(nameof(node));
+            if (node.Term == null)
+                throw new ArgumentNullException(nameof(node));
 
             return new XElement("Node",
                 new XAttribute("Term", node.Term.Name),
@@ -74,8 +78,10 @@ namespace Cogito.Irony
         /// <returns></returns>
         public static ParseTreeNode Node(this ParseTreeNode node, string name)
         {
-            Contract.Requires<ArgumentNullException>(node != null);
-            Contract.Requires<ArgumentNullException>(name != null);
+            if (node == null)
+                throw new ArgumentNullException(nameof(node));
+            if (name == null)
+                throw new ArgumentNullException(nameof(name));
 
             return node.ChildNodes.Find(i => i.Term.Name == name);
         }
@@ -88,8 +94,10 @@ namespace Cogito.Irony
         /// <returns></returns>
         public static ParseTreeNode Node(this ParseTree parseTree, string name)
         {
-            Contract.Requires<ArgumentNullException>(parseTree != null);
-            Contract.Requires<ArgumentNullException>(name != null);
+            if (parseTree == null)
+                throw new ArgumentNullException(nameof(parseTree));
+            if (name == null)
+                throw new ArgumentNullException(nameof(name));
 
             return parseTree.Root.Term.Name == name ? parseTree.Root : null;
         }
@@ -102,8 +110,10 @@ namespace Cogito.Irony
         /// <returns></returns>
         public static ParseTreeNode Node(this ParseTreeNode node, BnfTerm term)
         {
-            Contract.Requires<ArgumentNullException>(node != null);
-            Contract.Requires<ArgumentNullException>(term != null);
+            if (node == null)
+                throw new ArgumentNullException(nameof(node));
+            if (term == null)
+                throw new ArgumentNullException(nameof(term));
 
             return node.ChildNodes.Find(i => i.Term == term);
         }
@@ -116,8 +126,10 @@ namespace Cogito.Irony
         /// <returns></returns>
         public static ParseTreeNode Node(this ParseTree parseTree, BnfTerm term)
         {
-            Contract.Requires<ArgumentNullException>(parseTree != null);
-            Contract.Requires<ArgumentNullException>(term != null);
+            if (parseTree == null)
+                throw new ArgumentNullException(nameof(parseTree));
+            if (term == null)
+                throw new ArgumentNullException(nameof(term));
 
             return parseTree.Root.Term == term ? parseTree.Root : null;
         }
@@ -130,8 +142,10 @@ namespace Cogito.Irony
         /// <returns></returns>
         public static IEnumerable<ParseTreeNode> Nodes(this ParseTreeNode node, string name)
         {
-            Contract.Requires<ArgumentNullException>(node != null);
-            Contract.Requires<ArgumentNullException>(name != null);
+            if (node == null)
+                throw new ArgumentNullException(nameof(node));
+            if (name == null)
+                throw new ArgumentNullException(nameof(name));
 
             return node.ChildNodes.Where(i => i.Term.Name == name);
         }
@@ -144,8 +158,10 @@ namespace Cogito.Irony
         /// <returns></returns>
         public static IEnumerable<ParseTreeNode> Nodes(this IEnumerable<ParseTreeNode> nodes, string name)
         {
-            Contract.Requires<ArgumentNullException>(nodes != null);
-            Contract.Requires<ArgumentNullException>(name != null);
+            if (nodes == null)
+                throw new ArgumentNullException(nameof(nodes));
+            if (name == null)
+                throw new ArgumentNullException(nameof(name));
 
             return nodes.SelectMany(i => i.ChildNodes.Where(j => j.Term.Name == name));
         }
@@ -158,11 +174,16 @@ namespace Cogito.Irony
         /// <returns></returns>
         public static IEnumerable<ParseTreeNode> Nodes(this ParseTree parseTree, string name)
         {
-            Contract.Requires<ArgumentNullException>(parseTree != null);
-            Contract.Requires<ArgumentNullException>(parseTree.Root != null);
-            Contract.Requires<ArgumentNullException>(parseTree.Root.Term != null);
-            Contract.Requires<ArgumentNullException>(parseTree.Root.Term.Name != null);
-            Contract.Requires<ArgumentNullException>(name != null);
+            if (parseTree == null)
+                throw new ArgumentNullException(nameof(parseTree));
+            if (parseTree.Root == null)
+                throw new ArgumentNullException(nameof(parseTree));
+            if (parseTree.Root.Term == null)
+                throw new ArgumentNullException(nameof(parseTree));
+            if (parseTree.Root.Term.Name == null)
+                throw new ArgumentNullException(nameof(parseTree));
+            if (name == null)
+                throw new ArgumentNullException(nameof(name));
 
             return parseTree.Root.Term.Name == name ? new[] { parseTree.Root } : Enumerable.Empty<ParseTreeNode>();
         }
@@ -175,8 +196,10 @@ namespace Cogito.Irony
         /// <returns></returns>
         public static IEnumerable<ParseTreeNode> Nodes(this ParseTreeNode node, BnfTerm term)
         {
-            Contract.Requires<ArgumentNullException>(node != null);
-            Contract.Requires<ArgumentNullException>(term != null);
+            if (node == null)
+                throw new ArgumentNullException(nameof(node));
+            if (term == null)
+                throw new ArgumentNullException(nameof(term));
 
             return node.ChildNodes.Where(i => i.Term == term);
         }
@@ -189,10 +212,14 @@ namespace Cogito.Irony
         /// <returns></returns>
         public static IEnumerable<ParseTreeNode> Nodes(this ParseTree parseTree, BnfTerm term)
         {
-            Contract.Requires<ArgumentNullException>(parseTree != null);
-            Contract.Requires<ArgumentNullException>(parseTree.Root != null);
-            Contract.Requires<ArgumentNullException>(parseTree.Root.Term != null);
-            Contract.Requires<ArgumentNullException>(term != null);
+            if (parseTree == null)
+                throw new ArgumentNullException(nameof(parseTree));
+            if (parseTree.Root == null)
+                throw new ArgumentNullException(nameof(parseTree));
+            if (parseTree.Root.Term == null)
+                throw new ArgumentNullException(nameof(parseTree));
+            if (term == null)
+                throw new ArgumentNullException(nameof(term));
 
             return parseTree.Root.Term == term ? new[] { parseTree.Root } : Enumerable.Empty<ParseTreeNode>();
         }
@@ -205,9 +232,12 @@ namespace Cogito.Irony
         /// <returns></returns>
         public static string SpanText(this ParseTreeNode node, string source)
         {
-            Contract.Requires<ArgumentNullException>(node != null, "node");
-            Contract.Requires<ArgumentNullException>(source != null, "source");
-            Contract.Requires<ArgumentOutOfRangeException>(source.Length >= node.Span.Location.Position + node.Span.Length, "source");
+            if (node == null)
+                throw new ArgumentNullException(nameof(node));
+            if (source == null)
+                throw new ArgumentNullException(nameof(source));
+            if (source.Length < node.Span.Location.Position + node.Span.Length)
+                throw new ArgumentOutOfRangeException(nameof(source));
 
             return source.Substring(node.Span.Location.Position, node.Span.Length);
         }

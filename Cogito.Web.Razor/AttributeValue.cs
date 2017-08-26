@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics.Contracts;
 
 namespace Cogito.Web.Razor
 {
@@ -17,7 +16,9 @@ namespace Cogito.Web.Razor
         /// <returns></returns>
         public static implicit operator AttributeValue(Tuple<Tuple<string, int>, Tuple<string, int>, bool> value)
         {
-            Contract.Requires<ArgumentNullException>(value != null);
+            if (value == null)
+                throw new ArgumentNullException(nameof(value));
+
             return new AttributeValue(value.Item1.Item1, value.Item2.Item1, value.Item3);
         }
 
@@ -28,7 +29,9 @@ namespace Cogito.Web.Razor
         /// <returns></returns>
         public static implicit operator AttributeValue(Tuple<Tuple<string, int>, Tuple<object, int>, bool> value)
         {
-            Contract.Requires<ArgumentNullException>(value != null);
+            if (value == null)
+                throw new ArgumentNullException(nameof(value));
+
             return new AttributeValue(value.Item1.Item1, value.Item2.Item1, value.Item3);
         }
 
@@ -44,8 +47,10 @@ namespace Cogito.Web.Razor
         /// <param name="isLiteral"></param>
         public AttributeValue(string prefix, object value, bool isLiteral)
         {
-            Contract.Requires<ArgumentNullException>(prefix != null);
-            Contract.Requires<ArgumentNullException>(value != null);
+            if (prefix == null)
+                throw new ArgumentNullException(nameof(prefix));
+            if (value == null)
+                throw new ArgumentNullException(nameof(value));
 
             this.prefix = prefix;
             this.value = value;

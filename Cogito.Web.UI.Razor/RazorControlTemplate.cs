@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
 using System.IO;
 using System.Web;
 using System.Web.UI;
@@ -105,7 +104,8 @@ namespace Cogito.Web.UI.Razor
         /// <returns></returns>
         public System.Web.UI.Control FindControl(string id)
         {
-            Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(id));
+            if (string.IsNullOrWhiteSpace(id))
+                throw new ArgumentOutOfRangeException(nameof(id));
 
             return FindControl<CogitoControl>(id);
         }
@@ -119,7 +119,8 @@ namespace Cogito.Web.UI.Razor
         public T FindControl<T>(string id)
             where T : System.Web.UI.Control
         {
-            Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(id));
+            if (string.IsNullOrWhiteSpace(id))
+                throw new ArgumentOutOfRangeException(nameof(id));
 
             return (T)Control.FindControl(id);
         }
@@ -139,9 +140,6 @@ namespace Cogito.Web.UI.Razor
         /// <param name="value"></param>
         public override void WriteTo(TextWriter writer, object value)
         {
-            Contract.Assert(value != null);
-            Contract.Assert(CurrentWriter != null);
-
             if (value == null)
                 return;
             else if (value is string)
@@ -174,9 +172,6 @@ namespace Cogito.Web.UI.Razor
         /// <param name="value"></param>
         public override void WriteLiteralTo(TextWriter writer, object value)
         {
-            Contract.Assert(value != null);
-            Contract.Assert(CurrentWriter != null);
-
             if (value == null)
                 return;
             else if (value is string)
@@ -198,11 +193,16 @@ namespace Cogito.Web.UI.Razor
             Tuple<string, int> rtoken,
             params AttributeValue[] values)
         {
-            Contract.Requires<ArgumentNullException>(attr != null);
-            Contract.Requires<ArgumentNullException>(ltoken != null);
-            Contract.Requires<ArgumentNullException>(rtoken != null);
-            Contract.Requires<ArgumentNullException>(values != null);
-            Contract.Requires<InvalidOperationException>(CurrentWriter != null);
+            if (attr == null)
+                throw new ArgumentNullException(nameof(attr));
+            if (ltoken == null)
+                throw new ArgumentNullException(nameof(ltoken));
+            if (rtoken == null)
+                throw new ArgumentNullException(nameof(rtoken));
+            if (values == null)
+                throw new ArgumentNullException(nameof(values));
+            if (CurrentWriter == null)
+                throw new InvalidOperationException();
 
             WriteAttributeTo(writer, attr, ltoken, rtoken, values);
         }
@@ -221,11 +221,16 @@ namespace Cogito.Web.UI.Razor
             Tuple<string, int> rtoken,
             params AttributeValue[] values)
         {
-            Contract.Requires<ArgumentNullException>(attr != null);
-            Contract.Requires<ArgumentNullException>(ltoken != null);
-            Contract.Requires<ArgumentNullException>(rtoken != null);
-            Contract.Requires<ArgumentNullException>(values != null);
-            Contract.Requires<InvalidOperationException>(CurrentWriter != null);
+            if (attr == null)
+                throw new ArgumentNullException(nameof(attr));
+            if (ltoken == null)
+                throw new ArgumentNullException(nameof(ltoken));
+            if (rtoken == null)
+                throw new ArgumentNullException(nameof(rtoken));
+            if (values == null)
+                throw new ArgumentNullException(nameof(values));
+            if (CurrentWriter == null)
+                throw new InvalidOperationException();
 
             writer.Write(ltoken.Item1);
 
@@ -242,8 +247,10 @@ namespace Cogito.Web.UI.Razor
         /// <param name="control"></param>
         protected void Write(CogitoControl control)
         {
-            Contract.Requires<ArgumentNullException>(control != null, "Cannot render null Control instance.");
-            Contract.Requires<InvalidOperationException>(CurrentWriter != null);
+            if (control == null)
+                throw new ArgumentNullException(nameof(control), "Cannot render null Control instance.");
+            if (CurrentWriter == null)
+                throw new InvalidOperationException();
 
             control.RenderControl(CurrentWriter);
         }
@@ -254,7 +261,8 @@ namespace Cogito.Web.UI.Razor
         /// <param name="writer"></param>
         public void Render(HtmlTextWriter writer)
         {
-            Contract.Requires<ArgumentNullException>(writer != null);
+            if (writer == null)
+                throw new ArgumentNullException(nameof(writer));
 
             var previousWriter = this.writer;
 
@@ -276,7 +284,8 @@ namespace Cogito.Web.UI.Razor
         /// <returns></returns>
         protected string IdOf(CogitoControl control)
         {
-            Contract.Requires<ArgumentNullException>(control != null);
+            if (control == null)
+                throw new ArgumentNullException(nameof(control));
 
             return control.ClientID;
         }

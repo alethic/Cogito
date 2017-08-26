@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Web.UI.WebControls;
 
@@ -24,7 +23,8 @@ namespace Cogito.Web.UI
         public static T AddCssClass<T>(this T control, string @class)
             where T : WebControl
         {
-            Contract.Requires<ArgumentNullException>(control != null);
+            if (control == null)
+                throw new ArgumentNullException(nameof(control));
 
             if (!string.IsNullOrWhiteSpace(@class))
             {
@@ -53,7 +53,8 @@ namespace Cogito.Web.UI
         public static T RemoveCssClass<T>(this T control, string @class)
             where T : WebControl
         {
-            Contract.Requires<ArgumentNullException>(control != null);
+            if (control == null)
+                throw new ArgumentNullException(nameof(control));
 
             if (!string.IsNullOrWhiteSpace(@class))
             {
@@ -82,9 +83,12 @@ namespace Cogito.Web.UI
         public static T AddCssStyle<T>(this T control, string key, string value)
             where T : WebControl
         {
-            Contract.Requires<ArgumentNullException>(control != null);
-            Contract.Requires<ArgumentNullException>(key != null);
-            Contract.Requires<ArgumentOutOfRangeException>(!string.IsNullOrWhiteSpace(key));
+            if (control == null)
+                throw new ArgumentNullException(nameof(control));
+            if (key == null)
+                throw new ArgumentNullException(nameof(key));
+            if (string.IsNullOrWhiteSpace(key))
+                throw new ArgumentOutOfRangeException(nameof(key));
 
             control.Style.Add(key, value);
 
@@ -101,9 +105,12 @@ namespace Cogito.Web.UI
         public static T RemoveCssStyle<T>(this T control, string key)
             where T : WebControl
         {
-            Contract.Requires<ArgumentNullException>(control != null);
-            Contract.Requires<ArgumentNullException>(key != null);
-            Contract.Requires<ArgumentOutOfRangeException>(!string.IsNullOrWhiteSpace(key));
+            if (control == null)
+                throw new ArgumentNullException(nameof(control));
+            if (key == null)
+                throw new ArgumentNullException(nameof(key));
+            if (string.IsNullOrWhiteSpace(key))
+                throw new ArgumentOutOfRangeException(nameof(key));
 
             control.Style.Remove(key);
 

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics.Contracts;
 
 using Irony;
 
@@ -29,7 +28,8 @@ namespace Cogito.Irony
         public ParseException(string message)
             : base(message)
         {
-            Contract.Requires<ArgumentNullException>(message != null);
+            if (message == null)
+                throw new ArgumentNullException(nameof(message));
         }
 
         /// <summary>
@@ -39,7 +39,8 @@ namespace Cogito.Irony
         public ParseException(LogMessage message)
             : base(message.Message)
         {
-            Contract.Requires<ArgumentNullException>(message != null);
+            if (message == null)
+                throw new ArgumentNullException(nameof(message));
         }
 
     }

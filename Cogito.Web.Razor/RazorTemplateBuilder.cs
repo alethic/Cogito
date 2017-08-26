@@ -3,7 +3,6 @@ using System.CodeDom;
 using System.CodeDom.Compiler;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -41,7 +40,9 @@ namespace Cogito.Web.Razor
         /// <returns></returns>
         static string GetCSharpMemberExpression(MemberInfo member)
         {
-            Contract.Requires<ArgumentNullException>(member != null);
+            if (member == null)
+                throw new ArgumentNullException(nameof(member));
+
             return string.Format("(({0})this).{1}", member.DeclaringType.FullName, member.Name);
         }
 
@@ -82,7 +83,7 @@ namespace Cogito.Web.Razor
         /// <summary>
         /// Set of namespaces which are always referenced.
         /// </summary>
-        static readonly string[] requiredNamespaces = new[] 
+        static readonly string[] requiredNamespaces = new[]
         {
             "System",
             "System.Collections.Generic",
@@ -139,11 +140,14 @@ namespace Cogito.Web.Razor
             Type innerTemplateType,
             RazorEngineHost host)
         {
-            Contract.Requires<ArgumentNullException>(source != null);
-            Contract.Requires<ArgumentNullException>(referencedAssemblies != null);
-            Contract.Requires<ArgumentNullException>(importedNamespaces != null);
-            Contract.Requires<ArgumentNullException>(host != null);
-            Contract.Ensures(Contract.Result<string>() != null);
+            if (source == null)
+                throw new ArgumentNullException(nameof(source));
+            if (referencedAssemblies == null)
+                throw new ArgumentNullException(nameof(referencedAssemblies));
+            if (importedNamespaces == null)
+                throw new ArgumentNullException(nameof(importedNamespaces));
+            if (host == null)
+                throw new ArgumentNullException(nameof(host));
 
             var builder = new StringBuilder(source)
                 .AppendLine()
@@ -191,10 +195,12 @@ namespace Cogito.Web.Razor
             Type innerTemplateType,
             RazorEngineHost host)
         {
-            Contract.Requires<ArgumentNullException>(source != null);
-            Contract.Requires<ArgumentNullException>(referencedAssemblies != null);
-            Contract.Requires<ArgumentNullException>(importedNamespaces != null);
-            Contract.Ensures(Contract.Result<string>() != null);
+            if (source == null)
+                throw new ArgumentNullException(nameof(source));
+            if (referencedAssemblies == null)
+                throw new ArgumentNullException(nameof(referencedAssemblies));
+            if (importedNamespaces == null)
+                throw new ArgumentNullException(nameof(importedNamespaces));
 
             // replace 
             return AugmentCodeCore(
@@ -229,7 +235,8 @@ namespace Cogito.Web.Razor
             ref Type innerTemplateClass,
             ref RazorEngineHost host)
         {
-            Contract.Requires<ArgumentNullException>(source != null);
+            if (source == null)
+                throw new ArgumentNullException(nameof(source));
 
             // check for Execute method
             if (defaultBaseClass != null)
@@ -306,7 +313,8 @@ namespace Cogito.Web.Razor
             ref string cacheKey,
             ref RazorEngineHost host)
         {
-            Contract.Requires<ArgumentNullException>(source != null);
+            if (source == null)
+                throw new ArgumentNullException(nameof(source));
 
             CheckParameters(
                 ref source,
@@ -341,8 +349,8 @@ namespace Cogito.Web.Razor
             Type innerTemplateType,
             RazorEngineHost host)
         {
-            Contract.Requires<ArgumentNullException>(host != null);
-            Contract.Ensures(Contract.Result<RazorTemplateEngine>() != null);
+            if (host == null)
+                throw new ArgumentNullException(nameof(host));
 
             // required portions of template implementation
             var ctx = new GeneratedClassContext(
@@ -388,11 +396,14 @@ namespace Cogito.Web.Razor
             Type innerTemplateType,
             RazorEngineHost host)
         {
-            Contract.Requires<ArgumentNullException>(source != null);
-            Contract.Requires<ArgumentNullException>(referencedAssemblies != null);
-            Contract.Requires<ArgumentNullException>(importedNamespaces != null);
-            Contract.Requires<ArgumentNullException>(host != null);
-            Contract.Ensures(Contract.Result<GeneratorResults>() != null);
+            if (source == null)
+                throw new ArgumentNullException(nameof(source));
+            if (referencedAssemblies == null)
+                throw new ArgumentNullException(nameof(referencedAssemblies));
+            if (importedNamespaces == null)
+                throw new ArgumentNullException(nameof(importedNamespaces));
+            if (host == null)
+                throw new ArgumentNullException(nameof(host));
 
             // initialize Razor
             var engine = CreateTemplateEngine(
@@ -431,7 +442,7 @@ namespace Cogito.Web.Razor
                 .Cast<CodeTypeReference>()
                 .Select(i => CSharpTypeNameResolver.ResolveType(
                     codeProvider.GetTypeOutput(i),
-                    LoadAssembly(referencedAssemblies).ToList(), 
+                    LoadAssembly(referencedAssemblies).ToList(),
                     typeDeclaration.Namespaces))
                 .Where(i => i.IsClass)
                 .FirstOrDefault();
@@ -484,11 +495,14 @@ namespace Cogito.Web.Razor
             Type innerTemplateType,
             RazorEngineHost host)
         {
-            Contract.Requires<ArgumentNullException>(source != null); ;
-            Contract.Requires<ArgumentNullException>(referencedAssemblies != null);
-            Contract.Requires<ArgumentNullException>(importedNamespaces != null);
-            Contract.Requires<ArgumentNullException>(host != null);
-            Contract.Ensures(Contract.Result<CodeCompileUnit>() != null);
+            if (source == null)
+                throw new ArgumentNullException(nameof(source));
+            if (referencedAssemblies == null)
+                throw new ArgumentNullException(nameof(referencedAssemblies));
+            if (importedNamespaces == null)
+                throw new ArgumentNullException(nameof(importedNamespaces));
+            if (host == null)
+                throw new ArgumentNullException(nameof(host));
 
             return RazorGenerate(
                     source,
@@ -527,8 +541,10 @@ namespace Cogito.Web.Razor
             string cacheKey = null,
             RazorEngineHost host = null)
         {
-            Contract.Requires<ArgumentNullException>(writer != null);
-            Contract.Requires<ArgumentNullException>(source != null);
+            if (writer == null)
+                throw new ArgumentNullException(nameof(writer));
+            if (source == null)
+                throw new ArgumentNullException(nameof(source));
 
             // fix up parameters
             CheckParameters(
@@ -579,8 +595,8 @@ namespace Cogito.Web.Razor
             string cacheKey = null,
             RazorEngineHost host = null)
         {
-            Contract.Requires<ArgumentNullException>(source != null);
-            Contract.Ensures(Contract.Result<string>() != null);
+            if (source == null)
+                throw new ArgumentNullException(nameof(source));
 
             // fix up parameters
             CheckParameters(
@@ -621,9 +637,10 @@ namespace Cogito.Web.Razor
             CodeCompileUnit codeUnit,
             IEnumerable<string> referencedAssemblies)
         {
-            Contract.Requires<ArgumentNullException>(codeUnit != null);
-            Contract.Requires<ArgumentNullException>(referencedAssemblies != null);
-            Contract.Ensures(Contract.Result<Assembly>() != null);
+            if (codeUnit == null)
+                throw new ArgumentNullException(nameof(codeUnit));
+            if (referencedAssemblies == null)
+                throw new ArgumentNullException(nameof(referencedAssemblies));
 
             // configure compiler and add additional references
             var outputAssemblyName = Path.GetTempPath() + Guid.NewGuid().ToString("N") + ".dll";
@@ -665,11 +682,14 @@ namespace Cogito.Web.Razor
             Type innerTemplateType,
             RazorEngineHost host)
         {
-            Contract.Requires<ArgumentNullException>(source != null);
-            Contract.Requires<ArgumentNullException>(referencedAssemblies != null);
-            Contract.Requires<ArgumentNullException>(importedNamespaces != null);
-            Contract.Requires<ArgumentNullException>(host != null);
-            Contract.Ensures(Contract.Result<Assembly>() != null);
+            if (source == null)
+                throw new ArgumentNullException(nameof(source));
+            if (referencedAssemblies == null)
+                throw new ArgumentNullException(nameof(referencedAssemblies));
+            if (importedNamespaces == null)
+                throw new ArgumentNullException(nameof(importedNamespaces));
+            if (host == null)
+                throw new ArgumentNullException(nameof(host));
 
             // generate initial code from Razor template
             var codeUnit = Generate(
@@ -708,11 +728,14 @@ namespace Cogito.Web.Razor
             Type innerTemplateType,
             RazorEngineHost host)
         {
-            Contract.Requires<ArgumentNullException>(source != null);
-            Contract.Requires<ArgumentNullException>(referencedAssemblies != null);
-            Contract.Requires<ArgumentNullException>(importedNamespaces != null);
-            Contract.Requires<ArgumentNullException>(host != null);
-            Contract.Ensures(Contract.Result<Type>() != null);
+            if (source == null)
+                throw new ArgumentNullException(nameof(source));
+            if (referencedAssemblies == null)
+                throw new ArgumentNullException(nameof(referencedAssemblies));
+            if (importedNamespaces == null)
+                throw new ArgumentNullException(nameof(importedNamespaces));
+            if (host == null)
+                throw new ArgumentNullException(nameof(host));
 
             // build new assembly
             var assembly = BuildAssembly(
@@ -753,8 +776,8 @@ namespace Cogito.Web.Razor
             string cacheKey = null,
             RazorEngineHost host = null)
         {
-            Contract.Requires<ArgumentNullException>(source != null);
-            Contract.Ensures(Contract.Result<Type>() != null);
+            if (source == null)
+                throw new ArgumentNullException(nameof(source));
 
             // fix up parameters
             CheckParameters(
@@ -802,8 +825,8 @@ namespace Cogito.Web.Razor
             string cacheKey = null,
             RazorEngineHost host = null)
         {
-            Contract.Requires<ArgumentNullException>(source != null);
-            Contract.Ensures(Contract.Result<Type>() != null);
+            if (source == null)
+                throw new ArgumentNullException(nameof(source));
 
             // convert assemblies to location of assemblies
             var referencedAssemblyLocations = referencedAssemblies

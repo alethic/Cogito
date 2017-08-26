@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics.Contracts;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -41,8 +40,10 @@ namespace Cogito.Web.UI.Razor
         /// <returns></returns>
         static Stream OpenResourceStream(Assembly assembly, string name)
         {
-            Contract.Requires<ArgumentNullException>(assembly != null);
-            Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(name));
+            if (assembly == null)
+                throw new ArgumentNullException(nameof(assembly));
+            if (string.IsNullOrWhiteSpace(name))
+                throw new ArgumentOutOfRangeException(nameof(name));
 
             // find resource
             return assembly.GetManifestResourceStream(name);
@@ -55,7 +56,8 @@ namespace Cogito.Web.UI.Razor
         /// <returns></returns>
         static TextReader ReadTemplate(Type type)
         {
-            Contract.Requires<ArgumentNullException>(type != null);
+            if (type == null)
+                throw new ArgumentNullException(nameof(type));
 
             // default values
             var asm = type.Assembly;
@@ -115,7 +117,8 @@ namespace Cogito.Web.UI.Razor
         public static IRazorControlTemplate Template<T>(T control)
             where T : Control
         {
-            Contract.Requires<ArgumentNullException>(control != null);
+            if (control == null)
+                throw new ArgumentNullException(nameof(control));
 
             lock (syncRoot)
             {
@@ -172,8 +175,10 @@ namespace Cogito.Web.UI.Razor
         /// <returns></returns>
         public static IRazorControlTemplate Template(Control control, Type controlType)
         {
-            Contract.Requires<ArgumentNullException>(control != null);
-            Contract.Requires<ArgumentNullException>(controlType != null);
+            if (control == null)
+                throw new ArgumentNullException(nameof(control));
+            if (controlType == null)
+                throw new ArgumentNullException(nameof(controlType));
 
             return (IRazorControlTemplate)TemplateMethod.MakeGenericMethod(controlType)
                 .Invoke(null, new object[] { control });
@@ -188,8 +193,10 @@ namespace Cogito.Web.UI.Razor
         public static void Render<T>(HtmlTextWriter writer, IRazorControlTemplate<T> template)
             where T : CogitoControl
         {
-            Contract.Requires<ArgumentNullException>(writer != null);
-            Contract.Requires<ArgumentNullException>(template != null);
+            if (writer == null)
+                throw new ArgumentNullException(nameof(writer));
+            if (template == null)
+                throw new ArgumentNullException(nameof(template));
 
             template.Render(writer);
         }
@@ -202,10 +209,14 @@ namespace Cogito.Web.UI.Razor
         /// <param name="control"></param>
         public static void Render(HtmlTextWriter writer, IRazorControlTemplate template)
         {
-            Contract.Requires<ArgumentNullException>(writer != null);
-            Contract.Requires<ArgumentNullException>(template != null);
-            Contract.Requires<ArgumentNullException>(template.Control != null);
-            Contract.Requires<ArgumentNullException>(template.ControlType != null);
+            if (writer == null)
+                throw new ArgumentNullException(nameof(writer));
+            if (template == null)
+                throw new ArgumentNullException(nameof(template));
+            if (template.Control == null)
+                throw new ArgumentNullException(nameof(template));
+            if (template.ControlType == null)
+                throw new ArgumentNullException(nameof(template));
 
             RenderMethod.MakeGenericMethod(template.ControlType)
                 .Invoke(null, new object[] { writer, template });
@@ -221,8 +232,10 @@ namespace Cogito.Web.UI.Razor
         public static void Render<T>(HtmlTextWriter writer, T control)
             where T : CogitoControl
         {
-            Contract.Requires<ArgumentNullException>(writer != null);
-            Contract.Requires<ArgumentNullException>(control != null);
+            if (writer == null)
+                throw new ArgumentNullException(nameof(writer));
+            if (control == null)
+                throw new ArgumentNullException(nameof(control));
 
             var template = Template<T>(control);
             if (template == null)
@@ -240,9 +253,12 @@ namespace Cogito.Web.UI.Razor
         /// <param name="controlType"></param>
         public static void Render(HtmlTextWriter writer, CogitoControl control, Type controlType)
         {
-            Contract.Requires<ArgumentNullException>(writer != null);
-            Contract.Requires<ArgumentNullException>(control != null);
-            Contract.Requires<ArgumentNullException>(controlType != null);
+            if (writer == null)
+                throw new ArgumentNullException(nameof(writer));
+            if (control == null)
+                throw new ArgumentNullException(nameof(control));
+            if (controlType == null)
+                throw new ArgumentNullException(nameof(controlType));
 
             RenderMethod.MakeGenericMethod(controlType)
                 .Invoke(null, new object[] { writer, control });

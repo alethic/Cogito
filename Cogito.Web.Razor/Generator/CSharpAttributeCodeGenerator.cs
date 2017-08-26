@@ -1,6 +1,5 @@
 ﻿using System;
 using System.CodeDom;
-using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Web.Razor.Generator;
 using System.Web.Razor.Parser.SyntaxTree;
@@ -21,11 +20,12 @@ namespace Cogito.Web.Razor.Generator
         /// <summary>
         /// Initializes a new instance.
         /// </summary>
-        /// <param name="modelType"></param>
+        /// <param name="signature"></param>
         public CSharpAttributeCodeGenerator(string signature)
             : base()
         {
-            Contract.Requires<ArgumentNullException>(signature != null);
+            if (signature == null)
+                throw new ArgumentNullException(nameof(signature));
 
             this.signature = signature;
         }

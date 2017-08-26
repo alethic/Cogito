@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
 using System.Globalization;
 using System.Linq;
 using System.Net.Http.Headers;
@@ -42,8 +41,10 @@ namespace Cogito.Web.Http.ValueProviders
         public HeaderValueProvider(HttpHeaders headers, CultureInfo culture)
             : base(HeadersToNameValuePairs(headers), culture)
         {
-            Contract.Requires<ArgumentNullException>(headers != null);
-            Contract.Requires<ArgumentNullException>(culture != null);
+            if (headers == null)
+                throw new ArgumentNullException(nameof(headers));
+            if (culture == null)
+                throw new ArgumentNullException(nameof(culture));
         }
 
     }
