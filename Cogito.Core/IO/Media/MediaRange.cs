@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
-using System.Security.Permissions;
 
 using Newtonsoft.Json;
 
@@ -224,7 +223,6 @@ namespace Cogito.IO.Media
             return type.GetHashCode() ^ subtype.GetHashCode() ^ parameters.GetHashCode();
         }
 
-        [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.SerializationFormatter)]
         void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context)
         {
             info.AddValue("Value", ToString());

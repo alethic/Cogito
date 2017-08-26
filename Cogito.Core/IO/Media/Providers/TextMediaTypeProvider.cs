@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.ComponentModel.Composition;
 using System.IO;
 
 using Cogito.Collections;
@@ -7,7 +6,6 @@ using Cogito.Collections;
 namespace Cogito.IO.Media.Providers
 {
 
-    [Export(typeof(IMediaTypeProvider))]
     public class TextMediaTypeProvider :
         IMediaTypeProvider
     {

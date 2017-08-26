@@ -1,4 +1,6 @@
-﻿using System;
+﻿#if !NETSTANDARD1_6
+
+using System;
 using System.Collections;
 using System.ComponentModel;
 using System.IO;
@@ -565,3 +567,5 @@ namespace Cogito.IO
         #endregion
     }
 }
+
+#endif

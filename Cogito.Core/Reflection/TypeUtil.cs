@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 
 namespace Cogito.Reflection
 {
@@ -34,7 +35,7 @@ namespace Cogito.Reflection
             foreach (var a in t.GetTypeAndBaseTypes())
             {
                 // finished, or all types are either equal or a subclass of current hierachy position
-                if (b || types.All(i => i == a || i.IsSubclassOf(a)))
+                if (b || types.All(i => i == a || i.GetTypeInfo().IsSubclassOf(a)))
                 {
                     // all remaining types are also true
                     b = true;

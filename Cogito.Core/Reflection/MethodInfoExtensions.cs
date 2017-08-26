@@ -50,7 +50,7 @@ namespace Cogito.Reflection
 
             // set all parameters to default
             for (int i = 0; i < argv.Length; ++i)
-                argv[i] = argp[i].ParameterType.IsValueType ? Activator.CreateInstance(argp[i].ParameterType) : null;
+                argv[i] = argp[i].ParameterType.GetTypeInfo().IsValueType ? Activator.CreateInstance(argp[i].ParameterType) : null;
 
             // update parameters from dictionary
             foreach (var item in parameters)

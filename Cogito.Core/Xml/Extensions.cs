@@ -11,6 +11,8 @@ namespace Cogito.Xml
     public static class Extensions
     {
 
+#if !NETSTANDARD1_6
+
         /// <summary>
         /// Returns an XLinq node from the given <see cref="XmlNode"/>.
         /// </summary>
@@ -66,6 +68,8 @@ namespace Cogito.Xml
 
             return (XDocument)((XmlNode)document).ToXNode();
         }
+
+#endif
 
     }
 

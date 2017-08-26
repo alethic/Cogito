@@ -26,8 +26,8 @@ namespace Cogito.Reflection
 
             // chain of base types and all implemented interfaces
             return self
-                .Recurse(i => i.BaseType)
-                .SelectMany(i => i.GetInterfaces().Prepend(i));
+                .Recurse(i => i.GetTypeInfo().BaseType)
+                .SelectMany(i => i.GetTypeInfo().GetInterfaces().Prepend(i));
         }
 
         /// <summary>
@@ -40,7 +40,7 @@ namespace Cogito.Reflection
             if (self == null)
                 throw new ArgumentNullException(nameof(self));
 
-            return self.Recurse(i => i.BaseType);
+            return self.Recurse(i => i.GetTypeInfo().BaseType);
         }
 
         /// <summary>
@@ -77,7 +77,7 @@ namespace Cogito.Reflection
             if (string.IsNullOrWhiteSpace(name))
                 throw new ArgumentNullException(nameof(name));
 
-            return self
+            return self.GetTypeInfo()
                 .GetMembers(BindingFlags.Public | BindingFlags.Instance)
                 .Where(i => i.MemberType == MemberTypes.Property || i.MemberType == MemberTypes.Field)
                 .FirstOrDefault(i => i.Name.Equals(name, comparisontype));
@@ -94,7 +94,7 @@ namespace Cogito.Reflection
             if (ienum == null)
                 return seqType;
 
-            return ienum.GetGenericArguments()[0];
+            return ienum.GetTypeInfo().GetGenericArguments()[0];
         }
 
         /// <summary>
@@ -112,19 +112,19 @@ namespace Cogito.Reflection
                 return typeof(IEnumerable<>).MakeGenericType(sequenceType.GetElementType());
 
             // type is generic
-            if (sequenceType.IsGenericType)
+            if (sequenceType.GetTypeInfo().IsGenericType)
             {
                 // check whether IEnumerable{T} for one of the generic arguments is supported, such as List{T} supporting IEnumerable{T}
-                foreach (var arg in sequenceType.GetGenericArguments())
+                foreach (var arg in sequenceType.GetTypeInfo().GetGenericArguments())
                 {
                     var ienum = typeof(IEnumerable<>).MakeGenericType(arg);
-                    if (ienum.IsAssignableFrom(sequenceType))
+                    if (ienum.GetTypeInfo().IsAssignableFrom(sequenceType))
                         return ienum;
                 }
             }
 
             // run through each interface and see if we can find it there
-            var ifaces = sequenceType.GetInterfaces();
+            var ifaces = sequenceType.GetTypeInfo().GetInterfaces();
             if (ifaces != null && ifaces.Length > 0)
             {
                 foreach (var iface in ifaces)
@@ -136,9 +136,9 @@ namespace Cogito.Reflection
             }
 
             // repeat for the base type
-            if (sequenceType.BaseType != null &&
-                sequenceType.BaseType != typeof(object))
-                return FindIEnumerable(sequenceType.BaseType);
+            if (sequenceType.GetTypeInfo().BaseType != null &&
+                sequenceType.GetTypeInfo().BaseType != typeof(object))
+                return FindIEnumerable(sequenceType.GetTypeInfo().BaseType);
 
             return null;
         }

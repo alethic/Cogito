@@ -1,4 +1,6 @@
-﻿namespace Cogito.Threading
+﻿#if !NETSTANDARD1_6
+
+namespace Cogito.Threading
 {
 
     /// <summary>
@@ -9,3 +11,5 @@
     public delegate void TimerExceptionEventHandler(object sender, TimerExceptionEventArgs args);
 
 }
+
+#endif

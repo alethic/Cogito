@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.ComponentModel.Composition;
 using System.IO;
 
 using Cogito.Collections;
@@ -10,7 +9,6 @@ namespace Cogito.IO.Media.Providers
     /// <summary>
     /// Maps common image extension to media types.
     /// </summary>
-    [Export(typeof(IMediaTypeProvider))]
     public class ImageMediaTypeProvider :
         IMediaTypeProvider
     {

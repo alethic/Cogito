@@ -1,4 +1,6 @@
-﻿using System;
+﻿#if !NETSTANDARD1_6
+
+using System;
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
@@ -170,3 +172,5 @@ namespace Cogito.Dynamic
     }
 
 }
+
+#endif

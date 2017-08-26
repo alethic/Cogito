@@ -50,6 +50,8 @@ namespace Cogito.Linq
             return source ?? Enumerable.Empty<T>();
         }
 
+#if !NETSTANDARD1_6
+        
         /// <summary>
         /// Returns the given enumerable with the given object added to the end.
         /// </summary>
@@ -67,6 +69,10 @@ namespace Cogito.Linq
             yield return o;
         }
 
+#endif
+
+#if !NETSTANDARD1_6
+
         /// <summary>
         /// Returns the given enumerable with the given object added to the beginning.
         /// </summary>
@@ -83,6 +89,8 @@ namespace Cogito.Linq
             foreach (T t in source)
                 yield return t;
         }
+
+#endif
 
         /// <summary>
         /// Iterates recursively through an initial enumerable and each returned child enumerable.
@@ -334,7 +342,8 @@ namespace Cogito.Linq
             }
             finally
             {
-                Array.ForEach(enumerators, e => e.Dispose());
+                foreach (var i in enumerators)
+                    i.Dispose();
             }
         }
 

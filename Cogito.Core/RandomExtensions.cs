@@ -24,6 +24,8 @@ namespace Cogito
             return BitConverter.ToInt64(buffer, 0);
         }
 
+#if !NETSTANDARD1_6
+
         /// <summary>
         /// Gets the next random <see cref="Int64"/> within the specified range.
         /// </summary>
@@ -57,7 +59,7 @@ namespace Cogito
         static long PositiveModuloOrZero(long dividend, long divisor)
         {
             System.Math.DivRem(dividend, divisor, out long mod);
-
+            
             if (mod < 0)
                 mod += divisor;
 
@@ -73,6 +75,8 @@ namespace Cogito
             min = max;
             max = temp;
         }
+
+#endif
 
     }
 

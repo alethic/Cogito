@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Reflection;
 
 namespace Cogito.Core.Linq
 {
@@ -29,7 +30,7 @@ namespace Cogito.Core.Linq
                 throw new ArgumentNullException(nameof(provider));
             if (expression == null)
                 throw new ArgumentNullException(nameof(expression));
-            if (!typeof(IQueryable<T>).IsAssignableFrom(expression.Type))
+            if (!typeof(IQueryable<T>).GetTypeInfo().IsAssignableFrom(expression.Type))
                 throw new ArgumentOutOfRangeException(nameof(expression));
 
             this.provider = provider;

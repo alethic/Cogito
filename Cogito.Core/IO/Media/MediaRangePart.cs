@@ -75,7 +75,7 @@ namespace Cogito.IO.Media
         /// <returns><see langword="true" /> if the media types match, otherwise <see langword="false" />.</returns>
         public bool Matches(MediaRangePart other)
         {
-            return IsWildcard || other.IsWildcard || value.Equals(other.value, StringComparison.InvariantCultureIgnoreCase);
+            return IsWildcard || other.IsWildcard || value.Equals(other.value);
         }
 
         public override string ToString()

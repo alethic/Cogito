@@ -1,4 +1,6 @@
-﻿using System;
+﻿#if !NETSTANDARD1_6
+
+using System;
 using System.Threading;
 
 namespace Cogito.Threading
@@ -23,3 +25,5 @@ namespace Cogito.Threading
     }
 
 }
+
+#endif

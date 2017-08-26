@@ -12,6 +12,8 @@ namespace Cogito.Reflection
     public static class AssemblyNameExtensions
     {
 
+#if !NETSTANDARD1_6
+
         /// <summary>
         /// Loads an <see cref="Assembly"/> into the reflection-only context, given it's display name.
         /// </summary>
@@ -61,6 +63,8 @@ namespace Cogito.Reflection
 
             return null;
         }
+
+#endif
 
     }
 

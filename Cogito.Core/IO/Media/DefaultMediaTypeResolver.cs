@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.Composition;
 using System.Linq;
 
 using Cogito.Linq;
@@ -12,7 +11,6 @@ namespace Cogito.IO.Media
     /// Default <see cref="IMediaTypeResolver"/> implementation that attempts to resolve media types from
     /// <see cref="IMediaTypeProvider"/> instances.
     /// </summary>
-    [Export(typeof(IMediaTypeResolver))]
     public class DefaultMediaTypeResolver :
         IMediaTypeResolver
     {
@@ -23,9 +21,8 @@ namespace Cogito.IO.Media
         /// Initializes a new instance.
         /// </summary>
         /// <param name="providers"></param>
-        [ImportingConstructor]
         public DefaultMediaTypeResolver(
-            [ImportMany] IEnumerable<IMediaTypeProvider> providers)
+            IEnumerable<IMediaTypeProvider> providers)
         {
             if (providers == null)
                 throw new ArgumentNullException(nameof(providers));
