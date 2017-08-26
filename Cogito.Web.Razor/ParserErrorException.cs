@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
 using System.IO;
 using System.Web.Razor;
 using System.Web.Razor.Parser.SyntaxTree;
@@ -24,9 +23,12 @@ namespace Cogito.Web.Razor
         internal ParserErrorException(GeneratorResults results, TextReader code)
             : base(results.ParserErrors[0].Message)
         {
-            Contract.Requires<ArgumentNullException>(results != null);
-            Contract.Requires<ArgumentNullException>(code != null);
-            Contract.Requires<ArgumentOutOfRangeException>(results.ParserErrors.Count > 0);
+            if (results == null)
+                throw new ArgumentNullException(nameof(results));
+            if (code == null)
+                throw new ArgumentNullException(nameof(code));
+            if (results.ParserErrors.Count == 0)
+                throw new ArgumentOutOfRangeException(nameof(results));
 
             this.results = results;
             this.code = code;

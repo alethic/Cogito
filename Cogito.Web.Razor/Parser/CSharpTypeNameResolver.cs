@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Reflection;
+
 using Cogito.Irony;
 using Cogito.Linq;
+
 using Irony.Parsing;
 
 namespace Cogito.Web.Razor.Parser
@@ -39,7 +40,8 @@ namespace Cogito.Web.Razor.Parser
         /// <returns></returns>
         static string GetFullyQualifiedTypeName(string ns, string typeName)
         {
-            Contract.Requires<ArgumentNullException>(typeName != null);
+            if (typeName == null)
+                throw new ArgumentNullException(nameof(typeName));
 
             if (!string.IsNullOrEmpty(ns))
                 return ns + "." + typeName;

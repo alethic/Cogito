@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Activities.Tracking;
 using System.Diagnostics;
-using System.Diagnostics.Contracts;
 
 using Microsoft.ApplicationInsights.DataContracts;
 

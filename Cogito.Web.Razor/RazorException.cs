@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics.Contracts;
 
 namespace Cogito.Web.Razor
 {
@@ -44,8 +43,10 @@ namespace Cogito.Web.Razor
         public RazorException(string format, params object[] args)
             : base(string.Format(format, args))
         {
-            Contract.Requires<ArgumentNullException>(format != null);
-            Contract.Requires<ArgumentNullException>(args != null);
+            if (format == null)
+                throw new ArgumentNullException(nameof(format));
+            if (args == null)
+                throw new ArgumentNullException(nameof(args));
         }
 
     }

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Security.Permissions;
@@ -62,12 +61,9 @@ namespace Cogito.IO.Media
         /// </summary>
         MediaRange(MediaRangePart type, MediaRangePart subtype, MediaRangeParameters parameters)
         {
-            if (parameters == null)
-                throw new ArgumentNullException(nameof(parameters));
-
             this.type = type;
             this.subtype = subtype;
-            this.parameters = parameters;
+            this.parameters = parameters ?? throw new ArgumentNullException(nameof(parameters));
         }
 
         /// <summary>

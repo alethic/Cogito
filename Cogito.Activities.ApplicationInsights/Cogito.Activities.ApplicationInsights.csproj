@@ -26,4 +26,32 @@
       </Reference>
     </ItemGroup>
 
+    <ItemGroup>
+      <None Update="ApplicationInsightsTrackingParticipant.Track.tt">
+        <Generator>TextTemplatingFileGenerator</Generator>
+        <LastGenOutput>ApplicationInsightsTrackingParticipant.Track.cs</LastGenOutput>
+      </None>
+      <None Update="ApplicationInsightsTrackingParticipant.TrackRecord.tt">
+        <Generator>TextTemplatingFileGenerator</Generator>
+        <LastGenOutput>ApplicationInsightsTrackingParticipant.TrackRecord.cs</LastGenOutput>
+      </None>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Update="ApplicationInsightsTrackingParticipant.Track.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>ApplicationInsightsTrackingParticipant.Track.tt</DependentUpon>
+      </Compile>
+      <Compile Update="ApplicationInsightsTrackingParticipant.TrackRecord.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>ApplicationInsightsTrackingParticipant.TrackRecord.tt</DependentUpon>
+      </Compile>
+    </ItemGroup>
+
 </Project>

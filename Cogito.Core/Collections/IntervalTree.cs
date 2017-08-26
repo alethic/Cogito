@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
 using System.Globalization;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -746,7 +745,8 @@ namespace Cogito.Collections
             /// <param name="end"></param>
             public IntervalNode(TInterval interval)
             {
-                Contract.Requires<ArgumentOutOfRangeException>(interval.Start.CompareTo(interval.End) <= 0, "The supplied interval has an invalid range, where start is greater than end");
+                if (!(interval.Start.CompareTo(interval.End) <= 0))
+                    throw new ArgumentOutOfRangeException("The supplied interval has an invalid range, where start is greater than end");
 
                 Interval = interval;
 

@@ -28,4 +28,86 @@
       <Reference Include="System.Xaml" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Update="AsyncActionActivity.partial.tt">
+        <Generator>TextTemplatingFileGenerator</Generator>
+        <LastGenOutput>AsyncActionActivity.partial.cs</LastGenOutput>
+      </None>
+      <None Update="AsyncFuncActivity.partial.tt">
+        <Generator>TextTemplatingFileGenerator</Generator>
+        <LastGenOutput>AsyncFuncActivity.partial.cs</LastGenOutput>
+      </None>
+      <None Update="Expressions.AsyncActionActivity.tt">
+        <Generator>TextTemplatingFileGenerator</Generator>
+        <LastGenOutput>Expressions.AsyncActionActivity.cs</LastGenOutput>
+      </None>
+      <None Update="Expressions.AsyncFuncActivity.tt">
+        <Generator>TextTemplatingFileGenerator</Generator>
+        <LastGenOutput>Expressions.AsyncFuncActivity.cs</LastGenOutput>
+      </None>
+      <None Update="Expressions.Delegate.partial.tt">
+        <Generator>TextTemplatingFileGenerator</Generator>
+        <LastGenOutput>Expressions.Delegate.partial.cs</LastGenOutput>
+      </None>
+      <None Update="Expressions.InvokeAction.partial.tt">
+        <Generator>TextTemplatingFileGenerator</Generator>
+        <LastGenOutput>Expressions.InvokeAction.partial.cs</LastGenOutput>
+      </None>
+      <None Update="Expressions.InvokeFunc.partial.tt">
+        <Generator>TextTemplatingFileGenerator</Generator>
+        <LastGenOutput>Expressions.InvokeFunc.partial.cs</LastGenOutput>
+      </None>
+      <None Update="Expressions.Throw.partial.tt">
+        <Generator>TextTemplatingFileGenerator</Generator>
+        <LastGenOutput>Expressions.Throw.partial.cs</LastGenOutput>
+      </None>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Update="AsyncActionActivity.partial.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>AsyncActionActivity.partial.tt</DependentUpon>
+      </Compile>
+      <Compile Update="AsyncFuncActivity.partial.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>AsyncFuncActivity.partial.tt</DependentUpon>
+      </Compile>
+      <Compile Update="Expressions.AsyncActionActivity.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>Expressions.AsyncActionActivity.tt</DependentUpon>
+      </Compile>
+      <Compile Update="Expressions.AsyncFuncActivity.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>Expressions.AsyncFuncActivity.tt</DependentUpon>
+      </Compile>
+      <Compile Update="Expressions.Delegate.partial.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>Expressions.Delegate.partial.tt</DependentUpon>
+      </Compile>
+      <Compile Update="Expressions.InvokeAction.partial.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>Expressions.InvokeAction.partial.tt</DependentUpon>
+      </Compile>
+      <Compile Update="Expressions.InvokeFunc.partial.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>Expressions.InvokeFunc.partial.tt</DependentUpon>
+      </Compile>
+      <Compile Update="Expressions.Throw.partial.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>Expressions.Throw.partial.tt</DependentUpon>
+      </Compile>
+    </ItemGroup>
+
 </Project>

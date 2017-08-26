@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Web.UI;
@@ -23,7 +22,8 @@ namespace Cogito.Web.UI
         /// <returns></returns>
         public static IEnumerable<Control> Traverse(this Control control)
         {
-            Contract.Requires<ArgumentNullException>(control != null);
+            if (control == null)
+                throw new ArgumentNullException(nameof(control));
 
             yield return control;
 
@@ -43,8 +43,10 @@ namespace Cogito.Web.UI
         public static T AddAttribute<T>(this T control, string key, string value)
             where T : IAttributeAccessor
         {
-            Contract.Requires<ArgumentNullException>(control != null);
-            Contract.Requires<ArgumentNullException>(key != null);
+            if (control == null)
+                throw new ArgumentNullException(nameof(control));
+            if (key == null)
+                throw new ArgumentNullException(nameof(key));
 
             control.SetAttribute(key, value);
 
@@ -61,8 +63,10 @@ namespace Cogito.Web.UI
         public static T AddAttribute<T>(this T control, Expression<Func<string, string>> attribute)
             where T : class, IAttributeAccessor
         {
-            Contract.Requires<ArgumentNullException>(control != null);
-            Contract.Requires<ArgumentNullException>(attribute != null);
+            if (control == null)
+                throw new ArgumentNullException(nameof(control));
+            if (attribute == null)
+                throw new ArgumentNullException(nameof(attribute));
 
             foreach (var p in attribute.Parameters)
                 AddAttribute(control, p.Name, attribute.Compile()(control.GetAttribute(p.Name)));
@@ -80,7 +84,8 @@ namespace Cogito.Web.UI
         public static T AddClass<T>(this T control, string @class)
             where T : class, IAttributeAccessor
         {
-            Contract.Requires<ArgumentNullException>(control != null);
+            if (control == null)
+                throw new ArgumentNullException(nameof(control));
 
             if (!string.IsNullOrWhiteSpace(@class))
             {
@@ -109,7 +114,8 @@ namespace Cogito.Web.UI
         public static T RemoveClass<T>(this T control, string @class)
             where T : class, IAttributeAccessor
         {
-            Contract.Requires<ArgumentNullException>(control != null);
+            if (control == null)
+                throw new ArgumentNullException(nameof(control));
 
             if (!string.IsNullOrWhiteSpace(@class))
             {
@@ -137,7 +143,8 @@ namespace Cogito.Web.UI
         public static T WithContent<T>(this T control, string value)
             where T : Control
         {
-            Contract.Requires<ArgumentNullException>(control != null);
+            if (control == null)
+                throw new ArgumentNullException(nameof(control));
 
             if (!string.IsNullOrWhiteSpace(value))
                 control.Controls.Add(new LiteralControl(value));

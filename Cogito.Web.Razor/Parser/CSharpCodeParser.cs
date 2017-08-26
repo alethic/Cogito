@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics.Contracts;
 using System.Web.Razor.Generator;
 using System.Web.Razor.Parser.SyntaxTree;
 using System.Web.Razor.Tokenizer.Symbols;
@@ -50,8 +49,10 @@ namespace Cogito.Web.Razor.Parser
 
         protected void AttributeDirectiveCore(string noTypeNameError, Func<string, SpanCodeGenerator> createCodeGenerator)
         {
-            Contract.Requires<ArgumentNullException>(noTypeNameError != null);
-            Contract.Requires<ArgumentNullException>(createCodeGenerator != null);
+            if (noTypeNameError == null)
+                throw new ArgumentNullException(nameof(noTypeNameError));
+            if (createCodeGenerator == null)
+                throw new ArgumentNullException(nameof(createCodeGenerator));
 
             // set the block type and position
             Context.CurrentBlock.Type = BlockType.Directive;

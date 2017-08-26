@@ -8,7 +8,6 @@
 using System;
 using System.Activities;
 using System.Activities.Statements;
-using System.Diagnostics.Contracts;
 using System.Threading.Tasks;
 
 namespace Cogito.Activities

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics.Contracts;
 using System.Globalization;
 using System.IO;
 
@@ -20,8 +19,7 @@ namespace Cogito.Web.Razor
         /// </summary>
         public HelperResult(Action<TextWriter> action)
         {
-            Contract.Requires<ArgumentNullException>(action != null);
-            this.action = action;
+            this.action = action ?? throw new ArgumentNullException(nameof(action));
         }
 
         /// <summary>
@@ -30,7 +28,9 @@ namespace Cogito.Web.Razor
         /// <param name="writer"></param>
         public void WriteTo(TextWriter writer)
         {
-            Contract.Requires<ArgumentNullException>(writer != null);
+            if (writer == null)
+                throw new ArgumentNullException(nameof(writer));
+
             action(writer);
         }
 
