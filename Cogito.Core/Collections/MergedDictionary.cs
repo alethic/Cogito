@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics.Contracts;
 using System.Linq;
 
 namespace Cogito.Collections
@@ -28,8 +27,10 @@ namespace Cogito.Collections
         /// <param name="second"></param>
         public MergedDictionary(IDictionary<TKey, TValue> first, IDictionary<TKey, TValue> second)
         {
-            Contract.Requires<ArgumentNullException>(first != null);
-            Contract.Requires<ArgumentNullException>(second != null);
+            if (first == null)
+                throw new ArgumentNullException(nameof(first));
+            if (second == null)
+                throw new ArgumentNullException(nameof(second));
 
             this.first = first;
             this.second = second;

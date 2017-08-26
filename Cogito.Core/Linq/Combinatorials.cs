@@ -22,7 +22,8 @@ namespace Cogito.Linq
         /// <returns></returns>
         public static IEnumerable<T[]> Combinations<T>(this IEnumerable<T> self, int size)
         {
-            Contract.Requires<ArgumentNullException>(self != null);
+            if (self == null)
+                throw new ArgumentNullException(nameof(self));
             Contract.Requires<ArgumentOutOfRangeException>(size >= 1);
             Contract.Requires<ArgumentOutOfRangeException>(size <= self.Count());
 
@@ -39,7 +40,8 @@ namespace Cogito.Linq
         /// <returns></returns>
         public static IEnumerable<T[]> Combinations<T>(this T[] self, int size)
         {
-            Contract.Requires<ArgumentNullException>(self != null);
+            if (self == null)
+                throw new ArgumentNullException(nameof(self));
             Contract.Requires<ArgumentOutOfRangeException>(size >= 1);
             Contract.Requires<ArgumentOutOfRangeException>(size <= self.Length);
 
@@ -85,7 +87,8 @@ namespace Cogito.Linq
         /// <returns></returns>
         public static IEnumerable<T[]> Permutations<T>(this IEnumerable<T> self)
         {
-            Contract.Requires<ArgumentNullException>(self != null);
+            if (self == null)
+                throw new ArgumentNullException(nameof(self));
 
             return Permutations(self.ToArray());
         }
@@ -98,7 +101,8 @@ namespace Cogito.Linq
         /// <returns></returns>
         public static IEnumerable<T[]> Permutations<T>(this T[] self)
         {
-            Contract.Requires<ArgumentNullException>(self != null);
+            if (self == null)
+                throw new ArgumentNullException(nameof(self));
 
             var a = new int[self.Length];
             for (int i = 0; i < a.Length; i++)
@@ -150,7 +154,8 @@ namespace Cogito.Linq
         /// <returns></returns>
         public static IEnumerable<T[]> Variations<T>(this IEnumerable<T> self, int size)
         {
-            Contract.Requires<ArgumentNullException>(self != null);
+            if (self == null)
+                throw new ArgumentNullException(nameof(self));
             Contract.Requires<ArgumentOutOfRangeException>(size <= self.Count());
 
             return Variations(self.ToArray(), size);
@@ -165,7 +170,8 @@ namespace Cogito.Linq
         /// <returns></returns>
         public static IEnumerable<T[]> Variations<T>(this T[] self, int size)
         {
-            Contract.Requires<ArgumentNullException>(self != null);
+            if (self == null)
+                throw new ArgumentNullException(nameof(self));
             Contract.Requires<ArgumentOutOfRangeException>(size <= self.Length);
 
             foreach (var combination in Combinations(self, size))

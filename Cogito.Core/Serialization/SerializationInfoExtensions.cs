@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics.Contracts;
 using System.Runtime.Serialization;
 
 namespace Cogito.Serialization
@@ -20,8 +19,10 @@ namespace Cogito.Serialization
         /// <returns></returns>
         public static T GetValue<T>(this SerializationInfo info, string name)
         {
-            Contract.Requires<ArgumentNullException>(info != null);
-            Contract.Requires<ArgumentNullException>(name != null);
+            if (info == null)
+                throw new ArgumentNullException(nameof(info));
+            if (name == null)
+                throw new ArgumentNullException(nameof(name));
 
             return (T)info.GetValue(name, typeof(T));
         }

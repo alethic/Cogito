@@ -50,7 +50,7 @@ namespace Cogito.Collections
             : this()
         {
             if (intervals == null)
-                throw new ArgumentNullException("intervals");
+                throw new ArgumentNullException(nameof(intervals));
 
             AddRange(intervals);
         }
@@ -881,7 +881,8 @@ namespace Cogito.Collections
             /// <param name="tree"></param>
             public IntervalTreeEnumerator(IntervalTree<TInterval, TPoint> tree)
             {
-                Contract.Requires<ArgumentNullException>(tree != null);
+                if (tree == null)
+                    throw new ArgumentNullException(nameof(tree));
 
                 this.tree = tree;
                 modificationsAtCreation = tree.modifications;

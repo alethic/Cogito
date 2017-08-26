@@ -62,7 +62,8 @@ namespace Cogito.IO.Media
         /// </summary>
         MediaRange(MediaRangePart type, MediaRangePart subtype, MediaRangeParameters parameters)
         {
-            Contract.Requires<ArgumentNullException>(parameters != null);
+            if (parameters == null)
+                throw new ArgumentNullException(nameof(parameters));
 
             this.type = type;
             this.subtype = subtype;
@@ -75,7 +76,8 @@ namespace Cogito.IO.Media
         /// <param name="value"></param>
         MediaRange(string value)
         {
-            Contract.Requires<ArgumentNullException>(value != null);
+            if (value == null)
+                throw new ArgumentNullException(nameof(value));
             Contract.Requires<ArgumentOutOfRangeException>(!string.IsNullOrWhiteSpace(value));
 
             if (value.Equals("*"))
@@ -98,7 +100,8 @@ namespace Cogito.IO.Media
         protected MediaRange(SerializationInfo info, StreamingContext context)
             : this(info.GetString("Value"))
         {
-            Contract.Requires<ArgumentNullException>(info != null);
+            if (info == null)
+                throw new ArgumentNullException(nameof(info));
         }
 
         /// <summary>
@@ -140,7 +143,8 @@ namespace Cogito.IO.Media
         /// <returns>True if matching, false if not.</returns>
         public bool Matches(MediaRange other)
         {
-            Contract.Requires<ArgumentNullException>(other != null);
+            if (other == null)
+                throw new ArgumentNullException(nameof(other));
 
             return type.Matches(other.type) && subtype.Matches(other.subtype);
         }
@@ -152,7 +156,8 @@ namespace Cogito.IO.Media
         /// <returns>True if matching, false if not.</returns>
         public bool MatchesWithParameters(MediaRange other)
         {
-            Contract.Requires<ArgumentNullException>(other != null);
+            if (other == null)
+                throw new ArgumentNullException(nameof(other));
 
             return Matches(other) && parameters.Matches(other.parameters);
         }
@@ -164,7 +169,8 @@ namespace Cogito.IO.Media
         /// <returns></returns>
         public bool Matches(IEnumerable<MediaRange> others)
         {
-            Contract.Requires<ArgumentNullException>(others != null);
+            if (others == null)
+                throw new ArgumentNullException(nameof(others));
 
             foreach (var i in others)
                 if (Matches(i))
@@ -180,7 +186,8 @@ namespace Cogito.IO.Media
         /// <returns></returns>
         public bool MatchesWithParameters(IEnumerable<MediaRange> others)
         {
-            Contract.Requires<ArgumentNullException>(others != null);
+            if (others == null)
+                throw new ArgumentNullException(nameof(others));
 
             foreach (var i in others)
                 if (MatchesWithParameters(i))

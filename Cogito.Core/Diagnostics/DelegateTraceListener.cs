@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Diagnostics.Contracts;
 
 namespace Cogito.Diagnostics
 {
@@ -20,7 +19,8 @@ namespace Cogito.Diagnostics
         /// <param name="write"></param>
         public DelegateTraceListener(Action<string> write)
         {
-            Contract.Requires<ArgumentNullException>(write != null);
+            if (write == null)
+                throw new ArgumentNullException(nameof(write));
 
             _write = write;
         }

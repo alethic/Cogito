@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
-using System.Diagnostics.Contracts;
 using System.Linq;
 
 using Cogito.Linq;
@@ -28,7 +27,8 @@ namespace Cogito.IO.Media
         public DefaultMediaTypeResolver(
             [ImportMany] IEnumerable<IMediaTypeProvider> providers)
         {
-            Contract.Requires<ArgumentNullException>(providers != null);
+            if (providers == null)
+                throw new ArgumentNullException(nameof(providers));
 
             this.providers = providers;
         }

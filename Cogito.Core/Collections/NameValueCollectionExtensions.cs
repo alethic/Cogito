@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.Diagnostics.Contracts;
 using System.Linq;
 
 namespace Cogito.Collections
@@ -20,7 +19,8 @@ namespace Cogito.Collections
         /// <returns></returns>
         public static Dictionary<string, string> ToDictionary(this NameValueCollection source)
         {
-            Contract.Requires<ArgumentNullException>(source != null);
+            if (source == null)
+                throw new ArgumentNullException(nameof(source));
 
             return source.Cast<string>().ToDictionary(i => i, i => source[i]);
         }

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Diagnostics.Contracts;
 using System.Threading;
 using System.Timers;
 
@@ -192,7 +191,8 @@ namespace Cogito.Threading
         /// <param name="args"></param>
         protected void OnStopped(TimerEventArgs args)
         {
-            Contract.Requires<ArgumentNullException>(args != null);
+            if (args == null)
+                throw new ArgumentNullException(nameof(args));
 
             Stopped?.Invoke(this, args);
         }
@@ -208,7 +208,8 @@ namespace Cogito.Threading
         /// <param name="args"></param>
         protected void OnException(TimerExceptionEventArgs args)
         {
-            Contract.Requires<ArgumentNullException>(args != null);
+            if (args == null)
+                throw new ArgumentNullException(nameof(args));
 
             Exception?.Invoke(this, args);
         }

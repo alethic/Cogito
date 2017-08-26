@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Concurrent;
-using System.Diagnostics.Contracts;
 using System.Threading.Tasks;
 
 namespace Cogito.Threading
@@ -50,7 +49,8 @@ namespace Cogito.Threading
         /// <returns></returns>
         public Task Enqueue(Func<Task> action)
         {
-            Contract.Requires<ArgumentNullException>(action != null);
+            if (action == null)
+                throw new ArgumentNullException(nameof(action));
 
             // schedule task on task queue
             var tc = new TaskCompletionSource<bool>();
@@ -67,7 +67,8 @@ namespace Cogito.Threading
         /// <returns></returns>
         public Task<TResult> Enqueue<TResult>(Func<Task<TResult>> func)
         {
-            Contract.Requires<ArgumentNullException>(func != null);
+            if (func == null)
+                throw new ArgumentNullException(nameof(func));
 
             // schedule task on task queue
             var tc = new TaskCompletionSource<TResult>();

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.ComponentModel;
-using System.Diagnostics.Contracts;
 using System.IO;
 using System.Timers;
 
@@ -27,7 +26,8 @@ namespace Cogito.IO
         /// <param name="args"></param>
         public DelayedEvent(FileSystemEventArgs args)
         {
-            Contract.Requires<ArgumentNullException>(args != null);
+            if (args == null)
+                throw new ArgumentNullException(nameof(args));
 
             this._args = args;
         }

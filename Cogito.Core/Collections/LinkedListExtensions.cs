@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
 
 namespace Cogito.Collections
 {
@@ -33,7 +32,8 @@ namespace Cogito.Collections
         /// <returns></returns>
         public static IEnumerable<LinkedListNode<T>> Forward<T>(this LinkedListNode<T> self)
         {
-            Contract.Requires<ArgumentNullException>(self != null);
+            if (self == null)
+                throw new ArgumentNullException(nameof(self));
 
             for (var node = self; node != null; node = node.Next)
                 yield return node;
@@ -47,7 +47,8 @@ namespace Cogito.Collections
         /// <returns></returns>
         public static IEnumerable<LinkedListNode<T>> Backward<T>(this LinkedListNode<T> self)
         {
-            Contract.Requires<ArgumentNullException>(self != null);
+            if (self == null)
+                throw new ArgumentNullException(nameof(self));
 
             for (var node = self; node != null; node = node.Previous)
                 yield return node;

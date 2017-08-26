@@ -18,15 +18,17 @@ namespace Cogito
         /// <returns></returns>
         public static Uri Combine(this Uri self, string path)
         {
-            Contract.Requires<ArgumentNullException>(self != null);
+            if (self == null)
+                throw new ArgumentNullException(nameof(self));
             Contract.Requires<ArgumentOutOfRangeException>(self.IsAbsoluteUri);
-            Contract.Requires<ArgumentNullException>(path != null);
+            if (path == null)
+                throw new ArgumentNullException(nameof(path));
 
             // append missing final slash
             var b = new UriBuilder(self);
             if (!b.Path.EndsWith("/"))
                 b.Path += "/";
-            
+
             // append new path element
             b.Path += path;
 
@@ -42,9 +44,11 @@ namespace Cogito
         /// <returns></returns>
         public static Uri Combine(this Uri self, params string[] paths)
         {
-            Contract.Requires<ArgumentNullException>(self != null);
+            if (self == null)
+                throw new ArgumentNullException(nameof(self));
             Contract.Requires<ArgumentOutOfRangeException>(self.IsAbsoluteUri);
-            Contract.Requires<ArgumentNullException>(paths != null);
+            if (paths == null)
+                throw new ArgumentNullException(nameof(paths));
 
             foreach (var p in paths)
                 self = self.Combine(p);

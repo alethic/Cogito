@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics.Contracts;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -48,7 +47,8 @@ namespace Cogito.Reflection
         /// <returns></returns>
         public static Assembly ReflectionOnlyLoad(this AssemblyName name)
         {
-            Contract.Requires<ArgumentNullException>(name != null);
+            if (name == null)
+                throw new ArgumentNullException(nameof(name));
 
             var assembly = AppDomain.CurrentDomain.GetAssemblies()
                 .FirstOrDefault(i => i.GetName() == name);

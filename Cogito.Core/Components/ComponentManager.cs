@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Diagnostics;
-using System.Diagnostics.Contracts;
 using System.Linq;
 
 namespace Cogito.Components
@@ -28,7 +27,8 @@ namespace Cogito.Components
         public ComponentManager(
             [ImportMany] IEnumerable<IComponentProvider> providers)
         {
-            Contract.Requires<ArgumentNullException>(providers != null);
+            if (providers == null)
+                throw new ArgumentNullException(nameof(providers));
 
             this.providers = providers;
             this.components = providers.SelectMany(i => i.Components).ToArray();
@@ -66,7 +66,8 @@ namespace Cogito.Components
 
         Exception TryStart(IComponent component)
         {
-            Contract.Requires<ArgumentNullException>(component != null);
+            if (component == null)
+                throw new ArgumentNullException(nameof(component));
             Trace.TraceInformation("{0}: TryStart ({1})", typeof(ComponentManager).Name, component.GetType().FullName);
 
             try
@@ -84,7 +85,8 @@ namespace Cogito.Components
 
         Exception TryStop(IComponent component)
         {
-            Contract.Requires<ArgumentNullException>(component != null);
+            if (component == null)
+                throw new ArgumentNullException(nameof(component));
             Trace.TraceInformation("{0}: TryStop ({1})", typeof(ComponentManager).Name, component.GetType().FullName);
 
             try
@@ -107,7 +109,8 @@ namespace Cogito.Components
         /// <returns></returns>
         bool IsComponentEnabled(IComponent component)
         {
-            Contract.Requires<ArgumentNullException>(component != null);
+            if (component == null)
+                throw new ArgumentNullException(nameof(component));
 
             if (startTypes.Length == 0)
                 return true;

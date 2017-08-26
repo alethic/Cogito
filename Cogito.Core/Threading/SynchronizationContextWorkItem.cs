@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics.Contracts;
 using System.Threading;
 
 namespace Cogito.Threading
@@ -18,7 +17,8 @@ namespace Cogito.Threading
         /// <param name="state"></param>
         public SynchronizationContextWorkItem(SendOrPostCallback callback, object state)
         {
-            Contract.Requires<ArgumentNullException>(callback != null);
+            if (callback == null)
+                throw new ArgumentNullException(nameof(callback));
 
             Callback = callback;
             State = state;

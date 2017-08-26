@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics.Contracts;
 using System.Threading.Tasks;
 
 namespace Cogito.Threading
@@ -21,8 +20,10 @@ namespace Cogito.Threading
         /// <returns></returns>
         public static async Task<bool> SafeTrySetFromAsync<TResult>(this TaskCompletionSource<TResult> self, Func<Task<TResult>> func)
         {
-            Contract.Requires<ArgumentNullException>(self != null);
-            Contract.Requires<ArgumentNullException>(func != null);
+            if (self == null)
+                throw new ArgumentNullException(nameof(self));
+            if (func == null)
+                throw new ArgumentNullException(nameof(func));
 
             try
             {
@@ -57,8 +58,10 @@ namespace Cogito.Threading
         /// <returns></returns>
         public static async Task<bool> SafeTrySetFromAsync<TResult>(this TaskCompletionSource<TResult> self, Func<Task> action)
         {
-            Contract.Requires<ArgumentNullException>(self != null);
-            Contract.Requires<ArgumentNullException>(action != null);
+            if (self == null)
+                throw new ArgumentNullException(nameof(self));
+            if (action == null)
+                throw new ArgumentNullException(nameof(action));
 
             try
             {
@@ -93,8 +96,10 @@ namespace Cogito.Threading
         /// <returns></returns>
         static async Task<bool> SafeTrySetFromAsync<TResult>(this TaskCompletionSource<TResult> self, Task<TResult> task)
         {
-            Contract.Requires<ArgumentNullException>(self != null);
-            Contract.Requires<ArgumentNullException>(task != null);
+            if (self == null)
+                throw new ArgumentNullException(nameof(self));
+            if (task == null)
+                throw new ArgumentNullException(nameof(task));
 
             try
             {
@@ -118,8 +123,10 @@ namespace Cogito.Threading
         /// <returns></returns>
         static async Task<bool> SafeTrySetFromAsync<TResult>(this TaskCompletionSource<TResult> self, Task task)
         {
-            Contract.Requires<ArgumentNullException>(self != null);
-            Contract.Requires<ArgumentNullException>(task != null);
+            if (self == null)
+                throw new ArgumentNullException(nameof(self));
+            if (task == null)
+                throw new ArgumentNullException(nameof(task));
 
             try
             {
@@ -141,8 +148,10 @@ namespace Cogito.Threading
         /// <param name="task"></param>
         public static bool TrySetFrom<TResult>(this TaskCompletionSource<TResult> self, Task<TResult> task)
         {
-            Contract.Requires<ArgumentNullException>(self != null);
-            Contract.Requires<ArgumentNullException>(task != null);
+            if (self == null)
+                throw new ArgumentNullException(nameof(self));
+            if (task == null)
+                throw new ArgumentNullException(nameof(task));
 
             if (task.IsFaulted)
             {
@@ -171,8 +180,10 @@ namespace Cogito.Threading
         /// <param name="task"></param>
         public static bool TrySetFrom<TResult>(this TaskCompletionSource<TResult> self, Task task)
         {
-            Contract.Requires<ArgumentNullException>(self != null);
-            Contract.Requires<ArgumentNullException>(task != null);
+            if (self == null)
+                throw new ArgumentNullException(nameof(self));
+            if (task == null)
+                throw new ArgumentNullException(nameof(task));
 
             if (task.IsFaulted)
             {

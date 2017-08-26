@@ -79,8 +79,10 @@ namespace Cogito.Linq.Expressions
         /// <returns></returns>
         public static Expression GetPropertyOrFieldFromPath(this Expression self, string propertyPath)
         {
-            Contract.Requires<ArgumentNullException>(self != null);
-            Contract.Requires<ArgumentNullException>(propertyPath != null);
+            if (self == null)
+                throw new ArgumentNullException(nameof(self));
+            if (propertyPath == null)
+                throw new ArgumentNullException(nameof(propertyPath));
 
             // split property path
             var path = propertyPath.Split('.')
@@ -105,8 +107,10 @@ namespace Cogito.Linq.Expressions
         /// <returns></returns>
         public static Expression GetPropertyOrFieldExpression<TInput, TReturn>(this Expression self, Expression<Func<TInput, TReturn>> accessor)
         {
-            Contract.Requires<ArgumentNullException>(self != null);
-            Contract.Requires<ArgumentNullException>(accessor != null);
+            if (self == null)
+                throw new ArgumentNullException(nameof(self));
+            if (accessor == null)
+                throw new ArgumentNullException(nameof(accessor));
 
             return self.GetPropertyOrFieldFromPath(accessor.GetPropertyOrFieldPath());
         }
@@ -118,7 +122,8 @@ namespace Cogito.Linq.Expressions
         /// <returns></returns>
         public static Expression AndAlsoAll(this IEnumerable<Expression> source)
         {
-            Contract.Requires<ArgumentNullException>(source != null);
+            if (source == null)
+                throw new ArgumentNullException(nameof(source));
 
             return source.Aggregate((i, j) => Expression.AndAlso(i, j));
         }
@@ -130,7 +135,8 @@ namespace Cogito.Linq.Expressions
         /// <returns></returns>
         public static Expression OrElseAll(this IEnumerable<Expression> source)
         {
-            Contract.Requires<ArgumentNullException>(source != null);
+            if (source == null)
+                throw new ArgumentNullException(nameof(source));
 
             return source.Aggregate((i, j) => Expression.OrElse(i, j));
         }

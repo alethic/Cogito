@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Text.RegularExpressions;
 
@@ -67,8 +66,10 @@ namespace Cogito.Dynamic
         /// <returns></returns>
         object ReadJson(JToken value, Type objectType, JsonSerializer serializer)
         {
-            Contract.Requires<ArgumentNullException>(value != null);
-            Contract.Requires<ArgumentNullException>(serializer != null);
+            if (value == null)
+                throw new ArgumentNullException(nameof(value));
+            if (serializer == null)
+                throw new ArgumentNullException(nameof(serializer));
 
             // recommended type of value
             var t = JTokenToType(value, objectType, serializer);

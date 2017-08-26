@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
 using System.Dynamic;
 using System.Linq.Expressions;
 using System.Reflection;
@@ -28,8 +27,10 @@ namespace Cogito.Dynamic
         public ElasticObjectMetaObject(Expression expression, BindingRestrictions restrictions, ElasticObject value)
             : base(expression, restrictions, value)
         {
-            Contract.Requires<ArgumentNullException>(expression != null);
-            Contract.Requires<ArgumentNullException>(restrictions != null);
+            if (expression == null)
+                throw new ArgumentNullException(nameof(expression));
+            if (restrictions == null)
+                throw new ArgumentNullException(nameof(restrictions));
         }
 
         /// <summary>

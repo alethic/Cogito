@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Linq.Expressions;
 
@@ -17,13 +16,14 @@ namespace Cogito.Core.Linq
         {
             return (IQueryable)Activator.CreateInstance(
                 typeof(Requeryable<>).MakeGenericType(elementType),
-                provider, 
+                provider,
                 expression);
         }
 
         public override object Execute(Expression expression)
         {
-            Contract.Requires<ArgumentNullException>(expression != null);
+            if (expression == null)
+                throw new ArgumentNullException(nameof(expression));
 
             throw new NotImplementedException();
         }

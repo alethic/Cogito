@@ -26,8 +26,10 @@ namespace Cogito.Core.Linq
         /// <param name="expression"></param>
         public Query(QueryProvider provider, Expression expression)
         {
-            Contract.Requires<ArgumentNullException>(provider != null);
-            Contract.Requires<ArgumentNullException>(expression != null);
+            if (provider == null)
+                throw new ArgumentNullException(nameof(provider));
+            if (expression == null)
+                throw new ArgumentNullException(nameof(expression));
             Contract.Requires<ArgumentOutOfRangeException>(typeof(IQueryable<T>).IsAssignableFrom(expression.Type));
 
             this.provider = provider;

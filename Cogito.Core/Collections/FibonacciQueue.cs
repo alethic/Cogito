@@ -21,7 +21,8 @@
 //        /// <returns></returns>
 //        public static Func<TKey, TValue> GetIndexer<TKey, TValue>(Dictionary<TKey, TValue> dictionary)
 //        {
-//            Contract.Requires<ArgumentNullException>(dictionary != null);
+//            if (dictionary == null)
+//              throw new ArgumentNullException(nameof(dictionary));
 //            Contract.Ensures(Contract.Result<Func<TKey, TValue>>() != null);
 
 //            var method = dictionary.GetType().GetProperty("Item").GetGetMethod();
@@ -40,7 +41,8 @@
 //            Func<TVertex, TDistance> distances)
 //            : this(0, null, distances, Comparer<TDistance>.Default.Compare)
 //        {
-//            Contract.Requires<ArgumentNullException>(distances != null);
+//            if (distances == null)
+//              throw new ArgumentNullException(nameof(distances));
 //        }
 
 //        /// <summary>
@@ -57,7 +59,8 @@
 //        {
 //            Contract.Requires<ArgumentOutOfRangeException>(valueCount >= 0);
 //            Contract.Requires<ArgumentOutOfRangeException>(valueCount == 0 || (values != null && valueCount == Enumerable.Count(values)));
-//            Contract.Requires<ArgumentNullException>(distances != null);
+//            if (distances == null)
+//              throw new ArgumentNullException(nameof(distances));
 //        }
 
 //        /// <summary>
@@ -75,8 +78,10 @@
 //        {
 //            Contract.Requires<ArgumentOutOfRangeException>(valueCount >= 0);
 //            Contract.Requires<ArgumentOutOfRangeException>(valueCount == 0 || (values != null && valueCount == Enumerable.Count(values)));
-//            Contract.Requires<ArgumentNullException>(distances != null);
-//            Contract.Requires<ArgumentNullException>(distanceComparison != null);
+//            if (distances == null)
+//              throw new ArgumentNullException(nameof(distances));
+//            if (distanceComparison == null)
+//              throw new ArgumentNullException(nameof(distanceComparison));
 
 //            this.distances = distances;
 //            this.cells = new Dictionary<TVertex, FibonacciHeapCell<TDistance, TVertex>>(valueCount);
@@ -103,8 +108,10 @@
 //            Dictionary<TVertex, TDistance> values,
 //            Func<TDistance, TDistance, int> distanceComparison)
 //        {
-//            Contract.Requires<ArgumentNullException>(values != null);
-//            Contract.Requires<ArgumentNullException>(distanceComparison != null);
+//            if (values == null)
+//              throw new ArgumentNullException(nameof(values));
+//            if (distanceComparison == null)
+//              throw new ArgumentNullException(nameof(distanceComparison));
 
 //            distances = GetIndexer(values);
 //            cells = new Dictionary<TVertex, FibonacciHeapCell<TDistance, TVertex>>(values.Count);
@@ -131,7 +138,8 @@
 //            Dictionary<TVertex, TDistance> values)
 //            : this(values, Comparer<TDistance>.Default.Compare)
 //        {
-//            Contract.Requires<ArgumentNullException>(values != null);
+//            if (values == null)
+///             throw new ArgumentNullException(nameof(values));
 //        }
 
 //        #region IQueue<TVertex> Members

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Reflection;
 
@@ -22,9 +21,12 @@ namespace Cogito.Reflection
         /// <returns></returns>
         public static object InvokeWithNamedParameters(this MethodBase self, object obj, IDictionary<string, object> parameters)
         {
-            Contract.Requires<ArgumentNullException>(self != null);
-            Contract.Requires<ArgumentNullException>(obj != null);
-            Contract.Requires<ArgumentNullException>(parameters != null);
+            if (self == null)
+                throw new ArgumentNullException(nameof(self));
+            if (obj == null)
+                throw new ArgumentNullException(nameof(obj));
+            if (parameters == null)
+                throw new ArgumentNullException(nameof(parameters));
 
             return self.Invoke(obj, MapParameters(self, parameters));
         }
@@ -37,8 +39,10 @@ namespace Cogito.Reflection
         /// <returns></returns>
         static object[] MapParameters(MethodBase method, IDictionary<string, object> parameters)
         {
-            Contract.Requires<ArgumentNullException>(method != null);
-            Contract.Requires<ArgumentNullException>(parameters != null);
+            if (method == null)
+                throw new ArgumentNullException(nameof(method));
+            if (parameters == null)
+                throw new ArgumentNullException(nameof(parameters));
 
             var argp = method.GetParameters();
             var argn = argp.Select(i => i.Name).ToArray();

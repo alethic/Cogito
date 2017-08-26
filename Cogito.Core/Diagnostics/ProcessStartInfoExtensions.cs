@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Diagnostics.Contracts;
 using System.Threading.Tasks;
 
 namespace Cogito.Diagnostics
@@ -20,7 +19,8 @@ namespace Cogito.Diagnostics
         /// <returns></returns>
         public static Task<int> StartAndWaitForExitAsync(this ProcessStartInfo info, TimeSpan? timeout = null)
         {
-            Contract.Requires<ArgumentNullException>(info != null);
+            if (info == null)
+                throw new ArgumentNullException(nameof(info));
 
             return Task.Run(() =>
             {

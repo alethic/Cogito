@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics.Contracts;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
@@ -21,7 +20,8 @@ namespace Cogito.Net.Http
         public HttpMessageEventSourceWriterHandler(HttpMessageHandler innerHandler)
             : base(innerHandler)
         {
-            Contract.Requires<ArgumentNullException>(innerHandler != null);
+            if (innerHandler == null)
+                throw new ArgumentNullException(nameof(innerHandler));
         }
 
         /// <summary>

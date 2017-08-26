@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
-using System.Diagnostics.Contracts;
 
 namespace Cogito.Components
 {
@@ -24,7 +23,8 @@ namespace Cogito.Components
         public DefaultComponentProvider(
             [ImportMany] IEnumerable<IComponent> components)
         {
-            Contract.Requires<ArgumentNullException>(components != null);
+            if (components == null)
+                throw new ArgumentNullException(nameof(components));
 
             this.components = components;
         }

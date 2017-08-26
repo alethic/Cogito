@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics.Contracts;
 using System.IO;
 using System.Threading.Tasks;
 
@@ -44,8 +43,10 @@ namespace Cogito.IO
         /// <param name="bufferSize"></param>
         public static void WriteFrom(this Stream self, Stream source, int bufferSize)
         {
-            Contract.Requires<ArgumentNullException>(self != null);
-            Contract.Requires<ArgumentNullException>(source != null);
+            if (self == null)
+                throw new ArgumentNullException(nameof(self));
+            if (source == null)
+                throw new ArgumentNullException(nameof(source));
 
             source.CopyTo(self, bufferSize);
         }
@@ -57,8 +58,10 @@ namespace Cogito.IO
         /// <param name="source"></param>
         public static void WriteFrom(this Stream self, Stream source)
         {
-            Contract.Requires<ArgumentNullException>(self != null);
-            Contract.Requires<ArgumentNullException>(source != null);
+            if (self == null)
+                throw new ArgumentNullException(nameof(self));
+            if (source == null)
+                throw new ArgumentNullException(nameof(source));
 
             source.CopyTo(self);
         }
@@ -71,8 +74,10 @@ namespace Cogito.IO
         /// <param name="bufferSize"></param>
         public static Task WriteFromAsync(this Stream self, Stream source, int bufferSize)
         {
-            Contract.Requires<ArgumentNullException>(self != null);
-            Contract.Requires<ArgumentNullException>(source != null);
+            if (self == null)
+                throw new ArgumentNullException(nameof(self));
+            if (source == null)
+                throw new ArgumentNullException(nameof(source));
 
             return source.CopyToAsync(self, bufferSize);
         }
@@ -84,8 +89,10 @@ namespace Cogito.IO
         /// <param name="source"></param>
         public static Task WriteFromAsync(this Stream self, Stream source)
         {
-            Contract.Requires<ArgumentNullException>(self != null);
-            Contract.Requires<ArgumentNullException>(source != null);
+            if (self == null)
+                throw new ArgumentNullException(nameof(self));
+            if (source == null)
+                throw new ArgumentNullException(nameof(source));
 
             return source.CopyToAsync(self);
         }

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
 using System.Dynamic;
 using System.Linq;
 using System.Linq.Expressions;
@@ -88,7 +87,8 @@ namespace Cogito.Dynamic
         /// <param name="context"></param>
         public ElasticObject(SerializationInfo info, StreamingContext context)
         {
-            Contract.Requires<ArgumentNullException>(info != null);
+            if (info == null)
+                throw new ArgumentNullException(nameof(info));
 
             foreach (var i in info)
                 dictionary[i.Name] = i.Value;
@@ -102,8 +102,18 @@ namespace Cogito.Dynamic
         [IgnoreDataMember]
         public dynamic this[string name]
         {
-            get { Contract.Requires<ArgumentNullException>(name != null); return dictionary.GetOrDefault(name); }
-            set { Contract.Requires<ArgumentNullException>(name != null); dictionary[name] = value; }
+            get
+            {
+                if (name == null)
+                    throw new ArgumentNullException(nameof(name));
+                return dictionary.GetOrDefault(name);
+            }
+            set
+            {
+                if (name == null)
+                    throw new ArgumentNullException(nameof(name));
+                dictionary[name] = value;
+            }
         }
 
         /// <summary>

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics.Contracts;
 using System.Xml;
 using System.Xml.Linq;
 
@@ -19,7 +18,8 @@ namespace Cogito.Xml
         /// <returns></returns>
         public static XNode ToXNode(this XmlNode node)
         {
-            Contract.Requires<ArgumentNullException>(node != null);
+            if (node == null)
+                throw new ArgumentNullException(nameof(node));
 
             var rdr = new XmlNodeReader(node);
             rdr.MoveToContent();
@@ -33,7 +33,8 @@ namespace Cogito.Xml
         /// <returns></returns>
         public static XElement ToXNode(this XmlElement element)
         {
-            Contract.Requires<ArgumentNullException>(element != null);
+            if (element == null)
+                throw new ArgumentNullException(nameof(element));
 
             return (XElement)((XmlNode)element).ToXNode();
         }
@@ -45,7 +46,8 @@ namespace Cogito.Xml
         /// <returns></returns>
         public static XmlElement ToXmlNode(this XElement element)
         {
-            Contract.Requires<ArgumentNullException>(element != null);
+            if (element == null)
+                throw new ArgumentNullException(nameof(element));
 
             var xml = new XmlDocument();
             xml.Load(new XDocument(element).CreateReader());
@@ -59,7 +61,8 @@ namespace Cogito.Xml
         /// <returns></returns>
         public static XDocument ToXNode(this XmlDocument document)
         {
-            Contract.Requires<ArgumentNullException>(document != null);
+            if (document == null)
+                throw new ArgumentNullException(nameof(document));
 
             return (XDocument)((XmlNode)document).ToXNode();
         }

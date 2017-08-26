@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics.Contracts;
 using System.Threading;
 
 namespace Cogito.Components
@@ -82,7 +81,8 @@ namespace Cogito.Components
         /// <param name="exception"></param>
         protected virtual void OnException(Exception exception)
         {
-            Contract.Requires<ArgumentNullException>(exception != null);
+            if (exception == null)
+                throw new ArgumentNullException(nameof(exception));
 
             Retry();
         }

@@ -25,7 +25,8 @@ namespace Cogito.Diagnostics
         /// <param name="fileName"></param>
         public RollingFileTraceListener(string fileName)
         {
-            Contract.Requires<ArgumentNullException>(fileName != null);
+            if (fileName == null)
+                throw new ArgumentNullException(nameof(fileName));
             Contract.Requires<ArgumentOutOfRangeException>(fileName.Length >= 2);
 
             // resolve template FileInfo

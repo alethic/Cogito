@@ -21,7 +21,8 @@ namespace Cogito.IO.Media
         /// <returns></returns>
         public static MediaRangeParameters Parse(string parameters)
         {
-            Contract.Requires<ArgumentNullException>(parameters != null);
+            if (parameters == null)
+                throw new ArgumentNullException(nameof(parameters));
 
             return new MediaRangeParameters(parameters
                 .Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries)
@@ -56,7 +57,8 @@ namespace Cogito.IO.Media
         /// <param name="parameters">The parameters.</param>
         internal MediaRangeParameters(IDictionary<string, string> parameters)
         {
-            Contract.Requires<ArgumentNullException>(parameters != null);
+            if (parameters == null)
+                throw new ArgumentNullException(nameof(parameters));
 
             this.parameters = new Dictionary<string, string>(parameters, StringComparer.OrdinalIgnoreCase);
         }
@@ -95,7 +97,8 @@ namespace Cogito.IO.Media
         /// <returns>True if matching, false if not</returns>
         public bool Matches(MediaRangeParameters other)
         {
-            Contract.Requires<ArgumentNullException>(other != null);
+            if (other == null)
+                throw new ArgumentNullException(nameof(other));
 
             return parameters.OrderBy(p => p.Key).SequenceEqual(other.parameters.OrderBy(p => p.Key));
         }

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -20,7 +19,8 @@ namespace Cogito.Threading
         /// <returns></returns>
         public static Task WaitAllAsync(this IEnumerable<Task> source)
         {
-            Contract.Requires<ArgumentNullException>(source != null);
+            if (source == null)
+                throw new ArgumentNullException(nameof(source));
 
             return Task.WhenAll(source);
         }
@@ -33,7 +33,8 @@ namespace Cogito.Threading
         /// <returns></returns>
         public static Task<T[]> ToArrayAsync<T>(this IEnumerable<Task<T>> source)
         {
-            Contract.Requires<ArgumentNullException>(source != null);
+            if (source == null)
+                throw new ArgumentNullException(nameof(source));
 
             return Task.WhenAll<T>(source);
         }
@@ -46,7 +47,8 @@ namespace Cogito.Threading
         /// <returns></returns>
         public static async Task<T[]> ToSequentialArrayAsync<T>(this IEnumerable<Task<T>> source)
         {
-            Contract.Requires<ArgumentNullException>(source != null);
+            if (source == null)
+                throw new ArgumentNullException(nameof(source));
 
             var l = new List<T>();
             foreach (var i in source)
@@ -63,8 +65,10 @@ namespace Cogito.Threading
         /// <returns></returns>
         public static async Task<bool> AllAsync<T>(this IEnumerable<T> source, Func<T, Task<bool>> predicate)
         {
-            Contract.Requires<ArgumentNullException>(source != null);
-            Contract.Requires<ArgumentNullException>(predicate != null);
+            if (source == null)
+                throw new ArgumentNullException(nameof(source));
+            if (predicate == null)
+                throw new ArgumentNullException(nameof(predicate));
 
             foreach (var i in await source.Select(predicate).ToArrayAsync())
                 if (!i)
@@ -82,8 +86,10 @@ namespace Cogito.Threading
         /// <returns></returns>
         public static async Task<bool> AllAsync<T>(this IEnumerable<Task<T>> source, Func<Task<T>, Task<bool>> predicate)
         {
-            Contract.Requires<ArgumentNullException>(source != null);
-            Contract.Requires<ArgumentNullException>(predicate != null);
+            if (source == null)
+                throw new ArgumentNullException(nameof(source));
+            if (predicate == null)
+                throw new ArgumentNullException(nameof(predicate));
 
             foreach (var i in await source.Select(predicate).ToArrayAsync())
                 if (!i)
@@ -101,8 +107,10 @@ namespace Cogito.Threading
         /// <returns></returns>
         public static async Task<bool> AllAsync<T>(this IEnumerable<Task<T>> source, Func<T, bool> predicate)
         {
-            Contract.Requires<ArgumentNullException>(source != null);
-            Contract.Requires<ArgumentNullException>(predicate != null);
+            if (source == null)
+                throw new ArgumentNullException(nameof(source));
+            if (predicate == null)
+                throw new ArgumentNullException(nameof(predicate));
 
             foreach (var i in await source.Select(async j => predicate(await j)).ToArrayAsync())
                 if (!i)
@@ -118,7 +126,8 @@ namespace Cogito.Threading
         /// <returns></returns>
         public static async Task<bool> AllAsync(this IEnumerable<Task<bool>> source)
         {
-            Contract.Requires<ArgumentNullException>(source != null);
+            if (source == null)
+                throw new ArgumentNullException(nameof(source));
 
             foreach (var i in await source.ToArrayAsync())
                 if (!i)
@@ -136,8 +145,10 @@ namespace Cogito.Threading
         /// <returns></returns>
         public static async Task<bool> AnyAsync<T>(this IEnumerable<T> source, Func<T, Task<bool>> predicate)
         {
-            Contract.Requires<ArgumentNullException>(source != null);
-            Contract.Requires<ArgumentNullException>(predicate != null);
+            if (source == null)
+                throw new ArgumentNullException(nameof(source));
+            if (predicate == null)
+                throw new ArgumentNullException(nameof(predicate));
 
             foreach (var i in await source.Select(predicate).ToArrayAsync())
                 if (i)
@@ -155,8 +166,10 @@ namespace Cogito.Threading
         /// <returns></returns>
         public static async Task<bool> AnyAsync<T>(this IEnumerable<Task<T>> source, Func<Task<T>, Task<bool>> predicate)
         {
-            Contract.Requires<ArgumentNullException>(source != null);
-            Contract.Requires<ArgumentNullException>(predicate != null);
+            if (source == null)
+                throw new ArgumentNullException(nameof(source));
+            if (predicate == null)
+                throw new ArgumentNullException(nameof(predicate));
 
 
             foreach (var i in await source.Select(predicate).ToArrayAsync())
@@ -173,7 +186,8 @@ namespace Cogito.Threading
         /// <returns></returns>
         public static async Task<bool> AnyAsync(this IEnumerable<Task<bool>> source)
         {
-            Contract.Requires<ArgumentNullException>(source != null);
+            if (source == null)
+                throw new ArgumentNullException(nameof(source));
 
 
             foreach (var i in await source.ToArrayAsync())
@@ -192,8 +206,10 @@ namespace Cogito.Threading
         /// <returns></returns>
         public static async Task ForEachAsync<TSource>(this IEnumerable<TSource> source, Func<TSource, Task> action)
         {
-            Contract.Requires<ArgumentNullException>(source != null);
-            Contract.Requires<ArgumentNullException>(action != null);
+            if (source == null)
+                throw new ArgumentNullException(nameof(source));
+            if (action == null)
+                throw new ArgumentNullException(nameof(action));
 
             foreach (var i in source)
                 await action(i);
@@ -208,8 +224,10 @@ namespace Cogito.Threading
         /// <returns></returns>
         public static Task ForEachParallelAsync<TSource>(this IEnumerable<TSource> source, Func<TSource, Task> action)
         {
-            Contract.Requires<ArgumentNullException>(source != null);
-            Contract.Requires<ArgumentNullException>(action != null);
+            if (source == null)
+                throw new ArgumentNullException(nameof(source));
+            if (action == null)
+                throw new ArgumentNullException(nameof(action));
 
             return source.Select(action).WaitAllAsync();
         }
@@ -243,8 +261,10 @@ namespace Cogito.Threading
         /// <returns></returns>
         public static async Task<TSource> FirstOrDefaultAsync<TSource>(this IEnumerable<Task<TSource>> source, Func<TSource, Task<bool>> predicate)
         {
-            Contract.Requires<ArgumentNullException>(source != null);
-            Contract.Requires<ArgumentNullException>(predicate != null);
+            if (source == null)
+                throw new ArgumentNullException(nameof(source));
+            if (predicate == null)
+                throw new ArgumentNullException(nameof(predicate));
 
             // find first matching element
             foreach (var t in source)
@@ -264,8 +284,10 @@ namespace Cogito.Threading
         /// <returns></returns>
         public static async Task<TSource> FirstOrDefaultAsync<TSource>(this IEnumerable<TSource> source, Func<TSource, Task<bool>> predicate)
         {
-            Contract.Requires<ArgumentNullException>(source != null);
-            Contract.Requires<ArgumentNullException>(predicate != null);
+            if (source == null)
+                throw new ArgumentNullException(nameof(source));
+            if (predicate == null)
+                throw new ArgumentNullException(nameof(predicate));
 
             // find first matching element
             foreach (var t in source)

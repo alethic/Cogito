@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Linq.Expressions;
 
@@ -22,8 +21,10 @@ namespace Cogito.Core.Linq
         public Requeryable(RequeryableProvider provider, Expression expression)
             : base(provider, expression)
         {
-            Contract.Requires<ArgumentNullException>(provider != null);
-            Contract.Requires<ArgumentNullException>(expression != null);
+            if (provider == null)
+                throw new ArgumentNullException(nameof(provider));
+            if (expression == null)
+                throw new ArgumentNullException(nameof(expression));
         }
 
         /// <summary>
@@ -33,7 +34,8 @@ namespace Cogito.Core.Linq
         /// <returns></returns>
         public IQueryable<TElement> Requery(IQueryable<TElement> source)
         {
-            Contract.Requires<ArgumentNullException>(source != null);
+            if (source == null)
+                throw new ArgumentNullException(nameof(source));
 
             throw new NotImplementedException();
         }

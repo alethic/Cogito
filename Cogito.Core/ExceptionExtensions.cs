@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
 
 namespace Cogito
 {
@@ -17,7 +16,8 @@ namespace Cogito
         /// <param name="self"></param>
         public static void Trace(this Exception self)
         {
-            Contract.Requires<ArgumentNullException>(self != null);
+            if (self == null)
+                throw new ArgumentNullException(nameof(self));
 
             System.Diagnostics.Trace.TraceError("{0:HH:mm:ss.fff} {1} {2}", DateTime.Now, self.GetType().FullName, self);
         }
@@ -29,7 +29,8 @@ namespace Cogito
         /// <returns></returns>
         public static IEnumerable<Exception> Expand(this Exception e)
         {
-            Contract.Requires<ArgumentNullException>(e != null);
+            if (e == null)
+                throw new ArgumentNullException(nameof(e));
 
             var ae = e as AggregateException;
             if (ae != null)

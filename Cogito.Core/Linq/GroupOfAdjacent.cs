@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
 using System.Linq;
 
 namespace Cogito.Linq
@@ -22,7 +21,8 @@ namespace Cogito.Linq
         /// <param name="list"></param>
         internal GroupOfAdjacent(TKey key, IEnumerable<TElement> list)
         {
-            Contract.Requires<ArgumentNullException>(list != null);
+            if (list == null)
+                throw new ArgumentNullException(nameof(list));
 
             this.key = key;
             this.list = list;

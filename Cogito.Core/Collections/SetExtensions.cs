@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
 
 namespace Cogito.Collections
 {
@@ -20,8 +19,10 @@ namespace Cogito.Collections
         /// <returns></returns>
         public static ISet<T> ThenUnionWith<T>(this ISet<T> self, IEnumerable<T> source)
         {
-            Contract.Requires<ArgumentNullException>(self != null);
-            Contract.Requires<ArgumentNullException>(source != null);
+            if (self == null)
+                throw new ArgumentNullException(nameof(self));
+            if (source == null)
+                throw new ArgumentNullException(nameof(source));
 
             self.UnionWith(source);
             return self;

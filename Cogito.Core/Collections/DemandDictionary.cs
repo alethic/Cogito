@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
 
 namespace Cogito.Collections
 {
@@ -38,8 +37,10 @@ namespace Cogito.Collections
         /// </summary>
         public DemandDictionary(TryFunc<TKey, TValue> getter, IDictionary<TKey, TValue> cache)
         {
-            Contract.Requires<ArgumentNullException>(getter != null);
-            Contract.Requires<ArgumentNullException>(cache != null);
+            if (getter == null)
+                throw new ArgumentNullException(nameof(getter));
+            if (cache == null)
+                throw new ArgumentNullException(nameof(cache));
 
             this.getter = getter;
             this.cache = cache;
@@ -51,8 +52,10 @@ namespace Cogito.Collections
         public DemandDictionary(Func<TKey, TValue> getter, IDictionary<TKey, TValue> cache)
             : this(TryFuncFunc(getter), cache)
         {
-            Contract.Requires<ArgumentNullException>(getter != null);
-            Contract.Requires<ArgumentNullException>(cache != null);
+            if (getter == null)
+                throw new ArgumentNullException(nameof(getter));
+            if (cache == null)
+                throw new ArgumentNullException(nameof(cache));
         }
 
         /// <summary>
@@ -63,7 +66,8 @@ namespace Cogito.Collections
         public DemandDictionary(TryFunc<TKey, TValue> getter, bool threadSafe)
             : this(getter, threadSafe ? (IDictionary<TKey, TValue>)new ConcurrentDictionary<TKey, TValue>() : new Dictionary<TKey, TValue>())
         {
-            Contract.Requires<ArgumentNullException>(getter != null);
+            if (getter == null)
+                throw new ArgumentNullException(nameof(getter));
         }
 
         /// <summary>
@@ -74,7 +78,8 @@ namespace Cogito.Collections
         public DemandDictionary(Func<TKey, TValue> getter, bool threadSafe)
             : this(TryFuncFunc(getter), threadSafe)
         {
-            Contract.Requires<ArgumentNullException>(getter != null);
+            if (getter == null)
+                throw new ArgumentNullException(nameof(getter));
         }
 
         /// <summary>
@@ -84,7 +89,8 @@ namespace Cogito.Collections
         public DemandDictionary(TryFunc<TKey, TValue> getter)
             : this(getter, false)
         {
-            Contract.Requires<ArgumentNullException>(getter != null);
+            if (getter == null)
+                throw new ArgumentNullException(nameof(getter));
         }
 
         /// <summary>
@@ -94,7 +100,8 @@ namespace Cogito.Collections
         public DemandDictionary(Func<TKey, TValue> getter)
             : this(TryFuncFunc(getter), false)
         {
-            Contract.Requires<ArgumentNullException>(getter != null);
+            if (getter == null)
+                throw new ArgumentNullException(nameof(getter));
         }
 
         /// <summary>

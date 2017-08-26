@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics.Contracts;
 
 namespace Cogito
 {
@@ -19,8 +18,10 @@ namespace Cogito
         /// <returns></returns>
         public static UriBuilder AppendQuery(this UriBuilder self, string name, string value)
         {
-            Contract.Requires<ArgumentNullException>(self != null);
-            Contract.Requires<ArgumentNullException>(name != null);
+            if (self == null)
+                throw new ArgumentNullException(nameof(self));
+            if (name == null)
+                throw new ArgumentNullException(nameof(name));
 
             var p = Uri.EscapeDataString(name) + "=" + Uri.EscapeDataString(value ?? "");
 
@@ -42,8 +43,10 @@ namespace Cogito
         /// <returns></returns>
         public static UriBuilder AppendQuery(this UriBuilder self, string name, object value)
         {
-            Contract.Requires<ArgumentNullException>(self != null);
-            Contract.Requires<ArgumentNullException>(name != null);
+            if (self == null)
+                throw new ArgumentNullException(nameof(self));
+            if (name == null)
+                throw new ArgumentNullException(nameof(name));
 
             return AppendQuery(self, name, value.ToString());
         }

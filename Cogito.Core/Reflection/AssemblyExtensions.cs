@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
 using System.Reflection;
 
 using Cogito.Collections;
@@ -30,7 +28,8 @@ namespace Cogito.Reflection
         /// <returns></returns>
         public static IEnumerable<Assembly> LoadAllReferencedAssemblies(this Assembly assembly)
         {
-            Contract.Requires<ArgumentNullException>(assembly != null);
+            if (assembly == null)
+                throw new ArgumentNullException(nameof(assembly));
 
             // determine unique assemblies
             var set = new HashSet<Assembly>(FullNameAssemblyEqualityComparer);
@@ -46,8 +45,10 @@ namespace Cogito.Reflection
         /// <param name="assemblies"></param>
         static void LoadAllReferencedAssembliesInternal(this Assembly assembly, HashSet<Assembly> assemblies)
         {
-            Contract.Requires<ArgumentNullException>(assembly != null);
-            Contract.Requires<ArgumentNullException>(assemblies != null);
+            if (assembly == null)
+                throw new ArgumentNullException(nameof(assembly));
+            if (assemblies == null)
+                throw new ArgumentNullException(nameof(assemblies));
 
             foreach (var assemblyName in assembly.GetReferencedAssemblies())
                 if ((assembly = assemblyName.ReflectionOnlyLoad()) != null && assemblies.Add(assembly))

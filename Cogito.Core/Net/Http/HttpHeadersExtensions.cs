@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Net.Http.Headers;
 
@@ -21,8 +20,10 @@ namespace Cogito.Net.Http
         /// <returns></returns>
         public static IEnumerable<string> GetValuesOrNull(this HttpHeaders self, string name)
         {
-            Contract.Requires<ArgumentNullException>(self != null);
-            Contract.Requires<ArgumentNullException>(name != null);
+            if (self == null)
+                throw new ArgumentNullException(nameof(self));
+            if (name == null)
+                throw new ArgumentNullException(nameof(name));
 
             IEnumerable<string> values;
             return self.TryGetValues(name, out values) ? values : null;
@@ -36,8 +37,10 @@ namespace Cogito.Net.Http
         /// <returns></returns>
         public static IEnumerable<string> GetValuesOrEmpty(this HttpHeaders self, string name)
         {
-            Contract.Requires<ArgumentNullException>(self != null);
-            Contract.Requires<ArgumentNullException>(name != null);
+            if (self == null)
+                throw new ArgumentNullException(nameof(self));
+            if (name == null)
+                throw new ArgumentNullException(nameof(name));
 
             return GetValuesOrNull(self, name) ?? Enumerable.Empty<string>();
         }

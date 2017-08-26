@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics.Contracts;
 using System.Diagnostics.Tracing;
 using System.Linq;
 using System.Net.Http;
@@ -44,7 +43,8 @@ namespace Cogito.Net.Http
         [NonEvent]
         public void HttpRequestStart(HttpRequestMessage message)
         {
-            Contract.Requires<ArgumentNullException>(message != null);
+            if (message == null)
+                throw new ArgumentNullException(nameof(message));
 
             if (IsEnabled())
                 HttpRequestStart(
@@ -88,7 +88,8 @@ namespace Cogito.Net.Http
         [NonEvent]
         public void HttpRequestStop(HttpResponseMessage message)
         {
-            Contract.Requires<ArgumentNullException>(message != null);
+            if (message == null)
+                throw new ArgumentNullException(nameof(message));
 
             if (IsEnabled())
                 HttpRequestStop(

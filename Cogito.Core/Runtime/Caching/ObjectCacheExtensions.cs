@@ -22,9 +22,12 @@ namespace Cogito.Runtime.Caching
         /// <returns></returns>
         public static T GetOrCreate<T>(this ObjectCache self, string key, Func<T> func, CacheItemPolicy policy)
         {
-            Contract.Requires<ArgumentNullException>(self != null);
-            Contract.Requires<ArgumentNullException>(key != null);
-            Contract.Requires<ArgumentNullException>(func != null);
+            if (self == null)
+                throw new ArgumentNullException(nameof(self));
+            if (key == null)
+                throw new ArgumentNullException(nameof(key));
+            if (func == null)
+                throw new ArgumentNullException(nameof(func));
 
             lock (self)
             {
@@ -49,9 +52,12 @@ namespace Cogito.Runtime.Caching
         /// <returns></returns>
         public static T GetOrCreate<T>(this ObjectCache self, string key, Func<T> func, DateTimeOffset absoluteExpiration, TimeSpan slidingExpiration)
         {
-            Contract.Requires<ArgumentNullException>(self != null);
-            Contract.Requires<ArgumentNullException>(key != null);
-            Contract.Requires<ArgumentNullException>(func != null);
+            if (self == null)
+                throw new ArgumentNullException(nameof(self));
+            if (key == null)
+                throw new ArgumentNullException(nameof(key));
+            if (func == null)
+                throw new ArgumentNullException(nameof(func));
 
             return self.GetOrCreate(key, func, new CacheItemPolicy()
             {
@@ -72,9 +78,12 @@ namespace Cogito.Runtime.Caching
         /// <returns></returns>
         public static T GetOrCreate<T>(this ObjectCache self, string key, Func<T> func, DateTimeOffset absoluteExpiration)
         {
-            Contract.Requires<ArgumentNullException>(self != null);
-            Contract.Requires<ArgumentNullException>(key != null);
-            Contract.Requires<ArgumentNullException>(func != null);
+            if (self == null)
+                throw new ArgumentNullException(nameof(self));
+            if (key == null)
+                throw new ArgumentNullException(nameof(key));
+            if (func == null)
+                throw new ArgumentNullException(nameof(func));
 
             return GetOrCreate(self, key, func, absoluteExpiration, ObjectCache.NoSlidingExpiration);
         }
@@ -91,9 +100,12 @@ namespace Cogito.Runtime.Caching
         /// <returns></returns>
         public static T GetOrCreate<T>(this ObjectCache self, string key, Func<T> func, TimeSpan slidingExpiration)
         {
-            Contract.Requires<ArgumentNullException>(self != null);
-            Contract.Requires<ArgumentNullException>(key != null);
-            Contract.Requires<ArgumentNullException>(func != null);
+            if (self == null)
+                throw new ArgumentNullException(nameof(self));
+            if (key == null)
+                throw new ArgumentNullException(nameof(key));
+            if (func == null)
+                throw new ArgumentNullException(nameof(func));
 
             return GetOrCreate(self, key, func, ObjectCache.InfiniteAbsoluteExpiration, slidingExpiration);
         }
@@ -110,9 +122,12 @@ namespace Cogito.Runtime.Caching
         /// <returns></returns>
         public static T GetOrCreate<T>(this ObjectCache self, Func<T> func, DateTimeOffset absoluteExpiration, params object[] keys)
         {
-            Contract.Requires<ArgumentNullException>(self != null);
-            Contract.Requires<ArgumentNullException>(func != null);
-            Contract.Requires<ArgumentNullException>(keys != null);
+            if (self == null)
+                throw new ArgumentNullException(nameof(self));
+            if (func == null)
+                throw new ArgumentNullException(nameof(func));
+            if (keys == null)
+                throw new ArgumentNullException(nameof(keys));
             Contract.Requires<ArgumentOutOfRangeException>(keys.Length > 0);
 
             // generate unique key for keys
@@ -135,9 +150,12 @@ namespace Cogito.Runtime.Caching
         /// <returns></returns>
         public static T GetOrCreate<T>(this ObjectCache self, Func<T> func, TimeSpan slidingExpiration, params object[] keys)
         {
-            Contract.Requires<ArgumentNullException>(self != null);
-            Contract.Requires<ArgumentNullException>(func != null);
-            Contract.Requires<ArgumentNullException>(keys != null);
+            if (self == null)
+                throw new ArgumentNullException(nameof(self));
+            if (func == null)
+                throw new ArgumentNullException(nameof(func));
+            if (keys == null)
+                throw new ArgumentNullException(nameof(keys));
 
             // generate unique key for keys
             var k = string.Join("##", Enumerable.Empty<object>()

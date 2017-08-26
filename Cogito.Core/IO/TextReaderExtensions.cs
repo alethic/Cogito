@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
 using System.IO;
 
 namespace Cogito.IO
@@ -19,7 +18,8 @@ namespace Cogito.IO
         /// <returns></returns>
         public static IEnumerable<string> ReadLines(this TextReader self)
         {
-            Contract.Requires<ArgumentNullException>(self != null);
+            if (self == null)
+                throw new ArgumentNullException(nameof(self));
 
             string line;
             while ((line = self.ReadLine()) != null)

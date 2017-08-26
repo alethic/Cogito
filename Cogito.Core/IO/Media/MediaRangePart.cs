@@ -55,7 +55,8 @@ namespace Cogito.IO.Media
         public MediaRangePart(SerializationInfo info, StreamingContext context)
             : this(info.GetString("Value"))
         {
-            Contract.Requires<ArgumentNullException>(info != null);
+            if (info == null)
+                throw new ArgumentNullException(nameof(info));
         }
 
         /// <summary>
