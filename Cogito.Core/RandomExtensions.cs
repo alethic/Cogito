@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics.Contracts;
 
 namespace Cogito
 {
@@ -17,6 +16,9 @@ namespace Cogito
         /// <returns></returns>
         public static long NextInt64(this Random self)
         {
+            if (self == null)
+                throw new ArgumentNullException(nameof(self));
+
             var buffer = new byte[8];
             self.NextBytes(buffer);
             return BitConverter.ToInt64(buffer, 0);
@@ -31,7 +33,10 @@ namespace Cogito
         /// <returns></returns>
         public static long NextInt64(this Random rnd, long min, long max)
         {
-            EnsureMinLEQMax(ref min, ref max);
+            if (rnd == null)
+                throw new ArgumentNullException(nameof(rnd));
+
+            EnsureMinLEqMax(ref min, ref max);
 
             var numbersInRange = unchecked(max - min + 1);
             if (numbersInRange < 0)
@@ -39,29 +44,27 @@ namespace Cogito
 
             var randomOffset = NextInt64(rnd);
             if (IsModuloBiased(randomOffset, numbersInRange))
-                return NextInt64(rnd, min, max); // Try again
+                return NextInt64(rnd, min, max);
             else
                 return min + PositiveModuloOrZero(randomOffset, numbersInRange);
         }
 
         static bool IsModuloBiased(long randomOffset, long numbersInRange)
         {
-            var greatestCompleteRange = numbersInRange * (long.MaxValue / numbersInRange);
-            return randomOffset > greatestCompleteRange;
+            return randomOffset > (numbersInRange * (long.MaxValue / numbersInRange));
         }
 
         static long PositiveModuloOrZero(long dividend, long divisor)
         {
-            Contract.Requires(divisor != 0L);
+            System.Math.DivRem(dividend, divisor, out long mod);
 
-            long mod;
-            System.Math.DivRem(dividend, divisor, out mod);
             if (mod < 0)
                 mod += divisor;
+
             return mod;
         }
 
-        static void EnsureMinLEQMax(ref long min, ref long max)
+        static void EnsureMinLEqMax(ref long min, ref long max)
         {
             if (min <= max)
                 return;
