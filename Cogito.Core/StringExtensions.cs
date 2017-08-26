@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics.Contracts;
 
 namespace Cogito
 {
@@ -9,6 +8,26 @@ namespace Cogito
     /// </summary>
     public static class StringExtensions
     {
+
+        /// <summary>
+        /// Parses the <see cref="string"/> as a <see cref="TimeSpan"/>.
+        /// </summary>
+        /// <param name="self"></param>
+        /// <returns></returns>
+        public static TimeSpan ParseTimeSpan(this string self)
+        {
+            return TimeSpan.Parse(self);
+        }
+
+        /// <summary>
+        /// Attempts to parse the <see cref="string"/> as a <see cref="TimeSpan"/>.
+        /// </summary>
+        /// <param name="self"></param>
+        /// <returns></returns>
+        public static TimeSpan? TryParseTimeSpan(this string self)
+        {
+            return self != null && TimeSpan.TryParse(self, out var r) ? (TimeSpan?)r : null;
+        }
 
         /// <summary>
         /// Returns <c>null</c> if the <see cref="String"/> is <c>null</c> or empty.
@@ -88,8 +107,10 @@ namespace Cogito
         /// <returns></returns>
         public static string RemoveEnd(this string self, string value)
         {
-            Contract.Requires<ArgumentNullException>(self != null);
-            Contract.Requires<ArgumentNullException>(value != null);
+            if (self == null)
+                throw new ArgumentNullException(nameof(self));
+            if (value == null)
+                throw new ArgumentNullException(nameof(value));
 
             var idx = self.LastIndexOf(value);
             if (idx > -1)
@@ -106,7 +127,8 @@ namespace Cogito
         /// <returns></returns>
         public static string Left(this string self, int count)
         {
-            Contract.Requires<ArgumentNullException>(self != null);
+            if (self == null)
+                throw new ArgumentNullException(nameof(self));
 
             return self.Substring(0, System.Math.Min(self.Length, count));
         }
@@ -118,9 +140,7 @@ namespace Cogito
         /// <returns></returns>
         public static int ParseInt32(this string self)
         {
-            Contract.Requires<ArgumentNullException>(self != null);
-
-            return int.Parse(self);
+            return int.Parse(self ?? throw new ArgumentNullException(nameof(self)));
         }
 
         /// <summary>
@@ -141,9 +161,7 @@ namespace Cogito
         /// <returns></returns>
         public static long ParseInt64(this string self)
         {
-            Contract.Requires<ArgumentNullException>(self != null);
-
-            return long.Parse(self);
+            return long.Parse(self ?? throw new ArgumentNullException(nameof(self)));
         }
 
         /// <summary>
@@ -164,9 +182,7 @@ namespace Cogito
         /// <returns></returns>
         public static Guid ParseGuid(this string self)
         {
-            Contract.Requires<ArgumentNullException>(self != null);
-
-            return Guid.Parse(self);
+            return Guid.Parse(self ?? throw new ArgumentNullException(nameof(self)));
         }
 
         /// <summary>
