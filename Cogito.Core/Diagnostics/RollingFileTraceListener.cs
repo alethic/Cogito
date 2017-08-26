@@ -34,6 +34,19 @@ namespace Cogito.Diagnostics
         }
 
         /// <summary>
+        /// Gets the base directory of the current executable.
+        /// </summary>
+        /// <returns></returns>
+        string GetBaseDirectory()
+        {
+#if NET451
+            return AppDomain.CurrentDomain.BaseDirectory;
+#else
+            return AppContext.BaseDirectory;
+#endif
+        }
+
+        /// <summary>
         /// Resolve the <see cref="FileInfo"/> given a relative or absolute file name.
         /// </summary>
         /// <param name="fileName"></param>
@@ -44,7 +57,7 @@ namespace Cogito.Diagnostics
                 return fileName;
 
             // resolve base directory
-            var baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
+            var baseDirectory = GetBaseDirectory();
             if (baseDirectory != null)
             {
                 var baseDirectoryUri = new Uri(baseDirectory);
