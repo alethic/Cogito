@@ -17,7 +17,7 @@ namespace Cogito.Activities
         /// <returns></returns>
         public static AsyncActionActivity Invoke(Func<Task> func, string displayName = null, AsyncTaskExecutor executor = null)
         {
-            if (func != null)
+            if (func == null)
                 throw new ArgumentNullException(nameof(func));
 
             return new AsyncActionActivity(func)
