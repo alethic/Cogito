@@ -20,9 +20,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-    </ItemGroup>
-
-    <ItemGroup>
+      <PackageReference Include="Microsoft.CSharp" Version="4.4.0" />
       <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
       <PackageReference Include="System.AppContext" Version="4.3.0" />
       <PackageReference Include="System.Net.Http" Version="4.3.2" />
