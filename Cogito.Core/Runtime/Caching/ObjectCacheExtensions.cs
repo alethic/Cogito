@@ -1,4 +1,4 @@
-﻿#if !NETSTANDARD1_6
+﻿#if NET462
 
 using System;
 using System.Linq;

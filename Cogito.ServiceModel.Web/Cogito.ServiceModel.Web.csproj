@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net451</TargetFramework>
+        <TargetFramework>net462</TargetFramework>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Version>0.0.1</Version>
         <Authors>Jerome Haltom</Authors>
@@ -18,6 +18,8 @@
     <ItemGroup>
         <PackageReference Include="Microsoft.AspNet.WebApi.Client" Version="5.2.3" />
         <PackageReference Include="Microsoft.AspNet.WebApi.Core" Version="5.2.3" />
+        <PackageReference Include="System.ServiceModel.Http" Version="4.4.0" />
+        <PackageReference Include="System.ServiceModel.Primitives" Version="4.4.0" />
     </ItemGroup>
 
     <ItemGroup>
@@ -26,9 +28,7 @@
 
     <ItemGroup>
         <Reference Include="System.Runtime.Caching" />
-        <Reference Include="System.ServiceModel" />
         <Reference Include="System.ServiceModel.Activation" />
-        <Reference Include="System.ServiceModel.Web" />
         <Reference Include="System.Web" />
     </ItemGroup>
 
