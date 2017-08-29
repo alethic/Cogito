@@ -1,6 +1,4 @@
-﻿#if !NETSTANDARD1_6
-
-using System;
+﻿using System;
 using System.Linq;
 using System.Text.RegularExpressions;
 
@@ -37,7 +35,7 @@ namespace Cogito.Dynamic
                 foreach (var i in o.GetDynamicMemberNames())
                 {
                     writer.WritePropertyName(i);
-                    serializer.Serialize(writer, o[i]);
+                    serializer.Serialize(writer, o.GetValue(i));
                 }
             }
 
@@ -144,5 +142,3 @@ namespace Cogito.Dynamic
     }
 
 }
-
-#endif

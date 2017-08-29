@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 
+#if NET451 || NET462
 using Cogito.Linq;
+#endif
 
 namespace Cogito.IO.Media
 {

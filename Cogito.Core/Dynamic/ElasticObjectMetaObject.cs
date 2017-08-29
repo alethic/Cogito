@@ -1,6 +1,4 @@
-﻿#if !NETSTANDARD1_6
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq.Expressions;
@@ -16,8 +14,8 @@ namespace Cogito.Dynamic
          DynamicMetaObject
     {
 
-        static readonly MethodInfo getValueMethod = typeof(ElasticObject).GetMethod(nameof(ElasticObject.GetValue), BindingFlags.NonPublic | BindingFlags.Instance);
-        static readonly MethodInfo setValueMethod = typeof(ElasticObject).GetMethod(nameof(ElasticObject.SetValue), BindingFlags.NonPublic | BindingFlags.Instance);
+        static readonly MethodInfo getValueMethod = typeof(ElasticObject).GetTypeInfo().GetMethod(nameof(ElasticObject.GetValue), BindingFlags.NonPublic | BindingFlags.Instance);
+        static readonly MethodInfo setValueMethod = typeof(ElasticObject).GetTypeInfo().GetMethod(nameof(ElasticObject.SetValue), BindingFlags.NonPublic | BindingFlags.Instance);
         static readonly Type type = typeof(ElasticObject);
 
         /// <summary>
@@ -87,5 +85,3 @@ namespace Cogito.Dynamic
     }
 
 }
-
-#endif

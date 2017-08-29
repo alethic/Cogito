@@ -1,10 +1,9 @@
-﻿#if !NETSTANDARD1_6
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Reflection;
 using System.Runtime.Serialization;
 
 using Cogito.Collections;
@@ -67,7 +66,7 @@ namespace Cogito.Dynamic
                 yield return t;
                 yield return t.MakeArrayType();
 
-                if (t.IsValueType)
+                if (t.GetTypeInfo().IsValueType)
                     yield return typeof(Nullable<>).MakeGenericType(t);
             }
         }
@@ -172,5 +171,3 @@ namespace Cogito.Dynamic
     }
 
 }
-
-#endif
