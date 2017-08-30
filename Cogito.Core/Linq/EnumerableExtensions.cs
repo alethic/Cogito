@@ -50,7 +50,7 @@ namespace Cogito.Linq
             return source ?? Enumerable.Empty<T>();
         }
 
-#if NET451 || NET462
+#if NET451 || NET462 || NET47
         
         /// <summary>
         /// Returns the given enumerable with the given object added to the end.
@@ -71,7 +71,7 @@ namespace Cogito.Linq
 
 #endif
 
-#if NET451 || NET462
+#if NET451 || NET462 || NET47
 
         /// <summary>
         /// Returns the given enumerable with the given object added to the beginning.
