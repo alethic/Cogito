@@ -5,6 +5,16 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <None Remove="Templates\Simple.cshtml" />
+      <None Remove="Templates\SimpleWithHelper.cshtml" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Include="Templates\Simple.cshtml" />
+      <EmbeddedResource Include="Templates\SimpleWithHelper.cshtml" />
+    </ItemGroup>
+
+    <ItemGroup>
       <PackageReference Include="Irony" Version="0.9.1" />
       <PackageReference Include="MSTest.TestAdapter" Version="1.1.18" />
       <PackageReference Include="MSTest.TestFramework" Version="1.1.18" />
