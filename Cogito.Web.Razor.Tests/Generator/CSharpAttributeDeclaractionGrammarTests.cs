@@ -1,5 +1,7 @@
 ﻿using Cogito.Web.Razor.Generator;
+
 using Irony.Parsing;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Cogito.Web.Razor.Tests.Generator
@@ -11,7 +13,7 @@ namespace Cogito.Web.Razor.Tests.Generator
 
         ParseTree Parse(string code)
         {
-            var p = new Irony.Parsing.Parser(new CSharpAttributeDeclarationGrammar());
+            var p = new global::Irony.Parsing.Parser(new CSharpAttributeDeclarationGrammar());
             var v = p.Parse(code);
             return v;
         }
