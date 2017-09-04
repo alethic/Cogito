@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Runtime.Caching;
+using System.Collections.Concurrent;
 using System.ServiceModel.Activation;
 using System.Web;
 using System.Web.Routing;
-
-using Cogito.Runtime.Caching;
 
 namespace Cogito.ServiceModel.Web.Routing
 {
@@ -16,6 +14,9 @@ namespace Cogito.ServiceModel.Web.Routing
         RouteBase,
         IRouteHandler
     {
+
+        readonly static ConcurrentDictionary<string, ServiceRoute> routes =
+            new ConcurrentDictionary<string, ServiceRoute>();
 
         /// <summary>
         /// Gets the current route data.
@@ -36,7 +37,7 @@ namespace Cogito.ServiceModel.Web.Routing
         /// <returns></returns>
         static ServiceRoute GetServiceRoute(string url, ServiceHostFactoryBase serviceHostFactory, Type serviceType)
         {
-            return MemoryCache.Default.GetOrCreate(url, () => new ServiceRoute(url, new DynamicServiceRouteServiceHostFactory(serviceHostFactory), serviceType), TimeSpan.FromMinutes(5));
+            return routes.GetOrAdd(url, _ => new ServiceRoute(_, new DynamicServiceRouteServiceHostFactory(serviceHostFactory), serviceType));
         }
 
         readonly string url;

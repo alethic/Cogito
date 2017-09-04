@@ -6,6 +6,9 @@ using System.Web.Routing;
 namespace Cogito.ServiceModel.Web.Routing
 {
 
+    /// <summary>
+    /// Various extension methods for registering <see cref="DynamicServiceRoute"/>s.
+    /// </summary>
     public static class DynamicServiceRouteExtensions
     {
 
