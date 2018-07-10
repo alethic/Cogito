@@ -16,8 +16,8 @@ before_build:
 
 build:
   verbosity: minimal
-  project: Cogito.sln
+  project: Cogito.sln /p:PackageLocation=pkg
 
 artifacts:
-  - path: Cogito\**\*.nupkg
+  - path: Cogito\pkg\*.nupkg
     name: Cogito
