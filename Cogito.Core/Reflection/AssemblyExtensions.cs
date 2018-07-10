@@ -30,7 +30,7 @@ namespace Cogito.Reflection
         /// </summary>
         /// <param name="assembly"></param>
         /// <returns></returns>
-        public static IEnumerable<Assembly> LoadAllReferencedAssemblies(this Assembly assembly) 
+        public static IEnumerable<Assembly> LoadAllReferencedAssemblies(this Assembly assembly)
         {
             if (assembly == null)
                 throw new ArgumentNullException(nameof(assembly));
