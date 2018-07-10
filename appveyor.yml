@@ -15,7 +15,7 @@ before_build:
   - dotnet restore
 
 build_script:
-  - cmd: msbuild Cogito.sln /p:Configuration=Release /p:Platform="Any CPU" /p:PackageOutputPath=$(APPVEYOR_BUILD_FOLDER)\Cogito\pkg
+  - cmd: msbuild Cogito.sln /p:Configuration="%CONFIGURATION%" /p:Platform="%PLATFORM%" /p:PackageOutputPath="%APPVEYOR_BUILD_FOLDER%\Cogito\pkg"
 
 artifacts:
   - path: Cogito\pkg\*.nupkg
