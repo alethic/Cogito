@@ -1,6 +1,4 @@
 image: Visual Studio 2017
-configuration: Release
-platform: "Any CPU"
 
 install:
   - choco install gitversion.portable -pre -y
@@ -16,7 +14,7 @@ before_build:
 
 build:
   verbosity: minimal
-  project: Cogito.sln /p:PackageLocation=pkg
+  project: Cogito.sln /p:Configuration=Release;Platform="Any CPU" /p:PackageLocation=pkg
 
 artifacts:
   - path: Cogito\pkg\*.nupkg
