@@ -11,7 +11,7 @@ before_build:
   - ps: $env:AssemblyVersion=$env:GitVersion_AssemblySemVer
   - ps: $env:FileVersion=$env:GitVersion_MajorMinorPatch.0
   - ps: $env:InformationalVersion=$env:GitVersion_InformationalVersion
-  - ps: $env:PackageLocation=pkg
+  - ps: $env:PackageLocation=Cogito\pkg
   - nuget restore
   - dotnet restore
 
