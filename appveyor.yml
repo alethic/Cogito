@@ -17,7 +17,7 @@ before_build:
 
 build_script:
   - cmd: |
-    msbuild Cogito.sln /p:Configuration=Release /p:Platform="Any CPU" /p:PackageOutputPath=Cogito\pkg
+      msbuild Cogito.sln /p:Configuration=Release /p:Platform="Any CPU" /p:PackageOutputPath=Cogito\pkg
 
 artifacts:
   - path: Cogito\pkg\*.nupkg
