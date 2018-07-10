@@ -15,7 +15,7 @@ before_build:
   - nuget restore
   - dotnet restore
 
-build:
+build: 
   verbosity: minimal
   project: Cogito.sln
 
