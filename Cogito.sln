@@ -3,56 +3,55 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26730.12
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cogito.Web.Http", "Cogito.Web.Http\Cogito.Web.Http.csproj", "{D07FE037-FAF0-4B59-9B55-C00C68AD1C9D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cogito.Web.Http", "Cogito.Web.Http\Cogito.Web.Http.csproj", "{D07FE037-FAF0-4B59-9B55-C00C68AD1C9D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cogito.IO", "Cogito.IO\Cogito.IO.csproj", "{460F0507-8101-4D96-AE8E-42B57D703106}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cogito.IO", "Cogito.IO\Cogito.IO.csproj", "{460F0507-8101-4D96-AE8E-42B57D703106}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cogito.Web.UI.Razor", "Cogito.Web.UI.Razor\Cogito.Web.UI.Razor.csproj", "{5A00C0A9-FE5D-4002-BE5B-F3B271D3E8FD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cogito.Web.UI.Razor", "Cogito.Web.UI.Razor\Cogito.Web.UI.Razor.csproj", "{5A00C0A9-FE5D-4002-BE5B-F3B271D3E8FD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cogito.Core", "Cogito.Core\Cogito.Core.csproj", "{133C2D12-BDA9-4806-BA0A-70EC83BEC9BD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cogito.Core", "Cogito.Core\Cogito.Core.csproj", "{133C2D12-BDA9-4806-BA0A-70EC83BEC9BD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cogito.Web.Razor", "Cogito.Web.Razor\Cogito.Web.Razor.csproj", "{A3D721A0-0086-44C3-887E-FA26D9310931}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cogito.Web.Razor", "Cogito.Web.Razor\Cogito.Web.Razor.csproj", "{A3D721A0-0086-44C3-887E-FA26D9310931}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cogito.Core.Tests", "Cogito.Core.Tests\Cogito.Core.Tests.csproj", "{34C1B161-9CBD-4B4C-8CBA-12B5F088D39B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cogito.Core.Tests", "Cogito.Core.Tests\Cogito.Core.Tests.csproj", "{34C1B161-9CBD-4B4C-8CBA-12B5F088D39B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cogito.IO.Tests", "Cogito.IO.Tests\Cogito.IO.Tests.csproj", "{AB664E5C-3AB5-4135-A857-AEA7A854F3FE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cogito.IO.Tests", "Cogito.IO.Tests\Cogito.IO.Tests.csproj", "{AB664E5C-3AB5-4135-A857-AEA7A854F3FE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cogito.Web.Tests", "Cogito.Web.Tests\Cogito.Web.Tests.csproj", "{E7C868A6-B300-4992-8984-EC8EA48584D4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cogito.Web.Tests", "Cogito.Web.Tests\Cogito.Web.Tests.csproj", "{E7C868A6-B300-4992-8984-EC8EA48584D4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cogito.Web.Http.Tests", "Cogito.Web.Http.Tests\Cogito.Web.Http.Tests.csproj", "{9A86F0C4-0D24-4A20-84F6-909D56F40629}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cogito.Web.Http.Tests", "Cogito.Web.Http.Tests\Cogito.Web.Http.Tests.csproj", "{9A86F0C4-0D24-4A20-84F6-909D56F40629}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cogito.Web.Razor.Tests", "Cogito.Web.Razor.Tests\Cogito.Web.Razor.Tests.csproj", "{DB436836-980E-4034-A81A-63C2716BBC64}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cogito.Web.Razor.Tests", "Cogito.Web.Razor.Tests\Cogito.Web.Razor.Tests.csproj", "{DB436836-980E-4034-A81A-63C2716BBC64}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cogito.Web.UI.Tests", "Cogito.Web.UI.Tests\Cogito.Web.UI.Tests.csproj", "{3AB63E55-6F88-4E12-808E-3BA53C9B4EE8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cogito.Web.UI.Tests", "Cogito.Web.UI.Tests\Cogito.Web.UI.Tests.csproj", "{3AB63E55-6F88-4E12-808E-3BA53C9B4EE8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cogito.Web.UI.Razor.Tests", "Cogito.Web.UI.Razor.Tests\Cogito.Web.UI.Razor.Tests.csproj", "{D9745B2F-41D9-48ED-A976-C570B7663DC5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cogito.Web.UI.Razor.Tests", "Cogito.Web.UI.Razor.Tests\Cogito.Web.UI.Razor.Tests.csproj", "{D9745B2F-41D9-48ED-A976-C570B7663DC5}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{87130765-A579-4878-B462-70139F28B475}"
 	ProjectSection(SolutionItems) = preProject
 		Cogito.runsettings = Cogito.runsettings
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cogito.Irony", "Cogito.Irony\Cogito.Irony.csproj", "{AE3568E9-03B0-4C86-B5CA-4D99219FDC15}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cogito.Irony", "Cogito.Irony\Cogito.Irony.csproj", "{AE3568E9-03B0-4C86-B5CA-4D99219FDC15}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cogito.Owin", "Cogito.Owin\Cogito.Owin.csproj", "{80241936-902A-4ED2-B0C9-C482717B21B8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cogito.Owin", "Cogito.Owin\Cogito.Owin.csproj", "{80241936-902A-4ED2-B0C9-C482717B21B8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cogito.Web.Tests.Site", "Cogito.Web.Tests.Site\Cogito.Web.Tests.Site.csproj", "{A7693853-2941-4181-9D06-BAF57B86A350}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cogito.Activities", "Cogito.Activities\Cogito.Activities.csproj", "{828365A4-AB29-4692-A555-BC97C0E5A8D5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cogito.Activities", "Cogito.Activities\Cogito.Activities.csproj", "{828365A4-AB29-4692-A555-BC97C0E5A8D5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cogito.Activities.Tests", "Cogito.Activities.Tests\Cogito.Activities.Tests.csproj", "{88B353BD-0A88-4CF9-9442-660692437E6E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cogito.Activities.Tests", "Cogito.Activities.Tests\Cogito.Activities.Tests.csproj", "{88B353BD-0A88-4CF9-9442-660692437E6E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cogito.Web.Http.Tests.Web.Site", "Cogito.Web.Http.Tests.Web.Site\Cogito.Web.Http.Tests.Web.Site.csproj", "{17C1E98F-4DD0-4D59-80AA-DE58077D9D18}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{47124194-A785-4685-8D61-0E38F4D538D1}"
 	ProjectSection(SolutionItems) = preProject
-		Build-Packages.ps1 = Build-Packages.ps1
-		Publish-Packages.ps1 = Publish-Packages.ps1
+		appveyor.yml = appveyor.yml
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cogito.Activities.ApplicationInsights", "Cogito.Activities.ApplicationInsights\Cogito.Activities.ApplicationInsights.csproj", "{E1FC296F-843F-48AB-AAE3-47F47E4BED7E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cogito.Activities.ApplicationInsights", "Cogito.Activities.ApplicationInsights\Cogito.Activities.ApplicationInsights.csproj", "{E1FC296F-843F-48AB-AAE3-47F47E4BED7E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cogito.ServiceModel.Web", "Cogito.ServiceModel.Web\Cogito.ServiceModel.Web.csproj", "{B9A68866-2FE4-48B1-A0AB-933B7F6A464D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cogito.ServiceModel.Web", "Cogito.ServiceModel.Web\Cogito.ServiceModel.Web.csproj", "{B9A68866-2FE4-48B1-A0AB-933B7F6A464D}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cogito.Web.UI", "Cogito.Web.UI\Cogito.Web.UI.csproj", "{A6DB20AA-9709-45B4-83B6-24C8C3135B93}"
 EndProject
