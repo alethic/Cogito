@@ -15,9 +15,9 @@ before_build:
   - nuget restore
   - dotnet restore
 
-build:
-  verbosity: minimal
-  project: Cogito.sln
+build_script:
+  - cmd: |
+    msbuild Cogito.sln /p:Configuration=Release /p:Platform="Any CPU" /p:PackageOutputPath=Cogito\pkg
 
 artifacts:
   - path: Cogito\pkg\*.nupkg
