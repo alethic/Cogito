@@ -15,6 +15,19 @@ namespace Cogito.Reflection
     {
 
         /// <summary>
+        /// Determines whether a type is a closed instance of a generic type definition.
+        /// </summary>
+        public static bool IsInstanceOfGenericType(this Type type, Type genericTypeDefinition)
+        {
+            if (type == null)
+                throw new ArgumentNullException(nameof(type));
+            if (genericTypeDefinition == null)
+                throw new ArgumentNullException(nameof(genericTypeDefinition));
+
+            return type.IsConstructedGenericType && type.GetGenericTypeDefinition() == genericTypeDefinition;
+        }
+
+        /// <summary>
         /// Returns an enumeration of all <see cref="Type"/>s which the specified type can be assigned.
         /// </summary>
         /// <param name="self"></param>
