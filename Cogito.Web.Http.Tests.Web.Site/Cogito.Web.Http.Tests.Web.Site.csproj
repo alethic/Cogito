@@ -22,7 +22,6 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
-    <ApplicationInsightsResourceId>/subscriptions/aa8bc491-c2a3-4e7d-b29b-786f0f7d38b8/resourcegroups/Default-ApplicationInsights-CentralUS/providers/microsoft.insights/components/Cogito.Web.Http.Tests.Web.Site</ApplicationInsightsResourceId>
     <TargetFrameworkProfile />
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
     <Use64BitIISExpress />
