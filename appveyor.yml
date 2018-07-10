@@ -11,11 +11,11 @@ before_build:
   - ps: $env:AssemblyVersion=$env:GitVersion_AssemblySemVer
   - ps: $env:FileVersion=$env:GitVersion_MajorMinorPatch.0
   - ps: $env:InformationalVersion=$env:GitVersion_InformationalVersion
-  - ps: $env:PackageOutputDir="Cogito\pkg"
+  - ps: $env:PackageOutputPath="Cogito\pkg"
   - nuget restore
   - dotnet restore
 
-build: 
+build:
   verbosity: minimal
   project: Cogito.sln
 
