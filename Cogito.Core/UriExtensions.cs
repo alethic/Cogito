@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 
 namespace Cogito
 {
@@ -19,21 +20,10 @@ namespace Cogito
         {
             if (self == null)
                 throw new ArgumentNullException(nameof(self));
-            if (!self.IsAbsoluteUri)
-                throw new ArgumentOutOfRangeException(nameof(self));
             if (path == null)
                 throw new ArgumentNullException(nameof(path));
 
-            // append missing final slash
-            var b = new UriBuilder(self);
-            if (!b.Path.EndsWith("/"))
-                b.Path += "/";
-
-            // append new path element
-            b.Path += path;
-
-            // generate from relative path
-            return b.Uri;
+            return Combine(self, new[] { path });
         }
 
         /// <summary>
@@ -46,15 +36,30 @@ namespace Cogito
         {
             if (self == null)
                 throw new ArgumentNullException(nameof(self));
-            if (!self.IsAbsoluteUri)
-                throw new ArgumentOutOfRangeException(nameof(self));
             if (paths == null)
                 throw new ArgumentNullException(nameof(paths));
 
-            foreach (var p in paths)
-                self = self.Combine(p);
+            // append missing final slash
+            var b = new UriBuilder(self.IsAbsoluteUri ? self : new Uri("unknown:" + self.ToString()));
 
-            return self;
+            // additional paths to append
+            var l = new StringBuilder(b.Path.TrimEnd('/'));
+
+            // append each additional path to the builder
+            for (var i = 0; i < paths.Length; i++)
+            {
+                l.Append("/");
+                l.Append(paths[i].Trim('/'));
+            }
+
+            // append new path to builder
+            b.Path = l.ToString();
+
+            // originally absolute, builder is fine
+            if (self.IsAbsoluteUri)
+                return b.Uri;
+            else
+                return new Uri(b.Uri.PathAndQuery, UriKind.Relative);
         }
 
     }
