@@ -49,6 +49,14 @@ namespace Cogito.Core.Tests
             Assert.AreEqual("foo/bar/bar/blah?arg1=value1&arg2=value2", uri.ToString());
         }
 
+        [TestMethod]
+        public void Can_combine_relative_uri_with_query()
+        {
+            var uri = new Uri("foo/bar?arg1=value1&arg2=value2", UriKind.Relative);
+            uri = uri.Combine(new Uri("bar/blah", UriKind.Relative));
+            Assert.AreEqual("foo/bar/bar/blah?arg1=value1&arg2=value2", uri.ToString());
+        }
+
     }
 
 }
