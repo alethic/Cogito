@@ -46,12 +46,21 @@ namespace Cogito.Reflection
         /// Load all assemblies.
         /// </summary>
         /// <returns></returns>
-        public static IEnumerable<Assembly> LoadAll()
+        public static IEnumerable<Assembly> LoadAll(DependencyContext context)
         {
-            return DependencyContext.Default.RuntimeLibraries
+            return context.RuntimeLibraries
                 .SelectMany(i => i.GetDefaultAssemblyNames(DependencyContext.Default))
                 .Select(LoadAssembly)
                 .Where(i => i != null);
+        }
+
+        /// <summary>
+        /// Load all assemblies.
+        /// </summary>
+        /// <returns></returns>
+        public static IEnumerable<Assembly> LoadAll()
+        {
+            return LoadAll(DependencyContext.Default);
         }
 
         /// <summary>
