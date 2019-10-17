@@ -124,7 +124,7 @@ namespace Cogito.Reflection
         /// <returns></returns>
         public static IEnumerable<Assembly> LoadAll()
         {
-            return LoadAll(DependencyContext.Default);
+            return LoadAll(DependencyContext.Default, AssemblyLoadContext.Default);
         }
 
         /// <summary>
