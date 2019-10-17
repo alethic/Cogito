@@ -4,6 +4,10 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 
+#if NETSTANDARD2_0 || NETSTANDARD1_6
+using System.Runtime.Loader;
+#endif
+
 using Microsoft.Extensions.DependencyModel;
 
 namespace Cogito.Reflection
@@ -11,6 +15,36 @@ namespace Cogito.Reflection
 
     public static class SafeAssemblyLoader
     {
+
+#if NETSTANDARD2_0 || NETSTANDARD1_6
+
+        /// <summary>
+        /// Loads an <see cref="Assembly"/> from a path, ignoring failures.
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        public static Assembly Load(string path, AssemblyLoadContext loadContext)
+        {
+            if (path == null)
+                throw new ArgumentNullException(nameof(path));
+            if (loadContext is null)
+                throw new ArgumentNullException(nameof(loadContext));
+            if (string.IsNullOrWhiteSpace(path))
+                throw new ArgumentOutOfRangeException(nameof(path));
+
+            try
+            {
+                return loadContext.LoadFromAssemblyPath(path);
+            }
+            catch (Exception)
+            {
+                // ignore
+            }
+
+            return null;
+        }
+
+#endif
 
         /// <summary>
         /// Loads an <see cref="Assembly"/> from a path, ignoring failures.
@@ -24,13 +58,13 @@ namespace Cogito.Reflection
             if (string.IsNullOrWhiteSpace(path))
                 throw new ArgumentOutOfRangeException(nameof(path));
 
+#if NETSTANDARD2_0 || NETSTANDARD1_6
+            return Load(path, AssemblyLoadContext.Default);
+#else
+
             try
             {
-#if NETSTANDARD2_0 || NETSTANDARD1_6
-                return System.Runtime.Loader.AssemblyLoadContext.Default.LoadFromAssemblyPath(path);
-#else
                 return Assembly.LoadFrom(path);
-#endif
             }
             catch (Exception)
             {
@@ -38,6 +72,7 @@ namespace Cogito.Reflection
             }
 
             return null;
+#endif
         }
 
 #if NETSTANDARD2_0 || NETSTANDARD1_6
@@ -46,12 +81,41 @@ namespace Cogito.Reflection
         /// Load all assemblies.
         /// </summary>
         /// <returns></returns>
-        public static IEnumerable<Assembly> LoadAll(DependencyContext context)
+        public static IEnumerable<Assembly> LoadAll(DependencyContext dependencyContext, AssemblyLoadContext assemblyLoadContext)
         {
-            return context.RuntimeLibraries
-                .SelectMany(i => i.GetDefaultAssemblyNames(DependencyContext.Default))
-                .Select(LoadAssembly)
+            if (dependencyContext is null)
+                throw new ArgumentNullException(nameof(dependencyContext));
+            if (assemblyLoadContext is null)
+                throw new ArgumentNullException(nameof(assemblyLoadContext));
+
+            return dependencyContext.RuntimeLibraries
+                .SelectMany(i => i.GetDefaultAssemblyNames(dependencyContext))
+                .Select(i => LoadFromAssemblyName(i, assemblyLoadContext))
                 .Where(i => i != null);
+        }
+
+        /// <summary>
+        /// Load all assemblies.
+        /// </summary>
+        /// <returns></returns>
+        public static IEnumerable<Assembly> LoadAll(DependencyContext dependencyContext)
+        {
+            if (dependencyContext is null)
+                throw new ArgumentNullException(nameof(dependencyContext));
+
+            return LoadAll(dependencyContext, AssemblyLoadContext.Default);
+        }
+
+        /// <summary>
+        /// Load all assemblies.
+        /// </summary>
+        /// <returns></returns>
+        public static IEnumerable<Assembly> LoadAll(AssemblyLoadContext assemblyLoadContext)
+        {
+            if (assemblyLoadContext is null)
+                throw new ArgumentNullException(nameof(assemblyLoadContext));
+
+            return LoadAll(DependencyContext.Default, assemblyLoadContext);
         }
 
         /// <summary>
@@ -67,14 +131,16 @@ namespace Cogito.Reflection
         /// Safely loads the specified <see cref="Assembly"/>.
         /// </summary>
         /// <param name="assemblyName"></param>
-        static Assembly LoadAssembly(AssemblyName assemblyName)
+        static Assembly LoadFromAssemblyName(AssemblyName assemblyName, AssemblyLoadContext assemblyLoadContext)
         {
-            if (assemblyName == null)
+            if (assemblyName is null)
                 throw new ArgumentNullException(nameof(assemblyName));
+            if (assemblyLoadContext is null)
+                throw new ArgumentNullException(nameof(assemblyLoadContext));
 
             try
             {
-                return Assembly.Load(assemblyName);
+                return assemblyLoadContext.LoadFromAssemblyName(assemblyName);
             }
             catch (Exception)
             {
