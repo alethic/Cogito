@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFrameworks>net451</TargetFrameworks>
+        <TargetFrameworks>net462</TargetFrameworks>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Version>0.0.1</Version>
         <Authors>Jerome Haltom</Authors>
@@ -16,8 +16,8 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="Irony" Version="0.9.1" />
-      <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
+      <PackageReference Include="Irony" Version="1.1.0" />
+      <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     </ItemGroup>
 
     <ItemGroup>
