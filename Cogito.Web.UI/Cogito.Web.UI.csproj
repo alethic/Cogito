@@ -2,17 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>net462</TargetFramework>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>0.0.1</Version>
-    <Authors>Jerome Haltom</Authors>
-    <Company />
     <Description>Extensions for System.Web.UI.</Description>
-    <PackageId>Cogito.Web.UI</PackageId>
-    <Product>Cogito.Web.UI</Product>
-    <Copyright>Jerome Haltom</Copyright>
-    <PackageLicenseUrl>https://raw.github.com/wasabii/Cogito/master/LICENSE</PackageLicenseUrl>
-    <PackageProjectUrl>https://github.com/wasabii/Cogito</PackageProjectUrl>
-    <PackageIconUrl>https://cloverluxussc.blob.core.windows.net/public/cogito-nuget-icon.png</PackageIconUrl>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup>

@@ -2,17 +2,8 @@
 
     <PropertyGroup>
         <TargetFramework>net461</TargetFramework>
-        <PackageId>Cogito.Activities</PackageId>
-        <Authors>Jerome Haltom</Authors>
         <Description>Windows Workflow Foundation activities</Description>
-        <Copyright>Jerome Haltom</Copyright>
-        <PackageLicenseUrl>https://raw.github.com/wasabii/Cogito/master/LICENSE</PackageLicenseUrl>
-        <PackageProjectUrl>https://github.com/wasabii/Cogito</PackageProjectUrl>
-        <PackageIconUrl>https://cloverluxussc.blob.core.windows.net/public/cogito-nuget-icon.png</PackageIconUrl>
-        <PackageTags>cogito</PackageTags>
-        <Version>0.0.1</Version>
         <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-        <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
     </PropertyGroup>
 
     <ItemGroup>

@@ -1,28 +1,19 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-    <PropertyGroup>
-        <TargetFrameworks>net462</TargetFrameworks>
-        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-        <Version>0.0.1</Version>
-        <Authors>Jerome Haltom</Authors>
-        <Company />
-        <Description>Provides objects to use Razor for WebForms</Description>
-        <PackageId>Cogito.Web.UI.Razor</PackageId>
-        <Product>Cogito.Web.UI.Razor</Product>
-        <PackageLicenseUrl>https://raw.github.com/wasabii/Cogito/master/LICENSE</PackageLicenseUrl>
-        <PackageProjectUrl>https://github.com/wasabii/Cogito</PackageProjectUrl>
-        <PackageIconUrl>https://cloverluxussc.blob.core.windows.net/public/cogito-nuget-icon.png</PackageIconUrl>
-        <Copyright>Jerome Haltom</Copyright>
-    </PropertyGroup>
+  <PropertyGroup>
+    <TargetFrameworks>net462</TargetFrameworks>
+    <Description>Provides objects to use Razor for WebForms</Description>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+  </PropertyGroup>
 
-    <ItemGroup>
-        <ProjectReference Include="..\Cogito.Core\Cogito.Core.csproj" />
-        <ProjectReference Include="..\Cogito.Web.Razor\Cogito.Web.Razor.csproj" />
-        <ProjectReference Include="..\Cogito.Web.UI\Cogito.Web.UI.csproj" />
-    </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Cogito.Core\Cogito.Core.csproj" />
+    <ProjectReference Include="..\Cogito.Web.Razor\Cogito.Web.Razor.csproj" />
+    <ProjectReference Include="..\Cogito.Web.UI\Cogito.Web.UI.csproj" />
+  </ItemGroup>
 
-    <ItemGroup>
-        <Reference Include="System.Web" />
-    </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System.Web" />
+  </ItemGroup>
 
 </Project>

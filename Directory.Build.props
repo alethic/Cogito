@@ -1,0 +1,12 @@
+<Project>
+    <PropertyGroup>
+        <Authors>Jerome Haltom</Authors>
+        <Company>Jerome Haltom</Company>
+        <RepositoryUrl>https://github.com/wasabii/Cogito</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+        <PackageLicenseUrl>https://raw.github.com/wasabii/Cogito/master/LICENSE</PackageLicenseUrl>
+        <PackageProjectUrl>https://github.com/wasabii/Cogito</PackageProjectUrl>
+        <PackageIconUrl>https://cloverluxussc.blob.core.windows.net/public/cogito-nuget-icon.png</PackageIconUrl>
+        <LangVersion>8.0</LangVersion>
+    </PropertyGroup>
+</Project>

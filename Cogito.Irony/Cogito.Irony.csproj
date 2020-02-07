@@ -1,27 +1,18 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-    <PropertyGroup>
-        <TargetFrameworks>net462</TargetFrameworks>
-        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-        <Version>0.0.1</Version>
-        <Authors>Jerome Haltom</Authors>
-        <Company />
-        <Description>Various add-on services for working with Irony.</Description>
-        <PackageId>Cogito.Irony</PackageId>
-        <Product>Cogito.Irony</Product>
-        <Copyright>Jerome Haltom</Copyright>
-        <PackageLicenseUrl>https://raw.github.com/wasabii/Cogito/master/LICENSE</PackageLicenseUrl>
-        <PackageProjectUrl>https://github.com/wasabii/Cogito</PackageProjectUrl>
-        <PackageIconUrl>https://cloverluxussc.blob.core.windows.net/public/cogito-nuget-icon.png</PackageIconUrl>
-    </PropertyGroup>
+  <PropertyGroup>
+    <TargetFrameworks>net462</TargetFrameworks>
+    <Description>Various add-on services for working with Irony.</Description>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+  </PropertyGroup>
 
-    <ItemGroup>
-      <PackageReference Include="Irony" Version="1.1.0" />
-      <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
-    </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Irony" Version="1.1.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+  </ItemGroup>
 
-    <ItemGroup>
-        <ProjectReference Include="..\Cogito.Core\Cogito.Core.csproj" />
-    </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Cogito.Core\Cogito.Core.csproj" />
+  </ItemGroup>
 
 </Project>

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26730.12
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29721.120
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cogito.Web.Http", "Cogito.Web.Http\Cogito.Web.Http.csproj", "{D07FE037-FAF0-4B59-9B55-C00C68AD1C9D}"
 EndProject
@@ -43,6 +43,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{47124194-A785-4685-8D61-0E38F4D538D1}"
 	ProjectSection(SolutionItems) = preProject
 		appveyor.yml = appveyor.yml
+		Directory.Build.props = Directory.Build.props
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cogito.Activities.ApplicationInsights", "Cogito.Activities.ApplicationInsights\Cogito.Activities.ApplicationInsights.csproj", "{E1FC296F-843F-48AB-AAE3-47F47E4BED7E}"
