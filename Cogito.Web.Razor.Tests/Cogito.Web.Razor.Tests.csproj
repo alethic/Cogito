@@ -16,8 +16,8 @@
 
     <ItemGroup>
       <PackageReference Include="Irony" Version="1.1.0" />
-      <PackageReference Include="MSTest.TestAdapter" Version="2.0.0" />
-      <PackageReference Include="MSTest.TestFramework" Version="2.0.0" />
+      <PackageReference Include="MSTest.TestAdapter" Version="2.1.0" />
+      <PackageReference Include="MSTest.TestFramework" Version="2.1.0" />
     </ItemGroup>
 
     <ItemGroup>
