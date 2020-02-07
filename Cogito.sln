@@ -36,17 +36,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cogito.Irony", "Cogito.Iron
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cogito.Owin", "Cogito.Owin\Cogito.Owin.csproj", "{80241936-902A-4ED2-B0C9-C482717B21B8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cogito.Activities", "Cogito.Activities\Cogito.Activities.csproj", "{828365A4-AB29-4692-A555-BC97C0E5A8D5}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cogito.Activities.Tests", "Cogito.Activities.Tests\Cogito.Activities.Tests.csproj", "{88B353BD-0A88-4CF9-9442-660692437E6E}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{47124194-A785-4685-8D61-0E38F4D538D1}"
 	ProjectSection(SolutionItems) = preProject
 		appveyor.yml = appveyor.yml
 		Directory.Build.props = Directory.Build.props
 	EndProjectSection
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cogito.Activities.ApplicationInsights", "Cogito.Activities.ApplicationInsights\Cogito.Activities.ApplicationInsights.csproj", "{E1FC296F-843F-48AB-AAE3-47F47E4BED7E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cogito.Web.UI", "Cogito.Web.UI\Cogito.Web.UI.csproj", "{A6DB20AA-9709-45B4-83B6-24C8C3135B93}"
 EndProject
@@ -112,18 +106,6 @@ Global
 		{80241936-902A-4ED2-B0C9-C482717B21B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{80241936-902A-4ED2-B0C9-C482717B21B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{80241936-902A-4ED2-B0C9-C482717B21B8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{828365A4-AB29-4692-A555-BC97C0E5A8D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{828365A4-AB29-4692-A555-BC97C0E5A8D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{828365A4-AB29-4692-A555-BC97C0E5A8D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{828365A4-AB29-4692-A555-BC97C0E5A8D5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{88B353BD-0A88-4CF9-9442-660692437E6E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{88B353BD-0A88-4CF9-9442-660692437E6E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{88B353BD-0A88-4CF9-9442-660692437E6E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{88B353BD-0A88-4CF9-9442-660692437E6E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E1FC296F-843F-48AB-AAE3-47F47E4BED7E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E1FC296F-843F-48AB-AAE3-47F47E4BED7E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E1FC296F-843F-48AB-AAE3-47F47E4BED7E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E1FC296F-843F-48AB-AAE3-47F47E4BED7E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A6DB20AA-9709-45B4-83B6-24C8C3135B93}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A6DB20AA-9709-45B4-83B6-24C8C3135B93}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A6DB20AA-9709-45B4-83B6-24C8C3135B93}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -140,7 +122,6 @@ Global
 		{DB436836-980E-4034-A81A-63C2716BBC64} = {87130765-A579-4878-B462-70139F28B475}
 		{3AB63E55-6F88-4E12-808E-3BA53C9B4EE8} = {87130765-A579-4878-B462-70139F28B475}
 		{D9745B2F-41D9-48ED-A976-C570B7663DC5} = {87130765-A579-4878-B462-70139F28B475}
-		{88B353BD-0A88-4CF9-9442-660692437E6E} = {87130765-A579-4878-B462-70139F28B475}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A30B6C7E-3FCD-4998-BF26-0D51D7869B61}
