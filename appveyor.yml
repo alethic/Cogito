@@ -11,11 +11,13 @@ before_build:
   - ps: $env:AssemblyVersion=$env:GitVersion_AssemblySemVer
   - ps: $env:FileVersion=$env:GitVersion_MajorMinorPatch.0
   - ps: $env:InformationalVersion=$env:GitVersion_InformationalVersion
+  - ps: $env:PackageOutputPath="$env:APPVEYOR_BUILD_FOLDER\pkg"
   - nuget restore
   - dotnet restore
-
-build_script:
-  - cmd: msbuild Cogito.sln /p:Configuration="%CONFIGURATION%" /p:Platform="%PLATFORM%" /p:PackageOutputPath="%APPVEYOR_BUILD_FOLDER%\pkg"
+  
+build:
+  verbosity: minimal
+  project: Cogito.sln
 
 artifacts:
   - path: pkg\*.nupkg
