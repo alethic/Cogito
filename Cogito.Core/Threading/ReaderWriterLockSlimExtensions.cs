@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading;
 
-namespace Cogito.Core.Threading
+namespace Cogito.Threading
 {
 
     /// <summary>

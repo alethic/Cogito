@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Linq.Expressions;
 
-namespace Cogito.Core.Linq
+namespace Cogito.Linq
 {
 
     /// <summary>

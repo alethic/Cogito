@@ -5,7 +5,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 
-namespace Cogito.Core.Linq
+namespace Cogito.Linq
 {
 
     /// <summary>
