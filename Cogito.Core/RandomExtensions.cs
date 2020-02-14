@@ -10,7 +10,7 @@ namespace Cogito
     {
 
         /// <summary>
-        /// Gets the next random <see cref="Int64"/>.
+        /// Gets the next random <see cref="long"/>.
         /// </summary>
         /// <param name="self"></param>
         /// <returns></returns>
@@ -19,15 +19,21 @@ namespace Cogito
             if (self == null)
                 throw new ArgumentNullException(nameof(self));
 
-            var buffer = new byte[8];
+#if NETSTANDARD2_1
+            var buffer = (Span<byte>)stackalloc byte[sizeof(long)];
+            self.NextBytes(buffer);
+            return BitConverter.ToInt64(buffer);
+#else
+            var buffer = new byte[sizeof(long)];
             self.NextBytes(buffer);
             return BitConverter.ToInt64(buffer, 0);
+#endif
         }
 
 #if !NETSTANDARD1_6
 
         /// <summary>
-        /// Gets the next random <see cref="Int64"/> within the specified range.
+        /// Gets the next random <see cref="long"/> within the specified range.
         /// </summary>
         /// <param name="rnd"></param>
         /// <param name="min"></param>
@@ -59,7 +65,7 @@ namespace Cogito
         static long PositiveModuloOrZero(long dividend, long divisor)
         {
             System.Math.DivRem(dividend, divisor, out long mod);
-            
+
             if (mod < 0)
                 mod += divisor;
 
