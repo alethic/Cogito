@@ -295,7 +295,7 @@ namespace Cogito.Collections
         public void Clear()
         {
             mods++;
-#if NET47 || NETSTANDARD2_0
+#if NET47 || NET462 || NETSTANDARD2_0
             Array.Clear(queue, 0, queue.Length);
 #else
             Array.Fill(queue, default);
