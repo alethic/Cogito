@@ -13,6 +13,83 @@ namespace Cogito.Linq
     {
 
         /// <summary>
+        /// Yields a value.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        public struct YieldIterator<T> : IEnumerable<T>, IEnumerator<T>
+        {
+
+            readonly T value;
+            readonly int l;
+            int i;
+
+            /// <summary>
+            /// Initializes a new instance.
+            /// </summary>
+            /// <param name="value"></param>
+            /// <param name="l"></param>
+            public YieldIterator(T value, int l)
+            {
+                this.value = value;
+                this.l = l;
+                this.i = -1;
+            }
+
+            public IEnumerator<T> GetEnumerator()
+            {
+                return this;
+            }
+
+            IEnumerator IEnumerable.GetEnumerator()
+            {
+                return GetEnumerator();
+            }
+
+            public T Current => i >= 0 && i < l ? value : default;
+
+            object IEnumerator.Current => Current;
+
+            public bool MoveNext()
+            {
+                return ++i < l;
+            }
+
+            public void Reset()
+            {
+                i = -1;
+            }
+
+            public void Dispose()
+            {
+
+            }
+
+        }
+
+        /// <summary>
+        /// Returns an enumerable that contains the single value once.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static YieldIterator<T> Yield<T>(this T value)
+        {
+            return new YieldIterator<T>(value, 1);
+        }
+
+        /// <summary>
+        /// Returns an enumerable that contains the single value multiple times.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="value"></param>
+        /// <param name="count"></param>
+        /// <returns></returns>
+        public static YieldIterator<T> Yield<T>(this T value, int count)
+        {
+            return new YieldIterator<T>(value, count);
+        }
+
+        /// <summary>
         /// Performs an action on each item in a list, used to shortcut a "foreach" loop.
         /// </summary>
         /// <typeparam name="T">Type contained in List</typeparam>

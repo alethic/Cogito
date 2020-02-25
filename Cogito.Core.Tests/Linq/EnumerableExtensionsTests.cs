@@ -3,6 +3,8 @@ using System.Linq;
 
 using Cogito.Linq;
 
+using FluentAssertions;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Cogito.Core.Tests.Linq
@@ -11,6 +13,23 @@ namespace Cogito.Core.Tests.Linq
     [TestClass]
     public class EnumerableExtensionsTests
     {
+
+        [TestMethod]
+        public void Should_yield_once()
+        {
+            var l = 1.Yield();
+            l.Should().HaveCount(1);
+            l.Should().HaveElementAt(0, 1);
+        }
+
+        [TestMethod]
+        public void Should_yield_twice()
+        {
+            var l = 1.Yield(2);
+            l.Should().HaveCount(2);
+            l.Should().HaveElementAt(0, 1);
+            l.Should().HaveElementAt(1, 1);
+        }
 
         [TestMethod]
         public void Test_GroupAdjacent()
