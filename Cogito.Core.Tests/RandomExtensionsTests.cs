@@ -13,7 +13,7 @@ namespace Cogito.Core.Tests
         public void Should_generate_random_int64()
         {
             var r = new Random();
-            var l = r.NextInt64(long.MinValue, long.MaxValue);
+            var l = r.NextInt64();
         }
 
     }
