@@ -1,6 +1,6 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
 
 namespace Cogito.Collections
 {
@@ -24,22 +24,17 @@ namespace Cogito.Collections
         /// <summary>
         /// Gets the first element in the list.
         /// </summary>
-        public FibonacciHeapCell<TPriority, TValue> First
-        {
-            get { return first; }
-        }
+        public FibonacciHeapCell<TPriority, TValue> First => first;
 
         /// <summary>
         /// Gets the last element in the list.
         /// </summary>
-        public FibonacciHeapCell<TPriority, TValue> Last
-        {
-            get { return last; }
-        }
+        public FibonacciHeapCell<TPriority, TValue> Last => last;
 
         public void Merge(FibonacciHeapLinkedList<TPriority, TValue> list)
         {
-            Contract.Requires(list != null);
+            if (list is null)
+                throw new ArgumentNullException(nameof(list));
 
             if (list.First != null)
             {
@@ -56,7 +51,8 @@ namespace Cogito.Collections
 
         public void AddLast(FibonacciHeapCell<TPriority, TValue> node)
         {
-            Contract.Requires(node != null);
+            if (node is null)
+                throw new ArgumentNullException(nameof(node));
 
             if (last != null)
                 last.Next = node;
@@ -70,7 +66,8 @@ namespace Cogito.Collections
 
         public void Remove(FibonacciHeapCell<TPriority, TValue> node)
         {
-            Contract.Requires(node != null);
+            if (node is null)
+                throw new ArgumentNullException(nameof(node));
 
             if (node.Previous != null)
                 node.Previous.Next = node.Next;

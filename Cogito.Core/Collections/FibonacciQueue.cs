@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 
+using Cogito.Collections;
+
 namespace Cogito.Collections
 {
 
@@ -16,7 +18,7 @@ namespace Cogito.Collections
         /// <typeparam name="TValue"></typeparam>
         /// <param name="dictionary"></param>
         /// <returns></returns>
-        public static Func<TKey, TValue> GetIndexer<TKey, TValue>(Dictionary<TKey, TValue> dictionary)
+        public static Func<TKey, TValue> GetIndexer<TKey, TValue>(IDictionary<TKey, TValue> dictionary)
         {
             if (dictionary == null)
                 throw new ArgumentNullException(nameof(dictionary));
@@ -33,9 +35,8 @@ namespace Cogito.Collections
         /// Initializes a new instance.
         /// </summary>
         /// <param name="distances"></param>
-        public FibonacciQueue(
-            Func<TVertex, TDistance> distances)
-            : this(0, null, distances, Comparer<TDistance>.Default.Compare)
+        public FibonacciQueue(Func<TVertex, TDistance> distances) :
+            this(null, distances, Comparer<TDistance>.Default.Compare)
         {
             if (distances == null)
                 throw new ArgumentNullException(nameof(distances));
@@ -47,87 +48,67 @@ namespace Cogito.Collections
         /// <param name="valueCount"></param>
         /// <param name="values"></param>
         /// <param name="distances"></param>
-        public FibonacciQueue(int valueCount, IEnumerable<TVertex> values, Func<TVertex, TDistance> distances)
-            : this(valueCount, values, distances, Comparer<TDistance>.Default.Compare)
+        public FibonacciQueue(IEnumerable<TVertex> values, Func<TVertex, TDistance> distances) :
+            this(values, distances, Comparer<TDistance>.Default.Compare)
         {
-            if (valueCount <= 0)
-                throw new ArgumentOutOfRangeException(nameof(valueCount));
-            if (distances == null)
+            if (values is null)
+                throw new ArgumentNullException(nameof(values));
+            if (distances is null)
                 throw new ArgumentNullException(nameof(distances));
         }
 
         /// <summary>
         /// Initializes a new instance.
         /// </summary>
-        /// <param name="valueCount"></param>
         /// <param name="values"></param>
         /// <param name="distances"></param>
-        /// <param name="distanceComparison"></param>
-        public FibonacciQueue(int valueCount, IEnumerable<TVertex> values, Func<TVertex, TDistance> distances, Func<TDistance, TDistance, int> distanceComparison)
+        /// <param name="comparer"></param>
+        public FibonacciQueue(IEnumerable<TVertex> values, Func<TVertex, TDistance> distances, Func<TDistance, TDistance, int> comparer)
         {
-            if (valueCount < 0)
-                throw new ArgumentOutOfRangeException(nameof(valueCount));
-            if (distances == null)
+            if (distances is null)
                 throw new ArgumentNullException(nameof(distances));
-            if (distanceComparison == null)
-                throw new ArgumentNullException(nameof(distanceComparison));
+            if (comparer is null)
+                throw new ArgumentNullException(nameof(comparer));
 
             this.distances = distances;
-            cells = new Dictionary<TVertex, FibonacciHeapCell<TDistance, TVertex>>(valueCount);
-            if (valueCount > 0)
+            cells = new Dictionary<TVertex, FibonacciHeapCell<TDistance, TVertex>>();
+            heap = new FibonacciHeap<TDistance, TVertex>(HeapDirection.Increasing, comparer);
+
+            if (values != null)
                 foreach (var x in values)
-                    cells.Add(
-                        x,
-                        new FibonacciHeapCell<TDistance, TVertex>
-                        {
-                            Priority = this.distances(x),
-                            Value = x,
-                            Removed = true
-                        }
-                    );
-            heap = new FibonacciHeap<TDistance, TVertex>(HeapDirection.Increasing, distanceComparison);
+                    cells[x] = heap.Enqueue(this.distances(x), x);
+
         }
 
         /// <summary>
         /// Initializes a new instance.
         /// </summary>
         /// <param name="values"></param>
-        /// <param name="distanceComparison"></param>
-        public FibonacciQueue(
-            Dictionary<TVertex, TDistance> values,
-            Func<TDistance, TDistance, int> distanceComparison)
+        /// <param name="comparer"></param>
+        public FibonacciQueue(IDictionary<TVertex, TDistance> values, Func<TDistance, TDistance, int> comparer)
         {
-            if (values == null)
+            if (values is null)
                 throw new ArgumentNullException(nameof(values));
-            if (distanceComparison == null)
-                throw new ArgumentNullException(nameof(distanceComparison));
+            if (comparer == null)
+                throw new ArgumentNullException(nameof(comparer));
 
             distances = GetIndexer(values);
             cells = new Dictionary<TVertex, FibonacciHeapCell<TDistance, TVertex>>(values.Count);
+            heap = new FibonacciHeap<TDistance, TVertex>(HeapDirection.Increasing, comparer);
 
-            foreach (var kv in values)
-                cells.Add(
-                    kv.Key,
-                    new FibonacciHeapCell<TDistance, TVertex>
-                    {
-                        Priority = kv.Value,
-                        Value = kv.Key,
-                        Removed = true
-                    }
-                );
-
-            heap = new FibonacciHeap<TDistance, TVertex>(HeapDirection.Increasing, distanceComparison);
+            if (values != null)
+                foreach (var kv in values)
+                    cells[kv.Key] = heap.Enqueue(kv.Value, kv.Key);
         }
 
         /// <summary>
         /// Initializes a new instance.
         /// </summary>
         /// <param name="values"></param>
-        public FibonacciQueue(
-            Dictionary<TVertex, TDistance> values)
-            : this(values, Comparer<TDistance>.Default.Compare)
+        public FibonacciQueue(IDictionary<TVertex, TDistance> values) :
+            this(values, Comparer<TDistance>.Default.Compare)
         {
-            if (values == null)
+            if (values is null)
                 throw new ArgumentNullException(nameof(values));
         }
 
@@ -162,7 +143,7 @@ namespace Cogito.Collections
 
         public TVertex Peek()
         {
-            return heap.Top.Value;
+            return heap.Top != null ? heap.Top.Value : default;
         }
 
         public TVertex[] ToArray()
