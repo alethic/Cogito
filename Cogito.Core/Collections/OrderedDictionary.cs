@@ -59,12 +59,12 @@ namespace Cogito.Collections
         /// <summary>
         /// Gets a collection containing the keys in the dictionary.
         /// </summary>
-        public ICollection<TKey> Keys => dict.Keys;
+        public ICollection<TKey> Keys => list.Select(i => i.Key).ToArray();
 
         /// <summary>
         /// Gets a collection containing the values in the dictionary.
         /// </summary>
-        public ICollection<TValue> Values => dict.Values.Select(i => i.Value.Value).ToArray();
+        public ICollection<TValue> Values => list.Select(i => i.Value).ToArray();
 
         /// <summary>
         /// Gets or sets the value of a specific key within the dictionary.
