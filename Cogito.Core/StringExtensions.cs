@@ -30,7 +30,7 @@ namespace Cogito
         }
 
         /// <summary>
-        /// Returns <c>null</c> if the <see cref="String"/> is <c>null</c> or empty.
+        /// Returns <c>null</c> if the <see cref="string"/> is <c>null</c> or empty.
         /// </summary>
         /// <param name="self"></param>
         /// <returns></returns>
@@ -40,7 +40,7 @@ namespace Cogito
         }
 
         /// <summary>
-        /// Returns <c>null</c> if the <see cref="String"/> is <c>null</c> or empty.
+        /// Returns <c>null</c> if the <see cref="string"/> is <c>null</c> or empty.
         /// </summary>
         /// <param name="self"></param>
         /// <returns></returns>
@@ -66,7 +66,7 @@ namespace Cogito
         /// <returns></returns>
         public static string TrimIfNotNull(this string self, params char[] trimChars)
         {
-            return self != null ? self.Trim(trimChars) : null;
+            return self?.Trim(trimChars);
         }
 
         /// <summary>
@@ -76,7 +76,7 @@ namespace Cogito
         /// <returns></returns>
         public static string TrimEndIfNotNull(this string self, params char[] trimChars)
         {
-            return self != null ? self.TrimEnd(trimChars) : null;
+            return self?.TrimEnd(trimChars);
         }
 
         /// <summary>
@@ -86,7 +86,7 @@ namespace Cogito
         /// <returns></returns>
         public static string TrimStartIfNotNull(this string self, params char[] trimChars)
         {
-            return self != null ? self.TrimStart(trimChars) : null;
+            return self?.TrimStart(trimChars);
         }
 
         /// <summary>
@@ -150,8 +150,7 @@ namespace Cogito
         /// <returns></returns>
         public static int? TryParseInt32(this string self)
         {
-            int i;
-            return int.TryParse(self, out i) ? (int?)i : null;
+            return int.TryParse(self, out var i) ? (int?)i : null;
         }
 
         /// <summary>
@@ -171,8 +170,7 @@ namespace Cogito
         /// <returns></returns>
         public static long? TryParseInt64(this string self)
         {
-            long i;
-            return long.TryParse(self, out i) ? (long?)i : null;
+            return long.TryParse(self, out var i) ? (long?)i : null;
         }
 
         /// <summary>
@@ -192,8 +190,7 @@ namespace Cogito
         /// <returns></returns>
         public static Guid? TryParseGuid(this string self)
         {
-            Guid i;
-            return Guid.TryParse(self, out i) ? (Guid?)i : null;
+            return Guid.TryParse(self, out var i) ? (Guid?)i : null;
         }
 
     }

@@ -2,7 +2,7 @@
 using System.Runtime.Intrinsics.X86;
 #endif
 
-namespace Cogito.Core
+namespace Cogito
 {
 
     /// <summary>

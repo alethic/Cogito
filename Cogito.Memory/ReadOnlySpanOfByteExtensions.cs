@@ -170,6 +170,214 @@ namespace Cogito.Memory
         }
 
         /// <summary>
+        /// Performs an OR operation against two <see cref="ReadOnlySpan{byte}"/>.
+        /// </summary>
+        /// <param name="l"></param>
+        /// <param name="r"></param>
+        /// <param name="o"></param>
+        public static void Or(this ReadOnlySpan<byte> l, ReadOnlySpan<byte> r, Span<byte> o)
+        {
+            var s = o.Length;
+            if (l.Length != s)
+                throw new ArgumentException("Left span size must be equal to output size.");
+            if (r.Length != s)
+                throw new ArgumentException("Right span size must be equal to output size.");
+
+#if NETCOREAPP3_0
+            if (Avx2.IsSupported)
+            {
+                while (o.Length >= 32)
+                {
+                    var al = MemoryMarshal.Cast<byte, ulong>(l);
+                    var rl = MemoryMarshal.Cast<byte, ulong>(r);
+                    var ol = MemoryMarshal.Cast<byte, ulong>(o);
+
+                    unsafe
+                    {
+                        fixed (ulong* lp = al)
+                        fixed (ulong* rp = rl)
+                        fixed (ulong* op = ol)
+                        {
+                            var av = Avx.LoadVector256(lp);
+                            var bv = Avx.LoadVector256(rp);
+                            var ov = Avx2.Or(av, bv);
+                            Avx.Store(op, ov);
+                        }
+                    }
+
+                    l = l.Slice(32);
+                    r = r.Slice(32);
+                    o = o.Slice(32);
+                }
+            }
+#endif
+
+#if NETCOREAPP3_0
+            if (Sse2.IsSupported)
+            {
+                while (o.Length >= 16)
+                {
+                    var ll = MemoryMarshal.Cast<byte, ulong>(l);
+                    var rl = MemoryMarshal.Cast<byte, ulong>(r);
+                    var ol = MemoryMarshal.Cast<byte, ulong>(o);
+
+                    unsafe
+                    {
+                        fixed (ulong* lp = ll)
+                        fixed (ulong* rp = rl)
+                        fixed (ulong* op = ol)
+                        {
+                            var av = Sse2.LoadVector128(lp);
+                            var bv = Sse2.LoadVector128(rp);
+                            var ov = Sse2.Or(av, bv);
+                            Sse2.Store(op, ov);
+                        }
+                    }
+
+                    l = l.Slice(16);
+                    r = r.Slice(16);
+                    o = o.Slice(16);
+                }
+            }
+#endif
+
+            while (o.Length >= sizeof(ulong))
+            {
+                var ll = MemoryMarshal.Cast<byte, ulong>(l);
+                var rl = MemoryMarshal.Cast<byte, ulong>(r);
+                var ol = MemoryMarshal.Cast<byte, ulong>(o);
+
+                ol[0] = ll[0] | rl[0];
+
+                l = l.Slice(sizeof(ulong));
+                r = r.Slice(sizeof(ulong));
+                o = o.Slice(sizeof(ulong));
+            }
+
+            while (o.Length >= sizeof(uint))
+            {
+                var ll = MemoryMarshal.Cast<byte, uint>(l);
+                var rl = MemoryMarshal.Cast<byte, uint>(r);
+                var ol = MemoryMarshal.Cast<byte, uint>(o);
+
+                ol[0] = ll[0] | rl[0];
+
+                l = l.Slice(sizeof(uint));
+                r = r.Slice(sizeof(uint));
+                o = o.Slice(sizeof(uint));
+            }
+
+            // finish remaining bytes
+            if (o.Length > 0)
+                for (var i = 0; i < o.Length; i++)
+                    o[i] = (byte)(l[i] | r[i]);
+        }
+
+        /// <summary>
+        /// Performs an NAND operation against two <see cref="ReadOnlySpan{byte}"/>.
+        /// </summary>
+        /// <param name="l"></param>
+        /// <param name="r"></param>
+        /// <param name="o"></param>
+        public static void AndNot(this ReadOnlySpan<byte> l, ReadOnlySpan<byte> r, Span<byte> o)
+        {
+            var s = o.Length;
+            if (l.Length != s)
+                throw new ArgumentException("Left span size must be equal to output size.");
+            if (r.Length != s)
+                throw new ArgumentException("Right span size must be equal to output size.");
+
+#if NETCOREAPP3_0
+            if (Avx2.IsSupported)
+            {
+                while (o.Length >= 32)
+                {
+                    var al = MemoryMarshal.Cast<byte, ulong>(l);
+                    var rl = MemoryMarshal.Cast<byte, ulong>(r);
+                    var ol = MemoryMarshal.Cast<byte, ulong>(o);
+
+                    unsafe
+                    {
+                        fixed (ulong* lp = al)
+                        fixed (ulong* rp = rl)
+                        fixed (ulong* op = ol)
+                        {
+                            var av = Avx.LoadVector256(lp);
+                            var bv = Avx.LoadVector256(rp);
+                            var ov = Avx2.AndNot(av, bv);
+                            Avx.Store(op, ov);
+                        }
+                    }
+
+                    l = l.Slice(32);
+                    r = r.Slice(32);
+                    o = o.Slice(32);
+                }
+            }
+#endif
+
+#if NETCOREAPP3_0
+            if (Sse2.IsSupported)
+            {
+                while (o.Length >= 16)
+                {
+                    var ll = MemoryMarshal.Cast<byte, ulong>(l);
+                    var rl = MemoryMarshal.Cast<byte, ulong>(r);
+                    var ol = MemoryMarshal.Cast<byte, ulong>(o);
+
+                    unsafe
+                    {
+                        fixed (ulong* lp = ll)
+                        fixed (ulong* rp = rl)
+                        fixed (ulong* op = ol)
+                        {
+                            var av = Sse2.LoadVector128(lp);
+                            var bv = Sse2.LoadVector128(rp);
+                            var ov = Sse2.AndNot(av, bv);
+                            Sse2.Store(op, ov);
+                        }
+                    }
+
+                    l = l.Slice(16);
+                    r = r.Slice(16);
+                    o = o.Slice(16);
+                }
+            }
+#endif
+
+            while (o.Length >= sizeof(ulong))
+            {
+                var ll = MemoryMarshal.Cast<byte, ulong>(l);
+                var rl = MemoryMarshal.Cast<byte, ulong>(r);
+                var ol = MemoryMarshal.Cast<byte, ulong>(o);
+
+                ol[0] = ~ll[0] & rl[0];
+
+                l = l.Slice(sizeof(ulong));
+                r = r.Slice(sizeof(ulong));
+                o = o.Slice(sizeof(ulong));
+            }
+
+            while (o.Length >= sizeof(uint))
+            {
+                var ll = MemoryMarshal.Cast<byte, uint>(l);
+                var rl = MemoryMarshal.Cast<byte, uint>(r);
+                var ol = MemoryMarshal.Cast<byte, uint>(o);
+
+                ol[0] = ~ll[0] & rl[0];
+
+                l = l.Slice(sizeof(uint));
+                r = r.Slice(sizeof(uint));
+                o = o.Slice(sizeof(uint));
+            }
+
+            // finish remaining bytes
+            if (o.Length > 0)
+                for (var i = 0; i < o.Length; i++)
+                    o[i] = (byte)((uint)~l[i] & r[i]);
+        }
+
+        /// <summary>
         /// Performs an XOR operation against two <see cref="ReadOnlySpan{byte}"/>.
         /// </summary>
         /// <param name="l"></param>
