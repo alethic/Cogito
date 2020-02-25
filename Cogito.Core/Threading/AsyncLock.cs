@@ -5,7 +5,10 @@ using System.Threading.Tasks;
 namespace Cogito.Threading
 {
 
-    public class AsyncLock
+    /// <summary>
+    /// Represents a lock that can be acquired asynchronously.
+    /// </summary>
+    public sealed class AsyncLock
     {
 
         struct Releaser : IDisposable

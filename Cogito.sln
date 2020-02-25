@@ -44,7 +44,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cogito.Web.UI", "Cogito.Web.UI\Cogito.Web.UI.csproj", "{A6DB20AA-9709-45B4-83B6-24C8C3135B93}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cogito.Memory", "Cogito.Memory\Cogito.Memory.csproj", "{2498B26B-9F78-4E8E-8A52-54AE87E98FC7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cogito.Memory", "Cogito.Memory\Cogito.Memory.csproj", "{2498B26B-9F78-4E8E-8A52-54AE87E98FC7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cogito.Memory.Tests", "Cogito.Memory.Tests\Cogito.Memory.Tests.csproj", "{E71701FF-6F82-43D1-88E1-618F1FBF9CFF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -116,6 +118,10 @@ Global
 		{2498B26B-9F78-4E8E-8A52-54AE87E98FC7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2498B26B-9F78-4E8E-8A52-54AE87E98FC7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2498B26B-9F78-4E8E-8A52-54AE87E98FC7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E71701FF-6F82-43D1-88E1-618F1FBF9CFF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E71701FF-6F82-43D1-88E1-618F1FBF9CFF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E71701FF-6F82-43D1-88E1-618F1FBF9CFF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E71701FF-6F82-43D1-88E1-618F1FBF9CFF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -128,6 +134,7 @@ Global
 		{DB436836-980E-4034-A81A-63C2716BBC64} = {87130765-A579-4878-B462-70139F28B475}
 		{3AB63E55-6F88-4E12-808E-3BA53C9B4EE8} = {87130765-A579-4878-B462-70139F28B475}
 		{D9745B2F-41D9-48ED-A976-C570B7663DC5} = {87130765-A579-4878-B462-70139F28B475}
+		{E71701FF-6F82-43D1-88E1-618F1FBF9CFF} = {87130765-A579-4878-B462-70139F28B475}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A30B6C7E-3FCD-4998-BF26-0D51D7869B61}
