@@ -19,7 +19,7 @@ namespace Cogito
             if (self == null)
                 throw new ArgumentNullException(nameof(self));
 
-#if NETSTANDARD2_1
+#if NETSTANDARD2_1 || NETCOREAPP3_0
             var buffer = (Span<byte>)stackalloc byte[sizeof(long)];
             self.NextBytes(buffer);
             return BitConverter.ToInt64(buffer);
@@ -59,7 +59,7 @@ namespace Cogito
 
         static bool IsModuloBiased(long randomOffset, long numbersInRange)
         {
-            return randomOffset > (numbersInRange * (long.MaxValue / numbersInRange));
+            return randomOffset > numbersInRange * (long.MaxValue / numbersInRange);
         }
 
         static long PositiveModuloOrZero(long dividend, long divisor)

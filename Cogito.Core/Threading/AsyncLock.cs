@@ -8,7 +8,7 @@ namespace Cogito.Threading
     public class AsyncLock
     {
 
-#if NETSTANDARD2_1 || NETSTANDARD2_0
+#if NETSTANDARD2_1 || NETSTANDARD2_0 || NETCOREAPP3_0
 
         struct AsyncReleaser : IAsyncDisposable, IDisposable
         {
@@ -74,13 +74,13 @@ namespace Cogito.Threading
 
         readonly SemaphoreSlim semaphore;
 
-#if NETSTANDARD2_1 || NETSTANDARD2_0
+#if NETSTANDARD2_1 || NETSTANDARD2_0 || NETCOREAPP3_0
         readonly Task<IAsyncDisposable> lck;
 #else
         readonly Task<IDisposable> lck;
 #endif
 
-#if NETSTANDARD2_1 || NETSTANDARD2_0
+#if NETSTANDARD2_1 || NETSTANDARD2_0 || NETCOREAPP3_0
 
         /// <summary>
         /// Initializes a new instance.
