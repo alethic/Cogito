@@ -11,7 +11,7 @@ namespace Cogito.Threading
     public sealed class AsyncLock
     {
 
-        public struct AsyncLockHandle : IAsyncDisposable, IDisposable
+        public struct AsyncLockHandle : IDisposable
         {
 
             readonly AsyncLock lck;
@@ -34,20 +34,10 @@ namespace Cogito.Threading
                     lck.semaphore.Release();
             }
 
-            /// <summary>
-            /// Disposes of the instance, releasing the lock.
-            /// </summary>
-            /// <returns></returns>
-            public ValueTask DisposeAsync()
-            {
-                Dispose();
-                return new ValueTask(Task.CompletedTask);
-            }
-
         }
 
         readonly SemaphoreSlim semaphore;
-        readonly Task<AsyncLockHandle> lck;
+        readonly Task<IDisposable> lck;
 
         /// <summary>
         /// Initializes a new instance.
@@ -55,21 +45,21 @@ namespace Cogito.Threading
         public AsyncLock()
         {
             semaphore = new SemaphoreSlim(1);
-            lck = Task.FromResult(new AsyncLockHandle(this));
+            lck = Task.FromResult<IDisposable>(new AsyncLockHandle(this));
         }
 
         /// <summary>
         /// Creates a task which resolves when the lock is free. Dispose of the resulting instance to release the lock.
         /// </summary>
         /// <returns></returns>
-        public Task<AsyncLockHandle> LockAsync(CancellationToken cancellationToken = default)
+        public Task<IDisposable> LockAsync(CancellationToken cancellationToken = default)
         {
             var wait = semaphore.WaitAsync(cancellationToken);
             if (wait.IsCompleted)
                 return lck;
             else
                 return wait.ContinueWith((_, state) =>
-                    new AsyncLockHandle((AsyncLock)state),
+                    (IDisposable)new AsyncLockHandle((AsyncLock)state),
                     this,
                     CancellationToken.None,
                     TaskContinuationOptions.ExecuteSynchronously,
@@ -80,7 +70,7 @@ namespace Cogito.Threading
         /// Creates a task which resolves when the lock is free. Dispose of the resulting instance to release the lock.
         /// </summary>
         /// <returns></returns>
-        public Task<AsyncLockHandle> LockAsync()
+        public Task<IDisposable> LockAsync()
         {
             return LockAsync(CancellationToken.None);
         }
