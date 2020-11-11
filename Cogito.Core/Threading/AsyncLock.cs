@@ -29,6 +29,9 @@ namespace Cogito.Threading
                 this.lck = lck ?? throw new ArgumentNullException(nameof(lck));
             }
 
+            /// <summary>
+            /// Disposes of the instance, releasing the lock.
+            /// </summary>
             public void Dispose()
             {
                 if (lck != null)
@@ -37,6 +40,10 @@ namespace Cogito.Threading
 
 #if NETSTANDARD2_1 || NETSTANDARD2_0  || NETCOREAPP3_0
 
+            /// <summary>
+            /// Disposes of the instance, releasing the lock.
+            /// </summary>
+            /// <returns></returns>
             public ValueTask DisposeAsync()
             {
                 Dispose();
