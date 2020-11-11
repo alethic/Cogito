@@ -48,7 +48,7 @@ namespace Cogito
             if (name == null)
                 throw new ArgumentNullException(nameof(name));
 
-            return AppendQuery(self, name, value.ToString());
+            return AppendQuery(self, name, value?.ToString());
         }
 
     }
