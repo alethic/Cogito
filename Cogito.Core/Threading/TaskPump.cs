@@ -83,8 +83,7 @@ namespace Cogito.Threading
         /// <returns></returns>
         public async Task PumpOneAsync()
         {
-            Func<Task<bool>> action;
-            if (queue.TryDequeue(out action))
+            if (queue.TryDequeue(out var action))
                 if (!await action())
                     throw new InvalidOperationException("Queued task did not return success.");
         }
@@ -95,8 +94,7 @@ namespace Cogito.Threading
         /// <returns></returns>
         public async Task PumpAsync()
         {
-            Func<Task<bool>> action;
-            while (queue.TryDequeue(out action))
+            while (queue.TryDequeue(out var action))
                 if (!await action())
                     throw new InvalidOperationException("Queued task did not return success.");
         }
