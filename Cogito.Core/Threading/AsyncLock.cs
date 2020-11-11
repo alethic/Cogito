@@ -14,7 +14,7 @@ namespace Cogito.Threading
         /// <summary>
         /// Disposable handle that can release the lock.
         /// </summary>
-        public struct AsyncLockHandle : IDisposable
+        public readonly struct AsyncLockHandle : IDisposable
         {
 
             readonly AsyncLock lck;
