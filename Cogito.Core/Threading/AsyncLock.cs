@@ -11,11 +11,7 @@ namespace Cogito.Threading
     public sealed class AsyncLock
     {
 
-        public struct AsyncLockHandle :
-#if NETSTANDARD2_1 || NETSTANDARD2_0  || NETCOREAPP3_0
-            IAsyncDisposable,
-#endif
-            IDisposable
+        public struct AsyncLockHandle : IAsyncDisposable, IDisposable
         {
 
             readonly AsyncLock lck;
@@ -38,8 +34,6 @@ namespace Cogito.Threading
                     lck.semaphore.Release();
             }
 
-#if NETSTANDARD2_1 || NETSTANDARD2_0  || NETCOREAPP3_0
-
             /// <summary>
             /// Disposes of the instance, releasing the lock.
             /// </summary>
@@ -49,8 +43,6 @@ namespace Cogito.Threading
                 Dispose();
                 return new ValueTask(Task.CompletedTask);
             }
-
-#endif
 
         }
 
