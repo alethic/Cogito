@@ -11,7 +11,11 @@ namespace Cogito.Threading
     public sealed class AsyncLock
     {
 
-        struct Releaser : IDisposable
+        public struct AsyncLockHandle :
+#if NETSTANDARD2_1 || NETSTANDARD2_0  || NETCOREAPP3_0
+            IAsyncDisposable,
+#endif
+            IDisposable
         {
 
             readonly AsyncLock lck;
@@ -20,9 +24,9 @@ namespace Cogito.Threading
             /// Initializes a new instance.
             /// </summary>
             /// <param name="lck"></param>
-            internal Releaser(AsyncLock lck)
+            internal AsyncLockHandle(AsyncLock lck)
             {
-                this.lck = lck;
+                this.lck = lck ?? throw new ArgumentNullException(nameof(lck));
             }
 
             public void Dispose()
@@ -31,10 +35,20 @@ namespace Cogito.Threading
                     lck.semaphore.Release();
             }
 
+#if NETSTANDARD2_1 || NETSTANDARD2_0  || NETCOREAPP3_0
+
+            public ValueTask DisposeAsync()
+            {
+                Dispose();
+                return new ValueTask(Task.CompletedTask);
+            }
+
+#endif
+
         }
 
         readonly SemaphoreSlim semaphore;
-        readonly Task<IDisposable> lck;
+        readonly Task<AsyncLockHandle> lck;
 
         /// <summary>
         /// Initializes a new instance.
@@ -42,21 +56,21 @@ namespace Cogito.Threading
         public AsyncLock()
         {
             semaphore = new SemaphoreSlim(1);
-            lck = Task.FromResult<IDisposable>(new Releaser(this));
+            lck = Task.FromResult(new AsyncLockHandle(this));
         }
 
         /// <summary>
         /// Creates a task which resolves when the lock is free. Dispose of the resulting instance to release the lock.
         /// </summary>
         /// <returns></returns>
-        public Task<IDisposable> LockAsync(CancellationToken cancellationToken = default)
+        public Task<AsyncLockHandle> LockAsync(CancellationToken cancellationToken = default)
         {
             var wait = semaphore.WaitAsync(cancellationToken);
             if (wait.IsCompleted)
                 return lck;
             else
                 return wait.ContinueWith((_, state) =>
-                    (IDisposable)new Releaser((AsyncLock)state),
+                    new AsyncLockHandle((AsyncLock)state),
                     this,
                     CancellationToken.None,
                     TaskContinuationOptions.ExecuteSynchronously,
@@ -67,7 +81,7 @@ namespace Cogito.Threading
         /// Creates a task which resolves when the lock is free. Dispose of the resulting instance to release the lock.
         /// </summary>
         /// <returns></returns>
-        public Task<IDisposable> LockAsync()
+        public Task<AsyncLockHandle> LockAsync()
         {
             return LockAsync(CancellationToken.None);
         }
