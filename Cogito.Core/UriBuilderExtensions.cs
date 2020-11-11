@@ -23,7 +23,11 @@ namespace Cogito
             if (name == null)
                 throw new ArgumentNullException(nameof(name));
 
-            var p = Uri.EscapeDataString(name) + "=" + Uri.EscapeDataString(value ?? "");
+            // skip null values
+            if (value == null)
+                return self;
+
+            var p = Uri.EscapeDataString(name) + "=" + Uri.EscapeDataString(value);
 
             if (self.Query != null &&
                 self.Query.Length > 1)
