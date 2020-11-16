@@ -1,6 +1,4 @@
-﻿#if NET5_0 || NETCOREAPP3_0
-using System.Runtime.Intrinsics.X86;
-#endif
+﻿using System.Runtime.CompilerServices;
 
 namespace Cogito
 {
@@ -16,26 +14,21 @@ namespace Cogito
         /// </summary>
         /// <param name="n"></param>
         /// <returns></returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int CountLeadingZeros(this ulong n)
         {
+#if NET5_0 || NETCOREAPP3_0
+            return System.Numerics.BitOperations.LeadingZeroCount(n);
+#else
             if (n == 0)
                 return 64;
 
-#if NET5_0 || NETCOREAPP3_0
-            if (Lzcnt.X64.IsSupported)
-                return (int)Lzcnt.X64.LeadingZeroCount(n);
+            var hi = (uint)(n >> 32);
+            if (hi == 0)
+                return 32 + UInt32Extensions.CountLeadingZeros((uint)n);
+
+            return UInt32Extensions.CountLeadingZeros(hi);
 #endif
-
-            var v = n;
-            var t = 0;
-
-            while (v != 0)
-            {
-                v >>= 1;
-                t++;
-            }
-
-            return 64 - t;
         }
 
     }
