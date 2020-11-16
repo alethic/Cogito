@@ -2,10 +2,6 @@
 using System.Buffers.Binary;
 using System.Runtime.InteropServices;
 
-#if NETCOREAPP3_0
-using System.Runtime.Intrinsics.X86;
-#endif
-
 namespace Cogito.Memory
 {
 
@@ -79,8 +75,8 @@ namespace Cogito.Memory
             if (r.Length != s)
                 throw new ArgumentException("Right span size must be equal to output size.");
 
-#if NETCOREAPP3_0
-            if (Avx2.IsSupported)
+#if NET5_0 || NETCOREAPP3_0
+            if (System.Runtime.Intrinsics.X86.Avx2.IsSupported)
             {
                 while (o.Length >= 32)
                 {
@@ -94,10 +90,10 @@ namespace Cogito.Memory
                         fixed (ulong* rp = rl)
                         fixed (ulong* op = ol)
                         {
-                            var av = Avx.LoadVector256(lp);
-                            var bv = Avx.LoadVector256(rp);
-                            var ov = Avx2.And(av, bv);
-                            Avx.Store(op, ov);
+                            var av = System.Runtime.Intrinsics.X86.Avx.LoadVector256(lp);
+                            var bv = System.Runtime.Intrinsics.X86.Avx.LoadVector256(rp);
+                            var ov = System.Runtime.Intrinsics.X86.Avx2.And(av, bv);
+                            System.Runtime.Intrinsics.X86.Avx.Store(op, ov);
                         }
                     }
 
@@ -108,8 +104,8 @@ namespace Cogito.Memory
             }
 #endif
 
-#if NETCOREAPP3_0
-            if (Sse2.IsSupported)
+#if NET5_0 || NETCOREAPP3_0
+            if (System.Runtime.Intrinsics.X86.Sse2.IsSupported)
             {
                 while (o.Length >= 16)
                 {
@@ -123,10 +119,39 @@ namespace Cogito.Memory
                         fixed (ulong* rp = rl)
                         fixed (ulong* op = ol)
                         {
-                            var av = Sse2.LoadVector128(lp);
-                            var bv = Sse2.LoadVector128(rp);
-                            var ov = Sse2.And(av, bv);
-                            Sse2.Store(op, ov);
+                            var av = System.Runtime.Intrinsics.X86.Sse2.LoadVector128(lp);
+                            var bv = System.Runtime.Intrinsics.X86.Sse2.LoadVector128(rp);
+                            var ov = System.Runtime.Intrinsics.X86.Sse2.And(av, bv);
+                            System.Runtime.Intrinsics.X86.Sse2.Store(op, ov);
+                        }
+                    }
+
+                    l = l.Slice(16);
+                    r = r.Slice(16);
+                    o = o.Slice(16);
+                }
+            }
+#endif
+
+#if NET5_0
+            if (System.Runtime.Intrinsics.Arm.AdvSimd.IsSupported)
+            {
+                while (o.Length >= 16)
+                {
+                    var ll = MemoryMarshal.Cast<byte, ulong>(l);
+                    var rl = MemoryMarshal.Cast<byte, ulong>(r);
+                    var ol = MemoryMarshal.Cast<byte, ulong>(o);
+
+                    unsafe
+                    {
+                        fixed (ulong* lp = ll)
+                        fixed (ulong* rp = rl)
+                        fixed (ulong* op = ol)
+                        {
+                            var av = System.Runtime.Intrinsics.Arm.AdvSimd.LoadVector128(lp);
+                            var bv = System.Runtime.Intrinsics.Arm.AdvSimd.LoadVector128(rp);
+                            var ov = System.Runtime.Intrinsics.Arm.AdvSimd.And(av, bv);
+                            System.Runtime.Intrinsics.Arm.AdvSimd.Store(op, ov);
                         }
                     }
 
@@ -182,7 +207,7 @@ namespace Cogito.Memory
                 throw new ArgumentException("Left span size must be equal to output size.");
             if (r.Length != s)
                 throw new ArgumentException("Right span size must be equal to output size.");
-            
+
 #if NETCOREAPP3_0
             if (Avx2.IsSupported)
             {
