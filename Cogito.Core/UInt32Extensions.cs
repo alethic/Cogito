@@ -1,4 +1,4 @@
-﻿#if NETCOREAPP3_0
+﻿#if NET5_0 || NETCOREAPP3_0
 using System.Runtime.Intrinsics.X86;
 #endif
 
@@ -21,7 +21,7 @@ namespace Cogito
             if (n == 0)
                 return 32;
 
-#if NETCOREAPP3_0
+#if NET5_0 || NETCOREAPP3_0
             if (Lzcnt.IsSupported)
                 return (int)Lzcnt.LeadingZeroCount(n);
 #endif

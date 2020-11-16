@@ -182,7 +182,7 @@ namespace Cogito.Memory
                 throw new ArgumentException("Left span size must be equal to output size.");
             if (r.Length != s)
                 throw new ArgumentException("Right span size must be equal to output size.");
-
+            
 #if NETCOREAPP3_0
             if (Avx2.IsSupported)
             {
@@ -420,7 +420,7 @@ namespace Cogito.Memory
             }
 #endif
 
-#if NETCOREAPP3_0
+#if NETCOREAPP3_0 || NET5
             if (Sse2.IsSupported)
             {
                 while (o.Length >= 16)
