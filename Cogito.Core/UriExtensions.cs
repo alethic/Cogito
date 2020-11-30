@@ -99,6 +99,34 @@ namespace Cogito
                 return new Uri(b.Uri.PathAndQuery, UriKind.Relative);
         }
 
+        /// <summary>
+        /// Appends the given name and value query arguments to the <see cref="Uri"/>.
+        /// </summary>
+        /// <param name="self"></param>
+        /// <param name="name"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static Uri AppendQuery(this Uri self, string name, string value)
+        {
+            var b = new UriBuilder(self.IsAbsoluteUri ? self : new Uri("unknown:" + self.ToString()));
+            b.AppendQuery(name, value);
+            return self.IsAbsoluteUri ? b.Uri : new Uri(b.Uri.PathAndQuery, UriKind.Relative);
+        }
+
+        /// <summary>
+        /// Appends the given name and value query arguments to the <see cref="Uri"/>.
+        /// </summary>
+        /// <param name="self"></param>
+        /// <param name="name"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static Uri AppendQuery(this Uri self, string name, object value)
+        {
+            var b = new UriBuilder(self.IsAbsoluteUri ? self : new Uri("unknown:" + self.ToString()));
+            b.AppendQuery(name, value);
+            return self.IsAbsoluteUri ? b.Uri : new Uri(b.Uri.PathAndQuery, UriKind.Relative);
+        }
+
     }
 
 }

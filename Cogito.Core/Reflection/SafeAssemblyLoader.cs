@@ -178,6 +178,7 @@ namespace Cogito.Reflection
         {
 #if NETSTANDARD2_1 || NETSTANDARD2_0 || NETSTANDARD1_6 || NET5_0 || NETCOREAPP3_0
             yield return AppContext.BaseDirectory;
+            yield return AppDomain.CurrentDomain.BaseDirectory;
 #else
             yield return AppDomain.CurrentDomain.BaseDirectory;
             yield return AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
