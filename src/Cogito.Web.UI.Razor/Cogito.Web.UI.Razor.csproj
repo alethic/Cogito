@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net462</TargetFrameworks>
+    <Description>Provides objects to use Razor for WebForms</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Cogito.Core\Cogito.Core.csproj" />
+    <ProjectReference Include="..\Cogito.Web.Razor\Cogito.Web.Razor.csproj" />
+    <ProjectReference Include="..\Cogito.Web.UI\Cogito.Web.UI.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="System.Web" />
+  </ItemGroup>
+
+</Project>

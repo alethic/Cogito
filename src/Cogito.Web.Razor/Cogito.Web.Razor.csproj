@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net462</TargetFrameworks>
+    <Description>Basic Razor support library</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Irony" Version="1.1.0" />
+    <PackageReference Include="Microsoft.AspNet.Razor" Version="3.2.7" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Cogito.Core\Cogito.Core.csproj" />
+    <ProjectReference Include="..\Cogito.Irony\Cogito.Irony.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="System.Web" />
+  </ItemGroup>
+
+</Project>

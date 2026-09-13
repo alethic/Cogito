@@ -1,0 +1,35 @@
+﻿<Project Sdk="Microsoft.Build.NoTargets">
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+        <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+        <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageProjectReference Include="..\Cogito.Core\Cogito.Core.csproj">
+            <PackageTargetPath>.</PackageTargetPath>
+        </PackageProjectReference>
+        <PackageProjectReference Include="..\Cogito.IO\Cogito.IO.csproj">
+            <PackageTargetPath>.</PackageTargetPath>
+        </PackageProjectReference>
+        <PackageProjectReference Include="..\Cogito.Irony\Cogito.Irony.csproj">
+            <PackageTargetPath>.</PackageTargetPath>
+        </PackageProjectReference>
+        <PackageProjectReference Include="..\Cogito.Memory\Cogito.Memory.csproj">
+            <PackageTargetPath>.</PackageTargetPath>
+        </PackageProjectReference>
+        <PackageProjectReference Include="..\Cogito.Web.Http\Cogito.Web.Http.csproj">
+            <PackageTargetPath>.</PackageTargetPath>
+        </PackageProjectReference>
+        <PackageProjectReference Include="..\Cogito.Web.Razor\Cogito.Web.Razor.csproj">
+            <PackageTargetPath>.</PackageTargetPath>
+        </PackageProjectReference>
+        <PackageProjectReference Include="..\Cogito.Web.UI\Cogito.Web.UI.csproj">
+            <PackageTargetPath>.</PackageTargetPath>
+        </PackageProjectReference>
+        <PackageProjectReference Include="..\Cogito.Web.UI.Razor\Cogito.Web.UI.Razor.csproj">
+            <PackageTargetPath>.</PackageTargetPath>
+        </PackageProjectReference>
+    </ItemGroup>
+
+</Project>
