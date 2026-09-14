@@ -6,8 +6,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Irony" Version="1.1.0" />
-    <PackageReference Include="Microsoft.AspNet.Razor" Version="3.2.7" />
+    <PackageReference Include="Irony" Version="1.5.3" />
+    <PackageReference Include="Microsoft.AspNet.Razor" Version="3.3.0" />
   </ItemGroup>
 
   <ItemGroup>
