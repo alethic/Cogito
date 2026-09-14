@@ -2,17 +2,38 @@
 
 [![Build](https://github.com/alethic/Cogito/actions/workflows/Cogito.yml/badge.svg)](https://github.com/alethic/Cogito/actions/workflows/Cogito.yml)
 
-Library of various utilities and extension methods.
+Base utilities for .NET — the extension methods, small types and helpers the rest of the Cogito family is built on, plus Web Forms and Razor support for .NET Framework.
 
 ## Packages
 
-| Package | Version |
-| --- | --- |
-| [Cogito.Core](https://www.nuget.org/packages/Cogito.Core) | [![NuGet](https://img.shields.io/nuget/v/Cogito.Core.svg)](https://www.nuget.org/packages/Cogito.Core) |
-| [Cogito.IO](https://www.nuget.org/packages/Cogito.IO) | [![NuGet](https://img.shields.io/nuget/v/Cogito.IO.svg)](https://www.nuget.org/packages/Cogito.IO) |
-| [Cogito.Irony](https://www.nuget.org/packages/Cogito.Irony) | [![NuGet](https://img.shields.io/nuget/v/Cogito.Irony.svg)](https://www.nuget.org/packages/Cogito.Irony) |
-| [Cogito.Memory](https://www.nuget.org/packages/Cogito.Memory) | [![NuGet](https://img.shields.io/nuget/v/Cogito.Memory.svg)](https://www.nuget.org/packages/Cogito.Memory) |
-| [Cogito.Web.Http](https://www.nuget.org/packages/Cogito.Web.Http) | [![NuGet](https://img.shields.io/nuget/v/Cogito.Web.Http.svg)](https://www.nuget.org/packages/Cogito.Web.Http) |
-| [Cogito.Web.Razor](https://www.nuget.org/packages/Cogito.Web.Razor) | [![NuGet](https://img.shields.io/nuget/v/Cogito.Web.Razor.svg)](https://www.nuget.org/packages/Cogito.Web.Razor) |
-| [Cogito.Web.UI](https://www.nuget.org/packages/Cogito.Web.UI) | [![NuGet](https://img.shields.io/nuget/v/Cogito.Web.UI.svg)](https://www.nuget.org/packages/Cogito.Web.UI) |
-| [Cogito.Web.UI.Razor](https://www.nuget.org/packages/Cogito.Web.UI.Razor) | [![NuGet](https://img.shields.io/nuget/v/Cogito.Web.UI.Razor.svg)](https://www.nuget.org/packages/Cogito.Web.UI.Razor) |
+**[Cogito.Core](https://www.nuget.org/packages/Cogito.Core)** — The base utility library the rest of the Cogito family is built on: extension methods and small types that fill gaps in the BCL.
+
+**[Cogito.IO](https://www.nuget.org/packages/Cogito.IO)** — Typed filesystem paths, so the difference between a file and a directory — and between an absolute and a relative path — is visible in the type system.
+
+**[Cogito.Irony](https://www.nuget.org/packages/Cogito.Irony)** — Helpers for working with parse trees produced by [Irony](https://github.com/IronyProject/Irony).
+
+**[Cogito.Memory](https://www.nuget.org/packages/Cogito.Memory)** — Bit and span helpers for `Span<byte>` and `ReadOnlySpan<byte>`.
+
+**[Cogito.Web.Http](https://www.nuget.org/packages/Cogito.Web.Http)** — Bind ASP.NET Web API action parameters to HTTP headers.
+
+**[Cogito.Web.Razor](https://www.nuget.org/packages/Cogito.Web.Razor)** — Compile and run Razor templates outside ASP.NET.
+
+**[Cogito.Web.UI](https://www.nuget.org/packages/Cogito.Web.UI)** — Extension methods for the ASP.NET Web Forms control tree.
+
+**[Cogito.Web.UI.Razor](https://www.nuget.org/packages/Cogito.Web.UI.Razor)** — Render Razor templates from inside ASP.NET Web Forms.
+
+Each package carries its own README with the detail; the links above go to nuget.org.
+
+## Building
+
+```shell
+dotnet restore Cogito.slnx
+dotnet msbuild -p:Configuration=Release Cogito.dist.msbuildproj
+```
+
+Packages are staged into `dist/nuget` and test suites into `dist/tests`; run a suite with
+`dotnet test -f <tfm> <path to its assembly>`.
+
+## License
+
+MIT — see [LICENSE](LICENSE).
