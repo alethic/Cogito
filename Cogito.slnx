@@ -1,0 +1,35 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path=".gitattributes" />
+    <File Path=".gitignore" />
+    <File Path=".github/workflows/Cogito.yml" />
+    <File Path="Cogito.dist.msbuildproj" />
+    <File Path="Directory.Build.props" />
+    <File Path="GitVersion.yml" />
+    <File Path="global.json" />
+    <File Path="README.md" />
+  </Folder>
+  <Folder Name="/Tests/">
+    <File Path="Cogito.runsettings" />
+    <Project Path="src/Cogito.Core.Tests/Cogito.Core.Tests.csproj" />
+    <Project Path="src/Cogito.IO.Tests/Cogito.IO.Tests.csproj" />
+    <Project Path="src/Cogito.Memory.Tests/Cogito.Memory.Tests.csproj" />
+    <Project Path="src/Cogito.Web.Http.Tests/Cogito.Web.Http.Tests.csproj" />
+    <Project Path="src/Cogito.Web.Razor.Tests/Cogito.Web.Razor.Tests.csproj" />
+    <Project Path="src/Cogito.Web.Tests/Cogito.Web.Tests.csproj" />
+    <Project Path="src/Cogito.Web.UI.Razor.Tests/Cogito.Web.UI.Razor.Tests.csproj" />
+    <Project Path="src/Cogito.Web.UI.Tests/Cogito.Web.UI.Tests.csproj" />
+  </Folder>
+  <Project Path="src/Cogito.Core/Cogito.Core.csproj" />
+  <Project Path="src/Cogito.IO/Cogito.IO.csproj" />
+  <Project Path="src/Cogito.Irony/Cogito.Irony.csproj" />
+  <Project Path="src/Cogito.Memory/Cogito.Memory.csproj" />
+  <Project Path="src/Cogito.Web.Http/Cogito.Web.Http.csproj" />
+  <Project Path="src/Cogito.Web.Razor/Cogito.Web.Razor.csproj" />
+  <Project Path="src/Cogito.Web.UI.Razor/Cogito.Web.UI.Razor.csproj" />
+  <Project Path="src/Cogito.Web.UI/Cogito.Web.UI.csproj" />
+  <Folder Name="/dist/">
+    <Project Path="src/dist-nuget/dist-nuget.csproj" />
+    <Project Path="src/dist-tests/dist-tests.csproj" />
+  </Folder>
+</Solution>

@@ -3,7 +3,6 @@
   <PropertyGroup>
     <TargetFrameworks>net462</TargetFrameworks>
     <Description>Basic Razor support library</Description>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup>

@@ -3,7 +3,6 @@
   <PropertyGroup>
     <TargetFrameworks>net462</TargetFrameworks>
     <Description>Various add-on services for working with Irony.</Description>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup>

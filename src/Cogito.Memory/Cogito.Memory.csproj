@@ -4,7 +4,6 @@
     <TargetFrameworks>netstandard2.0;netstandard2.1;net5;netcoreapp3.0;net47</TargetFrameworks>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <Description>Library of various System.Memory related utilities and extension methods.</Description>
-    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup>
