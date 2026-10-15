@@ -2,10 +2,6 @@
 using System.Collections.Generic;
 using System.Reflection;
 
-#if NETSTANDARD1_6
-using System.Runtime.Loader;
-#endif
-
 namespace Cogito.Reflection
 {
 
@@ -58,19 +54,10 @@ namespace Cogito.Reflection
             if (assemblies == null)
                 throw new ArgumentNullException(nameof(assemblies));
 
-#if !NETSTANDARD1_6
-
             foreach (var assemblyName in assembly.GetReferencedAssemblies())
                 if ((assembly = assemblyName.ReflectionOnlyLoad()) != null && assemblies.Add(assembly))
                     LoadAllReferencedAssembliesInternal(assembly, assemblies);
 
-#else
-
-            foreach (var assemblyName in assembly.GetReferencedAssemblies())
-                if ((assembly = AssemblyLoadContext.Default.LoadFromAssemblyName(assemblyName)) != null && assemblies.Add(assembly))
-                    LoadAllReferencedAssembliesInternal(assembly, assemblies);
-
-#endif
         }
 
     }

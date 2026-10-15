@@ -18,7 +18,6 @@ namespace Cogito.Collections
         readonly IComparer<T> comparer;
         T[] queue;
         int count;
-        int mods;
 
         /// <summary>
         /// Initializes a new instance.
@@ -206,7 +205,6 @@ namespace Cogito.Collections
         /// <param name="item"></param>
         public void Enqueue(T item)
         {
-            mods++;
             var i = count;
             if (i >= queue.Length)
                 Grow(i + 1);
@@ -262,24 +260,6 @@ namespace Cogito.Collections
         }
 
         /// <summary>
-        /// Removes the item from the queue based on reference equality.
-        /// </summary>
-        /// <param name="o"></param>
-        /// <returns></returns>
-        bool RemoveEq(T o)
-        {
-            for (int i = 0; i < count; i++)
-            {
-                if (ReferenceEquals(o, queue[i]))
-                {
-                    RemoveAt(i);
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        /// <summary>
         /// Returns <c>true</c> if this queue contains the specified item.
         /// </summary>
         /// <param name="item"></param>
@@ -294,7 +274,6 @@ namespace Cogito.Collections
         /// </summary>
         public void Clear()
         {
-            mods++;
 #if NETFRAMEWORK
             Array.Clear(queue, 0, queue.Length);
 #else
@@ -313,7 +292,6 @@ namespace Cogito.Collections
                 throw new InvalidOperationException();
 
             var s = --count;
-            mods++;
             var result = queue[0];
             var x = queue[s];
             queue[s] = default;
@@ -333,7 +311,6 @@ namespace Cogito.Collections
             if (i < 0 || i >= count)
                 throw new ArgumentOutOfRangeException(nameof(i));
 
-            mods++;
             int s = --count;
             if (s == i) // removed last element
                 queue[i] = default;

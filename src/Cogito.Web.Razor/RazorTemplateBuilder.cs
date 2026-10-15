@@ -31,20 +31,6 @@ namespace Cogito.Web.Razor
         const string DEFAULT_TYPE_NAMESPACE = "Cogito.Web.Razor.DynamicTemplates";
         const string DEFAULT_TYPE_NAME = "__Template";
         static readonly Type DEFAULT_BASE_CLASS = typeof(RazorTemplate);
-        static readonly Type DEFAULT_INNER_TEMPLATE_CLASS = typeof(HelperResult);
-
-        /// <summary>
-        /// Resolves a C# explicit reference to the member.
-        /// </summary>
-        /// <param name="member"></param>
-        /// <returns></returns>
-        static string GetCSharpMemberExpression(MemberInfo member)
-        {
-            if (member == null)
-                throw new ArgumentNullException(nameof(member));
-
-            return string.Format("(({0})this).{1}", member.DeclaringType.FullName, member.Name);
-        }
 
         static readonly string writeMethod = "Write";
         static readonly string writeToMethod = "WriteTo";
@@ -59,9 +45,6 @@ namespace Cogito.Web.Razor
 
         static readonly CSharpCodeProvider codeProvider =
             new CSharpCodeProvider();
-
-        static readonly ConcurrentDictionary<string, Assembly> assemblyCache =
-            new ConcurrentDictionary<string, Assembly>();
 
         static readonly ConcurrentDictionary<string, Type> typeCache =
             new ConcurrentDictionary<string, Type>();
@@ -334,17 +317,11 @@ namespace Cogito.Web.Razor
         /// <summary>
         /// Initializes a new instance of the Razor engine.
         /// </summary>
-        /// <param name="defaultNamespace"></param>
-        /// <param name="defaultClassName"></param>
-        /// <param name="defaultBaseClass"></param>
         /// <param name="importedNamespaces"></param>
         /// <param name="innerTemplateType"></param>
         /// <param name="host"></param>
         /// <returns></returns>
         static RazorTemplateEngine CreateTemplateEngine(
-            string defaultNamespace,
-            string defaultClassName,
-            Type defaultBaseClass,
             IEnumerable<string> importedNamespaces,
             Type innerTemplateType,
             RazorEngineHost host)
@@ -378,9 +355,6 @@ namespace Cogito.Web.Razor
         /// Parses the template with Razor.
         /// </summary>
         /// <param name="source"></param>
-        /// <param name="defaultNamespace"></param>
-        /// <param name="defaultClassName"></param>
-        /// <param name="defaultBaseClass"></param>
         /// <param name="referencedAssemblies"></param>
         /// <param name="importedNamespaces"></param>
         /// <param name="innerTemplateType"></param>
@@ -388,9 +362,6 @@ namespace Cogito.Web.Razor
         /// <returns></returns>
         static GeneratorResults RazorGenerate(
             string source,
-            string defaultNamespace,
-            string defaultClassName,
-            Type defaultBaseClass,
             IEnumerable<string> referencedAssemblies,
             IEnumerable<string> importedNamespaces,
             Type innerTemplateType,
@@ -407,9 +378,6 @@ namespace Cogito.Web.Razor
 
             // initialize Razor
             var engine = CreateTemplateEngine(
-                defaultNamespace,
-                defaultClassName,
-                defaultBaseClass,
                 importedNamespaces,
                 innerTemplateType,
                 host);
@@ -477,9 +445,6 @@ namespace Cogito.Web.Razor
         /// Parses a Razor template into a C# code class.
         /// </summary>
         /// <param name="source"></param>
-        /// <param name="defaultNamespace"></param>
-        /// <param name="defaultClassName"></param>
-        /// <param name="defaultBaseClass"></param>
         /// <param name="referencedAssemblies"></param>
         /// <param name="importedNamespaces"></param>
         /// <param name="innerTemplateType"></param>
@@ -487,9 +452,6 @@ namespace Cogito.Web.Razor
         /// <returns></returns>
         static CodeCompileUnit Generate(
             string source,
-            string defaultNamespace,
-            string defaultClassName,
-            Type defaultBaseClass,
             IEnumerable<string> referencedAssemblies,
             IEnumerable<string> importedNamespaces,
             Type innerTemplateType,
@@ -506,9 +468,6 @@ namespace Cogito.Web.Razor
 
             return RazorGenerate(
                     source,
-                    defaultNamespace,
-                    defaultClassName,
-                    defaultBaseClass,
                     referencedAssemblies,
                     importedNamespaces,
                     innerTemplateType,
@@ -561,9 +520,6 @@ namespace Cogito.Web.Razor
             // parse the template and generate compile unit
             var codeUnit = Generate(
                 source,
-                defaultNamespace,
-                defaultClassName,
-                defaultBaseClass,
                 referencedAssemblies,
                 importedNamespaces,
                 innerTemplateType,
@@ -664,9 +620,6 @@ namespace Cogito.Web.Razor
         /// Parses and compiles the template into an assembly.
         /// </summary>
         /// <param name="source"></param>
-        /// <param name="defaultNamespace"></param>
-        /// <param name="defaultClassName"></param>
-        /// <param name="defaultBaseClass"></param>
         /// <param name="referencedAssemblies"></param>
         /// <param name="importedNamespaces"></param>
         /// <param name="innerTemplateType"></param>
@@ -674,9 +627,6 @@ namespace Cogito.Web.Razor
         /// <returns></returns>
         static Assembly BuildAssembly(
             string source,
-            string defaultNamespace,
-            string defaultClassName,
-            Type defaultBaseClass,
             IEnumerable<string> referencedAssemblies,
             IEnumerable<string> importedNamespaces,
             Type innerTemplateType,
@@ -694,9 +644,6 @@ namespace Cogito.Web.Razor
             // generate initial code from Razor template
             var codeUnit = Generate(
                 source,
-                defaultNamespace,
-                defaultClassName,
-                defaultBaseClass,
                 referencedAssemblies,
                 importedNamespaces,
                 innerTemplateType,
@@ -712,17 +659,11 @@ namespace Cogito.Web.Razor
         /// Parses and compiles the template into an assembly and returns the newly generated type.
         /// </summary>
         /// <param name="source"></param>
-        /// <param name="defaultNamespace"></param>
-        /// <param name="defaultClassName"></param>
-        /// <param name="defaultBaseClass"></param>
         /// <param name="referencedAssemblies"></param>
         /// <param name="importedNamespaces"></param>
         /// <returns></returns>
         static Type BuildType(
             string source,
-            string defaultNamespace,
-            string defaultClassName,
-            Type defaultBaseClass,
             IEnumerable<string> referencedAssemblies,
             IEnumerable<string> importedNamespaces,
             Type innerTemplateType,
@@ -740,9 +681,6 @@ namespace Cogito.Web.Razor
             // build new assembly
             var assembly = BuildAssembly(
                 source,
-                defaultNamespace,
-                defaultClassName,
-                defaultBaseClass,
                 referencedAssemblies,
                 importedNamespaces,
                 innerTemplateType,
@@ -794,9 +732,6 @@ namespace Cogito.Web.Razor
             return typeCache.GetOrAdd(cacheKey, _ =>
                 BuildType(
                     source,
-                    defaultNamespace,
-                    defaultClassName,
-                    defaultBaseClass,
                     referencedAssemblies,
                     importedNamespaces,
                     innerTemplateType,

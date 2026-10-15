@@ -6,9 +6,9 @@ using System.Reflection;
 
 #if NETCOREAPP
 using System.Runtime.Loader;
-#endif
 
 using Microsoft.Extensions.DependencyModel;
+#endif
 
 namespace Cogito.Reflection
 {
@@ -168,23 +168,18 @@ namespace Cogito.Reflection
                 .Where(i => i != null);
         }
 
-#endif
-
         /// <summary>
         /// Gets the application search paths.
         /// </summary>
         /// <returns></returns>
         static IEnumerable<string> GetBaseDirectories()
         {
-#if NETCOREAPP
-            yield return AppContext.BaseDirectory;
-            yield return AppDomain.CurrentDomain.BaseDirectory;
-#else
             yield return AppDomain.CurrentDomain.BaseDirectory;
             yield return AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
             yield return AppDomain.CurrentDomain.SetupInformation.PrivateBinPath;
-#endif
         }
+
+#endif
 
     }
 

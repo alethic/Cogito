@@ -15,8 +15,4 @@
     <ProjectReference Include="..\Cogito.Irony\Cogito.Irony.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Reference Include="System.Web" />
-  </ItemGroup>
-
 </Project>

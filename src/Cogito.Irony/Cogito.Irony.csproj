@@ -7,7 +7,6 @@
 
   <ItemGroup>
     <PackageReference Include="Irony" Version="1.5.3" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
   </ItemGroup>
 
   <ItemGroup>
