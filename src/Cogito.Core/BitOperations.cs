@@ -1,5 +1,6 @@
-﻿using System;
-using System.Numerics;
+﻿#if NETFRAMEWORK
+
+using System;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
@@ -7,28 +8,11 @@ namespace Cogito
 {
 
     /// <summary>
-    /// Provides extensions against <see cref="uint"/> values.
+    /// Provides the members of System.Numerics.BitOperations that .NET Framework lacks. On .NET, use
+    /// System.Numerics.BitOperations itself.
     /// </summary>
-    public static class UInt32Extensions
+    public static class BitOperations
     {
-
-        /// <summary>
-        /// Calculates the number of trailing zeros in the given unsigned integer.
-        /// </summary>
-        /// <param name="n"></param>
-        /// <returns></returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int CountLeadingZeros(this uint n)
-        {
-#if NETCOREAPP3_0_OR_GREATER
-            return BitOperations.LeadingZeroCount(n);
-#else
-            if (n == 0)
-                return 32;
-
-            return 31 - Log2SoftwareFallback(n);
-#endif
-        }
 
         static ReadOnlySpan<byte> Log2DeBruijn => new byte[32]
         {
@@ -37,6 +21,35 @@ namespace Cogito
             08, 12, 20, 28, 15, 17, 24, 07,
             19, 27, 23, 06, 26, 05, 04, 31
         };
+
+        /// <summary>
+        /// Counts the number of leading zero bits in an unsigned 32-bit integer mask.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int LeadingZeroCount(uint value)
+        {
+            if (value == 0)
+                return 32;
+
+            return 31 - Log2SoftwareFallback(value);
+        }
+
+        /// <summary>
+        /// Counts the number of leading zero bits in an unsigned 64-bit integer mask.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int LeadingZeroCount(ulong value)
+        {
+            var hi = (uint)(value >> 32);
+            if (hi == 0)
+                return 32 + LeadingZeroCount((uint)value);
+
+            return LeadingZeroCount(hi);
+        }
 
         static int Log2SoftwareFallback(uint value)
         {
@@ -61,3 +74,5 @@ namespace Cogito
     }
 
 }
+
+#endif

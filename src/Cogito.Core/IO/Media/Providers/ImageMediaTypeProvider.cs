@@ -29,7 +29,7 @@ namespace Cogito.IO.Media.Providers
             if (extension == null)
                 yield break;
 
-            var mediaRange = map.GetOrDefault(extension.TrimStart('.'));
+            var mediaRange = map.GetValueOrDefault(extension.TrimStart('.'));
             if (mediaRange != null)
                 yield return mediaRange;
         }

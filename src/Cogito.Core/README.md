@@ -17,7 +17,7 @@ dotnet add package Cogito.Core
 
 ## What's in it
 
-**LINQ and collections** — `EmptyIfNull`, `GetOrDefault`, `Expand`, `AnyAsync` / `AllAsync`,
+**LINQ and collections** — `EmptyIfNull`, `Expand`, `AnyAsync` / `AllAsync`,
 `Combinatorials`, `DemandDictionary` (a dictionary that produces a value on first access).
 
 **Async** — `AsyncLock` and `AsyncManualResetEvent`, for coordination in code that cannot block.
@@ -25,7 +25,12 @@ dotnet add package Cogito.Core
 **Reflection** — `GetPropertyOrField`, `GetPropertyOrFieldFromPath`, `GetAssignableTypes`,
 `GetTargetMemberInfo`, and assembly-name helpers.
 
-**Text and bytes** — `CountLeadingZeros`, byte-array helpers, media-type resolution.
+**Text and bytes** — byte-array helpers, media-type resolution.
+
+**.NET Framework only** — `BitOperations.LeadingZeroCount` and `GetValueOrDefault`, named and shaped as
+they are in .NET, so the same call compiles on both. On .NET the built-in ones are used and Cogito
+provides nothing. For other APIs .NET has and .NET Framework lacks, use
+[Polyfill](https://github.com/SimonCropp/Polyfill).
 
 **Files** — `DelayedFileSystemWatcher`, which coalesces the burst of events the framework watcher
 raises for a single logical change.

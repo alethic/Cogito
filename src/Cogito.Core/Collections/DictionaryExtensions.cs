@@ -15,24 +15,41 @@ namespace Cogito.Collections
     public static class DictionaryExtensions
     {
 
+#if NETFRAMEWORK
+
         /// <summary>
-        /// Gets the value for the specified key, or the default value of the type.
+        /// Gets the value for the specified key, or the default value of the type. On .NET, use
+        /// System.Collections.Generic.CollectionExtensions.GetValueOrDefault itself.
         /// </summary>
         /// <typeparam name="TKey"></typeparam>
         /// <typeparam name="TValue"></typeparam>
-        /// <param name="self"></param>
+        /// <param name="dictionary"></param>
         /// <param name="key"></param>
         /// <returns></returns>
-        public static TValue GetOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> self, TKey key)
+        public static TValue GetValueOrDefault<TKey, TValue>(this IReadOnlyDictionary<TKey, TValue> dictionary, TKey key)
         {
-            if (self == null)
-                throw new ArgumentNullException(nameof(self));
-            if (key == null)
-                throw new ArgumentNullException(nameof(key));
-
-            TValue v;
-            return self.TryGetValue(key, out v) ? v : default(TValue);
+            return dictionary.GetValueOrDefault(key, default(TValue));
         }
+
+        /// <summary>
+        /// Gets the value for the specified key, or <paramref name="defaultValue"/>. On .NET, use
+        /// System.Collections.Generic.CollectionExtensions.GetValueOrDefault itself.
+        /// </summary>
+        /// <typeparam name="TKey"></typeparam>
+        /// <typeparam name="TValue"></typeparam>
+        /// <param name="dictionary"></param>
+        /// <param name="key"></param>
+        /// <param name="defaultValue"></param>
+        /// <returns></returns>
+        public static TValue GetValueOrDefault<TKey, TValue>(this IReadOnlyDictionary<TKey, TValue> dictionary, TKey key, TValue defaultValue)
+        {
+            if (dictionary == null)
+                throw new ArgumentNullException(nameof(dictionary));
+
+            return dictionary.TryGetValue(key, out var value) ? value : defaultValue;
+        }
+
+#endif
 
         /// <summary>
         /// Gets the value for the specified key, or the default value of the type.

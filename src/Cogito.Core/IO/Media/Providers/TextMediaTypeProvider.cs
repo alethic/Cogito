@@ -24,7 +24,7 @@ namespace Cogito.IO.Media.Providers
             if (extension == null)
                 yield break;
 
-            var mediaType = map.GetOrDefault(extension.TrimStart('.'));
+            var mediaType = map.GetValueOrDefault(extension.TrimStart('.'));
             if (mediaType != null)
                 yield return mediaType;
         }

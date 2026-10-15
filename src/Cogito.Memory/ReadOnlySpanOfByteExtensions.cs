@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Buffers.Binary;
+using System.Numerics;
 using System.Runtime.InteropServices;
 
 namespace Cogito.Memory
@@ -580,7 +581,7 @@ namespace Cogito.Memory
         {
             // transform block into ulong
             var v = BinaryPrimitives.ReadUInt64BigEndian(input);
-            var z = v.CountLeadingZeros();
+            var z = BitOperations.LeadingZeroCount(v);
 
             // eliminate read bytes
             input = input.Slice(sizeof(ulong));
@@ -596,7 +597,7 @@ namespace Cogito.Memory
         {
             // transform block into uint
             var v = BinaryPrimitives.ReadUInt32BigEndian(input);
-            var z = v.CountLeadingZeros();
+            var z = BitOperations.LeadingZeroCount(v);
 
             // eliminate read bytes
             input = input.Slice(sizeof(uint));
@@ -612,7 +613,7 @@ namespace Cogito.Memory
         {
             // transform block into ushort
             var v = BinaryPrimitives.ReadUInt16BigEndian(input);
-            var z = v.CountLeadingZeros();
+            var z = BitOperations.LeadingZeroCount((uint)v) - 16;
 
             // eliminate read bytes
             input = input.Slice(sizeof(ushort));
@@ -628,7 +629,7 @@ namespace Cogito.Memory
         {
             // transform block into byte
             var v = input[0];
-            var z = v.CountLeadingZeros();
+            var z = BitOperations.LeadingZeroCount((uint)v) - 24;
 
             // eliminate read bytes
             input = input.Slice(sizeof(byte));
