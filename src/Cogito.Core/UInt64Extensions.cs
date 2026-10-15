@@ -17,7 +17,7 @@ namespace Cogito
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int CountLeadingZeros(this ulong n)
         {
-#if NET5_0 || NETCOREAPP3_0
+#if NETCOREAPP3_0_OR_GREATER
             return System.Numerics.BitOperations.LeadingZeroCount(n);
 #else
             if (n == 0)

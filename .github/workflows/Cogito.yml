@@ -95,8 +95,7 @@ jobs:
         - { run: Cogito.Memory.Tests, tfm: net8.0, sys: win-x64 }
         - { run: Cogito.Memory.Tests, tfm: net8.0, sys: linux-x64 }
         - { run: Cogito.Memory.Tests, tfm: net8.0, sys: osx-arm64 }
-        - { run: Cogito.Memory.Tests, tfm: net47, sys: win-x64 }
-        - { run: Cogito.Memory.Tests, tfm: net462, sys: win-x64 }
+        - { run: Cogito.Memory.Tests, tfm: net472, sys: win-x64 }
     name: Test (${{ matrix.run }}:${{ matrix.tfm }}:${{ matrix.sys }})
     needs:
     - build

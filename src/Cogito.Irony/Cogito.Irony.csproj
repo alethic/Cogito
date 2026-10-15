@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net462</TargetFrameworks>
+    <TargetFrameworks>net472</TargetFrameworks>
     <Description>Various add-on services for working with Irony.</Description>
   </PropertyGroup>
 

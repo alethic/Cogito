@@ -75,7 +75,7 @@ namespace Cogito.Memory
             if (r.Length != s)
                 throw new ArgumentException("Right span size must be equal to output size.");
 
-#if NET5_0 || NETCOREAPP3_0
+#if NETCOREAPP3_0_OR_GREATER
             if (System.Runtime.Intrinsics.X86.Avx2.IsSupported)
             {
                 while (o.Length >= 32)
@@ -104,7 +104,7 @@ namespace Cogito.Memory
             }
 #endif
 
-#if NET5_0 || NETCOREAPP3_0
+#if NETCOREAPP3_0_OR_GREATER
             if (System.Runtime.Intrinsics.X86.Sse2.IsSupported)
             {
                 while (o.Length >= 16)
@@ -133,7 +133,7 @@ namespace Cogito.Memory
             }
 #endif
 
-#if NET5_0
+#if NET5_0_OR_GREATER
             if (System.Runtime.Intrinsics.Arm.AdvSimd.IsSupported)
             {
                 while (o.Length >= 16)
@@ -208,7 +208,7 @@ namespace Cogito.Memory
             if (r.Length != s)
                 throw new ArgumentException("Right span size must be equal to output size.");
 
-#if NET5_0 || NETCOREAPP3_0
+#if NETCOREAPP3_0_OR_GREATER
             if (System.Runtime.Intrinsics.X86.Avx2.IsSupported)
             {
                 while (o.Length >= 32)
@@ -237,7 +237,7 @@ namespace Cogito.Memory
             }
 #endif
 
-#if NET5_0 || NETCOREAPP3_0
+#if NETCOREAPP3_0_OR_GREATER
             if (System.Runtime.Intrinsics.X86.Sse2.IsSupported)
             {
                 while (o.Length >= 16)
@@ -266,7 +266,7 @@ namespace Cogito.Memory
             }
 #endif
 
-#if NET5_0
+#if NET5_0_OR_GREATER
             if (System.Runtime.Intrinsics.Arm.AdvSimd.IsSupported)
             {
                 while (o.Length >= 16)
@@ -341,7 +341,7 @@ namespace Cogito.Memory
             if (r.Length != s)
                 throw new ArgumentException("Right span size must be equal to output size.");
 
-#if NET5_0 || NETCOREAPP3_0
+#if NETCOREAPP3_0_OR_GREATER
             if (System.Runtime.Intrinsics.X86.Avx2.IsSupported)
             {
                 while (o.Length >= 32)
@@ -370,7 +370,7 @@ namespace Cogito.Memory
             }
 #endif
 
-#if NET5_0 || NETCOREAPP3_0
+#if NETCOREAPP3_0_OR_GREATER
             if (System.Runtime.Intrinsics.X86.Sse2.IsSupported)
             {
                 while (o.Length >= 16)
@@ -445,7 +445,7 @@ namespace Cogito.Memory
             if (r.Length != s)
                 throw new ArgumentException("Right span size must be equal to output size.");
 
-#if NET5_0 || NETCOREAPP3_0
+#if NETCOREAPP3_0_OR_GREATER
             if (System.Runtime.Intrinsics.X86.Avx2.IsSupported)
             {
                 while (o.Length >= 32)
@@ -474,7 +474,7 @@ namespace Cogito.Memory
             }
 #endif
 
-#if NET5_0 || NETCOREAPP3_0
+#if NETCOREAPP3_0_OR_GREATER
             if (System.Runtime.Intrinsics.X86.Sse2.IsSupported)
             {
                 while (o.Length >= 16)
@@ -503,7 +503,7 @@ namespace Cogito.Memory
             }
 #endif
 
-#if NET5_0
+#if NET5_0_OR_GREATER
             if (System.Runtime.Intrinsics.Arm.AdvSimd.IsSupported)
             {
                 while (o.Length >= 16)

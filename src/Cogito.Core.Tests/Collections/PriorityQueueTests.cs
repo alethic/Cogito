@@ -41,7 +41,7 @@ namespace Cogito.Core.Tests.Collections
             while (q.Count > 0)
             {
                 var i = q.Dequeue();
-                i.Should().BeGreaterOrEqualTo(c);
+                i.Should().BeGreaterThanOrEqualTo(c);
                 c = i;
             }
         }

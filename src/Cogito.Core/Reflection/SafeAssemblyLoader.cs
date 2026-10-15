@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 
-#if NETSTANDARD2_1 || NETSTANDARD2_0 || NETSTANDARD1_6 || NET5_0 || NETCOREAPP3_0
+#if NETCOREAPP
 using System.Runtime.Loader;
 #endif
 
@@ -16,7 +16,7 @@ namespace Cogito.Reflection
     public static class SafeAssemblyLoader
     {
 
-#if NETSTANDARD2_1 ||NETSTANDARD2_0 || NETSTANDARD1_6 || NET5_0 || NETCOREAPP3_0
+#if NETCOREAPP
 
         /// <summary>
         /// Loads an <see cref="Assembly"/> from a path, ignoring failures.
@@ -58,7 +58,7 @@ namespace Cogito.Reflection
             if (string.IsNullOrWhiteSpace(path))
                 throw new ArgumentOutOfRangeException(nameof(path));
 
-#if NETSTANDARD2_1 ||NETSTANDARD2_0 || NETSTANDARD1_6 || NET5_0 || NETCOREAPP3_0
+#if NETCOREAPP
             return Load(path, AssemblyLoadContext.Default);
 #else
 
@@ -75,7 +75,7 @@ namespace Cogito.Reflection
 #endif
         }
 
-#if NETSTANDARD2_1 ||NETSTANDARD2_0 || NETSTANDARD1_6 || NET5_0 || NETCOREAPP3_0
+#if NETCOREAPP
 
         /// <summary>
         /// Load all assemblies.
@@ -176,7 +176,7 @@ namespace Cogito.Reflection
         /// <returns></returns>
         static IEnumerable<string> GetBaseDirectories()
         {
-#if NETSTANDARD2_1 || NETSTANDARD2_0 || NETSTANDARD1_6 || NET5_0 || NETCOREAPP3_0
+#if NETCOREAPP
             yield return AppContext.BaseDirectory;
             yield return AppDomain.CurrentDomain.BaseDirectory;
 #else
