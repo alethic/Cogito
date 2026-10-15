@@ -6,7 +6,7 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Runtime.Serialization;
 
-using Cogito.Collections;
+using Cogito.Collections.Generic;
 
 using Newtonsoft.Json;
 
@@ -107,7 +107,7 @@ namespace Cogito.Dynamic
             {
                 if (name == null)
                     throw new ArgumentNullException(nameof(name));
-                return dictionary.GetOrDefault(name);
+                return dictionary.GetValueOrDefault(name);
             }
             set
             {
@@ -154,7 +154,7 @@ namespace Cogito.Dynamic
         /// <returns></returns>
         internal object GetValue(string name)
         {
-            return dictionary.GetOrDefault(name);
+            return dictionary.GetValueOrDefault(name);
         }
 
         /// <summary>

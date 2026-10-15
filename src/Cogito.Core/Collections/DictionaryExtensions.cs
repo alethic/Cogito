@@ -18,25 +18,6 @@ namespace Cogito.Collections
         /// <summary>
         /// Gets the value for the specified key, or the default value of the type.
         /// </summary>
-        /// <typeparam name="TKey"></typeparam>
-        /// <typeparam name="TValue"></typeparam>
-        /// <param name="self"></param>
-        /// <param name="key"></param>
-        /// <returns></returns>
-        public static TValue GetOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> self, TKey key)
-        {
-            if (self == null)
-                throw new ArgumentNullException(nameof(self));
-            if (key == null)
-                throw new ArgumentNullException(nameof(key));
-
-            TValue v;
-            return self.TryGetValue(key, out v) ? v : default(TValue);
-        }
-
-        /// <summary>
-        /// Gets the value for the specified key, or the default value of the type.
-        /// </summary>
         /// <param name="self"></param>
         /// <param name="key"></param>
         /// <returns></returns>
@@ -121,21 +102,6 @@ namespace Cogito.Collections
                     d[i.Key] = i.Value;
 
             return d;
-        }
-
-        /// <summary>
-        /// Converts the <see cref="IEnumerable{TKey,TValue}"/> to a <see cref="IDictionary{TKey,TValue}"/>.
-        /// </summary>
-        /// <typeparam name="TKey"></typeparam>
-        /// <typeparam name="TElement"></typeparam>
-        /// <param name="source"></param>
-        /// <returns></returns>
-        public static IDictionary<TKey, TElement> ToDictionary<TKey, TElement>(this IEnumerable<KeyValuePair<TKey, TElement>> source)
-        {
-            if (source == null)
-                throw new ArgumentNullException(nameof(source));
-
-            return source.ToDictionary(i => i.Key, i => i.Value);
         }
 
         /// <summary>

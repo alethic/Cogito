@@ -58,16 +58,6 @@ namespace Cogito.IO.Media
         /// <summary>
         /// Initializes a new instance of the <see cref="MediaRange"/> class.
         /// </summary>
-        MediaRange(MediaRangePart type, MediaRangePart subtype, MediaRangeParameters parameters)
-        {
-            this.type = type;
-            this.subtype = subtype;
-            this.parameters = parameters ?? throw new ArgumentNullException(nameof(parameters));
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="MediaRange"/> class.
-        /// </summary>
         /// <param name="value"></param>
         MediaRange(string value)
         {

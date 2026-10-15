@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 
-using Cogito.Collections;
+using Cogito.Collections.Generic;
 
 namespace Cogito.IO.Media.Providers
 {
@@ -24,7 +24,7 @@ namespace Cogito.IO.Media.Providers
             if (extension == null)
                 yield break;
 
-            var mediaType = map.GetOrDefault(extension.TrimStart('.'));
+            var mediaType = map.GetValueOrDefault(extension.TrimStart('.'));
             if (mediaType != null)
                 yield return mediaType;
         }

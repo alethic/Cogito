@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Buffers.Binary;
+using System.Numerics;
 using System.Runtime.InteropServices;
+
+using Cogito.Numerics;
 
 namespace Cogito.Memory
 {
@@ -23,44 +26,6 @@ namespace Cogito.Memory
             return s;
         }
 
-        static readonly uint[] HexLookupTable = CreateHexLookup();
-
-        /// <summary>
-        /// Creates a lookup table for byte values to hex character points.
-        /// </summary>
-        /// <returns></returns>
-        static uint[] CreateHexLookup()
-        {
-            var r = new uint[256];
-
-            for (var i = 0; i < 256; i++)
-            {
-                var s = i.ToString("x2");
-                r[i] = s[0] + ((uint)s[1] << 16);
-            }
-
-            return r;
-        }
-
-        /// <summary>
-        /// Converts the given byte span to a hexadecimal string.
-        /// </summary>
-        /// <param name="bytes"></param>
-        /// <returns></returns>
-        public static unsafe string ToHexString(this ReadOnlySpan<byte> bytes)
-        {
-            var r = stackalloc char[bytes.Length * 2];
-
-            for (var i = 0; i < bytes.Length; i++)
-            {
-                var val = HexLookupTable[bytes[i]];
-                r[2 * i] = (char)val;
-                r[2 * i + 1] = (char)(val >> 16);
-            }
-
-            return new string(r, 0, bytes.Length * 2);
-        }
-
         /// <summary>
         /// Performs an AND operation against two <see cref="ReadOnlySpan{byte}"/>.
         /// </summary>
@@ -75,7 +40,7 @@ namespace Cogito.Memory
             if (r.Length != s)
                 throw new ArgumentException("Right span size must be equal to output size.");
 
-#if NET5_0 || NETCOREAPP3_0
+#if NETCOREAPP3_0_OR_GREATER
             if (System.Runtime.Intrinsics.X86.Avx2.IsSupported)
             {
                 while (o.Length >= 32)
@@ -104,7 +69,7 @@ namespace Cogito.Memory
             }
 #endif
 
-#if NET5_0 || NETCOREAPP3_0
+#if NETCOREAPP3_0_OR_GREATER
             if (System.Runtime.Intrinsics.X86.Sse2.IsSupported)
             {
                 while (o.Length >= 16)
@@ -133,7 +98,7 @@ namespace Cogito.Memory
             }
 #endif
 
-#if NET5_0
+#if NET5_0_OR_GREATER
             if (System.Runtime.Intrinsics.Arm.AdvSimd.IsSupported)
             {
                 while (o.Length >= 16)
@@ -208,7 +173,7 @@ namespace Cogito.Memory
             if (r.Length != s)
                 throw new ArgumentException("Right span size must be equal to output size.");
 
-#if NET5_0 || NETCOREAPP3_0
+#if NETCOREAPP3_0_OR_GREATER
             if (System.Runtime.Intrinsics.X86.Avx2.IsSupported)
             {
                 while (o.Length >= 32)
@@ -237,7 +202,7 @@ namespace Cogito.Memory
             }
 #endif
 
-#if NET5_0 || NETCOREAPP3_0
+#if NETCOREAPP3_0_OR_GREATER
             if (System.Runtime.Intrinsics.X86.Sse2.IsSupported)
             {
                 while (o.Length >= 16)
@@ -266,7 +231,7 @@ namespace Cogito.Memory
             }
 #endif
 
-#if NET5_0
+#if NET5_0_OR_GREATER
             if (System.Runtime.Intrinsics.Arm.AdvSimd.IsSupported)
             {
                 while (o.Length >= 16)
@@ -341,7 +306,7 @@ namespace Cogito.Memory
             if (r.Length != s)
                 throw new ArgumentException("Right span size must be equal to output size.");
 
-#if NET5_0 || NETCOREAPP3_0
+#if NETCOREAPP3_0_OR_GREATER
             if (System.Runtime.Intrinsics.X86.Avx2.IsSupported)
             {
                 while (o.Length >= 32)
@@ -370,7 +335,7 @@ namespace Cogito.Memory
             }
 #endif
 
-#if NET5_0 || NETCOREAPP3_0
+#if NETCOREAPP3_0_OR_GREATER
             if (System.Runtime.Intrinsics.X86.Sse2.IsSupported)
             {
                 while (o.Length >= 16)
@@ -445,7 +410,7 @@ namespace Cogito.Memory
             if (r.Length != s)
                 throw new ArgumentException("Right span size must be equal to output size.");
 
-#if NET5_0 || NETCOREAPP3_0
+#if NETCOREAPP3_0_OR_GREATER
             if (System.Runtime.Intrinsics.X86.Avx2.IsSupported)
             {
                 while (o.Length >= 32)
@@ -474,7 +439,7 @@ namespace Cogito.Memory
             }
 #endif
 
-#if NET5_0 || NETCOREAPP3_0
+#if NETCOREAPP3_0_OR_GREATER
             if (System.Runtime.Intrinsics.X86.Sse2.IsSupported)
             {
                 while (o.Length >= 16)
@@ -503,7 +468,7 @@ namespace Cogito.Memory
             }
 #endif
 
-#if NET5_0
+#if NET5_0_OR_GREATER
             if (System.Runtime.Intrinsics.Arm.AdvSimd.IsSupported)
             {
                 while (o.Length >= 16)
@@ -618,7 +583,7 @@ namespace Cogito.Memory
         {
             // transform block into ulong
             var v = BinaryPrimitives.ReadUInt64BigEndian(input);
-            var z = v.CountLeadingZeros();
+            var z = BitOperations.LeadingZeroCount(v);
 
             // eliminate read bytes
             input = input.Slice(sizeof(ulong));
@@ -634,7 +599,7 @@ namespace Cogito.Memory
         {
             // transform block into uint
             var v = BinaryPrimitives.ReadUInt32BigEndian(input);
-            var z = v.CountLeadingZeros();
+            var z = BitOperations.LeadingZeroCount(v);
 
             // eliminate read bytes
             input = input.Slice(sizeof(uint));
@@ -650,7 +615,7 @@ namespace Cogito.Memory
         {
             // transform block into ushort
             var v = BinaryPrimitives.ReadUInt16BigEndian(input);
-            var z = v.CountLeadingZeros();
+            var z = BitOperations.LeadingZeroCount((uint)v) - 16;
 
             // eliminate read bytes
             input = input.Slice(sizeof(ushort));
@@ -666,7 +631,7 @@ namespace Cogito.Memory
         {
             // transform block into byte
             var v = input[0];
-            var z = v.CountLeadingZeros();
+            var z = BitOperations.LeadingZeroCount((uint)v) - 24;
 
             // eliminate read bytes
             input = input.Slice(sizeof(byte));

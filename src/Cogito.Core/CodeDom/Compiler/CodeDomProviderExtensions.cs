@@ -1,6 +1,4 @@
-﻿#if !NETSTANDARD1_6
-
-using System;
+﻿using System;
 using System.CodeDom;
 using System.CodeDom.Compiler;
 using System.IO;
@@ -38,5 +36,3 @@ namespace Cogito.CodeDom.Compiler
     }
 
 }
-
-#endif

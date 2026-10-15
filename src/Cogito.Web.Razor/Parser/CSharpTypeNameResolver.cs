@@ -18,11 +18,6 @@ namespace Cogito.Web.Razor.Parser
     {
 
         /// <summary>
-        /// Irony parser for contract name.
-        /// </summary>
-        static readonly global::Irony.Parsing.Parser parser = new global::Irony.Parsing.Parser(new CSharpTypeNameGrammar());
-
-        /// <summary>
         /// Transforms a 'qualified_identifier' node into a identifier string.
         /// </summary>
         /// <param name="node"></param>

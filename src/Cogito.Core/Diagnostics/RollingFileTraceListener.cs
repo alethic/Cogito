@@ -39,11 +39,7 @@ namespace Cogito.Diagnostics
         /// <returns></returns>
         string GetBaseDirectory()
         {
-#if NET451
-            return AppDomain.CurrentDomain.BaseDirectory;
-#else
             return AppContext.BaseDirectory;
-#endif
         }
 
         /// <summary>

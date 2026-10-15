@@ -35,68 +35,6 @@ namespace Cogito.IO
             return stm.ToArray();
         }
 
-        /// <summary>
-        /// Writes all data from the <paramref name="source"/> <see cref="Stream"/> into this <see cref="Stream"/>.
-        /// </summary>
-        /// <param name="self"></param>
-        /// <param name="source"></param>
-        /// <param name="bufferSize"></param>
-        public static void WriteFrom(this Stream self, Stream source, int bufferSize)
-        {
-            if (self == null)
-                throw new ArgumentNullException(nameof(self));
-            if (source == null)
-                throw new ArgumentNullException(nameof(source));
-
-            source.CopyTo(self, bufferSize);
-        }
-
-        /// <summary>
-        /// Writes all data from the <paramref name="source"/> <see cref="Stream"/> into this <see cref="Stream"/>.
-        /// </summary>
-        /// <param name="self"></param>
-        /// <param name="source"></param>
-        public static void WriteFrom(this Stream self, Stream source)
-        {
-            if (self == null)
-                throw new ArgumentNullException(nameof(self));
-            if (source == null)
-                throw new ArgumentNullException(nameof(source));
-
-            source.CopyTo(self);
-        }
-
-        /// <summary>
-        /// Writes all data from the <paramref name="source"/> <see cref="Stream"/> into this <see cref="Stream"/>.
-        /// </summary>
-        /// <param name="self"></param>
-        /// <param name="source"></param>
-        /// <param name="bufferSize"></param>
-        public static Task WriteFromAsync(this Stream self, Stream source, int bufferSize)
-        {
-            if (self == null)
-                throw new ArgumentNullException(nameof(self));
-            if (source == null)
-                throw new ArgumentNullException(nameof(source));
-
-            return source.CopyToAsync(self, bufferSize);
-        }
-
-        /// <summary>
-        /// Writes all data from the <paramref name="source"/> <see cref="Stream"/> into this <see cref="Stream"/>.
-        /// </summary>
-        /// <param name="self"></param>
-        /// <param name="source"></param>
-        public static Task WriteFromAsync(this Stream self, Stream source)
-        {
-            if (self == null)
-                throw new ArgumentNullException(nameof(self));
-            if (source == null)
-                throw new ArgumentNullException(nameof(source));
-
-            return source.CopyToAsync(self);
-        }
-
     }
 
 }

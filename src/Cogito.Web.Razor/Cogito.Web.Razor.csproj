@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net462</TargetFrameworks>
+    <TargetFrameworks>net472</TargetFrameworks>
     <Description>Basic Razor support library</Description>
   </PropertyGroup>
 
@@ -13,10 +13,6 @@
   <ItemGroup>
     <ProjectReference Include="..\Cogito.Core\Cogito.Core.csproj" />
     <ProjectReference Include="..\Cogito.Irony\Cogito.Irony.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="System.Web" />
   </ItemGroup>
 
 </Project>
