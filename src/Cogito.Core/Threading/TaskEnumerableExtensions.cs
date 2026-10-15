@@ -13,33 +13,6 @@ namespace Cogito.Threading
     {
 
         /// <summary>
-        /// Returns a <see cref="Task"/> that waits for all of the individual tasks to be complete.
-        /// </summary>
-        /// <param name="source"></param>
-        /// <returns></returns>
-        public static Task WaitAllAsync(this IEnumerable<Task> source)
-        {
-            if (source == null)
-                throw new ArgumentNullException(nameof(source));
-
-            return Task.WhenAll(source);
-        }
-
-        /// <summary>
-        /// Returns a <see cref="Task{T}"/> that waits for all of the individual <see cref="Task{T}"/> to be complete.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="source"></param>
-        /// <returns></returns>
-        public static Task<T[]> ToArrayAsync<T>(this IEnumerable<Task<T>> source)
-        {
-            if (source == null)
-                throw new ArgumentNullException(nameof(source));
-
-            return Task.WhenAll<T>(source);
-        }
-
-        /// <summary>
         /// Returns a <see cref="Task{T}"/> that waits for all of the individual <see cref="Task{T}"/> to be complete in sequence.
         /// </summary>
         /// <typeparam name="T"></typeparam>
@@ -70,7 +43,7 @@ namespace Cogito.Threading
             if (predicate == null)
                 throw new ArgumentNullException(nameof(predicate));
 
-            foreach (var i in await source.Select(predicate).ToArrayAsync())
+            foreach (var i in await Task.WhenAll(source.Select(predicate)))
                 if (!i)
                     return false;
 
@@ -91,7 +64,7 @@ namespace Cogito.Threading
             if (predicate == null)
                 throw new ArgumentNullException(nameof(predicate));
 
-            foreach (var i in await source.Select(predicate).ToArrayAsync())
+            foreach (var i in await Task.WhenAll(source.Select(predicate)))
                 if (!i)
                     return false;
 
@@ -112,7 +85,7 @@ namespace Cogito.Threading
             if (predicate == null)
                 throw new ArgumentNullException(nameof(predicate));
 
-            foreach (var i in await source.Select(async j => predicate(await j)).ToArrayAsync())
+            foreach (var i in await Task.WhenAll(source.Select(async j => predicate(await j))))
                 if (!i)
                     return false;
 
@@ -129,7 +102,7 @@ namespace Cogito.Threading
             if (source == null)
                 throw new ArgumentNullException(nameof(source));
 
-            foreach (var i in await source.ToArrayAsync())
+            foreach (var i in await Task.WhenAll(source))
                 if (!i)
                     return false;
 
@@ -150,7 +123,7 @@ namespace Cogito.Threading
             if (predicate == null)
                 throw new ArgumentNullException(nameof(predicate));
 
-            foreach (var i in await source.Select(predicate).ToArrayAsync())
+            foreach (var i in await Task.WhenAll(source.Select(predicate)))
                 if (i)
                     return true;
 
@@ -172,7 +145,7 @@ namespace Cogito.Threading
                 throw new ArgumentNullException(nameof(predicate));
 
 
-            foreach (var i in await source.Select(predicate).ToArrayAsync())
+            foreach (var i in await Task.WhenAll(source.Select(predicate)))
                 if (i)
                     return true;
 
@@ -190,7 +163,7 @@ namespace Cogito.Threading
                 throw new ArgumentNullException(nameof(source));
 
 
-            foreach (var i in await source.ToArrayAsync())
+            foreach (var i in await Task.WhenAll(source))
                 if (i)
                     return true;
 
@@ -229,7 +202,7 @@ namespace Cogito.Threading
             if (action == null)
                 throw new ArgumentNullException(nameof(action));
 
-            return source.Select(action).WaitAllAsync();
+            return Task.WhenAll(source.Select(action));
         }
 
         /// <summary>

@@ -22,7 +22,6 @@ flags.SetBit(13, true);
 var set = flags.GetBit(13);
 
 var leading = flags.CountLeadingZeros();
-var hex = flags.ToHexString();
 ```
 
 Bitwise `And`, `AndNot`, `Or` and `Xor` operate span-to-span in place.

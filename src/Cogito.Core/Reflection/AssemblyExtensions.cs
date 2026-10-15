@@ -6,8 +6,6 @@ using System.Reflection;
 using System.Runtime.Loader;
 #endif
 
-using Cogito.Collections;
-
 namespace Cogito.Reflection
 {
 
@@ -20,10 +18,16 @@ namespace Cogito.Reflection
         /// <summary>
         /// Provides an <see cref="IEqualityComparer"/> that compares <see cref="Assembly"/> instances on their FullName.
         /// </summary>
-        static readonly IEqualityComparer<Assembly> FullNameAssemblyEqualityComparer =
-            new DelegateEqualityComparer<Assembly>(
-                (x, y) => x.FullName == y.FullName,
-                (x) => x.FullName.GetHashCode());
+        static readonly IEqualityComparer<Assembly> FullNameAssemblyEqualityComparer = new FullNameEqualityComparer();
+
+        class FullNameEqualityComparer : IEqualityComparer<Assembly>
+        {
+
+            public bool Equals(Assembly x, Assembly y) => x.FullName == y.FullName;
+
+            public int GetHashCode(Assembly obj) => obj.FullName.GetHashCode();
+
+        }
 
         /// <summary>
         /// Returns an enumeration of the referenced assemblies of the given <see cref="Assembly"/>.

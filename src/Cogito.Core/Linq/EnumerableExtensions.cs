@@ -127,48 +127,6 @@ namespace Cogito.Linq
             return source ?? Enumerable.Empty<T>();
         }
 
-#if NET451 || NET462 || NET47
-        
-        /// <summary>
-        /// Returns the given enumerable with the given object added to the end.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="source"></param>
-        /// <param name="o"></param>
-        /// <returns></returns>
-        public static IEnumerable<T> Append<T>(this IEnumerable<T> source, T o)
-        {
-            if (source == null)
-                throw new ArgumentNullException(nameof(source));
-
-            foreach (T t in source)
-                yield return t;
-            yield return o;
-        }
-
-#endif
-
-#if NET451 || NET462 || NET47
-
-        /// <summary>
-        /// Returns the given enumerable with the given object added to the beginning.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="source"></param>
-        /// <param name="o"></param>
-        /// <returns></returns>
-        public static IEnumerable<T> Prepend<T>(this IEnumerable<T> source, T o)
-        {
-            if (source == null)
-                throw new ArgumentNullException(nameof(source));
-
-            yield return o;
-            foreach (T t in source)
-                yield return t;
-        }
-
-#endif
-
         /// <summary>
         /// Iterates recursively through an initial enumerable and each returned child enumerable.
         /// </summary>
@@ -278,20 +236,6 @@ namespace Cogito.Linq
                 throw new ArgumentNullException(nameof(source));
 
             return new LinkedList<T>(source);
-        }
-
-        /// <summary>
-        /// Initializes a new <see cref="HashSet"/> containing the specified source items.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="source"></param>
-        /// <returns></returns>
-        public static HashSet<T> ToHashSet<T>(this IEnumerable<T> source)
-        {
-            if (source == null)
-                throw new ArgumentNullException(nameof(source));
-
-            return new HashSet<T>(source);
         }
 
         /// <summary>

@@ -146,7 +146,7 @@ namespace Cogito.Threading
         /// <typeparam name="TResult"></typeparam>
         /// <param name="self"></param>
         /// <param name="task"></param>
-        public static bool TrySetFrom<TResult>(this TaskCompletionSource<TResult> self, Task<TResult> task)
+        internal static bool TrySetFrom<TResult>(this TaskCompletionSource<TResult> self, Task<TResult> task)
         {
             if (self == null)
                 throw new ArgumentNullException(nameof(self));

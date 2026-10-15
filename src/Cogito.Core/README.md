@@ -18,8 +18,7 @@ dotnet add package Cogito.Core
 ## What's in it
 
 **LINQ and collections** — `EmptyIfNull`, `GetOrDefault`, `Expand`, `AnyAsync` / `AllAsync`,
-`Combinatorials`, `DemandDictionary` (a dictionary that produces a value on first access),
-`DelegateEqualityComparer` (an `IEqualityComparer<T>` from a lambda).
+`Combinatorials`, `DemandDictionary` (a dictionary that produces a value on first access).
 
 **Async** — `AsyncLock` and `AsyncManualResetEvent`, for coordination in code that cannot block.
 

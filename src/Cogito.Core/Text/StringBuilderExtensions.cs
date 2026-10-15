@@ -12,24 +12,6 @@ namespace Cogito.Text
     {
 
         /// <summary>
-        /// Appends each of the strings in <paramref name="source"/> to the <see cref="StringBuilder"/>.
-        /// </summary>
-        /// <param name="self"></param>
-        /// <param name="source"></param>
-        /// <returns></returns>
-        public static StringBuilder AppendMany<T>(this StringBuilder self, IEnumerable<T> source)
-        {
-            if (self == null)
-                throw new ArgumentNullException(nameof(self));
-            if (source == null)
-                throw new ArgumentNullException(nameof(source));
-
-            foreach (var i in source)
-                self.Append(i);
-            return self;
-        }
-
-        /// <summary>
         /// Appends a line with each of the strings in <paramref name="source"/> to the <see cref="StringBuilder"/>.
         /// </summary>
         /// <param name="self"></param>
@@ -140,7 +122,8 @@ namespace Cogito.Text
                 if (prefix != null)
                     self.Append(prefix);
                 if (i != null)
-                    AppendMany(self, i);
+                    foreach (var j in i)
+                        self.Append(j);
                 if (suffix != null)
                     self.Append(suffix);
 

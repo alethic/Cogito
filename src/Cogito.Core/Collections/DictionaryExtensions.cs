@@ -124,21 +124,6 @@ namespace Cogito.Collections
         }
 
         /// <summary>
-        /// Converts the <see cref="IEnumerable{TKey,TValue}"/> to a <see cref="IDictionary{TKey,TValue}"/>.
-        /// </summary>
-        /// <typeparam name="TKey"></typeparam>
-        /// <typeparam name="TElement"></typeparam>
-        /// <param name="source"></param>
-        /// <returns></returns>
-        public static IDictionary<TKey, TElement> ToDictionary<TKey, TElement>(this IEnumerable<KeyValuePair<TKey, TElement>> source)
-        {
-            if (source == null)
-                throw new ArgumentNullException(nameof(source));
-
-            return source.ToDictionary(i => i.Key, i => i.Value);
-        }
-
-        /// <summary>
         /// Returns an empty <see cref="IDictionary{TKey, TValue}"/> if <paramref name="source"/> is null.
         /// </summary>
         /// <typeparam name="TKey"></typeparam>
