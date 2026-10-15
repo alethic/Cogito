@@ -15,42 +15,6 @@ namespace Cogito.Collections
     public static class DictionaryExtensions
     {
 
-#if NETFRAMEWORK
-
-        /// <summary>
-        /// Gets the value for the specified key, or the default value of the type. On .NET, use
-        /// System.Collections.Generic.CollectionExtensions.GetValueOrDefault itself.
-        /// </summary>
-        /// <typeparam name="TKey"></typeparam>
-        /// <typeparam name="TValue"></typeparam>
-        /// <param name="dictionary"></param>
-        /// <param name="key"></param>
-        /// <returns></returns>
-        public static TValue GetValueOrDefault<TKey, TValue>(this IReadOnlyDictionary<TKey, TValue> dictionary, TKey key)
-        {
-            return dictionary.GetValueOrDefault(key, default(TValue));
-        }
-
-        /// <summary>
-        /// Gets the value for the specified key, or <paramref name="defaultValue"/>. On .NET, use
-        /// System.Collections.Generic.CollectionExtensions.GetValueOrDefault itself.
-        /// </summary>
-        /// <typeparam name="TKey"></typeparam>
-        /// <typeparam name="TValue"></typeparam>
-        /// <param name="dictionary"></param>
-        /// <param name="key"></param>
-        /// <param name="defaultValue"></param>
-        /// <returns></returns>
-        public static TValue GetValueOrDefault<TKey, TValue>(this IReadOnlyDictionary<TKey, TValue> dictionary, TKey key, TValue defaultValue)
-        {
-            if (dictionary == null)
-                throw new ArgumentNullException(nameof(dictionary));
-
-            return dictionary.TryGetValue(key, out var value) ? value : defaultValue;
-        }
-
-#endif
-
         /// <summary>
         /// Gets the value for the specified key, or the default value of the type.
         /// </summary>

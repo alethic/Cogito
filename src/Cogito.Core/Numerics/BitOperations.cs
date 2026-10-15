@@ -4,12 +4,12 @@ using System;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-namespace Cogito
+namespace Cogito.Numerics
 {
 
     /// <summary>
     /// Provides the members of System.Numerics.BitOperations that .NET Framework lacks. On .NET, use
-    /// System.Numerics.BitOperations itself.
+    /// System.Numerics.BitOperations itself; importing both namespaces resolves to the right one on each.
     /// </summary>
     public static class BitOperations
     {
@@ -70,6 +70,22 @@ namespace Cogito
                 // uint|long -> IntPtr cast on 32-bit platforms does expensive overflow checks not needed here
                 (IntPtr)(int)((value * 0x07C4ACDDu) >> 27));
         }
+
+    }
+
+}
+
+#else
+
+namespace Cogito.Numerics
+{
+
+    /// <summary>
+    /// Keeps this namespace present on .NET, where System.Numerics provides its members, so that a
+    /// <c>using Cogito.Numerics;</c> written for .NET Framework still compiles.
+    /// </summary>
+    static class NamespaceAnchor
+    {
 
     }
 

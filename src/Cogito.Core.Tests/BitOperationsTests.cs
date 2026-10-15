@@ -4,6 +4,8 @@ using FluentAssertions;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
+using Cogito.Numerics;
+
 namespace Cogito.Core.Tests
 {
 

@@ -6,7 +6,7 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Runtime.Serialization;
 
-using Cogito.Collections;
+using Cogito.Collections.Generic;
 
 using Newtonsoft.Json;
 

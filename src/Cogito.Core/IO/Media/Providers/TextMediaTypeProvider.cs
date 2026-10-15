@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 
-using Cogito.Collections;
+using Cogito.Collections.Generic;
 
 namespace Cogito.IO.Media.Providers
 {

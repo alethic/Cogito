@@ -27,9 +27,11 @@ dotnet add package Cogito.Core
 
 **Text and bytes** — byte-array helpers, media-type resolution.
 
-**.NET Framework only** — `BitOperations.LeadingZeroCount` and `GetValueOrDefault`, named and shaped as
-they are in .NET, so the same call compiles on both. On .NET the built-in ones are used and Cogito
-provides nothing. For other APIs .NET has and .NET Framework lacks, use
+**.NET Framework only** — members .NET has and .NET Framework lacks, named and shaped as in .NET and
+placed in the matching `Cogito` namespace: `Cogito.Numerics.BitOperations.LeadingZeroCount` and
+`Cogito.Collections.Generic.CollectionExtensions.GetValueOrDefault`. Import both, for example
+`System.Numerics` and `Cogito.Numerics`, and the same call compiles on both: on .NET it binds to the
+built-in member. For other APIs .NET has and .NET Framework lacks, use
 [Polyfill](https://github.com/SimonCropp/Polyfill).
 
 **Files** — `DelayedFileSystemWatcher`, which coalesces the burst of events the framework watcher
